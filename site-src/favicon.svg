@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- A slab-serif Greek psi, drawn on a 2-unit grid so it stays sharp at 16 px. -->
+  <style>
+    .f { fill: #1b1d21; }
+    .s { fill: none; stroke: #1b1d21; }
+    @media (prefers-color-scheme: dark) {
+      .f { fill: #e4e7eb; }
+      .s { stroke: #e4e7eb; }
+    }
+  </style>
+  <rect class="f" x="14" y="2" width="4" height="28"/>
+  <rect class="f" x="12" y="2" width="8" height="2"/>
+  <rect class="f" x="10" y="28" width="12" height="2"/>
+  <path class="s" stroke-width="4" d="M6 7V12.5C6 18.5 10 21 16 21S26 18.5 26 12.5V7"/>
+  <rect class="f" x="2" y="6" width="8" height="2"/>
+  <rect class="f" x="22" y="6" width="8" height="2"/>
+</svg>

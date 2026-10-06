@@ -1,0 +1,129 @@
+name: Add a project
+description: Suggest an open-source implementation of a psychoacoustic metric for the index.
+title: "Add project: "
+labels: ["new-project"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for suggesting a project. Fill in what the project itself states, with links where you can;
+        you do not need to test the code. The maintainer checks the details and writes the entry in
+        `data/projects/`. If you prefer to write the entry yourself, open a pull request that adds
+        `data/projects/<id>.yaml` instead (see
+        [CONTRIBUTING.md](https://github.com/ZhenxianLi/psychoacoustic-metrics-index/blob/main/CONTRIBUTING.md)
+        and [data/SCHEMA.md](https://github.com/ZhenxianLi/psychoacoustic-metrics-index/blob/main/data/SCHEMA.md)).
+
+  - type: input
+    id: repository
+    attributes:
+      label: Repository URL
+      description: Where the source code is published (GitHub, GitLab, Codeberg, an institutional server, MATLAB File Exchange …).
+      placeholder: https://github.com/owner/repository
+    validations:
+      required: true
+
+  - type: input
+    id: name
+    attributes:
+      label: Project name
+      placeholder: e.g. MoSQITo
+    validations:
+      required: true
+
+  - type: input
+    id: languages
+    attributes:
+      label: Programming languages
+      description: The languages a user calls it from (not every language in the repository).
+      placeholder: e.g. Python; MATLAB; C++ with a Python interface
+    validations:
+      required: true
+
+  - type: textarea
+    id: implements
+    attributes:
+      label: Metrics and the standard editions or model papers they follow
+      description: >-
+        One line per metric. Give the edition or year where the project states it, and link to where it says so.
+        Write "not stated" if the project does not say. Mention it if a metric is only on the default branch
+        (not yet released) or in an open pull request.
+      placeholder: |
+        - Loudness: ISO 532-1:2017 (Zwicker), stationary and time-varying
+        - Sharpness: DIN 45692:2009
+        - Roughness: Daniel and Weber (1997)
+        - Tonality: ECMA-418-2, 4th edition (2025); in an open pull request
+    validations:
+      required: true
+
+  - type: input
+    id: license
+    attributes:
+      label: Licence
+      description: SPDX identifier if you know it. Write "none" if the repository has no licence file.
+      placeholder: e.g. MIT, BSD-3-Clause, GPL-3.0-only, none
+    validations:
+      required: false
+
+  - type: input
+    id: packages
+    attributes:
+      label: Package name and registry
+      description: Leave empty if it is not published as a package.
+      placeholder: "e.g. PyPI: mosqito; MATLAB File Exchange: (link)"
+    validations:
+      required: false
+
+  - type: textarea
+    id: validation
+    attributes:
+      label: How it is validated, as the project states it
+      description: >-
+        For example: compared with test signals or values published in the standard or the model paper,
+        compared with the reference program or the model authors' code, compared with another implementation,
+        tests without external reference data, or not stated. Link to where the project says so.
+      placeholder: e.g. The test suite compares stationary loudness with the test signals published with ISO 532-1:2017 (link).
+    validations:
+      required: false
+
+  - type: textarea
+    id: other
+    attributes:
+      label: Anything else
+      description: >-
+        Documentation, a paper describing the software, known issues stated by the project, whether the project
+        discloses AI assistance, or how it relates to other projects (port, fork, wrapper).
+    validations:
+      required: false
+
+  - type: dropdown
+    id: relation
+    attributes:
+      label: Your relation to the project
+      description: Suggesting your own project is welcome; this only helps the review.
+      options:
+        - No connection
+        - I use it
+        - I am an author or maintainer
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: criteria
+    attributes:
+      label: Inclusion criteria
+      description: See "What the index includes" in CONTRIBUTING.md.
+      options:
+        - label: The source code of the metric computations is public (not only a binary, web service or closed library).
+          required: true
+        - label: The project states which model or standard (and, where it applies, which edition) it implements.
+          required: true
+        - label: >-
+            It computes at least one in-scope quantity: loudness, sharpness, roughness, fluctuation strength,
+            tonality, impulsiveness, psychoacoustic annoyance, equal-loudness contours, EPNL or aural detectability.
+          required: true
+        - label: >-
+            It is not only broadcast loudness (LUFS, ITU-R BS.1770, EBU R128), speech intelligibility, or an
+            audio or speech codec quality metric (PEAQ, PESQ, ViSQOL).
+          required: true
+        - label: I searched the website and the open issues, and the project is not listed or suggested yet.
+          required: true

@@ -1,7 +1,8 @@
 # Website built by scripts/build.py (published by the Pages workflow, not committed)
 site/
 
-# Reports written by the weekly jobs; their content goes into the weekly-review issue
+# Reports from local runs of refresh.py, discover.py and watch_standards.py with --report
+# (the weekly workflow posts them to the weekly-review issue instead)
 refresh.md
 discover.md
 standards.md

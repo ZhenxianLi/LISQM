@@ -1,0 +1,59 @@
+name: Correction
+description: Report a wrong or outdated fact on the website or in the data.
+title: "Correction: "
+labels: ["correction"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for helping to keep the index accurate. Every correction needs a source that the maintainer
+        can check: the project's README, documentation, release notes or changelog, a package page, a paper,
+        or the catalogue page of a standards body. You can also correct the YAML file directly in a pull
+        request; see [CONTRIBUTING.md](https://github.com/ZhenxianLi/psychoacoustic-metrics-index/blob/main/CONTRIBUTING.md).
+
+  - type: input
+    id: entry
+    attributes:
+      label: Page or entry
+      description: The URL of the page on the website, or the file and entry in `data/`.
+      placeholder: e.g. https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/metasona.html or data/projects/metasona.yaml
+    validations:
+      required: true
+
+  - type: textarea
+    id: wrong
+    attributes:
+      label: What is wrong
+      description: Quote the text or value that is wrong or out of date.
+    validations:
+      required: true
+
+  - type: textarea
+    id: correct
+    attributes:
+      label: Correct information
+      description: What it should say instead.
+    validations:
+      required: true
+
+  - type: input
+    id: source
+    attributes:
+      label: Source URL
+      description: Where the correct information can be checked. A link to a specific file, release or section is best.
+      placeholder: https://
+    validations:
+      required: true
+
+  - type: dropdown
+    id: relation
+    attributes:
+      label: Your relation to the project concerned
+      description: Corrections from authors and maintainers are welcome; this only helps the review.
+      options:
+        - No connection
+        - I use it
+        - I am an author or maintainer
+        - Not about a project
+    validations:
+      required: false
