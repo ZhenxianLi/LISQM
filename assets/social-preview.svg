@@ -1,10 +1,24 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640" role="img" aria-labelledby="title desc">
   <title id="title">Psychoacoustic Metrics Index</title>
   <desc id="desc">Open-source implementations of psychoacoustic metrics, by standard edition. Loudness, sharpness, roughness, fluctuation strength, tonality, impulsiveness and annoyance.</desc>
-  <!-- Social preview for GitHub (Settings > General > Social preview), in the style of the website.
-       social-preview.png is rendered from this file with headless Chromium at 1280 x 640. -->
+  <!-- Social preview for GitHub (Settings > General > Social preview), in the style of the website: the green of
+       the LVA logo and the site's mark. social-preview.png is rendered from this file with headless Chromium at
+       1280 x 640. -->
   <rect width="1280" height="640" fill="#ffffff"/>
-  <rect x="112" y="96" width="96" height="8" fill="#0b62d6"/>
+  <rect width="1280" height="56" fill="#25c59b"/>
+  <rect y="56" width="1280" height="10" fill="#0f7d60"/>
+  <g transform="translate(1072 112) scale(1.5)">
+    <rect width="64" height="64" rx="14" fill="#25c59b"/>
+    <g fill="none" stroke="#fff" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M26 31C26 19 33 11 42 11C51 11 56 18 56 27C56 35 50 39 47 44C44 49 45 55 38 56C34 57 31 54 31 51"/>
+      <path d="M34 30C34 24 37 20 42 20C46.5 20 48 24.5 46 28.5C44.5 31.5 41 32.5 41 37"/>
+    </g>
+    <g fill="#fff">
+      <rect x="8" y="46" width="4" height="10" rx="2"/>
+      <rect x="14.5" y="40" width="4" height="16" rx="2"/>
+      <rect x="21" y="34" width="4" height="22" rx="2"/>
+    </g>
+  </g>
   <g font-family="Charter, 'Bitstream Charter', Georgia, 'DejaVu Serif', serif" fill="#1f2328">
     <text x="112" y="224" font-size="100" font-weight="700" letter-spacing="-1">Psychoacoustic</text>
     <text x="112" y="336" font-size="100" font-weight="700" letter-spacing="-1">Metrics Index</text>
@@ -12,7 +26,7 @@
     <rect x="112" y="452" width="1056" height="1.5" fill="#2b3137"/>
     <text x="112" y="502" font-size="21">Loudness · Sharpness · Roughness · Fluctuation strength · Tonality · Impulsiveness · Annoyance</text>
     <text x="112" y="552" font-size="22" font-weight="700" letter-spacing="1.5">
-      <tspan fill="#2463ad">PYTHON</tspan><tspan fill="#8b949e">  ·  </tspan><tspan fill="#bd5512">MATLAB</tspan><tspan fill="#8b949e">  ·  </tspan><tspan fill="#6b46a6">C / C++</tspan><tspan fill="#8b949e">  ·  </tspan><tspan fill="#94471c">RUST</tspan><tspan fill="#8b949e">  ·  </tspan><tspan fill="#8b3aa9">JULIA</tspan><tspan fill="#8b949e">  ·  </tspan><tspan fill="#866600">JAVASCRIPT</tspan>
+      <tspan fill="#2463ad">PYTHON</tspan><tspan fill="#8b949e">  ·  </tspan><tspan fill="#bd5512">MATLAB / OCTAVE</tspan><tspan fill="#8b949e">  ·  </tspan><tspan fill="#6b46a6">C / C++</tspan><tspan fill="#8b949e">  ·  </tspan><tspan fill="#94471c">RUST</tspan><tspan fill="#8b949e">  ·  </tspan><tspan fill="#8b3aa9">JULIA</tspan><tspan fill="#8b949e">  ·  </tspan><tspan fill="#36606e">PURE DATA</tspan>
     </text>
   </g>
 </svg>

@@ -4,6 +4,9 @@ repository: https://github.com/ggrecow/SQAT
 docs: https://github.com/ggrecow/SQAT#readme
 languages: [MATLAB]
 kind: toolbox
+language_note: >-
+  MATLAB only; SQAT has no Python interface of its own. pySQAT is a Python port of it, and MetaSona ports
+  parts of it to C.
 standing: established
 rank: 1
 license: GPL-3.0-or-later (main) / CC-BY-NC-4.0 (releases)

@@ -5,7 +5,10 @@ from __future__ import annotations
 from .data import Index
 
 HOME = "index.html"
+METRICS = "metrics/index.html"
 PROJECTS = "projects/index.html"
+LANGUAGES = "languages.html"
+AI = "ai.html"
 STANDARDS = "standards.html"
 UPDATES = "updates.html"
 ABOUT = "about.html"

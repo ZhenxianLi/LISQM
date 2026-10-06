@@ -83,12 +83,16 @@ short_name: optional shorter name for dense views such as the home-page timeline
 repository: https://github.com/huaaudio/metasona   # canonical source location (any host)
 homepage: optional URL
 docs: optional URL
-languages: [C, Python]                        # programming languages a user calls it from
+languages: [Python, C]                        # programming languages a user calls it from
 kind: library                                 # library | toolbox | research-code | reference-program | wrapper
                                               # | application | plugin | teaching
-standing: new                                 # established | developing | new (see below)
-standing_note: First released in September 2026.   # required when standing is new: when it was first released
-rank: 1                                       # optional: widely used, recognised projects, 1 first (see below)
+core: C                                       # optional: the language the computation is written in, when it is
+                                              # not the first of `languages`
+based_on: sqat                                # optional: id of the indexed project this one ports
+language_note: optional markdown              # how the project is built and called (shown on the Languages page)
+standing: newly-released                      # established | developing | newly-released (see below)
+standing_note: First released in September 2026.   # required for newly-released: when it was first released
+rank: 1                                       # optional: place within its group, 1 first (see below)
 license: GPL-3.0-only                         # SPDX expression, or "none" (no licence file) or "proprietary-free"
 license_note: optional markdown
 packages:                                     # optional
@@ -127,19 +131,28 @@ sources: [URLs the facts above were taken from]
 checked: 2026-10-06                           # last time a person checked this entry
 ```
 
-### Standing of a project
+### Standing and group of a project
 
-| Value | Meaning |
+| Standing | Meaning |
 |---|---|
 | `established` | Described in a publication, used by others, or written by the authors of the model, with a track record of more than a year |
 | `developing` | Research, teaching or hobby code without documented use by others, or a project still in development |
-| `new` | First released less than about a year ago and not yet widely used in the community |
+| `newly-released` | First released less than about a year ago and not yet widely used in the community |
 
-Lists of implementations put established projects first and new projects last, so a project that has not yet
-been used much is never the first suggestion. Review the standing of `new` projects once they are a year old.
+Two more groups follow from the data rather than from the project file:
 
-Within the same standing, projects with a `rank` come first, in rank order. It is given only to widely used,
-recognised projects, at present SQAT (1), the Auditory Modeling Toolbox (2) and MoSQITo (3).
+- **legacy**: archived, or no commit for `legacy_after_days` (three years, see `site.yaml`). The most widely used
+  projects and reference programs (`kind: reference-program`) are never legacy.
+- **others**: every implementation row has `via`, so the tool does not compute the metrics itself.
+
+Lists of implementations go established, developing, newly released, legacy, so a project that has not yet been
+used much, or is no longer maintained, is never the first suggestion. Lists of projects (the projects page, the
+README) show newly released projects before developing ones. Review the standing of `newly-released` projects
+once they are a year old.
+
+Within a group, projects with a `rank` come first, in rank order. Established projects with a rank are the most
+widely used ones, at present SQAT (1), the Auditory Modeling Toolbox (2) and MoSQITo (3): they are shown in bold
+and never listed as legacy. MetaSona has rank 1 among the newly released projects.
 
 ### Status of an implementation
 

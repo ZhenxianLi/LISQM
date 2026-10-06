@@ -4,8 +4,16 @@ repository: https://github.com/huaaudio/metasona
 docs: https://github.com/huaaudio/metasona/blob/main/docs/python-api.md
 languages: [Python, C]
 kind: library
-standing: new
+core: C
+based_on: sqat
+language_note: >-
+  A CMake library in C11 with the header `metasona/metasona.h` and a documented C API. The Python package
+  loads the compiled library with ctypes and ships prebuilt wheels for Windows x64, Linux x64 and ARM64 and
+  macOS (Intel and Apple silicon), for Python 3.9 to 3.14. The C functions take 48 kHz input; the Python
+  interface resamples.
+standing: newly-released
 standing_note: First released in September 2026.
+rank: 1  # first among the newly released projects
 license: GPL-3.0-only AND Apache-2.0 AND BSD-3-Clause AND MIT
 license_note: >-
   The combined distribution is GPL-3.0. MetaSona's own code is Apache-2.0; the ECMA-418-2 kernels (from
@@ -109,4 +117,5 @@ sources:
   - https://github.com/huaaudio/metasona/blob/main/THIRD_PARTY.md
   - https://github.com/huaaudio/metasona/blob/main/NOTICE
   - https://pypi.org/project/metasona/
+  - https://github.com/huaaudio/metasona/blob/main/python/metasona/_abi.py
 checked: 2026-10-06

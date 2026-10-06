@@ -3,7 +3,11 @@ name: iso532-1-rs
 repository: https://github.com/cclin99/iso532-1-rs
 languages: [Rust, C, Python]
 kind: library
-standing: new
+core: Rust
+language_note: >-
+  It has a C ABI and a Python module built with PyO3 and maturin. Neither the crate nor the Python module is
+  published, so both are built from the repository.
+standing: newly-released
 standing_note: First version tagged in July 2026.
 license: Apache-2.0
 maintainers: [cclin99]

@@ -90,10 +90,13 @@ writes the entry.
    name. It never changes once published, because it is part of page URLs.
 2. Fill in the required fields: `name`, `repository`, `languages`, `kind`, `standing`, `license`,
    `summary`, `ai_assistance`, `implements`, `sources` and `checked`. `standing` is `established`,
-   `developing` or `new`; a project first released less than about a year ago is `new` and needs a
-   `standing_note` saying when it was first released. Lists put new projects last, so a project that has not
-   yet been used much is never the first suggestion. The optional fields are described in
-   [`data/SCHEMA.md`](data/SCHEMA.md). Leave out what you do not know rather than guessing.
+   `developing` or `newly-released`; a project first released less than about a year ago is `newly-released`
+   and needs a `standing_note` saying when it was first released. Lists of implementations put newly released
+   projects after established and developing ones, so a project that has not yet been used much is never the
+   first suggestion; projects without a commit for three years are listed as legacy automatically. If the
+   computation is written in another language than the first of `languages` (a C library with a Python
+   package, say), set `core` and explain how it is called in `language_note`. The optional fields are
+   described in [`data/SCHEMA.md`](data/SCHEMA.md). Leave out what you do not know rather than guessing.
 3. Add one `implements` entry per method and edition. A project that implements two editions of the same
    method gets two entries.
 

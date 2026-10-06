@@ -11,8 +11,8 @@
     Worth knowing as of today:
 
     - ECMA-418-2 is at its 4th edition (June 2025), which added fluctuation strength. sottek-hearing-model and
-      refmap-psychoacoustics follow it, as do phonometry and MetaSona, two new projects that are not yet widely
-      used. SQAT has it on its main branch only, and MoSQITo still follows the 2nd edition (2022).
+      refmap-psychoacoustics follow it, as do phonometry and MetaSona, two newly released projects that are not yet
+      widely used. SQAT has it on its main branch only, and MoSQITo still follows the 2nd edition (2022).
     - SQAT's latest release (v1.3) is licensed for non-commercial use only. Its main branch is GPL-3.0 and
       carries unreleased fixes to ISO 532-1 time-varying loudness, Aures tonality and Daniel & Weber roughness
       that change results.
@@ -20,7 +20,8 @@
     - No open implementation was found for DIN 38455:2024 (the first German roughness standard), DIN 45681 or
       ISO/TS 20065:2022.
     - Six projects disclose that AI tools assisted their development; each project page says where.
-    - Every project is marked as established, developing or new. Lists put new projects, first released less
-      than about a year ago, last.
+    - Every project is marked as established, developing or newly released (first released less than about a year
+      ago). Projects without a commit for three years, or archived, are listed as legacy. Lists put established
+      projects first and newly released and legacy projects last.
     - Candidates that could not be checked yet, such as PsyTools (TU Graz) and the ITA-Toolbox, are listed on
       the About page as leads.

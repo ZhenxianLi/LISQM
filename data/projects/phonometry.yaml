@@ -4,7 +4,9 @@ repository: https://github.com/jmrplens/phonometry
 docs: https://jmrplens.github.io/phonometry/
 languages: [Python]
 kind: library
-standing: new
+language_note: >-
+  Pure Python; needs only NumPy and SciPy.
+standing: newly-released
 standing_note: Its psychoacoustics module was first released in July 2026 (version 3.1.0).
 license: MIT
 packages:

@@ -3,6 +3,9 @@ name: sottek-hearing-model
 repository: https://github.com/mlotinga/sottek-hearing-model
 languages: [Python]
 kind: library
+based_on: refmap-psychoacoustics
+language_note: >-
+  Needs Python 3.11 or newer. Translated from the MATLAB code used in SQAT and RefMap.
 standing: established
 license: GPL-3.0-only
 license_note: >-

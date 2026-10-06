@@ -11,37 +11,65 @@ from __future__ import annotations
 import json
 import re
 
-from .data import (IMPL_STATUS_LONG, PROJECT_KINDS, REGISTRIES, STANDING, VALIDATION, VALIDATION_LONG, Index,
-                   only_new)
-from .describe import (COVERAGE_COLUMNS, ONLY_NEW, activity_text, by_language, coverage, current_statement,
-                       dedupe, edition_state, faq, impl_phrase, ref_status, release_text, standing_sentence,
-                       time_bins, timeline)
-from .paths import (ABOUT, FAQ, HOME, PROJECTS, STANDARDS, UPDATES, absolute, md_twin, method_path,
-                    project_path, relative)
+from .data import (GROUPS, IMPL_STATUS_LONG, PROJECT_KINDS, REGISTRIES, STANDING, VALIDATION, VALIDATION_LONG,
+                   Index, only_new)
+from .describe import (COVERAGE_COLUMNS, ONLY_NEW, activity_text, ai_guide, by_language, coverage, current_statement,
+                       dedupe, edition_state, faq, impl_phrase, language_order, ref_status, release_text,
+                       standing_sentence, time_bins, timeline)
+from .paths import (ABOUT, AI, FAQ, HOME, LANGUAGES, METRICS, PROJECTS, STANDARDS, UPDATES, absolute, md_twin,
+                    method_path, project_path, relative)
 from .text import blocks, esc, inline, join_words, long_date, month, plain, plural
 
-NAV = [("Metrics", HOME), ("Projects", PROJECTS), ("Standards", STANDARDS), ("FAQ", FAQ), ("Updates", UPDATES),
-       ("About", ABOUT)]
+NAV = [("Home", HOME), ("Metrics", METRICS), ("Projects", PROJECTS), ("Languages", LANGUAGES), ("Standards", STANDARDS),
+       ("FAQ", FAQ), ("Updates", UPDATES), ("For AI", AI), ("About", ABOUT)]
 
-# Language tags: a short code for the timeline, the full name in tables, and a colour class.
-LANGUAGES = {"Python": ("Py", "py"), "MATLAB": ("M", "m"), "Octave": ("Oct", "m"), "C": ("C", "c"),
-             "C++": ("C++", "c"), "C#": ("C#", "c"), "Rust": ("Rs", "rs"), "Julia": ("Jl", "jl"),
-             "JavaScript": ("JS", "js"), "Pure Data": ("Pd", "pd"), "R": ("R", "r")}
+# The site's mark: an ear and three level bars, in white on the green of the LVA logo. site-src/favicon.svg is the
+# same drawing.
+LOGO = ('<svg class="brand-mark" viewBox="0 0 64 64" aria-hidden="true" focusable="false">'
+        '<rect width="64" height="64" rx="14" fill="#25c59b"/>'
+        '<g fill="none" stroke="#fff" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round">'
+        '<path d="M26 31C26 19 33 11 42 11C51 11 56 18 56 27C56 35 50 39 47 44C44 49 45 55 38 56C34 57 31 54 31 51"/>'
+        '<path d="M34 30C34 24 37 20 42 20C46.5 20 48 24.5 46 28.5C44.5 31.5 41 32.5 41 37"/></g>'
+        '<g fill="#fff"><rect x="8" y="46" width="4" height="10" rx="2"/><rect x="14.5" y="40" width="4" height="16" '
+        'rx="2"/><rect x="21" y="34" width="4" height="22" rx="2"/></g></svg>')
+
+# Opens each page at its top, also when the site is shown inside another page (a preview frame keeps its scroll
+# position across links). Links to a #section and the Back button keep their usual behaviour.
+TOP_SCRIPT = ("<script>(function(){var n=window.performance&&performance.getEntriesByType"
+              "&&performance.getEntriesByType('navigation')[0];if(location.hash||(n&&n.type!=='navigate'))return;"
+              "addEventListener('load',function(){var t=document.getElementById('top');"
+              "if(t&&t.scrollIntoView)t.scrollIntoView({block:'start'});});})();</script>")
+
+# Languages: a short code for the timeline (the usual file extension) and a colour class.
+LANG_CODES = {"Python": ("py", "py"), "MATLAB": ("m", "m"), "Octave": ("m", "m"), "C": ("c", "c"),
+             "C++": ("c++", "c"), "C#": ("c#", "c"), "Rust": ("rs", "rs"), "Julia": ("jl", "jl"),
+               "JavaScript": ("js", "js"), "Pure Data": ("pd", "pd"), "R": ("r", "r")}
 VALIDATION_KIND = {"standard-data": "ok", "reference-code": "ok", "cross-implementation": "info",
                    "self-tests": "warn", "not-stated": "neutral"}
 REF_KIND = {"current": "ok", "superseded": "neutral", "withdrawn": "neutral", "in-development": "warn",
             "published": "info"}
-STANDING_KIND = {"established": "ok", "developing": "info", "new": "new"}
+GROUP_KIND = {"established": "ok", "developing": "info", "newly-released": "new", "legacy": "legacy",
+              "others": "neutral"}
 ACTIVITY_KIND = {"active": "ok", "inactive": "warn", "archived": "neutral", "unknown": "neutral"}
-STANDING_HEADINGS = [("established", "Established projects"), ("developing", "Developing projects"),
-                     ("new", "New projects")]
+# Sections of the Languages page: anchor, heading, the languages it covers.
+LANGUAGE_SECTIONS = [("python", "Python", {"Python"}), ("matlab", "MATLAB and Octave", {"MATLAB", "Octave"}),
+                     ("c", "C and C++", {"C", "C++"}), ("rust", "Rust", {"Rust"}), ("julia", "Julia", {"Julia"}),
+                     ("pure-data", "Pure Data", {"Pure Data"})]
+ABOUT_SECTIONS = [("scope", "What is included"), ("method", "How entries are checked"), ("status", "Status"),
+                  ("validation", "Validation"), ("standing", "Groups of projects"), ("leads", "Leads"),
+                  ("data", "Machine-readable data"), ("contributing", "Contributing"), ("citing", "Citing"),
+                  ("licence", "Licence")]
+# In the order of the projects page.
+GROUP_HEADINGS = [("established", "Established projects"), ("newly-released", "Newly released projects"),
+                  ("developing", "Developing projects"), ("legacy", "Legacy projects"), ("others", "Others")]
 
 
 # ---------------------------------------------------------------------------------------------- layout
 
 def layout(index: Index, path: str, *, title: str, description: str, body: str, section: str,
            jsonld: list[dict] | None = None, og_type: str = "website", markdown: bool = True,
-           sidebar: bool = True) -> str:
+           side: str | None = None) -> str:
+    """The page frame. The sidebar follows the tab: each tab lists its own contents (`side` overrides it)."""
     site = index.site
     rel = lambda target: relative(path, target)  # noqa: E731
     canonical = absolute(index, path)
@@ -59,9 +87,13 @@ def layout(index: Index, path: str, *, title: str, description: str, body: str, 
     md_head = (f'<link rel="alternate" type="text/markdown" href="{esc(rel(md_twin(path)))}" title="Markdown version">\n'
                if markdown else "")
     md_foot = f'<a href="{rel(md_twin(path))}">This page as Markdown</a> · ' if markdown else ""
-    side = _sidebar(index, path) if sidebar else ""
-    page_class = "page with-sidebar" if sidebar else "page"
+    side = _sidebar(index, path, section) if side is None else side
+    page_class = ("page with-sidebar" + (" narrow-side" if path == HOME else "")) if side else "page"
     as_of = esc(long_date(index.as_of()))
+    aff = site.get("affiliation") or {}
+    aff_link = (f'<a class="affiliation" href="{esc(aff["url"])}" title="{esc(aff["name"])}">{esc(aff["short"])}</a>'
+                if aff.get("url") else esc(aff.get("short", "")))
+    aff_line = f'<p>{esc(aff["maintained"])} <a href="{esc(aff["url"])}">{esc(aff["name"])}</a>.</p>' if aff else ""
     return f"""<!doctype html>
 <html lang="en">
 <head>
@@ -73,6 +105,7 @@ def layout(index: Index, path: str, *, title: str, description: str, body: str, 
 {md_head}<link rel="alternate" type="application/atom+xml" href="{esc(rel('feed.xml'))}" title="{esc(site['title'])}: updates">
 <link rel="icon" href="{esc(rel('favicon.svg'))}" type="image/svg+xml">
 <link rel="stylesheet" href="{esc(rel('style.css'))}">
+<meta name="theme-color" content="#25c59b">
 <meta property="og:type" content="{og_type}">
 <meta property="og:site_name" content="{esc(site['title'])}">
 <meta property="og:title" content="{esc(title)}">
@@ -80,13 +113,14 @@ def layout(index: Index, path: str, *, title: str, description: str, body: str, 
 <meta property="og:url" content="{esc(canonical)}">
 <meta property="og:image" content="{esc(site['base_url'])}social-preview.png">
 <meta name="twitter:card" content="summary_large_image">
-{ld}</head>
+{ld}{TOP_SCRIPT}
+</head>
 <body>
 <a class="skip" href="#content">Skip to content</a>
-<header class="masthead">
+<header class="masthead" id="top">
 <div class="container masthead-row">
-<a class="brand" href="{rel(HOME)}"><span class="brand-mark" aria-hidden="true">ψ</span><span class="brand-text"><span class="brand-name">{esc(site['title'])}</span><span class="brand-tagline">{esc(site.get('tagline', ''))}</span></span></a>
-<p class="masthead-meta">Data as of {as_of}<br><a href="{esc(site['repository'])}">Source on GitHub</a></p>
+<a class="brand" href="{rel(HOME)}">{LOGO}<span class="brand-text"><span class="brand-name">{esc(site['title'])}</span><span class="brand-tagline">{esc(site.get('tagline', ''))}</span></span></a>
+<p class="masthead-meta">{aff_link}<br>Data as of {as_of} · <a href="{esc(site['repository'])}">GitHub</a></p>
 </div>
 <nav class="tabs" aria-label="Site"><div class="container">
 {tabs}
@@ -101,7 +135,7 @@ def layout(index: Index, path: str, *, title: str, description: str, body: str, 
 <footer class="site-footer">
 <div class="container">
 <p class="credit">{credit(index)}</p>
-<p>Facts are taken from each project's own documentation and package metadata and checked by hand; corrections
+{aff_line}<p>Facts are taken from each project's own documentation and package metadata and checked by hand; corrections
 are welcome on <a href="{esc(site['repository'])}">GitHub</a>. Data as of {as_of}. {esc(site['license'])} licence.</p>
 <p><a href="{rel('index.json')}">JSON</a> · <a href="{rel('llms.txt')}">llms.txt</a> · {md_foot}<a href="{rel('feed.xml')}">Atom feed</a></p>
 </div>
@@ -111,28 +145,59 @@ are welcome on <a href="{esc(site['repository'])}">GitHub</a>. Data as of {as_of
 """
 
 
-def _sidebar(index: Index, path: str) -> str:
-    """Every metric by family, then the index pages and the data files."""
+def _side(label: str, items: list[tuple[str, str, bool]], href: str = "", sub: bool = False) -> str:
+    """One block of a sidebar: a heading and links; the link to the current page is marked."""
+    head = f'<a href="{esc(href)}">{esc(label)}</a>' if href else esc(label)
+    here = ' aria-current="page"'
+    links = "".join(f'<li><a href="{esc(h)}"{here if cur else ""}>{text}</a></li>' for h, text, cur in items)
+    return f'<p class="{"side-family" if sub else "side-head"}">{head}</p>' + (f"<ul>{links}</ul>" if items else "")
+
+
+def _sidebar(index: Index, path: str, section: str) -> str:
+    """The sidebar of a tab: its own contents, so that it always matches the page around it."""
     rel = lambda target: relative(path, target)  # noqa: E731
-    here = lambda target: ' aria-current="page"' if target == path else ""  # noqa: E731
-    parts = ['<aside class="sidebar" aria-label="All metrics and pages">', '<p class="side-head">Metrics</p>']
-    for fam, methods in index.families_with_methods():
-        parts.append(f'<p class="side-family"><a href="{rel(HOME)}#{esc(fam["id"])}">{esc(fam["name"])}</a></p>')
-        parts.append("<ul>" + "".join(f'<li><a href="{rel(method_path(m))}"{here(method_path(m))}>'
-                                      f'{esc(m["name"])}</a></li>' for m in methods) + "</ul>")
-    pages = (("All projects", PROJECTS), ("Standards and models", STANDARDS), ("Questions and answers", FAQ),
-             ("Updates", UPDATES), ("About and method", ABOUT))
-    others = f'<li><a href="{rel(PROJECTS)}#others">Others (interfaces)</a></li>'
-    parts.append('<p class="side-head">Index</p>')
-    parts.append("<ul>" + "".join(f'<li><a href="{rel(t)}"{here(t)}>{label}</a></li>' for label, t in pages)
-                 + others + "</ul>")
-    parts.append('<p class="side-head">Data</p>')
-    parts.append(f'<ul><li><a href="{rel("index.json")}">index.json</a></li>'
-                 f'<li><a href="{rel("llms.txt")}">llms.txt</a></li>'
-                 f'<li><a href="{rel("feed.xml")}">Atom feed</a></li>'
-                 f'<li><a href="{esc(index.site["repository"])}">GitHub repository</a></li></ul>')
-    parts.append("</aside>")
-    return "\n".join(parts)
+    blocks_: list[str] = []
+    if section == "Home":
+        blocks_.append(_side("On this page", [("#timeline", "Editions and implementations", False)]))
+        blocks_.append('<ul class="side-sub">' + "".join(f'<li><a href="#{esc(f["id"])}">{esc(f["name"])}</a></li>'
+                                                           for f, _ in index.families_with_methods()) + "</ul>")
+        blocks_.append("<ul>" + "".join(f'<li><a href="#{a}">{t}</a></li>' for a, t in (
+            ("gaps", "Gaps"), ("updates", "Recent updates"), ("contribute", "Contribute"))) + "</ul>")
+    elif section == "Metrics":
+        blocks_.append(_side("All metrics", [], href=rel(METRICS)))
+        for fam, methods in index.families_with_methods():
+            blocks_.append(_side(fam["name"], [(rel(method_path(m)), esc(m["name"]), method_path(m) == path)
+                                               for m in methods], href=f"{rel(METRICS)}#{fam['id']}", sub=True))
+    elif section == "Projects":
+        blocks_.append(_side("All projects", [], href=rel(PROJECTS)))
+        for key, title in GROUP_HEADINGS:
+            projects = index.group(key)
+            if projects:
+                label = title.replace(" projects", "")
+                blocks_.append(_side(f"{label} ({len(projects)})", [
+                    (rel(project_path(p)), _breakable(p.get("short_name") or p["name"]), project_path(p) == path)
+                    for p in projects], href=f"{rel(PROJECTS)}#{key}", sub=True))
+    elif section == "Languages":
+        blocks_.append(_side("On this page", [(f"{rel(LANGUAGES)}#{a}", t, False) for a, t in
+                                              [("coverage", "Coverage by language")]
+                                              + [(a, t) for a, t, _ in LANGUAGE_SECTIONS]
+                                              + [("across", "Calling code across languages")]]))
+    elif section == "Standards":
+        blocks_.append(_side("On this page", [("#standards", "Standards and regulations", False),
+                                              ("#models", "Model papers, books and theses", False)]))
+        for fam, methods in index.families_with_methods():
+            refs = list(dict.fromkeys(r for m in methods for r in m["current"]))
+            blocks_.append(_side(fam["name"], [(f"{rel(STANDARDS)}#ref-{r}", esc(index.ref[r]["label"]), False)
+                                               for r in refs], sub=True))
+    elif section == "Updates":
+        blocks_.append(_side("Updates", [(f"{rel(UPDATES)}#{esc(str(u['date']))}",
+                                          f"{esc(long_date(u['date']))}: {esc(u['title'])}", False)
+                                         for u in index.updates]))
+    elif section == "About":
+        blocks_.append(_side("On this page", [(f"#{a}", t, False) for a, t in ABOUT_SECTIONS]))
+    if not blocks_:
+        return ""
+    return f'<aside class="sidebar" aria-label="{esc(section or "Site")} contents">' + "\n".join(blocks_) + "</aside>"
 
 
 def credit(index: Index) -> str:
@@ -153,7 +218,7 @@ def _tag(text: str, kind: str, title: str = "", href: str = "") -> str:
 
 
 def _lang_tag(lang: str) -> str:
-    _, cls = LANGUAGES.get(lang, (lang, "other"))
+    _, cls = LANG_CODES.get(lang, (lang, "other"))
     return f'<span class="lang lang-{cls}">{esc(lang)}</span>'
 
 
@@ -170,9 +235,10 @@ def _ref_tag(r: dict) -> str:
     return _tag(ref_status(r), REF_KIND[r["status"]])
 
 
-def _standing_tag(p: dict) -> str:
-    label = "new, not yet widely used" if p["standing"] == "new" else p["standing"]
-    return _tag(label, STANDING_KIND[p["standing"]], STANDING[p["standing"]])
+def _group_tag(p: dict) -> str:
+    group = p["_group"]
+    label = {"newly-released": "newly released, not yet widely used", "others": "other"}.get(group, group)
+    return _tag(label, GROUP_KIND[group], GROUPS[group])
 
 
 def _activity_tag(p: dict, short: bool = False) -> str:
@@ -183,7 +249,9 @@ def _activity_tag(p: dict, short: bool = False) -> str:
     return _tag(activity_text(p), kind)
 
 
-NEW_TAG = _tag("new", "new", STANDING["new"])
+NEW_TAG = _tag("new", "new", GROUPS["newly-released"])
+LEGACY_TAG = _tag("legacy", "legacy", GROUPS["legacy"])
+GROUP_TAGS = {"newly-released": NEW_TAG, "legacy": LEGACY_TAG}
 
 
 def _project_link(path: str, p: dict) -> str:
@@ -206,8 +274,8 @@ def _functions(i: dict) -> str:
 def _status_note(i: dict) -> str:
     """Notes cell: state tags first (new project, unreleased, pull request), then the free-text note."""
     bits = []
-    if i["_project"]["standing"] == "new":
-        bits.append(_tag("new project", "new", STANDING["new"]))
+    if i["_project"]["_group"] in GROUP_TAGS:
+        bits.append(GROUP_TAGS[i["_project"]["_group"]])
     if i["status"] == "unreleased":
         bits.append(_tag("unreleased", "warn", IMPL_STATUS_LONG["unreleased"], href=i.get("link", "")))
     elif i["status"] == "proposed":
@@ -284,30 +352,37 @@ def _impl_tip(i: dict) -> str:
            activity_text(p)]
     if i.get("_via"):
         tip.append(f"computed by {i['_via']['name']}")
-    if p["standing"] == "new":
+    if p["_mainstream"]:
+        tip.append("one of the most widely used projects")
+    if standing_sentence(p):
         tip.append(standing_sentence(p))
     return p["name"] + ": " + "; ".join(tip)
 
 
-def _lang_square(lang: str) -> str:
-    _, cls = LANGUAGES.get(lang, (lang, "other"))
-    return f'<span class="sq sq-{cls}" aria-hidden="true"></span>'
+def _lang_badge(lang: str) -> str:
+    """The language as a short code in its colour, in a box: py, m, c++, rs, jl …"""
+    code, cls = LANG_CODES.get(lang, (lang[:2].lower(), "other"))
+    return f'<span class="lb lang-{cls}" title="{esc(lang)}">{esc(code)}</span>'
 
 
 def _timeline_impl(path: str, i: dict, mark_new: bool = True) -> str:
-    """One line per project: a square in the colour of its language, the name, and a marker if the code is not
-    released or the project is new. Version, language and activity are in the tooltip."""
+    """One line per project: its language as a short code, the name (in bold for the most widely used projects)
+    and a marker if the code is not released or the project is newly released; legacy projects are grey. Version,
+    languages and activity are in the tooltip."""
     p = i["_project"]
-    bits = [_lang_square(p["languages"][0])
-            + f'<a href="{relative(path, project_path(p))}">{_breakable(p.get("short_name") or p["name"])}</a>']
+    name = _breakable(p.get("short_name") or p["name"])
+    if p["_mainstream"]:
+        name = f"<strong>{name}</strong>"
+    bits = [f'<a href="{relative(path, project_path(p))}">{name}</a>']
     if i["status"] == "proposed":
         bits.append(_tag("PR", "neutral", IMPL_STATUS_LONG["proposed"], href=i.get("link", "")))
     elif i["status"] == "unreleased":
         bits.append(_tag("main", "warn", IMPL_STATUS_LONG["unreleased"]))
-    if p["standing"] == "new" and mark_new:
+    if p["_group"] == "newly-released" and mark_new:
         bits.append(NEW_TAG)
-    quiet = ' class="quiet"' if p["_activity"] in ("inactive", "archived") else ""
-    return f'<li{quiet} title="{esc(_impl_tip(i))}">{" ".join(bits)}</li>'
+    quiet = ' class="quiet"' if p["_group"] == "legacy" else ""
+    return (f'<li{quiet} title="{esc(_impl_tip(i))}">{_lang_badge(p["languages"][0])}'
+            f'<span class="nm">{" ".join(bits)}</span></li>')
 
 
 def _timeline_edition(path: str, m: dict, ref: dict, impls: list[dict]) -> str:
@@ -316,14 +391,21 @@ def _timeline_edition(path: str, m: dict, ref: dict, impls: list[dict]) -> str:
     label = f'<span class="ed-label" title="{esc(tip)}">{_breakable(ref["label"])}</span>'
     if state == "dev":
         label += " " + _tag("in development", "warn")
-    regular = [i for i in impls if i["_project"]["standing"] != "new"]
-    new = [i for i in impls if i["_project"]["standing"] == "new"]
-    if len(new) < 3:  # new projects come last; three or more are folded into one line
-        regular, new = regular + new, []
-    body = f'<ul>{"".join(_timeline_impl(path, i) for i in regular)}</ul>' if regular else ""
+    # Established and developing projects first, then newly released ones (three or more fold into one line), then
+    # legacy ones.
+    new = [i for i in impls if i["_project"]["_group"] == "newly-released"]
+    before = [i for i in impls if i["_project"]["_group"] in ("established", "developing")]
+    after = [i for i in impls if i["_project"]["_group"] == "legacy"]
+    if len(new) < 3:
+        before, new = before + new, []
+    body = ""
+    if before:
+        body += f'<ul>{"".join(_timeline_impl(path, i) for i in before)}</ul>'
     if new:
-        body += (f'<details class="new-fold"><summary>{len(new)} {NEW_TAG} projects</summary>'
+        body += (f'<details class="fold"><summary>{len(new)} {NEW_TAG} projects</summary>'
                  f'<ul>{"".join(_timeline_impl(path, i, mark_new=False) for i in new)}</ul></details>')
+    if after:
+        body += f'<ul>{"".join(_timeline_impl(path, i) for i in after)}</ul>'
     cls = f"edition ed-{state}" if state else "edition"
     return f'<div class="{cls}">{label}{body}</div>'
 
@@ -349,9 +431,11 @@ def _timeline(index: Index, path: str) -> str:
             lines.append(f'<tr><th scope="row" class="rowhead">{_method_link(path, m)}'
                          f'<span class="unit">{esc(m["unit"])}</span></th>' + "".join(cells) + "</tr>")
         groups.append("<tbody>\n" + "\n".join(lines) + "\n</tbody>")
-    key_langs = " ".join(f"{_lang_square(lang)}{esc(label)}" for lang, label in (
-        ("Python", "Python"), ("MATLAB", "MATLAB or Octave"), ("C++", "C or C++"), ("Rust", "Rust"),
-        ("Julia", "Julia"), ("JavaScript", "JavaScript"), ("Pure Data", "Pure Data")))
+    used = {i["_project"]["languages"][0] for _, rows in timeline(index) for row in rows for cell in row["cells"]
+            for _, impls in cell for i in impls}
+    labels = {"MATLAB": "MATLAB or Octave"}
+    key_langs = " ".join(f'<span class="key-lang">{_lang_badge(lang)} {esc(labels.get(lang, lang))}</span>'
+                         for lang in sorted(used, key=language_order))
     legend = (
         '<div class="legend">'
         '<p><span class="key key-current">ISO 532-1:2017</span> current edition '
@@ -359,17 +443,20 @@ def _timeline(index: Index, path: str) -> str:
         f'{_tag("in development", "warn")} draft or new work item '
         '<span class="key key-life"></span> years since the method’s first edition</p>'
         f'<p class="key-langs">Language: {key_langs}</p>'
-        f"<p>{NEW_TAG} first released less than about a year ago and not yet widely used; listed last, and folded "
-        f'when there are three or more · {_tag("main", "warn")} merged, not in a release yet · '
-        f'{_tag("PR", "neutral")} open pull request · <span class="quiet-sample">grey name</span> no commit for '
-        "more than a year, or archived · hover over a name for its language, version and status</p>"
+        "<p><strong>Bold name</strong> one of the most widely used projects · "
+        f"{NEW_TAG} first released less than about a year ago and not yet widely used; listed after established "
+        "and developing projects, and folded when there are three or more · "
+        '<span class="quiet-sample">grey name</span> legacy: archived, or no commit for three years or more; listed '
+        f'last · {_tag("main", "warn")} merged, not in a release yet · {_tag("PR", "neutral")} open pull request · '
+        "hover over a name for its languages, version and status</p>"
         "</div>")
     return "\n".join([
         '<section class="timeline-section" aria-labelledby="timeline">',
         '<h2 id="timeline">Editions and implementations</h2>',
         "<p>Each standard edition or model paper sits in the column of the year it appeared. Under it are the "
-        "projects that implement it: widely used and established projects first, new projects last. Hover over a "
-        "name for details; each method links to a page with function names and validation.</p>",
+        "projects that implement it: the most widely used and established projects first, newly released and legacy "
+        "projects last. Hover over a name for details; each method links to a page with function names and "
+        "validation.</p>",
         legend,
         '<div class="table-wrap"><table class="timeline"><thead><tr>' + "".join(head) + "</tr></thead>\n"
         + "\n".join(groups) + "\n</table></div>",
@@ -406,31 +493,10 @@ def home(index: Index) -> str:
         "tools that both say they implement a standard can give different results.</p>",
         _timeline(index, path),
         '<div class="columns">',
-        '<section class="col-main" aria-labelledby="coverage">',
+        '<section class="col-main" aria-labelledby="gaps">',
+        '<h2 id="gaps">Gaps</h2>',
     ]
-    cols = [c for c, _ in COVERAGE_COLUMNS] + ["Other"]
-    marks = {"current": "available implementation of the current edition",
-             "new": "available implementation of the current edition, but only from new projects",
-             "partial": "only unreleased, proposed or older-edition implementations",
-             "": "none found"}
-
-    def mark(state: str) -> str:
-        return (f'<span class="mark mark-{state or "none"}" role="img" aria-label="{esc(marks[state])}" '
-                f'title="{esc(marks[state])}"></span>')
-    parts.append('<h2 id="coverage">Coverage by language</h2>')
-    parts.append(f'<p class="small mark-key">{mark("current")} an available implementation of the current edition '
-                 f'· {mark("new")} the same, but only from new projects that are not yet widely used · '
-                 f'{mark("partial")} only unreleased, proposed or older-edition implementations · {mark("")} none '
-                 "found. A library with bindings counts for each language it can be called from.</p>")
-    rows = []
-    for m in index.methods:
-        cov = coverage(m)
-        rows.append([_method_link(path, m)] + [mark(cov[c]) for c in cols])
-    parts.append(_table("coverage", ["Method"] + [esc(c) for c in cols], rows))
-    parts.append("</section>")
-    parts.append('<section class="col-side" aria-labelledby="gaps">')
     gaps = index.gaps()
-    parts.append('<h2 id="gaps">Gaps</h2>')
     if gaps:
         parts.append("<p>No available open-source implementation of the current edition has been found for:</p>")
         parts.append("<ul>" + "".join(f"<li>{_method_link(path, m, m['title'])}</li>" for m in gaps) + "</ul>")
@@ -438,18 +504,22 @@ def home(index: Index) -> str:
         parts.append("<p>Every method in the index has at least one available open-source implementation of its "
                      "current edition.</p>")
     if index.new_only():
-        parts.append(f"<p>Released implementations of the current edition come only from new projects {NEW_TAG}, "
-                     "which are not yet widely used, for:</p>")
-        parts.append("<ul>" + "".join(f"<li>{_method_link(path, m, m['title'])}</li>" for m in index.new_only())
-                     + "</ul>")
+        parts.append("<p>Released implementations of the current edition come only from newly released projects "
+                     f"{NEW_TAG}, which are not yet widely used, for:</p>")
+        parts.append("<ul>" + "".join(f"<li>{_method_link(path, m, m['title'])}</li>"
+                                      for m in index.new_only()) + "</ul>")
+    parts.append(f'<p>Which of them can be computed in Python, MATLAB, C or another language is shown on the '
+                 f'<a href="{relative(path, LANGUAGES)}">Languages</a> page.</p>')
+    parts.append("</section>")
+    parts.append('<section class="col-side" aria-labelledby="updates">')
     parts.append('<h2 id="updates">Recent updates</h2>')
     parts.append('<ul class="updates">' + "".join(
         f'<li><a href="{relative(path, UPDATES)}#{esc(str(u["date"]))}">{esc(long_date(u["date"]))}</a>: '
         f'{esc(u["title"])}</li>' for u in index.updates[:5]) + "</ul>")
     parts.append('<h2 id="contribute">Contribute</h2>')
     parts.append(f'<p>Know of an implementation that is missing, or a fact that is wrong? '
-                 f'<a href="{esc(site["repository"])}/issues/new/choose">Open an issue</a> or send a pull request. '
-                 f'Quick answers are in the <a href="{relative(path, FAQ)}">questions and answers</a>.</p>')
+                 f'<a href="{esc(site["repository"])}/issues/new/choose">Open an issue</a>, send a pull request, or '
+                 f'<a href="{relative(path, FAQ)}#message">leave a message</a>.</p>')
     parts.append("</section>")
     parts.append("</div>")
 
@@ -472,13 +542,13 @@ def home(index: Index) -> str:
                    f"psychoacoustic metrics: {len(index.projects)} projects in "
                    f"{join_words(langs)}. Updated {index.as_of()}.")
     return layout(index, path, title=site["title"], description=description, body="\n".join(parts),
-                  section="Metrics", jsonld=ld, sidebar=False)
+                  section="Home", jsonld=ld)
 
 
 def _in_short_block(index: Index, m: dict, path: str) -> str:
     """The answer first: current edition, then its implementations grouped by language, then the rest."""
     name = lambda p: _project_link(path, p)  # noqa: E731
-    groups = by_language(m["_current_impls"], name, new_tag=NEW_TAG)
+    groups = by_language(m["_current_impls"], name, tags=GROUP_TAGS)
     first = esc(current_statement(index, m)) + (" Open-source implementations of it:" if groups
                                                 else " No open-source implementation of it has been found.")
     parts = ['<div class="in-short">', f"<p><strong>In short.</strong> {first}</p>"]
@@ -503,8 +573,8 @@ def method_page(index: Index, m: dict) -> str:
     if m.get("aka"):
         meta.append("Also known as " + esc(", ".join(m["aka"])))
     parts = [
-        _crumbs(f'<a href="{relative(path, HOME)}">Metrics</a>',
-                f'<a href="{relative(path, HOME)}#{esc(fam["id"])}">{esc(fam["name"])}</a>'),
+        _crumbs(f'<a href="{relative(path, METRICS)}">Metrics</a>',
+                f'<a href="{relative(path, METRICS)}#{esc(fam["id"])}">{esc(fam["name"])}</a>'),
         f"<h1>{esc(m['title'])}</h1>",
         f'<p class="byline">{" · ".join(meta)}</p>',
         blocks(m["summary"]),
@@ -518,7 +588,8 @@ def method_page(index: Index, m: dict) -> str:
     for rid in reversed(m["references"]):
         r = index.ref[rid]
         impls = dedupe([i for i in m["_impls"] if i["reference"] == rid])
-        who = ", ".join(name(i["_project"]) + (f" {NEW_TAG}" if i["_project"]["standing"] == "new" else "")
+        who = ", ".join(name(i["_project"]) + (f" {GROUP_TAGS[i['_project']['_group']]}"
+                                               if i["_project"]["_group"] in GROUP_TAGS else "")
                         + ("" if i["status"] == "available" else
                            " " + _tag(i["status"], "warn" if i["status"] == "unreleased" else "neutral"))
                         for i in impls)
@@ -584,7 +655,12 @@ def project_page(index: Index, p: dict) -> str:
         facts.append(("Documentation", f'<a href="{esc(p["docs"])}">{esc(p["docs"])}</a>'))
     facts.append(("Language", _langs(p["languages"])))
     facts.append(("Kind", esc(PROJECT_KINDS[p["kind"]])))
-    facts.append(("Standing", f'{_standing_tag(p)} <span class="muted">{esc(STANDING[p["standing"]])}</span>'))
+    standing = f'{esc(p["standing"])} <span class="muted">{esc(STANDING[p["standing"]])}'
+    if p["_mainstream"]:
+        standing += " One of the most widely used projects in the index."
+    facts.append(("Standing", standing + "</span>"))
+    if p["_group"] in ("legacy", "others"):
+        facts.append(("Listed under", f'{_group_tag(p)} <span class="muted">{esc(GROUPS[p["_group"]])}</span>'))
     lic = esc(p["license"]) if p["license"] != "none" else "none stated (no licence file)"
     if p.get("license_note"):
         lic += f'<br><span class="muted">{inline(p["license_note"])}</span>'
@@ -618,22 +694,24 @@ def project_page(index: Index, p: dict) -> str:
         facts.append(("Paper", paper))
     facts.append(("Entry checked", esc(long_date(p["checked"]))))
 
-    heading = "Others" if p["_others"] else dict(STANDING_HEADINGS)[p["standing"]]
-    anchor = "others" if p["_others"] else p["standing"]
     parts = [
         _crumbs(f'<a href="{relative(path, PROJECTS)}">Projects</a>',
-                f'<a href="{relative(path, PROJECTS)}#{esc(anchor)}">{esc(heading)}</a>'),
+                f'<a href="{relative(path, PROJECTS)}#{esc(p["_group"])}">'
+                f'{esc(dict(GROUP_HEADINGS)[p["_group"]])}</a>'),
         f"<h1>{esc(p['name'])}</h1>",
         f'<p class="byline">{_langs(p["languages"])} · {esc(PROJECT_KINDS[p["kind"]].lower())} · '
-        f"{_standing_tag(p)} {_activity_tag(p)}</p>",
+        f"{_group_tag(p)} {_activity_tag(p)}</p>",
     ]
     if p["_others"]:
         callee = join_words([_project_link(path, q) for q in {i["_via"]["id"]: i["_via"] for i in p["_impls"]}.values()])
         parts.append(f'<p class="notice notice-info"><strong>Listed under Others.</strong> It does not compute the '
                      f"metrics itself; its results come from {callee}.</p>")
-    if p["standing"] == "new":
-        parts.append(f'<p class="notice"><strong>New project.</strong> {esc(standing_sentence(p))} '
+    if p["standing"] == "newly-released":
+        parts.append(f'<p class="notice"><strong>Newly released project.</strong> {esc(standing_sentence(p))} '
                      "Check its validation before relying on it.</p>")
+    elif p["_group"] == "legacy":
+        parts.append(f'<p class="notice notice-legacy"><strong>Legacy project.</strong> {esc(standing_sentence(p))} '
+                     "Its code may follow an older edition and may not run with current software.</p>")
     parts.append(blocks(p["summary"]))
     parts.append('<table class="facts"><tbody>' + "".join(f'<tr><th scope="row">{k}</th><td>{v}</td></tr>'
                                                          for k, v in facts) + "</tbody></table>")
@@ -658,13 +736,159 @@ def project_page(index: Index, p: dict) -> str:
                   og_type="article")
 
 
+def _project_names(path: str, impls: list[dict]) -> str:
+    """Projects as a compact inline list: language code, name (bold for the most widely used), and markers for
+    unreleased code and newly released projects; legacy projects are grey."""
+    best: dict[str, dict] = {}
+    for i in impls:
+        key = i["_project"]["id"]
+        if key not in best or (i["status"] == "available" and best[key]["status"] != "available"):
+            best[key] = i
+    out = []
+    for i in best.values():
+        p = i["_project"]
+        name = f"<strong>{esc(p['name'])}</strong>" if p["_mainstream"] else esc(p["name"])
+        bit = _lang_badge(p["languages"][0]) + f'<a href="{relative(path, project_path(p))}">{name}</a>'
+        if i["status"] != "available":
+            bit += " " + _tag("main" if i["status"] == "unreleased" else "PR",
+                              "warn" if i["status"] == "unreleased" else "neutral", IMPL_STATUS_LONG[i["status"]])
+        if p["_group"] == "newly-released":
+            bit += " " + NEW_TAG
+        cls = "pn quiet" if p["_group"] == "legacy" else "pn"
+        out.append(f'<span class="{cls}" title="{esc(_impl_tip(i))}">{bit}</span>')
+    return " ".join(out)
+
+
+def metrics_page(index: Index) -> str:
+    path = METRICS
+    parts = [
+        "<h1>Metrics</h1>",
+        f'<p class="byline">{plural(len(index.methods), "method")} in {plural(len(index.families), "group")}</p>',
+        '<p class="lead">Each metric with its unit, the edition that an up-to-date implementation should follow, and '
+        "the open-source projects that implement that edition. Every method has its own page with all editions, "
+        "function names and validation.</p>",
+    ]
+    for fam, methods in index.families_with_methods():
+        parts.append(f'<h2 id="{esc(fam["id"])}">{esc(fam["name"])}</h2>')
+        if fam.get("summary"):
+            parts.append(f"<p>{inline(fam['summary'])}</p>")
+        rows = []
+        for m in methods:
+            current = join_words([index.ref[r]["label"] for r in m["current"]])
+            names = _project_names(path, m["_current_impls"]) or '<span class="muted">none found</span>'
+            rows.append([_method_link(path, m) + f'<br><span class="muted">{esc(m["unit"])}</span>', esc(current),
+                         names])
+        parts.append(_table("metrics", ["Method", "Current edition", "Implementations of it"], rows))
+    return layout(index, path, title="Psychoacoustic metrics and their current editions",
+                  description=(f"{len(index.methods)} psychoacoustic metrics, from Zwicker loudness to aural "
+                               "detectability: unit, current standard edition and open-source implementations."),
+                  body="\n".join(parts), section="Metrics")
+
+
+def _how(p: dict, langs: set[str], index: Index, path: str) -> str:
+    """How a project is used from one language: written in it, or a core in another language with an interface
+    for it; whether it is a port of another project; how to install it; and the project's own notes."""
+    core = p.get("core") or p["languages"][0]
+    lang = sorted(langs & set(p["languages"]))[0]
+    how = f"Written in {esc(core)}" if core in langs else f"Written in {esc(core)}, with a {esc(lang)} interface"
+    if p.get("based_on"):
+        how += f"; a port of {_project_link(path, index.project[p['based_on']])}"
+    how += "."
+    install = p.get("install") or ""
+    if install and (lang == "Python") == install.startswith("pip") and (lang == "Julia") == ("Pkg" in install):
+        how += f" <code>{esc(install)}</code>"
+    elif not p.get("packages") and not p.get("language_note"):
+        how += ' <span class="muted">From the repository.</span>'
+    if p.get("language_note"):
+        how += f'<br><span class="muted">{inline(p["language_note"])}</span>'
+    return how
+
+
+def languages_page(index: Index) -> str:
+    path = LANGUAGES
+    cols = [c for c, _ in COVERAGE_COLUMNS] + ["Other"]
+    marks = {"current": "available implementation of the current edition",
+             "new": "available implementation of the current edition, but only from newly released projects",
+             "partial": "only unreleased, proposed or older-edition implementations",
+             "": "none found"}
+
+    def mark(state: str) -> str:
+        return (f'<span class="mark mark-{state or "none"}" role="img" aria-label="{esc(marks[state])}" '
+                f'title="{esc(marks[state])}"></span>')
+    listed = [p for p in index.projects_by_group() if p["_group"] != "others"]
+    parts = [
+        "<h1>Languages</h1>",
+        f'<p class="byline">{plural(len(index.languages()), "language")} · '
+        f'{plural(len(listed), "project")} that compute the metrics themselves</p>',
+        '<p class="lead">Which metrics can be computed from each programming language, and how each project is '
+        "used from it: code written in that language, a compiled core with an interface for it, or a port of "
+        "another project.</p>",
+        '<h2 id="coverage">Coverage by language</h2>',
+        f'<p class="small mark-key">{mark("current")} an available implementation of the current edition '
+        f'· {mark("new")} the same, but only from newly released projects that are not yet widely used · '
+        f'{mark("partial")} only unreleased, proposed or older-edition implementations · {mark("")} none '
+        "found. A library with bindings counts for each language it can be called from.</p>",
+    ]
+    rows = []
+    for m in index.methods:
+        cov = coverage(m)
+        rows.append([_method_link(path, m)] + [mark(cov[c]) for c in cols])
+    parts.append(_table("coverage", ["Method"] + [esc(c) for c in cols], rows))
+    for anchor, title, langs in LANGUAGE_SECTIONS:
+        projects = [p for p in listed if langs & set(p["languages"])]
+        if not projects:
+            continue
+        parts.append(f'<h2 id="{anchor}">{esc(title)} <span class="count">{len(projects)}</span></h2>')
+        rows = []
+        for p in projects:
+            name = f"<strong>{_project_link(path, p)}</strong>" if p["_mainstream"] else _project_link(path, p)
+            if p["_group"] in GROUP_TAGS:
+                name += " " + GROUP_TAGS[p["_group"]]
+            methods = list(dict.fromkeys(i["_method"]["id"] for i in p["_impls"]
+                                         if i["reference"] in i["_method"]["current"] and i["status"] == "available"
+                                         and not i.get("_via")))
+            covers = (", ".join(_method_link(path, index.method[mid]) for mid in methods) if methods else
+                      '<span class="muted">older editions or unreleased code only</span>')
+            rows.append([name, _how(p, langs, index, path), covers])
+        parts.append(_table("langs", ["Project", "How it is used", "Current editions it implements"], rows))
+    parts += [
+        '<h2 id="across">Calling code across languages</h2>',
+        "<p>A project can often be used from another language than its own. These general routes are not "
+        "specific to any project; check that the code you call runs under them.</p>",
+        "<ul>",
+        "<li><strong>MATLAB code from Python.</strong> The "
+        '<a href="https://www.mathworks.com/help/matlab/matlab-engine-for-python.html">MATLAB Engine API for '
+        "Python</a> runs MATLAB functions from Python. It needs a MATLAB installation and licence. This is how a "
+        "MATLAB toolbox such as SQAT or the Auditory Modeling Toolbox can be used from Python; without MATLAB, "
+        "pySQAT is a Python port of SQAT, and torch_amt and NumpyLibforPsychoAcoustic port some AMT loudness "
+        "models.</li>",
+        '<li><strong>Octave code from Python.</strong> <a href="https://pypi.org/project/oct2py/">oct2py</a> runs '
+        "GNU Octave functions from Python, without a MATLAB licence, for code that runs in Octave.</li>",
+        "<li><strong>Python packages from MATLAB.</strong> MATLAB can "
+        '<a href="https://www.mathworks.com/help/matlab/call-python-libraries.html">call Python libraries</a> '
+        "directly, so a Python package such as MoSQITo can be used from MATLAB.</li>",
+        "<li><strong>C libraries from other languages.</strong> A C library can be called from Python "
+        '(<a href="https://docs.python.org/3/library/ctypes.html">ctypes</a> or cffi), Julia (<code>ccall</code>), '
+        "Rust and most other languages. MetaSona's Python package loads its C library this way, and iso532-1-rs "
+        "has a C interface for the same purpose.</li>",
+        '<li><strong>Python from Julia.</strong> <a href="https://github.com/JuliaPy/PythonCall.jl">PythonCall.jl</a> '
+        "calls Python packages from Julia.</li>",
+        "</ul>",
+    ]
+    return layout(index, path, title="Psychoacoustic metrics by programming language",
+                  description=("Which psychoacoustic metrics can be computed in Python, MATLAB, Octave, C, C++, Rust, "
+                               "Julia and Pure Data, and how each open-source project is called."),
+                  body="\n".join(parts), section="Languages")
+
+
 PROJECT_COLUMNS = ["Project", "Language", "Licence", "Latest release", "Last commit"]
 
 
 def _project_row(path: str, p: dict, last: str) -> list[str]:
     """A row of the projects tables: the kind of project goes under its name, and its activity under the date of
     its last commit."""
-    return [f'{_project_link(path, p)}<br><span class="muted">{esc(PROJECT_KINDS[p["kind"]])}</span>',
+    link = f"<strong>{_project_link(path, p)}</strong>" if p["_mainstream"] else _project_link(path, p)
+    return [f'{link}<br><span class="muted">{esc(PROJECT_KINDS[p["kind"]])}</span>',
             _langs(p["languages"]), esc(p["license"]), esc(release_text(p)),
             f'{esc(p["_last_commit"] or "unknown")}<br>{_activity_tag(p, short=True)}', last]
 
@@ -675,33 +899,32 @@ def projects_page(index: Index) -> str:
     parts = [
         "<h1>Projects</h1>",
         f'<p class="byline">{plural(len(index.projects), "project")} · {plural(len(langs), "language")}</p>',
-        "<p>Grouped by standing: established projects first, with the most widely used ones at the top, and new "
-        "projects last. “Last commit” is the last commit on the default branch; a project is shown as inactive "
-        f"after {index.site.get('inactive_after_days', 365)} days without one.</p>",
-        '<p class="toc">' + " · ".join(f'<a href="#{key}">{esc(title)}</a>' for key, title in STANDING_HEADINGS)
-        + ' · <a href="#others">Others</a></p>',
+        "<p>Established projects come first, with the most widely used ones at the top and in bold "
+        f"({join_words([esc(p['name']) for p in index.mainstream()])}); then newly released, developing and legacy "
+        "projects. Tools that only call another project are listed under Others. “Last commit” is the last commit "
+        f"on the default branch; a project is shown as inactive after {index.site.get('inactive_after_days', 365)} "
+        "days without one, and listed as legacy after three years.</p>",
     ]
-    for key, title in STANDING_HEADINGS:
-        projects = [p for p in index.projects_by_standing() if p["standing"] == key and not p["_others"]]
+    for key, title in GROUP_HEADINGS[:-1]:
+        projects = index.group(key)
         if not projects:
             continue
         parts.append(f'<h2 id="{key}">{esc(title)} <span class="count">{len(projects)}</span></h2>')
-        parts.append(f'<p class="muted">{esc(STANDING[key])}</p>')
+        parts.append(f'<p class="muted">{esc(GROUPS[key])}</p>')
         rows = [_project_row(path, p, ", ".join(_method_link(path, m) for m in {
                     i["_method"]["id"]: i["_method"] for i in p["_impls"]}.values())) for p in projects]
         parts.append(_table("projects", PROJECT_COLUMNS + ["Covers"], rows))
     others = index.others()
     if others:
         parts.append(f'<h2 id="others">Others <span class="count">{len(others)}</span></h2>')
-        parts.append('<p class="muted">Tools that do not compute the metrics themselves: interfaces, front ends and '
-                     "wrappers that call one of the indexed projects. They are not listed under the metrics.</p>")
+        parts.append(f'<p class="muted">{esc(GROUPS["others"])} They are not listed under the metrics.</p>')
         rows = [_project_row(path, p, join_words([_project_link(path, q) for q in {
                     i["_via"]["id"]: i["_via"] for i in p["_impls"]}.values()])) for p in others]
         parts.append(_table("projects", PROJECT_COLUMNS + ["Calls"], rows))
     ld = [{"@type": "CollectionPage", "name": "Projects", "url": absolute(index, path),
            "mainEntity": {"@type": "ItemList", "numberOfItems": len(index.projects), "itemListElement": [
                {"@type": "ListItem", "position": n, "item": _software_ld(index, p)}
-               for n, p in enumerate(index.projects_by_standing(), 1)]}}]
+               for n, p in enumerate(index.projects_by_group(), 1)]}}]
     return layout(index, path, title="Projects that implement psychoacoustic metrics",
                   description=(f"{len(index.projects)} open-source projects implementing psychoacoustic metrics in "
                                f"{join_words(langs)}, with licence, latest release and activity."),
@@ -717,8 +940,6 @@ def standards_page(index: Index) -> str:
         f'<p class="byline">{plural(len(docs), "standard document")} · {plural(len(papers), "model reference")}</p>',
         "<p>Every document the index refers to, newest first. Each implementation in the index is tied to one of "
         "these editions, so this is also a timeline of how the definitions have changed.</p>",
-        '<p class="toc"><a href="#standards">Standards and regulations</a> · '
-        '<a href="#models">Model papers, books and theses</a></p>',
     ]
     for title, anchor, refs in (("Standards and regulations", "standards", docs),
                                 ("Model papers, books and theses", "models", papers)):
@@ -729,7 +950,7 @@ def standards_page(index: Index) -> str:
             label = _ref_link(r)
             if r["status"] in ("superseded", "withdrawn"):
                 label = f'<span class="old">{label}</span>'
-            rows.append([esc(month(r.get("date"))) or "—",
+            rows.append([f'<span id="ref-{esc(r["id"])}"></span>' + (esc(month(r.get("date"))) or "—"),
                          f'{label}<br><span class="muted">{esc(r["title"])}</span>',
                          _ref_tag(r) + note,
                          ", ".join(_method_link(path, m) for m in r["_methods"])])
@@ -764,10 +985,7 @@ def about_page(index: Index) -> str:
     parts = [
         "<h1>About this index</h1>",
         f'<p class="lead">{esc(site["description"])}</p>',
-        '<p class="toc"><a href="#scope">What is included</a> · <a href="#method">How entries are checked</a> · '
-        '<a href="#status">Status</a> · <a href="#validation">Validation</a> · <a href="#standing">Standing</a> · '
-        '<a href="#leads">Leads</a> · <a href="#data">Data</a> · <a href="#contributing">Contributing</a> · '
-        '<a href="#citing">Citing</a> · <a href="#licence">Licence</a></p>',
+
         '<h2 id="scope">What is included</h2>',
         f"<p>Open-source code that computes a psychoacoustic metric and says which model or standard edition it "
         f"follows. The index covers {esc(fams)}, in any programming language.</p>",
@@ -792,12 +1010,15 @@ def about_page(index: Index) -> str:
         "<p>As stated by each project:</p>",
         _table("defs", ["Value", "Meaning"], [[_tag(VALIDATION[k], VALIDATION_KIND[k]), esc(v)]
                                               for k, v in VALIDATION_LONG.items()]),
-        '<h2 id="standing">Standing of a project</h2>',
-        "<p>Every project is marked as established, developing or new. Lists of implementations put established "
-        "projects first and new projects last, so a project that has not yet been used much is never the first "
-        "suggestion. Within each standing, the most widely used and recognised projects come first: SQAT, the "
-        "Auditory Modeling Toolbox and MoSQITo.</p>",
-        _table("defs", ["Value", "Meaning"], [[_tag(k, STANDING_KIND[k]), esc(v)] for k, v in STANDING.items()]),
+        '<h2 id="standing">Groups of projects</h2>',
+        "<p>Every project is marked as established, developing or newly released. Two more groups follow from the data: "
+        "legacy (archived, or no commit for three years or more) and others (tools that only call another indexed "
+        "project). Lists of implementations follow this order, so a project that has not yet been used much, or "
+        "is no longer maintained, is never the first suggestion. Within each group, the most widely used and "
+        f"recognised projects come first: {join_words([esc(p['name']) for p in index.mainstream()])}. They are "
+        "never listed as legacy, and neither are reference programs published with a standard, which are not "
+        "expected to change.</p>",
+        _table("defs", ["Group", "Meaning"], [[_tag(k, GROUP_KIND[k]), esc(v)] for k, v in GROUPS.items()]),
         '<h2 id="leads">Leads not yet verified</h2>',
         "<p>Candidates that may belong in the index but could not be checked yet. They are listed so that nobody "
         "has to rediscover them; nothing here has been confirmed.</p>",
@@ -807,6 +1028,8 @@ def about_page(index: Index) -> str:
         "<p>Not indexed because they are closed source: MATLAB Audio Toolbox, HEAD acoustics ArtemiS SUITE, "
         "Simcenter Testlab, HBK BK Connect and Ansys Sound. Verification studies often use them as references.</p>",
         '<h2 id="data">Machine-readable data</h2>',
+        f'<p>The <a href="{relative(path, AI)}">For AI</a> page describes every machine-readable form of the index '
+        "and how to use it.</p>",
         "<ul>",
         f'<li><a href="{relative(path, "index.json")}">index.json</a>: the whole index as one JSON document.</li>',
         f'<li><a href="{relative(path, "llms.txt")}">llms.txt</a> and '
@@ -832,30 +1055,100 @@ def about_page(index: Index) -> str:
                   "Psychoacoustic Metrics Index.", body="\n".join(parts), section="About")
 
 
+def _message_box(index: Index) -> str:
+    """Visitors can leave a message: with giscus comments once they are switched on in site.yaml, and always with a
+    form that opens a prefilled GitHub issue (no JavaScript needed)."""
+    site = index.site
+    repo = esc(site["repository"])
+    c = site.get("comments") or {}
+    parts = ['<section class="message" aria-labelledby="message">',
+             '<h2 id="message">Ask a question or leave a message</h2>',
+             "<p>Questions, corrections and suggestions are welcome, from users and from project authors alike. "
+             "Messages are public.</p>"]
+    if c.get("category_id"):
+        attrs = {"src": "https://giscus.app/client.js", "data-repo": c["repo"], "data-repo-id": c["repo_id"],
+                 "data-category": c["category"], "data-category-id": c["category_id"], "data-mapping": "pathname",
+                 "data-strict": "1", "data-reactions-enabled": "1", "data-emit-metadata": "0",
+                 "data-input-position": "top", "data-theme": "preferred_color_scheme", "data-lang": "en",
+                 "crossorigin": "anonymous"}
+        parts.append('<div class="giscus"></div><script '
+                     + " ".join(f'{k}="{esc(v)}"' for k, v in attrs.items()) + " async></script>")
+        parts.append("<p>Or write a longer message as a GitHub issue:</p>")
+    parts.append(
+        f'<form class="message-form" action="{repo}/issues/new" method="get" target="_blank" rel="noopener">'
+        '<label for="msg-title">Subject</label>'
+        '<input id="msg-title" name="title" required maxlength="140" '
+        'placeholder="For example: another implementation of ISO 532-1">'
+        '<label for="msg-body">Message</label>'
+        '<textarea id="msg-body" name="body" rows="6" required '
+        'placeholder="What would you like to ask or tell? Links to code or documentation help."></textarea>'
+        '<p class="form-row"><button type="submit">Continue on GitHub</button> '
+        '<span class="muted small">Opens your message as a new GitHub issue, ready to send. You need a GitHub '
+        "account.</span></p></form>")
+    parts.append("</section>")
+    return "\n".join(parts)
+
+
 def faq_page(index: Index) -> str:
     path = FAQ
     pairs = faq(index, lambda p: _project_link(path, p), lambda m: _method_link(path, m, m["title"]), esc)
     parts = ["<h1>Questions and answers</h1>",
-             '<p class="byline">Answers are generated from the index data, so they always match the tables.</p>',
-             '<ol class="faq-toc">' + "".join(f'<li><a href="#q{n}">{esc(q)}</a></li>'
-                                              for n, (q, _) in enumerate(pairs, 1)) + "</ol>"]
+             '<p class="byline">Answers are generated from the index data, so they always match the tables. '
+             'Your own question can go in the <a href="#message">message box</a> at the end.</p>']
     for n, (q, a) in enumerate(pairs, 1):
         parts.append(f'<h2 id="q{n}">{esc(q)}</h2>')
         parts.append(f"<p>{a}</p>")
+    parts.append(_message_box(index))
+    # The sidebar groups the questions and gives them short labels: by language, by metric, about the index.
+    by_lang, by_metric, general = [], [], []
+    methods = iter(index.methods)
+    for n, (q, _) in enumerate(pairs, 1):
+        if q.startswith("Which psychoacoustic metrics can I compute in "):
+            by_lang.append((f"#q{n}", esc(q.removeprefix("Which psychoacoustic metrics can I compute in ")[:-1]), False))
+        elif q.startswith("Which open-source code implements "):
+            by_metric.append((f"#q{n}", esc(next(methods)["name"]), False))
+        else:
+            general.append((f"#q{n}", esc(q), False))
+    side = ('<aside class="sidebar" aria-label="Questions">' + _side("Leave a message", [], href="#message")
+            + _side("By language", by_lang) + _side("By metric", by_metric) + _side("About the index", general)
+            + "</aside>")
     ld = [{"@type": "FAQPage", "url": absolute(index, path), "mainEntity": [
         {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": plain(re.sub(r"<[^>]+>", "", a))}}
         for q, a in pairs]}]
     return layout(index, path, title="Frequently asked questions about open-source psychoacoustic metrics",
                   description=("Which open-source code implements ISO 532, ECMA-418-1, ECMA-418-2, DIN 45692 and other "
                                "psychoacoustic metrics, in Python, MATLAB, C/C++ and other languages."),
-                  body="\n".join(parts), section="FAQ", jsonld=ld)
+                  body="\n".join(parts), section="FAQ", jsonld=ld, side=side)
+
+
+def ai_page(index: Index) -> str:
+    path = AI
+    intro, sections = ai_guide(index)
+    parts = ["<h1>For AI agents and language models</h1>",
+             f'<p class="byline">Machine-readable access to the index · data as of {esc(long_date(index.as_of()))}</p>',
+             f'<p class="lead">{inline(intro)}</p>']
+    for anchor, heading, items in sections:
+        parts.append(f'<h2 id="{anchor}">{esc(heading)}</h2>')
+        parts.append("<ul>" + "".join(f"<li>{inline(item)}</li>" for item in items) + "</ul>")
+    base = index.site["base_url"]
+    side = ('<aside class="sidebar" aria-label="For AI">'
+            + _side("On this page", [(f"#{a}", esc(h), False) for a, h, _ in sections])
+            + _side("Files", [(base + f, f, False) for f in ("llms.txt", "llms-full.txt", "index.json", "sitemap.xml",
+                                                              "feed.xml")])
+            + "</aside>")
+    ld = [{"@type": "WebPage", "name": "For AI agents and language models", "url": absolute(index, path),
+           "description": intro}]
+    return layout(index, path, title="For AI agents and language models",
+                  description="Machine-readable access to the Psychoacoustic Metrics Index: llms.txt, llms-full.txt, "
+                              "index.json and a Markdown version of every page.",
+                  body="\n".join(parts), section="For AI", jsonld=ld, side=side)
 
 
 def not_found(index: Index) -> str:
     # Served from any depth, so links are absolute.
     base = esc(index.site["base_url"])
     body = (f'<h1>Page not found</h1><p>The page you asked for does not exist. Start from the '
-            f'<a href="{base}">timeline of metrics</a> or the <a href="{base}projects/">list of projects</a>.</p>')
+            f'<a href="{base}">home page</a> or the <a href="{base}projects/">list of projects</a>.</p>')
     page = layout(index, "404.html", title="Page not found", description="Page not found.", body=body, section="",
-                  markdown=False)
+                  markdown=False, side="")
     return re.sub(r'href="(?!https?:|#|mailto:)([^"]*)"', lambda m: f'href="{base}{m.group(1)}"', page)

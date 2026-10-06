@@ -4,6 +4,9 @@ short_name: refmap
 repository: https://github.com/acoustics-code-salford/refmap-psychoacoustics
 languages: [MATLAB, Python]
 kind: research-code
+language_note: >-
+  MATLAB code with Python ports in the same repository. The Python port of its ECMA-418-2 code is published
+  separately as sottek-hearing-model.
 standing: developing
 license: GPL-3.0
 license_note: >-

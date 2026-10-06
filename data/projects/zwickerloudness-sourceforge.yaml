@@ -4,6 +4,8 @@ short_name: zwickerloudness
 repository: https://sourceforge.net/projects/zwickerloudness/
 languages: [C]
 kind: application
+language_note: >-
+  C console program for BSD, Linux and Windows that reads one-third-octave band levels from files.
 standing: developing
 license: GPL-2.0
 license_note: >-

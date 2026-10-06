@@ -3,6 +3,9 @@ name: LoudnessModel
 repository: https://github.com/MalcolmSlaney/LoudnessModel
 languages: [Python]
 kind: research-code
+based_on: js2251-iso532-3
+language_note: >-
+  Python translation of the Cambridge MATLAB code (tv2018), in a NumPy version and a JAX version.
 standing: developing
 license: BSD-2-Clause
 license_note: >-

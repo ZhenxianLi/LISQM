@@ -9,8 +9,8 @@ from __future__ import annotations
 import re
 from typing import Callable
 
-from .data import REF_STATUS, STATUS_ORDER, Index, impl_rank, only_new
-from .text import join_words, month
+from .data import GROUP_NAMES, REF_STATUS, STATUS_ORDER, Index, impl_rank, only_new
+from .text import join_words, long_date, month, plural
 
 Fmt = Callable[[dict], str]
 Esc = Callable[[str], str]
@@ -27,22 +27,35 @@ def edition_short(ref: dict) -> str:
     return ref["label"]
 
 
-NEW_LABEL = "new, not yet widely used"
-ONLY_NEW = ("So far only new projects, which are not yet widely used in the community, have released an "
-            "implementation of it; check their validation before relying on them.")
+NEW_LABEL = "newly released, not yet widely used"
+ONLY_NEW = ("So far only newly released projects, which are not yet widely used in the community, have released an "
+                 "implementation of it; check their validation before relying on them.")
 
 
 def standing_sentence(p: dict) -> str:
-    """For new projects: 'First released in … Not yet widely used in the community.'; otherwise ''."""
-    if p.get("standing") != "new":
+    """For newly released projects: 'First released in … Not yet widely used in the community.'; for legacy projects:
+    since when they have not been maintained; otherwise ''."""
+    if p.get("_group") == "legacy":
+        last = f"its last commit was in {long_date(month(p['_last_commit']))}" if p.get("_last_commit") else ""
+        if p.get("_archived"):
+            return "Archived by its authors" + (f"; {last}" if last else "") + ". Kept here for reference."
+        return f"Not maintained: {last}, more than three years ago. Kept here for reference."
+    if p.get("standing") != "newly-released":
         return ""
     return f"{p.get('standing_note', '').strip()} Not yet widely used in the community.".strip()
 
 
+def legacy_label(p: dict) -> str:
+    """'legacy, archived' or 'legacy, no commit since 2021-06'."""
+    return "legacy, archived" if p.get("_archived") else f"legacy, no commit since {month(p['_last_commit'])}"
+
+
 def impl_extras(impl: dict, with_ref: bool = False) -> list[str]:
     extras: list[str] = []
-    if impl["_project"].get("standing") == "new":
+    if impl["_project"].get("standing") == "newly-released":
         extras.append(NEW_LABEL)
+    elif impl["_project"].get("_group") == "legacy":
+        extras.append(legacy_label(impl["_project"]))
     if with_ref:
         extras.append(impl["_ref"]["label"])
     if impl.get("_via"):
@@ -108,14 +121,17 @@ def in_short(index: Index, m: dict, name: Fmt, t: Esc) -> str:
     return s
 
 
-LABELS = {"en": {"new": "new", "also": "also", "via": "via", "unreleased": "unreleased", "proposed": "proposed"},
-          "zh": {"new": "新项目", "also": "也支持", "via": "调用", "unreleased": "未发布", "proposed": "待合并"}}
+LABELS = {"en": {"newly-released": "newly released", "legacy": "legacy", "also": "also", "via": "via", "unreleased": "unreleased",
+                 "proposed": "proposed"},
+          "zh": {"newly-released": "新发布", "legacy": "停止维护", "also": "也支持", "via": "调用", "unreleased": "未发布",
+                 "proposed": "待合并"}}
 
 
 def by_language(impls: list[dict], name: Fmt, lang: str = "en",
-                new_tag: str | None = None) -> list[tuple[str, list[str]]]:
+                tags: dict[str, str] | None = None) -> list[tuple[str, list[str]]]:
     """Group implementations by each project's main (first-listed) language: [('Python', ['MoSQITo', …]), …].
-    With `new_tag`, new projects get that marker after their name instead of the word in parentheses."""
+    With `tags` ({'newly-released': …, 'legacy': …}), newly released and legacy projects get that marker after
+    their name instead of the word in parentheses."""
     words = LABELS[lang]
     best: dict[str, dict] = {}  # a project that has a released implementation is not also listed as unreleased
     for i in dedupe(impls):
@@ -126,8 +142,9 @@ def by_language(impls: list[dict], name: Fmt, lang: str = "en",
     for i in best.values():
         p = i["_project"]
         extras = []
-        if p.get("standing") == "new" and new_tag is None:
-            extras.append(words["new"])
+        group = "newly-released" if p.get("standing") == "newly-released" else p.get("_group")
+        if group in ("newly-released", "legacy") and tags is None:
+            extras.append(words[group])
         if len(p["languages"]) > 1:
             extras.append(f"{words['also']} " + ", ".join(p["languages"][1:]))
         if i.get("_via"):
@@ -136,7 +153,7 @@ def by_language(impls: list[dict], name: Fmt, lang: str = "en",
             extras.append(words["unreleased"])
         elif i["status"] == "proposed":
             extras.append(words["proposed"])
-        label = name(p) + (f" {new_tag}" if new_tag and p.get("standing") == "new" else "")
+        label = name(p) + (f" {tags[group]}" if tags and group in tags else "")
         label += f" ({'; '.join(extras)})" if extras else ""
         lang = p["languages"][0]
         if label not in groups.setdefault(lang, []):
@@ -154,8 +171,9 @@ def language_order(lang: str) -> tuple[int, str]:
 
 
 def coverage(m: dict) -> dict[str, str]:
-    """Per language column: 'current' (an available implementation of the current edition), 'new' (the same, but
-    only from new projects), 'partial' (only unreleased, proposed or older-edition implementations) or '' (none).
+    """Per language column: 'current' (an available implementation of the current edition), 'new' (the same,
+    but only from newly released projects), 'partial' (only unreleased, proposed or older-edition implementations) or ''
+    (none).
     Bindings count: a C library with a Python interface covers Python."""
     known = set().union(*(langs for _, langs in COVERAGE_COLUMNS))
     out = {}
@@ -164,7 +182,7 @@ def coverage(m: dict) -> dict[str, str]:
             return bool(set(p["languages"]) & langs) if langs is not None else bool(set(p["languages"]) - known)
         impls = [i for i in m["_impls"] if matches(i["_project"]) and i["_ref"]["status"] != "in-development"]
         released = [i for i in impls if i["status"] == "available" and i["reference"] in m["current"]]
-        if any(i["_project"]["standing"] != "new" for i in released):
+        if any(i["_project"]["standing"] != "newly-released" for i in released):
             out[col] = "current"
         elif released:
             out[col] = "new"
@@ -211,7 +229,7 @@ def time_bins(index: Index) -> list[tuple[str, int | None, int | None]]:
     year = int(index.as_of()[:4])
     last = f"2025–{year}" if year > 2025 else "2025"
     return [("≤ 1999", None, 1999), ("2000–2016", 2000, 2016), ("2017–2019", 2017, 2019),
-            ("2020–2021", 2020, 2021), ("2022–2023", 2022, 2023), ("2024", 2024, 2024), (last, 2025, None)]
+            ("2020–2023", 2020, 2023), ("2024", 2024, 2024), (last, 2025, None)]
 
 
 def bin_of(ref: dict, bins: list[tuple[str, int | None, int | None]]) -> int | None:
@@ -284,14 +302,15 @@ def faq(index: Index, name: Fmt, method_link: Callable[[dict], str], t: Esc) -> 
             continue
         ids = {i["_project"]["id"] for m in covered + newly for i in m["_current_impls"]
                if i["status"] == "available" and set(i["_project"]["languages"]) & dict(COVERAGE_COLUMNS)[col]}
-        lang_projects = [p["name"] + (" (new)" if p["standing"] == "new" else "")
-                         for p in index.projects_by_standing() if p["id"] in ids]
+        lang_projects = [p["name"] + (f" ({GROUP_NAMES[p['_group']]})" if p["_group"] in ("newly-released", "legacy")
+                                      else "")
+                         for p in index.projects_by_group() if p["id"] in ids]
         answer = (f"Current editions of {len(covered)} methods have an available implementation that can be "
                   f"called from {t(col)}: " + join_words([method_link(m) for m in covered]) + "."
                   if covered else f"No current edition has an established implementation in {t(col)} yet.")
         if newly:
-            answer += (" Only new projects, not yet widely used, cover " + join_words([method_link(m) for m in newly])
-                       + ".")
+            answer += (" Only newly released projects, not yet widely used, cover "
+                       + join_words([method_link(m) for m in newly]) + ".")
         qa.append((f"Which psychoacoustic metrics can I compute in {col}?",
                    answer + " Projects: " + t(", ".join(lang_projects)) + "."))
     for m in index.methods:
@@ -302,7 +321,7 @@ def faq(index: Index, name: Fmt, method_link: Callable[[dict], str], t: Esc) -> 
               "Every method in the index has at least one available implementation of its current edition.")
     if index.new_only():
         answer += (" The current editions of " + join_words([method_link(m) for m in index.new_only()])
-                   + " have released implementations only from new projects that are not yet widely used.")
+                   + " have released implementations only from newly released projects that are not yet widely used.")
     qa.append(("Which psychoacoustic metrics have no open-source implementation yet?", answer))
     qa.append(("Why does it matter which edition a tool implements?",
                "Psychoacoustic standards change between editions. ECMA-418-2, for example, has had four editions "
@@ -311,11 +330,22 @@ def faq(index: Index, name: Fmt, method_link: Callable[[dict], str], t: Esc) -> 
                "values for the same sound. Liu et al. (2026, Acoustics Australia, doi:10.1007/s40857-026-00393-3) "
                "compared four tools and found differences large enough to change the predictions of sound-quality "
                "models. Each method page lists the editions and which tool follows which."))
-    qa.append(("Which projects are new?",
+    qa.append(("Which projects are newly released?",
                "Projects first released less than about a year ago, which are not yet widely used in the community: "
                + join_words([name(p) + t(f" ({p.get('standing_note', '').strip().rstrip('.')})")
-                             for p in index.projects_by_standing() if p["standing"] == "new"])
-               + ". The index lists them after established projects; check their validation before relying on them."))
+                             for p in index.projects_by_group() if p["standing"] == "newly-released"])
+               + ". The index lists them after established and developing projects; check their validation before "
+               "relying on them."))
+    legacy = index.group("legacy")
+    if legacy:
+        qa.append(("Which projects are legacy?",
+                   "Projects that are archived or have had no commit for three years or more: "
+                   + join_words([name(p) + t(f" ({'archived' if p['_archived'] else 'last commit ' + month(p['_last_commit'])})")
+                                 for p in legacy])
+                   + ". They are listed last and kept for reference; their code may follow an older edition and may "
+                   "not run with current software. The most widely used projects ("
+                   + t(join_words([q["name"] for q in index.mainstream()]))
+                   + ") and reference programs published with a standard are never listed as legacy."))
     if index.others():
         qa.append(("Why are some tools listed under Others?",
                    "They do not compute the metrics themselves. They are interfaces, front ends or wrappers that call "
@@ -329,3 +359,68 @@ def faq(index: Index, name: Fmt, method_link: Callable[[dict], str], t: Esc) -> 
                "with links to those sources. The index records what a project claims and does not run the code. "
                "Repository and package metadata are refreshed every week, and a person reviews new findings."))
     return qa
+
+
+def ai_guide(index: Index) -> tuple[str, list[tuple[str, str, list[str]]]]:
+    """The For AI page, in inline Markdown with absolute links (shared by the HTML page and its Markdown twin):
+    an introduction and (anchor, heading, items) sections."""
+    site = index.site
+    base, repo = site["base_url"], site["repository"]
+    mainstream = join_words([p["name"] for p in index.mainstream()])
+    langs = join_words(index.languages())
+    intro = ("This page is for AI agents, crawlers and language models that read the index on someone's behalf. "
+             "People are welcome too: it lists the same data in forms that are easy to retrieve, parse and quote.")
+    sections = [
+        ("start", "Where to start", [
+            f"[llms.txt]({base}llms.txt): a short summary with a link to the Markdown version of every page, "
+            "following the [llms.txt proposal](https://llmstxt.org/).",
+            f"[llms-full.txt]({base}llms-full.txt): every page in one Markdown file.",
+            f"[index.json]({base}index.json): the whole index as JSON (methods, editions, projects, implementations, "
+            f"groups and coverage). Field definitions: [data/SCHEMA.md]({repo}/blob/main/data/SCHEMA.md).",
+            "A Markdown version of every page: replace `.html` with `.md`, for example "
+            f"[metrics/loudness-zwicker.md]({base}metrics/loudness-zwicker.md) or "
+            f"[projects/sqat.md]({base}projects/sqat.md).",
+            f"[sitemap.xml]({base}sitemap.xml) lists every page and [feed.xml]({base}feed.xml) the updates. Each HTML "
+            "page also carries schema.org JSON-LD.",
+            f"All crawlers, AI crawlers included, may read every page ([robots.txt]({base}robots.txt)).",
+        ]),
+        ("contents", "What the data contains", [
+            f"{plural(len(index.methods), 'method')} in {plural(len(index.families), 'group')}, "
+            f"{plural(len(index.projects), 'project')} in {langs}, and "
+            f"{plural(len(index.references), 'standard or model paper', 'standards and model papers')}. "
+            f"Data as of {index.as_of()}.",
+            "Every implementation names the standard edition or model paper it follows, its functions, whether "
+            "it is released, merged but unreleased, or only proposed, and its validation evidence as stated by the "
+            "project.",
+            "Every project belongs to a group: established, newly released (first released less than about a year "
+            "ago and not yet widely used), developing, legacy (archived, or no commit for three years or more) or "
+            f"other (it calls another indexed project). The most widely used projects are {mainstream}.",
+            "Every entry links the documentation its facts were taken from.",
+        ]),
+        ("answering", "Answering questions with it", [
+            "Name the current edition first (for Zwicker loudness, ISO 532-1:2017), then the projects that "
+            "implement that edition. Lists in the index are already in the recommended order.",
+            "Say when a project is newly released or legacy, and when code is only on a main branch (unreleased) "
+            "or in a pull request (proposed).",
+            "Validation is as stated by each project; the index does not run the code.",
+            "Give the date of the data and link the method or project page, so that the reader can check it.",
+            f"When no open implementation of the current edition exists, say so: see the [gaps]({base}#gaps).",
+        ]),
+        ("accuracy", "How the data is kept accurate", [
+            "Entries are matched to standard editions, not only to standard numbers, because results change "
+            "between editions: ECMA-418-2, for example, has had four editions since 2020.",
+            "Each fact comes from the project's own README, documentation, release notes, licence file or package "
+            "metadata, and is linked to it.",
+            "A GitHub Action refreshes repository dates, releases and package versions every week, searches for "
+            "new projects and watches ISO and Ecma for new editions; a person reviews every change.",
+            f"Corrections are made in public, through issues and pull requests on [GitHub]({repo}).",
+        ]),
+        ("citing", "Citing it", [
+            f"{site['maintainer']['name']}. *{site['title']}*. {base} (accessed on the date of use). Citation "
+            f"metadata: [CITATION.cff]({repo}/blob/main/CITATION.cff).",
+            "In one sentence: an index of open-source implementations of psychoacoustic metrics, organised by the "
+            "standard edition each one follows, with a source for every entry.",
+            site["credit"],
+        ]),
+    ]
+    return intro, sections

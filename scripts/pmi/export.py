@@ -5,9 +5,10 @@ from __future__ import annotations
 import json
 from xml.sax.saxutils import escape as xml_escape
 
-from .data import IMPL_STATUS_LONG, STANDING, VALIDATION_LONG, Index
+from .data import GROUPS, IMPL_STATUS_LONG, STANDING, VALIDATION_LONG, Index
 from .describe import coverage
-from .paths import ABOUT, FAQ, HOME, PROJECTS, STANDARDS, UPDATES, absolute, method_path, project_path
+from .paths import (ABOUT, AI, FAQ, HOME, LANGUAGES, METRICS, PROJECTS, STANDARDS, UPDATES, absolute, method_path,
+                    project_path)
 from .text import blocks, date_str, plain
 
 
@@ -43,7 +44,7 @@ def index_json(index: Index) -> str:
                 for i in m["_via_impls"]]
         methods.append(d)
     projects = []
-    for p in index.projects_by_standing():
+    for p in index.projects_by_group():
         d = _clean({k: v for k, v in p.items() if k != "manual"})
         d["url"] = absolute(index, project_path(p))
         d["last_commit"] = p["_last_commit"]
@@ -52,7 +53,8 @@ def index_json(index: Index) -> str:
         d["activity"] = p["_activity"]
         d["archived"] = p["_archived"]
         d["stars"] = p["_stars"]
-        d["other"] = p["_others"]
+        d["group"] = p["_group"]
+        d["most_widely_used"] = p["_mainstream"]
         if p["_others"]:
             d["calls"] = list(dict.fromkeys(i["_via"]["id"] for i in p["_impls"] if i.get("_via")))
         projects.append(d)
@@ -68,16 +70,19 @@ def index_json(index: Index) -> str:
         "schema": f"{site['repository']}/blob/main/data/SCHEMA.md",
         "counts": {"methods": len(index.methods), "projects": len(index.projects),
                    "references": len(index.references)},
-        "ordering": ("Implementations and projects are listed with established projects first and new projects "
-                     "last; new projects were first released less than about a year ago and are not yet widely "
-                     "used in the community. Within each group, projects that are still active and widely "
-                     "recognised come first. Projects with other: true do not compute the metrics themselves; "
-                     "they call another indexed project (listed in calls), and their rows appear under "
-                     "also_through instead of implementations."),
-        "definitions": {"standing": STANDING, "status": IMPL_STATUS_LONG, "validation": VALIDATION_LONG,
+        "ordering": ("Implementations and projects are listed by group: established, developing, newly released, legacy, "
+                     "others. Newly released projects were first released less than about a year ago and are not yet "
+                     "widely used in the community. Legacy projects are archived or have had no commit for three "
+                     "years or more; the most widely used projects (most_widely_used: true) and reference programs "
+                     "are never legacy. Within each group, projects that are still active and widely recognised "
+                     "come first. Projects in the others group do not compute the metrics themselves; they call "
+                     "another indexed project (listed in calls), and their rows appear under also_through instead "
+                     "of implementations."),
+        "definitions": {"standing": STANDING, "group": GROUPS, "status": IMPL_STATUS_LONG,
+                        "validation": VALIDATION_LONG,
                         "coverage": {"current": "an available implementation of the current edition",
                                      "new": "an available implementation of the current edition, but only from "
-                                            "new projects",
+                                            "newly released projects",
                                      "partial": "only unreleased, proposed or older-edition implementations",
                                      "": "none found"}},
         "families": [_clean(f) for f in index.families],
@@ -85,7 +90,7 @@ def index_json(index: Index) -> str:
         "references": [_clean(r) for r in index.references],
         "projects": projects,
         "gaps": [m["id"] for m in index.gaps()],
-        "new_only": [m["id"] for m in index.new_only()],
+        "newly_released_only": [m["id"] for m in index.new_only()],
         "leads": [_clean(l) for l in index.leads],
         "updates": [_clean(u) for u in index.updates],
     }
@@ -123,7 +128,8 @@ def atom_feed(index: Index) -> str:
 
 def sitemap(index: Index) -> str:
     as_of = index.as_of()
-    urls = [(absolute(index, p), as_of) for p in (HOME, PROJECTS, STANDARDS, UPDATES, ABOUT, FAQ)]
+    urls = [(absolute(index, p), as_of) for p in (HOME, METRICS, PROJECTS, LANGUAGES, STANDARDS, UPDATES, ABOUT,
+                                                 FAQ, AI)]
     urls += [(absolute(index, method_path(m)), as_of) for m in index.methods]
     urls += [(absolute(index, project_path(p)), max(date_str(p["checked"]), (p["_last_commit"] or "")[:10]))
              for p in index.projects]
@@ -133,6 +139,7 @@ def sitemap(index: Index) -> str:
 
 
 def robots(index: Index) -> str:
-    return ("# Crawlers, including AI crawlers, are welcome. Plain-text summaries: llms.txt, llms-full.txt\n"
+    return ("# Crawlers, including AI crawlers, are welcome. For AI agents: ai.html (or ai.md), llms.txt, llms-full.txt\n"
+            "# and index.json.\n"
             "User-agent: *\nAllow: /\n\n"
             f"Sitemap: {index.site['base_url']}sitemap.xml\n")

@@ -3,7 +3,9 @@ name: ZwickerLoudness.jl
 repository: https://github.com/slink/ZwickerLoudness.jl
 languages: [Julia]
 kind: library
-standing: new
+language_note: >-
+  Takes one-third-octave band levels, not audio; ZwickerLoudnessAudio.jl adds that.
+standing: newly-released
 standing_note: First registered in February 2026.
 license: MIT
 packages:

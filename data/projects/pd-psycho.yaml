@@ -4,6 +4,9 @@ short_name: PSYCHO
 repository: https://github.com/porres/pd-psycho
 languages: [Pure Data, C]
 kind: plugin
+core: C
+language_note: >-
+  Objects for Pure Data: C externals built with pd-lib-builder, and Pd abstractions.
 standing: developing
 license: GPL-3.0-or-later
 license_note: >-

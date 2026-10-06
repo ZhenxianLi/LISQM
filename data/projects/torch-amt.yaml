@@ -4,7 +4,10 @@ repository: https://github.com/StefanoGiacomelli/torch_amt
 docs: https://torch-amt.readthedocs.io/
 languages: [Python]
 kind: library
-standing: new
+based_on: amt
+language_note: >-
+  PyTorch: differentiable, and runs on GPU.
+standing: newly-released
 standing_note: First released in February 2026.
 license: GPL-3.0-or-later
 packages:

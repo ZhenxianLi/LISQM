@@ -82,20 +82,36 @@ STANDING = {
                    "track record of more than a year.",
     "developing": "Research, teaching or hobby code without documented use by others, or a project still in "
                   "development.",
-    "new": "First released less than about a year ago and not yet widely used in the community.",
+    "newly-released": "First released less than about a year ago and not yet widely used in the community.",
 }
-STANDING_ORDER = {"established": 0, "developing": 1, "new": 2}
+# Every list of projects is grouped and ordered like this: the standing recorded in the project file, except for
+# two groups that follow from the data. Legacy: archived, or no commit for `legacy_after_days` (three years), unless
+# the project is one of the most widely used (it has a rank) or a reference program, which is not expected to
+# change. Others: tools whose results all come from another indexed project.
+GROUPS = {
+    **STANDING,
+    "legacy": "Archived, or no commit for three years or more. Kept for reference: the code may follow an older "
+              "edition and may not run with current software.",
+    "others": "Tools that do not compute the metrics themselves: interfaces, front ends and wrappers that call one "
+              "of the indexed projects.",
+}
+GROUP_ORDER = {key: n for n, key in enumerate(GROUPS)}  # lists of implementations
+# Lists of projects (the projects page, the README) show newly released projects before developing ones.
+PROJECT_ORDER = {key: n for n, key in enumerate(["established", "newly-released", "developing", "legacy", "others"])}
+GROUP_NAMES = {"established": "established", "developing": "developing", "newly-released": "newly released",
+               "legacy": "legacy", "others": "other"}
 ACTIVITY_ORDER = {"active": 0, "unknown": 1, "inactive": 2, "archived": 3}
 
 
 def project_rank(p: dict) -> int:
-    """Widely used, recognised projects carry a rank (1 first); the others follow."""
+    """A project's place within its group, set by the maintainer (1 first); unranked projects follow. Established
+    projects with a rank are the most widely used ones."""
     return int(p.get("rank") or 999)
 
 
 def project_tier(p: dict) -> int:
-    """Within a standing: projects that are still active and widely recognised first, then recognised but
-    inactive ones, then other active projects, then the rest."""
+    """Within a group: projects that are still active and widely recognised first, then recognised but inactive
+    ones, then other active projects, then the rest."""
     active = p.get("_activity") == "active"
     if p.get("rank"):
         return 0 if active else 1
@@ -103,17 +119,18 @@ def project_tier(p: dict) -> int:
 
 
 def impl_rank(impl: dict) -> tuple:
-    """The order of implementations everywhere: established projects first and new ones last; then released code
-    before unreleased before proposed; then active, recognised projects first (see `project_tier`)."""
+    """The order of implementations everywhere: by group (established first, then developing, newly released and
+    legacy); then released code before unreleased before proposed; then active, recognised projects first (see
+    `project_tier`)."""
     p = impl["_project"]
-    return (STANDING_ORDER[p["standing"]], STATUS_ORDER[impl["status"]], project_tier(p), project_rank(p),
+    return (GROUP_ORDER[p["_group"]], STATUS_ORDER[impl["status"]], project_tier(p), project_rank(p),
             1 if impl.get("_via") else 0, p["name"].lower())
 
 
 def only_new(m: dict) -> bool:
-    """True when every released implementation of a method's current edition comes from a new project."""
+    """True when every released implementation of a method's current edition comes from a newly released project."""
     released = [i for i in m["_current_impls"] if i["status"] == "available"]
-    return bool(released) and all(i["_project"]["standing"] == "new" for i in released)
+    return bool(released) and all(i["_project"]["standing"] == "newly-released" for i in released)
 
 
 _ID = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
@@ -261,10 +278,14 @@ class Index:
                 add(f"{w}: kind '{p['kind']}' not one of {sorted(PROJECT_KINDS)}")
             if p.get("standing") and p["standing"] not in STANDING:
                 add(f"{w}: standing must be one of {sorted(STANDING)}")
-            if p.get("standing") == "new" and not p.get("standing_note"):
-                add(f"{w}: a new project needs a standing_note (when it was first released)")
+            if p.get("standing") == "newly-released" and not p.get("standing_note"):
+                add(f"{w}: a newly released project needs a standing_note (when it was first released)")
             if p.get("rank") is not None and (not isinstance(p["rank"], int) or p["rank"] < 1):
                 add(f"{w}: rank must be a positive whole number")
+            if p.get("based_on") and p["based_on"] not in self.project:
+                add(f"{w}: based_on '{p['based_on']}' is not a project id")
+            if p.get("core") and p["core"] not in (p.get("languages") or []):
+                add(f"{w}: core must be one of its languages")
             if p.get("ai_assistance") and p["ai_assistance"] not in AI_ASSISTANCE:
                 add(f"{w}: ai_assistance must be one of {sorted(AI_ASSISTANCE)}")
             if not isinstance(p.get("languages", []), list):
@@ -344,6 +365,7 @@ class Index:
     def enrich(self) -> None:
         as_of = dt.date.fromisoformat(self.as_of())
         inactive_after = int(self.site.get("inactive_after_days", 365))
+        legacy_after = int(self.site.get("legacy_after_days", 1095))
         snap_projects = self.snapshot.get("projects") or {}
 
         for m in self.methods:
@@ -383,13 +405,16 @@ class Index:
             p["_release"] = max(releases, key=lambda r: r.get("date") or "") if releases else None
             p["_prerelease"] = prerelease
 
+            age = (as_of - dt.date.fromisoformat(p["_last_commit"][:10])).days if p["_last_commit"] else None
             if p["_archived"]:
                 p["_activity"] = "archived"
-            elif p["_last_commit"]:
-                age = (as_of - dt.date.fromisoformat(p["_last_commit"][:10])).days
+            elif age is not None:
                 p["_activity"] = "active" if age <= inactive_after else "inactive"
             else:
                 p["_activity"] = "unknown"
+            p["_mainstream"] = p["standing"] == "established" and bool(p.get("rank"))
+            p["_legacy"] = (p["standing"] != "newly-released" and not p["_mainstream"] and p["kind"] != "reference-program"
+                            and (p["_archived"] or (age is not None and age >= legacy_after)))
 
             p["_impls"] = []
             for impl in p.get("implements") or []:
@@ -406,11 +431,12 @@ class Index:
                 self.ref[impl["reference"]]["_impls"].append(impl)
             # Tools whose results all come from other indexed projects are listed under "Others".
             p["_others"] = bool(p["_impls"]) and all(i["_via"] for i in p["_impls"])
+            p["_group"] = "others" if p["_others"] else "legacy" if p["_legacy"] else p["standing"]
 
         for m in self.methods:
             order = {rid: i for i, rid in enumerate(m.get("references") or [])}
-            # Standing comes before the edition, so a new project never heads a list of implementations.
-            m["_impls"].sort(key=lambda i: (STANDING_ORDER[i["_project"]["standing"]], -order[i["reference"]],
+            # The group comes before the edition, so a newly released or legacy project never heads a list.
+            m["_impls"].sort(key=lambda i: (GROUP_ORDER[i["_project"]["_group"]], -order[i["reference"]],
                                             *impl_rank(i)[1:]))
             m["_via_impls"].sort(key=impl_rank)
             current = set(m.get("current") or [])
@@ -427,15 +453,22 @@ class Index:
     def families_with_methods(self) -> list[tuple[dict, list[dict]]]:
         return [(f, [m for m in self.methods if m.get("family") == f["id"]]) for f in self.families]
 
-    def projects_by_standing(self) -> list[dict]:
-        """Projects that implement metrics: established first and new last; within each standing, active and
-        widely recognised projects first. Tools listed under "Others" come after all of them."""
-        return sorted(self.projects, key=lambda p: (p["_others"], STANDING_ORDER[p["standing"]], project_tier(p),
-                                                    project_rank(p), p["name"].lower()))
+    def projects_by_group(self) -> list[dict]:
+        """All projects by group, in the order of the projects page: established, newly released, developing,
+        legacy, others; within each group, ranked and active projects first."""
+        return sorted(self.projects, key=lambda p: (PROJECT_ORDER[p["_group"]], project_tier(p), project_rank(p),
+                                                    p["name"].lower()))
+
+    def group(self, key: str) -> list[dict]:
+        return [p for p in self.projects_by_group() if p["_group"] == key]
 
     def others(self) -> list[dict]:
         """Tools that do not compute the metrics themselves but call another indexed project."""
-        return [p for p in self.projects_by_standing() if p["_others"]]
+        return self.group("others")
+
+    def mainstream(self) -> list[dict]:
+        """The most widely used, recognised projects, in rank order (SQAT, AMT, MoSQITo)."""
+        return sorted((p for p in self.projects if p["_mainstream"]), key=project_rank)
 
     def languages(self) -> list[str]:
         return sorted({lang for p in self.projects for lang in p.get("languages") or []}, key=str.lower)
@@ -446,7 +479,7 @@ class Index:
                 if not any(i["status"] == "available" for i in m["_current_impls"])]
 
     def new_only(self) -> list[dict]:
-        """Methods whose current edition has released implementations only from new projects."""
+        """Methods whose current edition has released implementations only from newly released projects."""
         return [m for m in self.methods if only_new(m)]
 
 

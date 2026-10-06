@@ -3,6 +3,9 @@ name: pySQAT
 repository: https://github.com/PALILA-TUDelft/pySQAT
 languages: [Python]
 kind: library
+based_on: sqat
+language_note: >-
+  Python port of SQAT with a PySide6 interface; its ECMA-418-2 functions call sottek-hearing-model.
 standing: developing
 license: none
 license_note: >-

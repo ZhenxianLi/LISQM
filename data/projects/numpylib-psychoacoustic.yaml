@@ -3,6 +3,9 @@ name: NumpyLibforPsychoAcoustic
 repository: https://github.com/Ryrybros/NumpyLibforPsychoAcoustic
 languages: [Python]
 kind: research-code
+based_on: amt
+language_note: >-
+  NumPy adaptation of the AMT functions `moore1997` and `glasberg2002`.
 standing: developing
 license: none
 maintainers: [Ryrybros]

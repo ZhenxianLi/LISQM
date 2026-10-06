@@ -22,7 +22,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from pmi import export, render_html, render_md  # noqa: E402
 from pmi.data import ROOT, DataError, load  # noqa: E402
-from pmi.paths import ABOUT, FAQ, HOME, PROJECTS, STANDARDS, UPDATES, md_twin, method_path, project_path  # noqa: E402
+from pmi.paths import (ABOUT, AI, FAQ, HOME, LANGUAGES, METRICS, PROJECTS, STANDARDS, UPDATES, md_twin,  # noqa: E402
+                       method_path, project_path)
 
 
 def write(path: Path, text: str) -> bool:
@@ -56,11 +57,14 @@ def build_site(index, out: Path) -> int:
 
     pages = {
         HOME: (render_html.home(index), render_md.home(index)),
+        METRICS: (render_html.metrics_page(index), render_md.metrics_page(index)),
         PROJECTS: (render_html.projects_page(index), render_md.projects_page(index)),
+        LANGUAGES: (render_html.languages_page(index), render_md.languages_page(index)),
         STANDARDS: (render_html.standards_page(index), render_md.standards_page(index)),
         UPDATES: (render_html.updates_page(index), render_md.updates_page(index)),
         ABOUT: (render_html.about_page(index), render_md.about_page(index)),
         FAQ: (render_html.faq_page(index), render_md.faq_page(index)),
+        AI: (render_html.ai_page(index), render_md.ai_page(index)),
     }
     for m in index.methods:
         pages[method_path(m)] = (render_html.method_page(index, m), render_md.method_page(index, m))

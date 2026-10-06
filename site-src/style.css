@@ -1,9 +1,9 @@
 /* Psychoacoustic Metrics Index
-   Layout: a blue masthead and tab bar over one 78rem container for desktop screens. Inner pages have a sidebar
-   that lists every metric; the home page gives its timeline the full width. Inside, the text is set like a blog:
-   serif type, ruled tables, a comfortable measure for running text. Colour is for reading: links are clearly
-   blue, and the states that matter (current edition, new project, release state, validation, language) each have
-   their own colour. No web fonts and no JavaScript. */
+   Layout: a masthead in the green of the LVA logo and a tab bar over one wide container for desktop screens. Every
+   page has a sidebar that lists the contents of its tab. Inside, the text is set like a blog: serif type, ruled
+   tables, a comfortable measure for running text. Colour is for reading: links are clearly blue, and the states
+   that matter (current edition, newly released and legacy projects, release state, validation, language) each have
+   their own colour. No web fonts; JavaScript only for optional comments and for opening pages at their top. */
 
 :root {
   --bg: #ffffff;
@@ -16,11 +16,14 @@
   --panel: #f3f6f9;
   --panel-line: #d9e1e9;
 
-  --brand: #1f4f8b;
-  --brand-deep: #163b69;
-  --brand-ink: #ffffff;
-  --brand-soft: #c9dbf1;
-  --tab-hover: #24548f;
+  --brand: #25c59b;          /* the green of the LVA logo */
+  --brand-ink: #06392b;      /* text on it */
+  --brand-soft: #0b4d3a;
+  --brand-deep: #0f7d60;     /* tab bar, and green text on light backgrounds */
+  --brand-deep-ink: #ffffff;
+  --tab-hover: #13906f;
+  --brand-ring: rgba(255, 255, 255, .9);
+  --green-text: #0f7d60;     /* green text on the page background */
 
   --link: #0b62d6;
   --link-hover: #0846a0;
@@ -50,8 +53,8 @@
   --sans: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans",
           sans-serif;
   --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
-  --container: 78rem;
-  --sidebar: 15rem;
+  --container: 96rem;
+  --sidebar: 14rem;
   --measure: 46rem;
   color-scheme: light;
 }
@@ -67,11 +70,14 @@
     --hairline: #252a31;
     --panel: #1b2027;
     --panel-line: #2e3640;
-    --brand: #1c3f6b;
-    --brand-deep: #132d50;
+    --brand: #0f6e55;
     --brand-ink: #ffffff;
-    --brand-soft: #a9c3e3;
-    --tab-hover: #22487a;
+    --brand-soft: #c4efe0;
+    --brand-deep: #0a5240;
+    --brand-deep-ink: #ffffff;
+    --tab-hover: #0d6650;
+    --brand-ring: rgba(255, 255, 255, .25);
+    --green-text: #5fd4ae;
     --link: #6cb0ff;
     --link-hover: #a9d1ff;
     --link-line: #2f5e94;
@@ -105,11 +111,14 @@
   --hairline: #252a31;
   --panel: #1b2027;
   --panel-line: #2e3640;
-  --brand: #1c3f6b;
-  --brand-deep: #132d50;
+  --brand: #0f6e55;
   --brand-ink: #ffffff;
-  --brand-soft: #a9c3e3;
-  --tab-hover: #22487a;
+  --brand-soft: #c4efe0;
+  --brand-deep: #0a5240;
+  --brand-deep-ink: #ffffff;
+  --tab-hover: #0d6650;
+  --brand-ring: rgba(255, 255, 255, .25);
+  --green-text: #5fd4ae;
   --link: #6cb0ff;
   --link-hover: #a9d1ff;
   --link-line: #2f5e94;
@@ -205,14 +214,12 @@ body {
 }
 
 .brand-mark {
-  display: grid;
-  place-items: center;
-  width: 2.5rem;
-  height: 2.5rem;
-  border: 2px solid var(--brand-soft);
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 1.5rem;
-  line-height: 1;
+  display: block;
+  flex: none;
+  width: 3rem;
+  height: 3rem;
+  border-radius: .72rem;
+  box-shadow: 0 0 0 2px var(--brand-ring);
 }
 
 .brand-text {
@@ -241,7 +248,17 @@ body {
 
 .masthead-meta a {
   color: var(--brand-ink);
-  text-decoration-color: var(--brand-soft);
+  text-decoration-color: currentColor;
+}
+
+.masthead-meta .affiliation {
+  font-size: .95rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.masthead-meta .affiliation:hover {
+  text-decoration: underline;
 }
 
 .tabs {
@@ -257,21 +274,23 @@ body {
 .tabs a {
   padding: .55rem 1.05rem .45rem;
   border-bottom: 3px solid transparent;
-  color: var(--brand-soft);
+  color: var(--brand-deep-ink);
   font-size: .9rem;
   font-weight: 600;
   text-decoration: none;
+  opacity: .92;
 }
 
 .tabs a:hover {
-  color: var(--brand-ink);
   background: var(--tab-hover);
+  opacity: 1;
 }
 
 .tabs a[aria-current="page"] {
   color: var(--brand-ink);
   background: var(--brand);
   border-bottom-color: var(--brand-ink);
+  opacity: 1;
 }
 
 /* ---------------------------------------------------------------- page grid and sidebar */
@@ -287,6 +306,11 @@ body {
   align-items: start;
 }
 
+.page.with-sidebar.narrow-side {
+  grid-template-columns: 11.5rem minmax(0, 1fr);
+  gap: 1.8rem;
+}
+
 .page.with-sidebar main {
   grid-column: 2;
   grid-row: 1;
@@ -295,6 +319,15 @@ body {
 .page.with-sidebar .sidebar {
   grid-column: 1;
   grid-row: 1;
+  position: sticky;
+  top: 1rem;
+  max-height: calc(100vh - 2rem);
+  overflow-y: auto;
+}
+
+/* Links to a section land with a little space above the heading. */
+[id] {
+  scroll-margin-top: 1rem;
 }
 
 main {
@@ -312,7 +345,7 @@ main {
 
 .side-head {
   margin: 1rem 0 .35rem;
-  color: var(--brand);
+  color: var(--green-text);
   font-size: .72rem;
   font-weight: 700;
   letter-spacing: .08em;
@@ -321,6 +354,19 @@ main {
 
 .side-head:first-child {
   margin-top: 0;
+}
+
+.side-head a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.side-head a:hover {
+  text-decoration: underline;
+}
+
+.sidebar ul.side-sub {
+  margin: 0 0 .2rem .9rem;
 }
 
 .side-family {
@@ -360,7 +406,7 @@ main {
 }
 
 .sidebar li a[aria-current="page"] {
-  border-left-color: var(--brand);
+  border-left-color: var(--green-text);
   background: var(--bg);
   color: var(--text);
   font-weight: 600;
@@ -573,6 +619,7 @@ a.tag:hover {
 .tag-warn    { color: var(--warn);    background: var(--warn-bg); }
 .tag-neutral { color: var(--neutral); background: var(--neutral-bg); }
 .tag-new     { color: var(--new);     background: var(--new-bg); text-transform: uppercase; letter-spacing: .05em; }
+.tag-legacy  { color: var(--neutral); background: var(--neutral-bg); font-style: italic; }
 
 .lang {
   font-variant-caps: all-small-caps;
@@ -591,23 +638,24 @@ a.tag:hover {
 .lang-r,
 .lang-other { color: var(--lang-other); }
 
-/* A small square in the colour of a language, used in the timeline. */
-.sq {
+/* A language as its usual file extension in a small box in the language's colour: py, m, c++, rs … The box has a
+   fixed width so that the names after it line up. */
+.lb {
   display: inline-block;
-  width: .62em;
-  height: .62em;
-  margin-right: .35em;
-  vertical-align: .02em;
-  background: var(--lang-other);
+  box-sizing: border-box;
+  min-width: 2.45em;
+  margin-right: .4em;
+  padding: 0 .2em;
+  border: 1px solid currentColor;
+  border-radius: 3px;
+  font-family: var(--mono);
+  font-size: .74em;
+  font-weight: 700;
+  line-height: 1.45;
+  text-align: center;
+  text-indent: 0;
+  vertical-align: .08em;
 }
-
-.sq-py { background: var(--lang-py); }
-.sq-m  { background: var(--lang-m); }
-.sq-c  { background: var(--lang-c); }
-.sq-rs { background: var(--lang-rs); }
-.sq-jl { background: var(--lang-jl); }
-.sq-js { background: var(--lang-js); }
-.sq-pd { background: var(--lang-pd); }
 
 /* ---------------------------------------------------------------- tinted notes */
 
@@ -674,6 +722,15 @@ ul.by-lang .tag {
 
 .notice-info strong {
   color: var(--info);
+}
+
+.notice-legacy {
+  background: var(--neutral-bg);
+  border-color: var(--rule);
+}
+
+.notice-legacy strong {
+  color: var(--neutral);
 }
 
 /* ---------------------------------------------------------------- tables */
@@ -793,6 +850,10 @@ table.facts th {
   font-weight: 400;
 }
 
+table.facts td {
+  overflow-wrap: anywhere;
+}
+
 /* ---------------------------------------------------------------- timeline (home page) */
 
 .timeline-section h2 {
@@ -833,12 +894,13 @@ table.facts th {
   vertical-align: .3em;
 }
 
-.key-langs .sq {
-  margin-left: .7em;
+.key-lang {
+  margin-right: .9em;
+  white-space: nowrap;
 }
 
-.key-langs .sq:first-child {
-  margin-left: .2em;
+.key-lang .lb {
+  margin-right: .25em;
 }
 
 .quiet-sample {
@@ -849,7 +911,7 @@ table.facts th {
 
 /* The timeline is dense, so it is set in a sans-serif, which stays legible at small sizes. */
 table.timeline {
-  min-width: 64rem;
+  min-width: 60rem;
   table-layout: fixed;
   font-family: var(--sans);
   font-size: .78rem;
@@ -858,7 +920,7 @@ table.timeline {
 
 table.timeline th,
 table.timeline td {
-  padding: .5rem .45rem .55rem;
+  padding: .5rem .4rem .55rem;
 }
 
 table.timeline thead th {
@@ -878,7 +940,7 @@ table.timeline .rowhead {
   position: sticky;
   left: 0;
   z-index: 2;
-  width: 10.5rem;
+  width: 9rem;
   padding-left: 0;
   background: var(--bg);
 }
@@ -938,7 +1000,7 @@ table.timeline td.life::before {
 
 table.timeline .edition {
   position: relative;
-  padding: .15rem .3rem .25rem;
+  padding: .15rem .25rem .25rem;
 }
 
 table.timeline .edition + .edition {
@@ -980,17 +1042,21 @@ table.timeline ul {
 }
 
 table.timeline li {
+  display: flex;
+  align-items: baseline;
   margin: 0;
-  padding-left: .97em;
-  text-indent: -.97em;
 }
 
 table.timeline li + li {
-  margin-top: .05rem;
+  margin-top: .1rem;
 }
 
-table.timeline li .tag {
-  text-indent: 0;
+table.timeline li .lb {
+  flex: none;
+}
+
+table.timeline li .nm {
+  min-width: 0;
 }
 
 table.timeline li a {
@@ -1001,26 +1067,30 @@ table.timeline li a:hover {
   text-decoration: underline;
 }
 
-table.timeline li.quiet > a {
+table.timeline li.quiet a {
   color: var(--muted);
 }
 
+table.timeline li.quiet .lb {
+  opacity: .6;
+}
+
 table.timeline li .tag {
-  margin-left: .15em;
+  margin-left: .1em;
 }
 
-details.new-fold {
-  margin-top: .35rem;
+details.fold {
+  margin-top: .3rem;
 }
 
-details.new-fold summary {
+details.fold summary {
   cursor: pointer;
   color: var(--muted);
   white-space: nowrap;
   list-style-position: inside;
 }
 
-details.new-fold[open] summary {
+details.fold[open] summary {
   margin-bottom: .1rem;
 }
 
@@ -1032,6 +1102,105 @@ details.new-fold[open] summary {
 
 .others-note strong {
   color: var(--text);
+}
+
+/* ---------------------------------------------------------------- metrics and languages pages */
+
+table.metrics td:nth-child(1) { width: 24%; }
+table.metrics td:nth-child(2) { width: 17%; }
+table.langs td:nth-child(1) { width: 17%; }
+table.langs td:nth-child(2) { width: 50%; }
+
+/* Project names in a running list: language code, name and markers stay together. */
+.pn {
+  display: inline-block;
+  margin: 0 .7em .15em 0;
+  white-space: nowrap;
+}
+
+.pn a {
+  text-decoration: none;
+}
+
+.pn a:hover {
+  text-decoration: underline;
+}
+
+.pn.quiet a {
+  color: var(--muted);
+}
+
+.pn.quiet .lb {
+  opacity: .6;
+}
+
+/* ---------------------------------------------------------------- message box (FAQ) */
+
+.message {
+  margin-top: 3rem;
+  padding: 1.1rem 1.3rem 1.2rem;
+  max-width: var(--measure);
+  background: var(--note-bg);
+  border: 1px solid var(--note-line);
+}
+
+.message h2 {
+  margin-top: 0;
+}
+
+.message-form label {
+  display: block;
+  margin: .7rem 0 .25rem;
+  font-family: var(--sans);
+  font-size: .85rem;
+  font-weight: 700;
+}
+
+.message-form input,
+.message-form textarea {
+  box-sizing: border-box;
+  width: 100%;
+  padding: .45rem .55rem;
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  background: var(--bg);
+  color: var(--text);
+  font: inherit;
+  font-size: .95rem;
+}
+
+.message-form textarea {
+  resize: vertical;
+}
+
+.message-form input:focus,
+.message-form textarea:focus {
+  outline: 2px solid var(--link);
+  outline-offset: 0;
+}
+
+.message-form .form-row {
+  margin: .8rem 0 0;
+}
+
+.message-form button {
+  padding: .45rem 1rem;
+  border: 0;
+  border-radius: 3px;
+  background: var(--brand-deep);
+  color: var(--brand-deep-ink);
+  font-family: var(--sans);
+  font-size: .9rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.message-form button:hover {
+  background: var(--tab-hover);
+}
+
+.giscus {
+  margin: 1rem 0;
 }
 
 /* ---------------------------------------------------------------- home page columns */
@@ -1087,9 +1256,8 @@ details.new-fold[open] summary {
   }
 
   .brand-mark {
-    width: 2.1rem;
-    height: 2.1rem;
-    font-size: 1.2rem;
+    width: 2.3rem;
+    height: 2.3rem;
   }
 
   h1 {
@@ -1114,6 +1282,18 @@ details.new-fold[open] summary {
 
   table.facts th {
     width: 7rem;
+  }
+
+  table.facts {
+    table-layout: fixed;
+  }
+
+  .key-lang {
+    white-space: normal;
+  }
+
+  h1 {
+    overflow-wrap: anywhere;
   }
 }
 

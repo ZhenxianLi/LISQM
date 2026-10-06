@@ -3,7 +3,9 @@ name: SoundPalette
 repository: https://github.com/onyx-prismantium/soundpalette
 languages: [C++]
 kind: application
-standing: new
+language_note: >-
+  C++: a static library, a command-line tool and a desktop app.
+standing: newly-released
 standing_note: Its psychoacoustic metrics were added in July 2026 (v0.5.0).
 license: FSL-1.1-Apache-2.0
 license_note: >-
