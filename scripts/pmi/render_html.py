@@ -23,8 +23,7 @@ from .text import blocks, esc, inline, join_words, long_date, month, plain, plur
 NAV = [("Home", HOME), ("Metrics", METRICS), ("Projects", PROJECTS), ("Languages", LANGUAGES), ("Standards", STANDARDS),
        ("FAQ", FAQ), ("Updates", UPDATES), ("For AI", AI), ("About", ABOUT)]
 
-# The site's mark: an ear and three level bars, in white on the green of the LVA logo. site-src/favicon.svg is the
-# same drawing.
+# The site's mark: an ear and three level bars, in white on green. site-src/favicon.svg is the same drawing.
 LOGO = ('<svg class="brand-mark" viewBox="0 0 64 64" aria-hidden="true" focusable="false">'
         '<rect width="64" height="64" rx="14" fill="#25c59b"/>'
         '<g fill="none" stroke="#fff" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round">'
@@ -90,10 +89,6 @@ def layout(index: Index, path: str, *, title: str, description: str, body: str, 
     side = _sidebar(index, path, section) if side is None else side
     page_class = ("page with-sidebar" + (" narrow-side" if path == HOME else "")) if side else "page"
     as_of = esc(long_date(index.as_of()))
-    aff = site.get("affiliation") or {}
-    aff_link = (f'<a class="affiliation" href="{esc(aff["url"])}" title="{esc(aff["name"])}">{esc(aff["short"])}</a>'
-                if aff.get("url") else esc(aff.get("short", "")))
-    aff_line = f'<p>{esc(aff["maintained"])} <a href="{esc(aff["url"])}">{esc(aff["name"])}</a>.</p>' if aff else ""
     return f"""<!doctype html>
 <html lang="en">
 <head>
@@ -120,7 +115,7 @@ def layout(index: Index, path: str, *, title: str, description: str, body: str, 
 <header class="masthead" id="top">
 <div class="container masthead-row">
 <a class="brand" href="{rel(HOME)}">{LOGO}<span class="brand-text"><span class="brand-name">{esc(site['title'])}</span><span class="brand-tagline">{esc(site.get('tagline', ''))}</span></span></a>
-<p class="masthead-meta">{aff_link}<br>Data as of {as_of} · <a href="{esc(site['repository'])}">GitHub</a></p>
+<p class="masthead-meta">Data as of {as_of}<br><a href="{esc(site['repository'])}">Source on GitHub</a></p>
 </div>
 <nav class="tabs" aria-label="Site"><div class="container">
 {tabs}
@@ -135,7 +130,7 @@ def layout(index: Index, path: str, *, title: str, description: str, body: str, 
 <footer class="site-footer">
 <div class="container">
 <p class="credit">{credit(index)}</p>
-{aff_line}<p>Facts are taken from each project's own documentation and package metadata and checked by hand; corrections
+<p>Facts are taken from each project's own documentation and package metadata and checked by hand; corrections
 are welcome on <a href="{esc(site['repository'])}">GitHub</a>. Data as of {as_of}. {esc(site['license'])} licence.</p>
 <p><a href="{rel('index.json')}">JSON</a> · <a href="{rel('llms.txt')}">llms.txt</a> · {md_foot}<a href="{rel('feed.xml')}">Atom feed</a></p>
 </div>

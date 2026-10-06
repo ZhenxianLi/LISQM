@@ -12,12 +12,6 @@ maintainer:
 license: MIT
 # The project's credit line, used verbatim on the website, in the READMEs and in llms.txt.
 credit: Developed by Zhenxian LI with assistance from Claude Code.
-# The laboratory the index is maintained at: shown in the masthead (short) and the footer (maintained + name).
-affiliation:
-  short: LVA · INSA Lyon
-  name: Laboratoire Vibrations Acoustique (LVA), INSA Lyon
-  url: https://lva.insa-lyon.fr/
-  maintained: Maintained by Zhenxian LI at the
 # Comments on the FAQ page through giscus (GitHub Discussions). They appear once Discussions are enabled in the
 # repository settings, the giscus app is installed (https://github.com/apps/giscus) and category_id is copied from
 # https://giscus.app. Until then the FAQ page offers a form that opens a prefilled GitHub issue.

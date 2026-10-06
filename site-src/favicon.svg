@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <!-- The site's mark: an ear and three level bars, in white on the green of the LVA logo (same drawing as the
-       masthead logo in scripts/pmi/render_html.py). -->
+  <!-- The site's mark: an ear and three level bars, in white on green (same drawing as the masthead logo in
+       scripts/pmi/render_html.py). -->
   <rect width="64" height="64" rx="14" fill="#25c59b"/>
   <g fill="none" stroke="#fff" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round">
     <path d="M26 31C26 19 33 11 42 11C51 11 56 18 56 27C56 35 50 39 47 44C44 49 45 55 38 56C34 57 31 54 31 51"/>

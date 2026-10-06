@@ -1,9 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640" role="img" aria-labelledby="title desc">
   <title id="title">Psychoacoustic Metrics Index</title>
   <desc id="desc">Open-source implementations of psychoacoustic metrics, by standard edition. Loudness, sharpness, roughness, fluctuation strength, tonality, impulsiveness and annoyance.</desc>
-  <!-- Social preview for GitHub (Settings > General > Social preview), in the style of the website: the green of
-       the LVA logo and the site's mark. social-preview.png is rendered from this file with headless Chromium at
-       1280 x 640. -->
+  <!-- Social preview for GitHub (Settings > General > Social preview), in the style of the website: its green and
+       its mark. social-preview.png is rendered from this file with headless Chromium at 1280 x 640. -->
   <rect width="1280" height="640" fill="#ffffff"/>
   <rect width="1280" height="56" fill="#25c59b"/>
   <rect y="56" width="1280" height="10" fill="#0f7d60"/>

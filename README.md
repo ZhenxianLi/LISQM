@@ -4,8 +4,7 @@ An index of open-source implementations of psychoacoustic metrics (loudness, sha
 fluctuation strength, tonality, impulsiveness and psychoacoustic annoyance), organised by the standard edition
 or model paper each implementation follows. Any programming language. Refreshed every week.
 
-Developed by Zhenxian LI with assistance from Claude Code. Maintained at the Laboratoire Vibrations Acoustique
-(LVA), INSA Lyon.
+Developed by Zhenxian LI with assistance from Claude Code.
 
 **Website:** <https://zhenxianli.github.io/psychoacoustic-metrics-index/>
 **Data:** [`data/index.json`](data/index.json) · [`llms.txt`](llms.txt) · [`llms-full.txt`](llms-full.txt) · [schema](data/SCHEMA.md)

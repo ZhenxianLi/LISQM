@@ -1,5 +1,5 @@
 /* Psychoacoustic Metrics Index
-   Layout: a masthead in the green of the LVA logo and a tab bar over one wide container for desktop screens. Every
+   Layout: a green masthead and a tab bar over one wide container for desktop screens. Every
    page has a sidebar that lists the contents of its tab. Inside, the text is set like a blog: serif type, ruled
    tables, a comfortable measure for running text. Colour is for reading: links are clearly blue, and the states
    that matter (current edition, newly released and legacy projects, release state, validation, language) each have
@@ -16,7 +16,7 @@
   --panel: #f3f6f9;
   --panel-line: #d9e1e9;
 
-  --brand: #25c59b;          /* the green of the LVA logo */
+  --brand: #25c59b;          /* the green of the logo */
   --brand-ink: #06392b;      /* text on it */
   --brand-soft: #0b4d3a;
   --brand-deep: #0f7d60;     /* tab bar, and green text on light backgrounds */
@@ -249,16 +249,6 @@ body {
 .masthead-meta a {
   color: var(--brand-ink);
   text-decoration-color: currentColor;
-}
-
-.masthead-meta .affiliation {
-  font-size: .95rem;
-  font-weight: 700;
-  text-decoration: none;
-}
-
-.masthead-meta .affiliation:hover {
-  text-decoration: underline;
 }
 
 .tabs {

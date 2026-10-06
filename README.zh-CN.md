@@ -3,7 +3,7 @@
 这是一个心理声学指标开源实现的索引，覆盖响度、尖锐度、粗糙度、波动强度、音调性、冲击性和心理声学烦恼度，
 不限编程语言。每个实现都按它对应的标准版本或模型论文归类，数据每周自动刷新。
 
-Developed by Zhenxian LI with assistance from Claude Code. 维护单位：Laboratoire Vibrations Acoustique（LVA），INSA Lyon。
+Developed by Zhenxian LI with assistance from Claude Code.
 
 **网站：** <https://zhenxianli.github.io/psychoacoustic-metrics-index/>（英文）
 **数据：** [`data/index.json`](data/index.json) · [`llms.txt`](llms.txt) · [`llms-full.txt`](llms-full.txt) · [数据格式](data/SCHEMA.md)
