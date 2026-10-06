@@ -1,0 +1,449 @@
+/* Psychoacoustic Metrics Index
+   A plain, typographic layout: one reading column, serif text, tables with thin rules, ordinary links.
+   No frameworks, no web fonts, no JavaScript. */
+
+:root {
+  --bg: #fcfbf8;
+  --text: #1f1d1a;
+  --muted: #69645b;
+  --faint: #8f897e;
+  --rule: #d9d4c9;
+  --rule-strong: #3a3732;
+  --hairline: #ece8df;
+  --link: #1f4f8f;
+  --link-hover: #12325e;
+  --serif: Charter, "Bitstream Charter", "Sitka Text", Cambria, "Iowan Old Style", "Palatino Linotype",
+           Georgia, "Noto Serif", "DejaVu Serif", serif;
+  --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  --measure: 41rem;
+  --wide: 62rem;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #171614;
+    --text: #e9e5dc;
+    --muted: #a7a195;
+    --faint: #857f74;
+    --rule: #3c3934;
+    --rule-strong: #cfc9bd;
+    --hairline: #2a2825;
+    --link: #9dbcef;
+    --link-hover: #c9daf6;
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #171614;
+  --text: #e9e5dc;
+  --muted: #a7a195;
+  --faint: #857f74;
+  --rule: #3c3934;
+  --rule-strong: #cfc9bd;
+  --hairline: #2a2825;
+  --link: #9dbcef;
+  --link-hover: #c9daf6;
+  color-scheme: dark;
+}
+
+html {
+  font-size: 112.5%; /* 18px */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--serif);
+  line-height: 1.62;
+  font-kerning: normal;
+  text-rendering: optimizeLegibility;
+  overflow-wrap: break-word;
+}
+
+.wrap {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* ---------------------------------------------------------------- header and footer */
+
+header.site {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.3rem 1.5rem;
+  padding: 2.2rem 0 0.8rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.site-name {
+  color: var(--text);
+  font-weight: 700;
+  text-decoration: none;
+  letter-spacing: 0.005em;
+}
+
+header.site nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2rem 1.1rem;
+}
+
+header.site nav a {
+  color: var(--muted);
+  text-decoration: none;
+}
+
+header.site nav a:hover,
+header.site nav a[aria-current="page"] {
+  color: var(--text);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.25em;
+}
+
+footer.site {
+  margin: 4.5rem 0 3rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--rule);
+  color: var(--muted);
+  font-size: 0.82rem;
+  line-height: 1.55;
+}
+
+footer.site p {
+  margin: 0 0 0.5rem;
+}
+
+footer.site a {
+  color: var(--muted);
+}
+
+.skip {
+  position: absolute;
+  left: -999px;
+}
+
+.skip:focus {
+  left: 1rem;
+  top: 1rem;
+  background: var(--bg);
+  padding: 0.2rem 0.5rem;
+}
+
+/* ---------------------------------------------------------------- text */
+
+h1, h2, h3 {
+  line-height: 1.25;
+  font-weight: 700;
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: 2.05rem;
+  letter-spacing: -0.012em;
+  margin: 2.6rem 0 0.4rem;
+}
+
+h2 {
+  font-size: 1.38rem;
+  margin: 2.8rem 0 0.7rem;
+}
+
+h3 {
+  font-size: 1.1rem;
+  margin: 2rem 0 0.5rem;
+}
+
+p, ul, ol, dl {
+  margin: 0 0 1.1rem;
+}
+
+ul, ol {
+  padding-left: 1.3rem;
+}
+
+li + li {
+  margin-top: 0.25rem;
+}
+
+a {
+  color: var(--link);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.16em;
+}
+
+a:hover {
+  color: var(--link-hover);
+  text-decoration-thickness: 2px;
+}
+
+:focus-visible {
+  outline: 2px solid var(--link);
+  outline-offset: 2px;
+}
+
+code {
+  font-family: var(--mono);
+  font-size: 0.82em;
+}
+
+strong {
+  font-weight: 700;
+}
+
+.byline {
+  color: var(--muted);
+  font-style: italic;
+  margin: 0 0 1.8rem;
+}
+
+h2 + .byline {
+  margin-top: -0.4rem;
+  margin-bottom: 1rem;
+}
+
+.crumbs {
+  margin: 2.4rem 0 0;
+  font-size: 0.9rem;
+}
+
+.crumbs + h1 {
+  margin-top: 0.3rem;
+}
+
+.toc {
+  color: var(--muted);
+  font-size: 0.92rem;
+  padding: 0.6rem 0;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  margin: 1.6rem 0 0;
+}
+
+.family {
+  color: var(--muted);
+}
+
+.in-short {
+  padding-left: 1rem;
+  border-left: 2px solid var(--rule-strong);
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.small {
+  font-size: 0.86rem;
+}
+
+.old,
+.old a {
+  color: var(--faint);
+}
+
+.older {
+  color: var(--muted);
+  font-size: 0.94em;
+}
+
+em.status {
+  color: var(--muted);
+}
+
+.lang {
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.045em;
+  color: var(--muted);
+}
+
+/* ---------------------------------------------------------------- facts (project pages) */
+
+dl.facts {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: 0.4rem 1.4rem;
+  font-size: 0.94rem;
+  padding: 0.9rem 0;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+
+dl.facts dt {
+  color: var(--muted);
+}
+
+dl.facts dd {
+  margin: 0;
+  min-width: 0;
+}
+
+/* ---------------------------------------------------------------- tables */
+
+/* Tables may be wider than the reading column on large screens, centred on it. */
+.wide {
+  width: min(var(--wide), 100vw - 2rem);
+  margin-left: calc((100% - min(var(--wide), 100vw - 2rem)) / 2);
+  overflow-x: auto;
+  margin-bottom: 1.6rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.86rem;
+  line-height: 1.5;
+  font-variant-numeric: lining-nums tabular-nums;
+  border-top: 1.5px solid var(--rule-strong);
+  border-bottom: 1.5px solid var(--rule-strong);
+}
+
+caption {
+  caption-side: top;
+  text-align: left;
+  font-style: italic;
+  color: var(--muted);
+  padding-bottom: 0.4rem;
+}
+
+th, td {
+  text-align: left;
+  vertical-align: top;
+  padding: 0.5rem 0.9rem 0.5rem 0;
+}
+
+th:last-child, td:last-child {
+  padding-right: 0;
+}
+
+thead th {
+  font-weight: 600;
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  border-bottom: 1px solid var(--rule-strong);
+  white-space: nowrap;
+}
+
+tbody tr + tr td {
+  border-top: 1px solid var(--hairline);
+}
+
+table.overview td:first-child { width: 22%; }
+table.overview td:nth-child(2) { width: 22%; }
+table.editions td:first-child,
+table.standards td:first-child { white-space: nowrap; width: 5.5em; }
+table.editions td:nth-child(2) { white-space: nowrap; }
+table.impls td:nth-child(3) code { white-space: nowrap; }
+table.projects td:nth-child(4),
+table.projects td:nth-child(5) { white-space: nowrap; }
+table.defs td:first-child { white-space: nowrap; width: 12em; }
+table.coverage th:not(:first-child),
+table.coverage td:not(:first-child) { text-align: center; width: 9%; }
+.mark { color: var(--muted); }
+
+ol.refs {
+  font-size: 0.86rem;
+  color: var(--muted);
+  padding-left: 1.6rem;
+}
+
+ol.refs a {
+  overflow-wrap: anywhere;
+}
+
+ul.updates {
+  list-style: none;
+  padding-left: 0;
+}
+
+section.update + section.update {
+  border-top: 1px solid var(--rule);
+  margin-top: 2.2rem;
+}
+
+/* ---------------------------------------------------------------- narrow screens */
+
+@media (max-width: 40rem) {
+  html {
+    font-size: 106.25%; /* 17px */
+  }
+
+  h1 {
+    font-size: 1.7rem;
+  }
+
+  header.site {
+    padding-top: 1.4rem;
+  }
+
+  /* Tables turn into labelled blocks instead of scrolling sideways. */
+  .wide table,
+  .wide tbody,
+  .wide tr,
+  .wide td {
+    display: block;
+    width: auto !important;
+  }
+
+  .wide thead {
+    display: none;
+  }
+
+  .wide tr {
+    padding: 0.6rem 0;
+  }
+
+  .wide tbody tr + tr {
+    border-top: 1px solid var(--rule);
+  }
+
+  .wide tbody tr + tr td {
+    border-top: 0;
+  }
+
+  .wide td {
+    padding: 0.08rem 0;
+    white-space: normal !important;
+  }
+
+  .wide td::before {
+    content: attr(data-label);
+    display: block;
+    font-variant-caps: all-small-caps;
+    letter-spacing: 0.04em;
+    color: var(--faint);
+    font-size: 0.92em;
+  }
+
+  .wide td:first-child::before {
+    display: none;
+  }
+
+  .wide td:first-child {
+    font-size: 1.04em;
+  }
+
+  dl.facts {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+
+  dl.facts dd {
+    margin-bottom: 0.55rem;
+  }
+}
+
+@media print {
+  header.site nav, footer.site, .skip { display: none; }
+  body { background: #fff; color: #000; }
+  a { color: inherit; }
+}

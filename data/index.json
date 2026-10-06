@@ -1,0 +1,1860 @@
+{
+  "name": "Psychoacoustic Metrics Index",
+  "description": "An index of open-source implementations of psychoacoustic metrics (loudness, sharpness, roughness, fluctuation strength, tonality, impulsiveness and psychoacoustic annoyance), organised by the standard edition or model each implementation follows. All programming languages.",
+  "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/",
+  "repository": "https://github.com/ZhenxianLi/psychoacoustic-metrics-index",
+  "license": "MIT",
+  "as_of": "2026-10-06",
+  "schema": "https://github.com/ZhenxianLi/psychoacoustic-metrics-index/blob/main/data/SCHEMA.md",
+  "counts": {
+    "methods": 22,
+    "projects": 1,
+    "references": 50
+  },
+  "families": [
+    {
+      "id": "loudness",
+      "name": "Loudness",
+      "name_zh": "响度",
+      "summary": "How loud a sound is perceived, in sone (loudness) and phon (loudness level). Four model families are standardised: Zwicker (ISO 532-1), Moore–Glasberg (ISO 532-2), Moore–Glasberg–Schlittenlacher (ISO 532-3) and the Sottek Hearing Model (ECMA-418-2)."
+    },
+    {
+      "id": "sharpness",
+      "name": "Sharpness",
+      "name_zh": "尖锐度",
+      "summary": "The sensation produced by high-frequency content, in acum. Standardised in DIN 45692 on top of Zwicker loudness; ECMA-418-2 does not define sharpness."
+    },
+    {
+      "id": "roughness",
+      "name": "Roughness",
+      "name_zh": "粗糙度",
+      "summary": "The sensation produced by fast amplitude or frequency modulation (roughly 15 to 300 Hz, strongest near 70 Hz), in asper."
+    },
+    {
+      "id": "fluctuation-strength",
+      "name": "Fluctuation strength",
+      "name_zh": "波动强度",
+      "summary": "The sensation produced by slow modulation (below about 20 Hz, strongest near 4 Hz), in vacil."
+    },
+    {
+      "id": "tonality",
+      "name": "Tonality",
+      "name_zh": "音调性",
+      "summary": "How prominent tonal components are. Covers psychoacoustic tonality models (Aures, ECMA-418-2) and the engineering measures used for product noise (tone-to-noise ratio, prominence ratio) and for environmental noise (tonal audibility and tone adjustments)."
+    },
+    {
+      "id": "impulsiveness",
+      "name": "Impulsiveness",
+      "name_zh": "冲击性",
+      "summary": "How prominent impulsive sounds are, and the adjustment applied to them in environmental noise assessment."
+    },
+    {
+      "id": "annoyance",
+      "name": "Psychoacoustic annoyance",
+      "name_zh": "心理声学烦恼度",
+      "summary": "Single-number models that combine loudness, sharpness, roughness, fluctuation strength and, in later models, tonality into a predicted annoyance."
+    },
+    {
+      "id": "related",
+      "name": "Related quantities",
+      "name_zh": "相关指标",
+      "summary": "Quantities that psychoacoustic tools often include and that are closely tied to the metrics above."
+    }
+  ],
+  "methods": [
+    {
+      "id": "loudness-zwicker",
+      "family": "loudness",
+      "name": "Zwicker loudness",
+      "name_zh": "Zwicker 响度（ISO 532-1）",
+      "title": "Zwicker loudness (ISO 532-1, DIN 45631)",
+      "aka": [
+        "ISO 532-1",
+        "ISO 532B",
+        "ISO 532 method B",
+        "DIN 45631",
+        "DIN 45631/A1",
+        "Zwicker method",
+        "N5",
+        "percentile loudness"
+      ],
+      "unit": "sone, phon",
+      "summary": "Loudness from Zwicker's model: third-octave band levels are turned into specific loudness on the critical-band (Bark) scale and integrated. ISO 532-1:2017 specifies one procedure for stationary sounds and one for time-varying sounds (from which percentile values such as N5 are taken), and replaced method B of ISO 532:1975. The German standards DIN 45631 (stationary) and DIN 45631/A1 (time-varying) describe the same method.",
+      "references": [
+        "iso-532-1975",
+        "din-45631-1991",
+        "din-45631-a1-2010",
+        "iso-532-1-2017",
+        "iso-532-1-ed2-draft"
+      ],
+      "current": [
+        "iso-532-1-2017"
+      ],
+      "edition_notes": {
+        "iso-532-1975": "Method B (Zwicker) for stationary sounds, from third-octave levels.",
+        "din-45631-1991": "Stationary sounds.",
+        "din-45631-a1-2010": "Adds the procedure for time-varying sounds.",
+        "iso-532-1-2017": "Stationary and time-varying procedures; Annex A reference program, Annex B test signals.",
+        "iso-532-1-ed2-draft": "Second edition at committee-draft stage since November 2024."
+      },
+      "see_also": [
+        "sharpness",
+        "loudness-ecma-418-2"
+      ],
+      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/loudness-zwicker.html",
+      "coverage": {
+        "Python": "current",
+        "MATLAB/Octave": "",
+        "C/C++": "current",
+        "Rust": "",
+        "Julia": "",
+        "Other": ""
+      },
+      "implementations": [
+        {
+          "project": "metasona",
+          "reference": "iso-532-1-2017",
+          "functions": [
+            "stationary_loudness",
+            "time_varying_loudness",
+            "loudness_from_levels"
+          ],
+          "scope": "stationary and time-varying; also from 28 third-octave levels",
+          "status": "available",
+          "since": "0.1.0",
+          "validation": "cross-implementation",
+          "note": "Model tables taken from MoSQITo and checked element by element; one upper-slope value (0.22) follows the ISO 532-1 reference C table where MoSQITo uses 0.24."
+        }
+      ]
+    },
+    {
+      "id": "loudness-moore-glasberg",
+      "family": "loudness",
+      "name": "Moore–Glasberg loudness",
+      "name_zh": "Moore–Glasberg 稳态响度（ISO 532-2）",
+      "title": "Moore–Glasberg loudness of stationary sounds (ISO 532-2, ANSI S3.4)",
+      "aka": [
+        "ISO 532-2",
+        "ANSI S3.4",
+        "ANSI/ASA S3.4-2007",
+        "Moore-Glasberg method",
+        "Cambridge loudness model"
+      ],
+      "unit": "sone, phon",
+      "summary": "Loudness of stationary sounds from the Moore–Glasberg model: the spectrum is turned into an excitation pattern on the ERB-number scale, then into specific loudness, which is summed. ANSI S3.4-2007 standardised the model of Moore, Glasberg & Baer (1997) with later modifications; ISO 532-2:2017 specifies the method for monaural and binaural listening.",
+      "references": [
+        "moore-1997",
+        "ansi-s3-4-2007",
+        "chen-2011",
+        "iso-532-2-2017",
+        "iso-532-2-ed2-draft"
+      ],
+      "current": [
+        "iso-532-2-2017"
+      ],
+      "edition_notes": {
+        "moore-1997": "Model paper (thresholds, loudness and partial loudness).",
+        "ansi-s3-4-2007": "American standard based on the 1997 model with later modifications.",
+        "chen-2011": "Faster excitation-pattern calculation, also for hearing loss (not standardised).",
+        "iso-532-2-2017": "Monaural and binaural loudness of stationary sounds; source code supplied with the standard.",
+        "iso-532-2-ed2-draft": "Second edition at committee-draft stage since November 2024."
+      },
+      "see_also": [
+        "loudness-moore-glasberg-time-varying"
+      ],
+      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/loudness-moore-glasberg.html",
+      "coverage": {
+        "Python": "",
+        "MATLAB/Octave": "",
+        "C/C++": "",
+        "Rust": "",
+        "Julia": "",
+        "Other": ""
+      },
+      "implementations": []
+    },
+    {
+      "id": "loudness-moore-glasberg-time-varying",
+      "family": "loudness",
+      "name": "Time-varying loudness (Moore–Glasberg–Schlittenlacher)",
+      "name_zh": "Moore–Glasberg–Schlittenlacher 时变响度（ISO 532-3）",
+      "title": "Time-varying loudness, Moore–Glasberg–Schlittenlacher (ISO 532-3)",
+      "aka": [
+        "ISO 532-3",
+        "TVL",
+        "time-varying loudness",
+        "Glasberg and Moore 2002",
+        "Moore-Glasberg-Schlittenlacher method",
+        "short-term loudness",
+        "long-term loudness"
+      ],
+      "unit": "sone, phon",
+      "summary": "Loudness of time-varying sounds as instantaneous, short-term and long-term loudness. It starts from the Glasberg & Moore (2002) model; Moore et al. (2016) added binaural inhibition and Moore et al. (2018) revised the time constants. ISO 532-3:2023 standardises the resulting Moore–Glasberg–Schlittenlacher method for stationary and time-varying sounds.",
+      "references": [
+        "glasberg-moore-2002",
+        "moore-2016",
+        "moore-2018",
+        "iso-532-3-2023",
+        "iso-532-3-ed2-draft"
+      ],
+      "current": [
+        "iso-532-3-2023"
+      ],
+      "edition_notes": {
+        "glasberg-moore-2002": "Time-varying loudness model (short-term and long-term loudness).",
+        "moore-2016": "Adds binaural inhibition.",
+        "moore-2018": "Revised time constants.",
+        "iso-532-3-2023": "Standardised method; source code supplied with the standard.",
+        "iso-532-3-ed2-draft": "Second edition at committee-draft stage since November 2024."
+      },
+      "see_also": [
+        "loudness-moore-glasberg"
+      ],
+      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/loudness-moore-glasberg-time-varying.html",
+      "coverage": {
+        "Python": "",
+        "MATLAB/Octave": "",
+        "C/C++": "",
+        "Rust": "",
+        "Julia": "",
+        "Other": ""
+      },
+      "implementations": []
+    },
+    {
+      "id": "loudness-ecma-418-2",
+      "family": "loudness",
+      "name": "Sottek Hearing Model loudness",
+      "name_zh": "Sottek 听觉模型响度（ECMA-418-2）",
+      "title": "Loudness from the Sottek Hearing Model (ECMA-418-2)",
+      "aka": [
+        "ECMA-418-2 loudness",
+        "Sottek Hearing Model",
+        "SHM loudness",
+        "sone_HMS",
+        "hearing model loudness"
+      ],
+      "unit": "sone_HMS",
+      "summary": "Loudness from the Sottek Hearing Model defined in ECMA-418-2. The hearing model (Clause 5) produces specific loudness; the 2nd edition (2022) added a loudness calculation for sounds with tonal and noise components (Clause 8). ECMA-418-2 has had four editions in five years, so implementations of different editions can disagree.",
+      "references": [
+        "ecma-418-2-ed1",
+        "ecma-418-2-ed2",
+        "ecma-418-2-ed3",
+        "ecma-418-2-ed4"
+      ],
+      "current": [
+        "ecma-418-2-ed4"
+      ],
+      "edition_notes": {
+        "ecma-418-2-ed1": "Hearing model (Clause 5) with specific loudness.",
+        "ecma-418-2-ed2": "New Clause 8, loudness of sounds with subcritical or wider bandwidth.",
+        "ecma-418-2-ed3": "Adds a diffuse-field outer and middle ear filter.",
+        "ecma-418-2-ed4": "Hearing-model clauses 5.1.2.2 and 5.1.5.2 revised; conformance requires 48 kHz sampling."
+      },
+      "see_also": [
+        "loudness-zwicker",
+        "tonality-ecma-418-2",
+        "roughness-ecma-418-2",
+        "fluctuation-strength-ecma-418-2"
+      ],
+      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/loudness-ecma-418-2.html",
+      "coverage": {
+        "Python": "current",
+        "MATLAB/Octave": "",
+        "C/C++": "current",
+        "Rust": "",
+        "Julia": "",
+        "Other": ""
+      },
+      "implementations": [
+        {
+          "project": "metasona",
+          "reference": "ecma-418-2-ed4",
+          "functions": [
+            "loudness_ecma",
+            "ecma_tonal_analysis"
+          ],
+          "scope": "Clause 8 loudness with tonal/noise separation; mono or stereo",
+          "status": "available",
+          "since": "0.2.0",
+          "validation": "cross-implementation",
+          "note": "Adapted from the SQAT/RefMap MATLAB code by Lotinga and Torjussen."
+        }
+      ]
+    },
+    {
+      "id": "sharpness",
+      "family": "sharpness",
+      "name": "Sharpness",
+      "name_zh": "尖锐度（DIN 45692）",
+      "title": "Sharpness (DIN 45692, Aures, von Bismarck)",
+      "aka": [
+        "DIN 45692",
+        "acum",
+        "Zwicker sharpness",
+        "Aures sharpness",
+        "von Bismarck sharpness"
+      ],
+      "unit": "acum",
+      "summary": "Sharpness is the weighted first moment of specific loudness along the critical-band rate, with a weighting that emphasises high frequencies. DIN 45692:2009 standardises the weighting and a test procedure, using Zwicker specific loudness (ISO 532-1 / DIN 45631). Most implementations also offer the weightings of von Bismarck (1974) and Aures (1985).",
+      "references": [
+        "von-bismarck-1974",
+        "aures-1985-euphony",
+        "din-45692-2009"
+      ],
+      "current": [
+        "din-45692-2009"
+      ],
+      "edition_notes": {
+        "von-bismarck-1974": "Original sharpness weighting.",
+        "aures-1985-euphony": "Weighting that depends on total loudness.",
+        "din-45692-2009": "Standardised weighting and test procedure; no revision announced."
+      },
+      "see_also": [
+        "loudness-zwicker"
+      ],
+      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/sharpness.html",
+      "coverage": {
+        "Python": "current",
+        "MATLAB/Octave": "",
+        "C/C++": "current",
+        "Rust": "",
+        "Julia": "",
+        "Other": ""
+      },
+      "implementations": [
+        {
+          "project": "metasona",
+          "reference": "din-45692-2009",
+          "functions": [
+            "sharpness_din45692"
+          ],
+          "scope": "from specific loudness",
+          "status": "available",
+          "since": "0.1.0",
+          "validation": "not-stated"
+        }
+      ]
+    },
+    {
+      "id": "roughness-daniel-weber",
+      "family": "roughness",
+      "name": "Roughness (Daniel & Weber)",
+      "name_zh": "粗糙度（Daniel & Weber 模型）",
+      "title": "Roughness, Daniel & Weber model",
+      "aka": [
+        "Daniel and Weber roughness",
+        "Daniel & Weber 1997",
+        "Aures roughness",
+        "asper"
+      ],
+      "unit": "asper",
+      "summary": "Roughness from the model of Daniel & Weber (1997), an optimised version of Aures's (1985) model. It is not standardised, and the paper leaves details open (filter bank, calibration, framing), so implementations can give different values for the same signal.",
+      "notes": "SQAT replaced its implementation in September 2026 with one that follows Dik Hermes's code, which changes results compared with SQAT v1.3 and earlier.",
+      "references": [
+        "aures-1985-roughness",
+        "daniel-weber-1997"
+      ],
+      "current": [
+        "daniel-weber-1997"
+      ],
+      "edition_notes": {
+        "aures-1985-roughness": "Earlier model that Daniel & Weber optimised.",
+        "daniel-weber-1997": "Reference model."
+      },
+      "see_also": [
+        "roughness-ecma-418-2"
+      ],
+      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/roughness-daniel-weber.html",
+      "coverage": {
+        "Python": "current",
+        "MATLAB/Octave": "",
+        "C/C++": "current",
+        "Rust": "",
+        "Julia": "",
+        "Other": ""
+      },
+      "implementations": [
+        {
+          "project": "metasona",
+          "reference": "daniel-weber-1997",
+          "functions": [
+            "roughness_daniel_weber"
+          ],
+          "status": "available",
+          "since": "0.1.0",
+          "validation": "cross-implementation",
+          "note": "Follows SQAT revision `e6228b78`, which includes SQAT's September 2026 rewrite."
+        }
+      ]
+    },
+    {
+      "id": "roughness-ecma-418-2",
+      "family": "roughness",
+      "name": "Sottek Hearing Model roughness",
+      "name_zh": "Sottek 听觉模型粗糙度（ECMA-418-2）",
+      "title": "Roughness from the Sottek Hearing Model (ECMA-418-2)",
+      "aka": [
+        "ECMA-418-2 roughness",
+        "asper_HMS",
+        "Sottek roughness",
+        "SHM roughness"
+      ],
+      "unit": "asper_HMS",
+      "summary": "Roughness from the Sottek Hearing Model, Clause 7 of ECMA-418-2. The 2nd edition (2022) added an optional entropy weighting for cases where rotational speed is measured; the 3rd edition (2024) changed zero-padding and segmentation, the largest change to roughness so far.",
+      "references": [
+        "ecma-418-2-ed1",
+        "ecma-418-2-ed2",
+        "ecma-418-2-ed3",
+        "ecma-418-2-ed4"
+      ],
+      "current": [
+        "ecma-418-2-ed4"
+      ],
+      "edition_notes": {
+        "ecma-418-2-ed1": "Clause 7 roughness.",
+        "ecma-418-2-ed2": "Refined calculation; optional entropy-weighted roughness.",
+        "ecma-418-2-ed3": "Zero-padding and segmentation adapted; main revision of roughness.",
+        "ecma-418-2-ed4": "Hearing-model and conformance updates (48 kHz sampling)."
+      },
+      "see_also": [
+        "roughness-daniel-weber",
+        "loudness-ecma-418-2"
+      ],
+      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/roughness-ecma-418-2.html",
+      "coverage": {
+        "Python": "current",
+        "MATLAB/Octave": "",
+        "C/C++": "current",
+        "Rust": "",
+        "Julia": "",
+        "Other": ""
+      },
+      "implementations": [
+        {
+          "project": "metasona",
+          "reference": "ecma-418-2-ed4",
+          "functions": [
+            "roughness_ecma"
+          ],
+          "scope": "mono or stereo; optional entropy weighting not applied",
+          "status": "available",
+          "since": "0.2.0",
+          "validation": "cross-implementation",
+          "note": "Uses the standard's 20 ms grid and nominal calibration factor, where SQAT uses a slightly adjusted calibration."
+        }
+      ]
+    },
+    {
+      "id": "roughness-din-38455",
+      "family": "roughness",
+      "name": "Roughness (DIN 38455)",
+      "name_zh": "粗糙度（DIN 38455）",
+      "title": "Roughness, DIN 38455",
+      "aka": [
+        "DIN 38455",
+        "Rauigkeit",
+        "German roughness standard"
+      ],
+      "unit": "asper",
+      "summary": "DIN 38455:2024 is the first German standard for calculating roughness. Its text is not freely available, and the model it specifies could not be confirmed from public sources; a hearing-model roughness was proposed for DIN standardisation by Sottek & Becker (2019).",
+      "references": [
+        "din-38455-2024"
+      ],
+      "current": [
+        "din-38455-2024"
+      ],
+      "edition_notes": {
+        "din-38455-2024": "First edition."
+      },
+      "see_also": [
+        "roughness-ecma-418-2",
+        "roughness-daniel-weber"
+      ],
+      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/roughness-din-38455.html",
+      "coverage": {
+        "Python": "",
+        "MATLAB/Octave": "",
+        "C/C++": "",
+        "Rust": "",
+        "Julia": "",
+        "Other": ""
+      },
+      "implementations": []
+    },
+    {
+      "id": "fluctuation-strength-osses",
+      "family": "fluctuation-strength",
+      "name": "Fluctuation strength (Osses et al.)",
+      "name_zh": "波动强度（Osses 模型）",
+      "title": "Fluctuation strength, Osses et al. model and Fastl & Zwicker formula",
+      "aka": [
+        "fluctuation strength",
+        "vacil",
+        "Osses 2016",
+        "Fastl and Zwicker fluctuation strength"
+      ],
+      "unit": "vacil",
+      "summary": "Fluctuation strength describes slow modulation around 4 Hz. Osses, García & Kohlrausch (2016) proposed a signal-based model; Fastl & Zwicker give a closed-form expression for modulated tones and noises. Neither is standardised. ECMA-418-2:2025 added a hearing-model method, listed on its own page.",
+      "references": [
+        "fastl-zwicker-2007",
+        "osses-2016"
+      ],
+      "current": [
+        "osses-2016"
+      ],
+      "edition_notes": {
+        "fastl-zwicker-2007": "Closed-form expression for amplitude- and frequency-modulated sounds.",
+        "osses-2016": "Signal-based model."
+      },
+      "see_also": [
+        "fluctuation-strength-ecma-418-2"
+      ],
+      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/fluctuation-strength-osses.html",
+      "coverage": {
+        "Python": "",
+        "MATLAB/Octave": "",
+        "C/C++": "",
+        "Rust": "",
+        "Julia": "",
+        "Other": ""
+      },
+      "implementations": []
+    },
+    {
+      "id": "fluctuation-strength-ecma-418-2",
+      "family": "fluctuation-strength",
+      "name": "Sottek Hearing Model fluctuation strength",
+      "name_zh": "Sottek 听觉模型波动强度（ECMA-418-2）",
+      "title": "Fluctuation strength from the Sottek Hearing Model (ECMA-418-2)",
+      "aka": [
+        "ECMA-418-2 fluctuation strength",
+        "vacil_HMS",
+        "Sottek fluctuation strength"
+      ],
+      "unit": "vacil_HMS",
+      "summary": "Fluctuation strength from the Sottek Hearing Model, new in the 4th edition of ECMA-418-2 (June 2025, Clause 9). It uses high-resolution spectral analysis for modulation rates of about 0.25 to 20 Hz.",
+      "references": [
+        "ecma-418-2-ed4"
+      ],
+      "current": [
+        "ecma-418-2-ed4"
+      ],
+      "edition_notes": {
+        "ecma-418-2-ed4": "New Clause 9."
+      },
+      "see_also": [
+        "fluctuation-strength-osses",
+        "loudness-ecma-418-2"
+      ],
+      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/fluctuation-strength-ecma-418-2.html",
+      "coverage": {
+        "Python": "",
+        "MATLAB/Octave": "",
+        "C/C++": "",
+        "Rust": "",
+        "Julia": "",
+        "Other": ""
+      },
+      "implementations": []
+    },
+    {
+      "id": "tonality-aures",
+      "family": "tonality",
+      "name": "Tonality (Aures)",
+      "name_zh": "音调性（Aures 模型）",
+      "title": "Tonality, Aures/Terhardt model",
+      "aka": [
+        "Aures tonality",
+        "Terhardt tonality",
+        "tonality units",
+        "t.u.",
+        "sensory euphony"
+      ],
+      "unit": "t.u.",
+      "summary": "Tonality from Aures (1985): tonal components are extracted with the method of Terhardt, Stoll & Seewann (1982), weighted, and related to the loudness of the whole sound. Not standardised.",
+      "notes": "SQAT corrected several issues in September 2026 (for example, only the first tonal component entered the weighting), which changes results compared with SQAT v1.3 and earlier.",
+      "references": [
+        "terhardt-1982",
+        "aures-1985-euphony"
+      ],
+      "current": [
+        "aures-1985-euphony"
+      ],
+      "edition_notes": {
+        "terhardt-1982": "Extraction of tonal components used by the model.",
+        "aures-1985-euphony": "Tonality model."
+      },
+      "see_also": [
+        "tonality-ecma-418-2"
+      ],
+      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/tonality-aures.html",
+      "coverage": {
+        "Python": "current",
+        "MATLAB/Octave": "",
+        "C/C++": "current",
+        "Rust": "",
+        "Julia": "",
+        "Other": ""
+      },
+      "implementations": [
+        {
+          "project": "metasona",
+          "reference": "aures-1985-euphony",
+          "functions": [
+            "tonality_aures"
+          ],
+          "status": "available",
+          "since": "0.1.0",
+          "validation": "cross-implementation",
+          "note": "Follows SQAT's September 2026 revision (250 ms Hann windows, 125 ms hop); exact agreement with MATLAB is not established."
+        }
+      ]
+    },
+    {
+      "id": "tonality-ecma-418-2",
+      "family": "tonality",
+      "name": "Sottek Hearing Model tonality",
+      "name_zh": "Sottek 听觉模型音调性（ECMA-418-2）",
+      "title": "Tonality from the Sottek Hearing Model (ECMA-418-2)",
+      "aka": [
+        "ECMA-418-2 tonality",
+        "psychoacoustic tonality",
+        "tu_HMS",
+        "Sottek tonality",
+        "SHM tonality"
+      ],
+      "unit": "tu_HMS",
+      "summary": "Psychoacoustic tonality from the Sottek Hearing Model, Clause 6 of ECMA-418-2, with specific tonality and tonal frequency over time. The method came from ECMA-74 (17th edition, 2019) when ECMA-418-2 was first published in 2020.",
+      "references": [
+        "ecma-74-ed17",
+        "ecma-418-2-ed1",
+        "ecma-418-2-ed2",
+        "ecma-418-2-ed3",
+        "ecma-418-2-ed4"
+      ],
+      "current": [
+        "ecma-418-2-ed4"
+      ],
+      "edition_notes": {
+        "ecma-74-ed17": "Hearing model and tonality before ECMA-418-2 existed.",
+        "ecma-418-2-ed1": "Clause 6 tonality.",
+        "ecma-418-2-ed2": "Refined calculation.",
+        "ecma-418-2-ed3": "Further refinement.",
+        "ecma-418-2-ed4": "Hearing-model and conformance updates (48 kHz sampling)."
+      },
+      "see_also": [
+        "tonality-aures",
+        "tone-to-noise-prominence-ratio",
+        "loudness-ecma-418-2"
+      ],
+      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/tonality-ecma-418-2.html",
+      "coverage": {
+        "Python": "current",
+        "MATLAB/Octave": "",
+        "C/C++": "current",
+        "Rust": "",
+        "Julia": "",
+        "Other": ""
+      },
+      "implementations": [
+        {
+          "project": "metasona",
+          "reference": "ecma-418-2-ed4",
+          "functions": [
+            "tonality_ecma",
+            "ecma_tonal_analysis"
+          ],
+          "scope": "mono or stereo",
+          "status": "available",
+          "since": "0.2.0",
+          "validation": "cross-implementation"
+        }
+      ]
+    },
+    {
+      "id": "tone-to-noise-prominence-ratio",
+      "family": "tonality",
+      "name": "Tone-to-noise ratio and prominence ratio",
+      "name_zh": "音噪比与突出比（ECMA-418-1）",
+      "title": "Tone-to-noise ratio and prominence ratio (ECMA-418-1)",
+      "aka": [
+        "TNR",
+        "PR",
+        "ECMA-418-1",
+        "ECMA-74 Annex D",
+        "prominent discrete tones",
+        "ANSI S1.13 Annex"
+      ],
+      "unit": "dB",
+      "summary": "Tone-to-noise ratio (TNR) and prominence ratio (PR) decide whether a discrete tone is prominent: TNR compares the tone with the noise in its critical band, PR compares the critical band with its neighbours. ECMA-418-1 took the method over from Annex D of ECMA-74 in 2020; its 3rd edition (2024) revised the TNR procedure.",
+      "references": [
+        "ecma-74-ed17",
+        "ecma-418-1-ed1",
+        "ecma-418-1-ed2",
+        "ecma-418-1-ed3"
+      ],
+      "current": [
+        "ecma-418-1-ed3"
+      ],
+      "edition_notes": {
+        "ecma-74-ed17": "Annex D, before ECMA-418-1 existed.",
+        "ecma-418-1-ed1": "Based on, and mostly identical to, ECMA-74 Annex D.",
+        "ecma-418-1-ed2": "Maximum tone bandwidth for TNR set to 15 % of the critical band; corrections.",
+        "ecma-418-1-ed3": "TNR procedure revised for repeatable results across FFT resolutions; terms rewritten."
+      },
+      "see_also": [
+        "tonality-ecma-418-2",
+        "tonal-audibility-iso-20065"
+      ],
+      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/tone-to-noise-prominence-ratio.html",
+      "coverage": {
+        "Python": "",
+        "MATLAB/Octave": "",
+        "C/C++": "",
+        "Rust": "",
+        "Julia": "",
+        "Other": ""
+      },
+      "implementations": []
+    },
+    {
+      "id": "tonality-din-45681",
+      "family": "tonality",
+      "name": "Tonal components (DIN 45681)",
+      "name_zh": "音调成分与音调修正（DIN 45681）",
+      "title": "Tonal components and tone adjustment (DIN 45681)",
+      "aka": [
+        "DIN 45681",
+        "tone adjustment",
+        "K_T",
+        "Tonzuschlag"
+      ],
+      "unit": "dB",
+      "summary": "German method that detects tonal components in noise from narrow-band spectra and derives a tone adjustment for the assessment of noise immissions. DIN 45681:2005 with its corrections of 2005 and 2006 is current.",
+      "references": [
+        "din-45681-2005"
+      ],
+      "current": [
+        "din-45681-2005"
+      ],
+      "edition_notes": {
+        "din-45681-2005": "Current, with corrections of 2005-08 and 2006-08."
+      },
+      "see_also": [
+        "tonal-audibility-iso-20065"
+      ],
+      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/tonality-din-45681.html",
+      "coverage": {
+        "Python": "",
+        "MATLAB/Octave": "",
+        "C/C++": "",
+        "Rust": "",
+        "Julia": "",
+        "Other": ""
+      },
+      "implementations": []
+    },
+    {
+      "id": "tonal-audibility-iso-20065",
+      "family": "tonality",
+      "name": "Audibility of tones in noise (ISO/TS 20065)",
+      "name_zh": "噪声中音调的可听度（ISO/TS 20065）",
+      "title": "Audibility of tones in noise (ISO/TS 20065)",
+      "aka": [
+        "ISO/TS 20065",
+        "ISO/PAS 20065",
+        "tonal audibility",
+        "decisive audibility",
+        "ΔL_ta"
+      ],
+      "unit": "dB",
+      "summary": "Engineering method for the audibility of tones in noise, from critical-band analysis of narrow-band spectra. First published as ISO/PAS 20065:2016 and turned into ISO/TS 20065:2022, which notes that the method is not validated below 50 Hz.",
+      "references": [
+        "iso-pas-20065-2016",
+        "iso-ts-20065-2022"
+      ],
+      "current": [
+        "iso-ts-20065-2022"
+      ],
+      "edition_notes": {
+        "iso-pas-20065-2016": "Publicly available specification; withdrawn in 2022.",
+        "iso-ts-20065-2022": "Technical specification; adds that the method is not validated below 50 Hz."
+      },
+      "see_also": [
+        "tonality-din-45681",
+        "tonal-audibility-iso-1996-2"
+      ],
+      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/tonal-audibility-iso-20065.html",
+      "coverage": {
+        "Python": "",
+        "MATLAB/Octave": "",
+        "C/C++": "",
+        "Rust": "",
+        "Julia": "",
+        "Other": ""
+      },
+      "implementations": []
+    },
+    {
+      "id": "tonal-audibility-iso-1996-2",
+      "family": "tonality",
+      "name": "Tonal audibility (ISO 1996-2)",
+      "name_zh": "环境噪声音调可听度（ISO 1996-2）",
+      "title": "Tonal audibility in environmental noise (ISO 1996-2)",
+      "aka": [
+        "ISO 1996-2 Annex C",
+        "ISO 1996-2 Annex J",
+        "ISO 1996-2 Annex K",
+        "tonal adjustment",
+        "environmental noise tonality"
+      ],
+      "unit": "dB",
+      "summary": "Objective tonal audibility and tone adjustment for environmental noise assessment. ISO 1996-2:2007 gave a method in Annex C; ISO 1996-2:2017 replaced it with an engineering method (Annex J) and a survey method (Annex K).",
+      "references": [
+        "iso-1996-2-2007",
+        "iso-1996-2-2017"
+      ],
+      "current": [
+        "iso-1996-2-2017"
+      ],
+      "edition_notes": {
+        "iso-1996-2-2007": "Annex C tonal audibility.",
+        "iso-1996-2-2017": "Annex J engineering method and Annex K survey method."
+      },
+      "see_also": [
+        "tonal-audibility-iso-20065",
+        "tonal-audibility-iec-61400-11"
+      ],
+      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/tonal-audibility-iso-1996-2.html",
+      "coverage": {
+        "Python": "",
+        "MATLAB/Octave": "",
+        "C/C++": "",
+        "Rust": "",
+        "Julia": "",
+        "Other": ""
+      },
+      "implementations": []
+    },
+    {
+      "id": "tonal-audibility-iec-61400-11",
+      "family": "tonality",
+      "name": "Tonal audibility of wind turbines (IEC 61400-11)",
+      "name_zh": "风电机组音调可听度（IEC 61400-11）",
+      "title": "Tonal audibility of wind turbine noise (IEC 61400-11)",
+      "aka": [
+        "IEC 61400-11",
+        "wind turbine tonality",
+        "tonal audibility"
+      ],
+      "unit": "dB",
+      "summary": "Tonality analysis in the acoustic noise measurement of wind turbines: tones are identified in narrow-band spectra and their tonal audibility is reported.",
+      "references": [
+        "iec-61400-11-2012"
+      ],
+      "current": [
+        "iec-61400-11-2012"
+      ],
+      "edition_notes": {
+        "iec-61400-11-2012": "Edition 3 with Amendment 1 (2018)."
+      },
+      "see_also": [
+        "tonal-audibility-iso-1996-2"
+      ],
+      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/tonal-audibility-iec-61400-11.html",
+      "coverage": {
+        "Python": "",
+        "MATLAB/Octave": "",
+        "C/C++": "",
+        "Rust": "",
+        "Julia": "",
+        "Other": ""
+      },
+      "implementations": []
+    },
+    {
+      "id": "impulsiveness",
+      "family": "impulsiveness",
+      "name": "Impulse prominence",
+      "name_zh": "冲击声显著性（ISO/PAS 1996-3）",
+      "title": "Prominence of impulsive sounds (ISO/PAS 1996-3, NT ACOU 112)",
+      "aka": [
+        "ISO/PAS 1996-3",
+        "NT ACOU 112",
+        "impulsiveness",
+        "impulse adjustment",
+        "impulsive sound prominence"
+      ],
+      "unit": "dB",
+      "summary": "Objective prominence of impulsive sounds and the corresponding adjustment of the equivalent level in environmental noise assessment: Nordtest method NT ACOU 112 and ISO/PAS 1996-3:2022 (adjustment of 0 to 9 dB). Hearing-model impulsiveness metrics are not standardised and no open implementation is listed.",
+      "references": [
+        "nt-acou-112-2002",
+        "iso-pas-1996-3-2022"
+      ],
+      "current": [
+        "iso-pas-1996-3-2022"
+      ],
+      "edition_notes": {
+        "nt-acou-112-2002": "Nordic test method.",
+        "iso-pas-1996-3-2022": "Publicly available specification."
+      },
+      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/impulsiveness.html",
+      "coverage": {
+        "Python": "",
+        "MATLAB/Octave": "",
+        "C/C++": "",
+        "Rust": "",
+        "Julia": "",
+        "Other": ""
+      },
+      "implementations": []
+    },
+    {
+      "id": "psychoacoustic-annoyance",
+      "family": "annoyance",
+      "name": "Psychoacoustic annoyance",
+      "name_zh": "心理声学烦恼度",
+      "title": "Psychoacoustic annoyance (Widmann, Zwicker & Fastl, More, Di et al.)",
+      "aka": [
+        "PA",
+        "psychoacoustic annoyance",
+        "Zwicker annoyance",
+        "Widmann annoyance",
+        "More annoyance",
+        "Di annoyance"
+      ],
+      "unit": "dimensionless",
+      "summary": "Psychoacoustic annoyance (PA) combines percentile loudness N5 with sharpness, roughness and fluctuation strength (Widmann 1992; Zwicker & Fastl 1999). More (2010) added tonality and Di et al. (2016) adapted the model for tonal noise. None of these is standardised; ISO/AWI 26573, registered in 2026, covers the assessment of annoyance through listening tests, including prediction models.",
+      "references": [
+        "widmann-1992",
+        "zwicker-fastl-1999",
+        "more-2010",
+        "di-2016",
+        "iso-26573-draft"
+      ],
+      "current": [
+        "widmann-1992",
+        "zwicker-fastl-1999",
+        "more-2010",
+        "di-2016"
+      ],
+      "edition_notes": {
+        "widmann-1992": "Original model.",
+        "zwicker-fastl-1999": "Book version of the model.",
+        "more-2010": "Adds tonality.",
+        "di-2016": "Adapted for tonal noise.",
+        "iso-26573-draft": "Approved work item (stage 20.00) since 2026."
+      },
+      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/psychoacoustic-annoyance.html",
+      "coverage": {
+        "Python": "",
+        "MATLAB/Octave": "",
+        "C/C++": "",
+        "Rust": "",
+        "Julia": "",
+        "Other": ""
+      },
+      "implementations": []
+    },
+    {
+      "id": "equal-loudness-contours",
+      "family": "related",
+      "name": "Equal-loudness contours",
+      "name_zh": "等响曲线（ISO 226）",
+      "title": "Equal-loudness-level contours (ISO 226)",
+      "aka": [
+        "ISO 226",
+        "equal-loudness contours",
+        "phon curves",
+        "threshold of hearing"
+      ],
+      "unit": "dB SPL, phon",
+      "summary": "Normal equal-loudness-level contours for pure tones in free-field listening. ISO 226:2023 replaced ISO 226:2003; ECMA-418-2:2025 still refers to the 2003 edition.",
+      "references": [
+        "iso-226-2003",
+        "iso-226-2023"
+      ],
+      "current": [
+        "iso-226-2023"
+      ],
+      "edition_notes": {
+        "iso-226-2003": "Second edition; withdrawn in 2023.",
+        "iso-226-2023": "Third edition."
+      },
+      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/equal-loudness-contours.html",
+      "coverage": {
+        "Python": "",
+        "MATLAB/Octave": "",
+        "C/C++": "",
+        "Rust": "",
+        "Julia": "",
+        "Other": ""
+      },
+      "implementations": []
+    },
+    {
+      "id": "epnl",
+      "family": "related",
+      "name": "Perceived noise level and EPNL",
+      "name_zh": "有效感觉噪声级（EPNL）",
+      "title": "Perceived noise level, PNLT and EPNL (ICAO Annex 16, 14 CFR Part 36)",
+      "aka": [
+        "EPNL",
+        "EPNdB",
+        "PNL",
+        "PNLT",
+        "perceived noisiness",
+        "noy",
+        "aircraft noise certification"
+      ],
+      "unit": "PNdB, EPNdB",
+      "summary": "Effective perceived noise level for aircraft noise certification: perceived noisiness in noy, the tone-corrected perceived noise level (PNLT) and a duration correction. Defined in ICAO Annex 16, Volume I, and in the US regulation 14 CFR Part 36.",
+      "references": [
+        "icao-annex-16-vol-1",
+        "cfr-14-part-36"
+      ],
+      "current": [
+        "icao-annex-16-vol-1",
+        "cfr-14-part-36"
+      ],
+      "edition_notes": {
+        "icao-annex-16-vol-1": "International standard for aircraft noise certification.",
+        "cfr-14-part-36": "US regulation (Appendices A and B)."
+      },
+      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/epnl.html",
+      "coverage": {
+        "Python": "",
+        "MATLAB/Octave": "",
+        "C/C++": "",
+        "Rust": "",
+        "Julia": "",
+        "Other": ""
+      },
+      "implementations": []
+    },
+    {
+      "id": "aural-detectability",
+      "family": "related",
+      "name": "Aural detectability",
+      "name_zh": "可察觉度",
+      "title": "Aural detectability of sounds in background noise",
+      "aka": [
+        "detectability",
+        "d-prime",
+        "signal detection",
+        "aural detection",
+        "audibility of aircraft"
+      ],
+      "unit": "d′ (detectability index), dB",
+      "summary": "How likely a listener is to detect a sound in background noise, from signal-to-noise ratios in auditory filters and signal-detection theory. Used for aircraft, drone and urban air mobility noise. Not standardised.",
+      "references": [
+        "fidell-1974"
+      ],
+      "current": [
+        "fidell-1974"
+      ],
+      "edition_notes": {
+        "fidell-1974": "Model paper."
+      },
+      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/aural-detectability.html",
+      "coverage": {
+        "Python": "",
+        "MATLAB/Octave": "",
+        "C/C++": "",
+        "Rust": "",
+        "Julia": "",
+        "Other": ""
+      },
+      "implementations": []
+    }
+  ],
+  "references": [
+    {
+      "id": "iso-532-1975",
+      "label": "ISO 532:1975",
+      "kind": "standard",
+      "body": "ISO",
+      "title": "Acoustics — Method for calculating loudness level",
+      "date": "1975-07-01",
+      "status": "withdrawn",
+      "superseded_by": "iso-532-1-2017",
+      "url": "https://www.iso.org/standard/4603.html",
+      "note": "Method A (Stevens) and method B (Zwicker). Withdrawn on 2017-06-15 and replaced by ISO 532-1:2017 and ISO 532-2:2017.",
+      "checked": "2026-10-06"
+    },
+    {
+      "id": "din-45631-1991",
+      "label": "DIN 45631:1991",
+      "kind": "standard",
+      "body": "DIN",
+      "title": "Berechnung des Lautstärkepegels und der Lautheit aus dem Geräuschspektrum; Verfahren nach E. Zwicker",
+      "date": "1991-03",
+      "status": "current",
+      "url": "https://www.dinmedia.de/en/standard/din-45631/1666531",
+      "note": "Stationary sounds. ISO 532-1:2017 states that its stationary method is based on this standard.",
+      "checked": "2026-10-06"
+    },
+    {
+      "id": "din-45631-a1-2010",
+      "label": "DIN 45631/A1:2010",
+      "kind": "amendment",
+      "body": "DIN",
+      "title": "Calculation of loudness level and loudness from the sound spectrum — Zwicker method — Amendment 1: Calculation of the loudness of time-variant sound",
+      "date": "2010-03",
+      "status": "current",
+      "url": "https://www.dinmedia.de/en/standard/din-45631-a1/122476084",
+      "note": "Comes with PDF, Excel and WAV supplements.",
+      "checked": "2026-10-06"
+    },
+    {
+      "id": "iso-532-1-2017",
+      "label": "ISO 532-1:2017",
+      "kind": "standard",
+      "body": "ISO",
+      "title": "Acoustics — Methods for calculating loudness — Part 1: Zwicker method",
+      "edition": "1st edition (corrected version 2017-11)",
+      "date": "2017-06-15",
+      "status": "current",
+      "superseded_by": "iso-532-1-ed2-draft",
+      "revision": "Under revision; the 2nd edition has been at committee-draft stage since 2024-11-01.",
+      "url": "https://www.iso.org/standard/63077.html",
+      "note": "Stationary and time-varying methods. The Annex A program and Annex B test signals can be downloaded free from [standards.iso.org](https://standards.iso.org/iso/532/-1/ed-1/en/), but ISO's licence only allows use in their original form, so they are not open source. Adopted in Germany as DIN ISO 532-1:2022-03.",
+      "checked": "2026-10-06"
+    },
+    {
+      "id": "iso-532-1-ed2-draft",
+      "label": "ISO/CD 532-1",
+      "kind": "draft",
+      "body": "ISO",
+      "title": "Acoustics — Methods for calculating loudness — Part 1: Zwicker method (2nd edition)",
+      "edition": "2nd edition, committee draft",
+      "date": "2024-11",
+      "status": "in-development",
+      "url": "https://www.iso.org/standard/90809.html",
+      "note": "Stage 30.99 (CD approved for registration as DIS) since 2024-11-01; not yet at DIS on 2026-09-30.",
+      "checked": "2026-10-06"
+    },
+    {
+      "id": "moore-1997",
+      "label": "Moore, Glasberg & Baer (1997)",
+      "kind": "paper",
+      "body": "paper",
+      "title": "A model for the prediction of thresholds, loudness, and partial loudness",
+      "date": 1997,
+      "status": "published",
+      "citation": "Moore, B. C. J., Glasberg, B. R., & Baer, T. (1997). A model for the prediction of thresholds, loudness, and partial loudness. *Journal of the Audio Engineering Society*, 45(4), 224–240.",
+      "checked": "2026-10-06"
+    },
+    {
+      "id": "chen-2011",
+      "label": "Chen et al. (2011)",
+      "kind": "paper",
+      "body": "paper",
+      "title": "A new method of calculating auditory excitation patterns and loudness for steady sounds",
+      "date": 2011,
+      "status": "published",
+      "doi": "10.1016/j.heares.2011.08.001",
+      "citation": "Chen, Z., Hu, G., Glasberg, B. R., & Moore, B. C. J. (2011). A new method of calculating auditory excitation patterns and loudness for steady sounds. *Hearing Research*, 282(1–2), 204–215.",
+      "checked": "2026-10-06"
+    },
+    {
+      "id": "ansi-s3-4-2007",
+      "label": "ANSI/ASA S3.4-2007",
+      "kind": "standard",
+      "body": "ANSI/ASA",
+      "title": "Procedure for the Computation of Loudness of Steady Sounds",
+      "date": 2007,
+      "status": "current",
+      "url": "https://webstore.ansi.org/standards/asa/ANSIASAS32007R2020",
+      "note": "Based on Moore, Glasberg & Baer (1997) with later modifications; includes a loudness program. Replaced S3.4-2005, which contained a calculation error. Reaffirmed several times, most recently listed as S3.4-2007 (R2025).",
+      "checked": "2026-10-06"
+    },
+    {
+      "id": "iso-532-2-2017",
+      "label": "ISO 532-2:2017",
+      "kind": "standard",
+      "body": "ISO",
+      "title": "Acoustics — Methods for calculating loudness — Part 2: Moore-Glasberg method",
+      "edition": "1st edition",
+      "date": "2017-06-26",
+      "status": "current",
+      "superseded_by": "iso-532-2-ed2-draft",
+      "revision": "Under revision; the 2nd edition has been at committee-draft stage since 2024-11-01.",
+      "url": "https://www.iso.org/standard/63078.html",
+      "note": "Stationary sounds, monaural or binaural. Source code is supplied with the standard as informative material.",
+      "checked": "2026-10-06"
+    },
+    {
+      "id": "iso-532-2-ed2-draft",
+      "label": "ISO/CD 532-2",
+      "kind": "draft",
+      "body": "ISO",
+      "title": "Acoustics — Methods for calculating loudness — Part 2: Moore-Glasberg method (2nd edition)",
+      "edition": "2nd edition, committee draft",
+      "date": "2024-11",
+      "status": "in-development",
+      "url": "https://www.iso.org/standard/90812.html",
+      "note": "Stage 30.99 since 2024-11-01.",
+      "checked": "2026-10-06"
+    },
+    {
+      "id": "glasberg-moore-2002",
+      "label": "Glasberg & Moore (2002)",
+      "kind": "paper",
+      "body": "paper",
+      "title": "A model of loudness applicable to time-varying sounds",
+      "date": 2002,
+      "status": "published",
+      "citation": "Glasberg, B. R., & Moore, B. C. J. (2002). A model of loudness applicable to time-varying sounds. *Journal of the Audio Engineering Society*, 50(5), 331–342.",
+      "checked": "2026-10-06"
+    },
+    {
+      "id": "moore-2016",
+      "label": "Moore et al. (2016)",
+      "kind": "paper",
+      "body": "paper",
+      "title": "A loudness model for time-varying sounds incorporating binaural inhibition",
+      "date": 2016,
+      "status": "published",
+      "doi": "10.1177/2331216516682698",
+      "citation": "Moore, B. C. J., Glasberg, B. R., Varathanathan, A., & Schlittenlacher, J. (2016). A loudness model for time-varying sounds incorporating binaural inhibition. *Trends in Hearing*, 20, 2331216516682698.",
+      "checked": "2026-10-06"
+    },
+    {
+      "id": "moore-2018",
+      "label": "Moore et al. (2018)",
+      "kind": "paper",
+      "body": "paper",
+      "title": "Testing and refining a loudness model for time-varying sounds incorporating binaural inhibition",
+      "date": 2018,
+      "status": "published",
+      "doi": "10.1121/1.5027246",
+      "citation": "Moore, B. C. J., Jervis, M., Harries, L., & Schlittenlacher, J. (2018). Testing and refining a loudness model for time-varying sounds incorporating binaural inhibition. *The Journal of the Acoustical Society of America*, 143(3), 1504–1513.",
+      "checked": "2026-10-06"
+    },
+    {
+      "id": "iso-532-3-2023",
+      "label": "ISO 532-3:2023",
+      "kind": "standard",
+      "body": "ISO",
+      "title": "Acoustics — Methods for calculating loudness — Part 3: Moore-Glasberg-Schlittenlacher method",
+      "edition": "1st edition",
+      "date": "2023-07-13",
+      "status": "current",
+      "superseded_by": "iso-532-3-ed2-draft",
+      "revision": "Under revision; the 2nd edition has been at committee-draft stage since 2024-11-01.",
+      "url": "https://www.iso.org/standard/69856.html",
+      "note": "Stationary and time-varying sounds (speech, music, impulsive sounds), with binaural inhibition. Source code is supplied with the standard as informative material.",
+      "checked": "2026-10-06"
+    },
+    {
+      "id": "iso-532-3-ed2-draft",
+      "label": "ISO/CD 532-3",
+      "kind": "draft",
+      "body": "ISO",
+      "title": "Acoustics — Methods for calculating loudness — Part 3: Moore-Glasberg-Schlittenlacher method (2nd edition)",
+      "edition": "2nd edition, committee draft",
+      "date": "2024-11",
+      "status": "in-development",
+      "url": "https://www.iso.org/standard/90816.html",
+      "note": "Stage 30.99 since 2024-11-01.",
+      "checked": "2026-10-06"
+    },
+    {
+      "id": "ecma-74-ed17",
+      "label": "ECMA-74:2019 (17th ed.)",
+      "kind": "standard",
+      "body": "Ecma",
+      "title": "Measurement of airborne noise emitted by information technology and telecommunications equipment",
+      "edition": "17th edition",
+      "date": "2019-12",
+      "status": "superseded",
+      "url": "https://ecma-international.org/publications-and-standards/standards/ecma-74/",
+      "note": "Contained the TNR/PR method (Annex D) and the hearing model with tonality that moved to ECMA-418-1 and ECMA-418-2 in 2020. Since the 18th edition (2021) those annexes only point to ECMA-418. The current edition is the 22nd (December 2025).",
+      "checked": "2026-10-06"
+    },
+    {
+      "id": "ecma-418-1-ed1",
+      "label": "ECMA-418-1:2020 (1st ed.)",
+      "kind": "standard",
+      "body": "Ecma",
+      "title": "Psychoacoustic metrics for ITT equipment — Part 1 (prominent discrete tones)",
+      "edition": "1st edition",
+      "date": "2020-12",
+      "status": "superseded",
+      "superseded_by": "ecma-418-1-ed2",
+      "url": "https://ecma-international.org/wp-content/uploads/ECMA-418-1_1st_edition_december_2020.pdf",
+      "checked": "2026-10-06"
+    },
+    {
+      "id": "ecma-418-1-ed2",
+      "label": "ECMA-418-1:2022 (2nd ed.)",
+      "kind": "standard",
+      "body": "Ecma",
+      "title": "Psychoacoustic metrics for ITT equipment — Part 1 (prominent discrete tones)",
+      "edition": "2nd edition",
+      "date": "2022-12",
+      "status": "superseded",
+      "superseded_by": "ecma-418-1-ed3",
+      "url": "https://ecma-international.org/wp-content/uploads/ECMA-418-1_2nd_edition_december_2022.pdf",
+      "checked": "2026-10-06"
+    },
+    {
+      "id": "ecma-418-1-ed3",
+      "label": "ECMA-418-1:2024 (3rd ed.)",
+      "kind": "standard",
+      "body": "Ecma",
+      "title": "Psychoacoustic metrics for ITT equipment — Part 1 (prominent discrete tones)",
+      "edition": "3rd edition",
+      "date": "2024-12",
+      "status": "current",
+      "url": "https://ecma-international.org/wp-content/uploads/ECMA-418-1_3rd_edition_december_2024.pdf",
+      "note": "Free download. No newer edition was approved at the Ecma General Assembly of June 2026.",
+      "checked": "2026-10-06"
+    },
+    {
+      "id": "ecma-418-2-ed1",
+      "label": "ECMA-418-2:2020 (1st ed.)",
+      "kind": "standard",
+      "body": "Ecma",
+      "title": "Psychoacoustic metrics for ITT equipment — Part 2 (models based on human perception)",
+      "edition": "1st edition",
+      "date": "2020-12",
+      "status": "superseded",
+      "superseded_by": "ecma-418-2-ed2",
+      "url": "https://ecma-international.org/wp-content/uploads/ECMA-418-2_1st_edition_december_2020.pdf",
+      "checked": "2026-10-06"
+    },
+    {
+      "id": "ecma-418-2-ed2",
+      "label": "ECMA-418-2:2022 (2nd ed.)",
+      "kind": "standard",
+      "body": "Ecma",
+      "title": "Psychoacoustic metrics for ITT equipment — Part 2 (models based on human perception)",
+      "edition": "2nd edition",
+      "date": "2022-12",
+      "status": "superseded",
+      "superseded_by": "ecma-418-2-ed3",
+      "url": "https://ecma-international.org/wp-content/uploads/ECMA-418-2_2nd_edition_december_2022.pdf",
+      "checked": "2026-10-06"
+    },
+    {
+      "id": "ecma-418-2-ed3",
+      "label": "ECMA-418-2:2024 (3rd ed.)",
+      "kind": "standard",
+      "body": "Ecma",
+      "title": "Psychoacoustic metrics for ITT equipment — Part 2 (methods for describing human perception based on the Sottek Hearing Model)",
+      "edition": "3rd edition",
+      "date": "2024-12",
+      "status": "superseded",
+      "superseded_by": "ecma-418-2-ed4",
+      "url": "https://ecma-international.org/wp-content/uploads/ECMA-418-2_3rd_edition_december_2024.pdf",
+      "checked": "2026-10-06"
+    },
+    {
+      "id": "ecma-418-2-ed4",
+      "label": "ECMA-418-2:2025 (4th ed.)",
+      "kind": "standard",
+      "body": "Ecma",
+      "title": "Psychoacoustic metrics for ITT equipment — Part 2 (methods for describing human perception based on the Sottek Hearing Model)",
+      "edition": "4th edition",
+      "date": "2025-06",
+      "status": "current",
+      "url": "https://ecma-international.org/wp-content/uploads/ECMA-418-2_4th_edition_june_2025.pdf",
+      "note": "Approved on 2025-06-25. Adds fluctuation strength (Clause 9); still refers to ISO 226:2003; defines no sharpness. Free download. No newer edition was approved at the Ecma General Assembly of June 2026.",
+      "checked": "2026-10-06"
+    },
+    {
+      "id": "von-bismarck-1974",
+      "label": "von Bismarck (1974)",
+      "kind": "paper",
+      "body": "paper",
+      "title": "Sharpness as an attribute of the timbre of steady sounds",
+      "date": 1974,
+      "status": "published",
+      "citation": "von Bismarck, G. (1974). Sharpness as an attribute of the timbre of steady sounds. *Acustica*, 30(3), 159–172.",
+      "checked": "2026-10-06"
+    },
+    {
+      "id": "aures-1985-euphony",
+      "label": "Aures (1985b)",
+      "kind": "paper",
+      "body": "paper",
+      "title": "Berechnungsverfahren für den sensorischen Wohlklang beliebiger Schallsignale",
+      "date": 1985,
+      "status": "published",
+      "citation": "Aures, W. (1985). Berechnungsverfahren für den sensorischen Wohlklang beliebiger Schallsignale [A model for calculating the sensory euphony of various sounds]. *Acustica*, 59, 130–141.",
+      "note": "Defines the tonality model and the loudness-dependent sharpness weighting that carry Aures's name.",
+      "checked": "2026-10-06"
+    },
+    {
+      "id": "din-45692-2009",
+      "label": "DIN 45692:2009",
+      "kind": "standard",
+      "body": "DIN",
+      "title": "Messtechnische Simulation der Hörempfindung Schärfe (Measurement technique for the simulation of the auditory sensation of sharpness)",
+      "date": "2009-08",
+      "status": "current",
+      "url": "https://www.dinmedia.de/en/standard/din-45692/117635111",
+      "note": "Includes a test procedure for measuring instruments. No revision or draft has been announced.",
+      "checked": "2026-10-06"
+    },
+    {
+      "id": "aures-1985-roughness",
+      "label": "Aures (1985a)",
+      "kind": "paper",
+      "body": "paper",
+      "title": "Ein Berechnungsverfahren der Rauhigkeit",
+      "date": 1985,
+      "status": "published",
+      "citation": "Aures, W. (1985). Ein Berechnungsverfahren der Rauhigkeit [A procedure for calculating auditory roughness]. *Acustica*, 58, 268–281.",
+      "checked": "2026-10-06"
+    },
+    {
+      "id": "daniel-weber-1997",
+      "label": "Daniel & Weber (1997)",
+      "kind": "paper",
+      "body": "paper",
+      "title": "Psychoacoustical roughness: implementation of an optimized model",
+      "date": 1997,
+      "status": "published",
+      "citation": "Daniel, P., & Weber, R. (1997). Psychoacoustical roughness: Implementation of an optimized model. *Acta Acustica united with Acustica*, 83(1), 113–123.",
+      "checked": "2026-10-06"
+    },
+    {
+      "id": "din-38455-2024",
+      "label": "DIN 38455:2024",
+      "kind": "standard",
+      "body": "DIN",
+      "title": "Berechnung der Hörempfindung Rauigkeit (Calculation of the auditory sensation of roughness)",
+      "date": "2024-11",
+      "status": "current",
+      "url": "https://www.dinmedia.de/en/standard/din-38455/376186532",
+      "note": "The first German standard for roughness (44 pages, in German), from the DIN/VDI committee for psychoacoustic measurement. Which model it specifies could not be confirmed from public information; a hearing-model roughness was proposed for DIN standardisation by Sottek & Becker (2019).",
+      "checked": "2026-10-06"
+    },
+    {
+      "id": "fastl-zwicker-2007",
+      "label": "Fastl & Zwicker (2007)",
+      "kind": "book",
+      "body": "paper",
+      "title": "Psychoacoustics: Facts and Models (3rd edition)",
+      "date": 2007,
+      "status": "published",
+      "doi": "10.1007/978-3-540-68888-4",
+      "citation": "Fastl, H., & Zwicker, E. (2007). *Psychoacoustics: Facts and models* (3rd ed.). Springer.",
+      "checked": "2026-10-06"
+    },
+    {
+      "id": "osses-2016",
+      "label": "Osses et al. (2016)",
+      "kind": "paper",
+      "body": "paper",
+      "title": "Modelling the sensation of fluctuation strength",
+      "date": 2016,
+      "status": "published",
+      "doi": "10.1121/2.0000410",
+      "citation": "Osses Vecchi, A., García León, R., & Kohlrausch, A. (2016). Modelling the sensation of fluctuation strength. *Proceedings of Meetings on Acoustics*, 28, 050005.",
+      "checked": "2026-10-06"
+    },
+    {
+      "id": "terhardt-1982",
+      "label": "Terhardt et al. (1982)",
+      "kind": "paper",
+      "body": "paper",
+      "title": "Algorithm for extraction of pitch and pitch salience from complex tonal signals",
+      "date": 1982,
+      "status": "published",
+      "doi": "10.1121/1.387544",
+      "citation": "Terhardt, E., Stoll, G., & Seewann, M. (1982). Algorithm for extraction of pitch and pitch salience from complex tonal signals. *The Journal of the Acoustical Society of America*, 71(3), 679–688.",
+      "checked": "2026-10-06"
+    },
+    {
+      "id": "din-45681-2005",
+      "label": "DIN 45681:2005",
+      "kind": "standard",
+      "body": "DIN",
+      "title": "Akustik — Bestimmung der Tonhaltigkeit von Geräuschen und Ermittlung eines Tonzuschlages für die Beurteilung von Geräuschimmissionen",
+      "date": "2005-03",
+      "status": "current",
+      "url": "https://www.dinmedia.de/en/standard/din-45681/76463232",
+      "note": "Corrected by Berichtigung 2:2006-08, which replaced Berichtigung 1:2005-08. Supplied with a calculation program.",
+      "checked": "2026-10-06"
+    },
+    {
+      "id": "iso-pas-20065-2016",
+      "label": "ISO/PAS 20065:2016",
+      "kind": "publicly-available-specification",
+      "body": "ISO",
+      "title": "Acoustics — Objective method for assessing the audibility of tones in noise — Engineering method",
+      "date": "2016-07-01",
+      "status": "withdrawn",
+      "superseded_by": "iso-ts-20065-2022",
+      "url": "https://www.iso.org/standard/66941.html",
+      "note": "Withdrawn on 2022-12-19 when the technical specification was published.",
+      "checked": "2026-10-06"
+    },
+    {
+      "id": "iso-ts-20065-2022",
+      "label": "ISO/TS 20065:2022",
+      "kind": "technical-specification",
+      "body": "ISO",
+      "title": "Acoustics — Objective method for assessing the audibility of tones in noise — Engineering method",
+      "date": "2022-12-19",
+      "status": "current",
+      "url": "https://www.iso.org/standard/81518.html",
+      "note": "Confirmed in 2026.",
+      "checked": "2026-10-06"
+    },
+    {
+      "id": "iso-1996-2-2007",
+      "label": "ISO 1996-2:2007",
+      "kind": "standard",
+      "body": "ISO",
+      "title": "Acoustics — Description, measurement and assessment of environmental noise — Part 2: Determination of environmental noise levels",
+      "date": "2007-03-09",
+      "status": "withdrawn",
+      "superseded_by": "iso-1996-2-2017",
+      "url": "https://www.iso.org/standard/41860.html",
+      "checked": "2026-10-06"
+    },
+    {
+      "id": "iso-1996-2-2017",
+      "label": "ISO 1996-2:2017",
+      "kind": "standard",
+      "body": "ISO",
+      "title": "Acoustics — Description, measurement and assessment of environmental noise — Part 2: Determination of sound pressure levels",
+      "date": "2017-07-14",
+      "status": "current",
+      "url": "https://www.iso.org/standard/59766.html",
+      "note": "Annex J (engineering method) and Annex K (survey method) for tonal audibility. Confirmed after review.",
+      "checked": "2026-10-06"
+    },
+    {
+      "id": "iec-61400-11-2012",
+      "label": "IEC 61400-11:2012+AMD1:2018",
+      "kind": "standard",
+      "body": "IEC",
+      "title": "Wind turbines — Part 11: Acoustic noise measurement techniques",
+      "edition": "Edition 3.1 (edition 3 of 2012 with Amendment 1 of 2018)",
+      "date": "2012-11-07",
+      "status": "current",
+      "url": "https://webstore.iec.ch/en/publication/63367",
+      "note": "Tonal audibility is in clause 9.5. Amendment 1 published 2018-06-15, corrigendum in 2019. Receptor measurements are covered separately by IEC TS 61400-11-2:2024.",
+      "checked": "2026-10-06"
+    },
+    {
+      "id": "nt-acou-112-2002",
+      "label": "NT ACOU 112",
+      "kind": "method",
+      "body": "Nordtest",
+      "title": "Acoustics: Prominence of impulsive sounds and for adjustment of LAeq",
+      "date": "2002-05",
+      "status": "current",
+      "citation": "Nordtest (2002). *NT ACOU 112: Acoustics — Prominence of impulsive sounds and for adjustment of LAeq*. Nordtest, Taastrup.",
+      "note": "Defines impulses by level difference and onset rate; the basis of ISO/PAS 1996-3.",
+      "checked": "2026-10-06"
+    },
+    {
+      "id": "iso-pas-1996-3-2022",
+      "label": "ISO/PAS 1996-3:2022",
+      "kind": "publicly-available-specification",
+      "body": "ISO",
+      "title": "Acoustics — Description, measurement and assessment of environmental noise — Part 3: Objective method for the measurement of prominence of impulsive sounds and for adjustment of LAeq",
+      "date": "2022-07-06",
+      "status": "current",
+      "url": "https://www.iso.org/standard/77035.html",
+      "note": "Adjustment of 0 to 9 dB. Confirmed in 2025.",
+      "checked": "2026-10-06"
+    },
+    {
+      "id": "widmann-1992",
+      "label": "Widmann (1992)",
+      "kind": "thesis",
+      "body": "paper",
+      "title": "Ein Modell der psychoakustischen Lästigkeit von Schallen und seine Anwendung in der Praxis der Lärmbeurteilung",
+      "date": 1992,
+      "status": "published",
+      "citation": "Widmann, U. (1992). *Ein Modell der psychoakustischen Lästigkeit von Schallen und seine Anwendung in der Praxis der Lärmbeurteilung* [Doctoral dissertation, Technische Universität München].",
+      "checked": "2026-10-06"
+    },
+    {
+      "id": "zwicker-fastl-1999",
+      "label": "Zwicker & Fastl (1999)",
+      "kind": "book",
+      "body": "paper",
+      "title": "Psychoacoustics: Facts and Models (2nd edition)",
+      "date": 1999,
+      "status": "published",
+      "citation": "Zwicker, E., & Fastl, H. (1999). *Psychoacoustics: Facts and models* (2nd ed.). Springer.",
+      "checked": "2026-10-06"
+    },
+    {
+      "id": "more-2010",
+      "label": "More (2010)",
+      "kind": "thesis",
+      "body": "paper",
+      "title": "Aircraft noise characteristics and metrics",
+      "date": 2010,
+      "status": "published",
+      "citation": "More, S. R. (2010). *Aircraft noise characteristics and metrics* [Doctoral dissertation, Purdue University]. PARTNER report PARTNER-COE-2011-004.",
+      "checked": "2026-10-06"
+    },
+    {
+      "id": "di-2016",
+      "label": "Di et al. (2016)",
+      "kind": "paper",
+      "body": "paper",
+      "title": "Improvement of Zwicker's psychoacoustic annoyance model aiming at tonal noises",
+      "date": 2016,
+      "status": "published",
+      "doi": "10.1016/j.apacoust.2015.12.006",
+      "citation": "Di, G., Chen, X., Song, K., Zhou, B., & Pei, C. (2016). Improvement of Zwicker's psychoacoustic annoyance model aiming at tonal noises. *Applied Acoustics*, 105, 164–170.",
+      "checked": "2026-10-06"
+    },
+    {
+      "id": "iso-26573-draft",
+      "label": "ISO/AWI 26573",
+      "kind": "draft",
+      "body": "ISO",
+      "title": "Acoustics — Procedures for assessment and prediction of noise-induced perceptual annoyance through laboratory-based listening tests",
+      "date": "2026-04",
+      "status": "in-development",
+      "url": "https://www.iso.org/standard/93922.html",
+      "note": "Approved work item (stage 20.00) of ISO/TC 43/SC 1, per ISO Open Data of 2026-09-30.",
+      "checked": "2026-10-06"
+    },
+    {
+      "id": "iso-226-2003",
+      "label": "ISO 226:2003",
+      "kind": "standard",
+      "body": "ISO",
+      "title": "Acoustics — Normal equal-loudness-level contours",
+      "edition": "2nd edition",
+      "date": "2003-08-21",
+      "status": "withdrawn",
+      "superseded_by": "iso-226-2023",
+      "url": "https://www.iso.org/standard/34222.html",
+      "note": "Withdrawn on 2023-03-29. Still referenced by ECMA-418-2:2025.",
+      "checked": "2026-10-06"
+    },
+    {
+      "id": "iso-226-2023",
+      "label": "ISO 226:2023",
+      "kind": "standard",
+      "body": "ISO",
+      "title": "Acoustics — Normal equal-loudness-level contours",
+      "edition": "3rd edition",
+      "date": "2023-03-29",
+      "status": "current",
+      "url": "https://www.iso.org/standard/83117.html",
+      "note": "Data for 20 Hz to 12.5 kHz.",
+      "checked": "2026-10-06"
+    },
+    {
+      "id": "icao-annex-16-vol-1",
+      "label": "ICAO Annex 16, Vol. I",
+      "kind": "regulation",
+      "body": "ICAO",
+      "title": "Annex 16 to the Convention on International Civil Aviation — Environmental Protection — Volume I: Aircraft Noise",
+      "edition": "8th edition (2017), with amendments",
+      "date": "2017-07",
+      "status": "current",
+      "revision": "Amendment 15 was adopted on 2026-03-27 and applies from 2027-01-01 (new noise limits and supersonic aeroplanes); whether it changes the EPNL procedure itself has not been confirmed.",
+      "url": "https://store.icao.int/en/annex-16-environmental-protection-volume-i-aircraft-noise",
+      "note": "The EPNL evaluation method is in Appendix 2; guidance in ICAO Doc 9501 (Environmental Technical Manual).",
+      "checked": "2026-10-06"
+    },
+    {
+      "id": "cfr-14-part-36",
+      "label": "14 CFR Part 36",
+      "kind": "regulation",
+      "body": "FAA",
+      "title": "Noise standards: aircraft type and airworthiness certification (Appendix A: EPNL)",
+      "date": "2002-07",
+      "status": "current",
+      "url": "https://www.ecfr.gov/current/title-14/chapter-I/subchapter-C/part-36",
+      "note": "The EPNL procedure in Appendix A dates from Amendment 36-24 (2002), which harmonised it with ICAO; later amendments changed noise limits, not the calculation.",
+      "checked": "2026-10-06"
+    },
+    {
+      "id": "fidell-1974",
+      "label": "Fidell et al. (1974)",
+      "kind": "paper",
+      "body": "paper",
+      "title": "Prediction of aural detectability of noise signals",
+      "date": 1974,
+      "status": "published",
+      "doi": "10.1177/001872087401600405",
+      "citation": "Fidell, S., Pearsons, K. S., & Bennett, R. (1974). Prediction of aural detectability of noise signals. *Human Factors*, 16(4), 373–383.",
+      "checked": "2026-10-06"
+    }
+  ],
+  "projects": [
+    {
+      "id": "metasona",
+      "name": "MetaSona",
+      "repository": "https://github.com/huaaudio/metasona",
+      "docs": "https://github.com/huaaudio/metasona/blob/main/docs/python-api.md",
+      "languages": [
+        "Python",
+        "C"
+      ],
+      "kind": "library",
+      "license": "GPL-3.0-only AND Apache-2.0 AND BSD-3-Clause AND MIT",
+      "license_note": "The combined distribution is GPL-3.0; MetaSona's own code keeps Apache-2.0 and the adapted SQAT, MoSQITo and PocketFFT parts keep their BSD-3-Clause, MIT or Apache-2.0 notices.",
+      "packages": [
+        {
+          "registry": "pypi",
+          "name": "metasona"
+        }
+      ],
+      "install": "pip install metasona",
+      "maintainers": [
+        "Jiahua Zhang"
+      ],
+      "summary": "C library with a typed Python interface and prebuilt wheels, written to make repeated psychoacoustic analysis fast. Covers Zwicker loudness, DIN 45692 sharpness, Daniel–Weber roughness, Aures tonality and ECMA-418-2:2025 loudness, roughness and tonality.",
+      "ai_assistance": "disclosed",
+      "ai_note": "README and NOTICE state that it was developed with assistance from OpenAI Codex.",
+      "notes": [
+        "First commit and first PyPI release on 2026-09-16.",
+        "Ports a pinned SQAT revision (`e6228b78`, after SQAT's September 2026 fixes) and model data from MoSQITo; differences to both are listed in [THIRD_PARTY.md](https://github.com/huaaudio/metasona/blob/main/THIRD_PARTY.md).",
+        "Expects calibrated pressure in pascals. The Python interface resamples to 48 kHz; the C functions require 48 kHz.",
+        "The README reports speed-ups over MoSQITo 1.2.1 (e.g. 73× for time-varying loudness on its benchmark signal)."
+      ],
+      "caveats": [
+        "The README calls the current version experimental, particularly roughness and tonality, and says standards conformance has not been established.",
+        "Comparisons with SQAT and MoSQITo are described as kept outside the package repository, and the third-party notes say exact agreement with the MATLAB code is not established."
+      ],
+      "implements": [
+        {
+          "method": "loudness-zwicker",
+          "reference": "iso-532-1-2017",
+          "functions": [
+            "stationary_loudness",
+            "time_varying_loudness",
+            "loudness_from_levels"
+          ],
+          "scope": "stationary and time-varying; also from 28 third-octave levels",
+          "status": "available",
+          "since": "0.1.0",
+          "validation": "cross-implementation",
+          "note": "Model tables taken from MoSQITo and checked element by element; one upper-slope value (0.22) follows the ISO 532-1 reference C table where MoSQITo uses 0.24."
+        },
+        {
+          "method": "sharpness",
+          "reference": "din-45692-2009",
+          "functions": [
+            "sharpness_din45692"
+          ],
+          "scope": "from specific loudness",
+          "status": "available",
+          "since": "0.1.0",
+          "validation": "not-stated"
+        },
+        {
+          "method": "roughness-daniel-weber",
+          "reference": "daniel-weber-1997",
+          "functions": [
+            "roughness_daniel_weber"
+          ],
+          "status": "available",
+          "since": "0.1.0",
+          "validation": "cross-implementation",
+          "note": "Follows SQAT revision `e6228b78`, which includes SQAT's September 2026 rewrite."
+        },
+        {
+          "method": "tonality-aures",
+          "reference": "aures-1985-euphony",
+          "functions": [
+            "tonality_aures"
+          ],
+          "status": "available",
+          "since": "0.1.0",
+          "validation": "cross-implementation",
+          "note": "Follows SQAT's September 2026 revision (250 ms Hann windows, 125 ms hop); exact agreement with MATLAB is not established."
+        },
+        {
+          "method": "loudness-ecma-418-2",
+          "reference": "ecma-418-2-ed4",
+          "functions": [
+            "loudness_ecma",
+            "ecma_tonal_analysis"
+          ],
+          "scope": "Clause 8 loudness with tonal/noise separation; mono or stereo",
+          "status": "available",
+          "since": "0.2.0",
+          "validation": "cross-implementation",
+          "note": "Adapted from the SQAT/RefMap MATLAB code by Lotinga and Torjussen."
+        },
+        {
+          "method": "roughness-ecma-418-2",
+          "reference": "ecma-418-2-ed4",
+          "functions": [
+            "roughness_ecma"
+          ],
+          "scope": "mono or stereo; optional entropy weighting not applied",
+          "status": "available",
+          "since": "0.2.0",
+          "validation": "cross-implementation",
+          "note": "Uses the standard's 20 ms grid and nominal calibration factor, where SQAT uses a slightly adjusted calibration."
+        },
+        {
+          "method": "tonality-ecma-418-2",
+          "reference": "ecma-418-2-ed4",
+          "functions": [
+            "tonality_ecma",
+            "ecma_tonal_analysis"
+          ],
+          "scope": "mono or stereo",
+          "status": "available",
+          "since": "0.2.0",
+          "validation": "cross-implementation"
+        }
+      ],
+      "sources": [
+        "https://github.com/huaaudio/metasona/blob/main/README.md",
+        "https://github.com/huaaudio/metasona/blob/main/THIRD_PARTY.md",
+        "https://github.com/huaaudio/metasona/blob/main/NOTICE",
+        "https://pypi.org/project/metasona/"
+      ],
+      "checked": "2026-10-06",
+      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/metasona.html",
+      "last_commit": "2026-09-25",
+      "latest_release": {
+        "version": "0.2.2",
+        "date": "2026-09-25",
+        "source": ""
+      },
+      "prerelease": null,
+      "activity": "active",
+      "archived": false,
+      "stars": null
+    }
+  ],
+  "gaps": [
+    "loudness-moore-glasberg",
+    "loudness-moore-glasberg-time-varying",
+    "roughness-din-38455",
+    "fluctuation-strength-osses",
+    "fluctuation-strength-ecma-418-2",
+    "tone-to-noise-prominence-ratio",
+    "tonality-din-45681",
+    "tonal-audibility-iso-20065",
+    "tonal-audibility-iso-1996-2",
+    "tonal-audibility-iec-61400-11",
+    "impulsiveness",
+    "psychoacoustic-annoyance",
+    "equal-loudness-contours",
+    "epnl",
+    "aural-detectability"
+  ],
+  "updates": [
+    {
+      "date": "2026-10-06",
+      "title": "First public version",
+      "body": "The index starts with the projects, methods and standard editions listed on the website. Every\nimplementation is tied to the edition or model paper it follows, with links to the documentation the\nfacts were taken from.\n\nWorth knowing as of today:\n\n- ECMA-418-2 is at its 4th edition (June 2025), which added fluctuation strength. Implementations of\n  earlier editions are still in use, so check which edition a tool follows before comparing results.\n- SQAT's main branch carries unreleased changes to Aures tonality and Daniel & Weber roughness\n  (September 2026) that change results compared with SQAT v1.3.\n- All three parts of ISO 532 are being revised; committee drafts have existed since November 2024.\n- DIN 38455:2024 is the first German standard for roughness. No open implementation is known.\n- MetaSona (C library with a Python interface, first released in September 2026) is a new entry.\n"
+    }
+  ]
+}

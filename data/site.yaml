@@ -1,0 +1,13 @@
+title: Psychoacoustic Metrics Index
+description: >-
+  An index of open-source implementations of psychoacoustic metrics (loudness, sharpness, roughness,
+  fluctuation strength, tonality, impulsiveness and psychoacoustic annoyance), organised by the standard
+  edition or model each implementation follows. All programming languages.
+base_url: https://zhenxianli.github.io/psychoacoustic-metrics-index/
+repository: https://github.com/ZhenxianLi/psychoacoustic-metrics-index
+maintainer:
+  name: Zhenxian Li
+  github: ZhenxianLi
+license: MIT
+# A project is shown as inactive when its last commit is older than this many days.
+inactive_after_days: 365

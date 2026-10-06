@@ -1,0 +1,27 @@
+# Website built by scripts/build.py (published by the Pages workflow, not committed)
+site/
+
+# Reports written by the weekly jobs; their content goes into the weekly-review issue
+refresh.md
+discover.md
+standards.md
+
+# Python
+__pycache__/
+*.pyc
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Node (local tooling only)
+node_modules/
+
+# Operating system and editor files
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/

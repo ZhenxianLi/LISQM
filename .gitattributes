@@ -1,0 +1,14 @@
+# Store and check out every text file with LF line endings.
+* text=auto eol=lf
+
+# Written by scripts/build.py, scripts/refresh.py and scripts/watch_standards.py, never by hand.
+# Marked as generated so GitHub collapses them in diffs and leaves them out of the language statistics.
+data/index.json linguist-generated=true
+data/snapshot.json linguist-generated=true
+data/standards-watch.json linguist-generated=true
+llms.txt linguist-generated=true
+llms-full.txt linguist-generated=true
+CHANGELOG.md linguist-generated=true
+
+*.png binary
+*.ico binary

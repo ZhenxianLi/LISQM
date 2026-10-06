@@ -1,0 +1,481 @@
+# Metric families and methods. Each method gets its own page; see data/SCHEMA.md.
+# Methods are listed in display order. `references` are chronological; `current` names the edition(s)
+# an up-to-date implementation should follow.
+
+families:
+  - id: loudness
+    name: Loudness
+    name_zh: 响度
+    summary: >-
+      How loud a sound is perceived, in sone (loudness) and phon (loudness level). Four model families are
+      standardised: Zwicker (ISO 532-1), Moore–Glasberg (ISO 532-2), Moore–Glasberg–Schlittenlacher
+      (ISO 532-3) and the Sottek Hearing Model (ECMA-418-2).
+  - id: sharpness
+    name: Sharpness
+    name_zh: 尖锐度
+    summary: >-
+      The sensation produced by high-frequency content, in acum. Standardised in DIN 45692 on top of Zwicker
+      loudness; ECMA-418-2 does not define sharpness.
+  - id: roughness
+    name: Roughness
+    name_zh: 粗糙度
+    summary: >-
+      The sensation produced by fast amplitude or frequency modulation (roughly 15 to 300 Hz, strongest near
+      70 Hz), in asper.
+  - id: fluctuation-strength
+    name: Fluctuation strength
+    name_zh: 波动强度
+    summary: >-
+      The sensation produced by slow modulation (below about 20 Hz, strongest near 4 Hz), in vacil.
+  - id: tonality
+    name: Tonality
+    name_zh: 音调性
+    summary: >-
+      How prominent tonal components are. Covers psychoacoustic tonality models (Aures, ECMA-418-2) and the
+      engineering measures used for product noise (tone-to-noise ratio, prominence ratio) and for
+      environmental noise (tonal audibility and tone adjustments).
+  - id: impulsiveness
+    name: Impulsiveness
+    name_zh: 冲击性
+    summary: >-
+      How prominent impulsive sounds are, and the adjustment applied to them in environmental noise
+      assessment.
+  - id: annoyance
+    name: Psychoacoustic annoyance
+    name_zh: 心理声学烦恼度
+    summary: >-
+      Single-number models that combine loudness, sharpness, roughness, fluctuation strength and, in later
+      models, tonality into a predicted annoyance.
+  - id: related
+    name: Related quantities
+    name_zh: 相关指标
+    summary: >-
+      Quantities that psychoacoustic tools often include and that are closely tied to the metrics above.
+
+methods:
+  # ------------------------------------------------------------------------------------------- loudness
+  - id: loudness-zwicker
+    family: loudness
+    name: Zwicker loudness
+    name_zh: Zwicker 响度（ISO 532-1）
+    title: Zwicker loudness (ISO 532-1, DIN 45631)
+    aka: [ISO 532-1, ISO 532B, ISO 532 method B, DIN 45631, DIN 45631/A1, Zwicker method, N5, percentile loudness]
+    unit: sone, phon
+    summary: >-
+      Loudness from Zwicker's model: third-octave band levels are turned into specific loudness on the
+      critical-band (Bark) scale and integrated. ISO 532-1:2017 specifies one procedure for stationary sounds
+      and one for time-varying sounds (from which percentile values such as N5 are taken), and replaced
+      method B of ISO 532:1975. The German standards DIN 45631 (stationary) and DIN 45631/A1 (time-varying)
+      describe the same method.
+    references: [iso-532-1975, din-45631-1991, din-45631-a1-2010, iso-532-1-2017, iso-532-1-ed2-draft]
+    current: [iso-532-1-2017]
+    edition_notes:
+      iso-532-1975: Method B (Zwicker) for stationary sounds, from third-octave levels.
+      din-45631-1991: Stationary sounds.
+      din-45631-a1-2010: Adds the procedure for time-varying sounds.
+      iso-532-1-2017: Stationary and time-varying procedures; Annex A reference program, Annex B test signals.
+      iso-532-1-ed2-draft: Second edition at committee-draft stage since November 2024.
+    see_also: [sharpness, loudness-ecma-418-2]
+
+  - id: loudness-moore-glasberg
+    family: loudness
+    name: Moore–Glasberg loudness
+    name_zh: Moore–Glasberg 稳态响度（ISO 532-2）
+    title: Moore–Glasberg loudness of stationary sounds (ISO 532-2, ANSI S3.4)
+    aka: [ISO 532-2, ANSI S3.4, ANSI/ASA S3.4-2007, Moore-Glasberg method, Cambridge loudness model]
+    unit: sone, phon
+    summary: >-
+      Loudness of stationary sounds from the Moore–Glasberg model: the spectrum is turned into an excitation
+      pattern on the ERB-number scale, then into specific loudness, which is summed. ANSI S3.4-2007
+      standardised the model of Moore, Glasberg & Baer (1997) with later modifications; ISO 532-2:2017
+      specifies the method for monaural and binaural listening.
+    references: [moore-1997, ansi-s3-4-2007, chen-2011, iso-532-2-2017, iso-532-2-ed2-draft]
+    current: [iso-532-2-2017]
+    edition_notes:
+      moore-1997: Model paper (thresholds, loudness and partial loudness).
+      ansi-s3-4-2007: American standard based on the 1997 model with later modifications.
+      chen-2011: Faster excitation-pattern calculation, also for hearing loss (not standardised).
+      iso-532-2-2017: Monaural and binaural loudness of stationary sounds; source code supplied with the standard.
+      iso-532-2-ed2-draft: Second edition at committee-draft stage since November 2024.
+    see_also: [loudness-moore-glasberg-time-varying]
+
+  - id: loudness-moore-glasberg-time-varying
+    family: loudness
+    name: Time-varying loudness (Moore–Glasberg–Schlittenlacher)
+    name_zh: Moore–Glasberg–Schlittenlacher 时变响度（ISO 532-3）
+    title: Time-varying loudness, Moore–Glasberg–Schlittenlacher (ISO 532-3)
+    aka: [ISO 532-3, TVL, time-varying loudness, Glasberg and Moore 2002, Moore-Glasberg-Schlittenlacher method,
+          short-term loudness, long-term loudness]
+    unit: sone, phon
+    summary: >-
+      Loudness of time-varying sounds as instantaneous, short-term and long-term loudness. It starts from the
+      Glasberg & Moore (2002) model; Moore et al. (2016) added binaural inhibition and Moore et al. (2018)
+      revised the time constants. ISO 532-3:2023 standardises the resulting Moore–Glasberg–Schlittenlacher
+      method for stationary and time-varying sounds.
+    references: [glasberg-moore-2002, moore-2016, moore-2018, iso-532-3-2023, iso-532-3-ed2-draft]
+    current: [iso-532-3-2023]
+    edition_notes:
+      glasberg-moore-2002: Time-varying loudness model (short-term and long-term loudness).
+      moore-2016: Adds binaural inhibition.
+      moore-2018: Revised time constants.
+      iso-532-3-2023: Standardised method; source code supplied with the standard.
+      iso-532-3-ed2-draft: Second edition at committee-draft stage since November 2024.
+    see_also: [loudness-moore-glasberg]
+
+  - id: loudness-ecma-418-2
+    family: loudness
+    name: Sottek Hearing Model loudness
+    name_zh: Sottek 听觉模型响度（ECMA-418-2）
+    title: Loudness from the Sottek Hearing Model (ECMA-418-2)
+    aka: [ECMA-418-2 loudness, Sottek Hearing Model, SHM loudness, sone_HMS, hearing model loudness]
+    unit: sone_HMS
+    summary: >-
+      Loudness from the Sottek Hearing Model defined in ECMA-418-2. The hearing model (Clause 5) produces
+      specific loudness; the 2nd edition (2022) added a loudness calculation for sounds with tonal and noise
+      components (Clause 8). ECMA-418-2 has had four editions in five years, so implementations of different
+      editions can disagree.
+    references: [ecma-418-2-ed1, ecma-418-2-ed2, ecma-418-2-ed3, ecma-418-2-ed4]
+    current: [ecma-418-2-ed4]
+    edition_notes:
+      ecma-418-2-ed1: Hearing model (Clause 5) with specific loudness.
+      ecma-418-2-ed2: New Clause 8, loudness of sounds with subcritical or wider bandwidth.
+      ecma-418-2-ed3: Adds a diffuse-field outer and middle ear filter.
+      ecma-418-2-ed4: Hearing-model clauses 5.1.2.2 and 5.1.5.2 revised; conformance requires 48 kHz sampling.
+    see_also: [loudness-zwicker, tonality-ecma-418-2, roughness-ecma-418-2, fluctuation-strength-ecma-418-2]
+
+  # ------------------------------------------------------------------------------------------- sharpness
+  - id: sharpness
+    family: sharpness
+    name: Sharpness
+    name_zh: 尖锐度（DIN 45692）
+    title: Sharpness (DIN 45692, Aures, von Bismarck)
+    aka: [DIN 45692, acum, Zwicker sharpness, Aures sharpness, von Bismarck sharpness]
+    unit: acum
+    summary: >-
+      Sharpness is the weighted first moment of specific loudness along the critical-band rate, with a
+      weighting that emphasises high frequencies. DIN 45692:2009 standardises the weighting and a test
+      procedure, using Zwicker specific loudness (ISO 532-1 / DIN 45631). Most implementations also offer the
+      weightings of von Bismarck (1974) and Aures (1985).
+    references: [von-bismarck-1974, aures-1985-euphony, din-45692-2009]
+    current: [din-45692-2009]
+    edition_notes:
+      von-bismarck-1974: Original sharpness weighting.
+      aures-1985-euphony: Weighting that depends on total loudness.
+      din-45692-2009: Standardised weighting and test procedure; no revision announced.
+    see_also: [loudness-zwicker]
+
+  # ------------------------------------------------------------------------------------------- roughness
+  - id: roughness-daniel-weber
+    family: roughness
+    name: Roughness (Daniel & Weber)
+    name_zh: 粗糙度（Daniel & Weber 模型）
+    title: Roughness, Daniel & Weber model
+    aka: [Daniel and Weber roughness, Daniel & Weber 1997, Aures roughness, asper]
+    unit: asper
+    summary: >-
+      Roughness from the model of Daniel & Weber (1997), an optimised version of Aures's (1985) model. It is
+      not standardised, and the paper leaves details open (filter bank, calibration, framing), so
+      implementations can give different values for the same signal.
+    notes: >-
+      SQAT replaced its implementation in September 2026 with one that follows Dik Hermes's code, which changes
+      results compared with SQAT v1.3 and earlier.
+    references: [aures-1985-roughness, daniel-weber-1997]
+    current: [daniel-weber-1997]
+    edition_notes:
+      aures-1985-roughness: Earlier model that Daniel & Weber optimised.
+      daniel-weber-1997: Reference model.
+    see_also: [roughness-ecma-418-2]
+
+  - id: roughness-ecma-418-2
+    family: roughness
+    name: Sottek Hearing Model roughness
+    name_zh: Sottek 听觉模型粗糙度（ECMA-418-2）
+    title: Roughness from the Sottek Hearing Model (ECMA-418-2)
+    aka: [ECMA-418-2 roughness, asper_HMS, Sottek roughness, SHM roughness]
+    unit: asper_HMS
+    summary: >-
+      Roughness from the Sottek Hearing Model, Clause 7 of ECMA-418-2. The 2nd edition (2022) added an
+      optional entropy weighting for cases where rotational speed is measured; the 3rd edition (2024) changed
+      zero-padding and segmentation, the largest change to roughness so far.
+    references: [ecma-418-2-ed1, ecma-418-2-ed2, ecma-418-2-ed3, ecma-418-2-ed4]
+    current: [ecma-418-2-ed4]
+    edition_notes:
+      ecma-418-2-ed1: Clause 7 roughness.
+      ecma-418-2-ed2: Refined calculation; optional entropy-weighted roughness.
+      ecma-418-2-ed3: Zero-padding and segmentation adapted; main revision of roughness.
+      ecma-418-2-ed4: Hearing-model and conformance updates (48 kHz sampling).
+    see_also: [roughness-daniel-weber, loudness-ecma-418-2]
+
+  - id: roughness-din-38455
+    family: roughness
+    name: Roughness (DIN 38455)
+    name_zh: 粗糙度（DIN 38455）
+    title: Roughness, DIN 38455
+    aka: [DIN 38455, Rauigkeit, German roughness standard]
+    unit: asper
+    summary: >-
+      DIN 38455:2024 is the first German standard for calculating roughness. Its text is not freely
+      available, and the model it specifies could not be confirmed from public sources; a hearing-model
+      roughness was proposed for DIN standardisation by Sottek & Becker (2019).
+    references: [din-38455-2024]
+    current: [din-38455-2024]
+    edition_notes:
+      din-38455-2024: First edition.
+    see_also: [roughness-ecma-418-2, roughness-daniel-weber]
+
+  # ------------------------------------------------------------------------------- fluctuation strength
+  - id: fluctuation-strength-osses
+    family: fluctuation-strength
+    name: Fluctuation strength (Osses et al.)
+    name_zh: 波动强度（Osses 模型）
+    title: Fluctuation strength, Osses et al. model and Fastl & Zwicker formula
+    aka: [fluctuation strength, vacil, Osses 2016, Fastl and Zwicker fluctuation strength]
+    unit: vacil
+    summary: >-
+      Fluctuation strength describes slow modulation around 4 Hz. Osses, García & Kohlrausch (2016) proposed
+      a signal-based model; Fastl & Zwicker give a closed-form expression for modulated tones and noises.
+      Neither is standardised. ECMA-418-2:2025 added a hearing-model method, listed on its own page.
+    references: [fastl-zwicker-2007, osses-2016]
+    current: [osses-2016]
+    edition_notes:
+      fastl-zwicker-2007: Closed-form expression for amplitude- and frequency-modulated sounds.
+      osses-2016: Signal-based model.
+    see_also: [fluctuation-strength-ecma-418-2]
+
+  - id: fluctuation-strength-ecma-418-2
+    family: fluctuation-strength
+    name: Sottek Hearing Model fluctuation strength
+    name_zh: Sottek 听觉模型波动强度（ECMA-418-2）
+    title: Fluctuation strength from the Sottek Hearing Model (ECMA-418-2)
+    aka: [ECMA-418-2 fluctuation strength, vacil_HMS, Sottek fluctuation strength]
+    unit: vacil_HMS
+    summary: >-
+      Fluctuation strength from the Sottek Hearing Model, new in the 4th edition of ECMA-418-2 (June 2025,
+      Clause 9). It uses high-resolution spectral analysis for modulation rates of about 0.25 to 20 Hz.
+    references: [ecma-418-2-ed4]
+    current: [ecma-418-2-ed4]
+    edition_notes:
+      ecma-418-2-ed4: New Clause 9.
+    see_also: [fluctuation-strength-osses, loudness-ecma-418-2]
+
+  # ------------------------------------------------------------------------------------------- tonality
+  - id: tonality-aures
+    family: tonality
+    name: Tonality (Aures)
+    name_zh: 音调性（Aures 模型）
+    title: Tonality, Aures/Terhardt model
+    aka: [Aures tonality, Terhardt tonality, tonality units, t.u., sensory euphony]
+    unit: t.u.
+    summary: >-
+      Tonality from Aures (1985): tonal components are extracted with the method of Terhardt, Stoll & Seewann
+      (1982), weighted, and related to the loudness of the whole sound. Not standardised.
+    notes: >-
+      SQAT corrected several issues in September 2026 (for example, only the first tonal component entered
+      the weighting), which changes results compared with SQAT v1.3 and earlier.
+    references: [terhardt-1982, aures-1985-euphony]
+    current: [aures-1985-euphony]
+    edition_notes:
+      terhardt-1982: Extraction of tonal components used by the model.
+      aures-1985-euphony: Tonality model.
+    see_also: [tonality-ecma-418-2]
+
+  - id: tonality-ecma-418-2
+    family: tonality
+    name: Sottek Hearing Model tonality
+    name_zh: Sottek 听觉模型音调性（ECMA-418-2）
+    title: Tonality from the Sottek Hearing Model (ECMA-418-2)
+    aka: [ECMA-418-2 tonality, psychoacoustic tonality, tu_HMS, Sottek tonality, SHM tonality]
+    unit: tu_HMS
+    summary: >-
+      Psychoacoustic tonality from the Sottek Hearing Model, Clause 6 of ECMA-418-2, with specific tonality
+      and tonal frequency over time. The method came from ECMA-74 (17th edition, 2019) when ECMA-418-2 was
+      first published in 2020.
+    references: [ecma-74-ed17, ecma-418-2-ed1, ecma-418-2-ed2, ecma-418-2-ed3, ecma-418-2-ed4]
+    current: [ecma-418-2-ed4]
+    edition_notes:
+      ecma-74-ed17: Hearing model and tonality before ECMA-418-2 existed.
+      ecma-418-2-ed1: Clause 6 tonality.
+      ecma-418-2-ed2: Refined calculation.
+      ecma-418-2-ed3: Further refinement.
+      ecma-418-2-ed4: Hearing-model and conformance updates (48 kHz sampling).
+    see_also: [tonality-aures, tone-to-noise-prominence-ratio, loudness-ecma-418-2]
+
+  - id: tone-to-noise-prominence-ratio
+    family: tonality
+    name: Tone-to-noise ratio and prominence ratio
+    name_zh: 音噪比与突出比（ECMA-418-1）
+    title: Tone-to-noise ratio and prominence ratio (ECMA-418-1)
+    aka: [TNR, PR, ECMA-418-1, ECMA-74 Annex D, prominent discrete tones, ANSI S1.13 Annex]
+    unit: dB
+    summary: >-
+      Tone-to-noise ratio (TNR) and prominence ratio (PR) decide whether a discrete tone is prominent: TNR
+      compares the tone with the noise in its critical band, PR compares the critical band with its
+      neighbours. ECMA-418-1 took the method over from Annex D of ECMA-74 in 2020; its 3rd edition (2024)
+      revised the TNR procedure.
+    references: [ecma-74-ed17, ecma-418-1-ed1, ecma-418-1-ed2, ecma-418-1-ed3]
+    current: [ecma-418-1-ed3]
+    edition_notes:
+      ecma-74-ed17: Annex D, before ECMA-418-1 existed.
+      ecma-418-1-ed1: Based on, and mostly identical to, ECMA-74 Annex D.
+      ecma-418-1-ed2: Maximum tone bandwidth for TNR set to 15 % of the critical band; corrections.
+      ecma-418-1-ed3: TNR procedure revised for repeatable results across FFT resolutions; terms rewritten.
+    see_also: [tonality-ecma-418-2, tonal-audibility-iso-20065]
+
+  - id: tonality-din-45681
+    family: tonality
+    name: Tonal components (DIN 45681)
+    name_zh: 音调成分与音调修正（DIN 45681）
+    title: Tonal components and tone adjustment (DIN 45681)
+    aka: [DIN 45681, tone adjustment, K_T, Tonzuschlag]
+    unit: dB
+    summary: >-
+      German method that detects tonal components in noise from narrow-band spectra and derives a tone
+      adjustment for the assessment of noise immissions. DIN 45681:2005 with its corrections of 2005 and 2006
+      is current.
+    references: [din-45681-2005]
+    current: [din-45681-2005]
+    edition_notes:
+      din-45681-2005: Current, with corrections of 2005-08 and 2006-08.
+    see_also: [tonal-audibility-iso-20065]
+
+  - id: tonal-audibility-iso-20065
+    family: tonality
+    name: Audibility of tones in noise (ISO/TS 20065)
+    name_zh: 噪声中音调的可听度（ISO/TS 20065）
+    title: Audibility of tones in noise (ISO/TS 20065)
+    aka: [ISO/TS 20065, ISO/PAS 20065, tonal audibility, decisive audibility, ΔL_ta]
+    unit: dB
+    summary: >-
+      Engineering method for the audibility of tones in noise, from critical-band analysis of narrow-band
+      spectra. First published as ISO/PAS 20065:2016 and turned into ISO/TS 20065:2022, which notes that the
+      method is not validated below 50 Hz.
+    references: [iso-pas-20065-2016, iso-ts-20065-2022]
+    current: [iso-ts-20065-2022]
+    edition_notes:
+      iso-pas-20065-2016: Publicly available specification; withdrawn in 2022.
+      iso-ts-20065-2022: Technical specification; adds that the method is not validated below 50 Hz.
+    see_also: [tonality-din-45681, tonal-audibility-iso-1996-2]
+
+  - id: tonal-audibility-iso-1996-2
+    family: tonality
+    name: Tonal audibility (ISO 1996-2)
+    name_zh: 环境噪声音调可听度（ISO 1996-2）
+    title: Tonal audibility in environmental noise (ISO 1996-2)
+    aka: [ISO 1996-2 Annex C, ISO 1996-2 Annex J, ISO 1996-2 Annex K, tonal adjustment, environmental noise tonality]
+    unit: dB
+    summary: >-
+      Objective tonal audibility and tone adjustment for environmental noise assessment. ISO 1996-2:2007 gave
+      a method in Annex C; ISO 1996-2:2017 replaced it with an engineering method (Annex J) and a survey
+      method (Annex K).
+    references: [iso-1996-2-2007, iso-1996-2-2017]
+    current: [iso-1996-2-2017]
+    edition_notes:
+      iso-1996-2-2007: Annex C tonal audibility.
+      iso-1996-2-2017: Annex J engineering method and Annex K survey method.
+    see_also: [tonal-audibility-iso-20065, tonal-audibility-iec-61400-11]
+
+  - id: tonal-audibility-iec-61400-11
+    family: tonality
+    name: Tonal audibility of wind turbines (IEC 61400-11)
+    name_zh: 风电机组音调可听度（IEC 61400-11）
+    title: Tonal audibility of wind turbine noise (IEC 61400-11)
+    aka: [IEC 61400-11, wind turbine tonality, tonal audibility]
+    unit: dB
+    summary: >-
+      Tonality analysis in the acoustic noise measurement of wind turbines: tones are identified in
+      narrow-band spectra and their tonal audibility is reported.
+    references: [iec-61400-11-2012]
+    current: [iec-61400-11-2012]
+    edition_notes:
+      iec-61400-11-2012: Edition 3 with Amendment 1 (2018).
+    see_also: [tonal-audibility-iso-1996-2]
+
+  # ------------------------------------------------------------------------------------- impulsiveness
+  - id: impulsiveness
+    family: impulsiveness
+    name: Impulse prominence
+    name_zh: 冲击声显著性（ISO/PAS 1996-3）
+    title: Prominence of impulsive sounds (ISO/PAS 1996-3, NT ACOU 112)
+    aka: [ISO/PAS 1996-3, NT ACOU 112, impulsiveness, impulse adjustment, impulsive sound prominence]
+    unit: dB
+    summary: >-
+      Objective prominence of impulsive sounds and the corresponding adjustment of the equivalent level in
+      environmental noise assessment: Nordtest method NT ACOU 112 and ISO/PAS 1996-3:2022 (adjustment of 0 to
+      9 dB). Hearing-model impulsiveness metrics are not standardised and no open implementation is listed.
+    references: [nt-acou-112-2002, iso-pas-1996-3-2022]
+    current: [iso-pas-1996-3-2022]
+    edition_notes:
+      nt-acou-112-2002: Nordic test method.
+      iso-pas-1996-3-2022: Publicly available specification.
+
+  # ----------------------------------------------------------------------------------------- annoyance
+  - id: psychoacoustic-annoyance
+    family: annoyance
+    name: Psychoacoustic annoyance
+    name_zh: 心理声学烦恼度
+    title: Psychoacoustic annoyance (Widmann, Zwicker & Fastl, More, Di et al.)
+    aka: [PA, psychoacoustic annoyance, Zwicker annoyance, Widmann annoyance, More annoyance, Di annoyance]
+    unit: dimensionless
+    summary: >-
+      Psychoacoustic annoyance (PA) combines percentile loudness N5 with sharpness, roughness and fluctuation
+      strength (Widmann 1992; Zwicker & Fastl 1999). More (2010) added tonality and Di et al. (2016) adapted
+      the model for tonal noise. None of these is standardised; ISO/AWI 26573, registered in 2026, covers the
+      assessment of annoyance through listening tests, including prediction models.
+    references: [widmann-1992, zwicker-fastl-1999, more-2010, di-2016, iso-26573-draft]
+    current: [widmann-1992, zwicker-fastl-1999, more-2010, di-2016]
+    edition_notes:
+      widmann-1992: Original model.
+      zwicker-fastl-1999: Book version of the model.
+      more-2010: Adds tonality.
+      di-2016: Adapted for tonal noise.
+      iso-26573-draft: Approved work item (stage 20.00) since 2026.
+
+  # ------------------------------------------------------------------------------------------- related
+  - id: equal-loudness-contours
+    family: related
+    name: Equal-loudness contours
+    name_zh: 等响曲线（ISO 226）
+    title: Equal-loudness-level contours (ISO 226)
+    aka: [ISO 226, equal-loudness contours, phon curves, threshold of hearing]
+    unit: dB SPL, phon
+    summary: >-
+      Normal equal-loudness-level contours for pure tones in free-field listening. ISO 226:2023 replaced
+      ISO 226:2003; ECMA-418-2:2025 still refers to the 2003 edition.
+    references: [iso-226-2003, iso-226-2023]
+    current: [iso-226-2023]
+    edition_notes:
+      iso-226-2003: Second edition; withdrawn in 2023.
+      iso-226-2023: Third edition.
+
+  - id: epnl
+    family: related
+    name: Perceived noise level and EPNL
+    name_zh: 有效感觉噪声级（EPNL）
+    title: Perceived noise level, PNLT and EPNL (ICAO Annex 16, 14 CFR Part 36)
+    aka: [EPNL, EPNdB, PNL, PNLT, perceived noisiness, noy, aircraft noise certification]
+    unit: PNdB, EPNdB
+    summary: >-
+      Effective perceived noise level for aircraft noise certification: perceived noisiness in noy, the
+      tone-corrected perceived noise level (PNLT) and a duration correction. Defined in ICAO Annex 16,
+      Volume I, and in the US regulation 14 CFR Part 36.
+    references: [icao-annex-16-vol-1, cfr-14-part-36]
+    current: [icao-annex-16-vol-1, cfr-14-part-36]
+    edition_notes:
+      icao-annex-16-vol-1: International standard for aircraft noise certification.
+      cfr-14-part-36: US regulation (Appendices A and B).
+
+  - id: aural-detectability
+    family: related
+    name: Aural detectability
+    name_zh: 可察觉度
+    title: Aural detectability of sounds in background noise
+    aka: [detectability, d-prime, signal detection, aural detection, audibility of aircraft]
+    unit: d′ (detectability index), dB
+    summary: >-
+      How likely a listener is to detect a sound in background noise, from signal-to-noise ratios in auditory
+      filters and signal-detection theory. Used for aircraft, drone and urban air mobility noise. Not
+      standardised.
+    references: [fidell-1974]
+    current: [fidell-1974]
+    edition_notes:
+      fidell-1974: Model paper.

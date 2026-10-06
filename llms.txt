@@ -1,0 +1,69 @@
+# Psychoacoustic Metrics Index
+
+> An index of open-source implementations of psychoacoustic metrics (loudness, sharpness, roughness, fluctuation strength, tonality, impulsiveness and psychoacoustic annoyance), organised by the standard edition or model each implementation follows. All programming languages.
+
+Data as of 2026-10-06. 22 methods, 1 project, languages: C, Python. Each implementation is tied to the standard edition or model paper it follows, with its validation evidence as stated by the project. Repository and package metadata are refreshed weekly.
+
+## Loudness
+
+- [Zwicker loudness (ISO 532-1, DIN 45631)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/loudness-zwicker.md): current edition ISO 532-1:2017; implementations: MetaSona
+- [Moore–Glasberg loudness of stationary sounds (ISO 532-2, ANSI S3.4)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/loudness-moore-glasberg.md): current edition ISO 532-2:2017; implementations: none found
+- [Time-varying loudness, Moore–Glasberg–Schlittenlacher (ISO 532-3)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/loudness-moore-glasberg-time-varying.md): current edition ISO 532-3:2023; implementations: none found
+- [Loudness from the Sottek Hearing Model (ECMA-418-2)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/loudness-ecma-418-2.md): current edition ECMA-418-2:2025 (4th ed.); implementations: MetaSona
+
+## Sharpness
+
+- [Sharpness (DIN 45692, Aures, von Bismarck)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/sharpness.md): current edition DIN 45692:2009; implementations: MetaSona
+
+## Roughness
+
+- [Roughness, Daniel & Weber model](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/roughness-daniel-weber.md): current edition Daniel & Weber (1997); implementations: MetaSona
+- [Roughness from the Sottek Hearing Model (ECMA-418-2)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/roughness-ecma-418-2.md): current edition ECMA-418-2:2025 (4th ed.); implementations: MetaSona
+- [Roughness, DIN 38455](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/roughness-din-38455.md): current edition DIN 38455:2024; implementations: none found
+
+## Fluctuation strength
+
+- [Fluctuation strength, Osses et al. model and Fastl & Zwicker formula](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/fluctuation-strength-osses.md): current edition Osses et al. (2016); implementations: none found
+- [Fluctuation strength from the Sottek Hearing Model (ECMA-418-2)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/fluctuation-strength-ecma-418-2.md): current edition ECMA-418-2:2025 (4th ed.); implementations: none found
+
+## Tonality
+
+- [Tonality, Aures/Terhardt model](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/tonality-aures.md): current edition Aures (1985b); implementations: MetaSona
+- [Tonality from the Sottek Hearing Model (ECMA-418-2)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/tonality-ecma-418-2.md): current edition ECMA-418-2:2025 (4th ed.); implementations: MetaSona
+- [Tone-to-noise ratio and prominence ratio (ECMA-418-1)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/tone-to-noise-prominence-ratio.md): current edition ECMA-418-1:2024 (3rd ed.); implementations: none found
+- [Tonal components and tone adjustment (DIN 45681)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/tonality-din-45681.md): current edition DIN 45681:2005; implementations: none found
+- [Audibility of tones in noise (ISO/TS 20065)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/tonal-audibility-iso-20065.md): current edition ISO/TS 20065:2022; implementations: none found
+- [Tonal audibility in environmental noise (ISO 1996-2)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/tonal-audibility-iso-1996-2.md): current edition ISO 1996-2:2017; implementations: none found
+- [Tonal audibility of wind turbine noise (IEC 61400-11)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/tonal-audibility-iec-61400-11.md): current edition IEC 61400-11:2012+AMD1:2018; implementations: none found
+
+## Impulsiveness
+
+- [Prominence of impulsive sounds (ISO/PAS 1996-3, NT ACOU 112)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/impulsiveness.md): current edition ISO/PAS 1996-3:2022; implementations: none found
+
+## Psychoacoustic annoyance
+
+- [Psychoacoustic annoyance (Widmann, Zwicker & Fastl, More, Di et al.)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/psychoacoustic-annoyance.md): current edition Widmann (1992), Zwicker & Fastl (1999), More (2010), and Di et al. (2016); implementations: none found
+
+## Related quantities
+
+- [Equal-loudness-level contours (ISO 226)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/equal-loudness-contours.md): current edition ISO 226:2023; implementations: none found
+- [Perceived noise level, PNLT and EPNL (ICAO Annex 16, 14 CFR Part 36)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/epnl.md): current edition ICAO Annex 16, Vol. I and 14 CFR Part 36; implementations: none found
+- [Aural detectability of sounds in background noise](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/aural-detectability.md): current edition Fidell et al. (1974); implementations: none found
+
+## Projects
+
+- [MetaSona](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/metasona.md): Python, C; C library with a typed Python interface and prebuilt wheels, written to make repeated psychoacoustic analysis fast.
+
+## Data
+
+- [index.json](https://zhenxianli.github.io/psychoacoustic-metrics-index/index.json): the complete index as JSON
+- [llms-full.txt](https://zhenxianli.github.io/psychoacoustic-metrics-index/llms-full.txt): all pages in one Markdown file
+- [Data schema](https://github.com/ZhenxianLi/psychoacoustic-metrics-index/blob/main/data/SCHEMA.md)
+
+## Optional
+
+- [Frequently asked questions](https://zhenxianli.github.io/psychoacoustic-metrics-index/faq.md)
+- [About and method](https://zhenxianli.github.io/psychoacoustic-metrics-index/about.md)
+- [Standards timeline](https://zhenxianli.github.io/psychoacoustic-metrics-index/standards.md)
+- [Updates](https://zhenxianli.github.io/psychoacoustic-metrics-index/updates.md)
+- [Source repository](https://github.com/ZhenxianLi/psychoacoustic-metrics-index)

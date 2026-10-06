@@ -1,0 +1,661 @@
+# Standard editions, model papers, books and theses that methods are defined by. See data/SCHEMA.md.
+# Sources: ISO catalogue and ISO Open Data (snapshot 2026-09-30), Ecma PDFs, DIN Media, ANSI/ASA, IEC,
+# ICAO and eCFR catalogue entries, checked on 2026-10-06.
+
+# ----------------------------------------------------------------------------------------------- loudness
+- id: iso-532-1975
+  label: ISO 532:1975
+  kind: standard
+  body: ISO
+  title: Acoustics — Method for calculating loudness level
+  date: 1975-07-01
+  status: withdrawn
+  superseded_by: iso-532-1-2017
+  url: https://www.iso.org/standard/4603.html
+  note: >-
+    Method A (Stevens) and method B (Zwicker). Withdrawn on 2017-06-15 and replaced by ISO 532-1:2017 and
+    ISO 532-2:2017.
+  checked: 2026-10-06
+
+- id: din-45631-1991
+  label: DIN 45631:1991
+  kind: standard
+  body: DIN
+  title: Berechnung des Lautstärkepegels und der Lautheit aus dem Geräuschspektrum; Verfahren nach E. Zwicker
+  date: 1991-03
+  status: current
+  url: https://www.dinmedia.de/en/standard/din-45631/1666531
+  note: Stationary sounds. ISO 532-1:2017 states that its stationary method is based on this standard.
+  checked: 2026-10-06
+
+- id: din-45631-a1-2010
+  label: DIN 45631/A1:2010
+  kind: amendment
+  body: DIN
+  title: >-
+    Calculation of loudness level and loudness from the sound spectrum — Zwicker method — Amendment 1:
+    Calculation of the loudness of time-variant sound
+  date: 2010-03
+  status: current
+  url: https://www.dinmedia.de/en/standard/din-45631-a1/122476084
+  note: Comes with PDF, Excel and WAV supplements.
+  checked: 2026-10-06
+
+- id: iso-532-1-2017
+  label: ISO 532-1:2017
+  kind: standard
+  body: ISO
+  title: "Acoustics — Methods for calculating loudness — Part 1: Zwicker method"
+  edition: 1st edition (corrected version 2017-11)
+  date: 2017-06-15
+  status: current
+  superseded_by: iso-532-1-ed2-draft
+  revision: Under revision; the 2nd edition has been at committee-draft stage since 2024-11-01.
+  url: https://www.iso.org/standard/63077.html
+  note: >-
+    Stationary and time-varying methods. The Annex A program and Annex B test signals can be downloaded free
+    from [standards.iso.org](https://standards.iso.org/iso/532/-1/ed-1/en/), but ISO's licence only allows
+    use in their original form, so they are not open source. Adopted in Germany as DIN ISO 532-1:2022-03.
+  checked: 2026-10-06
+
+- id: iso-532-1-ed2-draft
+  label: ISO/CD 532-1
+  kind: draft
+  body: ISO
+  title: "Acoustics — Methods for calculating loudness — Part 1: Zwicker method (2nd edition)"
+  edition: 2nd edition, committee draft
+  date: 2024-11
+  status: in-development
+  url: https://www.iso.org/standard/90809.html
+  note: Stage 30.99 (CD approved for registration as DIS) since 2024-11-01; not yet at DIS on 2026-09-30.
+  checked: 2026-10-06
+
+- id: moore-1997
+  label: Moore, Glasberg & Baer (1997)
+  kind: paper
+  body: paper
+  title: A model for the prediction of thresholds, loudness, and partial loudness
+  date: 1997
+  status: published
+  citation: >-
+    Moore, B. C. J., Glasberg, B. R., & Baer, T. (1997). A model for the prediction of thresholds, loudness,
+    and partial loudness. *Journal of the Audio Engineering Society*, 45(4), 224–240.
+  checked: 2026-10-06
+
+- id: chen-2011
+  label: Chen et al. (2011)
+  kind: paper
+  body: paper
+  title: A new method of calculating auditory excitation patterns and loudness for steady sounds
+  date: 2011
+  status: published
+  doi: 10.1016/j.heares.2011.08.001
+  citation: >-
+    Chen, Z., Hu, G., Glasberg, B. R., & Moore, B. C. J. (2011). A new method of calculating auditory
+    excitation patterns and loudness for steady sounds. *Hearing Research*, 282(1–2), 204–215.
+  checked: 2026-10-06
+
+- id: ansi-s3-4-2007
+  label: ANSI/ASA S3.4-2007
+  kind: standard
+  body: ANSI/ASA
+  title: Procedure for the Computation of Loudness of Steady Sounds
+  date: 2007
+  status: current
+  url: https://webstore.ansi.org/standards/asa/ANSIASAS32007R2020
+  note: >-
+    Based on Moore, Glasberg & Baer (1997) with later modifications; includes a loudness program. Replaced
+    S3.4-2005, which contained a calculation error. Reaffirmed several times, most recently listed as
+    S3.4-2007 (R2025).
+  checked: 2026-10-06
+
+- id: iso-532-2-2017
+  label: ISO 532-2:2017
+  kind: standard
+  body: ISO
+  title: "Acoustics — Methods for calculating loudness — Part 2: Moore-Glasberg method"
+  edition: 1st edition
+  date: 2017-06-26
+  status: current
+  superseded_by: iso-532-2-ed2-draft
+  revision: Under revision; the 2nd edition has been at committee-draft stage since 2024-11-01.
+  url: https://www.iso.org/standard/63078.html
+  note: Stationary sounds, monaural or binaural. Source code is supplied with the standard as informative material.
+  checked: 2026-10-06
+
+- id: iso-532-2-ed2-draft
+  label: ISO/CD 532-2
+  kind: draft
+  body: ISO
+  title: "Acoustics — Methods for calculating loudness — Part 2: Moore-Glasberg method (2nd edition)"
+  edition: 2nd edition, committee draft
+  date: 2024-11
+  status: in-development
+  url: https://www.iso.org/standard/90812.html
+  note: Stage 30.99 since 2024-11-01.
+  checked: 2026-10-06
+
+- id: glasberg-moore-2002
+  label: Glasberg & Moore (2002)
+  kind: paper
+  body: paper
+  title: A model of loudness applicable to time-varying sounds
+  date: 2002
+  status: published
+  citation: >-
+    Glasberg, B. R., & Moore, B. C. J. (2002). A model of loudness applicable to time-varying sounds.
+    *Journal of the Audio Engineering Society*, 50(5), 331–342.
+  checked: 2026-10-06
+
+
+- id: moore-2016
+  label: Moore et al. (2016)
+  kind: paper
+  body: paper
+  title: A loudness model for time-varying sounds incorporating binaural inhibition
+  date: 2016
+  status: published
+  doi: 10.1177/2331216516682698
+  citation: >-
+    Moore, B. C. J., Glasberg, B. R., Varathanathan, A., & Schlittenlacher, J. (2016). A loudness model for
+    time-varying sounds incorporating binaural inhibition. *Trends in Hearing*, 20, 2331216516682698.
+  checked: 2026-10-06
+
+- id: moore-2018
+  label: Moore et al. (2018)
+  kind: paper
+  body: paper
+  title: Testing and refining a loudness model for time-varying sounds incorporating binaural inhibition
+  date: 2018
+  status: published
+  doi: 10.1121/1.5027246
+  citation: >-
+    Moore, B. C. J., Jervis, M., Harries, L., & Schlittenlacher, J. (2018). Testing and refining a loudness
+    model for time-varying sounds incorporating binaural inhibition. *The Journal of the Acoustical Society
+    of America*, 143(3), 1504–1513.
+  checked: 2026-10-06
+
+- id: iso-532-3-2023
+  label: ISO 532-3:2023
+  kind: standard
+  body: ISO
+  title: "Acoustics — Methods for calculating loudness — Part 3: Moore-Glasberg-Schlittenlacher method"
+  edition: 1st edition
+  date: 2023-07-13
+  status: current
+  superseded_by: iso-532-3-ed2-draft
+  revision: Under revision; the 2nd edition has been at committee-draft stage since 2024-11-01.
+  url: https://www.iso.org/standard/69856.html
+  note: >-
+    Stationary and time-varying sounds (speech, music, impulsive sounds), with binaural inhibition. Source
+    code is supplied with the standard as informative material.
+  checked: 2026-10-06
+
+- id: iso-532-3-ed2-draft
+  label: ISO/CD 532-3
+  kind: draft
+  body: ISO
+  title: "Acoustics — Methods for calculating loudness — Part 3: Moore-Glasberg-Schlittenlacher method (2nd edition)"
+  edition: 2nd edition, committee draft
+  date: 2024-11
+  status: in-development
+  url: https://www.iso.org/standard/90816.html
+  note: Stage 30.99 since 2024-11-01.
+  checked: 2026-10-06
+
+# ------------------------------------------------------------------------------------- Ecma (SHM, TNR/PR)
+- id: ecma-74-ed17
+  label: ECMA-74:2019 (17th ed.)
+  kind: standard
+  body: Ecma
+  title: Measurement of airborne noise emitted by information technology and telecommunications equipment
+  edition: 17th edition
+  date: 2019-12
+  status: superseded
+  url: https://ecma-international.org/publications-and-standards/standards/ecma-74/
+  note: >-
+    Contained the TNR/PR method (Annex D) and the hearing model with tonality that moved to ECMA-418-1 and
+    ECMA-418-2 in 2020. Since the 18th edition (2021) those annexes only point to ECMA-418. The current
+    edition is the 22nd (December 2025).
+  checked: 2026-10-06
+
+- id: ecma-418-1-ed1
+  label: ECMA-418-1:2020 (1st ed.)
+  kind: standard
+  body: Ecma
+  title: Psychoacoustic metrics for ITT equipment — Part 1 (prominent discrete tones)
+  edition: 1st edition
+  date: 2020-12
+  status: superseded
+  superseded_by: ecma-418-1-ed2
+  url: https://ecma-international.org/wp-content/uploads/ECMA-418-1_1st_edition_december_2020.pdf
+  checked: 2026-10-06
+
+- id: ecma-418-1-ed2
+  label: ECMA-418-1:2022 (2nd ed.)
+  kind: standard
+  body: Ecma
+  title: Psychoacoustic metrics for ITT equipment — Part 1 (prominent discrete tones)
+  edition: 2nd edition
+  date: 2022-12
+  status: superseded
+  superseded_by: ecma-418-1-ed3
+  url: https://ecma-international.org/wp-content/uploads/ECMA-418-1_2nd_edition_december_2022.pdf
+  checked: 2026-10-06
+
+- id: ecma-418-1-ed3
+  label: ECMA-418-1:2024 (3rd ed.)
+  kind: standard
+  body: Ecma
+  title: Psychoacoustic metrics for ITT equipment — Part 1 (prominent discrete tones)
+  edition: 3rd edition
+  date: 2024-12
+  status: current
+  url: https://ecma-international.org/wp-content/uploads/ECMA-418-1_3rd_edition_december_2024.pdf
+  note: Free download. No newer edition was approved at the Ecma General Assembly of June 2026.
+  checked: 2026-10-06
+
+- id: ecma-418-2-ed1
+  label: ECMA-418-2:2020 (1st ed.)
+  kind: standard
+  body: Ecma
+  title: Psychoacoustic metrics for ITT equipment — Part 2 (models based on human perception)
+  edition: 1st edition
+  date: 2020-12
+  status: superseded
+  superseded_by: ecma-418-2-ed2
+  url: https://ecma-international.org/wp-content/uploads/ECMA-418-2_1st_edition_december_2020.pdf
+  checked: 2026-10-06
+
+- id: ecma-418-2-ed2
+  label: ECMA-418-2:2022 (2nd ed.)
+  kind: standard
+  body: Ecma
+  title: Psychoacoustic metrics for ITT equipment — Part 2 (models based on human perception)
+  edition: 2nd edition
+  date: 2022-12
+  status: superseded
+  superseded_by: ecma-418-2-ed3
+  url: https://ecma-international.org/wp-content/uploads/ECMA-418-2_2nd_edition_december_2022.pdf
+  checked: 2026-10-06
+
+- id: ecma-418-2-ed3
+  label: ECMA-418-2:2024 (3rd ed.)
+  kind: standard
+  body: Ecma
+  title: >-
+    Psychoacoustic metrics for ITT equipment — Part 2 (methods for describing human perception based on the
+    Sottek Hearing Model)
+  edition: 3rd edition
+  date: 2024-12
+  status: superseded
+  superseded_by: ecma-418-2-ed4
+  url: https://ecma-international.org/wp-content/uploads/ECMA-418-2_3rd_edition_december_2024.pdf
+  checked: 2026-10-06
+
+- id: ecma-418-2-ed4
+  label: ECMA-418-2:2025 (4th ed.)
+  kind: standard
+  body: Ecma
+  title: >-
+    Psychoacoustic metrics for ITT equipment — Part 2 (methods for describing human perception based on the
+    Sottek Hearing Model)
+  edition: 4th edition
+  date: 2025-06
+  status: current
+  url: https://ecma-international.org/wp-content/uploads/ECMA-418-2_4th_edition_june_2025.pdf
+  note: >-
+    Approved on 2025-06-25. Adds fluctuation strength (Clause 9); still refers to ISO 226:2003; defines no
+    sharpness. Free download. No newer edition was approved at the Ecma General Assembly of June 2026.
+  checked: 2026-10-06
+
+# ---------------------------------------------------------------------------------------------- sharpness
+- id: von-bismarck-1974
+  label: von Bismarck (1974)
+  kind: paper
+  body: paper
+  title: Sharpness as an attribute of the timbre of steady sounds
+  date: 1974
+  status: published
+  citation: >-
+    von Bismarck, G. (1974). Sharpness as an attribute of the timbre of steady sounds. *Acustica*, 30(3),
+    159–172.
+  checked: 2026-10-06
+
+- id: aures-1985-euphony
+  label: Aures (1985b)
+  kind: paper
+  body: paper
+  title: Berechnungsverfahren für den sensorischen Wohlklang beliebiger Schallsignale
+  date: 1985
+  status: published
+  citation: >-
+    Aures, W. (1985). Berechnungsverfahren für den sensorischen Wohlklang beliebiger Schallsignale [A model
+    for calculating the sensory euphony of various sounds]. *Acustica*, 59, 130–141.
+  note: Defines the tonality model and the loudness-dependent sharpness weighting that carry Aures's name.
+  checked: 2026-10-06
+
+- id: din-45692-2009
+  label: DIN 45692:2009
+  kind: standard
+  body: DIN
+  title: Messtechnische Simulation der Hörempfindung Schärfe (Measurement technique for the simulation of the auditory sensation of sharpness)
+  date: 2009-08
+  status: current
+  url: https://www.dinmedia.de/en/standard/din-45692/117635111
+  note: Includes a test procedure for measuring instruments. No revision or draft has been announced.
+  checked: 2026-10-06
+
+# ---------------------------------------------------------------------------------------------- roughness
+- id: aures-1985-roughness
+  label: Aures (1985a)
+  kind: paper
+  body: paper
+  title: Ein Berechnungsverfahren der Rauhigkeit
+  date: 1985
+  status: published
+  citation: >-
+    Aures, W. (1985). Ein Berechnungsverfahren der Rauhigkeit [A procedure for calculating auditory
+    roughness]. *Acustica*, 58, 268–281.
+  checked: 2026-10-06
+
+- id: daniel-weber-1997
+  label: Daniel & Weber (1997)
+  kind: paper
+  body: paper
+  title: "Psychoacoustical roughness: implementation of an optimized model"
+  date: 1997
+  status: published
+  citation: >-
+    Daniel, P., & Weber, R. (1997). Psychoacoustical roughness: Implementation of an optimized model.
+    *Acta Acustica united with Acustica*, 83(1), 113–123.
+  checked: 2026-10-06
+
+
+- id: din-38455-2024
+  label: DIN 38455:2024
+  kind: standard
+  body: DIN
+  title: Berechnung der Hörempfindung Rauigkeit (Calculation of the auditory sensation of roughness)
+  date: 2024-11
+  status: current
+  url: https://www.dinmedia.de/en/standard/din-38455/376186532
+  note: >-
+    The first German standard for roughness (44 pages, in German), from the DIN/VDI committee for
+    psychoacoustic measurement. Which model it specifies could not be confirmed from public information;
+    a hearing-model roughness was proposed for DIN standardisation by Sottek & Becker (2019).
+  checked: 2026-10-06
+
+# ------------------------------------------------------------------------------------ fluctuation strength
+- id: fastl-zwicker-2007
+  label: Fastl & Zwicker (2007)
+  kind: book
+  body: paper
+  title: "Psychoacoustics: Facts and Models (3rd edition)"
+  date: 2007
+  status: published
+  doi: 10.1007/978-3-540-68888-4
+  citation: "Fastl, H., & Zwicker, E. (2007). *Psychoacoustics: Facts and models* (3rd ed.). Springer."
+  checked: 2026-10-06
+
+- id: osses-2016
+  label: Osses et al. (2016)
+  kind: paper
+  body: paper
+  title: Modelling the sensation of fluctuation strength
+  date: 2016
+  status: published
+  doi: 10.1121/2.0000410
+  citation: >-
+    Osses Vecchi, A., García León, R., & Kohlrausch, A. (2016). Modelling the sensation of fluctuation
+    strength. *Proceedings of Meetings on Acoustics*, 28, 050005.
+  checked: 2026-10-06
+
+# ----------------------------------------------------------------------------------------------- tonality
+- id: terhardt-1982
+  label: Terhardt et al. (1982)
+  kind: paper
+  body: paper
+  title: Algorithm for extraction of pitch and pitch salience from complex tonal signals
+  date: 1982
+  status: published
+  doi: 10.1121/1.387544
+  citation: >-
+    Terhardt, E., Stoll, G., & Seewann, M. (1982). Algorithm for extraction of pitch and pitch salience from
+    complex tonal signals. *The Journal of the Acoustical Society of America*, 71(3), 679–688.
+  checked: 2026-10-06
+
+- id: din-45681-2005
+  label: DIN 45681:2005
+  kind: standard
+  body: DIN
+  title: >-
+    Akustik — Bestimmung der Tonhaltigkeit von Geräuschen und Ermittlung eines Tonzuschlages für die
+    Beurteilung von Geräuschimmissionen
+  date: 2005-03
+  status: current
+  url: https://www.dinmedia.de/en/standard/din-45681/76463232
+  note: >-
+    Corrected by Berichtigung 2:2006-08, which replaced Berichtigung 1:2005-08. Supplied with a calculation
+    program.
+  checked: 2026-10-06
+
+- id: iso-pas-20065-2016
+  label: ISO/PAS 20065:2016
+  kind: publicly-available-specification
+  body: ISO
+  title: Acoustics — Objective method for assessing the audibility of tones in noise — Engineering method
+  date: 2016-07-01
+  status: withdrawn
+  superseded_by: iso-ts-20065-2022
+  url: https://www.iso.org/standard/66941.html
+  note: Withdrawn on 2022-12-19 when the technical specification was published.
+  checked: 2026-10-06
+
+- id: iso-ts-20065-2022
+  label: ISO/TS 20065:2022
+  kind: technical-specification
+  body: ISO
+  title: Acoustics — Objective method for assessing the audibility of tones in noise — Engineering method
+  date: 2022-12-19
+  status: current
+  url: https://www.iso.org/standard/81518.html
+  note: Confirmed in 2026.
+  checked: 2026-10-06
+
+- id: iso-1996-2-2007
+  label: ISO 1996-2:2007
+  kind: standard
+  body: ISO
+  title: >-
+    Acoustics — Description, measurement and assessment of environmental noise — Part 2: Determination of
+    environmental noise levels
+  date: 2007-03-09
+  status: withdrawn
+  superseded_by: iso-1996-2-2017
+  url: https://www.iso.org/standard/41860.html
+  checked: 2026-10-06
+
+- id: iso-1996-2-2017
+  label: ISO 1996-2:2017
+  kind: standard
+  body: ISO
+  title: >-
+    Acoustics — Description, measurement and assessment of environmental noise — Part 2: Determination of
+    sound pressure levels
+  date: 2017-07-14
+  status: current
+  url: https://www.iso.org/standard/59766.html
+  note: Annex J (engineering method) and Annex K (survey method) for tonal audibility. Confirmed after review.
+  checked: 2026-10-06
+
+- id: iec-61400-11-2012
+  label: IEC 61400-11:2012+AMD1:2018
+  kind: standard
+  body: IEC
+  title: "Wind turbines — Part 11: Acoustic noise measurement techniques"
+  edition: Edition 3.1 (edition 3 of 2012 with Amendment 1 of 2018)
+  date: 2012-11-07
+  status: current
+  url: https://webstore.iec.ch/en/publication/63367
+  note: >-
+    Tonal audibility is in clause 9.5. Amendment 1 published 2018-06-15, corrigendum in 2019. Receptor
+    measurements are covered separately by IEC TS 61400-11-2:2024.
+  checked: 2026-10-06
+
+# ------------------------------------------------------------------------------------------ impulsiveness
+- id: nt-acou-112-2002
+  label: NT ACOU 112
+  kind: method
+  body: Nordtest
+  title: "Acoustics: Prominence of impulsive sounds and for adjustment of LAeq"
+  date: 2002-05
+  status: current
+  citation: >-
+    Nordtest (2002). *NT ACOU 112: Acoustics — Prominence of impulsive sounds and for adjustment of LAeq*.
+    Nordtest, Taastrup.
+  note: Defines impulses by level difference and onset rate; the basis of ISO/PAS 1996-3.
+  checked: 2026-10-06
+
+- id: iso-pas-1996-3-2022
+  label: ISO/PAS 1996-3:2022
+  kind: publicly-available-specification
+  body: ISO
+  title: >-
+    Acoustics — Description, measurement and assessment of environmental noise — Part 3: Objective method
+    for the measurement of prominence of impulsive sounds and for adjustment of LAeq
+  date: 2022-07-06
+  status: current
+  url: https://www.iso.org/standard/77035.html
+  note: Adjustment of 0 to 9 dB. Confirmed in 2025.
+  checked: 2026-10-06
+
+# ---------------------------------------------------------------------------------------------- annoyance
+- id: widmann-1992
+  label: Widmann (1992)
+  kind: thesis
+  body: paper
+  title: Ein Modell der psychoakustischen Lästigkeit von Schallen und seine Anwendung in der Praxis der Lärmbeurteilung
+  date: 1992
+  status: published
+  citation: >-
+    Widmann, U. (1992). *Ein Modell der psychoakustischen Lästigkeit von Schallen und seine Anwendung in der
+    Praxis der Lärmbeurteilung* [Doctoral dissertation, Technische Universität München].
+  checked: 2026-10-06
+
+- id: zwicker-fastl-1999
+  label: Zwicker & Fastl (1999)
+  kind: book
+  body: paper
+  title: "Psychoacoustics: Facts and Models (2nd edition)"
+  date: 1999
+  status: published
+  citation: "Zwicker, E., & Fastl, H. (1999). *Psychoacoustics: Facts and models* (2nd ed.). Springer."
+  checked: 2026-10-06
+
+- id: more-2010
+  label: More (2010)
+  kind: thesis
+  body: paper
+  title: Aircraft noise characteristics and metrics
+  date: 2010
+  status: published
+  citation: >-
+    More, S. R. (2010). *Aircraft noise characteristics and metrics* [Doctoral dissertation, Purdue
+    University]. PARTNER report PARTNER-COE-2011-004.
+  checked: 2026-10-06
+
+- id: di-2016
+  label: Di et al. (2016)
+  kind: paper
+  body: paper
+  title: Improvement of Zwicker's psychoacoustic annoyance model aiming at tonal noises
+  date: 2016
+  status: published
+  doi: 10.1016/j.apacoust.2015.12.006
+  citation: >-
+    Di, G., Chen, X., Song, K., Zhou, B., & Pei, C. (2016). Improvement of Zwicker's psychoacoustic
+    annoyance model aiming at tonal noises. *Applied Acoustics*, 105, 164–170.
+  checked: 2026-10-06
+
+- id: iso-26573-draft
+  label: ISO/AWI 26573
+  kind: draft
+  body: ISO
+  title: >-
+    Acoustics — Procedures for assessment and prediction of noise-induced perceptual annoyance through
+    laboratory-based listening tests
+  date: 2026-04
+  status: in-development
+  url: https://www.iso.org/standard/93922.html
+  note: Approved work item (stage 20.00) of ISO/TC 43/SC 1, per ISO Open Data of 2026-09-30.
+  checked: 2026-10-06
+
+# ------------------------------------------------------------------------------------------------ related
+- id: iso-226-2003
+  label: ISO 226:2003
+  kind: standard
+  body: ISO
+  title: Acoustics — Normal equal-loudness-level contours
+  edition: 2nd edition
+  date: 2003-08-21
+  status: withdrawn
+  superseded_by: iso-226-2023
+  url: https://www.iso.org/standard/34222.html
+  note: Withdrawn on 2023-03-29. Still referenced by ECMA-418-2:2025.
+  checked: 2026-10-06
+
+- id: iso-226-2023
+  label: ISO 226:2023
+  kind: standard
+  body: ISO
+  title: Acoustics — Normal equal-loudness-level contours
+  edition: 3rd edition
+  date: 2023-03-29
+  status: current
+  url: https://www.iso.org/standard/83117.html
+  note: Data for 20 Hz to 12.5 kHz.
+  checked: 2026-10-06
+
+- id: icao-annex-16-vol-1
+  label: ICAO Annex 16, Vol. I
+  kind: regulation
+  body: ICAO
+  title: >-
+    Annex 16 to the Convention on International Civil Aviation — Environmental Protection — Volume I:
+    Aircraft Noise
+  edition: 8th edition (2017), with amendments
+  date: 2017-07
+  status: current
+  revision: >-
+    Amendment 15 was adopted on 2026-03-27 and applies from 2027-01-01 (new noise limits and supersonic
+    aeroplanes); whether it changes the EPNL procedure itself has not been confirmed.
+  url: https://store.icao.int/en/annex-16-environmental-protection-volume-i-aircraft-noise
+  note: The EPNL evaluation method is in Appendix 2; guidance in ICAO Doc 9501 (Environmental Technical Manual).
+  checked: 2026-10-06
+
+- id: cfr-14-part-36
+  label: 14 CFR Part 36
+  kind: regulation
+  body: FAA
+  title: "Noise standards: aircraft type and airworthiness certification (Appendix A: EPNL)"
+  date: 2002-07
+  status: current
+  url: https://www.ecfr.gov/current/title-14/chapter-I/subchapter-C/part-36
+  note: >-
+    The EPNL procedure in Appendix A dates from Amendment 36-24 (2002), which harmonised it with ICAO;
+    later amendments changed noise limits, not the calculation.
+  checked: 2026-10-06
+
+- id: fidell-1974
+  label: Fidell et al. (1974)
+  kind: paper
+  body: paper
+  title: Prediction of aural detectability of noise signals
+  date: 1974
+  status: published
+  doi: 10.1177/001872087401600405
+  citation: >-
+    Fidell, S., Pearsons, K. S., & Bennett, R. (1974). Prediction of aural detectability of noise signals.
+    *Human Factors*, 16(4), 373–383.
+  checked: 2026-10-06

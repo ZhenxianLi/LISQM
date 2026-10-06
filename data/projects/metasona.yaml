@@ -1,0 +1,101 @@
+id: metasona
+name: MetaSona
+repository: https://github.com/huaaudio/metasona
+docs: https://github.com/huaaudio/metasona/blob/main/docs/python-api.md
+languages: [Python, C]
+kind: library
+license: GPL-3.0-only AND Apache-2.0 AND BSD-3-Clause AND MIT
+license_note: >-
+  The combined distribution is GPL-3.0; MetaSona's own code keeps Apache-2.0 and the adapted SQAT,
+  MoSQITo and PocketFFT parts keep their BSD-3-Clause, MIT or Apache-2.0 notices.
+packages:
+  - registry: pypi
+    name: metasona
+install: pip install metasona
+maintainers: [Jiahua Zhang]
+summary: >-
+  C library with a typed Python interface and prebuilt wheels, written to make repeated psychoacoustic
+  analysis fast. Covers Zwicker loudness, DIN 45692 sharpness, Daniel–Weber roughness, Aures tonality and
+  ECMA-418-2:2025 loudness, roughness and tonality.
+ai_assistance: disclosed
+ai_note: README and NOTICE state that it was developed with assistance from OpenAI Codex.
+notes:
+  - First commit and first PyPI release on 2026-09-16.
+  - >-
+    Ports a pinned SQAT revision (`e6228b78`, after SQAT's September 2026 fixes) and model data from
+    MoSQITo; differences to both are listed in
+    [THIRD_PARTY.md](https://github.com/huaaudio/metasona/blob/main/THIRD_PARTY.md).
+  - Expects calibrated pressure in pascals. The Python interface resamples to 48 kHz; the C functions require 48 kHz.
+  - The README reports speed-ups over MoSQITo 1.2.1 (e.g. 73× for time-varying loudness on its benchmark signal).
+caveats:
+  - The README calls the current version experimental, particularly roughness and tonality, and says standards conformance has not been established.
+  - >-
+    Comparisons with SQAT and MoSQITo are described as kept outside the package repository, and the
+    third-party notes say exact agreement with the MATLAB code is not established.
+implements:
+  - method: loudness-zwicker
+    reference: iso-532-1-2017
+    functions: [stationary_loudness, time_varying_loudness, loudness_from_levels]
+    scope: stationary and time-varying; also from 28 third-octave levels
+    status: available
+    since: 0.1.0
+    validation: cross-implementation
+    note: >-
+      Model tables taken from MoSQITo and checked element by element; one upper-slope value (0.22) follows
+      the ISO 532-1 reference C table where MoSQITo uses 0.24.
+  - method: sharpness
+    reference: din-45692-2009
+    functions: [sharpness_din45692]
+    scope: from specific loudness
+    status: available
+    since: 0.1.0
+    validation: not-stated
+  - method: roughness-daniel-weber
+    reference: daniel-weber-1997
+    functions: [roughness_daniel_weber]
+    status: available
+    since: 0.1.0
+    validation: cross-implementation
+    note: Follows SQAT revision `e6228b78`, which includes SQAT's September 2026 rewrite.
+  - method: tonality-aures
+    reference: aures-1985-euphony
+    functions: [tonality_aures]
+    status: available
+    since: 0.1.0
+    validation: cross-implementation
+    note: >-
+      Follows SQAT's September 2026 revision (250 ms Hann windows, 125 ms hop); exact agreement with
+      MATLAB is not established.
+  - method: loudness-ecma-418-2
+    reference: ecma-418-2-ed4
+    functions: [loudness_ecma, ecma_tonal_analysis]
+    scope: Clause 8 loudness with tonal/noise separation; mono or stereo
+    status: available
+    since: 0.2.0
+    validation: cross-implementation
+    note: Adapted from the SQAT/RefMap MATLAB code by Lotinga and Torjussen.
+  - method: roughness-ecma-418-2
+    reference: ecma-418-2-ed4
+    functions: [roughness_ecma]
+    scope: mono or stereo; optional entropy weighting not applied
+    status: available
+    since: 0.2.0
+    validation: cross-implementation
+    note: Uses the standard's 20 ms grid and nominal calibration factor, where SQAT uses a slightly adjusted calibration.
+  - method: tonality-ecma-418-2
+    reference: ecma-418-2-ed4
+    functions: [tonality_ecma, ecma_tonal_analysis]
+    scope: mono or stereo
+    status: available
+    since: 0.2.0
+    validation: cross-implementation
+manual:
+  last_commit: 2026-09-25
+  latest_release: {version: 0.2.2, date: 2026-09-25}
+  archived: false
+sources:
+  - https://github.com/huaaudio/metasona/blob/main/README.md
+  - https://github.com/huaaudio/metasona/blob/main/THIRD_PARTY.md
+  - https://github.com/huaaudio/metasona/blob/main/NOTICE
+  - https://pypi.org/project/metasona/
+checked: 2026-10-06
