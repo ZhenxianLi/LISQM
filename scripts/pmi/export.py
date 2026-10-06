@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 from xml.sax.saxutils import escape as xml_escape
 
-from .data import Index
+from .data import IMPL_STATUS_LONG, STANDING, VALIDATION_LONG, Index
 from .describe import coverage
 from .paths import ABOUT, FAQ, HOME, PROJECTS, STANDARDS, UPDATES, absolute, method_path, project_path
 from .text import blocks, date_str, plain
@@ -39,7 +39,7 @@ def index_json(index: Index) -> str:
             for i in m["_impls"]]
         methods.append(d)
     projects = []
-    for p in sorted(index.projects, key=lambda p: p["name"].lower()):
+    for p in index.projects_by_standing():
         d = _clean({k: v for k, v in p.items() if k != "manual"})
         d["url"] = absolute(index, project_path(p))
         d["last_commit"] = p["_last_commit"]
@@ -55,15 +55,27 @@ def index_json(index: Index) -> str:
         "url": site["base_url"],
         "repository": site["repository"],
         "license": site["license"],
+        "maintainer": site["maintainer"],
+        "credit": site["credit"],
         "as_of": index.as_of(),
         "schema": f"{site['repository']}/blob/main/data/SCHEMA.md",
         "counts": {"methods": len(index.methods), "projects": len(index.projects),
                    "references": len(index.references)},
+        "ordering": ("Implementations and projects are listed with established projects first and new projects "
+                     "last; new projects were first released less than about a year ago and are not yet widely "
+                     "used in the community."),
+        "definitions": {"standing": STANDING, "status": IMPL_STATUS_LONG, "validation": VALIDATION_LONG,
+                        "coverage": {"current": "an available implementation of the current edition",
+                                     "new": "an available implementation of the current edition, but only from "
+                                            "new projects",
+                                     "partial": "only unreleased, proposed or older-edition implementations",
+                                     "": "none found"}},
         "families": [_clean(f) for f in index.families],
         "methods": methods,
         "references": [_clean(r) for r in index.references],
         "projects": projects,
         "gaps": [m["id"] for m in index.gaps()],
+        "new_only": [m["id"] for m in index.new_only()],
         "leads": [_clean(l) for l in index.leads],
         "updates": [_clean(u) for u in index.updates],
     }

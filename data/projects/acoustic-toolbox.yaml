@@ -4,6 +4,7 @@ repository: https://github.com/Universite-Gustave-Eiffel/acoustic-toolbox
 docs: https://acoustic-toolbox.readthedocs.io/
 languages: [Python]
 kind: library
+standing: established
 license: BSD-3-Clause
 packages:
   - registry: pypi

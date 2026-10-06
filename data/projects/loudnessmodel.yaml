@@ -3,6 +3,7 @@ name: LoudnessModel
 repository: https://github.com/MalcolmSlaney/LoudnessModel
 languages: [Python]
 kind: research-code
+standing: developing
 license: BSD-2-Clause
 license_note: >-
   The README also says "The source code is provided free for any research purposes"; the readme of the Cambridge

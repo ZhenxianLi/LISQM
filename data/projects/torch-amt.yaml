@@ -4,6 +4,8 @@ repository: https://github.com/StefanoGiacomelli/torch_amt
 docs: https://torch-amt.readthedocs.io/
 languages: [Python]
 kind: library
+standing: new
+standing_note: First released in February 2026.
 license: GPL-3.0-or-later
 packages:
   - registry: pypi

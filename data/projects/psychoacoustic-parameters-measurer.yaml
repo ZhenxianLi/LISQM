@@ -3,6 +3,7 @@ name: PsychoacousticParametersMeasurer
 repository: https://github.com/AndreaCastiella/PsychoacousticParametersMeasurer
 languages: [Python]
 kind: research-code
+standing: developing
 license: none
 maintainers: [Andrea Castiella Aguirrezabala]
 summary: >-

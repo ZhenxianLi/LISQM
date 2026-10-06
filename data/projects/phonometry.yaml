@@ -4,6 +4,8 @@ repository: https://github.com/jmrplens/phonometry
 docs: https://jmrplens.github.io/phonometry/
 languages: [Python]
 kind: library
+standing: new
+standing_note: Its psychoacoustics module was first released in July 2026 (version 3.1.0).
 license: MIT
 packages:
   - registry: pypi
@@ -27,6 +29,7 @@ notes:
   - A JOSS-format paper draft exists in the repository; no published paper yet. Version 4.0 (release candidate since 2026-09-10) moves modules.
   - Not implemented: Daniel & Weber roughness, Aures tonality, More and Di annoyance, and binaural combination for ECMA-418-2.
 caveats:
+  - Very new (psychoacoustics module first released in July 2026) and not yet widely used in the community; no independent verification has been published.
   - Single maintainer; all validation comes from the project's own tests.
   - The ECMA-418-2 checks only use the calibration signals, and no comparison with another implementation is reported. Its loudness reads 0.984 sone_HMS at the calibration point, which its own documentation says is outside the adjustment the standard allows.
   - Requires Python 3.13 or newer.

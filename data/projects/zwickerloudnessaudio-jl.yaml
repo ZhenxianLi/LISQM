@@ -3,6 +3,8 @@ name: ZwickerLoudnessAudio.jl
 repository: https://github.com/slink/ZwickerLoudnessAudio.jl
 languages: [Julia]
 kind: library
+standing: new
+standing_note: First registered in June 2026.
 license: MIT
 license_note: The README credits MoSQITo (Apache-2.0) for the transcribed time-varying filter tables.
 packages:

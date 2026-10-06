@@ -3,6 +3,7 @@ name: AARAE
 repository: https://github.com/densilcabrera/aarae
 languages: [MATLAB]
 kind: application
+standing: established
 license: BSD-3-Clause
 license_note: >-
   `License for AARAE.txt` says that contributed files may carry their own licences; for example, the ISO 226

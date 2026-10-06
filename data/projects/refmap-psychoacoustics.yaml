@@ -3,6 +3,7 @@ name: refmap-psychoacoustics
 repository: https://github.com/acoustics-code-salford/refmap-psychoacoustics
 languages: [MATLAB, Python]
 kind: research-code
+standing: developing
 license: GPL-3.0-only
 license_note: >-
   The licences disagree: the LICENSE file holds the GPL-3.0 text, while pyproject.toml declares

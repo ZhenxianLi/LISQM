@@ -354,14 +354,12 @@ tbody tr + tr td {
   border-top: 1px solid var(--hairline);
 }
 
-table.overview td:first-child { width: 22%; }
-table.overview td:nth-child(2) { width: 22%; }
 table.editions td:first-child,
 table.standards td:first-child { white-space: nowrap; width: 5.5em; }
 table.editions td:nth-child(2) { white-space: nowrap; }
 table.impls td:nth-child(3) code { white-space: nowrap; }
-table.projects td:nth-child(4),
-table.projects td:nth-child(5) { white-space: nowrap; }
+table.projects td:nth-child(5),
+table.projects td:nth-child(6) { white-space: nowrap; }
 table.defs td:first-child { white-space: nowrap; width: 12em; }
 table.coverage th:not(:first-child),
 table.coverage td:not(:first-child) { text-align: center; width: 9%; }
@@ -385,6 +383,225 @@ ul.updates {
 section.update + section.update {
   border-top: 1px solid var(--rule);
   margin-top: 2.2rem;
+}
+
+/* ---------------------------------------------------------------- timeline (home page) */
+
+/* Wider than the reading column and centred on it. On narrow screens it scrolls sideways while the method
+   column stays in place; it never stacks, because the columns are years. */
+figure.timeline {
+  width: min(76rem, 100vw - 2rem);
+  margin: 2.2rem 0 2.4rem calc((100% - min(76rem, 100vw - 2rem)) / 2);
+}
+
+figure.timeline figcaption {
+  max-width: var(--measure);
+  margin-bottom: 0.9rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+figure.timeline figcaption strong {
+  color: var(--text);
+}
+
+.timeline-scroll {
+  overflow-x: auto;
+}
+
+table.timeline {
+  min-width: 66rem;
+  table-layout: fixed;
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+
+table.timeline thead th {
+  padding: 0.45rem 0.6rem 0.4rem 0.4rem;
+}
+
+table.timeline th.rowhead {
+  width: 10.5rem;
+}
+
+table.timeline tbody th,
+table.timeline tbody td {
+  padding: 0.6rem 0.6rem 0.7rem 0.4rem;
+}
+
+table.timeline tbody tr + tr > * {
+  border-top: 1px solid var(--hairline);
+}
+
+table.timeline .rowhead {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background: var(--bg);
+  padding-left: 0;
+  font-weight: 400;
+  font-size: 0.86rem;
+  line-height: 1.32;
+}
+
+table.timeline .unit {
+  display: block;
+  margin-top: 0.15rem;
+  color: var(--faint);
+  font-size: 0.78rem;
+}
+
+table.timeline tbody tr.family > * {
+  padding-top: 1.2rem;
+  padding-bottom: 0.2rem;
+  border-top: 1px solid var(--rule);
+}
+
+table.timeline tbody tr.family:first-child > * {
+  border-top: 0;
+}
+
+table.timeline tbody tr.family + tr > * {
+  border-top: 0;
+}
+
+table.timeline tr.family th {
+  font-size: 0.94rem;
+  font-weight: 700;
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.05em;
+}
+
+/* The line runs from a method's first edition to the present, through the first line of each label. */
+table.timeline td.bin {
+  position: relative;
+}
+
+table.timeline td.life::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(0.6rem + 0.7em);
+  border-top: 1px solid var(--rule);
+}
+
+table.timeline .edition {
+  position: relative;
+}
+
+table.timeline .edition + .edition {
+  margin-top: 0.8rem;
+}
+
+table.timeline .ed {
+  background: var(--bg);
+  padding: 0 0.3em;
+  margin-left: -0.3em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+.ed.current {
+  font-weight: 700;
+}
+
+.ed.old {
+  color: var(--faint);
+}
+
+.dev-note,
+.ed.dev {
+  font-style: italic;
+}
+
+.dev-note {
+  color: var(--muted);
+}
+
+table.timeline .dev-note {
+  display: block;
+}
+
+table.timeline li.new-head {
+  margin-top: 0.35rem;
+}
+
+table.timeline ul {
+  list-style: none;
+  margin: 0.3rem 0 0;
+  padding: 0 0 0 0.55em;
+}
+
+table.timeline li {
+  margin: 0.14rem 0 0;
+  padding-left: 0.6em;
+  text-indent: -0.6em;
+}
+
+table.timeline a {
+  text-decoration: none;
+}
+
+table.timeline a:hover {
+  text-decoration: underline;
+}
+
+table.timeline .lang {
+  letter-spacing: 0.03em;
+}
+
+.ver,
+.via {
+  color: var(--muted);
+}
+
+em.state,
+a.state {
+  color: var(--muted);
+  font-style: italic;
+}
+
+em.new {
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.05em;
+  font-weight: 700;
+  color: var(--text);
+}
+
+table.timeline li.quiet > a:first-child,
+.quiet-sample {
+  color: var(--muted);
+}
+
+p.legend {
+  max-width: 52rem;
+  margin: 0.8rem 0 0;
+  color: var(--muted);
+  font-size: 0.8rem;
+  line-height: 1.55;
+}
+
+p.legend .ed {
+  color: var(--text);
+}
+
+p.legend .ed.old {
+  color: var(--faint);
+}
+
+.scroll-hint {
+  display: none;
+  margin: -0.4rem 0 0.5rem;
+  color: var(--faint);
+  font-size: 0.8rem;
+  font-style: italic;
+}
+
+@media (max-width: 78rem) {
+  .scroll-hint {
+    display: block;
+  }
 }
 
 /* ---------------------------------------------------------------- narrow screens */
@@ -452,6 +669,14 @@ section.update + section.update {
   dl.facts {
     grid-template-columns: minmax(0, 1fr);
     gap: 0;
+  }
+
+  table.timeline {
+    min-width: 58rem;
+  }
+
+  table.timeline th.rowhead {
+    width: 7.6rem;
   }
 
   dl.facts dd {

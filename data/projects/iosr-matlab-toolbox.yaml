@@ -3,6 +3,7 @@ name: IoSR Matlab Toolbox
 repository: https://github.com/IoSR-Surrey/MatlabToolbox
 languages: [MATLAB]
 kind: toolbox
+standing: established
 license: MIT
 maintainers: [Christopher Hummersone]
 summary: >-

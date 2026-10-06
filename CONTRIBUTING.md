@@ -82,8 +82,11 @@ writes the entry.
 1. Copy [`data/projects/metasona.yaml`](data/projects/metasona.yaml), a complete example, to
    `data/projects/<id>.yaml`. The `id` is lowercase kebab-case, usually the project name, and equals the file
    name. It never changes once published, because it is part of page URLs.
-2. Fill in the required fields: `name`, `repository`, `languages`, `kind`, `license`, `summary`,
-   `ai_assistance`, `implements`, `sources` and `checked`. The optional fields are described in
+2. Fill in the required fields: `name`, `repository`, `languages`, `kind`, `standing`, `license`,
+   `summary`, `ai_assistance`, `implements`, `sources` and `checked`. `standing` is `established`,
+   `developing` or `new`; a project first released less than about a year ago is `new` and needs a
+   `standing_note` saying when it was first released. Lists put new projects last, so a project that has not
+   yet been used much is never the first suggestion. The optional fields are described in
    [`data/SCHEMA.md`](data/SCHEMA.md). Leave out what you do not know rather than guessing.
 3. Add one `implements` entry per method and edition. A project that implements two editions of the same
    method gets two entries.

@@ -77,6 +77,29 @@ REGISTRIES = {
 }
 AI_ASSISTANCE = {"disclosed", "not-stated"}
 STATUS_ORDER = {"available": 0, "unreleased": 1, "proposed": 2}
+STANDING = {
+    "established": "Described in a publication, used by others, or written by the authors of the model, with a "
+                   "track record of more than a year.",
+    "developing": "Research, teaching or hobby code without documented use by others, or a project still in "
+                  "development.",
+    "new": "First released less than about a year ago and not yet widely used in the community.",
+}
+STANDING_ORDER = {"established": 0, "developing": 1, "new": 2}
+ACTIVITY_ORDER = {"active": 0, "unknown": 1, "inactive": 2, "archived": 3}
+
+
+def impl_rank(impl: dict) -> tuple:
+    """The order of implementations everywhere: established projects first and new ones last; then released code
+    before unreleased before proposed, own code before wrappers, and active projects before inactive ones."""
+    p = impl["_project"]
+    return (STANDING_ORDER[p["standing"]], STATUS_ORDER[impl["status"]], 1 if impl.get("_via") else 0,
+            ACTIVITY_ORDER.get(p.get("_activity", "unknown"), 1), p["name"].lower())
+
+
+def only_new(m: dict) -> bool:
+    """True when every released implementation of a method's current edition comes from a new project."""
+    released = [i for i in m["_current_impls"] if i["status"] == "available"]
+    return bool(released) and all(i["_project"]["standing"] == "new" for i in released)
 
 _ID = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 _DATE = re.compile(r"^\d{4}(?:-\d{2}(?:-\d{2})?)?$")
@@ -141,7 +164,7 @@ class Index:
         problems: list[str] = []
         add = problems.append
 
-        for key in ("title", "description", "base_url", "repository", "maintainer", "license"):
+        for key in ("title", "description", "base_url", "repository", "maintainer", "license", "credit"):
             if not self.site.get(key):
                 add(f"data/site.yaml: missing '{key}'")
         if self.site.get("base_url") and not str(self.site["base_url"]).endswith("/"):
@@ -216,11 +239,15 @@ class Index:
             if path and path.stem != pid:
                 add(f"{w}: id '{pid}' must match the file name")
             for key in ("name", "repository", "languages", "kind", "license", "summary", "ai_assistance",
-                        "implements", "sources", "checked"):
+                        "standing", "implements", "sources", "checked"):
                 if not p.get(key):
                     add(f"{w}: missing '{key}'")
             if p.get("kind") and p["kind"] not in PROJECT_KINDS:
                 add(f"{w}: kind '{p['kind']}' not one of {sorted(PROJECT_KINDS)}")
+            if p.get("standing") and p["standing"] not in STANDING:
+                add(f"{w}: standing must be one of {sorted(STANDING)}")
+            if p.get("standing") == "new" and not p.get("standing_note"):
+                add(f"{w}: a new project needs a standing_note (when it was first released)")
             if p.get("ai_assistance") and p["ai_assistance"] not in AI_ASSISTANCE:
                 add(f"{w}: ai_assistance must be one of {sorted(AI_ASSISTANCE)}")
             if not isinstance(p.get("languages", []), list):
@@ -359,8 +386,9 @@ class Index:
 
         for m in self.methods:
             order = {rid: i for i, rid in enumerate(m.get("references") or [])}
-            m["_impls"].sort(key=lambda i: (-order[i["reference"]], STATUS_ORDER[i["status"]],
-                                            i["_project"]["name"].lower()))
+            # Standing comes before the edition, so a new project never heads a list of implementations.
+            m["_impls"].sort(key=lambda i: (STANDING_ORDER[i["_project"]["standing"]], -order[i["reference"]],
+                                            *impl_rank(i)[1:]))
             current = set(m.get("current") or [])
             m["_current_impls"] = [i for i in m["_impls"] if i["reference"] in current]
             m["_older_impls"] = [i for i in m["_impls"] if i["reference"] not in current]
@@ -375,6 +403,10 @@ class Index:
     def families_with_methods(self) -> list[tuple[dict, list[dict]]]:
         return [(f, [m for m in self.methods if m.get("family") == f["id"]]) for f in self.families]
 
+    def projects_by_standing(self) -> list[dict]:
+        """Established projects first, new ones last; alphabetical within each group."""
+        return sorted(self.projects, key=lambda p: (STANDING_ORDER[p["standing"]], p["name"].lower()))
+
     def languages(self) -> list[str]:
         return sorted({lang for p in self.projects for lang in p.get("languages") or []}, key=str.lower)
 
@@ -382,6 +414,10 @@ class Index:
         """Methods whose current edition has no available open implementation."""
         return [m for m in self.methods
                 if not any(i["status"] == "available" for i in m["_current_impls"])]
+
+    def new_only(self) -> list[dict]:
+        """Methods whose current edition has released implementations only from new projects."""
+        return [m for m in self.methods if only_new(m)]
 
 
 def load(root: Path = ROOT) -> Index:

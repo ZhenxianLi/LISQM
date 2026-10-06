@@ -1,8 +1,10 @@
 id: deeuu-loudness
 name: loudness (deeuu)
+short_name: deeuu/loudness
 repository: https://github.com/deeuu/loudness
 languages: [C++, Python]
 kind: library
+standing: developing
 license: GPL-3.0-or-later
 maintainers: [Dominic Ward]
 summary: >-

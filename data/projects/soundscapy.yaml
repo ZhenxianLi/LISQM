@@ -4,6 +4,7 @@ repository: https://github.com/MitchellAcoustics/Soundscapy
 docs: https://soundscapy.readthedocs.io/en/latest/
 languages: [Python]
 kind: wrapper
+standing: established
 license: BSD-3-Clause
 packages:
   - registry: pypi

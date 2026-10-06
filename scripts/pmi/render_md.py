@@ -5,9 +5,9 @@ Links point to absolute URLs of the HTML pages, so the text stays useful when it
 
 from __future__ import annotations
 
-from .data import IMPL_STATUS_LONG, PROJECT_KINDS, REGISTRIES, VALIDATION, VALIDATION_LONG, Index
-from .describe import (COVERAGE_COLUMNS, activity_text, by_language, coverage, dedupe, faq, in_short,
-                       ref_status, release_text)
+from .data import (IMPL_STATUS_LONG, PROJECT_KINDS, REGISTRIES, STANDING, VALIDATION, VALIDATION_LONG, Index)
+from .describe import (COVERAGE_COLUMNS, NEW_LABEL, activity_text, by_language, coverage, dedupe, edition_state,
+                       faq, in_short, ref_status, release_text, standing_sentence, timeline, version_label)
 from .paths import ABOUT, FAQ, HOME, PROJECTS, STANDARDS, UPDATES, absolute, md_twin, method_path, project_path
 from .text import join_words, long_date, month, oneline, plain, plural
 
@@ -47,7 +47,7 @@ def _table(head: list[str], rows: list[list[str]]) -> list[str]:
 
 
 def _impl_note(i: dict) -> str:
-    bits = []
+    bits = ["New project, not yet widely used."] if i["_project"]["standing"] == "new" else []
     if i["status"] != "available":
         bits.append(i["status"].capitalize() + (f" ({i['link']})" if i.get("link") else "") + ".")
     if i.get("_via"):
@@ -118,12 +118,16 @@ def method_page(index: Index, m: dict) -> str:
 
 
 def project_page(index: Index, p: dict) -> str:
-    lines = [f"# {p['name']}", "", _header(index, project_path(p)), "", p["summary"].strip(), ""]
+    lines = [f"# {p['name']}", "", _header(index, project_path(p)), ""]
+    if p["standing"] == "new":
+        lines += [f"**New project.** {standing_sentence(p)}", ""]
+    lines += [p["summary"].strip(), ""]
     facts = [("Repository", p["repository"])]
     for key, label in (("homepage", "Homepage"), ("docs", "Documentation")):
         if p.get(key):
             facts.append((label, p[key]))
     facts += [("Language", ", ".join(p["languages"])), ("Kind", PROJECT_KINDS[p["kind"]]),
+              ("Standing", f"{p['standing']} ({STANDING[p['standing']]})"),
               ("Licence", p["license"] + (f" — {plain(p['license_note'])}" if p.get("license_note") else ""))]
     for pkg in p.get("packages") or []:
         reg, tmpl = REGISTRIES[pkg["registry"]]
@@ -161,24 +165,24 @@ def project_page(index: Index, p: dict) -> str:
     return "\n".join(lines)
 
 
-def overview_rows(index: Index, link_methods: bool = True) -> list[list[str]]:
+def overview_rows(index: Index, link_methods: bool = True, lang: str = "en") -> list[list[str]]:
     name = _namer(index)
     rows = []
     for fam, methods in index.families_with_methods():
         for m in methods:
-            groups = by_language(m["_current_impls"], name)
-            cell = " · ".join(f"{lang}: {', '.join(names)}" for lang, names in groups) or "none found"
-            older = dedupe(m["_older_impls"])
+            groups = by_language(m["_current_impls"], name, lang)
+            cell = " · ".join(f"{lng}: {', '.join(names)}" for lng, names in groups) or (
+                "没有找到" if lang == "zh" else "none found")
+            older = [i for i in dedupe(m["_older_impls"]) if i["_ref"]["status"] != "in-development"]
             if older:
-                cell += " · earlier or related: " + ", ".join(
-                    f"{name(i['_project'])} ({i['_ref']['label']})" for i in older
-                    if i["_ref"]["status"] != "in-development")
+                cell += (" · 旧版本或相关模型：" if lang == "zh" else " · earlier or related: ") + ", ".join(
+                    f"{name(i['_project'])} ({i['_ref']['label']})" for i in older)
             rows.append([fam["name"], _method_link(index, m) if link_methods else m["name"],
                          join_words([index.ref[r]["label"] for r in m["current"]]), cell])
     return rows
 
 
-COVERAGE_MARK = {"current": "●", "partial": "○", "": "—"}
+COVERAGE_MARK = {"current": "●", "new": "◐", "partial": "○", "": "—"}
 
 
 def coverage_table(index: Index, lang: str = "en") -> str:
@@ -189,12 +193,48 @@ def coverage_table(index: Index, lang: str = "en") -> str:
         cov = coverage(m)
         label = m.get("name_zh") if lang == "zh" and m.get("name_zh") else m["name"]
         rows.append([_method_link(index, m, label)] + [COVERAGE_MARK[cov[c]] for c in cols])
-    legend = ("● 现行版本有可用实现；○ 只有未发布、待合并或旧版本的实现；— 没有找到。含绑定接口：带 Python 接口的 C 库也算 Python。"
+    legend = ("● 现行版本有可用实现；◐ 现行版本有可用实现，但只来自新项目（发布不到一年，社区使用还不广泛）；"
+              "○ 只有未发布、待合并或旧版本的实现；— 没有找到。含绑定接口：带 Python 接口的 C 库也算 Python。"
               if lang == "zh" else
-              "● an available implementation of the current edition; ○ only unreleased, proposed or "
-              "older-edition implementations; — none found. Bindings count: a C library with a Python interface "
-              "counts for Python.")
+              "● an available implementation of the current edition; ◐ the same, but only from new projects that "
+              "are not yet widely used; ○ only unreleased, proposed or older-edition implementations; — none "
+              "found. Bindings count: a C library with a Python interface counts for Python.")
     return "\n".join(_table(head, rows)) + "\n\n" + legend
+
+
+def _timeline_impl(i: dict, name) -> str:
+    p = i["_project"]
+    first = ", ".join(p["languages"]) + (f", {version_label(i)}" if version_label(i) else "")
+    bits = [first]
+    if i.get("_via"):
+        bits.append(f"via {i['_via']['name']}")
+    if p["_activity"] in ("inactive", "archived"):
+        bits.append(activity_text(p))
+    if p["standing"] == "new":
+        bits.append(NEW_LABEL)
+    return f"{name(p)} ({'; '.join(bits)})"
+
+
+def timeline_md(index: Index) -> list[str]:
+    """The home-page timeline as nested lists: method, then each edition (oldest first) and who implements it."""
+    name = _namer(index)
+    states = {"current": "current", "old": "", "dev": "in development", "": ""}
+    lines = []
+    for fam, rows in timeline(index):
+        lines += [f"### {fam['name']}", ""]
+        for row in rows:
+            m = row["method"]
+            lines.append(f"- **{_method_link(index, m)}** ({m['unit']})")
+            for cell in row["cells"]:
+                for ref, impls in cell:
+                    state = edition_state(m, ref)
+                    label = f"**{ref['label']}**" if state == "current" else ref["label"]
+                    status = states[state] or (ref_status(ref) if ref["status"] != "published" else "")
+                    who = ", ".join(_timeline_impl(i, name) for i in impls) or "no open-source implementation found"
+                    when = month(ref.get("date")) or "undated"
+                    lines.append(f"  - {when} · {label}" + (f" ({status})" if status else "") + f": {who}")
+        lines.append("")
+    return lines
 
 
 def home(index: Index) -> str:
@@ -203,14 +243,21 @@ def home(index: Index) -> str:
              site["description"].strip(), "",
              f"{plural(len(index.methods), 'method')} · {plural(len(index.projects), 'project')} · "
              f"languages: {', '.join(index.languages())}", ""]
-    lines += ["## Overview", ""]
-    lines += _table(["Quantity", "Method", "Current edition", "Implementations of the current edition"],
-                    overview_rows(index)) + [""]
+    lines += ["## Editions and implementations", "",
+              "Each method with the standard editions or model papers that define it, oldest first, and the "
+              "projects that implement each one. The current edition is in bold. After each project: its language "
+              "and the first release that included the edition. Established projects are listed first; projects "
+              f"marked \"{NEW_LABEL}\" were first released less than about a year ago.", ""]
+    lines += timeline_md(index)
     lines += ["## Coverage by language", "", coverage_table(index), ""]
     gaps = index.gaps()
     if gaps:
         lines += ["## Gaps", "", "No available open-source implementation of the current edition was found for:", ""]
         lines += [f"- {_method_link(index, m, m['title'])}" for m in gaps] + [""]
+    if index.new_only():
+        lines += ["Released implementations of the current edition come only from new projects, which are not yet "
+                  "widely used, for:", ""]
+        lines += [f"- {_method_link(index, m, m['title'])}" for m in index.new_only()] + [""]
     if index.updates:
         lines += ["## Recent updates", ""]
         for u in index.updates[:3]:
@@ -220,19 +267,25 @@ def home(index: Index) -> str:
     return "\n".join(lines)
 
 
+STANDING_HEADINGS = [("established", "Established projects"), ("developing", "Developing projects"),
+                     ("new", "New projects")]
+
+
 def projects_page(index: Index) -> str:
     lines = ["# Projects", "", _header(index, PROJECTS), "",
-             f"{plural(len(index.projects), 'project')}, grouped by the language you call them from. "
-             "A project that offers several languages appears in each group.", ""]
-    for lang in index.languages():
-        projects = [p for p in index.projects if lang in p["languages"]]
-        lines += [f"## {lang}", ""]
-        rows = [[f"[{p['name']}]({absolute(index, project_path(p))})", PROJECT_KINDS[p["kind"]], p["license"],
-                 release_text(p), p["_last_commit"] or "unknown", activity_text(p),
-                 ", ".join(sorted({i["_method"]["name"] for i in p["_impls"]}))]
-                for p in sorted(projects, key=lambda p: p["name"].lower())]
-        lines += _table(["Project", "Kind", "Licence", "Latest release", "Last commit", "Activity", "Covers"],
-                        rows) + [""]
+             f"{plural(len(index.projects), 'project')}, grouped by standing: established projects first, new "
+             "projects last.", ""]
+    for key, title in STANDING_HEADINGS:
+        projects = [p for p in index.projects_by_standing() if p["standing"] == key]
+        if not projects:
+            continue
+        lines += [f"## {title}", "", STANDING[key], ""]
+        rows = [[f"[{p['name']}]({absolute(index, project_path(p))})", ", ".join(p["languages"]),
+                 PROJECT_KINDS[p["kind"]], p["license"], release_text(p), p["_last_commit"] or "unknown",
+                 activity_text(p), ", ".join(sorted({i["_method"]["name"] for i in p["_impls"]}))]
+                for p in projects]
+        lines += _table(["Project", "Language", "Kind", "Licence", "Latest release", "Last commit", "Activity",
+                         "Covers"], rows) + [""]
     return "\n".join(lines)
 
 
@@ -280,6 +333,10 @@ def about_page(index: Index) -> str:
     lines += _table(["Value", "Meaning"], [[k, v] for k, v in IMPL_STATUS_LONG.items()]) + [""]
     lines += ["## Validation evidence", "", "As stated by each project:", ""]
     lines += _table(["Value", "Meaning"], [[VALIDATION[k], v] for k, v in VALIDATION_LONG.items()]) + [""]
+    lines += ["## Standing of a project", "",
+              "Every project is marked as established, developing or new. Lists of implementations put established "
+              "projects first and new projects last.", ""]
+    lines += _table(["Value", "Meaning"], [[k, v] for k, v in STANDING.items()]) + [""]
     lines += ["## Leads not yet verified", "",
               "Candidates that may belong in the index but could not be checked yet; nothing here has been confirmed.", ""]
     lines += [f"- [{l['name']}]({l['url']}) ({', '.join(l.get('languages') or [])}): {oneline(l['claim'])} {oneline(l['why'])}"
@@ -294,8 +351,8 @@ def about_page(index: Index) -> str:
               f"- Source data and schema: {site['repository']}/tree/main/data", ""]
     lines += ["## Contributing and citing", "",
               f"Corrections and new projects are welcome through issues or pull requests: {site['repository']}. "
-              f"To cite the index, use the CITATION.cff file in the repository. Maintained by "
-              f"{site['maintainer']['name']}. Licence: {site['license']}.", ""]
+              f"To cite the index, use the CITATION.cff file in the repository. Licence: {site['license']}.", "",
+              site["credit"], ""]
     return "\n".join(lines)
 
 
@@ -314,19 +371,26 @@ def llms_txt(index: Index) -> str:
              f"Data as of {index.as_of()}. {plural(len(index.methods), 'method')}, "
              f"{plural(len(index.projects), 'project')}, languages: {', '.join(index.languages())}. Each "
              "implementation is tied to the standard edition or model paper it follows, with its validation "
-             "evidence as stated by the project. Repository and package metadata are refreshed weekly.", ""]
+             "evidence as stated by the project. Repository and package metadata are refreshed weekly. "
+             "Implementations are listed with established projects first; projects marked (new) were first "
+             "released less than about a year ago and are not yet widely used in the community.", "",
+             site["credit"], ""]
     for fam, methods in index.families_with_methods():
         lines += [f"## {fam['name']}", ""]
         for m in methods:
             current = join_words([index.ref[r]["label"] for r in m["current"]])
-            projects = ", ".join(dict.fromkeys(i["_project"]["name"] for i in m["_current_impls"])) or "none found"
+            projects = ", ".join(dict.fromkeys(i["_project"]["name"] + (" (new)" if i["_project"]["standing"] == "new"
+                                                                         else "") for i in m["_current_impls"]))
+            projects = projects or "none found"
             lines.append(f"- [{m['title']}]({site['base_url']}{md_twin(method_path(m))}): current edition "
                          f"{current}; implementations: {projects}")
         lines.append("")
     lines += ["## Projects", ""]
-    for p in sorted(index.projects, key=lambda p: p["name"].lower()):
+    for p in index.projects_by_standing():
         lines.append(f"- [{p['name']}]({site['base_url']}{md_twin(project_path(p))}): "
-                     f"{', '.join(p['languages'])}; {plain(p['summary']).split('. ')[0].rstrip('.')}.")
+                     f"{', '.join(p['languages'])}; {p['standing']}"
+                     + (" (not yet widely used)" if p["standing"] == "new" else "")
+                     + f"; {plain(p['summary']).split('. ')[0].rstrip('.')}.")
     lines += ["", "## Data", "",
               f"- [index.json]({site['base_url']}index.json): the complete index as JSON",
               f"- [llms-full.txt]({site['base_url']}llms-full.txt): all pages in one Markdown file",
@@ -344,7 +408,7 @@ def llms_full(index: Index) -> str:
     parts = [llms_txt(index), "", "---", "", about_page(index), "", "---", "", faq_page(index)]
     for m in index.methods:
         parts += ["", "---", "", method_page(index, m)]
-    for p in sorted(index.projects, key=lambda p: p["name"].lower()):
+    for p in index.projects_by_standing():
         parts += ["", "---", "", project_page(index, p)]
     parts += ["", "---", "", standards_page(index)]
     return "\n".join(parts).rstrip() + "\n"
@@ -353,7 +417,7 @@ def llms_full(index: Index) -> str:
 # ---------------------------------------------------------------------------------------------- README
 
 def readme_overview(index: Index, lang: str = "en") -> str:
-    rows = overview_rows(index)
+    rows = overview_rows(index, lang=lang)
     if lang == "zh":
         for row, (fam, m) in zip(rows, [(f, m) for f, ms in index.families_with_methods() for m in ms]):
             row[0] = FAMILY_ZH.get(fam["id"], fam["name"])
@@ -365,21 +429,43 @@ def readme_overview(index: Index, lang: str = "en") -> str:
     return "\n".join(_table(head, rows))
 
 
+STANDING_ZH = {"established": "成熟", "developing": "发展中", "new": "新项目，使用尚少"}
+
+
 def readme_projects(index: Index, lang: str = "en") -> str:
-    head = (["项目", "语言", "许可证", "最新发布", "最近提交", "状态"] if lang == "zh"
-            else ["Project", "Language", "Licence", "Latest release", "Last commit", "Activity"])
-    rows = [[f"[{p['name']}]({p['repository']})", ", ".join(p["languages"]), p["license"], release_text(p),
-             p["_last_commit"] or "unknown", activity_text(p)]
-            for p in sorted(index.projects, key=lambda p: p["name"].lower())]
+    head = (["项目", "定位", "语言", "许可证", "最新发布", "最近提交", "状态"] if lang == "zh"
+            else ["Project", "Standing", "Language", "Licence", "Latest release", "Last commit", "Activity"])
+    def zh_release(p: dict) -> str:
+        return release_text(p).replace("no release", "未发版")
+
+    def zh_activity(p: dict) -> str:
+        a = p["_activity"]
+        if a == "inactive":
+            return f"{p['_last_commit'][:7]} 起不活跃"
+        return {"active": "活跃", "archived": "已归档"}.get(a, "未知")
+
+    rows = [[f"[{p['name']}]({p['repository']})",
+             STANDING_ZH[p["standing"]] if lang == "zh" else
+             (f"{p['standing']}, not yet widely used" if p["standing"] == "new" else p["standing"]),
+             ", ".join(p["languages"]), p["license"], zh_release(p) if lang == "zh" else release_text(p),
+             p["_last_commit"] or ("未知" if lang == "zh" else "unknown"),
+             zh_activity(p) if lang == "zh" else activity_text(p)]
+            for p in index.projects_by_standing()]
     return "\n".join(_table(head, rows))
 
 
 def readme_gaps(index: Index, lang: str = "en") -> str:
+    def item(m: dict) -> str:
+        return f"- {_method_link(index, m, m.get('name_zh') if lang == 'zh' and m.get('name_zh') else m['title'])}"
+
     gaps = index.gaps()
-    if not gaps:
-        return "无。" if lang == "zh" else "None at the moment."
-    return "\n".join(f"- {_method_link(index, m, m.get('name_zh') if lang == 'zh' and m.get('name_zh') else m['title'])}"
-                     for m in gaps)
+    lines = [item(m) for m in gaps] or (["无。"] if lang == "zh" else ["None at the moment."])
+    if index.new_only():
+        lines += ["", "现行版本只有新项目（发布不到一年，社区使用还不广泛）给出了已发布的实现：" if lang == "zh" else
+                  "Released implementations of the current edition come only from new projects, which are not yet "
+                  "widely used, for:", ""]
+        lines += [item(m) for m in index.new_only()]
+    return "\n".join(lines)
 
 
 def readme_stats(index: Index, lang: str = "en") -> str:

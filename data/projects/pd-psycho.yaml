@@ -1,8 +1,10 @@
 id: pd-psycho
 name: PSYCHO (pd-psycho)
+short_name: PSYCHO
 repository: https://github.com/porres/pd-psycho
 languages: [Pure Data, C]
 kind: plugin
+standing: developing
 license: GPL-3.0-only
 license_note: The header of roughness.c additionally allows "any later version".
 maintainers: [Alexandre Torres Porres]

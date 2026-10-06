@@ -3,6 +3,8 @@ name: iso532-1-rs
 repository: https://github.com/cclin99/iso532-1-rs
 languages: [Rust, C, Python]
 kind: library
+standing: new
+standing_note: First version tagged in July 2026.
 license: Apache-2.0
 maintainers: [cclin99]
 summary: >-

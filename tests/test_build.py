@@ -15,7 +15,8 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "scripts"))
 
 import build  # noqa: E402
-from pmi.data import load  # noqa: E402
+from pmi.data import STANDING_ORDER, load  # noqa: E402
+from pmi.describe import timeline  # noqa: E402
 
 
 class _Links(HTMLParser):
@@ -113,6 +114,46 @@ class BuildTest(unittest.TestCase):
             for key in ("stats", "overview", "gaps", "coverage", "projects"):
                 self.assertIn(f"<!-- BEGIN GENERATED: {key} -->", text, f"{name}: {key}")
                 self.assertIn(f"<!-- END GENERATED: {key} -->", text, f"{name}: {key}")
+
+    def test_credit_line_everywhere(self) -> None:
+        credit = self.index.site["credit"]
+        self.assertEqual(credit, "Developed by Zhenxian LI with assistance from Claude Codex.")
+        for page in self.pages:
+            text = re.sub(r"<[^>]+>", "", page.read_text(encoding="utf-8"))
+            self.assertIn(credit, text, page.name)
+        for name in ("README.md", "README.zh-CN.md", "llms.txt", "llms-full.txt", "CITATION.cff"):
+            self.assertIn(credit, (ROOT / name).read_text(encoding="utf-8"), name)
+        self.assertIn(credit, (self.site / "llms.txt").read_text(encoding="utf-8"))
+
+    def test_new_projects_never_come_first(self) -> None:
+        def ranks(impls: list[dict]) -> list[int]:
+            return [STANDING_ORDER[i["_project"]["standing"]] for i in impls]
+
+        for m in self.index.methods:
+            self.assertEqual(ranks(m["_impls"]), sorted(ranks(m["_impls"])), m["id"])
+        for _, rows in timeline(self.index):
+            for row in rows:
+                for cell in row["cells"]:
+                    for ref, impls in cell:
+                        self.assertEqual(ranks(impls), sorted(ranks(impls)), f"{row['method']['id']} {ref['id']}")
+        self.assertEqual([p["standing"] for p in self.index.projects_by_standing()],
+                         sorted((p["standing"] for p in self.index.projects), key=STANDING_ORDER.get))
+
+    def test_new_projects_are_marked(self) -> None:
+        for p in self.index.projects:
+            if p["standing"] != "new":
+                continue
+            text = (self.site / "projects" / f"{p['id']}.html").read_text(encoding="utf-8")
+            self.assertIn("not yet widely used", text, p["id"])
+
+    def test_home_page_opens_with_the_timeline(self) -> None:
+        html = (self.site / "index.html").read_text(encoding="utf-8")
+        body = html[html.index("<main"):]
+        self.assertLess(body.index('<figure class="timeline"'), body.index("<h2"))
+        for m in self.index.methods:
+            self.assertIn(f'href="metrics/{m["id"]}.html"', html, m["id"])
+        for f in self.index.families:
+            self.assertIn(f'id="{f["id"]}"', html, f["id"])
 
 
 if __name__ == "__main__":

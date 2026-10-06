@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-message: "If you use this index in your work, please cite it as below."
+message: "If you use this index in your work, please cite it as below. Developed by Zhenxian LI with assistance from Claude Codex."
 type: dataset
 title: "Psychoacoustic Metrics Index"
 abstract: >-
@@ -12,7 +12,7 @@ abstract: >-
   data and a static website; it contains no metric code and does not run the indexed software.
 authors:
   - given-names: Zhenxian
-    family-names: Li
+    family-names: LI
     alias: ZhenxianLi
 keywords:
   - psychoacoustics

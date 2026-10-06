@@ -1,9 +1,11 @@
 id: amt
 name: Auditory Modeling Toolbox (AMT)
+short_name: AMT
 repository: https://sourceforge.net/p/amtoolbox/code/
 homepage: https://amtoolbox.org
 languages: [MATLAB, Octave]
 kind: toolbox
+standing: established
 license: GPL-3.0
 license_note: >-
   SourceForge lists the licence as GPLv3 without saying whether later versions are allowed; the torch_amt README,

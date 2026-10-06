@@ -4,6 +4,7 @@ repository: https://github.com/henriquealende/PsychoBox
 docs: https://github.com/henriquealende/PsychoBox/tree/main/Documentation
 languages: [Python]
 kind: application
+standing: developing
 license: MIT
 summary: >-
   Desktop application (PySide6 GUI) for playing, editing, filtering and analysing audio. Its psychoacoustic metrics

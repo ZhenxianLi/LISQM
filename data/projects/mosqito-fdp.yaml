@@ -3,6 +3,7 @@ name: MoSQITo-FDP
 repository: https://github.com/djcaminero/MoSQITo-FDP
 languages: [Python]
 kind: research-code
+standing: developing
 license: Apache-2.0
 maintainers: [Daniel Jiménez-Caminero Costa]
 summary: >-

@@ -1,8 +1,10 @@
 id: zwickerloudness-sourceforge
 name: "Zwicker's Loudness Calculation SW + Tool (ISO 532B)"
+short_name: zwickerloudness
 repository: https://sourceforge.net/projects/zwickerloudness/
 languages: [C]
 kind: application
+standing: developing
 license: GPL-2.0
 license_note: >-
   SourceForge lists "GNU General Public License version 2.0"; whether later versions are allowed was not

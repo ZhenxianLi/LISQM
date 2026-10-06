@@ -4,6 +4,8 @@ repository: https://github.com/huaaudio/metasona
 docs: https://github.com/huaaudio/metasona/blob/main/docs/python-api.md
 languages: [Python, C]
 kind: library
+standing: new
+standing_note: First released in September 2026.
 license: GPL-3.0-only AND Apache-2.0 AND BSD-3-Clause AND MIT
 license_note: >-
   The combined distribution is GPL-3.0; MetaSona's own code keeps Apache-2.0 and the adapted SQAT,
@@ -28,6 +30,7 @@ notes:
   - Expects calibrated pressure in pascals. The Python interface resamples to 48 kHz; the C functions require 48 kHz.
   - The README reports speed-ups over MoSQITo 1.2.1 (e.g. 73× for time-varying loudness on its benchmark signal).
 caveats:
+  - Very new (first released in September 2026) and not yet widely used in the community; no independent verification has been published.
   - The README calls the current version experimental, particularly roughness and tonality, and says standards conformance has not been established.
   - >-
     Comparisons with SQAT and MoSQITo are described as kept outside the package repository, and the

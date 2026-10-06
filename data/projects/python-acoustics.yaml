@@ -4,6 +4,7 @@ repository: https://github.com/python-acoustics/python-acoustics
 docs: https://python-acoustics.github.io/python-acoustics/
 languages: [Python]
 kind: library
+standing: established
 license: BSD-3-Clause
 packages:
   - registry: pypi

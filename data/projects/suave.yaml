@@ -3,6 +3,7 @@ name: SUAVE
 repository: https://github.com/suavecode/SUAVE
 languages: [Python]
 kind: library
+standing: established
 license: LGPL-2.1
 maintainers: [SUAVE team (Stanford Aerospace Design Lab)]
 summary: >-

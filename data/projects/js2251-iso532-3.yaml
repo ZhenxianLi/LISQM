@@ -1,9 +1,11 @@
 id: js2251-iso532-3
 name: iso532-3 (tv2018.m)
+short_name: iso532-3
 repository: https://github.com/js2251/iso532-3
 docs: https://github.com/js2251/iso532-3/blob/main/readme%20TVL%202018.pdf
 languages: [MATLAB]
 kind: reference-program
+standing: established
 license: none
 license_note: >-
   No licence file. The readme PDF says: "The code is provided free for any research purposes. For commercial use

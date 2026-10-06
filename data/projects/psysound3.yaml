@@ -3,6 +3,7 @@ name: PsySound3
 repository: https://github.com/densilcabrera/psysound3
 languages: [MATLAB]
 kind: application
+standing: established
 license: none
 license_note: >-
   The repository has no licence file, only a no-warranty disclaimer (`README-NO_WARRANTY`). The licence of the

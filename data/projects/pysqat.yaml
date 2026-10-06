@@ -3,6 +3,7 @@ name: pySQAT
 repository: https://github.com/PALILA-TUDelft/pySQAT
 languages: [Python]
 kind: library
+standing: developing
 license: none
 license_note: >-
   No licence file at the repository root. The bundled copy of SQAT v1.3 (MATLAB, used as the validation

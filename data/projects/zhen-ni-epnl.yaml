@@ -1,8 +1,10 @@
 id: zhen-ni-epnl
 name: epnl (Zhen-Ni)
+short_name: Zhen-Ni/epnl
 repository: https://github.com/Zhen-Ni/epnl
 languages: [Rust]
 kind: library
+standing: developing
 license: none
 maintainers: [Zhen-Ni]
 summary: >-

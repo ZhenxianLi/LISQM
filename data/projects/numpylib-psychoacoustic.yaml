@@ -3,6 +3,8 @@ name: NumpyLibforPsychoAcoustic
 repository: https://github.com/Ryrybros/NumpyLibforPsychoAcoustic
 languages: [Python]
 kind: research-code
+standing: new
+standing_note: First commit in November 2025.
 license: none
 maintainers: [Ryrybros]
 summary: >-

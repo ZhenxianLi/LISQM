@@ -79,12 +79,15 @@ roughness and fluctuation strength).
 ```yaml
 id: metasona                                  # must equal the file name
 name: MetaSona
+short_name: optional shorter name for dense views such as the home-page timeline
 repository: https://github.com/huaaudio/metasona   # canonical source location (any host)
 homepage: optional URL
 docs: optional URL
 languages: [C, Python]                        # programming languages a user calls it from
 kind: library                                 # library | toolbox | research-code | reference-program | wrapper
                                               # | application | plugin | teaching
+standing: new                                 # established | developing | new (see below)
+standing_note: First released in September 2026.   # required when standing is new: when it was first released
 license: GPL-3.0-only                         # SPDX expression, or "none" (no licence file) or "proprietary-free"
 license_note: optional markdown
 packages:                                     # optional
@@ -121,6 +124,17 @@ manual:                                       # optional fallback when the refre
 sources: [URLs the facts above were taken from]
 checked: 2026-10-06                           # last time a person checked this entry
 ```
+
+### Standing of a project
+
+| Value | Meaning |
+|---|---|
+| `established` | Described in a publication, used by others, or written by the authors of the model, with a track record of more than a year |
+| `developing` | Research, teaching or hobby code without documented use by others, or a project still in development |
+| `new` | First released less than about a year ago and not yet widely used in the community |
+
+Lists of implementations put established projects first and new projects last, so a project that has not yet
+been used much is never the first suggestion. Review the standing of `new` projects once they are a year old.
 
 ### Status of an implementation
 

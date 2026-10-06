@@ -4,6 +4,7 @@ repository: https://github.com/Eomys/MoSQITo
 docs: https://mosqito.readthedocs.io/en/latest/
 languages: [Python]
 kind: library
+standing: established
 license: Apache-2.0
 packages:
   - registry: pypi

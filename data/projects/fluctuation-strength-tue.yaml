@@ -3,6 +3,7 @@ name: fluctuation-strength-TUe
 repository: https://github.com/aosses-tue/fluctuation-strength-TUe
 languages: [MATLAB]
 kind: research-code
+standing: established
 license: none
 maintainers: [Alejandro Osses]
 summary: >-

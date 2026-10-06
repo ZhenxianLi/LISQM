@@ -3,6 +3,7 @@ name: sottek-hearing-model
 repository: https://github.com/mlotinga/sottek-hearing-model
 languages: [Python]
 kind: library
+standing: established
 license: GPL-3.0-only
 license_note: >-
   The LICENSE file has always been GPL-3.0 and the project metadata was changed to GPL-3.0-only on 2026-08-31;

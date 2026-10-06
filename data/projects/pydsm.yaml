@@ -4,6 +4,7 @@ repository: https://github.com/sergiocallegari/PyDSM
 docs: https://pythonhosted.org/pydsm/pydsm.iso226.html
 languages: [Python]
 kind: toolbox
+standing: established
 license: GPL-3.0-or-later
 packages:
   - registry: pypi
