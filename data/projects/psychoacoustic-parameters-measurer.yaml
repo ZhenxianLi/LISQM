@@ -17,7 +17,7 @@ notes:
     parameters in the field of Psychoacoustics based on the book of Zwicker and Fastl".
   - >-
     Roughness (`acousticRoughness`) follows the formula in Zwicker & Fastl's book, which is not one of the
-    roughness methods in this index.
+    roughness methods in this list.
   - Also contains A-weighting, voice-activity detection and the scripts Main.py and Main_WAV.py for microphone or WAV input.
 caveats:
   - No licence file, so reuse is not permitted by default.

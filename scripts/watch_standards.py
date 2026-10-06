@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Watch the standards the index relies on for new editions and stage changes.
+"""Watch the standards the list relies on for new editions and stage changes.
 
 The sources are listed in data/standards-watch.yaml:
   - iso-open-data: ISO's open data set of deliverables (JSON Lines, about 80 MB, streamed). Every deliverable

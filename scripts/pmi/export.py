@@ -79,7 +79,7 @@ def index_json(index: Index) -> str:
                      "years or more; the most widely used projects (most_widely_used: true) and reference programs "
                      "are never legacy. Within each group, projects that are still active and widely recognised "
                      "come first. Projects in the others group do not compute the metrics themselves; they call "
-                     "another indexed project (listed in calls), and their rows appear under also_through instead "
+                     "another listed project (listed in calls), and their rows appear under also_through instead "
                      "of implementations."),
         "definitions": {"standing": STANDING, "group": GROUPS, "status": IMPL_STATUS_LONG,
                         "validation": VALIDATION_LONG,

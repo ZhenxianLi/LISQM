@@ -186,7 +186,7 @@ def github_token() -> str | None:
 
 
 def user_agent() -> str:
-    """Names the index and where to reach its maintainers, as the crates.io crawler policy asks."""
+    """Names the list and where to reach its maintainers, as the crates.io crawler policy asks."""
     try:
         repository = (load_yaml(DATA_DIR / "site.yaml") or {}).get("repository")
     except (OSError, yaml.YAMLError, AttributeError):

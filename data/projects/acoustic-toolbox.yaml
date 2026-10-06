@@ -12,7 +12,7 @@ packages:
 install: pip install acoustic-toolbox
 summary: >-
   Python acoustics library under the Université Gustave Eiffel GitHub organisation, continuing python-acoustics.
-  For this index it is relevant for its tonal audibility and tonal adjustment after ISO 1996-2:2007.
+  For this list it is relevant for its tonal audibility and tonal adjustment after ISO 1996-2:2007.
 ai_assistance: not-stated
 notes:
   - >-

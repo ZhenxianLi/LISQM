@@ -3,7 +3,7 @@
   "full_name": "List of Implementations of Sound Quality Metrics",
   "tagline": "A List of Open-Source Implementations of Psychoacoustic and Sound Quality Metrics",
   "version": "0.1.0",
-  "description": "An index of open-source implementations of psychoacoustic metrics, also called sound quality (SQ) metrics: loudness, sharpness, roughness, fluctuation strength, tonality, impulsiveness and psychoacoustic annoyance. Each implementation is listed under the standard edition or model it follows. All programming languages.",
+  "description": "A list of open-source implementations of psychoacoustic metrics, also called sound quality (SQ) metrics: loudness, sharpness, roughness, fluctuation strength, tonality, impulsiveness and psychoacoustic annoyance. Each implementation is listed under the standard edition or model it follows. All programming languages.",
   "url": "https://zhenxianli.github.io/LISQM/",
   "repository": "https://github.com/ZhenxianLi/LISQM",
   "license": "MIT",
@@ -19,7 +19,7 @@
     "projects": 32,
     "references": 53
   },
-  "ordering": "Implementations and projects are listed by group: established, newly released, developing, legacy, others. Newly released projects were first released less than about a year ago and are not yet widely used in the community. Legacy projects are archived or have had no commit for three years or more; the most widely used projects (most_widely_used: true) and reference programs are never legacy. Within each group, projects that are still active and widely recognised come first. Projects in the others group do not compute the metrics themselves; they call another indexed project (listed in calls), and their rows appear under also_through instead of implementations.",
+  "ordering": "Implementations and projects are listed by group: established, newly released, developing, legacy, others. Newly released projects were first released less than about a year ago and are not yet widely used in the community. Legacy projects are archived or have had no commit for three years or more; the most widely used projects (most_widely_used: true) and reference programs are never legacy. Within each group, projects that are still active and widely recognised come first. Projects in the others group do not compute the metrics themselves; they call another listed project (listed in calls), and their rows appear under also_through instead of implementations.",
   "definitions": {
     "standing": {
       "established": "Described in a publication, used by others, or written by the authors of the model, with more than a year of history.",
@@ -31,7 +31,7 @@
       "newly-released": "First released less than about a year ago, and not yet widely used in the community.",
       "developing": "Public for more than a year, but without a publication or documented use by others: research, teaching or personal code.",
       "legacy": "Archived, or no commit for three years or more. Kept for reference: the code may follow an older edition and may not run with current software.",
-      "others": "Tools that do not compute the metrics themselves: interfaces, front ends and wrappers that call one of the indexed projects."
+      "others": "Tools that do not compute the metrics themselves: interfaces, front ends and wrappers that call one of the listed projects."
     },
     "status": {
       "available": "In the latest release, or on the default branch of a project without releases.",
@@ -3523,10 +3523,10 @@
       },
       "notes": [
         "Releases are published as downloads on SourceForge (`amtoolbox` and `amtoolbox-full`); the git repository's default branch is `develop`. The SourceForge project page mentions no GitHub or GitLab mirror.",
-        "Also contains `bramslow2004`, a loudness model considering hearing loss (AUDMOD), with the experiment script `exp_bramslow2004`; it has no reference entry in this index.",
+        "Also contains `bramslow2004`, a loudness model considering hearing loss (AUDMOD), with the experiment script `exp_bramslow2004`; it has no reference entry in this list.",
         "Neither the develop branch nor release 1.6.0 has a roughness, fluctuation strength, sharpness, tonality or annoyance model (`osses2021` is a monaural perceptual-similarity model).",
         "Python ports of some of its loudness models exist: [torch_amt](https://github.com/StefanoGiacomelli/torch_amt) (`glasberg2002`, `moore2016`) and [NumpyLibforPsychoAcoustic](https://github.com/Ryrybros/NumpyLibforPsychoAcoustic) (`moore1997`, `glasberg2002`). There is no official Python package (amtoolbox and pyamtoolbox are not on PyPI).",
-        "The validation entries rest on AMT's design: each `exp_…` script is meant to reproduce figures of the model paper. The scripts' output was not checked for this index."
+        "The validation entries rest on AMT's design: each `exp_…` script is meant to reproduce figures of the model paper. The scripts' output was not checked for this list."
       ],
       "implements": [
         {
@@ -3626,7 +3626,7 @@
       "notes": [
         "Started by EOMYS in 2020. The default branch is `master`; its last commit and the last release (1.2.1) are both from 2024-04-22.",
         "The documentation lists Soundscapy as a user; several other projects (PsychoBox, Sonemeter and others) wrap it.",
-        "Also computes the ANSI S3.5 speech intelligibility index (`sii_ansi`), which is outside the scope of this index.",
+        "Also computes the ANSI S3.5 speech intelligibility index (`sii_ansi`), which is outside the scope of this list.",
         "Open, unanswered pull requests add Aures tonality ([#97](https://github.com/Eomys/MoSQITo/pull/97), 2026), ECMA-418-2 roughness fixes ([#95](https://github.com/Eomys/MoSQITo/pull/95), 2026) and an ISO 1996-2 Annex K tone detector ([#52](https://github.com/Eomys/MoSQITo/pull/52), 2022).",
         "A C#/.NET port, Mosqito.NET, was announced in issue [#98](https://github.com/Eomys/MoSQITo/issues/98) (not checked).",
         "The documentation lists hearing-model tonality (citing ECMA-74) as under development; there is no function for it."
@@ -3790,7 +3790,7 @@
         }
       ],
       "install": "pip install acoustic-toolbox",
-      "summary": "Python acoustics library under the Université Gustave Eiffel GitHub organisation, continuing python-acoustics. For this index it is relevant for its tonal audibility and tonal adjustment after ISO 1996-2:2007.",
+      "summary": "Python acoustics library under the Université Gustave Eiffel GitHub organisation, continuing python-acoustics. For this list it is relevant for its tonal audibility and tonal adjustment after ISO 1996-2:2007.",
       "ai_assistance": "not-stated",
       "notes": [
         "Based on python-acoustics (per the README) and keeps its git history; development under the new name started in July 2024.",
@@ -3859,9 +3859,9 @@
         "citation": "Porres, A. T. (2011). Dissonance Model Toolbox in Pure Data. *Proceedings of the 4th Pure Data International Convention (PdCon11)*, Berlin."
       },
       "notes": [
-        "The roughness objects (`[roughness]`, `[roughcurve]`) compute the sensory dissonance of a spectrum given as lists of frequencies and amplitudes, with a model \"derived from the work of Parncutt, Sethares, Vassilakis & Barlow\"; this is not one of the signal-based roughness methods in this index.",
+        "The roughness objects (`[roughness]`, `[roughcurve]`) compute the sensory dissonance of a spectrum given as lists of frequencies and amplitudes, with a model \"derived from the work of Parncutt, Sethares, Vassilakis & Barlow\"; this is not one of the signal-based roughness methods in this list.",
         "`[sharpness~]` is an abstraction built on `[barks~]` (24 Bark bands) and names no sharpness model.",
-        "Tonalness, pitch salience and commonality follow Parncutt & Strasburger (1994), after Terhardt; they are not tonality metrics in the sense of this index.",
+        "Tonalness, pitch salience and commonality follow Parncutt & Strasburger (1994), after Terhardt; they are not tonality metrics in the sense of this list.",
         "From the author's MSc and PhD work (2005–2012). Version 1.1 was released on 2025-10-14 (git tags 1.0 of 2019 and 1.1; no GitHub releases). It builds with pd-lib-builder."
       ],
       "caveats": [
@@ -3928,8 +3928,8 @@
         "The README says versions of the ECMA-418-2 code are also incorporated in SQAT. The Python port is also published separately as the PyPI package sottek-hearing-model (repository mlotinga/sottek-hearing-model).",
         "The Python package defined in pyproject.toml (refmap-psychoacoustics 0.1.0) is not on PyPI.",
         "Tonality has an optional tonal annoyance weighting after Sottek & Becker (2019), which is not part of ECMA-418-2.",
-        "Further metrics without an entry in this index: partial loudness and partial tonality of a target in a masker (\"based on ECMA-418-2:2025\", an extension of the standard), quasi-loudness from the spectral elements of ISO 532-1 with optional ISO 532-3:2023 or ECMA-418-2:2025 ear filters, tonal sharpness, and impulsiveness after Willemsen & Rao (2010) from ISO 532-1:2017 or ECMA-418-2:2025 loudness.",
-        "The Python code also has annoyance models after Willemsen et al. (2010), Torija et al. (2022) and Boucher et al. (2024), which have no reference entry in this index.",
+        "Further metrics without an entry in this list: partial loudness and partial tonality of a target in a masker (\"based on ECMA-418-2:2025\", an extension of the standard), quasi-loudness from the spectral elements of ISO 532-1 with optional ISO 532-3:2023 or ECMA-418-2:2025 ear filters, tonal sharpness, and impulsiveness after Willemsen & Rao (2010) from ISO 532-1:2017 or ECMA-418-2:2025 loudness.",
+        "The Python code also has annoyance models after Willemsen et al. (2010), Torija et al. (2022) and Boucher et al. (2024), which have no reference entry in this list.",
         "Also contains listening-test apps and analysis notebooks."
       ],
       "caveats": [
@@ -5097,7 +5097,7 @@
       "ai_assistance": "not-stated",
       "notes": [
         "The README asks users to cite both the software and the AMT paper (Majdak, Hollomey & Baumgartner, 2022).",
-        "The other models in the package (Dau1997, King2019, Osses2021, Paulick2024) are not psychoacoustic metrics in the sense of this index. There is no port of AMT's `moore1997`, `chen2011` or `bramslow2004`, and no roughness, sharpness or fluctuation strength."
+        "The other models in the package (Dau1997, King2019, Osses2021, Paulick2024) are not psychoacoustic metrics in the sense of this list. There is no port of AMT's `moore1997`, `chen2011` or `bramslow2004`, and no roughness, sharpness or fluctuation strength."
       ],
       "caveats": [
         "The documentation claims \"Matching MATLAB AMT v1.6.0 implementations\", but the tests contain no stored AMT or MATLAB reference outputs."
@@ -5579,7 +5579,7 @@
       "maintainers": [
         "Christopher Hummersone"
       ],
-      "summary": "General-purpose MATLAB toolbox from the Institute of Sound Recording (University of Surrey) for auditory modelling, signal processing, source separation, statistics and plotting. For this index it provides ISO 226:2003 equal-loudness contours; it has no loudness, sharpness or roughness models.",
+      "summary": "General-purpose MATLAB toolbox from the Institute of Sound Recording (University of Surrey) for auditory modelling, signal processing, source separation, statistics and plotting. For this list it provides ISO 226:2003 equal-loudness contours; it has no loudness, sharpness or roughness models.",
       "ai_assistance": "not-stated",
       "notes": [
         "`iosr.auditory.loudWeight` returns loudness-weighting coefficients derived from the 65-phon ISO 226:2003 contour.",
@@ -5641,7 +5641,7 @@
       "summary": "C++ library with SWIG Python bindings for building loudness models from cascaded processing modules. Includes Moore–Glasberg models for stationary sounds (ANSI S3.4-2007, Chen et al. 2011) and time-varying sounds (Glasberg & Moore 2002, Chen & Hu 2012), and stationary Zwicker loudness after DIN 45631:1991.",
       "ai_assistance": "not-stated",
       "notes": [
-        "Also includes the dynamic loudness model of Chen & Hu (2012) (`DynamicLoudnessCH2012`) and partial-loudness stages after Moore, Glasberg & Baer (1997) and Chen et al. (2011) (`SpecificPartialLoudnessMGB1997`, `SpecificPartialLoudnessCHGM2011`); neither has an entry in this index.",
+        "Also includes the dynamic loudness model of Chen & Hu (2012) (`DynamicLoudnessCH2012`) and partial-loudness stages after Moore, Glasberg & Baer (1997) and Chen et al. (2011) (`SpecificPartialLoudnessMGB1997`, `SpecificPartialLoudnessCHGM2011`); neither has an entry in this list.",
         "The interface is modelled on AIM-C. Building needs libsndfile, FFTW and zlib; the Python bindings need SWIG 3.",
         "The last commit touching the source code, bindings or Python package was on 2017-06-01; the last commit (2019-08-08) updated the README.",
         "`swig/setup.py` names the Python package `loudness` 0.0.1, but it was never published on PyPI."
@@ -5794,7 +5794,7 @@
       "ai_assistance": "not-stated",
       "notes": [
         "There is no README. The GitHub description calls the project \"the translation to python of the most important parameters in the field of Psychoacoustics based on the book of Zwicker and Fastl\".",
-        "Roughness (`acousticRoughness`) follows the formula in Zwicker & Fastl's book, which is not one of the roughness methods in this index.",
+        "Roughness (`acousticRoughness`) follows the formula in Zwicker & Fastl's book, which is not one of the roughness methods in this list.",
         "Also contains A-weighting, voice-activity detection and the scripts Main.py and Main_WAV.py for microphone or WAV input."
       ],
       "caveats": [
@@ -5979,7 +5979,7 @@
         }
       ],
       "install": "pip install acoustics",
-      "summary": "General Python library for acousticians, published on PyPI as `acoustics`. For this index it is relevant for its tonal audibility and tonal adjustment after ISO 1996-2:2007. Archived in February 2024 and continued as acoustic-toolbox.",
+      "summary": "General Python library for acousticians, published on PyPI as `acoustics`. For this list it is relevant for its tonal audibility and tonal adjustment after ISO 1996-2:2007. Archived in February 2024 and continued as acoustic-toolbox.",
       "ai_assistance": "not-stated",
       "notes": [
         "The successor is [acoustic-toolbox](https://github.com/Universite-Gustave-Eiffel/acoustic-toolbox), which continues the same code.",
@@ -6525,7 +6525,7 @@
     {
       "date": "2026-10-06",
       "title": "Version 0.1, the first public version of LISQM",
-      "body": "LISQM (List of Implementations of Sound Quality Metrics) starts with 32 projects in Python, MATLAB, Octave, C,\nC++, Rust, Julia and Pure Data, and 22 methods from Zwicker loudness to aural detectability. Every implementation is\ntied to the standard edition or model paper it follows, with links to the documentation the facts were taken\nfrom. Repository dates, releases and package versions are refreshed once a month.\n\nWorth knowing as of today:\n\n- ECMA-418-2 is at its 4th edition (June 2025), which added fluctuation strength. sottek-hearing-model and\n  refmap-psychoacoustics follow it, as do phonometry and MetaSona, two newly released projects that are not yet\n  widely used. SQAT has it on its main branch only, and MoSQITo still follows the 2nd edition (2022).\n- SQAT's latest release (v1.3) is licensed for non-commercial use only. Its main branch is GPL-3.0 and\n  carries unreleased fixes to ISO 532-1 time-varying loudness, Aures tonality and Daniel & Weber roughness\n  that change results.\n- All three parts of ISO 532 are being revised; committee drafts have existed since November 2024.\n- No open implementation was found for DIN 38455:2024 (the first German roughness standard), DIN 45681 or\n  ISO/TS 20065:2022.\n- Six projects disclose that AI tools assisted their development; each project page says where.\n- Every project is in one group: established, newly released (first released less than about a year ago and\n  not yet widely used), developing, legacy (archived, or no commit for three years) or others (calls another\n  indexed project). Lists follow this order, so a new, little-used or unmaintained project is never the first\n  suggestion.\n- Candidates that could not be checked yet, such as PsyTools (TU Graz) and the ITA-Toolbox, are listed on\n  the About page as leads.\n"
+      "body": "LISQM (List of Implementations of Sound Quality Metrics) starts with 32 projects in Python, MATLAB, Octave, C,\nC++, Rust, Julia and Pure Data, and 22 methods from Zwicker loudness to aural detectability. Every implementation is\ntied to the standard edition or model paper it follows, with links to the documentation the facts were taken\nfrom. Repository dates, releases and package versions are refreshed once a month.\n\nWorth knowing as of today:\n\n- ECMA-418-2 is at its 4th edition (June 2025), which added fluctuation strength. sottek-hearing-model and\n  refmap-psychoacoustics follow it, as do phonometry and MetaSona, two newly released projects that are not yet\n  widely used. SQAT has it on its main branch only, and MoSQITo still follows the 2nd edition (2022).\n- SQAT's latest release (v1.3) is licensed for non-commercial use only. Its main branch is GPL-3.0 and\n  carries unreleased fixes to ISO 532-1 time-varying loudness, Aures tonality and Daniel & Weber roughness\n  that change results.\n- All three parts of ISO 532 are being revised; committee drafts have existed since November 2024.\n- No open implementation was found for DIN 38455:2024 (the first German roughness standard), DIN 45681 or\n  ISO/TS 20065:2022.\n- Six projects disclose that AI tools assisted their development; each project page says where.\n- Every project is in one group: established, newly released (first released less than about a year ago and\n  not yet widely used), developing, legacy (archived, or no commit for three years) or others (calls another\n  listed project). Lists follow this order, so a new, little-used or unmaintained project is never the first\n  suggestion.\n- Candidates that could not be checked yet, such as PsyTools (TU Graz) and the ITA-Toolbox, are listed on\n  the About page as leads.\n"
     }
   ]
 }

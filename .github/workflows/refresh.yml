@@ -78,9 +78,9 @@ jobs:
           GH_REPO: ${{ github.repository }}
         run: |
           # Created once; existing labels (and any colours changed by hand) are left alone.
-          gh label create monthly-review --color 0e8a16 --description "Automated monthly review of the index" 2>/dev/null || true
-          gh label create new-project --color 1d76db --description "Suggests a project for the index" 2>/dev/null || true
-          gh label create correction --color d93f0b --description "Corrects an entry in the index" 2>/dev/null || true
+          gh label create monthly-review --color 0e8a16 --description "Automated monthly review of the list" 2>/dev/null || true
+          gh label create new-project --color 1d76db --description "Suggests a project for the list" 2>/dev/null || true
+          gh label create correction --color d93f0b --description "Corrects an entry in the list" 2>/dev/null || true
           gh label create standards --color 5319e7 --description "New or revised standard edition" 2>/dev/null || true
 
       - name: Update the monthly review issue

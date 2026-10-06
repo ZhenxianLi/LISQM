@@ -469,7 +469,7 @@ def _timeline(index: Index, path: str) -> str:
 
 
 def _others_note(index: Index, path: str) -> str:
-    """Tools that call one of the indexed projects instead of computing the metrics themselves."""
+    """Tools that call one of the listed projects instead of computing the metrics themselves."""
     others = index.others()
     if not others:
         return ""
@@ -504,7 +504,7 @@ def home(index: Index) -> str:
         parts.append("<p>No available open-source implementation of the current edition has been found for:</p>")
         parts.append("<ul>" + "".join(f"<li>{_method_link(path, m, m['title'])}</li>" for m in gaps) + "</ul>")
     else:
-        parts.append("<p>Every method in the index has at least one available open-source implementation of its "
+        parts.append("<p>Every method in the list has at least one available open-source implementation of its "
                      "current edition.</p>")
     if index.new_only():
         parts.append("<p>Released implementations of the current edition come only from newly released projects "
@@ -661,7 +661,7 @@ def project_page(index: Index, p: dict) -> str:
     facts.append(("Kind", esc(PROJECT_KINDS[p["kind"]])))
     group = f'{_group_tag(p)} <span class="muted">{esc(GROUPS[p["_group"]])}'
     if p["_mainstream"]:
-        group += " One of the most widely used projects in the index."
+        group += " One of the most widely used projects in the list."
     facts.append(("Group", group + "</span>"))
     lic = esc(p["license"]) if p["license"] != "none" else "none stated (no licence file)"
     if p.get("license_note"):
@@ -940,7 +940,7 @@ def standards_page(index: Index) -> str:
     parts = [
         "<h1>Standards and models</h1>",
         f'<p class="byline">{plural(len(docs), "standard document")} · {plural(len(papers), "model reference")}</p>',
-        "<p>Every document the index refers to, newest first. Each implementation in the index is tied to one of "
+        "<p>Every document the list refers to, newest first. Each implementation in the list is tied to one of "
         "these editions, so this is also a timeline of how the definitions have changed.</p>",
     ]
     for title, anchor, refs in (("Standards and regulations", "standards", docs),
@@ -966,7 +966,7 @@ def standards_page(index: Index) -> str:
 def updates_page(index: Index) -> str:
     path = UPDATES
     parts = ["<h1>Updates</h1>",
-             '<p class="byline">Notable changes to the index and to the projects it follows. '
+             '<p class="byline">Notable changes to the list and to the projects it follows. '
              f'Also available as an <a href="{relative(path, "feed.xml")}">Atom feed</a>.</p>']
     for u in index.updates:
         parts.append(f'<section class="update" id="{esc(str(u["date"]))}">')
@@ -991,18 +991,18 @@ def about_page(index: Index) -> str:
 
         '<h2 id="scope">What is included</h2>',
         f"<p>Open-source code that computes a psychoacoustic metric and says which model or standard edition it "
-        f"follows. The index covers {esc(fams)}, in any programming language.</p>",
+        f"follows. The list covers {esc(fams)}, in any programming language.</p>",
         "<p>Not included: broadcast loudness (LUFS, ITU-R BS.1770, EBU R 128), speech intelligibility (SII, STI), "
         "codec and speech quality metrics (PEAQ, PESQ, ViSQOL), psychophysics experiment software, music "
         "sensory-dissonance models (Plomp–Levelt, Sethares, Vassilakis), feature extractors whose loudness or "
         "sharpness descriptors follow no named psychoacoustic model, and closed-source tools. The ISO 532 reference "
         "programs can be downloaded free of charge but may not be modified, so they are described on the standards' "
-        "own entries rather than listed as projects. A project that only calls another indexed project is listed "
+        "own entries rather than listed as projects. A project that only calls another listed project is included "
         "when it is an end-user application or an established library. Candidates that were reviewed and left out "
         f'are recorded, with the reason, in <a href="{repo}/blob/main/data/ignored.yaml">data/ignored.yaml</a>.</p>',
         '<h2 id="method">How entries are checked</h2>',
         "<p>Each entry is written from the project's own README, documentation, release notes, licence file and "
-        "package metadata, and links to those sources. The index records what a project claims; it does not run "
+        "package metadata, and links to those sources. The list records what a project claims; it does not run "
         "the code, and listing a project is not an endorsement.</p>",
         "<p>Every month a GitHub Action refreshes repository dates, releases and package versions, searches GitHub "
         "and package registries for new candidate projects, and checks the ISO and Ecma catalogues for new "
@@ -1019,15 +1019,15 @@ def about_page(index: Index) -> str:
         "are reference programs published with a standard, which are not expected to change.</p>",
         _table("defs", ["Group", "Meaning"], [[_tag(k, GROUP_KIND[k]), esc(v)] for k, v in GROUPS.items()]),
         '<h2 id="leads">Leads not yet verified</h2>',
-        "<p>Candidates that may belong in the index but could not be checked yet. They are listed so that nobody "
+        "<p>Candidates that may belong in the list but could not be checked yet. They are listed so that nobody "
         "has to rediscover them; nothing here has been confirmed.</p>",
         "<ul>" + "".join(f'<li><a href="{esc(l["url"])}">{esc(l["name"])}</a> {_langs(l.get("languages") or [])}: '
                          f'{inline(l["claim"])} <span class="muted">{inline(l["why"])}</span></li>'
                          for l in index.leads) + "</ul>",
-        "<p>Not indexed because they are closed source: MATLAB Audio Toolbox, HEAD acoustics ArtemiS SUITE, "
+        "<p>Not listed because they are closed source: MATLAB Audio Toolbox, HEAD acoustics ArtemiS SUITE, "
         "Simcenter Testlab, HBK BK Connect and Ansys Sound. Verification studies often use them as references.</p>",
         '<h2 id="data">Machine-readable data</h2>',
-        f'<p>The <a href="{relative(path, AI)}">For AI</a> page describes every machine-readable form of the index '
+        f'<p>The <a href="{relative(path, AI)}">For AI</a> page describes every machine-readable form of the list '
         "and how to use it.</p>",
         "<ul>",
         f'<li><a href="{relative(path, "index.json")}">index.json</a>: the whole index as one JSON document.</li>',
@@ -1044,7 +1044,7 @@ def about_page(index: Index) -> str:
         f'<a href="{repo}/blob/main/CONTRIBUTING.md">CONTRIBUTING.md</a> explains the format. '
         "Project authors are encouraged to check their own entry.</p>",
         '<h2 id="citing">Citing</h2>',
-        f'<p>Please cite the index with the <a href="{repo}/blob/main/CITATION.cff">CITATION.cff</a> file and the date '
+        f'<p>Please cite the list with the <a href="{repo}/blob/main/CITATION.cff">CITATION.cff</a> file and the date '
         "you accessed it, and cite the implementations you actually used.</p>",
         '<h2 id="licence">Licence</h2>',
         f"<p>Data, text and code are released under the {esc(site['license'])} licence.</p>",
@@ -1080,7 +1080,7 @@ def faq_page(index: Index) -> str:
     pairs = faq(index, lambda p: _project_link(path, p), lambda m: _method_link(path, m, m["title"]), esc,
                 lambda target, label: f'<a href="{relative(path, target)}">{esc(label)}</a>')
     parts = ["<h1>Questions and answers</h1>",
-             '<p class="byline">Ask your own question below; the answers further down are generated from the index '
+             '<p class="byline">Ask your own question below; the answers further down are generated from the list '
              "data, so they always match the tables.</p>",
              _message_box(index)]
     for n, (q, a) in enumerate(pairs, 1):
@@ -1093,7 +1093,7 @@ def faq_page(index: Index) -> str:
         for q, a in pairs]}]
     return layout(index, path, title="Frequently asked questions about open-source psychoacoustic metrics",
                   description=("Which open-source code to use for ISO 532, ECMA-418-2, DIN 45692 and other "
-                               "psychoacoustic metrics, in which languages, and how the index is kept accurate."),
+                               "psychoacoustic metrics, in which languages, and how the list is kept accurate."),
                   body="\n".join(parts), section="FAQ", jsonld=ld, side=side)
 
 
@@ -1101,7 +1101,7 @@ def ai_page(index: Index) -> str:
     path = AI
     intro, sections = ai_guide(index)
     parts = ["<h1>For AI agents and language models</h1>",
-             f'<p class="byline">Machine-readable access to the index · data as of {esc(long_date(index.as_of()))}</p>',
+             f'<p class="byline">Machine-readable access to the list · data as of {esc(long_date(index.as_of()))}</p>',
              f'<p class="lead">{inline(intro)}</p>']
     for anchor, heading, items in sections:
         parts.append(f'<h2 id="{anchor}">{esc(heading)}</h2>')

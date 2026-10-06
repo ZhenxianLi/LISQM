@@ -20,7 +20,7 @@ notes:
   - >-
     Also includes the dynamic loudness model of Chen & Hu (2012) (`DynamicLoudnessCH2012`) and partial-loudness
     stages after Moore, Glasberg & Baer (1997) and Chen et al. (2011) (`SpecificPartialLoudnessMGB1997`,
-    `SpecificPartialLoudnessCHGM2011`); neither has an entry in this index.
+    `SpecificPartialLoudnessCHGM2011`); neither has an entry in this list.
   - The interface is modelled on AIM-C. Building needs libsndfile, FFTW and zlib; the Python bindings need SWIG 3.
   - >-
     The last commit touching the source code, bindings or Python package was on 2017-06-01; the last commit

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate the index data and generate the website, README tables and machine-readable files.
+"""Validate the list data and generate the website, README tables and machine-readable files.
 
     python scripts/build.py            # validate, then write site/ and the generated files in the repo
     python scripts/build.py --check    # validate only (exit code 1 on problems)

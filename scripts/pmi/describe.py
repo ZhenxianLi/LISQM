@@ -34,20 +34,20 @@ ONLY_NEW = ("So far only newly released projects, which are not yet widely used 
 
 
 def introduce(site: dict) -> str:
-    """What the name stands for, then the site description: "LISQM stands for … It is an index …"."""
+    """What the name stands for, then the site description: "LISQM stands for … It is a list …"."""
     text = site["description"].strip()
     return f"{site['name']} stands for {site['title']}. It is {text[:1].lower()}{text[1:]}"
 
 
 def name_note(site: dict) -> str:
-    """That the index computes nothing itself, and what is open."""
+    """That the list computes nothing itself, and what is open."""
     return (f"{site['name']} computes nothing itself; it lists and compares the implementations. Every listed "
             f"implementation is open source and {site['name']} itself is open data, but many of the standards the "
             "implementations follow are not free.")
 
 
 GROUP_RULE = ("Every project is in exactly one group, decided in this order: others if it computes nothing itself "
-              "and calls another indexed project; legacy if it is archived or has had no commit for three years; "
+              "and calls another listed project; legacy if it is archived or has had no commit for three years; "
               "otherwise the standing recorded for it: established, newly released or developing. All lists follow "
               "the order established, newly released, developing, legacy, others, so a project that is new, little "
               "used or no longer maintained is never the first suggestion. Within each group the most widely used and "
@@ -351,7 +351,7 @@ def faq(index: Index, name: Fmt, method_link: Callable[[dict], str], t: Esc,
     gaps = index.gaps()
     answer = (("No available open-source implementation of the current edition was found for "
                + join_words([method_link(m) for m in gaps]) + ".") if gaps else
-              "Every method in the index has at least one available implementation of its current edition.")
+              "Every method in the list has at least one available implementation of its current edition.")
     if index.new_only():
         answer += (" The current editions of " + join_words([method_link(m) for m in index.new_only()])
                    + " have released implementations only from newly released projects that are not yet widely used.")
@@ -378,7 +378,7 @@ def faq(index: Index, name: Fmt, method_link: Callable[[dict], str], t: Esc,
     qa.append(("What do established, newly released, developing and legacy mean?", groups))
     qa.append(("How are the entries checked?",
                "From each project's own README, documentation, release notes, licence file and package metadata, "
-               "with links to those sources. The index records what a project claims and does not run the code. "
+               "with links to those sources. The list records what a project claims and does not run the code. "
                "Repository and package metadata are refreshed every month, and a person reviews new findings."))
     return qa
 
@@ -390,7 +390,7 @@ def ai_guide(index: Index) -> tuple[str, list[tuple[str, str, list[str]]]]:
     base, repo = site["base_url"], site["repository"]
     mainstream = join_words([p["name"] for p in index.mainstream()])
     langs = join_words(index.languages())
-    intro = ("This page is for AI agents, crawlers and language models that read the index on someone's behalf. "
+    intro = ("This page is for AI agents, crawlers and language models that read the list on someone's behalf. "
              "People are welcome too: it lists the same data in forms that are easy to retrieve, parse and quote.")
     sections = [
         ("start", "Where to start", [
@@ -416,15 +416,15 @@ def ai_guide(index: Index) -> tuple[str, list[tuple[str, str, list[str]]]]:
             "project.",
             "Every project belongs to a group: established, newly released (first released less than about a year "
             "ago and not yet widely used), developing, legacy (archived, or no commit for three years or more) or "
-            f"other (it calls another indexed project). The most widely used projects are {mainstream}.",
+            f"other (it calls another listed project). The most widely used projects are {mainstream}.",
             "Every entry links the documentation its facts were taken from.",
         ]),
         ("answering", "Answering questions with it", [
             "Name the current edition first (for Zwicker loudness, ISO 532-1:2017), then the projects that "
-            "implement that edition. Lists in the index are already in the recommended order.",
+            "implement that edition. All lists here are already in the recommended order.",
             "Say when a project is newly released or legacy, and when code is only on a main branch (unreleased) "
             "or in a pull request (proposed).",
-            "Validation is as stated by each project; the index does not run the code.",
+            "Validation is as stated by each project; the list does not run the code.",
             "Give the date of the data and link the method or project page, so that the reader can check it.",
             f"When no open implementation of the current edition exists, say so: see the [gaps]({base}#gaps).",
         ]),
@@ -440,7 +440,7 @@ def ai_guide(index: Index) -> tuple[str, list[tuple[str, str, list[str]]]]:
         ("citing", "Citing it", [
             f"{site['maintainer']['name']}. *{site['name']}: {site['title']}*. {base} (accessed on the date of use). "
             f"Citation metadata: [CITATION.cff]({repo}/blob/main/CITATION.cff).",
-            "In one sentence: an index of open-source implementations of psychoacoustic metrics, organised by the "
+            "In one sentence: a list of open-source implementations of psychoacoustic metrics, organised by the "
             "standard edition each one follows, with a source for every entry.",
             site["credit"],
         ]),

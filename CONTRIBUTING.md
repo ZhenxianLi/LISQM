@@ -1,6 +1,6 @@
 # Contributing
 
-Thank you for helping to keep LISQM complete and accurate. The index lists
+Thank you for helping to keep LISQM complete and accurate. LISQM lists
 open-source implementations of psychoacoustic metrics, organised by the standard edition or model paper each
 one follows. The repository holds data and a static-site generator, not metric code: the website, the README
 tables and `data/index.json` are all generated from the YAML files in [`data/`](data/), which are described in
@@ -9,7 +9,7 @@ tables and `data/index.json` are all generated from the YAML files in [`data/`](
 Everyone taking part is expected to follow the [Code of Conduct](CODE_OF_CONDUCT.md).
 
 - [Ways to contribute](#ways-to-contribute)
-- [What the index includes](#what-the-index-includes)
+- [What the list includes](#what-the-list-includes)
 - [Proposing a project](#proposing-a-project)
 - [Correcting an entry](#correcting-an-entry)
 - [Reporting a new standard edition](#reporting-a-new-standard-edition)
@@ -34,7 +34,7 @@ A good place to start is [`data/leads.yaml`](data/leads.yaml), shown on the webs
 yet verified": candidates that could not be checked yet, often because their host was unreachable. If you can
 read one of them, propose it as a project or say why it does not qualify.
 
-## What the index includes
+## What the list includes
 
 A project is included when all three of these hold:
 
@@ -56,7 +56,7 @@ A project is included when all three of these hold:
 | Psychoacoustic annoyance | Widmann; Zwicker and Fastl; More; Di et al. |
 | Related quantities | Equal-loudness contours (ISO 226); perceived noise level and EPNL (ICAO Annex 16, 14 CFR Part 36); aural detectability |
 
-**Wrappers.** A project that only calls another indexed project is listed, with `via`, when it is an end-user
+**Wrappers.** A project that only calls another listed project is included, with `via`, when it is an end-user
 application (for example a program with a graphical interface) or an established library through which people
 commonly compute these metrics. Rows with `via` are not counted as implementations of the metric: the website
 lists such a project under Others and names it after the implementation it calls. Other wrappers are recorded in
@@ -75,7 +75,7 @@ lists such a project under Others and names it after the implementation it calls
 - closed-source tools, including free-of-charge tools whose metric code is not published.
 
 Inclusion is not an endorsement and does not depend on popularity, activity or quality. Inactive and archived
-projects stay in the index and are marked as such. Borderline cases are decided case by case; candidates
+projects stay in the list and are marked as such. Borderline cases are decided case by case; candidates
 that were reviewed and not included are recorded in `data/ignored.yaml` with the reason.
 
 ## Proposing a project
@@ -119,7 +119,7 @@ If a project follows an edition or a paper that is not in [`data/references.yaml
 yet, add it there with `id`, `label`, `kind`, `body`, `title`, `date`, `status`, a `url` or `doi`, and
 `checked`. Then add its id to the method's `references` in [`data/metrics.yaml`](data/metrics.yaml), in
 chronological order. A new method needs its own entry in `metrics.yaml` with a short, neutral summary; please
-explain in the pull request why it belongs in the index.
+explain in the pull request why it belongs in the list.
 
 ## Correcting an entry
 
@@ -155,7 +155,7 @@ To have the monthly job watch a standard that it does not cover yet, add a patte
   own README, documentation, release notes, changelog or package page, and the standards body's catalogue
   page. When a statement may change, link to a release, a tag or a commit.
 - **Claims, not tests.** `validation` records the evidence the project describes: `standard-data`,
-  `reference-code`, `cross-implementation`, `self-tests` or `not-stated`. The index does not run the code.
+  `reference-code`, `cross-implementation`, `self-tests` or `not-stated`. The list does not run the code.
 - **AI assistance** is `disclosed` only when the project itself says so; `ai_note` says where. Otherwise it
   is `not-stated`.
 - **Caveats** are limitations the project states or documents, such as a known deviation or an open issue,
@@ -197,7 +197,7 @@ workflow):
    PyPI, crates.io and npm into `data/snapshot.json`. A failed fetch keeps the previous value and records the
    error. The snapshot and the regenerated files are committed to `main`.
 2. **Discovery.** [`scripts/discover.py`](scripts/discover.py) searches GitHub, crates.io and npm for
-   candidates that are neither indexed nor in `data/ignored.yaml`, leaving out forks and projects without
+   candidates that are neither listed nor in `data/ignored.yaml`, leaving out forks and projects without
    activity in the last three years. PyPI cannot be searched and other hosts are not covered, so suggestions
    for projects published elsewhere are particularly useful.
 3. **Standards watch.** [`scripts/watch_standards.py`](scripts/watch_standards.py) checks the sources in
@@ -223,7 +223,7 @@ generated output. Everything that describes a project, a method or an edition is
   report it again. It can be reconsidered when the project changes, for example when it states which edition
   it follows. A candidate that cannot be checked yet goes to `data/leads.yaml`, which the website shows as
   unverified leads, never as facts.
-- Disagreements about an entry are settled with sources: the index records what projects and standards bodies
+- Disagreements about an entry are settled with sources: the list records what projects and standards bodies
   state.
 
 By contributing, you agree that your contribution is published under the [MIT License](LICENSE) of this

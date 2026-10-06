@@ -26,11 +26,11 @@ notes:
   - >-
     The roughness objects (`[roughness]`, `[roughcurve]`) compute the sensory dissonance of a spectrum given as
     lists of frequencies and amplitudes, with a model "derived from the work of Parncutt, Sethares, Vassilakis &
-    Barlow"; this is not one of the signal-based roughness methods in this index.
+    Barlow"; this is not one of the signal-based roughness methods in this list.
   - "`[sharpness~]` is an abstraction built on `[barks~]` (24 Bark bands) and names no sharpness model."
   - >-
     Tonalness, pitch salience and commonality follow Parncutt & Strasburger (1994), after Terhardt; they are not
-    tonality metrics in the sense of this index.
+    tonality metrics in the sense of this list.
   - >-
     From the author's MSc and PhD work (2005–2012). Version 1.1 was released on 2025-10-14 (git tags 1.0 of 2019
     and 1.1; no GitHub releases). It builds with pd-lib-builder.

@@ -8,7 +8,7 @@ license: MIT
 maintainers: [Christopher Hummersone]
 summary: >-
   General-purpose MATLAB toolbox from the Institute of Sound Recording (University of Surrey) for auditory
-  modelling, signal processing, source separation, statistics and plotting. For this index it provides
+  modelling, signal processing, source separation, statistics and plotting. For this list it provides
   ISO 226:2003 equal-loudness contours; it has no loudness, sharpness or roughness models.
 ai_assistance: not-stated
 notes:

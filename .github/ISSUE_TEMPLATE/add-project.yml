@@ -1,5 +1,5 @@
 name: Add a project
-description: Suggest an open-source implementation of a psychoacoustic metric for the index.
+description: Suggest an open-source implementation of a psychoacoustic metric for the list.
 title: "Add project: "
 labels: ["new-project"]
 body:
@@ -111,7 +111,7 @@ body:
     id: criteria
     attributes:
       label: Inclusion criteria
-      description: See "What the index includes" in CONTRIBUTING.md.
+      description: See "What the list includes" in CONTRIBUTING.md.
       options:
         - label: The source code of the metric computations is public (not only a binary, web service or closed library).
           required: true

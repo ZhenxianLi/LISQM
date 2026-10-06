@@ -1,4 +1,4 @@
-"""Load, validate and enrich the index data in data/.
+"""Load, validate and enrich the list data in data/.
 
 The YAML files are the source of truth (see data/SCHEMA.md). data/snapshot.json holds metadata fetched by
 scripts/refresh.py. Everything derived here (activity, latest release, per-method implementation lists) is
@@ -94,7 +94,7 @@ GROUPS = {
     "legacy": "Archived, or no commit for three years or more. Kept for reference: the code may follow an older "
               "edition and may not run with current software.",
     "others": "Tools that do not compute the metrics themselves: interfaces, front ends and wrappers that call one "
-              "of the indexed projects.",
+              "of the listed projects.",
 }
 GROUP_ORDER = {key: n for n, key in enumerate(GROUPS)}
 GROUP_NAMES = {"established": "established", "developing": "developing", "newly-released": "newly released",
@@ -162,7 +162,7 @@ def github_slug(url: str | None) -> str | None:
 
 
 class Index:
-    """All index data plus lookups and derived fields (keys starting with '_' are derived)."""
+    """All list data plus lookups and derived fields (keys starting with '_' are derived)."""
 
     def __init__(self, root: Path = ROOT):
         data = root / "data"
@@ -325,7 +325,7 @@ class Index:
                 if impl.get("functions") is not None and not isinstance(impl["functions"], list):
                     add(f"{wi}: functions must be a list")
                 if impl.get("via") and impl["via"] not in self.project:
-                    add(f"{wi}: via '{impl['via']}' is not an indexed project")
+                    add(f"{wi}: via '{impl['via']}' is not an listed project")
                 if impl.get("via") == pid:
                     add(f"{wi}: via must name another project")
                 pair = (mid, rid, impl.get("status"), impl.get("scope"))
@@ -344,12 +344,12 @@ class Index:
                 if not lead.get(key):
                     add(f"data/leads.yaml[{i}]: missing '{key}'")
             if lead.get("url") and normalise_url(lead["url"]) in repos:
-                add(f"data/leads.yaml[{i}]: {lead['url']} is already an indexed project")
+                add(f"data/leads.yaml[{i}]: {lead['url']} is already an listed project")
         for i, ig in enumerate(self.ignored):
             if not ig.get("url") or not ig.get("reason"):
                 add(f"data/ignored.yaml[{i}]: needs url and reason")
             elif normalise_url(ig["url"]) in repos:
-                add(f"data/ignored.yaml[{i}]: {ig['url']} is also an indexed project")
+                add(f"data/ignored.yaml[{i}]: {ig['url']} is also an listed project")
         return problems
 
     # ------------------------------------------------------------------ derived data
@@ -426,12 +426,12 @@ class Index:
                 impl["_ref"] = self.ref[impl["reference"]]
                 impl["_via"] = self.project.get(impl.get("via"))
                 p["_impls"].append(impl)
-                if impl["_via"]:  # the computation is done by another indexed project
+                if impl["_via"]:  # the computation is done by another listed project
                     self.method[impl["method"]]["_via_impls"].append(impl)
                     continue
                 self.method[impl["method"]]["_impls"].append(impl)
                 self.ref[impl["reference"]]["_impls"].append(impl)
-            # Tools whose results all come from other indexed projects are listed under "Others".
+            # Tools whose results all come from other listed projects are listed under "Others".
             p["_others"] = bool(p["_impls"]) and all(i["_via"] for i in p["_impls"])
             p["_group"] = "others" if p["_others"] else "legacy" if p["_legacy"] else p["standing"]
 
@@ -465,7 +465,7 @@ class Index:
         return [p for p in self.projects_by_group() if p["_group"] == key]
 
     def others(self) -> list[dict]:
-        """Tools that do not compute the metrics themselves but call another indexed project."""
+        """Tools that do not compute the metrics themselves but call another listed project."""
         return self.group("others")
 
     def mainstream(self) -> list[dict]:

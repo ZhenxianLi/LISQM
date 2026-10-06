@@ -81,7 +81,7 @@ class UrlTest(unittest.TestCase):
 class SearchTest(DiscoverCase):
     def test_github_results_are_filtered_and_merged_by_repository(self) -> None:
         search = self.search_all()
-        # Left out: huaaudio/metasona (indexed), someone/mosqito (fork), old/zwicker-2019 (no push for 5 years),
+        # Left out: huaaudio/metasona (listed), someone/mosqito (fork), old/zwicker-2019 (no push for 5 years),
         # Example/Ignored-Meter (in ignored.yaml), oxideav-mp2 (query word only in keywords), stale npm/crates.
         # Packages are keyed by their source repository.
         self.assertEqual(sorted(search.found), [

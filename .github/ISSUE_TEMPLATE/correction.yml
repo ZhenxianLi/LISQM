@@ -6,7 +6,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        Thank you for helping to keep the index accurate. Every correction needs a source that the maintainer
+        Thank you for helping to keep the list accurate. Every correction needs a source that the maintainer
         can check: the project's README, documentation, release notes or changelog, a package page, a paper,
         or the catalogue page of a standards body. You can also correct the YAML file directly in a pull
         request; see [CONTRIBUTING.md](https://github.com/ZhenxianLi/LISQM/blob/main/CONTRIBUTING.md).

@@ -1,4 +1,4 @@
-# Candidates that were reviewed and not included in the index, so that scripts/discover.py does not report
+# Candidates that were reviewed and not included in the list, so that scripts/discover.py does not report
 # them again (see data/SCHEMA.md). One entry per repository or package page; URLs are compared without
 # "www.", trailing slash, ".git" or letter case, and a GitHub URL covers the whole repository.
 
@@ -36,13 +36,13 @@
   reason: Only phon/sone conversion, no loudness model.
   checked: 2026-10-06
 - url: https://gist.github.com/chummersone/8499aa1dfe6955bd437c3a475cd17763
-  reason: Short gist computing ISO 226:2003 contours; the same author's IoSR Matlab Toolbox is indexed.
+  reason: Short gist computing ISO 226:2003 contours; the same author's IoSR Matlab Toolbox is listed.
   checked: 2026-10-06
 - url: https://gist.github.com/sammosummo/777debf946d0356acada
   reason: Short gist computing ISO 226 contours.
   checked: 2026-10-06
 - url: https://github.com/jacobbaylesssmc/iso226
-  reason: Two-commit extraction of the ISO 226 helper from PyDSM, which is indexed.
+  reason: Two-commit extraction of the ISO 226 helper from PyDSM, which is listed.
   checked: 2026-10-06
 
 # --- Out of scope: broadcast loudness, speech, codecs, psychophysics, ecoacoustics

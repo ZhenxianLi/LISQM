@@ -26,7 +26,7 @@ paper:
 notes:
   - Started by EOMYS in 2020. The default branch is `master`; its last commit and the last release (1.2.1) are both from 2024-04-22.
   - The documentation lists Soundscapy as a user; several other projects (PsychoBox, Sonemeter and others) wrap it.
-  - Also computes the ANSI S3.5 speech intelligibility index (`sii_ansi`), which is outside the scope of this index.
+  - Also computes the ANSI S3.5 speech intelligibility index (`sii_ansi`), which is outside the scope of this list.
   - "Open, unanswered pull requests add Aures tonality ([#97](https://github.com/Eomys/MoSQITo/pull/97), 2026), ECMA-418-2 roughness fixes ([#95](https://github.com/Eomys/MoSQITo/pull/95), 2026) and an ISO 1996-2 Annex K tone detector ([#52](https://github.com/Eomys/MoSQITo/pull/52), 2022)."
   - A C#/.NET port, Mosqito.NET, was announced in issue [#98](https://github.com/Eomys/MoSQITo/issues/98) (not checked).
   - The documentation lists hearing-model tonality (citing ECMA-74) as under development; there is no function for it.

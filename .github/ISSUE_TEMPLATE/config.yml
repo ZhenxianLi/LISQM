@@ -1,6 +1,6 @@
 blank_issues_enabled: true
 contact_links:
-  - name: Browse the index
+  - name: Browse the list
     url: https://zhenxianli.github.io/LISQM/
     about: Check the website first to see whether a project or standard edition is already listed.
   - name: Data model (data/SCHEMA.md)

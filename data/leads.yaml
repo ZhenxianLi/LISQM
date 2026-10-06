@@ -1,4 +1,4 @@
-# Candidates that may belong in the index but could not be checked yet (host unreachable, download behind a
+# Candidates that may belong in the list but could not be checked yet (host unreachable, download behind a
 # form, or only mentioned elsewhere). Nothing here is presented as fact; see data/SCHEMA.md.
 # Move an entry to data/projects/ once its README or code has been read, or to data/ignored.yaml if it does
 # not qualify.

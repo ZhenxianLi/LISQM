@@ -24,7 +24,7 @@ notes:
   - The README asks users to cite both the software and the AMT paper (Majdak, Hollomey & Baumgartner, 2022).
   - >-
     The other models in the package (Dau1997, King2019, Osses2021, Paulick2024) are not psychoacoustic metrics in
-    the sense of this index. There is no port of AMT's `moore1997`, `chen2011` or `bramslow2004`, and no
+    the sense of this list. There is no port of AMT's `moore1997`, `chen2011` or `bramslow2004`, and no
     roughness, sharpness or fluctuation strength.
 caveats:
   - >-

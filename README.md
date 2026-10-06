@@ -22,14 +22,14 @@ Developed by Zhenxian LI with assistance from Claude Code.
 Data as of 2026-10-06: 22 methods, 32 projects, languages: C, C++, Julia, MATLAB, Octave, Pure Data, Python, Rust.
 <!-- END GENERATED: stats -->
 
-## Why this index exists
+## Why this list exists
 
 The definitions of psychoacoustic metrics keep changing. ECMA-418-2 has had four editions since 2020, and all
 three parts of ISO 532 are being revised. Two tools that both say they implement "ECMA-418-2 roughness" can
 follow different editions and give different numbers, and some projects carry important fixes on their main
 branch long before the next release.
 
-For every open-source implementation it knows about, this index records:
+For every open-source implementation it knows about, this list records:
 
 - which **standard edition or model paper** it follows, and which functions to call;
 - how the project says it was **validated** (standard test data, reference code, another tool, own tests, or
@@ -38,7 +38,7 @@ For every open-source implementation it knows about, this index records:
   assistance**;
 - the **source** of every fact (README, documentation, release notes, package metadata).
 
-The index contains no metric code. It records what each project claims and does not run the code; listing a
+The list contains no metric code. It records what each project claims and does not run the code; listing a
 project is not an endorsement.
 
 ## Overview
@@ -175,7 +175,7 @@ Every project is in exactly one group: *established* (described in a publication
 the authors of the model, with more than a year of history), *newly released* (first released less than about a
 year ago and not yet widely used in the community), *developing* (public for more than a year, but without a
 publication or documented use by others: research, teaching or personal code), *legacy* (archived, or no commit
-for three years or more) or *other* (a tool that does not compute the metrics itself but calls another indexed
+for three years or more) or *other* (a tool that does not compute the metrics itself but calls another listed
 project, such as an interface or a wrapper; it is listed with the project it calls and not counted under the
 metrics). All lists follow this order. The most widely used projects (SQAT, the Auditory Modeling Toolbox and
 MoSQITo) come first and are never listed as legacy, and neither are reference programs published with a
@@ -202,7 +202,7 @@ commit).
 - [`llms.txt`](llms.txt) and [`llms-full.txt`](llms-full.txt) are plain-text summaries for language models and
   other tools. Every page on the website also has a Markdown version (replace `.html` with `.md`), and the
   [For AI](https://zhenxianli.github.io/LISQM/ai.html) page explains how agents can
-  retrieve and cite the index.
+  retrieve and cite the list.
 - An Atom feed of updates is at <https://zhenxianli.github.io/LISQM/feed.xml>.
 
 To build the website locally:
@@ -222,10 +222,10 @@ are encouraged to check their own entry.
 
 ## Citing
 
-If the index helped your work, please cite it using [CITATION.cff](CITATION.cff) (GitHub shows a "Cite this
+If the list helped your work, please cite it using [CITATION.cff](CITATION.cff) (GitHub shows a "Cite this
 repository" button), together with the date you accessed it, and cite the implementations you actually used.
 
 ## Licence
 
-[MIT](LICENSE), for the data, the text and the code. The indexed projects have their own licences, listed in
+[MIT](LICENSE), for the data, the text and the code. The listed projects have their own licences, listed in
 the tables above.

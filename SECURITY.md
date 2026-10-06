@@ -2,7 +2,7 @@
 
 This repository contains data (YAML and JSON files under `data/`), a small Python static-site generator
 (`scripts/`) and the GitHub Actions workflows that refresh the data and publish the website. It does not
-contain or distribute any psychoacoustic metric code; the indexed projects live in their own repositories.
+contain or distribute any psychoacoustic metric code; the listed projects live in their own repositories.
 
 ## Supported versions
 
@@ -25,9 +25,9 @@ Examples of what belongs here:
 
 - data fields or fetched metadata that end up as unescaped HTML or script in the generated pages;
 - workflows that could leak a token or run untrusted code with write permissions;
-- a link in the index that points to a compromised repository or a malicious package.
+- a link in the list that points to a compromised repository or a malicious package.
 
-A vulnerability in an indexed project should be reported to that project, following its own security
-policy. If the problem also makes an entry in this index misleading, open a
+A vulnerability in an listed project should be reported to that project, following its own security
+policy. If the problem also makes an entry in this list misleading, open a
 [correction](https://github.com/ZhenxianLi/LISQM/issues/new?template=correction.yml)
 once the issue is public.

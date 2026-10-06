@@ -34,7 +34,7 @@ notes:
     default branch is `develop`. The SourceForge project page mentions no GitHub or GitLab mirror.
   - >-
     Also contains `bramslow2004`, a loudness model considering hearing loss (AUDMOD), with the experiment script
-    `exp_bramslow2004`; it has no reference entry in this index.
+    `exp_bramslow2004`; it has no reference entry in this list.
   - >-
     Neither the develop branch nor release 1.6.0 has a roughness, fluctuation strength, sharpness, tonality or
     annoyance model (`osses2021` is a monaural perceptual-similarity model).
@@ -45,7 +45,7 @@ notes:
     `glasberg2002`). There is no official Python package (amtoolbox and pyamtoolbox are not on PyPI).
   - >-
     The validation entries rest on AMT's design: each `exp_…` script is meant to reproduce figures of the model
-    paper. The scripts' output was not checked for this index.
+    paper. The scripts' output was not checked for this list.
 implements:
   - method: loudness-moore-glasberg
     reference: moore-1997

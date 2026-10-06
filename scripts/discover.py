@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Find repositories and packages that may belong in the index but are not in it yet.
+"""Find repositories and packages that may belong in the list but are not in it yet.
 
 Searches GitHub repositories (needs GITHUB_TOKEN or GH_TOKEN), crates.io and npm with the queries below and
-leaves out everything that is already indexed (data/projects/*.yaml), was reviewed and rejected
+leaves out everything that is already listed (data/projects/*.yaml), was reviewed and rejected
 (data/ignored.yaml), forks, and anything without a push or release in the last three years. The rest is
 written as a Markdown report, grouped by where it was found and ordered by relevance: number of matching
 queries, then most recent activity. PyPI has no search API and is not searched.
@@ -104,10 +104,10 @@ def package_key(registry: str, name: str) -> str:
 
 @dataclass
 class Exclusions:
-    """What is not reported: indexed projects and their packages, and reviewed candidates."""
+    """What is not reported: listed projects and their packages, and reviewed candidates."""
 
     urls: set[str]  # normalised URLs
-    packages: set[str]  # package_key() of indexed packages
+    packages: set[str]  # package_key() of listed packages
 
     @classmethod
     def from_data(cls, projects: list[dict[str, Any]], ignored: list[dict[str, Any]]) -> Exclusions:
@@ -281,9 +281,9 @@ def render_report(search: Search, cutoff: datetime, github_skipped: bool) -> str
     found = f"Found {plural(len(candidates), 'new candidate')}" if candidates else "No new candidates found"
     if len(candidates) > len(shown):
         found += f"; the {len(shown)} most relevant are listed"
-    lines = [f"{found}. Searched {searched}. Not listed: indexed projects, entries of `data/ignored.yaml`, forks, "
+    lines = [f"{found}. Searched {searched}. Not listed: listed projects, entries of `data/ignored.yaml`, forks, "
              f"and anything without activity since {cutoff.date().isoformat()}. Add reviewed candidates that do "
-             f"not belong in the index to `data/ignored.yaml`.", ""]
+             f"not belong in the list to `data/ignored.yaml`.", ""]
     for group in GROUPS:
         members = [candidate for candidate in shown if candidate.source == group]
         if members:

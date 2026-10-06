@@ -17,19 +17,19 @@ Developed by Zhenxian LI with assistance from Claude Code.
 数据截至 2026-10-06：22 个方法，32 个项目，语言包括 C, C++, Julia, MATLAB, Octave, Pure Data, Python, Rust。
 <!-- END GENERATED: stats -->
 
-## 为什么要做这个索引
+## 为什么要做这个列表
 
 心理声学指标的定义一直在变：ECMA-418-2 自 2020 年以来已经出了四版，ISO 532 的三个部分都在修订。两个都说自己实现了
 "ECMA-418-2 粗糙度"的工具，可能对应不同版本，算出来的数也不一样；有的项目在主分支上做了重要修正，但很久才发版。
 
-对每个已知的开源实现，这个索引记录：
+对每个已知的开源实现，这个列表记录：
 
 - 它对应的**标准版本或模型论文**，以及要调用的函数；
 - 项目自己说明的**验证方式**（标准附录数据、参考代码、与其它工具对照、只有自测，或没有说明）；
 - **许可证**、最新**发版**、最近**提交**，以及项目是否声明使用了 **AI 辅助**；
 - 每条信息的**来源**（README、文档、发版说明、包管理器元数据）。
 
-本仓库不包含任何指标的实现代码。索引只记录各项目自己的说法，不运行代码；被收录不代表被推荐。
+本仓库不包含任何指标的实现代码。列表只记录各项目自己的说法，不运行代码；被收录不代表被推荐。
 
 ## 总览
 
@@ -176,11 +176,11 @@ Developed by Zhenxian LI with assistance from Claude Code.
 
 ## 使用数据
 
-- [`data/index.json`](data/index.json)：整个索引（方法、版本、项目、实现）的 JSON。网站上也有同一份文件：
+- [`data/index.json`](data/index.json)：整个列表（方法、版本、项目、实现）的 JSON。网站上也有同一份文件：
   <https://zhenxianli.github.io/LISQM/index.json>。
 - [`llms.txt`](llms.txt) 和 [`llms-full.txt`](llms-full.txt)：给大语言模型和其它工具读的纯文本摘要。网站的每个页面都有
   Markdown 版本（把 `.html` 换成 `.md`）；[For AI](https://zhenxianli.github.io/LISQM/ai.html)
-  页说明 AI 代理怎样检索和引用本索引。
+  页说明 AI 代理怎样检索和引用本列表。
 - 更新的 Atom 订阅：<https://zhenxianli.github.io/LISQM/feed.xml>。
 
 本地生成网站：
@@ -199,7 +199,7 @@ python scripts/build.py --check  # 只校验数据
 
 ## 引用
 
-如果这个索引对你的工作有帮助，请按 [CITATION.cff](CITATION.cff) 引用（GitHub 页面上有 "Cite this repository"
+如果这个列表对你的工作有帮助，请按 [CITATION.cff](CITATION.cff) 引用（GitHub 页面上有 "Cite this repository"
 按钮），注明访问日期，并引用你实际使用的实现。
 
 ## 许可证

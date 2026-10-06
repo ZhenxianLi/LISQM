@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Refresh repository and package metadata of every indexed project into data/snapshot.json.
+"""Refresh repository and package metadata of every listed project into data/snapshot.json.
 
 For each data/projects/*.yaml file this fetches
   - GitHub, when the repository is on github.com: stars, forks, archived flag, default branch, last push,

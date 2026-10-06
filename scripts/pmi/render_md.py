@@ -39,7 +39,7 @@ def _ref_link(r: dict) -> str:
 
 def _header(index: Index, path: str) -> str:
     site = index.site
-    return (f"> Part of [{site['name']}]({site['base_url']}) ({site['title']}), an index of open-source "
+    return (f"> Part of [{site['name']}]({site['base_url']}) ({site['title']}), a list of open-source "
             f"implementations of psychoacoustic metrics. Data as of {index.as_of()}. Web page: {absolute(index, path)}")
 
 
@@ -140,7 +140,7 @@ def project_page(index: Index, p: dict) -> str:
             facts.append((label, p[key]))
     facts += [("Language", ", ".join(p["languages"])), ("Kind", PROJECT_KINDS[p["kind"]]),
               ("Group", f"{GROUP_NAMES[p['_group']]} ({GROUPS[p['_group']]}"
-                        + (" One of the most widely used projects in the index." if p["_mainstream"] else "")
+                        + (" One of the most widely used projects in the list." if p["_mainstream"] else "")
                         + ")")]
     facts += [
               ("Licence", p["license"] + (f" — {plain(p['license_note'])}" if p.get("license_note") else ""))]
@@ -374,7 +374,7 @@ OTHERS = GROUPS["others"] + " They are not listed under the metrics."
 
 
 def _calls(p: dict) -> list[str]:
-    """The indexed projects that a tool under Others calls."""
+    """The listed projects that a tool under Others calls."""
     return list(dict.fromkeys(i["_via"]["name"] for i in p["_impls"] if i.get("_via")))
 
 
@@ -407,7 +407,7 @@ def projects_page(index: Index) -> str:
 
 def standards_page(index: Index) -> str:
     lines = ["# Standards and models", "", _header(index, STANDARDS), "",
-             "Every document the index refers to, newest first. Each implementation in the index is tied to "
+             "Every document the list refers to, newest first. Each implementation in the list is tied to "
              "one of these editions.", ""]
     docs = [r for r in index.references if r["kind"] not in ("paper", "book", "thesis")]
     papers = [r for r in index.references if r["kind"] in ("paper", "book", "thesis")]
@@ -441,7 +441,7 @@ def about_page(index: Index) -> str:
               f"Reviewed exclusions are listed with reasons in {site['repository']}/blob/main/data/ignored.yaml.", ""]
     lines += ["## How entries are checked", "",
               "Each entry is written from the project's own README, documentation, release notes, licence file "
-              "and package metadata, with links to those sources. The index records what a project claims; it "
+              "and package metadata, with links to those sources. The list records what a project claims; it "
               "does not run the code. Repository dates, releases and package versions are refreshed every month "
               "by a GitHub Action, which also searches for new candidate projects and watches the standards "
               "bodies for new editions. A person reviews the findings before anything is added.", ""]
@@ -455,10 +455,10 @@ def about_page(index: Index) -> str:
               "are reference programs published with a standard.", ""]
     lines += _table(["Group", "Meaning"], [[k, v] for k, v in GROUPS.items()]) + [""]
     lines += ["## Leads not yet verified", "",
-              "Candidates that may belong in the index but could not be checked yet; nothing here has been confirmed.", ""]
+              "Candidates that may belong in the list but could not be checked yet; nothing here has been confirmed.", ""]
     lines += [f"- [{l['name']}]({l['url']}) ({', '.join(l.get('languages') or [])}): {oneline(l['claim'])} {oneline(l['why'])}"
               for l in index.leads] + [""]
-    lines += ["Not indexed because they are closed source: MATLAB Audio Toolbox, HEAD acoustics ArtemiS SUITE, "
+    lines += ["Not listed because they are closed source: MATLAB Audio Toolbox, HEAD acoustics ArtemiS SUITE, "
               "Simcenter Testlab, HBK BK Connect and Ansys Sound.", ""]
     lines += ["## Machine-readable data", "",
               f"- [index.json]({site['base_url']}index.json): the whole index as JSON",
@@ -468,7 +468,7 @@ def about_page(index: Index) -> str:
               f"- Source data and schema: {site['repository']}/tree/main/data", ""]
     lines += ["## Contributing and citing", "",
               f"Corrections and new projects are welcome through issues or pull requests: {site['repository']}. "
-              f"To cite the index, use the CITATION.cff file in the repository. Licence: {site['license']}.", "",
+              f"To cite the list, use the CITATION.cff file in the repository. Licence: {site['license']}.", "",
               site["credit"], ""]
     return "\n".join(lines)
 
@@ -530,7 +530,7 @@ def llms_txt(index: Index) -> str:
               f"- [llms-full.txt]({site['base_url']}llms-full.txt): all pages in one Markdown file",
               f"- [Data schema]({site['repository']}/blob/main/data/SCHEMA.md)", "",
               "## Optional", "",
-              f"- [For AI agents]({site['base_url']}{md_twin(AI)}): how to retrieve, read and cite this index",
+              f"- [For AI agents]({site['base_url']}{md_twin(AI)}): how to retrieve, read and cite this list",
               f"- [Metrics]({site['base_url']}{md_twin(METRICS)}): every metric with its current edition",
               f"- [Languages]({site['base_url']}{md_twin(LANGUAGES)}): coverage and calling details by language",
               f"- [Frequently asked questions]({site['base_url']}{md_twin(FAQ)})",
@@ -628,7 +628,7 @@ def readme_stats(index: Index, lang: str = "en") -> str:
 
 def changelog(index: Index) -> str:
     lines = ["# Changelog", "",
-             "Notable changes to the index. This file is generated from `data/updates.yaml`; the same notes are "
+             "Notable changes to the list. This file is generated from `data/updates.yaml`; the same notes are "
              f"on the website ({absolute(index, UPDATES)}) and in its Atom feed.", ""]
     for u in index.updates:
         lines += [f"## {u['date']}: {u['title']}", "", u["body"].strip(), ""]

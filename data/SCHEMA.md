@@ -8,7 +8,7 @@ directory. Edit these files, never the generated output.
 | `site.yaml` | people | Short name (LISQM), what it stands for, subtitle, base URL, maintainer, thresholds |
 | `metrics.yaml` | people | Metric families and methods (one page per method) |
 | `references.yaml` | people | Standard editions, model papers and books that methods are defined by |
-| `projects/<id>.yaml` | people | One file per indexed project, including what it implements |
+| `projects/<id>.yaml` | people | One file per listed project, including what it implements |
 | `updates.yaml` | people | Dated notes shown on the Updates page, in the Atom feed and in `CHANGELOG.md` |
 | `ignored.yaml` | people | Candidates that were reviewed and not included, so discovery does not report them again |
 | `leads.yaml` | people | Candidates that could not be checked yet (shown on the About page, never as facts) |
@@ -88,7 +88,7 @@ kind: library                                 # library | toolbox | research-cod
                                               # | application | plugin | teaching
 core: C                                       # optional: the language the computation is written in, when it is
                                               # not the first of `languages`
-based_on: sqat                                # optional: id of the indexed project this one ports
+based_on: sqat                                # optional: id of the listed project this one ports
 language_note: optional markdown              # how the project is built and called (shown on the Languages page)
 standing: newly-released                      # established | developing | newly-released (see below)
 standing_note: First released in September 2026.   # required for newly-released: when it was first released
@@ -118,7 +118,7 @@ implements:
     status: available                         # available | unreleased | proposed
     since: optional version
     link: optional URL (folder, pull request …)
-    via: optional project id, when another indexed project does the computation (wrappers; a project whose
+    via: optional project id, when another listed project does the computation (wrappers; a project whose
          rows all have via is listed under Others and not under the metrics)
     validation: standard-data                 # standard-data | reference-code | cross-implementation
                                               # | self-tests | not-stated
@@ -172,7 +172,7 @@ and never listed as legacy. MetaSona has rank 1 among the newly released project
 | `self-tests` | Tests exist, but without external reference data |
 | `not-stated` | The project does not say how it was validated |
 
-These record what the project itself claims. The index does not run the code.
+These record what the project itself claims. The list does not run the code.
 
 ## `snapshot.json` (machine-written)
 

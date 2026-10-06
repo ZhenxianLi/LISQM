@@ -6,7 +6,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        The index lists implementations by the standard edition or model paper they follow, so it needs to
+        LISQM lists implementations by the standard edition or model paper they follow, so it needs to
         know when a standard changes. A monthly job watches some catalogue pages, but not every standards body
         publishes pages it can read, so reports are welcome. The current list of editions is on the
         [Standards page](https://zhenxianli.github.io/LISQM/standards.html).
@@ -49,7 +49,7 @@ body:
       label: What changed
       description: >-
         What is new or different compared with the previous edition, as far as it is public: methods added or
-        changed, corrected tables or constants, new test signals. Which metrics in the index does it affect?
+        changed, corrected tables or constants, new test signals. Which metrics in the list does it affect?
     validations:
       required: true
 

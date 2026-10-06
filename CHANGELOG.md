@@ -1,6 +1,6 @@
 # Changelog
 
-Notable changes to the index. This file is generated from `data/updates.yaml`; the same notes are on the website (https://zhenxianli.github.io/LISQM/updates.html) and in its Atom feed.
+Notable changes to the list. This file is generated from `data/updates.yaml`; the same notes are on the website (https://zhenxianli.github.io/LISQM/updates.html) and in its Atom feed.
 
 ## 2026-10-06: Version 0.1, the first public version of LISQM
 
@@ -23,7 +23,7 @@ Worth knowing as of today:
 - Six projects disclose that AI tools assisted their development; each project page says where.
 - Every project is in one group: established, newly released (first released less than about a year ago and
   not yet widely used), developing, legacy (archived, or no commit for three years) or others (calls another
-  indexed project). Lists follow this order, so a new, little-used or unmaintained project is never the first
+  listed project). Lists follow this order, so a new, little-used or unmaintained project is never the first
   suggestion.
 - Candidates that could not be checked yet, such as PsyTools (TU Graz) and the ITA-Toolbox, are listed on
   the About page as leads.

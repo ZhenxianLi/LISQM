@@ -33,13 +33,13 @@ notes:
     Tonality has an optional tonal annoyance weighting after Sottek & Becker (2019), which is not part of
     ECMA-418-2.
   - >-
-    Further metrics without an entry in this index: partial loudness and partial tonality of a target in a masker
+    Further metrics without an entry in this list: partial loudness and partial tonality of a target in a masker
     ("based on ECMA-418-2:2025", an extension of the standard), quasi-loudness from the spectral elements of
     ISO 532-1 with optional ISO 532-3:2023 or ECMA-418-2:2025 ear filters, tonal sharpness, and impulsiveness
     after Willemsen & Rao (2010) from ISO 532-1:2017 or ECMA-418-2:2025 loudness.
   - >-
     The Python code also has annoyance models after Willemsen et al. (2010), Torija et al. (2022) and Boucher et
-    al. (2024), which have no reference entry in this index.
+    al. (2024), which have no reference entry in this list.
   - Also contains listening-test apps and analysis notebooks.
 caveats:
   - >-
