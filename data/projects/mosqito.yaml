@@ -1,0 +1,115 @@
+id: mosqito
+name: MoSQITo
+repository: https://github.com/Eomys/MoSQITo
+docs: https://mosqito.readthedocs.io/en/latest/
+languages: [Python]
+kind: library
+license: Apache-2.0
+packages:
+  - registry: pypi
+    name: mosqito
+install: pip install mosqito
+maintainers: [Eomys / Green Forge Coop]
+summary: >-
+  Python library for sound quality metrics: ISO 532-1 loudness, DIN 45692 sharpness, Daniel & Weber roughness,
+  ECMA-418-2 loudness and roughness (2nd edition), tone-to-noise and prominence ratios, and the speech
+  intelligibility index. Widely used, but without a release or a commit since April 2024.
+ai_assistance: not-stated
+paper:
+  citation: >-
+    San Millán-Castillo, R., Latorre-Iglesias, E., Glesser, M., Wanty, S., Jiménez-Caminero, D., &
+    Álvarez-Jimeno, J. M. (2021). MOSQITO: an open-source and free toolbox for sound quality metrics in the
+    industry and education. *INTER-NOISE 2021*, INCE Conference Proceedings 263(5).
+  doi: 10.3397/IN-2021-1767
+notes:
+  - Started by EOMYS in 2020. The default branch is `master`; its last commit and the last release (1.2.1) are both from 2024-04-22.
+  - The documentation lists Soundscapy as a user; several other projects (PsychoBox, Sonemeter and others) wrap it.
+  - Also computes the ANSI S3.5 speech intelligibility index (`sii_ansi`), which is outside the scope of this index.
+  - "Open, unanswered pull requests add Aures tonality ([#97](https://github.com/Eomys/MoSQITo/pull/97), 2026), ECMA-418-2 roughness fixes ([#95](https://github.com/Eomys/MoSQITo/pull/95), 2026) and an ISO 1996-2 Annex K tone detector ([#52](https://github.com/Eomys/MoSQITo/pull/52), 2022)."
+  - A C#/.NET port, Mosqito.NET, was announced in issue [#98](https://github.com/Eomys/MoSQITo/issues/98) (not checked).
+caveats:
+  - No maintainer has answered issues or pull requests opened since 2024, including bug reports on TNR/PR (#80, #81, #99) and on the ECMA-418-2 roughness low-pass filter (#92, #95).
+  - "`import mosqito` fails when matplotlib is not installed, because it is imported but not declared as a dependency ([#100](https://github.com/Eomys/MoSQITo/issues/100)); install matplotlib yourself."
+  - Its ECMA-418-2 functions follow the 2nd edition (2022), two editions behind the current one.
+implements:
+  - method: loudness-zwicker
+    reference: iso-532-1-2017
+    functions: [loudness_zwst, loudness_zwst_perseg, loudness_zwst_freq, loudness_zwtv]
+    scope: stationary (also per segment and from a spectrum) and time-varying
+    status: available
+    since: 1.0.0
+    validation: standard-data
+    note: Validation scripts use the ISO 532-1 Annex B test signals; the documentation marks it as validated.
+  - method: loudness-ecma-418-2
+    reference: ecma-418-2-ed2
+    functions: [loudness_ecma]
+    status: available
+    since: 1.2.0
+    validation: standard-data
+    note: Followed the 1st edition (2020) in versions 1.0.0–1.1.1 and the 2nd edition (2022) from 1.2.0. Validation scripts compare with figures of the standard.
+  - method: sharpness
+    reference: din-45692-2009
+    functions: [sharpness_din_st, sharpness_din_tv, sharpness_din_perseg, sharpness_din_from_loudness, sharpness_din_freq]
+    scope: "weightings: DIN 45692, Aures, von Bismarck, Fastl"
+    status: available
+    since: 1.0.2
+    validation: standard-data
+    note: Validation scripts use the DIN 45692 test signals; the documentation marks it as validated.
+  - method: roughness-daniel-weber
+    reference: daniel-weber-1997
+    functions: [roughness_dw, roughness_dw_freq]
+    status: available
+    since: 1.0.0
+    validation: standard-data
+    note: The documentation marks it as validated against reference data.
+  - method: roughness-ecma-418-2
+    reference: ecma-418-2-ed2
+    functions: [roughness_ecma]
+    status: available
+    since: 1.2.0
+    validation: standard-data
+    note: >-
+      The documentation still lists it as under development. An open pull request (#95) fixes the low-pass
+      filter range, which caused discrepancies with SQAT for time-varying signals.
+  - method: tone-to-noise-prominence-ratio
+    reference: ecma-74-ed17
+    functions: [tnr_ecma_st, tnr_ecma_perseg, tnr_ecma_freq, pr_ecma_st, pr_ecma_perseg, pr_ecma_freq]
+    status: available
+    since: 1.0.2
+    validation: not-stated
+    note: >-
+      Docstrings say "ECMA 418-1" without an edition; the helper code and the bibliography cite ECMA-74 Annex D
+      (17th edition, 2019). The documentation marks it as available but not validated.
+  - method: equal-loudness-contours
+    reference: iso-226-2003
+    functions: [equal_loudness_contours]
+    status: available
+    since: 0.3.5
+    validation: not-stated
+    note: The docstring gives no edition; it is based on Jeff Tackett's MATLAB code for ISO 226:2003.
+  - method: tonality-aures
+    reference: aures-1985-euphony
+    status: proposed
+    link: https://github.com/Eomys/MoSQITo/pull/97
+    validation: not-stated
+    note: Pull request from April 2026 following the improved Aures metric of Estreder et al. (2023); no maintainer reply.
+  - method: tonal-audibility-iso-1996-2
+    reference: iso-1996-2-2017
+    scope: Annex K prominent-tone detection
+    status: proposed
+    link: https://github.com/Eomys/MoSQITo/pull/52
+    validation: not-stated
+    note: Pull request from May 2022; no maintainer reply.
+manual:
+  last_commit: 2024-04-22
+  latest_release: {version: 1.2.1, date: 2024-04-22}
+  archived: false
+sources:
+  - https://github.com/Eomys/MoSQITo/blob/master/README.md
+  - https://github.com/Eomys/MoSQITo/blob/master/docs/source/user_guide/scope.rst
+  - https://github.com/Eomys/MoSQITo/tree/master/validations
+  - https://pypi.org/project/mosqito/
+  - https://github.com/Eomys/MoSQITo/issues/100
+  - https://github.com/Eomys/MoSQITo/pull/95
+  - https://github.com/Eomys/MoSQITo/pull/97
+checked: 2026-10-06

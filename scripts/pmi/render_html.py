@@ -106,18 +106,26 @@ def _functions(i: dict) -> str:
 
 
 def _status_note(i: dict) -> str:
-    bits = []
+    """Notes cell: release status first (only when not available), then the free-text note."""
+    status = ""
     if i["status"] == "unreleased":
-        bits.append('<em class="status">unreleased</em>')
+        status = '<em class="status">Unreleased.</em>'
     elif i["status"] == "proposed":
-        bits.append('<em class="status">proposed, not merged</em>')
-    if i.get("link"):
-        bits.append(f'<a href="{esc(i["link"])}">link</a>')
+        status = '<em class="status">Proposed, not merged.</em>'
+    if status and i.get("link"):
+        status = f'<a href="{esc(i["link"])}">{status}</a>'
+    return " ".join(x for x in (status, inline(i.get("note") or "")) if x)
+
+
+def _edition_cell(i: dict, label: str | None = None) -> str:
+    """Edition label with scope and first version underneath."""
+    cell = esc(label or i["_ref"]["label"])
+    extra = [esc(i["scope"])] if i.get("scope") else []
     if i.get("since"):
-        bits.append(f"since {esc(i['since'])}")
-    if i.get("note"):
-        bits.append(inline(i["note"]))
-    return "; ".join(bits)
+        extra.append(f"since {esc(i['since'])}")
+    if extra:
+        cell += f'<br><span class="muted">{"; ".join(extra)}</span>'
+    return cell
 
 
 def _validation(i: dict) -> str:
@@ -248,7 +256,7 @@ def home(index: Index) -> str:
     description = (f"Which open-source code implements which edition of ISO 532, ECMA-418-1/-2, DIN 45692 and other "
                    f"psychoacoustic metrics: {len(index.projects)} projects in "
                    f"{join_words(index.languages())}. Updated {index.as_of()}.")
-    return layout(index, path, title="Psychoacoustic Metrics Index: open-source implementations of psychoacoustic metrics",
+    return layout(index, path, title=site["title"],
                   description=description, body="\n".join(parts), section="Metrics", jsonld=ld)
 
 
@@ -288,8 +296,7 @@ def method_page(index: Index, m: dict) -> str:
 
     parts.append('<h2 id="implementations">Implementations</h2>')
     if m["_impls"]:
-        rows = [[f'{name(i["_project"])}<br>{_lang(i["_project"]["languages"])}',
-                 esc(i["_ref"]["label"]) + (f'<br><span class="muted">{esc(i["scope"])}</span>' if i.get("scope") else ""),
+        rows = [[f'{name(i["_project"])}<br>{_lang(i["_project"]["languages"])}', _edition_cell(i),
                  _functions(i), _validation(i), _status_note(i)] for i in m["_impls"]]
         parts.append(_table("impls", ["Project", "Edition", "Functions", "Validation (as stated)", "Notes"], rows))
         parts.append(f'<p class="muted small">Validation is what each project states about its own testing; '
@@ -375,9 +382,8 @@ def project_page(index: Index, p: dict) -> str:
         '<dl class="facts">' + "".join(f"<dt>{k}</dt><dd>{v}</dd>" for k, v in facts) + "</dl>",
         '<h2 id="implements">What it implements</h2>',
     ]
-    rows = [[_method_link(path, i["_method"]),
-             esc(i["_ref"]["label"]) + (f'<br><span class="muted">{esc(i["scope"])}</span>' if i.get("scope") else ""),
-             _functions(i), _validation(i), _status_note(i)] for i in p["_impls"]]
+    rows = [[_method_link(path, i["_method"]), _edition_cell(i), _functions(i), _validation(i), _status_note(i)]
+            for i in p["_impls"]]
     parts.append(_table("impls", ["Metric", "Edition", "Functions", "Validation (as stated)", "Notes"], rows))
     if p.get("notes"):
         parts.append('<h2 id="notes">Notes</h2>')
@@ -506,6 +512,14 @@ def about_page(index: Index) -> str:
         '<h2 id="validation">Validation evidence</h2>',
         "<p>As stated by each project:</p>",
         _table("defs", ["Value", "Meaning"], [[esc(VALIDATION[k]), esc(v)] for k, v in VALIDATION_LONG.items()]),
+        '<h2 id="leads">Leads not yet verified</h2>',
+        "<p>Candidates that may belong in the index but could not be checked yet. They are listed so that nobody "
+        "has to rediscover them; nothing here has been confirmed.</p>",
+        "<ul>" + "".join(f'<li><a href="{esc(l["url"])}">{esc(l["name"])}</a> '
+                         f'<span class="lang">{esc(", ".join(l.get("languages") or []))}</span>: {inline(l["claim"])} '
+                         f'<span class="muted">{inline(l["why"])}</span></li>' for l in index.leads) + "</ul>",
+        "<p>Not indexed because they are closed source: MATLAB Audio Toolbox, HEAD acoustics ArtemiS SUITE, "
+        "Simcenter Testlab, HBK BK Connect and Ansys Sound. Verification studies often use them as references.</p>",
         '<h2 id="data">Machine-readable data</h2>',
         "<ul>",
         f'<li><a href="{relative(path, "index.json")}">index.json</a>: the whole index as one JSON document.</li>',

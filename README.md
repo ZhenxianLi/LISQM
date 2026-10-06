@@ -13,7 +13,7 @@ or model paper each implementation follows. Any programming language. Refreshed 
 [![Licence: MIT](https://img.shields.io/badge/licence-MIT-blue.svg)](LICENSE)
 
 <!-- BEGIN GENERATED: stats -->
-Data as of 2026-10-06: 22 methods, 1 project, languages: C, Python.
+Data as of 2026-10-06: 22 methods, 6 projects, languages: C, MATLAB, Python.
 <!-- END GENERATED: stats -->
 
 ## Why this index exists
@@ -43,27 +43,27 @@ page on the website with the full edition history, function names and validation
 <!-- BEGIN GENERATED: overview -->
 | Quantity | Method | Current edition | Open-source implementations (by language) |
 |---|---|---|---|
-| Loudness | [Zwicker loudness](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/loudness-zwicker.html) | ISO 532-1:2017 | Python: [MetaSona](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/metasona.html) (also C) |
-| Loudness | [Moore–Glasberg loudness](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/loudness-moore-glasberg.html) | ISO 532-2:2017 | none found |
-| Loudness | [Time-varying loudness (Moore–Glasberg–Schlittenlacher)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/loudness-moore-glasberg-time-varying.html) | ISO 532-3:2023 | none found |
-| Loudness | [Sottek Hearing Model loudness](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/loudness-ecma-418-2.html) | ECMA-418-2:2025 (4th ed.) | Python: [MetaSona](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/metasona.html) (also C) |
-| Sharpness | [Sharpness](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/sharpness.html) | DIN 45692:2009 | Python: [MetaSona](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/metasona.html) (also C) |
-| Roughness | [Roughness (Daniel & Weber)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/roughness-daniel-weber.html) | Daniel & Weber (1997) | Python: [MetaSona](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/metasona.html) (also C) |
-| Roughness | [Sottek Hearing Model roughness](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/roughness-ecma-418-2.html) | ECMA-418-2:2025 (4th ed.) | Python: [MetaSona](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/metasona.html) (also C) |
+| Loudness | [Zwicker loudness](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/loudness-zwicker.html) | ISO 532-1:2017 | Python: [MetaSona](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/metasona.html) (also C), [MoSQITo](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/mosqito.html), [phonometry](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/phonometry.html), [pySQAT](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/pysqat.html) · MATLAB: [SQAT](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/sqat.html) |
+| Loudness | [Moore–Glasberg loudness](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/loudness-moore-glasberg.html) | ISO 532-2:2017 | Python: [phonometry](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/phonometry.html) |
+| Loudness | [Time-varying loudness (Moore–Glasberg–Schlittenlacher)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/loudness-moore-glasberg-time-varying.html) | ISO 532-3:2023 | Python: [phonometry](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/phonometry.html) |
+| Loudness | [Sottek Hearing Model loudness](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/loudness-ecma-418-2.html) | ECMA-418-2:2025 (4th ed.) | Python: [MetaSona](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/metasona.html) (also C), [phonometry](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/phonometry.html), [pySQAT](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/pysqat.html), [sottek-hearing-model](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/sottek-hearing-model.html) · MATLAB: [SQAT](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/sqat.html) (unreleased) · earlier editions: [SQAT](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/sqat.html) (ECMA-418-2:2024 (3rd ed.)), [MoSQITo](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/mosqito.html) (ECMA-418-2:2022 (2nd ed.)) |
+| Sharpness | [Sharpness](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/sharpness.html) | DIN 45692:2009 | Python: [MetaSona](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/metasona.html) (also C), [MoSQITo](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/mosqito.html), [phonometry](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/phonometry.html), [pySQAT](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/pysqat.html) · MATLAB: [SQAT](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/sqat.html) |
+| Roughness | [Roughness (Daniel & Weber)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/roughness-daniel-weber.html) | Daniel & Weber (1997) | Python: [MetaSona](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/metasona.html) (also C), [MoSQITo](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/mosqito.html), [pySQAT](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/pysqat.html) · MATLAB: [SQAT](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/sqat.html) |
+| Roughness | [Sottek Hearing Model roughness](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/roughness-ecma-418-2.html) | ECMA-418-2:2025 (4th ed.) | Python: [MetaSona](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/metasona.html) (also C), [phonometry](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/phonometry.html), [pySQAT](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/pysqat.html), [sottek-hearing-model](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/sottek-hearing-model.html) · MATLAB: [SQAT](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/sqat.html) (unreleased) · earlier editions: [SQAT](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/sqat.html) (ECMA-418-2:2024 (3rd ed.)), [MoSQITo](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/mosqito.html) (ECMA-418-2:2022 (2nd ed.)) |
 | Roughness | [Roughness (DIN 38455)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/roughness-din-38455.html) | DIN 38455:2024 | none found |
-| Fluctuation strength | [Fluctuation strength (Osses et al.)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/fluctuation-strength-osses.html) | Osses et al. (2016) | none found |
-| Fluctuation strength | [Sottek Hearing Model fluctuation strength](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/fluctuation-strength-ecma-418-2.html) | ECMA-418-2:2025 (4th ed.) | none found |
-| Tonality | [Tonality (Aures)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/tonality-aures.html) | Aures (1985b) | Python: [MetaSona](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/metasona.html) (also C) |
-| Tonality | [Sottek Hearing Model tonality](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/tonality-ecma-418-2.html) | ECMA-418-2:2025 (4th ed.) | Python: [MetaSona](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/metasona.html) (also C) |
-| Tonality | [Tone-to-noise ratio and prominence ratio](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/tone-to-noise-prominence-ratio.html) | ECMA-418-1:2024 (3rd ed.) | none found |
+| Fluctuation strength | [Fluctuation strength (Osses et al.)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/fluctuation-strength-osses.html) | Osses et al. (2016) | Python: [phonometry](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/phonometry.html), [pySQAT](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/pysqat.html) · MATLAB: [SQAT](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/sqat.html) · earlier editions: [phonometry](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/phonometry.html) (Fastl & Zwicker (2007)) |
+| Fluctuation strength | [Sottek Hearing Model fluctuation strength](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/fluctuation-strength-ecma-418-2.html) | ECMA-418-2:2025 (4th ed.) | Python: [phonometry](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/phonometry.html), [sottek-hearing-model](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/sottek-hearing-model.html) (unreleased) · MATLAB: [SQAT](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/sqat.html) (proposed) |
+| Tonality | [Tonality (Aures)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/tonality-aures.html) | Aures (1985b) | Python: [MetaSona](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/metasona.html) (also C), [pySQAT](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/pysqat.html), [MoSQITo](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/mosqito.html) (proposed) · MATLAB: [SQAT](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/sqat.html) |
+| Tonality | [Sottek Hearing Model tonality](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/tonality-ecma-418-2.html) | ECMA-418-2:2025 (4th ed.) | Python: [MetaSona](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/metasona.html) (also C), [phonometry](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/phonometry.html), [pySQAT](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/pysqat.html), [sottek-hearing-model](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/sottek-hearing-model.html) · MATLAB: [SQAT](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/sqat.html) (unreleased) · earlier editions: [SQAT](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/sqat.html) (ECMA-418-2:2024 (3rd ed.)) |
+| Tonality | [Tone-to-noise ratio and prominence ratio](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/tone-to-noise-prominence-ratio.html) | ECMA-418-1:2024 (3rd ed.) | Python: [phonometry](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/phonometry.html) · earlier editions: [MoSQITo](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/mosqito.html) (ECMA-74:2019 (17th ed.)) |
 | Tonality | [Tonal components (DIN 45681)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/tonality-din-45681.html) | DIN 45681:2005 | none found |
-| Tonality | [Audibility of tones in noise (ISO/TS 20065)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/tonal-audibility-iso-20065.html) | ISO/TS 20065:2022 | none found |
-| Tonality | [Tonal audibility (ISO 1996-2)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/tonal-audibility-iso-1996-2.html) | ISO 1996-2:2017 | none found |
-| Tonality | [Tonal audibility of wind turbines (IEC 61400-11)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/tonal-audibility-iec-61400-11.html) | IEC 61400-11:2012+AMD1:2018 | none found |
-| Impulsiveness | [Impulse prominence](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/impulsiveness.html) | ISO/PAS 1996-3:2022 | none found |
-| Psychoacoustic annoyance | [Psychoacoustic annoyance](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/psychoacoustic-annoyance.html) | Widmann (1992), Zwicker & Fastl (1999), More (2010), and Di et al. (2016) | none found |
-| Related quantities | [Equal-loudness contours](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/equal-loudness-contours.html) | ISO 226:2023 | none found |
-| Related quantities | [Perceived noise level and EPNL](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/epnl.html) | ICAO Annex 16, Vol. I and 14 CFR Part 36 | none found |
+| Tonality | [Audibility of tones in noise (ISO/TS 20065)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/tonal-audibility-iso-20065.html) | ISO/TS 20065:2022 | none found · earlier editions: [phonometry](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/phonometry.html) (ISO/PAS 20065:2016) |
+| Tonality | [Tonal audibility (ISO 1996-2)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/tonal-audibility-iso-1996-2.html) | ISO 1996-2:2017 | Python: [phonometry](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/phonometry.html), [MoSQITo](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/mosqito.html) (proposed) · earlier editions: [phonometry](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/phonometry.html) (ISO 1996-2:2007) |
+| Tonality | [Tonal audibility of wind turbines (IEC 61400-11)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/tonal-audibility-iec-61400-11.html) | IEC 61400-11:2012+AMD1:2018 | Python: [phonometry](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/phonometry.html) |
+| Impulsiveness | [Impulse prominence](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/impulsiveness.html) | ISO/PAS 1996-3:2022 | Python: [phonometry](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/phonometry.html) · earlier editions: [phonometry](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/phonometry.html) (NT ACOU 112) |
+| Psychoacoustic annoyance | [Psychoacoustic annoyance](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/psychoacoustic-annoyance.html) | Widmann (1992), Zwicker & Fastl (1999), More (2010), and Di et al. (2016) | Python: [pySQAT](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/pysqat.html), [phonometry](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/phonometry.html) · MATLAB: [SQAT](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/sqat.html), [SQAT](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/sqat.html) (unreleased) |
+| Related quantities | [Equal-loudness contours](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/equal-loudness-contours.html) | ISO 226:2023 | Python: [phonometry](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/phonometry.html) · earlier editions: [MoSQITo](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/mosqito.html) (ISO 226:2003) |
+| Related quantities | [Perceived noise level and EPNL](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/epnl.html) | ICAO Annex 16, Vol. I and 14 CFR Part 36 | Python: [pySQAT](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/pysqat.html), [phonometry](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/phonometry.html) · MATLAB: [SQAT](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/sqat.html) |
 | Related quantities | [Aural detectability](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/aural-detectability.html) | Fidell et al. (1974) | none found |
 <!-- END GENERATED: overview -->
 
@@ -72,20 +72,9 @@ page on the website with the full edition history, function names and validation
 No available open-source implementation of the current edition has been found for:
 
 <!-- BEGIN GENERATED: gaps -->
-- [Moore–Glasberg loudness of stationary sounds (ISO 532-2, ANSI S3.4)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/loudness-moore-glasberg.html)
-- [Time-varying loudness, Moore–Glasberg–Schlittenlacher (ISO 532-3)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/loudness-moore-glasberg-time-varying.html)
 - [Roughness, DIN 38455](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/roughness-din-38455.html)
-- [Fluctuation strength, Osses et al. model and Fastl & Zwicker formula](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/fluctuation-strength-osses.html)
-- [Fluctuation strength from the Sottek Hearing Model (ECMA-418-2)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/fluctuation-strength-ecma-418-2.html)
-- [Tone-to-noise ratio and prominence ratio (ECMA-418-1)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/tone-to-noise-prominence-ratio.html)
 - [Tonal components and tone adjustment (DIN 45681)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/tonality-din-45681.html)
 - [Audibility of tones in noise (ISO/TS 20065)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/tonal-audibility-iso-20065.html)
-- [Tonal audibility in environmental noise (ISO 1996-2)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/tonal-audibility-iso-1996-2.html)
-- [Tonal audibility of wind turbine noise (IEC 61400-11)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/tonal-audibility-iec-61400-11.html)
-- [Prominence of impulsive sounds (ISO/PAS 1996-3, NT ACOU 112)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/impulsiveness.html)
-- [Psychoacoustic annoyance (Widmann, Zwicker & Fastl, More, Di et al.)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/psychoacoustic-annoyance.html)
-- [Equal-loudness-level contours (ISO 226)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/equal-loudness-contours.html)
-- [Perceived noise level, PNLT and EPNL (ICAO Annex 16, 14 CFR Part 36)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/epnl.html)
 - [Aural detectability of sounds in background noise](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/aural-detectability.html)
 <!-- END GENERATED: gaps -->
 
@@ -96,27 +85,27 @@ Which languages have an implementation of each method.
 <!-- BEGIN GENERATED: coverage -->
 | Method | Python | MATLAB/Octave | C/C++ | Rust | Julia | Other |
 |---|---|---|---|---|---|---|
-| [Zwicker loudness](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/loudness-zwicker.html) | ● | — | ● | — | — | — |
-| [Moore–Glasberg loudness](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/loudness-moore-glasberg.html) | — | — | — | — | — | — |
-| [Time-varying loudness (Moore–Glasberg–Schlittenlacher)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/loudness-moore-glasberg-time-varying.html) | — | — | — | — | — | — |
-| [Sottek Hearing Model loudness](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/loudness-ecma-418-2.html) | ● | — | ● | — | — | — |
-| [Sharpness](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/sharpness.html) | ● | — | ● | — | — | — |
-| [Roughness (Daniel & Weber)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/roughness-daniel-weber.html) | ● | — | ● | — | — | — |
-| [Sottek Hearing Model roughness](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/roughness-ecma-418-2.html) | ● | — | ● | — | — | — |
+| [Zwicker loudness](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/loudness-zwicker.html) | ● | ● | ● | — | — | — |
+| [Moore–Glasberg loudness](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/loudness-moore-glasberg.html) | ● | — | — | — | — | — |
+| [Time-varying loudness (Moore–Glasberg–Schlittenlacher)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/loudness-moore-glasberg-time-varying.html) | ● | — | — | — | — | — |
+| [Sottek Hearing Model loudness](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/loudness-ecma-418-2.html) | ● | ○ | ● | — | — | — |
+| [Sharpness](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/sharpness.html) | ● | ● | ● | — | — | — |
+| [Roughness (Daniel & Weber)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/roughness-daniel-weber.html) | ● | ● | ● | — | — | — |
+| [Sottek Hearing Model roughness](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/roughness-ecma-418-2.html) | ● | ○ | ● | — | — | — |
 | [Roughness (DIN 38455)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/roughness-din-38455.html) | — | — | — | — | — | — |
-| [Fluctuation strength (Osses et al.)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/fluctuation-strength-osses.html) | — | — | — | — | — | — |
-| [Sottek Hearing Model fluctuation strength](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/fluctuation-strength-ecma-418-2.html) | — | — | — | — | — | — |
-| [Tonality (Aures)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/tonality-aures.html) | ● | — | ● | — | — | — |
-| [Sottek Hearing Model tonality](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/tonality-ecma-418-2.html) | ● | — | ● | — | — | — |
-| [Tone-to-noise ratio and prominence ratio](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/tone-to-noise-prominence-ratio.html) | — | — | — | — | — | — |
+| [Fluctuation strength (Osses et al.)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/fluctuation-strength-osses.html) | ● | ● | — | — | — | — |
+| [Sottek Hearing Model fluctuation strength](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/fluctuation-strength-ecma-418-2.html) | ● | ○ | — | — | — | — |
+| [Tonality (Aures)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/tonality-aures.html) | ● | ● | ● | — | — | — |
+| [Sottek Hearing Model tonality](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/tonality-ecma-418-2.html) | ● | ○ | ● | — | — | — |
+| [Tone-to-noise ratio and prominence ratio](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/tone-to-noise-prominence-ratio.html) | ● | — | — | — | — | — |
 | [Tonal components (DIN 45681)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/tonality-din-45681.html) | — | — | — | — | — | — |
-| [Audibility of tones in noise (ISO/TS 20065)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/tonal-audibility-iso-20065.html) | — | — | — | — | — | — |
-| [Tonal audibility (ISO 1996-2)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/tonal-audibility-iso-1996-2.html) | — | — | — | — | — | — |
-| [Tonal audibility of wind turbines (IEC 61400-11)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/tonal-audibility-iec-61400-11.html) | — | — | — | — | — | — |
-| [Impulse prominence](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/impulsiveness.html) | — | — | — | — | — | — |
-| [Psychoacoustic annoyance](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/psychoacoustic-annoyance.html) | — | — | — | — | — | — |
-| [Equal-loudness contours](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/equal-loudness-contours.html) | — | — | — | — | — | — |
-| [Perceived noise level and EPNL](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/epnl.html) | — | — | — | — | — | — |
+| [Audibility of tones in noise (ISO/TS 20065)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/tonal-audibility-iso-20065.html) | ○ | — | — | — | — | — |
+| [Tonal audibility (ISO 1996-2)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/tonal-audibility-iso-1996-2.html) | ● | — | — | — | — | — |
+| [Tonal audibility of wind turbines (IEC 61400-11)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/tonal-audibility-iec-61400-11.html) | ● | — | — | — | — | — |
+| [Impulse prominence](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/impulsiveness.html) | ● | — | — | — | — | — |
+| [Psychoacoustic annoyance](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/psychoacoustic-annoyance.html) | ● | ● | — | — | — | — |
+| [Equal-loudness contours](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/equal-loudness-contours.html) | ● | — | — | — | — | — |
+| [Perceived noise level and EPNL](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/epnl.html) | ● | ● | — | — | — | — |
 | [Aural detectability](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/aural-detectability.html) | — | — | — | — | — | — |
 
 ● an available implementation of the current edition; ○ only unreleased, proposed or older-edition implementations; — none found. Bindings count: a C library with a Python interface counts for Python.
@@ -128,6 +117,11 @@ Which languages have an implementation of each method.
 | Project | Language | Licence | Latest release | Last commit | Activity |
 |---|---|---|---|---|---|
 | [MetaSona](https://github.com/huaaudio/metasona) | Python, C | GPL-3.0-only AND Apache-2.0 AND BSD-3-Clause AND MIT | 0.2.2 (2026-09) | 2026-09-25 | active |
+| [MoSQITo](https://github.com/Eomys/MoSQITo) | Python | Apache-2.0 | 1.2.1 (2024-04) | 2024-04-22 | inactive since 2024-04 |
+| [phonometry](https://github.com/jmrplens/phonometry) | Python | MIT | 3.3.0 (2026-07) | 2026-10-01 | active |
+| [pySQAT](https://github.com/PALILA-TUDelft/pySQAT) | Python | none | no release | 2026-06-27 | active |
+| [sottek-hearing-model](https://github.com/mlotinga/sottek-hearing-model) | Python | GPL-3.0-only | 0.1.14 (2026-03) | 2026-09-18 | active |
+| [SQAT](https://github.com/ggrecow/SQAT) | MATLAB | GPL-3.0-or-later (main) / CC-BY-NC-4.0 (releases) | v1.3 (2025-04) | 2026-10-02 | active |
 <!-- END GENERATED: projects -->
 
 "Activity" is computed from the last commit on the default branch (inactive after 365 days without a commit).

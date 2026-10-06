@@ -1,0 +1,187 @@
+id: sqat
+name: SQAT
+repository: https://github.com/ggrecow/SQAT
+docs: https://github.com/ggrecow/SQAT#readme
+languages: [MATLAB]
+kind: toolbox
+license: GPL-3.0-or-later (main) / CC-BY-NC-4.0 (releases)
+license_note: >-
+  The default branch has been GPL-3.0-or-later since 2026-09-15, with BSD-3-Clause (ISO 532-1 loudness),
+  MIT (Daniel & Weber roughness and nine utilities) and CC0-1.0 (colour maps) exceptions. Every release up to
+  and including v1.3 is CC-BY-NC-4.0 (non-commercial) at repository level, while 21 metric files in v1.3 carry
+  BSD-style notices and the ECMA-418-2 files say GPL-3.0.
+maintainers: [Gil Felix Greco, Roberto Merino-Martínez, Alejandro Osses, Mike Lotinga]
+summary: >-
+  MATLAB toolbox for sound quality analysis that bundles most psychoacoustic metrics in one place: ISO 532-1
+  and ECMA-418-2 loudness, DIN 45692 sharpness, Daniel & Weber and ECMA-418-2 roughness, Osses fluctuation
+  strength, Aures and ECMA-418-2 tonality, four psychoacoustic annoyance models and EPNL. Each metric has its
+  own verification routine.
+ai_assistance: disclosed
+ai_note: >-
+  Header comments in 20 files changed in August and September 2026 say the changes were assisted by Claude
+  (Anthropic) and verified by the authors; 32 commits carry AI co-author trailers. The README has no AI statement.
+paper:
+  citation: >-
+    Felix Greco, G., Merino-Martínez, R., Osses, A., & Langer, S. C. (2023). SQAT: a MATLAB-based toolbox for
+    quantitative sound quality analysis. *Proceedings of INTER-NOISE 2023*, Chiba, Japan.
+  doi: 10.3397/IN_2023_1075
+notes:
+  - The README lists 61 studies and theses that use SQAT. Software DOI (all versions) [10.5281/zenodo.7934709](https://doi.org/10.5281/zenodo.7934709).
+  - >-
+    The latest release is v1.3 (2025-04-04); about 200 commits have been made on `main` since. Most of the
+    metric-correctness work of August–September 2026 came from an external contributor through about 20 pull
+    requests.
+  - The ECMA-418-2 functions come from the RefMap MATLAB code by Lotinga and Torjussen (University of Salford).
+  - "Open pull requests: [#78](https://github.com/ggrecow/SQAT/pull/78) (ECMA-418-2 fluctuation strength) and [#84](https://github.com/ggrecow/SQAT/pull/84) (graphical interface)."
+caveats:
+  - The latest release (v1.3) is licensed for non-commercial use only; the GPL licence applies to the unreleased `main` branch.
+  - >-
+    `main` contains breaking fixes that are not in any release: six deviations in ISO 532-1 time-varying
+    loudness ([#48](https://github.com/ggrecow/SQAT/pull/48); test signal 10 deviated by 18.14 % in v1.3), eight
+    defects in Aures tonality ([#67](https://github.com/ggrecow/SQAT/issues/67)), a rewrite of Daniel & Weber
+    roughness ([#65](https://github.com/ggrecow/SQAT/pull/65)), the sound level meter time weighting
+    ([#51](https://github.com/ggrecow/SQAT/pull/51)) and a faster annoyance calculation
+    ([#42](https://github.com/ggrecow/SQAT/pull/42)). Results from v1.3 and `main` differ.
+  - The README warns that `main` may contain changes that are not yet fully verified and recommends using a release.
+implements:
+  - method: loudness-zwicker
+    reference: iso-532-1-2017
+    functions: [Loudness_ISO532_1, Loudness_ISO532_1_from_wavfile]
+    scope: stationary and time-varying
+    status: available
+    since: v1.0
+    validation: standard-data
+    note: >-
+      Checked with the 25 test signals of Annex B.2–B.5 against the standard's tolerances. Fixes to the
+      time-varying procedure are on `main` only (PR #48).
+  - method: sharpness
+    reference: din-45692-2009
+    functions: [Sharpness_DIN45692, Sharpness_DIN45692_from_loudness, Sharpness_DIN45692_from_wavfile]
+    scope: DIN 45692 weighting, plus von Bismarck and Aures options
+    status: available
+    since: v1.0
+    validation: standard-data
+    note: Checked with the narrowband and broadband test signals of DIN 45692.
+  - method: roughness-daniel-weber
+    reference: daniel-weber-1997
+    functions: [Roughness_Daniel1997, Roughness_Daniel1997_from_wavfile]
+    status: available
+    since: v1.0
+    validation: standard-data
+    note: >-
+      Checked against amplitude- and frequency-modulation dependences from the literature. Rewritten on `main`
+      (PR #65, 2026-09-08) after revised code from Dik Hermes: 63 of 119 validation values go up and 56 down
+      (largest change 0.155 asper).
+  - method: fluctuation-strength-osses
+    reference: osses-2016
+    functions: [FluctuationStrength_Osses2016, FluctuationStrength_Osses2016_from_wavfile]
+    status: available
+    since: v1.0
+    validation: standard-data
+    note: Checked against amplitude- and frequency-modulation dependences from the literature.
+  - method: tonality-aures
+    reference: aures-1985-euphony
+    functions: [Tonality_Aures1985, Tonality_Aures1985_from_wavfile]
+    status: available
+    since: v1.0
+    validation: standard-data
+    note: >-
+      v1.3 is checked with one signal-to-noise comparison. Eight defects were fixed on `main` in September 2026
+      (for example, only one tonal component's level excess entered the result, and tones were removed from the
+      wrong spectrum), with new checks against Aures's Figs. 5 and 6.
+  - method: psychoacoustic-annoyance
+    reference: zwicker-fastl-1999
+    functions: [PsychoacousticAnnoyance_Zwicker1999, PsychoacousticAnnoyance_Zwicker1999_from_percentile]
+    status: available
+    since: v1.0
+    validation: not-stated
+  - method: psychoacoustic-annoyance
+    reference: widmann-1992
+    functions: [PsychoacousticAnnoyance_Widmann1992, PsychoacousticAnnoyance_Widmann1992_from_percentile]
+    status: unreleased
+    validation: not-stated
+    note: Added on `main` in June 2025; the README describes it as the same model as the Zwicker & Fastl entry under its original attribution.
+  - method: psychoacoustic-annoyance
+    reference: more-2010
+    functions: [PsychoacousticAnnoyance_More2010, PsychoacousticAnnoyance_More2010_from_percentile]
+    status: available
+    since: v1.0
+    validation: not-stated
+    note: No verification routine (README).
+  - method: psychoacoustic-annoyance
+    reference: di-2016
+    functions: [PsychoacousticAnnoyance_Di2016, PsychoacousticAnnoyance_Di2016_from_percentile]
+    status: available
+    since: v1.0
+    validation: not-stated
+    note: No verification routine (README).
+  - method: epnl
+    reference: cfr-14-part-36
+    functions: [EPNL_FAR_Part36, get_PNL, get_PNLT, get_Duration_Correction]
+    status: available
+    since: v1.1
+    validation: cross-implementation
+    note: The README says no reference implementation or test signals exist, so it was only cross-checked. Follows Amendment 36-26 (2005).
+  - method: loudness-ecma-418-2
+    reference: ecma-418-2-ed3
+    functions: [Loudness_ECMA418_2, LoudnessFromComp_ECMA418_2]
+    scope: mono or two channels with binaural combination
+    status: available
+    since: v1.3
+    validation: cross-implementation
+    note: Checked against equal-loudness contours and against reference results from commercial software on a binaural recording.
+  - method: loudness-ecma-418-2
+    reference: ecma-418-2-ed4
+    functions: [Loudness_ECMA418_2, LoudnessFromComp_ECMA418_2]
+    status: unreleased
+    validation: cross-implementation
+    note: Updated to the 4th edition on `main` in 2025.
+  - method: roughness-ecma-418-2
+    reference: ecma-418-2-ed3
+    functions: [Roughness_ECMA418_2]
+    scope: with binaural combination
+    status: available
+    since: v1.3
+    validation: cross-implementation
+  - method: roughness-ecma-418-2
+    reference: ecma-418-2-ed4
+    functions: [Roughness_ECMA418_2]
+    status: unreleased
+    validation: cross-implementation
+    note: Amended to the 4th edition on `main` in November 2025.
+  - method: tonality-ecma-418-2
+    reference: ecma-418-2-ed3
+    functions: [Tonality_ECMA418_2]
+    status: available
+    since: v1.3
+    validation: cross-implementation
+  - method: tonality-ecma-418-2
+    reference: ecma-418-2-ed4
+    functions: [Tonality_ECMA418_2]
+    status: unreleased
+    validation: cross-implementation
+    note: >-
+      A verification against Annex B.2 (PR #79) was merged and reverted on 2026-09-21 because the Annex B values of
+      the 2025 edition appear to be out of date.
+  - method: fluctuation-strength-ecma-418-2
+    reference: ecma-418-2-ed4
+    functions: [FluctuationStrength_ECMA418_2]
+    status: proposed
+    link: https://github.com/ggrecow/SQAT/pull/78
+    validation: not-stated
+    note: Open pull request since 2026-09-17.
+manual:
+  last_commit: 2026-10-02
+  latest_release: {version: v1.3, date: 2025-04-04}
+  archived: false
+sources:
+  - https://github.com/ggrecow/SQAT/blob/main/README.md
+  - https://github.com/ggrecow/SQAT/blob/main/LICENSE
+  - https://github.com/ggrecow/SQAT/blob/main/citation.cff
+  - https://github.com/ggrecow/SQAT/releases
+  - https://github.com/ggrecow/SQAT/issues/67
+  - https://github.com/ggrecow/SQAT/pull/48
+  - https://github.com/ggrecow/SQAT/pull/65
+  - https://github.com/ggrecow/SQAT/pull/78
+  - https://github.com/ggrecow/SQAT/pull/79
+checked: 2026-10-06

@@ -67,11 +67,12 @@ methods:
       and one for time-varying sounds (from which percentile values such as N5 are taken), and replaced
       method B of ISO 532:1975. The German standards DIN 45631 (stationary) and DIN 45631/A1 (time-varying)
       describe the same method.
-    references: [iso-532-1975, din-45631-1991, din-45631-a1-2010, iso-532-1-2017, iso-532-1-ed2-draft]
+    references: [iso-532-1975, din-45631-1991, chalupper-fastl-2002, din-45631-a1-2010, iso-532-1-2017, iso-532-1-ed2-draft]
     current: [iso-532-1-2017]
     edition_notes:
       iso-532-1975: Method B (Zwicker) for stationary sounds, from third-octave levels.
       din-45631-1991: Stationary sounds.
+      chalupper-fastl-2002: Dynamic loudness model built on Zwicker's model, also for hearing impairment (not standardised).
       din-45631-a1-2010: Adds the procedure for time-varying sounds.
       iso-532-1-2017: Stationary and time-varying procedures; Annex A reference program, Annex B test signals.
       iso-532-1-ed2-draft: Second edition at committee-draft stage since November 2024.
@@ -156,11 +157,12 @@ methods:
       weighting that emphasises high frequencies. DIN 45692:2009 standardises the weighting and a test
       procedure, using Zwicker specific loudness (ISO 532-1 / DIN 45631). Most implementations also offer the
       weightings of von Bismarck (1974) and Aures (1985).
-    references: [von-bismarck-1974, aures-1985-euphony, din-45692-2009]
+    references: [von-bismarck-1974, aures-1985-euphony, fastl-zwicker-2007, din-45692-2009]
     current: [din-45692-2009]
     edition_notes:
       von-bismarck-1974: Original sharpness weighting.
       aures-1985-euphony: Weighting that depends on total loudness.
+      fastl-zwicker-2007: Zwicker & Fastl weighting as given in the textbook.
       din-45692-2009: Standardised weighting and test procedure; no revision announced.
     see_also: [loudness-zwicker]
 

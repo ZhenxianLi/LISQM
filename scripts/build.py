@@ -81,6 +81,21 @@ def build_site(index, out: Path) -> int:
     return len(pages)
 
 
+def make_preview(out: Path) -> None:
+    """Adapt a built site for hosts that only allow inline styles and wrap the main page themselves
+    (used for private previews): inline the stylesheet everywhere and strip the document shell of index.html."""
+    css = (out / "style.css").read_text(encoding="utf-8")
+    link = re.compile(r'<link rel="stylesheet" href="[^"]*style\.css">')
+    for page in out.rglob("*.html"):
+        text = link.sub(lambda _: f"<style>\n{css}</style>", page.read_text(encoding="utf-8"))
+        if page == out / "index.html":
+            title = re.search(r"<title>.*?</title>", text, re.S).group(0)
+            style = re.search(r"<style>.*?</style>", text, re.S).group(0)
+            body = re.search(r"<body>(.*)</body>", text, re.S).group(1)
+            text = f"{title}\n{style}\n{body.strip()}\n"
+        page.write_text(text, encoding="utf-8")
+
+
 def build_repo_files(index) -> list[str]:
     changed = []
     for name, lang in (("README.md", "en"), ("README.zh-CN.md", "zh")):
@@ -109,6 +124,8 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--check", action="store_true", help="validate the data only")
     parser.add_argument("--out", type=Path, default=ROOT / "site", help="output directory for the website")
+    parser.add_argument("--preview", action="store_true",
+                        help="inline the stylesheet and strip the main page's document shell (for preview hosts)")
     args = parser.parse_args()
 
     try:
@@ -124,6 +141,8 @@ def main() -> int:
         print(f"Data OK: {summary}")
         return 0
     pages = build_site(index, args.out)
+    if args.preview:
+        make_preview(args.out)
     changed = build_repo_files(index)
     print(f"Built {pages} pages into {args.out.relative_to(ROOT) if args.out.is_relative_to(ROOT) else args.out} "
           f"({summary})")

@@ -1,0 +1,167 @@
+# Candidates that were reviewed and not included in the index, so that scripts/discover.py does not report
+# them again (see data/SCHEMA.md). One entry per repository or package page; URLs are compared without
+# "www.", trailing slash, ".git" or letter case, and a GitHub URL covers the whole repository.
+
+# --- Wrappers, tutorials and tools without their own implementation
+- url: https://github.com/ym1025-2/Sonemeter
+  reason: Thin wrapper that calls MoSQITo loudness_zwtv; no implementation of its own.
+  checked: 2026-10-06
+- url: https://github.com/mandip42/psychoacoustics-tutorial
+  reason: Teaching code with simplified proxies (RMS "loudness", spectral-centroid "sharpness"), not the named models.
+  checked: 2026-10-06
+- url: https://github.com/hulacon/aud2psy
+  reason: Wraps MoSQITo; its own fluctuation-strength estimate does not follow a named model.
+  checked: 2026-10-06
+- url: https://github.com/hyeonjoong/debussy
+  reason: Wraps MoSQITo; no implementation of its own.
+  checked: 2026-10-06
+- url: https://github.com/wantysal/MoSQITooo
+  reason: Fork of MoSQITo.
+  checked: 2026-10-06
+- url: https://github.com/IntersectAustralia/hcsvlab-psysound
+  reason: 2013 copy of PsySound3 with a Galaxy wrapper; see PsySound3.
+  checked: 2026-10-06
+- url: https://github.com/jcdevaney/AMPACT
+  reason: Music-performance tool that only calls the Genesis Loudness Toolbox.
+  checked: 2026-10-06
+- url: https://github.com/ntudsp/araus-dataset-baseline-models
+  reason: Dataset code; loudness and sharpness values are precomputed columns, not an implementation.
+  checked: 2026-10-06
+- url: https://github.com/pyfar/pyfar
+  reason: Acoustics library without psychoacoustic metrics.
+  checked: 2026-10-06
+- url: https://github.com/gnu-octave/octave-audio
+  reason: Only phon/sone conversion, no loudness model.
+  checked: 2026-10-06
+- url: https://gist.github.com/chummersone/8499aa1dfe6955bd437c3a475cd17763
+  reason: Short gist computing ISO 226:2003 contours; the same author's IoSR Matlab Toolbox is indexed.
+  checked: 2026-10-06
+- url: https://gist.github.com/sammosummo/777debf946d0356acada
+  reason: Short gist computing ISO 226 contours.
+  checked: 2026-10-06
+- url: https://github.com/jacobbaylesssmc/iso226
+  reason: Two-commit extraction of the ISO 226 helper from PyDSM, which is indexed.
+  checked: 2026-10-06
+
+# --- Out of scope: broadcast loudness, speech, codecs, psychophysics, ecoacoustics
+- url: https://github.com/google/speech_intelligibility_index
+  reason: Speech intelligibility index (ANSI S3.5), out of scope; archived.
+  checked: 2026-10-06
+- url: https://github.com/csteinmetz1/pyloudnorm
+  reason: ITU-R BS.1770 / EBU R 128 loudness (LUFS), out of scope.
+  checked: 2026-10-06
+- url: https://pypi.org/project/loudness/
+  reason: ITU-R BS.1770 / EBU R 128 bindings, out of scope (unrelated to deeuu/loudness).
+  checked: 2026-10-06
+- url: https://github.com/audiojs/loudness
+  reason: BS.1770 / LUFS meters, out of scope.
+  checked: 2026-10-06
+- url: https://github.com/ZhiyuAlexZhang/Grisey
+  reason: Metering plugin based on ITU-R BS.1770 loudness, out of scope.
+  checked: 2026-10-06
+- url: https://github.com/novoic/surfboard
+  reason: Loudness comes from pyloudnorm (BS.1770), out of scope.
+  checked: 2026-10-06
+- url: https://github.com/AMLAB-Wakayama/GEDI
+  reason: Speech intelligibility, out of scope.
+  checked: 2026-10-06
+- url: https://github.com/xnorpx/rust-zimtohrli
+  reason: Audio similarity metric, out of scope.
+  checked: 2026-10-06
+- url: https://github.com/TUIlmenauAMS/PsychoacousticLoss
+  reason: Codec masking model, out of scope.
+  checked: 2026-10-06
+- url: https://github.com/TUIlmenauAMS/Python-Audio-Coder
+  reason: Audio codec, out of scope.
+  checked: 2026-10-06
+- url: https://github.com/DrMarc/slab
+  reason: Psychophysics experiment software, out of scope.
+  checked: 2026-10-06
+- url: https://github.com/TGM-Oldenburg/earyx
+  reason: Psychophysics experiment software, out of scope.
+  checked: 2026-10-06
+- url: https://github.com/kyama0321/gammachirpy
+  reason: Auditory filter bank only, no metric.
+  checked: 2026-10-06
+- url: https://github.com/cran/seewave
+  reason: Its roughness() is the curvature of a waveform or spectrum, not psychoacoustic roughness.
+  checked: 2026-10-06
+- url: https://cran.r-project.org/package=soundecology
+  reason: Ecoacoustic indices only.
+  checked: 2026-10-06
+- url: https://github.com/grisys83/LoudnessCompensator
+  reason: Loudness-compensation EQ plugin, not a metric.
+  checked: 2026-10-06
+- url: https://github.com/andrewjhunt/equal-loudness
+  reason: Web page and spreadsheet, no metric code.
+  checked: 2026-10-06
+- url: https://github.com/acoustics-code-salford/uas-sound-propagation
+  reason: Sound propagation, not psychoacoustic metrics.
+  checked: 2026-10-06
+- url: https://github.com/ggrecow/auralization_master
+  reason: Aircraft auralisation framework, not metrics.
+  checked: 2026-10-06
+
+# --- Feature extractors whose loudness or sharpness does not follow a standardised model
+- url: https://github.com/praat/praat
+  reason: Its loudness sums phon-derived values over Bark bands; no named model or standard.
+  checked: 2026-10-06
+- url: https://github.com/audeering/opensmile
+  reason: Loudness is an auditory-spectrum approximation for speech features, no named psychoacoustic model.
+  checked: 2026-10-06
+- url: https://github.com/jamiebullock/LibXtract
+  reason: Music-information-retrieval descriptors (Bark-band loudness, Peeters-style sharpness), not the standardised models.
+  checked: 2026-10-06
+- url: https://github.com/nickjillings/js-xtract
+  reason: JavaScript port of LibXtract descriptors, not the standardised models.
+  checked: 2026-10-06
+- url: https://github.com/meyda/meyda
+  reason: Music-information-retrieval descriptors (Bark-band loudness, perceptual sharpness), not the standardised models.
+  checked: 2026-10-06
+- url: https://github.com/Yaafe/Yaafe
+  reason: Peeters-style loudness and perceptual sharpness descriptors, not the standardised models.
+  checked: 2026-10-06
+- url: https://github.com/AudioCommons/timbral_models
+  reason: Sharpness and roughness are inputs to timbre regressions; the README says it is unmaintained.
+  checked: 2026-10-06
+- url: https://github.com/cran/soundgen
+  reason: Loudness, sharpness and roughness follow simplified non-standard models.
+  checked: 2026-10-06
+- url: https://github.com/supercollider/supercollider
+  reason: The Loudness UGen describes itself as an informal Zwicker/Moore approximation.
+  checked: 2026-10-06
+- url: https://github.com/ppklose/ppkSPLMeter
+  reason: Approximate loudness, sharpness, roughness and fluctuation strength without a stated model edition.
+  checked: 2026-10-06
+- url: https://github.com/CNMAT/CNMAT-Externs
+  reason: Its loudness~ is spectral energy and its roughness external is a music dissonance model (Parncutt).
+  checked: 2026-10-06
+
+# --- Music sensory-dissonance models (roughness of musical intervals), out of scope
+- url: https://github.com/supercollider/sc3-plugins
+  reason: SensoryDissonance (Sethares 1998), a music dissonance model.
+  checked: 2026-10-06
+- url: https://github.com/MTG/essentia
+  reason: Dissonance (Plomp–Levelt), a music dissonance model; its other loudness descriptors are not the standardised models.
+  checked: 2026-10-06
+- url: https://github.com/bzamecnik/dissonant
+  reason: Music dissonance models (Plomp–Levelt, Sethares, Vassilakis, Cook).
+  checked: 2026-10-06
+- url: https://github.com/MForrest00/vassilakis_sra
+  reason: Music dissonance model (Vassilakis).
+  checked: 2026-10-06
+- url: https://github.com/spectral-discord/dismal.js
+  reason: Music dissonance models (Sethares, Vassilakis).
+  checked: 2026-10-06
+- url: https://github.com/bregmanstudio/BregmanToolkit
+  reason: Music dissonance model (Sethares).
+  checked: 2026-10-06
+- url: https://github.com/TanUkkii007/BregmanToolkit
+  reason: Copy of BregmanToolkit (Sethares dissonance).
+  checked: 2026-10-06
+- url: https://gist.github.com/endolith/3066664
+  reason: Gist of the Sethares dissonance measure.
+  checked: 2026-10-06
+- url: https://github.com/soundspotter/consonance
+  reason: Music course notebooks on dissonance, not a library.
+  checked: 2026-10-06

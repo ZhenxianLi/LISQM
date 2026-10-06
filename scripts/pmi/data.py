@@ -126,6 +126,7 @@ class Index:
             self.project_files[str(p.get("id"))] = path
         self.updates: list[dict] = (_load_yaml(data / "updates.yaml") or []) if (data / "updates.yaml").exists() else []
         self.ignored: list[dict] = (_load_yaml(data / "ignored.yaml") or []) if (data / "ignored.yaml").exists() else []
+        self.leads: list[dict] = (_load_yaml(data / "leads.yaml") or []) if (data / "leads.yaml").exists() else []
         snap_path = data / "snapshot.json"
         self.snapshot: dict = json.loads(snap_path.read_text(encoding="utf-8")) if snap_path.exists() else {}
 
@@ -267,6 +268,12 @@ class Index:
             for key in ("title", "body"):
                 if not u.get(key):
                     add(f"{w}: missing '{key}'")
+        for i, lead in enumerate(self.leads):
+            for key in ("name", "url", "claim", "why"):
+                if not lead.get(key):
+                    add(f"data/leads.yaml[{i}]: missing '{key}'")
+            if lead.get("url") and normalise_url(lead["url"]) in repos:
+                add(f"data/leads.yaml[{i}]: {lead['url']} is already an indexed project")
         for i, ig in enumerate(self.ignored):
             if not ig.get("url") or not ig.get("reason"):
                 add(f"data/ignored.yaml[{i}]: needs url and reason")

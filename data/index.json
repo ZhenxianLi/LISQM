@@ -8,8 +8,8 @@
   "schema": "https://github.com/ZhenxianLi/psychoacoustic-metrics-index/blob/main/data/SCHEMA.md",
   "counts": {
     "methods": 22,
-    "projects": 1,
-    "references": 50
+    "projects": 6,
+    "references": 51
   },
   "families": [
     {
@@ -83,6 +83,7 @@
       "references": [
         "iso-532-1975",
         "din-45631-1991",
+        "chalupper-fastl-2002",
         "din-45631-a1-2010",
         "iso-532-1-2017",
         "iso-532-1-ed2-draft"
@@ -93,6 +94,7 @@
       "edition_notes": {
         "iso-532-1975": "Method B (Zwicker) for stationary sounds, from third-octave levels.",
         "din-45631-1991": "Stationary sounds.",
+        "chalupper-fastl-2002": "Dynamic loudness model built on Zwicker's model, also for hearing impairment (not standardised).",
         "din-45631-a1-2010": "Adds the procedure for time-varying sounds.",
         "iso-532-1-2017": "Stationary and time-varying procedures; Annex A reference program, Annex B test signals.",
         "iso-532-1-ed2-draft": "Second edition at committee-draft stage since November 2024."
@@ -104,7 +106,7 @@
       "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/loudness-zwicker.html",
       "coverage": {
         "Python": "current",
-        "MATLAB/Octave": "",
+        "MATLAB/Octave": "current",
         "C/C++": "current",
         "Rust": "",
         "Julia": "",
@@ -124,6 +126,57 @@
           "since": "0.1.0",
           "validation": "cross-implementation",
           "note": "Model tables taken from MoSQITo and checked element by element; one upper-slope value (0.22) follows the ISO 532-1 reference C table where MoSQITo uses 0.24."
+        },
+        {
+          "project": "mosqito",
+          "reference": "iso-532-1-2017",
+          "functions": [
+            "loudness_zwst",
+            "loudness_zwst_perseg",
+            "loudness_zwst_freq",
+            "loudness_zwtv"
+          ],
+          "scope": "stationary (also per segment and from a spectrum) and time-varying",
+          "status": "available",
+          "since": "1.0.0",
+          "validation": "standard-data",
+          "note": "Validation scripts use the ISO 532-1 Annex B test signals; the documentation marks it as validated."
+        },
+        {
+          "project": "phonometry",
+          "reference": "iso-532-1-2017",
+          "functions": [
+            "loudness_zwicker",
+            "loudness_zwicker_from_spectrum"
+          ],
+          "scope": "stationary and time-varying",
+          "status": "available",
+          "since": "3.1.0",
+          "validation": "standard-data",
+          "note": "Written from the Annex A reference program; Annex B test signals are used in the tests."
+        },
+        {
+          "project": "pysqat",
+          "reference": "iso-532-1-2017",
+          "functions": [
+            "Loudness_ISO532_1"
+          ],
+          "status": "available",
+          "validation": "cross-implementation",
+          "note": "Compared with SQAT (MATLAB)."
+        },
+        {
+          "project": "sqat",
+          "reference": "iso-532-1-2017",
+          "functions": [
+            "Loudness_ISO532_1",
+            "Loudness_ISO532_1_from_wavfile"
+          ],
+          "scope": "stationary and time-varying",
+          "status": "available",
+          "since": "v1.0",
+          "validation": "standard-data",
+          "note": "Checked with the 25 test signals of Annex B.2–B.5 against the standard's tolerances. Fixes to the time-varying procedure are on `main` only (PR #48)."
         }
       ]
     },
@@ -164,14 +217,29 @@
       ],
       "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/loudness-moore-glasberg.html",
       "coverage": {
-        "Python": "",
+        "Python": "current",
         "MATLAB/Octave": "",
         "C/C++": "",
         "Rust": "",
         "Julia": "",
         "Other": ""
       },
-      "implementations": []
+      "implementations": [
+        {
+          "project": "phonometry",
+          "reference": "iso-532-2-2017",
+          "functions": [
+            "loudness_moore_glasberg",
+            "loudness_moore_glasberg_from_spectrum",
+            "loudness_moore_glasberg_from_third_octave"
+          ],
+          "scope": "with binaural inhibition",
+          "status": "available",
+          "since": "3.1.0",
+          "validation": "standard-data",
+          "note": "The documentation says it reproduces the Annex B tone and broadband cases to within a percent or two."
+        }
+      ]
     },
     {
       "id": "loudness-moore-glasberg-time-varying",
@@ -212,14 +280,26 @@
       ],
       "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/loudness-moore-glasberg-time-varying.html",
       "coverage": {
-        "Python": "",
+        "Python": "current",
         "MATLAB/Octave": "",
         "C/C++": "",
         "Rust": "",
         "Julia": "",
         "Other": ""
       },
-      "implementations": []
+      "implementations": [
+        {
+          "project": "phonometry",
+          "reference": "iso-532-3-2023",
+          "functions": [
+            "loudness_moore_glasberg_time"
+          ],
+          "status": "available",
+          "since": "3.1.0",
+          "validation": "standard-data",
+          "note": "Documented deviations: it runs at the native sample rate instead of resampling to 32 kHz, and the Annex B WAV-file cases are not reproduced (Annex C values are used instead)."
+        }
+      ]
     },
     {
       "id": "loudness-ecma-418-2",
@@ -260,7 +340,7 @@
       "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/loudness-ecma-418-2.html",
       "coverage": {
         "Python": "current",
-        "MATLAB/Octave": "",
+        "MATLAB/Octave": "partial",
         "C/C++": "current",
         "Rust": "",
         "Julia": "",
@@ -279,6 +359,76 @@
           "since": "0.2.0",
           "validation": "cross-implementation",
           "note": "Adapted from the SQAT/RefMap MATLAB code by Lotinga and Torjussen."
+        },
+        {
+          "project": "phonometry",
+          "reference": "ecma-418-2-ed4",
+          "functions": [
+            "loudness_ecma"
+          ],
+          "scope": "mono only",
+          "status": "available",
+          "since": "3.1.0",
+          "validation": "standard-data",
+          "note": "Checked at the calibration signal only, where it gives 0.9843 sone_HMS (−1.55 %)."
+        },
+        {
+          "project": "pysqat",
+          "reference": "ecma-418-2-ed4",
+          "functions": [
+            "Loudness_ECMA418_2"
+          ],
+          "status": "available",
+          "validation": "not-stated",
+          "note": "A wrapper that calls sottek-hearing-model."
+        },
+        {
+          "project": "sottek-hearing-model",
+          "reference": "ecma-418-2-ed4",
+          "functions": [
+            "shm_loudness_ecma",
+            "shm_loudness_ecma_from_comp"
+          ],
+          "scope": "mono or stereo, with combined binaural output",
+          "status": "available",
+          "since": "0.1.9",
+          "validation": "standard-data",
+          "note": "Unit tests check the standard's calibration signals (1 kHz, 40 dB gives 1 sone_HMS); the MATLAB code it was translated from was compared with commercial reference software in the paper."
+        },
+        {
+          "project": "sqat",
+          "reference": "ecma-418-2-ed4",
+          "functions": [
+            "Loudness_ECMA418_2",
+            "LoudnessFromComp_ECMA418_2"
+          ],
+          "status": "unreleased",
+          "validation": "cross-implementation",
+          "note": "Updated to the 4th edition on `main` in 2025."
+        },
+        {
+          "project": "sqat",
+          "reference": "ecma-418-2-ed3",
+          "functions": [
+            "Loudness_ECMA418_2",
+            "LoudnessFromComp_ECMA418_2"
+          ],
+          "scope": "mono or two channels with binaural combination",
+          "status": "available",
+          "since": "v1.3",
+          "validation": "cross-implementation",
+          "note": "Checked against equal-loudness contours and against reference results from commercial software on a binaural recording."
+        },
+        {
+          "project": "mosqito",
+          "reference": "ecma-418-2-ed2",
+          "functions": [
+            "loudness_ecma"
+          ],
+          "status": "available",
+          "since": "1.2.0",
+          "validation": "standard-data",
+          "note": "Followed the 1st edition (2020) in versions 1.0.0–1.1.1 and the 2nd edition (2022) from 1.2.0. Validation scripts compare with figures of the standard."
         }
       ]
     },
@@ -300,6 +450,7 @@
       "references": [
         "von-bismarck-1974",
         "aures-1985-euphony",
+        "fastl-zwicker-2007",
         "din-45692-2009"
       ],
       "current": [
@@ -308,6 +459,7 @@
       "edition_notes": {
         "von-bismarck-1974": "Original sharpness weighting.",
         "aures-1985-euphony": "Weighting that depends on total loudness.",
+        "fastl-zwicker-2007": "Zwicker & Fastl weighting as given in the textbook.",
         "din-45692-2009": "Standardised weighting and test procedure; no revision announced."
       },
       "see_also": [
@@ -316,7 +468,7 @@
       "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/sharpness.html",
       "coverage": {
         "Python": "current",
-        "MATLAB/Octave": "",
+        "MATLAB/Octave": "current",
         "C/C++": "current",
         "Rust": "",
         "Julia": "",
@@ -333,6 +485,60 @@
           "status": "available",
           "since": "0.1.0",
           "validation": "not-stated"
+        },
+        {
+          "project": "mosqito",
+          "reference": "din-45692-2009",
+          "functions": [
+            "sharpness_din_st",
+            "sharpness_din_tv",
+            "sharpness_din_perseg",
+            "sharpness_din_from_loudness",
+            "sharpness_din_freq"
+          ],
+          "scope": "weightings: DIN 45692, Aures, von Bismarck, Fastl",
+          "status": "available",
+          "since": "1.0.2",
+          "validation": "standard-data",
+          "note": "Validation scripts use the DIN 45692 test signals; the documentation marks it as validated."
+        },
+        {
+          "project": "phonometry",
+          "reference": "din-45692-2009",
+          "functions": [
+            "sharpness_din",
+            "sharpness_din_from_specific"
+          ],
+          "scope": "also the informative Aures and von Bismarck variants",
+          "status": "available",
+          "since": "3.1.0",
+          "validation": "standard-data",
+          "note": "Checked with the DIN 45692 reference signal and Table A.2."
+        },
+        {
+          "project": "pysqat",
+          "reference": "din-45692-2009",
+          "functions": [
+            "Sharpness_DIN45692",
+            "Sharpness_DIN45692_from_loudness"
+          ],
+          "status": "available",
+          "validation": "cross-implementation",
+          "note": "Compared with SQAT (MATLAB)."
+        },
+        {
+          "project": "sqat",
+          "reference": "din-45692-2009",
+          "functions": [
+            "Sharpness_DIN45692",
+            "Sharpness_DIN45692_from_loudness",
+            "Sharpness_DIN45692_from_wavfile"
+          ],
+          "scope": "DIN 45692 weighting, plus von Bismarck and Aures options",
+          "status": "available",
+          "since": "v1.0",
+          "validation": "standard-data",
+          "note": "Checked with the narrowband and broadband test signals of DIN 45692."
         }
       ]
     },
@@ -368,7 +574,7 @@
       "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/roughness-daniel-weber.html",
       "coverage": {
         "Python": "current",
-        "MATLAB/Octave": "",
+        "MATLAB/Octave": "current",
         "C/C++": "current",
         "Rust": "",
         "Julia": "",
@@ -385,6 +591,40 @@
           "since": "0.1.0",
           "validation": "cross-implementation",
           "note": "Follows SQAT revision `e6228b78`, which includes SQAT's September 2026 rewrite."
+        },
+        {
+          "project": "mosqito",
+          "reference": "daniel-weber-1997",
+          "functions": [
+            "roughness_dw",
+            "roughness_dw_freq"
+          ],
+          "status": "available",
+          "since": "1.0.0",
+          "validation": "standard-data",
+          "note": "The documentation marks it as validated against reference data."
+        },
+        {
+          "project": "pysqat",
+          "reference": "daniel-weber-1997",
+          "functions": [
+            "Roughness_Daniel1997"
+          ],
+          "status": "available",
+          "validation": "cross-implementation",
+          "note": "Compared with SQAT v1.3, before SQAT's September 2026 rewrite."
+        },
+        {
+          "project": "sqat",
+          "reference": "daniel-weber-1997",
+          "functions": [
+            "Roughness_Daniel1997",
+            "Roughness_Daniel1997_from_wavfile"
+          ],
+          "status": "available",
+          "since": "v1.0",
+          "validation": "standard-data",
+          "note": "Checked against amplitude- and frequency-modulation dependences from the literature. Rewritten on `main` (PR #65, 2026-09-08) after revised code from Dik Hermes: 63 of 119 validation values go up and 56 down (largest change 0.155 asper)."
         }
       ]
     },
@@ -424,7 +664,7 @@
       "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/roughness-ecma-418-2.html",
       "coverage": {
         "Python": "current",
-        "MATLAB/Octave": "",
+        "MATLAB/Octave": "partial",
         "C/C++": "current",
         "Rust": "",
         "Julia": "",
@@ -442,6 +682,71 @@
           "since": "0.2.0",
           "validation": "cross-implementation",
           "note": "Uses the standard's 20 ms grid and nominal calibration factor, where SQAT uses a slightly adjusted calibration."
+        },
+        {
+          "project": "phonometry",
+          "reference": "ecma-418-2-ed4",
+          "functions": [
+            "roughness_ecma"
+          ],
+          "scope": "mono only; no entropy weighting",
+          "status": "available",
+          "since": "3.1.0",
+          "validation": "standard-data",
+          "note": "Checked at the calibration signal only."
+        },
+        {
+          "project": "pysqat",
+          "reference": "ecma-418-2-ed4",
+          "functions": [
+            "Roughness_ECMA418_2"
+          ],
+          "status": "available",
+          "validation": "not-stated",
+          "note": "A wrapper that calls sottek-hearing-model."
+        },
+        {
+          "project": "sottek-hearing-model",
+          "reference": "ecma-418-2-ed4",
+          "functions": [
+            "shm_roughness_ecma"
+          ],
+          "scope": "with combined binaural output",
+          "status": "available",
+          "since": "0.1.9",
+          "validation": "standard-data"
+        },
+        {
+          "project": "sqat",
+          "reference": "ecma-418-2-ed4",
+          "functions": [
+            "Roughness_ECMA418_2"
+          ],
+          "status": "unreleased",
+          "validation": "cross-implementation",
+          "note": "Amended to the 4th edition on `main` in November 2025."
+        },
+        {
+          "project": "sqat",
+          "reference": "ecma-418-2-ed3",
+          "functions": [
+            "Roughness_ECMA418_2"
+          ],
+          "scope": "with binaural combination",
+          "status": "available",
+          "since": "v1.3",
+          "validation": "cross-implementation"
+        },
+        {
+          "project": "mosqito",
+          "reference": "ecma-418-2-ed2",
+          "functions": [
+            "roughness_ecma"
+          ],
+          "status": "available",
+          "since": "1.2.0",
+          "validation": "standard-data",
+          "note": "The documentation still lists it as under development. An open pull request (#95) fixes the low-pass filter range, which caused discrepancies with SQAT for time-varying signals."
         }
       ]
     },
@@ -512,14 +817,58 @@
       ],
       "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/fluctuation-strength-osses.html",
       "coverage": {
-        "Python": "",
-        "MATLAB/Octave": "",
+        "Python": "current",
+        "MATLAB/Octave": "current",
         "C/C++": "",
         "Rust": "",
         "Julia": "",
         "Other": ""
       },
-      "implementations": []
+      "implementations": [
+        {
+          "project": "phonometry",
+          "reference": "osses-2016",
+          "functions": [
+            "fluctuation_strength"
+          ],
+          "status": "available",
+          "since": "3.1.0",
+          "validation": "standard-data",
+          "note": "Compared with Table 1 of Osses et al. (2016) and with SQAT (correlation 0.98). Validated for amplitude modulation only; a steady 1 kHz tone reads about 0.09 vacil."
+        },
+        {
+          "project": "pysqat",
+          "reference": "osses-2016",
+          "functions": [
+            "FluctuationStrength_Osses2016"
+          ],
+          "status": "available",
+          "validation": "cross-implementation"
+        },
+        {
+          "project": "sqat",
+          "reference": "osses-2016",
+          "functions": [
+            "FluctuationStrength_Osses2016",
+            "FluctuationStrength_Osses2016_from_wavfile"
+          ],
+          "status": "available",
+          "since": "v1.0",
+          "validation": "standard-data",
+          "note": "Checked against amplitude- and frequency-modulation dependences from the literature."
+        },
+        {
+          "project": "phonometry",
+          "reference": "fastl-zwicker-2007",
+          "functions": [
+            "fluctuation_strength_am_noise"
+          ],
+          "scope": "closed-form expression for amplitude-modulated noise",
+          "status": "available",
+          "since": "3.1.0",
+          "validation": "not-stated"
+        }
+      ]
     },
     {
       "id": "fluctuation-strength-ecma-418-2",
@@ -549,14 +898,49 @@
       ],
       "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/fluctuation-strength-ecma-418-2.html",
       "coverage": {
-        "Python": "",
-        "MATLAB/Octave": "",
+        "Python": "current",
+        "MATLAB/Octave": "partial",
         "C/C++": "",
         "Rust": "",
         "Julia": "",
         "Other": ""
       },
-      "implementations": []
+      "implementations": [
+        {
+          "project": "phonometry",
+          "reference": "ecma-418-2-ed4",
+          "functions": [
+            "fluctuation_strength_ecma"
+          ],
+          "scope": "mono only",
+          "status": "available",
+          "since": "3.3.0",
+          "validation": "standard-data",
+          "note": "Checked at the calibration signal only (0.993 vacil_HMS); misprints found in Clause 9 are listed in its errata."
+        },
+        {
+          "project": "sottek-hearing-model",
+          "reference": "ecma-418-2-ed4",
+          "functions": [
+            "shm_fluctuation_ecma"
+          ],
+          "scope": "needs at least 1.37 s of signal; binaural option",
+          "status": "unreleased",
+          "validation": "cross-implementation",
+          "note": "Merged on 2026-09-18. A draft report compares it with the MATLAB version (equal to floating-point precision) and with HEAD ArtemiS SUITE v17 (calibration 0.994 vs 1.003 vacil_HMS; recordings −8 % to +12 %). Five departures from the printed equations, judged to be misprints, are documented."
+        },
+        {
+          "project": "sqat",
+          "reference": "ecma-418-2-ed4",
+          "functions": [
+            "FluctuationStrength_ECMA418_2"
+          ],
+          "status": "proposed",
+          "link": "https://github.com/ggrecow/SQAT/pull/78",
+          "validation": "not-stated",
+          "note": "Open pull request since 2026-09-17."
+        }
+      ]
     },
     {
       "id": "tonality-aures",
@@ -591,7 +975,7 @@
       "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/tonality-aures.html",
       "coverage": {
         "Python": "current",
-        "MATLAB/Octave": "",
+        "MATLAB/Octave": "current",
         "C/C++": "current",
         "Rust": "",
         "Julia": "",
@@ -608,6 +992,36 @@
           "since": "0.1.0",
           "validation": "cross-implementation",
           "note": "Follows SQAT's September 2026 revision (250 ms Hann windows, 125 ms hop); exact agreement with MATLAB is not established."
+        },
+        {
+          "project": "pysqat",
+          "reference": "aures-1985-euphony",
+          "functions": [
+            "Tonality_Aures1985"
+          ],
+          "status": "available",
+          "validation": "cross-implementation",
+          "note": "A June 2026 commit corrected its calibration; it predates SQAT's September 2026 fixes."
+        },
+        {
+          "project": "sqat",
+          "reference": "aures-1985-euphony",
+          "functions": [
+            "Tonality_Aures1985",
+            "Tonality_Aures1985_from_wavfile"
+          ],
+          "status": "available",
+          "since": "v1.0",
+          "validation": "standard-data",
+          "note": "v1.3 is checked with one signal-to-noise comparison. Eight defects were fixed on `main` in September 2026 (for example, only one tonal component's level excess entered the result, and tones were removed from the wrong spectrum), with new checks against Aures's Figs. 5 and 6."
+        },
+        {
+          "project": "mosqito",
+          "reference": "aures-1985-euphony",
+          "status": "proposed",
+          "link": "https://github.com/Eomys/MoSQITo/pull/97",
+          "validation": "not-stated",
+          "note": "Pull request from April 2026 following the improved Aures metric of Estreder et al. (2023); no maintainer reply."
         }
       ]
     },
@@ -651,7 +1065,7 @@
       "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/tonality-ecma-418-2.html",
       "coverage": {
         "Python": "current",
-        "MATLAB/Octave": "",
+        "MATLAB/Octave": "partial",
         "C/C++": "current",
         "Rust": "",
         "Julia": "",
@@ -668,6 +1082,59 @@
           "scope": "mono or stereo",
           "status": "available",
           "since": "0.2.0",
+          "validation": "cross-implementation"
+        },
+        {
+          "project": "phonometry",
+          "reference": "ecma-418-2-ed4",
+          "functions": [
+            "tonality_ecma"
+          ],
+          "scope": "mono only",
+          "status": "available",
+          "since": "3.1.0",
+          "validation": "standard-data",
+          "note": "Checked at the calibration signal only."
+        },
+        {
+          "project": "pysqat",
+          "reference": "ecma-418-2-ed4",
+          "functions": [
+            "Tonality_ECMA418_2"
+          ],
+          "status": "available",
+          "validation": "not-stated",
+          "note": "A wrapper that calls sottek-hearing-model."
+        },
+        {
+          "project": "sottek-hearing-model",
+          "reference": "ecma-418-2-ed4",
+          "functions": [
+            "shm_tonality_ecma"
+          ],
+          "status": "available",
+          "since": "0.1.9",
+          "validation": "standard-data",
+          "note": "Optional experimental tonal-annoyance weighting (Sottek & Becker, 2019) since 0.1.14."
+        },
+        {
+          "project": "sqat",
+          "reference": "ecma-418-2-ed4",
+          "functions": [
+            "Tonality_ECMA418_2"
+          ],
+          "status": "unreleased",
+          "validation": "cross-implementation",
+          "note": "A verification against Annex B.2 (PR #79) was merged and reverted on 2026-09-21 because the Annex B values of the 2025 edition appear to be out of date."
+        },
+        {
+          "project": "sqat",
+          "reference": "ecma-418-2-ed3",
+          "functions": [
+            "Tonality_ECMA418_2"
+          ],
+          "status": "available",
+          "since": "v1.3",
           "validation": "cross-implementation"
         }
       ]
@@ -709,14 +1176,44 @@
       ],
       "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/tone-to-noise-prominence-ratio.html",
       "coverage": {
-        "Python": "",
+        "Python": "current",
         "MATLAB/Octave": "",
         "C/C++": "",
         "Rust": "",
         "Julia": "",
         "Other": ""
       },
-      "implementations": []
+      "implementations": [
+        {
+          "project": "phonometry",
+          "reference": "ecma-418-1-ed3",
+          "functions": [
+            "tone_to_noise_ratio",
+            "prominence_ratio",
+            "assess_tones"
+          ],
+          "status": "available",
+          "since": "3.1.0",
+          "validation": "standard-data",
+          "note": "The \"prominent\" flag applies the numeric criterion only."
+        },
+        {
+          "project": "mosqito",
+          "reference": "ecma-74-ed17",
+          "functions": [
+            "tnr_ecma_st",
+            "tnr_ecma_perseg",
+            "tnr_ecma_freq",
+            "pr_ecma_st",
+            "pr_ecma_perseg",
+            "pr_ecma_freq"
+          ],
+          "status": "available",
+          "since": "1.0.2",
+          "validation": "not-stated",
+          "note": "Docstrings say \"ECMA 418-1\" without an edition; the helper code and the bibliography cite ECMA-74 Annex D (17th edition, 2019). The documentation marks it as available but not validated."
+        }
+      ]
     },
     {
       "id": "tonality-din-45681",
@@ -787,14 +1284,30 @@
       ],
       "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/tonal-audibility-iso-20065.html",
       "coverage": {
-        "Python": "",
+        "Python": "partial",
         "MATLAB/Octave": "",
         "C/C++": "",
         "Rust": "",
         "Julia": "",
         "Other": ""
       },
-      "implementations": []
+      "implementations": [
+        {
+          "project": "phonometry",
+          "reference": "iso-pas-20065-2016",
+          "functions": [
+            "tone_audibility",
+            "analyze_spectrum",
+            "audibility_from_levels",
+            "mean_audibility",
+            "audibility_uncertainty"
+          ],
+          "status": "available",
+          "since": "3.1.0",
+          "validation": "standard-data",
+          "note": "Follows the 2016 PAS, not the 2022 TS. Does not apply the A-weighting required by clause 5.3.2."
+        }
+      ]
     },
     {
       "id": "tonal-audibility-iso-1996-2",
@@ -828,14 +1341,38 @@
       ],
       "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/tonal-audibility-iso-1996-2.html",
       "coverage": {
-        "Python": "",
+        "Python": "current",
         "MATLAB/Octave": "",
         "C/C++": "",
         "Rust": "",
         "Julia": "",
         "Other": ""
       },
-      "implementations": []
+      "implementations": [
+        {
+          "project": "phonometry",
+          "reference": "iso-1996-2-2017",
+          "scope": "Annex K survey method and Table J.1; in the `phonometry.environment` namespace",
+          "status": "available",
+          "validation": "not-stated"
+        },
+        {
+          "project": "mosqito",
+          "reference": "iso-1996-2-2017",
+          "scope": "Annex K prominent-tone detection",
+          "status": "proposed",
+          "link": "https://github.com/Eomys/MoSQITo/pull/52",
+          "validation": "not-stated",
+          "note": "Pull request from May 2022; no maintainer reply."
+        },
+        {
+          "project": "phonometry",
+          "reference": "iso-1996-2-2007",
+          "scope": "Annex C; in the `phonometry.environment` namespace",
+          "status": "available",
+          "validation": "not-stated"
+        }
+      ]
     },
     {
       "id": "tonal-audibility-iec-61400-11",
@@ -864,14 +1401,24 @@
       ],
       "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/tonal-audibility-iec-61400-11.html",
       "coverage": {
-        "Python": "",
+        "Python": "current",
         "MATLAB/Octave": "",
         "C/C++": "",
         "Rust": "",
         "Julia": "",
         "Other": ""
       },
-      "implementations": []
+      "implementations": [
+        {
+          "project": "phonometry",
+          "reference": "iec-61400-11-2012",
+          "functions": [
+            "wind_turbine_tonality"
+          ],
+          "status": "available",
+          "validation": "not-stated"
+        }
+      ]
     },
     {
       "id": "impulsiveness",
@@ -901,14 +1448,29 @@
       },
       "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/impulsiveness.html",
       "coverage": {
-        "Python": "",
+        "Python": "current",
         "MATLAB/Octave": "",
         "C/C++": "",
         "Rust": "",
         "Julia": "",
         "Other": ""
       },
-      "implementations": []
+      "implementations": [
+        {
+          "project": "phonometry",
+          "reference": "iso-pas-1996-3-2022",
+          "scope": "in the `phonometry.environment` namespace",
+          "status": "available",
+          "validation": "not-stated"
+        },
+        {
+          "project": "phonometry",
+          "reference": "nt-acou-112-2002",
+          "scope": "in the `phonometry.environment` namespace",
+          "status": "available",
+          "validation": "not-stated"
+        }
+      ]
     },
     {
       "id": "psychoacoustic-annoyance",
@@ -948,14 +1510,100 @@
       },
       "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/psychoacoustic-annoyance.html",
       "coverage": {
-        "Python": "",
-        "MATLAB/Octave": "",
+        "Python": "current",
+        "MATLAB/Octave": "current",
         "C/C++": "",
         "Rust": "",
         "Julia": "",
         "Other": ""
       },
-      "implementations": []
+      "implementations": [
+        {
+          "project": "pysqat",
+          "reference": "di-2016",
+          "functions": [
+            "PsychoacousticAnnoyance_Di2016"
+          ],
+          "status": "available",
+          "validation": "cross-implementation"
+        },
+        {
+          "project": "sqat",
+          "reference": "di-2016",
+          "functions": [
+            "PsychoacousticAnnoyance_Di2016",
+            "PsychoacousticAnnoyance_Di2016_from_percentile"
+          ],
+          "status": "available",
+          "since": "v1.0",
+          "validation": "not-stated",
+          "note": "No verification routine (README)."
+        },
+        {
+          "project": "pysqat",
+          "reference": "more-2010",
+          "functions": [
+            "PsychoacousticAnnoyance_More2010"
+          ],
+          "status": "available",
+          "validation": "cross-implementation"
+        },
+        {
+          "project": "sqat",
+          "reference": "more-2010",
+          "functions": [
+            "PsychoacousticAnnoyance_More2010",
+            "PsychoacousticAnnoyance_More2010_from_percentile"
+          ],
+          "status": "available",
+          "since": "v1.0",
+          "validation": "not-stated",
+          "note": "No verification routine (README)."
+        },
+        {
+          "project": "phonometry",
+          "reference": "zwicker-fastl-1999",
+          "functions": [
+            "psychoacoustic_annoyance",
+            "psychoacoustic_annoyance_from_signal"
+          ],
+          "status": "available",
+          "since": "3.1.0",
+          "validation": "standard-data",
+          "note": "Follows Eqs. 16.2–16.4 of Fastl & Zwicker (2007), the textbook form of Widmann's model."
+        },
+        {
+          "project": "pysqat",
+          "reference": "zwicker-fastl-1999",
+          "functions": [
+            "PsychoacousticAnnoyance_Zwicker1999"
+          ],
+          "status": "available",
+          "validation": "cross-implementation"
+        },
+        {
+          "project": "sqat",
+          "reference": "zwicker-fastl-1999",
+          "functions": [
+            "PsychoacousticAnnoyance_Zwicker1999",
+            "PsychoacousticAnnoyance_Zwicker1999_from_percentile"
+          ],
+          "status": "available",
+          "since": "v1.0",
+          "validation": "not-stated"
+        },
+        {
+          "project": "sqat",
+          "reference": "widmann-1992",
+          "functions": [
+            "PsychoacousticAnnoyance_Widmann1992",
+            "PsychoacousticAnnoyance_Widmann1992_from_percentile"
+          ],
+          "status": "unreleased",
+          "validation": "not-stated",
+          "note": "Added on `main` in June 2025; the README describes it as the same model as the Zwicker & Fastl entry under its original attribution."
+        }
+      ]
     },
     {
       "id": "equal-loudness-contours",
@@ -984,14 +1632,39 @@
       },
       "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/equal-loudness-contours.html",
       "coverage": {
-        "Python": "",
+        "Python": "current",
         "MATLAB/Octave": "",
         "C/C++": "",
         "Rust": "",
         "Julia": "",
         "Other": ""
       },
-      "implementations": []
+      "implementations": [
+        {
+          "project": "phonometry",
+          "reference": "iso-226-2023",
+          "functions": [
+            "equal_loudness_contour",
+            "equal_loudness_contours",
+            "loudness_level",
+            "hearing_threshold"
+          ],
+          "status": "available",
+          "since": "3.1.0",
+          "validation": "standard-data"
+        },
+        {
+          "project": "mosqito",
+          "reference": "iso-226-2003",
+          "functions": [
+            "equal_loudness_contours"
+          ],
+          "status": "available",
+          "since": "0.3.5",
+          "validation": "not-stated",
+          "note": "The docstring gives no edition; it is based on Jeff Tackett's MATLAB code for ISO 226:2003."
+        }
+      ]
     },
     {
       "id": "epnl",
@@ -1024,14 +1697,46 @@
       },
       "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/epnl.html",
       "coverage": {
-        "Python": "",
-        "MATLAB/Octave": "",
+        "Python": "current",
+        "MATLAB/Octave": "current",
         "C/C++": "",
         "Rust": "",
         "Julia": "",
         "Other": ""
       },
-      "implementations": []
+      "implementations": [
+        {
+          "project": "pysqat",
+          "reference": "cfr-14-part-36",
+          "functions": [
+            "EPNL_FAR_Part36"
+          ],
+          "status": "available",
+          "validation": "cross-implementation"
+        },
+        {
+          "project": "sqat",
+          "reference": "cfr-14-part-36",
+          "functions": [
+            "EPNL_FAR_Part36",
+            "get_PNL",
+            "get_PNLT",
+            "get_Duration_Correction"
+          ],
+          "status": "available",
+          "since": "v1.1",
+          "validation": "cross-implementation",
+          "note": "The README says no reference implementation or test signals exist, so it was only cross-checked. Follows Amendment 36-26 (2005)."
+        },
+        {
+          "project": "phonometry",
+          "reference": "icao-annex-16-vol-1",
+          "scope": "PNL, PNLT and EPNL, in the `phonometry.aircraft` namespace",
+          "status": "available",
+          "validation": "standard-data",
+          "note": "Tested with the EPNL example of ICAO Doc 9501 (Environmental Technical Manual)."
+        }
+      ]
     },
     {
       "id": "aural-detectability",
@@ -1207,6 +1912,17 @@
       "date": 2002,
       "status": "published",
       "citation": "Glasberg, B. R., & Moore, B. C. J. (2002). A model of loudness applicable to time-varying sounds. *Journal of the Audio Engineering Society*, 50(5), 331–342.",
+      "checked": "2026-10-06"
+    },
+    {
+      "id": "chalupper-fastl-2002",
+      "label": "Chalupper & Fastl (2002)",
+      "kind": "paper",
+      "body": "paper",
+      "title": "Dynamic loudness model (DLM) for normal and hearing-impaired listeners",
+      "date": 2002,
+      "status": "published",
+      "citation": "Chalupper, J., & Fastl, H. (2002). Dynamic loudness model (DLM) for normal and hearing-impaired listeners. *Acta Acustica united with Acustica*, 88(3), 378–386.",
       "checked": "2026-10-06"
     },
     {
@@ -1831,24 +2547,1064 @@
       "activity": "active",
       "archived": false,
       "stars": null
+    },
+    {
+      "id": "mosqito",
+      "name": "MoSQITo",
+      "repository": "https://github.com/Eomys/MoSQITo",
+      "docs": "https://mosqito.readthedocs.io/en/latest/",
+      "languages": [
+        "Python"
+      ],
+      "kind": "library",
+      "license": "Apache-2.0",
+      "packages": [
+        {
+          "registry": "pypi",
+          "name": "mosqito"
+        }
+      ],
+      "install": "pip install mosqito",
+      "maintainers": [
+        "Eomys / Green Forge Coop"
+      ],
+      "summary": "Python library for sound quality metrics: ISO 532-1 loudness, DIN 45692 sharpness, Daniel & Weber roughness, ECMA-418-2 loudness and roughness (2nd edition), tone-to-noise and prominence ratios, and the speech intelligibility index. Widely used, but without a release or a commit since April 2024.",
+      "ai_assistance": "not-stated",
+      "paper": {
+        "citation": "San Millán-Castillo, R., Latorre-Iglesias, E., Glesser, M., Wanty, S., Jiménez-Caminero, D., & Álvarez-Jimeno, J. M. (2021). MOSQITO: an open-source and free toolbox for sound quality metrics in the industry and education. *INTER-NOISE 2021*, INCE Conference Proceedings 263(5).",
+        "doi": "10.3397/IN-2021-1767"
+      },
+      "notes": [
+        "Started by EOMYS in 2020. The default branch is `master`; its last commit and the last release (1.2.1) are both from 2024-04-22.",
+        "The documentation lists Soundscapy as a user; several other projects (PsychoBox, Sonemeter and others) wrap it.",
+        "Also computes the ANSI S3.5 speech intelligibility index (`sii_ansi`), which is outside the scope of this index.",
+        "Open, unanswered pull requests add Aures tonality ([#97](https://github.com/Eomys/MoSQITo/pull/97), 2026), ECMA-418-2 roughness fixes ([#95](https://github.com/Eomys/MoSQITo/pull/95), 2026) and an ISO 1996-2 Annex K tone detector ([#52](https://github.com/Eomys/MoSQITo/pull/52), 2022).",
+        "A C#/.NET port, Mosqito.NET, was announced in issue [#98](https://github.com/Eomys/MoSQITo/issues/98) (not checked)."
+      ],
+      "caveats": [
+        "No maintainer has answered issues or pull requests opened since 2024, including bug reports on TNR/PR (#80,",
+        "`import mosqito` fails when matplotlib is not installed, because it is imported but not declared as a dependency ([#100](https://github.com/Eomys/MoSQITo/issues/100)); install matplotlib yourself.",
+        "Its ECMA-418-2 functions follow the 2nd edition (2022), two editions behind the current one."
+      ],
+      "implements": [
+        {
+          "method": "loudness-zwicker",
+          "reference": "iso-532-1-2017",
+          "functions": [
+            "loudness_zwst",
+            "loudness_zwst_perseg",
+            "loudness_zwst_freq",
+            "loudness_zwtv"
+          ],
+          "scope": "stationary (also per segment and from a spectrum) and time-varying",
+          "status": "available",
+          "since": "1.0.0",
+          "validation": "standard-data",
+          "note": "Validation scripts use the ISO 532-1 Annex B test signals; the documentation marks it as validated."
+        },
+        {
+          "method": "loudness-ecma-418-2",
+          "reference": "ecma-418-2-ed2",
+          "functions": [
+            "loudness_ecma"
+          ],
+          "status": "available",
+          "since": "1.2.0",
+          "validation": "standard-data",
+          "note": "Followed the 1st edition (2020) in versions 1.0.0–1.1.1 and the 2nd edition (2022) from 1.2.0. Validation scripts compare with figures of the standard."
+        },
+        {
+          "method": "sharpness",
+          "reference": "din-45692-2009",
+          "functions": [
+            "sharpness_din_st",
+            "sharpness_din_tv",
+            "sharpness_din_perseg",
+            "sharpness_din_from_loudness",
+            "sharpness_din_freq"
+          ],
+          "scope": "weightings: DIN 45692, Aures, von Bismarck, Fastl",
+          "status": "available",
+          "since": "1.0.2",
+          "validation": "standard-data",
+          "note": "Validation scripts use the DIN 45692 test signals; the documentation marks it as validated."
+        },
+        {
+          "method": "roughness-daniel-weber",
+          "reference": "daniel-weber-1997",
+          "functions": [
+            "roughness_dw",
+            "roughness_dw_freq"
+          ],
+          "status": "available",
+          "since": "1.0.0",
+          "validation": "standard-data",
+          "note": "The documentation marks it as validated against reference data."
+        },
+        {
+          "method": "roughness-ecma-418-2",
+          "reference": "ecma-418-2-ed2",
+          "functions": [
+            "roughness_ecma"
+          ],
+          "status": "available",
+          "since": "1.2.0",
+          "validation": "standard-data",
+          "note": "The documentation still lists it as under development. An open pull request (#95) fixes the low-pass filter range, which caused discrepancies with SQAT for time-varying signals."
+        },
+        {
+          "method": "tone-to-noise-prominence-ratio",
+          "reference": "ecma-74-ed17",
+          "functions": [
+            "tnr_ecma_st",
+            "tnr_ecma_perseg",
+            "tnr_ecma_freq",
+            "pr_ecma_st",
+            "pr_ecma_perseg",
+            "pr_ecma_freq"
+          ],
+          "status": "available",
+          "since": "1.0.2",
+          "validation": "not-stated",
+          "note": "Docstrings say \"ECMA 418-1\" without an edition; the helper code and the bibliography cite ECMA-74 Annex D (17th edition, 2019). The documentation marks it as available but not validated."
+        },
+        {
+          "method": "equal-loudness-contours",
+          "reference": "iso-226-2003",
+          "functions": [
+            "equal_loudness_contours"
+          ],
+          "status": "available",
+          "since": "0.3.5",
+          "validation": "not-stated",
+          "note": "The docstring gives no edition; it is based on Jeff Tackett's MATLAB code for ISO 226:2003."
+        },
+        {
+          "method": "tonality-aures",
+          "reference": "aures-1985-euphony",
+          "status": "proposed",
+          "link": "https://github.com/Eomys/MoSQITo/pull/97",
+          "validation": "not-stated",
+          "note": "Pull request from April 2026 following the improved Aures metric of Estreder et al. (2023); no maintainer reply."
+        },
+        {
+          "method": "tonal-audibility-iso-1996-2",
+          "reference": "iso-1996-2-2017",
+          "scope": "Annex K prominent-tone detection",
+          "status": "proposed",
+          "link": "https://github.com/Eomys/MoSQITo/pull/52",
+          "validation": "not-stated",
+          "note": "Pull request from May 2022; no maintainer reply."
+        }
+      ],
+      "sources": [
+        "https://github.com/Eomys/MoSQITo/blob/master/README.md",
+        "https://github.com/Eomys/MoSQITo/blob/master/docs/source/user_guide/scope.rst",
+        "https://github.com/Eomys/MoSQITo/tree/master/validations",
+        "https://pypi.org/project/mosqito/",
+        "https://github.com/Eomys/MoSQITo/issues/100",
+        "https://github.com/Eomys/MoSQITo/pull/95",
+        "https://github.com/Eomys/MoSQITo/pull/97"
+      ],
+      "checked": "2026-10-06",
+      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/mosqito.html",
+      "last_commit": "2024-04-22",
+      "latest_release": {
+        "version": "1.2.1",
+        "date": "2024-04-22",
+        "source": ""
+      },
+      "prerelease": null,
+      "activity": "inactive",
+      "archived": false,
+      "stars": null
+    },
+    {
+      "id": "phonometry",
+      "name": "phonometry",
+      "repository": "https://github.com/jmrplens/phonometry",
+      "docs": "https://jmrplens.github.io/phonometry/",
+      "languages": [
+        "Python"
+      ],
+      "kind": "library",
+      "license": "MIT",
+      "packages": [
+        {
+          "registry": "pypi",
+          "name": "phonometry"
+        }
+      ],
+      "install": "pip install phonometry",
+      "maintainers": [
+        "José M. Requena Plens"
+      ],
+      "summary": "Python acoustics library (formerly PyOctaveBand) that added a large psychoacoustics module in July 2026: ISO 532-1, -2 and -3 loudness, ECMA-418-2:2025 loudness, tonality, roughness and fluctuation strength (monaural), DIN 45692 sharpness, Osses fluctuation strength, ECMA-418-1:2024 TNR/PR, tonal audibility, impulsiveness, EPNL and ISO 226:2023. Only NumPy and SciPy are required.",
+      "ai_assistance": "disclosed",
+      "ai_note": "The draft paper (`paper/paper.md`) has an AI usage disclosure: language models drafted code, tests and documentation from the author's clause-by-clause readings, under the author's direction and review. 34 commits from July 2026 contain Claude Code session links.",
+      "notes": [
+        "Renamed from PyOctaveBand (octave-band filtering) at 3.0.0 on 2026-07-06; the psychoacoustics module arrived in 3.1.0 on 2026-07-13. 873 of its 905 commits are from 2026.",
+        "The README reports 1793 of 1793 conformance checks passing across 519 standards, generated by the project's own CI ([CONFORMANCE.md](https://github.com/jmrplens/phonometry/blob/main/docs/CONFORMANCE.md)).",
+        "Keeps a public errata list of misprints found in standards, including ECMA-418-1:2024 and ECMA-418-2:2025 ([ERRATA.md](https://github.com/jmrplens/phonometry/blob/main/docs/ERRATA.md)).",
+        "A JOSS-format paper draft exists in the repository; no published paper yet. Version 4.0 (release candidate since 2026-09-10) moves modules.",
+        {
+          "Not implemented": "Daniel & Weber roughness, Aures tonality, More and Di annoyance, and binaural combination for ECMA-418-2."
+        }
+      ],
+      "caveats": [
+        "Single maintainer; all validation comes from the project's own tests.",
+        "The ECMA-418-2 checks only use the calibration signals, and no comparison with another implementation is reported. Its loudness reads 0.984 sone_HMS at the calibration point, which its own documentation says is outside the adjustment the standard allows.",
+        "Requires Python 3.13 or newer."
+      ],
+      "implements": [
+        {
+          "method": "loudness-zwicker",
+          "reference": "iso-532-1-2017",
+          "functions": [
+            "loudness_zwicker",
+            "loudness_zwicker_from_spectrum"
+          ],
+          "scope": "stationary and time-varying",
+          "status": "available",
+          "since": "3.1.0",
+          "validation": "standard-data",
+          "note": "Written from the Annex A reference program; Annex B test signals are used in the tests."
+        },
+        {
+          "method": "loudness-moore-glasberg",
+          "reference": "iso-532-2-2017",
+          "functions": [
+            "loudness_moore_glasberg",
+            "loudness_moore_glasberg_from_spectrum",
+            "loudness_moore_glasberg_from_third_octave"
+          ],
+          "scope": "with binaural inhibition",
+          "status": "available",
+          "since": "3.1.0",
+          "validation": "standard-data",
+          "note": "The documentation says it reproduces the Annex B tone and broadband cases to within a percent or two."
+        },
+        {
+          "method": "loudness-moore-glasberg-time-varying",
+          "reference": "iso-532-3-2023",
+          "functions": [
+            "loudness_moore_glasberg_time"
+          ],
+          "status": "available",
+          "since": "3.1.0",
+          "validation": "standard-data",
+          "note": "Documented deviations: it runs at the native sample rate instead of resampling to 32 kHz, and the Annex B WAV-file cases are not reproduced (Annex C values are used instead)."
+        },
+        {
+          "method": "loudness-ecma-418-2",
+          "reference": "ecma-418-2-ed4",
+          "functions": [
+            "loudness_ecma"
+          ],
+          "scope": "mono only",
+          "status": "available",
+          "since": "3.1.0",
+          "validation": "standard-data",
+          "note": "Checked at the calibration signal only, where it gives 0.9843 sone_HMS (−1.55 %)."
+        },
+        {
+          "method": "tonality-ecma-418-2",
+          "reference": "ecma-418-2-ed4",
+          "functions": [
+            "tonality_ecma"
+          ],
+          "scope": "mono only",
+          "status": "available",
+          "since": "3.1.0",
+          "validation": "standard-data",
+          "note": "Checked at the calibration signal only."
+        },
+        {
+          "method": "roughness-ecma-418-2",
+          "reference": "ecma-418-2-ed4",
+          "functions": [
+            "roughness_ecma"
+          ],
+          "scope": "mono only; no entropy weighting",
+          "status": "available",
+          "since": "3.1.0",
+          "validation": "standard-data",
+          "note": "Checked at the calibration signal only."
+        },
+        {
+          "method": "fluctuation-strength-ecma-418-2",
+          "reference": "ecma-418-2-ed4",
+          "functions": [
+            "fluctuation_strength_ecma"
+          ],
+          "scope": "mono only",
+          "status": "available",
+          "since": "3.3.0",
+          "validation": "standard-data",
+          "note": "Checked at the calibration signal only (0.993 vacil_HMS); misprints found in Clause 9 are listed in its errata."
+        },
+        {
+          "method": "sharpness",
+          "reference": "din-45692-2009",
+          "functions": [
+            "sharpness_din",
+            "sharpness_din_from_specific"
+          ],
+          "scope": "also the informative Aures and von Bismarck variants",
+          "status": "available",
+          "since": "3.1.0",
+          "validation": "standard-data",
+          "note": "Checked with the DIN 45692 reference signal and Table A.2."
+        },
+        {
+          "method": "fluctuation-strength-osses",
+          "reference": "osses-2016",
+          "functions": [
+            "fluctuation_strength"
+          ],
+          "status": "available",
+          "since": "3.1.0",
+          "validation": "standard-data",
+          "note": "Compared with Table 1 of Osses et al. (2016) and with SQAT (correlation 0.98). Validated for amplitude modulation only; a steady 1 kHz tone reads about 0.09 vacil."
+        },
+        {
+          "method": "fluctuation-strength-osses",
+          "reference": "fastl-zwicker-2007",
+          "functions": [
+            "fluctuation_strength_am_noise"
+          ],
+          "scope": "closed-form expression for amplitude-modulated noise",
+          "status": "available",
+          "since": "3.1.0",
+          "validation": "not-stated"
+        },
+        {
+          "method": "psychoacoustic-annoyance",
+          "reference": "zwicker-fastl-1999",
+          "functions": [
+            "psychoacoustic_annoyance",
+            "psychoacoustic_annoyance_from_signal"
+          ],
+          "status": "available",
+          "since": "3.1.0",
+          "validation": "standard-data",
+          "note": "Follows Eqs. 16.2–16.4 of Fastl & Zwicker (2007), the textbook form of Widmann's model."
+        },
+        {
+          "method": "tone-to-noise-prominence-ratio",
+          "reference": "ecma-418-1-ed3",
+          "functions": [
+            "tone_to_noise_ratio",
+            "prominence_ratio",
+            "assess_tones"
+          ],
+          "status": "available",
+          "since": "3.1.0",
+          "validation": "standard-data",
+          "note": "The \"prominent\" flag applies the numeric criterion only."
+        },
+        {
+          "method": "tonal-audibility-iso-20065",
+          "reference": "iso-pas-20065-2016",
+          "functions": [
+            "tone_audibility",
+            "analyze_spectrum",
+            "audibility_from_levels",
+            "mean_audibility",
+            "audibility_uncertainty"
+          ],
+          "status": "available",
+          "since": "3.1.0",
+          "validation": "standard-data",
+          "note": "Follows the 2016 PAS, not the 2022 TS. Does not apply the A-weighting required by clause 5.3.2."
+        },
+        {
+          "method": "equal-loudness-contours",
+          "reference": "iso-226-2023",
+          "functions": [
+            "equal_loudness_contour",
+            "equal_loudness_contours",
+            "loudness_level",
+            "hearing_threshold"
+          ],
+          "status": "available",
+          "since": "3.1.0",
+          "validation": "standard-data"
+        },
+        {
+          "method": "tonal-audibility-iso-1996-2",
+          "reference": "iso-1996-2-2007",
+          "scope": "Annex C; in the `phonometry.environment` namespace",
+          "status": "available",
+          "validation": "not-stated"
+        },
+        {
+          "method": "tonal-audibility-iso-1996-2",
+          "reference": "iso-1996-2-2017",
+          "scope": "Annex K survey method and Table J.1; in the `phonometry.environment` namespace",
+          "status": "available",
+          "validation": "not-stated"
+        },
+        {
+          "method": "tonal-audibility-iec-61400-11",
+          "reference": "iec-61400-11-2012",
+          "functions": [
+            "wind_turbine_tonality"
+          ],
+          "status": "available",
+          "validation": "not-stated"
+        },
+        {
+          "method": "impulsiveness",
+          "reference": "nt-acou-112-2002",
+          "scope": "in the `phonometry.environment` namespace",
+          "status": "available",
+          "validation": "not-stated"
+        },
+        {
+          "method": "impulsiveness",
+          "reference": "iso-pas-1996-3-2022",
+          "scope": "in the `phonometry.environment` namespace",
+          "status": "available",
+          "validation": "not-stated"
+        },
+        {
+          "method": "epnl",
+          "reference": "icao-annex-16-vol-1",
+          "scope": "PNL, PNLT and EPNL, in the `phonometry.aircraft` namespace",
+          "status": "available",
+          "validation": "standard-data",
+          "note": "Tested with the EPNL example of ICAO Doc 9501 (Environmental Technical Manual)."
+        }
+      ],
+      "sources": [
+        "https://github.com/jmrplens/phonometry/blob/main/README.md",
+        "https://github.com/jmrplens/phonometry/blob/main/CHANGELOG.md",
+        "https://github.com/jmrplens/phonometry/blob/main/docs/CONFORMANCE.md",
+        "https://github.com/jmrplens/phonometry/blob/main/docs/ERRATA.md",
+        "https://github.com/jmrplens/phonometry/blob/main/paper/paper.md",
+        "https://jmrplens.github.io/phonometry/",
+        "https://pypi.org/project/phonometry/"
+      ],
+      "checked": "2026-10-06",
+      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/phonometry.html",
+      "last_commit": "2026-10-01",
+      "latest_release": {
+        "version": "3.3.0",
+        "date": "2026-07-26",
+        "source": ""
+      },
+      "prerelease": null,
+      "activity": "active",
+      "archived": false,
+      "stars": null
+    },
+    {
+      "id": "pysqat",
+      "name": "pySQAT",
+      "repository": "https://github.com/PALILA-TUDelft/pySQAT",
+      "languages": [
+        "Python"
+      ],
+      "kind": "library",
+      "license": "none",
+      "license_note": "No licence file at the repository root. The bundled copy of SQAT v1.3 (MATLAB, used as the validation reference) carries SQAT's CC-BY-NC-4.0 licence.",
+      "maintainers": [
+        "Gerard Mendoza Ferrandis"
+      ],
+      "summary": "Python port of the MATLAB toolbox SQAT (README title \"SQAT4PY\") with a PySide6 graphical interface. Covers ISO 532-1 loudness, DIN 45692 sharpness, Daniel & Weber roughness, Osses fluctuation strength, Aures tonality, three psychoacoustic annoyance models and EPNL; its ECMA-418-2 functions call sottek-hearing-model.",
+      "ai_assistance": "not-stated",
+      "notes": [
+        "Developed since May 2025 under the PALILA-TUDelft GitHub organisation; no release or tag yet.",
+        "Validation scripts run SQAT in MATLAB and compare the Python results with it; the generated reports are not committed."
+      ],
+      "caveats": [
+        "Without a licence, reuse rights are unclear, and the bundled MATLAB code is licensed for non-commercial use only.",
+        "The ports follow SQAT v1.3 and do not include SQAT's 2026 fixes to ISO 532-1 time-varying loudness, Daniel & Weber roughness and Aures tonality."
+      ],
+      "implements": [
+        {
+          "method": "loudness-zwicker",
+          "reference": "iso-532-1-2017",
+          "functions": [
+            "Loudness_ISO532_1"
+          ],
+          "status": "available",
+          "validation": "cross-implementation",
+          "note": "Compared with SQAT (MATLAB)."
+        },
+        {
+          "method": "sharpness",
+          "reference": "din-45692-2009",
+          "functions": [
+            "Sharpness_DIN45692",
+            "Sharpness_DIN45692_from_loudness"
+          ],
+          "status": "available",
+          "validation": "cross-implementation",
+          "note": "Compared with SQAT (MATLAB)."
+        },
+        {
+          "method": "roughness-daniel-weber",
+          "reference": "daniel-weber-1997",
+          "functions": [
+            "Roughness_Daniel1997"
+          ],
+          "status": "available",
+          "validation": "cross-implementation",
+          "note": "Compared with SQAT v1.3, before SQAT's September 2026 rewrite."
+        },
+        {
+          "method": "fluctuation-strength-osses",
+          "reference": "osses-2016",
+          "functions": [
+            "FluctuationStrength_Osses2016"
+          ],
+          "status": "available",
+          "validation": "cross-implementation"
+        },
+        {
+          "method": "tonality-aures",
+          "reference": "aures-1985-euphony",
+          "functions": [
+            "Tonality_Aures1985"
+          ],
+          "status": "available",
+          "validation": "cross-implementation",
+          "note": "A June 2026 commit corrected its calibration; it predates SQAT's September 2026 fixes."
+        },
+        {
+          "method": "psychoacoustic-annoyance",
+          "reference": "zwicker-fastl-1999",
+          "functions": [
+            "PsychoacousticAnnoyance_Zwicker1999"
+          ],
+          "status": "available",
+          "validation": "cross-implementation"
+        },
+        {
+          "method": "psychoacoustic-annoyance",
+          "reference": "more-2010",
+          "functions": [
+            "PsychoacousticAnnoyance_More2010"
+          ],
+          "status": "available",
+          "validation": "cross-implementation"
+        },
+        {
+          "method": "psychoacoustic-annoyance",
+          "reference": "di-2016",
+          "functions": [
+            "PsychoacousticAnnoyance_Di2016"
+          ],
+          "status": "available",
+          "validation": "cross-implementation"
+        },
+        {
+          "method": "epnl",
+          "reference": "cfr-14-part-36",
+          "functions": [
+            "EPNL_FAR_Part36"
+          ],
+          "status": "available",
+          "validation": "cross-implementation"
+        },
+        {
+          "method": "loudness-ecma-418-2",
+          "reference": "ecma-418-2-ed4",
+          "functions": [
+            "Loudness_ECMA418_2"
+          ],
+          "status": "available",
+          "validation": "not-stated",
+          "note": "A wrapper that calls sottek-hearing-model."
+        },
+        {
+          "method": "roughness-ecma-418-2",
+          "reference": "ecma-418-2-ed4",
+          "functions": [
+            "Roughness_ECMA418_2"
+          ],
+          "status": "available",
+          "validation": "not-stated",
+          "note": "A wrapper that calls sottek-hearing-model."
+        },
+        {
+          "method": "tonality-ecma-418-2",
+          "reference": "ecma-418-2-ed4",
+          "functions": [
+            "Tonality_ECMA418_2"
+          ],
+          "status": "available",
+          "validation": "not-stated",
+          "note": "A wrapper that calls sottek-hearing-model."
+        }
+      ],
+      "sources": [
+        "https://github.com/PALILA-TUDelft/pySQAT/blob/main/README.md",
+        "https://github.com/PALILA-TUDelft/pySQAT/tree/main/validation",
+        "https://github.com/PALILA-TUDelft/pySQAT/issues/1"
+      ],
+      "checked": "2026-10-06",
+      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/pysqat.html",
+      "last_commit": "2026-06-27",
+      "latest_release": null,
+      "prerelease": null,
+      "activity": "active",
+      "archived": false,
+      "stars": null
+    },
+    {
+      "id": "sottek-hearing-model",
+      "name": "sottek-hearing-model",
+      "repository": "https://github.com/mlotinga/sottek-hearing-model",
+      "languages": [
+        "Python"
+      ],
+      "kind": "library",
+      "license": "GPL-3.0-only",
+      "license_note": "The LICENSE file has always been GPL-3.0 and the project metadata was changed to GPL-3.0-only on 2026-08-31; the metadata of the current PyPI release (0.1.14) still says AGPL-3.0-only.",
+      "packages": [
+        {
+          "registry": "pypi",
+          "name": "sottek-hearing-model"
+        }
+      ],
+      "install": "pip install sottek-hearing-model",
+      "maintainers": [
+        "Mike Lotinga"
+      ],
+      "summary": "Python implementation of the ECMA-418-2:2025 (4th edition) Sottek Hearing Model metrics: loudness, tonality and roughness, with binaural combination, and fluctuation strength on the main branch. Translated from the MATLAB code used in SQAT and the RefMap project.",
+      "ai_assistance": "not-stated",
+      "paper": {
+        "citation": "Lotinga, M. J. B., Torjussen, M., & Felix Greco, G. (2025). Verified implementations of the Sottek psychoacoustic Hearing Model standardised sound quality metrics (ECMA-418-2 loudness, tonality and roughness). *Forum Acusticum / Euronoise 2025*, Málaga.",
+        "doi": "10.61782/fa.2025.0951"
+      },
+      "notes": [
+        "The paper verifies the MATLAB implementations of the 3rd edition, from which this package was translated; it does not cover the Python package itself.",
+        "Maintained by one person at the University of Salford (RefMap project). Requires Python 3.11 or newer.",
+        "pySQAT calls this package for its ECMA-418-2 metrics."
+      ],
+      "caveats": [
+        "Fluctuation strength is only on the main branch (not on PyPI yet) and its verification report is marked as a draft.",
+        "Versions up to 0.1.13 are affected by an empty-array bug fixed in 0.1.14 ([#9](https://github.com/mlotinga/sottek-hearing-model/issues/9))."
+      ],
+      "implements": [
+        {
+          "method": "loudness-ecma-418-2",
+          "reference": "ecma-418-2-ed4",
+          "functions": [
+            "shm_loudness_ecma",
+            "shm_loudness_ecma_from_comp"
+          ],
+          "scope": "mono or stereo, with combined binaural output",
+          "status": "available",
+          "since": "0.1.9",
+          "validation": "standard-data",
+          "note": "Unit tests check the standard's calibration signals (1 kHz, 40 dB gives 1 sone_HMS); the MATLAB code it was translated from was compared with commercial reference software in the paper."
+        },
+        {
+          "method": "tonality-ecma-418-2",
+          "reference": "ecma-418-2-ed4",
+          "functions": [
+            "shm_tonality_ecma"
+          ],
+          "status": "available",
+          "since": "0.1.9",
+          "validation": "standard-data",
+          "note": "Optional experimental tonal-annoyance weighting (Sottek & Becker, 2019) since 0.1.14."
+        },
+        {
+          "method": "roughness-ecma-418-2",
+          "reference": "ecma-418-2-ed4",
+          "functions": [
+            "shm_roughness_ecma"
+          ],
+          "scope": "with combined binaural output",
+          "status": "available",
+          "since": "0.1.9",
+          "validation": "standard-data"
+        },
+        {
+          "method": "fluctuation-strength-ecma-418-2",
+          "reference": "ecma-418-2-ed4",
+          "functions": [
+            "shm_fluctuation_ecma"
+          ],
+          "scope": "needs at least 1.37 s of signal; binaural option",
+          "status": "unreleased",
+          "validation": "cross-implementation",
+          "note": "Merged on 2026-09-18. A draft report compares it with the MATLAB version (equal to floating-point precision) and with HEAD ArtemiS SUITE v17 (calibration 0.994 vs 1.003 vacil_HMS; recordings −8 % to +12 %). Five departures from the printed equations, judged to be misprints, are documented."
+        }
+      ],
+      "sources": [
+        "https://github.com/mlotinga/sottek-hearing-model/blob/main/README.md",
+        "https://github.com/mlotinga/sottek-hearing-model/blob/main/LICENSE",
+        "https://github.com/mlotinga/sottek-hearing-model/blob/main/docs/validation/fluctuation_strength_verification.md",
+        "https://pypi.org/project/sottek-hearing-model/",
+        "https://github.com/mlotinga/sottek-hearing-model/issues/9"
+      ],
+      "checked": "2026-10-06",
+      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/sottek-hearing-model.html",
+      "last_commit": "2026-09-18",
+      "latest_release": {
+        "version": "0.1.14",
+        "date": "2026-03-13",
+        "source": ""
+      },
+      "prerelease": null,
+      "activity": "active",
+      "archived": false,
+      "stars": null
+    },
+    {
+      "id": "sqat",
+      "name": "SQAT",
+      "repository": "https://github.com/ggrecow/SQAT",
+      "docs": "https://github.com/ggrecow/SQAT#readme",
+      "languages": [
+        "MATLAB"
+      ],
+      "kind": "toolbox",
+      "license": "GPL-3.0-or-later (main) / CC-BY-NC-4.0 (releases)",
+      "license_note": "The default branch has been GPL-3.0-or-later since 2026-09-15, with BSD-3-Clause (ISO 532-1 loudness), MIT (Daniel & Weber roughness and nine utilities) and CC0-1.0 (colour maps) exceptions. Every release up to and including v1.3 is CC-BY-NC-4.0 (non-commercial) at repository level, while 21 metric files in v1.3 carry BSD-style notices and the ECMA-418-2 files say GPL-3.0.",
+      "maintainers": [
+        "Gil Felix Greco",
+        "Roberto Merino-Martínez",
+        "Alejandro Osses",
+        "Mike Lotinga"
+      ],
+      "summary": "MATLAB toolbox for sound quality analysis that bundles most psychoacoustic metrics in one place: ISO 532-1 and ECMA-418-2 loudness, DIN 45692 sharpness, Daniel & Weber and ECMA-418-2 roughness, Osses fluctuation strength, Aures and ECMA-418-2 tonality, four psychoacoustic annoyance models and EPNL. Each metric has its own verification routine.",
+      "ai_assistance": "disclosed",
+      "ai_note": "Header comments in 20 files changed in August and September 2026 say the changes were assisted by Claude (Anthropic) and verified by the authors; 32 commits carry AI co-author trailers. The README has no AI statement.",
+      "paper": {
+        "citation": "Felix Greco, G., Merino-Martínez, R., Osses, A., & Langer, S. C. (2023). SQAT: a MATLAB-based toolbox for quantitative sound quality analysis. *Proceedings of INTER-NOISE 2023*, Chiba, Japan.",
+        "doi": "10.3397/IN_2023_1075"
+      },
+      "notes": [
+        "The README lists 61 studies and theses that use SQAT. Software DOI (all versions) [10.5281/zenodo.7934709](https://doi.org/10.5281/zenodo.7934709).",
+        "The latest release is v1.3 (2025-04-04); about 200 commits have been made on `main` since. Most of the metric-correctness work of August–September 2026 came from an external contributor through about 20 pull requests.",
+        "The ECMA-418-2 functions come from the RefMap MATLAB code by Lotinga and Torjussen (University of Salford).",
+        "Open pull requests: [#78](https://github.com/ggrecow/SQAT/pull/78) (ECMA-418-2 fluctuation strength) and [#84](https://github.com/ggrecow/SQAT/pull/84) (graphical interface)."
+      ],
+      "caveats": [
+        "The latest release (v1.3) is licensed for non-commercial use only; the GPL licence applies to the unreleased `main` branch.",
+        "`main` contains breaking fixes that are not in any release: six deviations in ISO 532-1 time-varying loudness ([#48](https://github.com/ggrecow/SQAT/pull/48); test signal 10 deviated by 18.14 % in v1.3), eight defects in Aures tonality ([#67](https://github.com/ggrecow/SQAT/issues/67)), a rewrite of Daniel & Weber roughness ([#65](https://github.com/ggrecow/SQAT/pull/65)), the sound level meter time weighting ([#51](https://github.com/ggrecow/SQAT/pull/51)) and a faster annoyance calculation ([#42](https://github.com/ggrecow/SQAT/pull/42)). Results from v1.3 and `main` differ.",
+        "The README warns that `main` may contain changes that are not yet fully verified and recommends using a release."
+      ],
+      "implements": [
+        {
+          "method": "loudness-zwicker",
+          "reference": "iso-532-1-2017",
+          "functions": [
+            "Loudness_ISO532_1",
+            "Loudness_ISO532_1_from_wavfile"
+          ],
+          "scope": "stationary and time-varying",
+          "status": "available",
+          "since": "v1.0",
+          "validation": "standard-data",
+          "note": "Checked with the 25 test signals of Annex B.2–B.5 against the standard's tolerances. Fixes to the time-varying procedure are on `main` only (PR #48)."
+        },
+        {
+          "method": "sharpness",
+          "reference": "din-45692-2009",
+          "functions": [
+            "Sharpness_DIN45692",
+            "Sharpness_DIN45692_from_loudness",
+            "Sharpness_DIN45692_from_wavfile"
+          ],
+          "scope": "DIN 45692 weighting, plus von Bismarck and Aures options",
+          "status": "available",
+          "since": "v1.0",
+          "validation": "standard-data",
+          "note": "Checked with the narrowband and broadband test signals of DIN 45692."
+        },
+        {
+          "method": "roughness-daniel-weber",
+          "reference": "daniel-weber-1997",
+          "functions": [
+            "Roughness_Daniel1997",
+            "Roughness_Daniel1997_from_wavfile"
+          ],
+          "status": "available",
+          "since": "v1.0",
+          "validation": "standard-data",
+          "note": "Checked against amplitude- and frequency-modulation dependences from the literature. Rewritten on `main` (PR #65, 2026-09-08) after revised code from Dik Hermes: 63 of 119 validation values go up and 56 down (largest change 0.155 asper)."
+        },
+        {
+          "method": "fluctuation-strength-osses",
+          "reference": "osses-2016",
+          "functions": [
+            "FluctuationStrength_Osses2016",
+            "FluctuationStrength_Osses2016_from_wavfile"
+          ],
+          "status": "available",
+          "since": "v1.0",
+          "validation": "standard-data",
+          "note": "Checked against amplitude- and frequency-modulation dependences from the literature."
+        },
+        {
+          "method": "tonality-aures",
+          "reference": "aures-1985-euphony",
+          "functions": [
+            "Tonality_Aures1985",
+            "Tonality_Aures1985_from_wavfile"
+          ],
+          "status": "available",
+          "since": "v1.0",
+          "validation": "standard-data",
+          "note": "v1.3 is checked with one signal-to-noise comparison. Eight defects were fixed on `main` in September 2026 (for example, only one tonal component's level excess entered the result, and tones were removed from the wrong spectrum), with new checks against Aures's Figs. 5 and 6."
+        },
+        {
+          "method": "psychoacoustic-annoyance",
+          "reference": "zwicker-fastl-1999",
+          "functions": [
+            "PsychoacousticAnnoyance_Zwicker1999",
+            "PsychoacousticAnnoyance_Zwicker1999_from_percentile"
+          ],
+          "status": "available",
+          "since": "v1.0",
+          "validation": "not-stated"
+        },
+        {
+          "method": "psychoacoustic-annoyance",
+          "reference": "widmann-1992",
+          "functions": [
+            "PsychoacousticAnnoyance_Widmann1992",
+            "PsychoacousticAnnoyance_Widmann1992_from_percentile"
+          ],
+          "status": "unreleased",
+          "validation": "not-stated",
+          "note": "Added on `main` in June 2025; the README describes it as the same model as the Zwicker & Fastl entry under its original attribution."
+        },
+        {
+          "method": "psychoacoustic-annoyance",
+          "reference": "more-2010",
+          "functions": [
+            "PsychoacousticAnnoyance_More2010",
+            "PsychoacousticAnnoyance_More2010_from_percentile"
+          ],
+          "status": "available",
+          "since": "v1.0",
+          "validation": "not-stated",
+          "note": "No verification routine (README)."
+        },
+        {
+          "method": "psychoacoustic-annoyance",
+          "reference": "di-2016",
+          "functions": [
+            "PsychoacousticAnnoyance_Di2016",
+            "PsychoacousticAnnoyance_Di2016_from_percentile"
+          ],
+          "status": "available",
+          "since": "v1.0",
+          "validation": "not-stated",
+          "note": "No verification routine (README)."
+        },
+        {
+          "method": "epnl",
+          "reference": "cfr-14-part-36",
+          "functions": [
+            "EPNL_FAR_Part36",
+            "get_PNL",
+            "get_PNLT",
+            "get_Duration_Correction"
+          ],
+          "status": "available",
+          "since": "v1.1",
+          "validation": "cross-implementation",
+          "note": "The README says no reference implementation or test signals exist, so it was only cross-checked. Follows Amendment 36-26 (2005)."
+        },
+        {
+          "method": "loudness-ecma-418-2",
+          "reference": "ecma-418-2-ed3",
+          "functions": [
+            "Loudness_ECMA418_2",
+            "LoudnessFromComp_ECMA418_2"
+          ],
+          "scope": "mono or two channels with binaural combination",
+          "status": "available",
+          "since": "v1.3",
+          "validation": "cross-implementation",
+          "note": "Checked against equal-loudness contours and against reference results from commercial software on a binaural recording."
+        },
+        {
+          "method": "loudness-ecma-418-2",
+          "reference": "ecma-418-2-ed4",
+          "functions": [
+            "Loudness_ECMA418_2",
+            "LoudnessFromComp_ECMA418_2"
+          ],
+          "status": "unreleased",
+          "validation": "cross-implementation",
+          "note": "Updated to the 4th edition on `main` in 2025."
+        },
+        {
+          "method": "roughness-ecma-418-2",
+          "reference": "ecma-418-2-ed3",
+          "functions": [
+            "Roughness_ECMA418_2"
+          ],
+          "scope": "with binaural combination",
+          "status": "available",
+          "since": "v1.3",
+          "validation": "cross-implementation"
+        },
+        {
+          "method": "roughness-ecma-418-2",
+          "reference": "ecma-418-2-ed4",
+          "functions": [
+            "Roughness_ECMA418_2"
+          ],
+          "status": "unreleased",
+          "validation": "cross-implementation",
+          "note": "Amended to the 4th edition on `main` in November 2025."
+        },
+        {
+          "method": "tonality-ecma-418-2",
+          "reference": "ecma-418-2-ed3",
+          "functions": [
+            "Tonality_ECMA418_2"
+          ],
+          "status": "available",
+          "since": "v1.3",
+          "validation": "cross-implementation"
+        },
+        {
+          "method": "tonality-ecma-418-2",
+          "reference": "ecma-418-2-ed4",
+          "functions": [
+            "Tonality_ECMA418_2"
+          ],
+          "status": "unreleased",
+          "validation": "cross-implementation",
+          "note": "A verification against Annex B.2 (PR #79) was merged and reverted on 2026-09-21 because the Annex B values of the 2025 edition appear to be out of date."
+        },
+        {
+          "method": "fluctuation-strength-ecma-418-2",
+          "reference": "ecma-418-2-ed4",
+          "functions": [
+            "FluctuationStrength_ECMA418_2"
+          ],
+          "status": "proposed",
+          "link": "https://github.com/ggrecow/SQAT/pull/78",
+          "validation": "not-stated",
+          "note": "Open pull request since 2026-09-17."
+        }
+      ],
+      "sources": [
+        "https://github.com/ggrecow/SQAT/blob/main/README.md",
+        "https://github.com/ggrecow/SQAT/blob/main/LICENSE",
+        "https://github.com/ggrecow/SQAT/blob/main/citation.cff",
+        "https://github.com/ggrecow/SQAT/releases",
+        "https://github.com/ggrecow/SQAT/issues/67",
+        "https://github.com/ggrecow/SQAT/pull/48",
+        "https://github.com/ggrecow/SQAT/pull/65",
+        "https://github.com/ggrecow/SQAT/pull/78",
+        "https://github.com/ggrecow/SQAT/pull/79"
+      ],
+      "checked": "2026-10-06",
+      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/sqat.html",
+      "last_commit": "2026-10-02",
+      "latest_release": {
+        "version": "v1.3",
+        "date": "2025-04-04",
+        "source": ""
+      },
+      "prerelease": null,
+      "activity": "active",
+      "archived": false,
+      "stars": null
     }
   ],
   "gaps": [
-    "loudness-moore-glasberg",
-    "loudness-moore-glasberg-time-varying",
     "roughness-din-38455",
-    "fluctuation-strength-osses",
-    "fluctuation-strength-ecma-418-2",
-    "tone-to-noise-prominence-ratio",
     "tonality-din-45681",
     "tonal-audibility-iso-20065",
-    "tonal-audibility-iso-1996-2",
-    "tonal-audibility-iec-61400-11",
-    "impulsiveness",
-    "psychoacoustic-annoyance",
-    "equal-loudness-contours",
-    "epnl",
     "aural-detectability"
+  ],
+  "leads": [
+    {
+      "name": "PsyTools (TU Graz)",
+      "url": "https://gitlab.tugraz.at/11F34386B3DC1474/psytools",
+      "languages": [
+        "Python"
+      ],
+      "claim": "Search results describe a Python toolbox with ISO 532-1 loudness, DIN 45692 sharpness, ECMA-418 tonality and hearing model, fluctuation strength, roughness and psychoacoustic annoyance (paper from May 2026).",
+      "why": "The GitLab host could not be reached from the checking environment.",
+      "checked": "2026-10-06"
+    },
+    {
+      "name": "ITA-Toolbox (RWTH Aachen)",
+      "url": "https://git.rwth-aachen.de/ita/toolbox",
+      "languages": [
+        "MATLAB"
+      ],
+      "claim": "Contains `ita_loudness` and `ita_loudness_timevariant` (associated with ISO 532 in search results).",
+      "why": "The GitLab host could not be reached from the checking environment.",
+      "checked": "2026-10-06"
+    },
+    {
+      "name": "Genesis Loudness Toolbox",
+      "url": "http://www.genesis-acoustics.com/index.php?page=32",
+      "languages": [
+        "MATLAB"
+      ],
+      "claim": "Free MATLAB toolbox (about 2010) said to cover ISO 532B, ANSI S3.4-2007, Glasberg & Moore (2002), Zwicker's time-varying model and a loudness model for impulsive sounds.",
+      "why": "The download page could not be reached; licence and availability are unknown.",
+      "checked": "2026-10-06"
+    },
+    {
+      "name": "Codes for the rapid calculation of loudness and sharpness (MATLAB File Exchange 73808)",
+      "url": "https://www.mathworks.com/matlabcentral/fileexchange/73808-codes-for-the-rapid-calculation-of-loudness-and-sharpness",
+      "languages": [
+        "MATLAB"
+      ],
+      "claim": "Sharpness computed from Moore–Glasberg (ANSI S3.4) specific loudness after Swift & Gee (2017), plus several loudness methods.",
+      "why": "MATLAB File Exchange could not be reached from the checking environment.",
+      "checked": "2026-10-06"
+    },
+    {
+      "name": "Salford sound quality MATLAB codes",
+      "url": "https://acoustics.salford.ac.uk/psychoacoustics/sound-quality-making-products-sound-better/an-introduction-to-sound-quality-testing/matlab-codes/",
+      "languages": [
+        "MATLAB"
+      ],
+      "claim": "Functions named `loudness_1991`, `sharpness_Fastl` and `roughness4`.",
+      "why": "The page could not be reached; models and licence are unknown.",
+      "checked": "2026-10-06"
+    },
+    {
+      "name": "Time-varying specific loudness GUI (HAW Hamburg)",
+      "url": "https://zenodo.org/records/7361480",
+      "languages": [
+        "MATLAB"
+      ],
+      "claim": "MATLAB interface for Chalupper & Fastl (2002), Baumgarte (2000) and Glasberg & Moore specific loudness.",
+      "why": "Zenodo could not be reached from the checking environment.",
+      "checked": "2026-10-06"
+    },
+    {
+      "name": "Mosqito.NET",
+      "url": "https://github.com/onur-akaydin/Mosqito.NET",
+      "languages": [
+        "C#"
+      ],
+      "claim": "C# / .NET port of MoSQITo (Apache-2.0), announced in MoSQITo issue",
+      "why": "Not checked yet.",
+      "checked": "2026-10-06"
+    },
+    {
+      "name": "Cambridge Hearing Group loudness programs",
+      "url": "https://www.psychol.cam.ac.uk/hearing#programs",
+      "languages": [
+        "MATLAB"
+      ],
+      "claim": "Programs for the Moore–Glasberg loudness models from the models' authors; LoudnessModel names this page as the source of the MATLAB code it translated.",
+      "why": "The page could not be reached; licence terms are unknown.",
+      "checked": "2026-10-06"
+    }
   ],
   "updates": [
     {

@@ -11,6 +11,7 @@ directory. Edit these files, never the generated output.
 | `projects/<id>.yaml` | people | One file per indexed project, including what it implements |
 | `updates.yaml` | people | Dated notes shown on the Updates page, in the Atom feed and in `CHANGELOG.md` |
 | `ignored.yaml` | people | Candidates that were reviewed and not included, so discovery does not report them again |
+| `leads.yaml` | people | Candidates that could not be checked yet (shown on the About page, never as facts) |
 | `snapshot.json` | `scripts/refresh.py` | Repository and package metadata fetched from GitHub, PyPI and crates.io |
 | `standards-watch.json` | `scripts/watch_standards.py` | Last seen state of standards pages that are watched for new editions |
 | `index.json` | `scripts/build.py` | The whole index as one JSON document (generated, do not edit) |
@@ -182,5 +183,16 @@ A project counts as **inactive** when its last commit on the default branch is o
 ```yaml
 - url: https://github.com/example/repo
   reason: Implements LUFS only (out of scope).
+  checked: 2026-10-06
+```
+
+## `leads.yaml`
+
+```yaml
+- name: Example toolbox
+  url: https://gitlab.example.org/group/toolbox
+  languages: [MATLAB]
+  claim: What the candidate is said to implement (markdown).
+  why: Why it has not been checked yet (markdown).
   checked: 2026-10-06
 ```

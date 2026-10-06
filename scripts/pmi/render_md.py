@@ -49,12 +49,15 @@ def _table(head: list[str], rows: list[list[str]]) -> list[str]:
 def _impl_note(i: dict) -> str:
     bits = []
     if i["status"] != "available":
-        bits.append(i["status"] + (f" ({i['link']})" if i.get("link") else ""))
-    if i.get("since"):
-        bits.append(f"since {i['since']}")
+        bits.append(i["status"].capitalize() + (f" ({i['link']})" if i.get("link") else "") + ".")
     if i.get("note"):
-        bits.append(i["note"])
-    return "; ".join(bits)
+        bits.append(i["note"].strip())
+    return " ".join(bits)
+
+
+def _edition(i: dict) -> str:
+    extra = ([i["scope"]] if i.get("scope") else []) + ([f"since {i['since']}"] if i.get("since") else [])
+    return i["_ref"]["label"] + (f" ({'; '.join(extra)})" if extra else "")
 
 
 def _functions(i: dict) -> str:
@@ -98,8 +101,7 @@ def method_page(index: Index, m: dict) -> str:
 
     lines += ["## Implementations", ""]
     if m["_impls"]:
-        rows = [[name(i["_project"]), ", ".join(i["_project"]["languages"]),
-                 i["_ref"]["label"] + (f" — {i['scope']}" if i.get("scope") else ""), _functions(i),
+        rows = [[name(i["_project"]), ", ".join(i["_project"]["languages"]), _edition(i), _functions(i),
                  VALIDATION[i["validation"]], _impl_note(i)] for i in m["_impls"]]
         lines += _table(["Project", "Language", "Edition", "Functions", "Validation (as stated)", "Notes"], rows)
     else:
@@ -146,10 +148,8 @@ def project_page(index: Index, p: dict) -> str:
     lines += [f"- **{k}:** {v}" for k, v in facts] + [""]
 
     lines += ["## What it implements", ""]
-    rows = [[_method_link(index, i["_method"]), i["_ref"]["label"] + (f" — {i['scope']}" if i.get("scope") else ""),
-             _functions(i), i["status"], VALIDATION[i["validation"]],
-             "; ".join(x for x in [f"since {i['since']}" if i.get("since") else "", i.get("note") or ""] if x)]
-            for i in p["_impls"]]
+    rows = [[_method_link(index, i["_method"]), _edition(i), _functions(i), i["status"], VALIDATION[i["validation"]],
+             (i.get("note") or "").strip()] for i in p["_impls"]]
     lines += _table(["Metric", "Edition", "Functions", "Status", "Validation (as stated)", "Notes"], rows) + [""]
     if p.get("notes"):
         lines += ["## Notes", ""] + [f"- {oneline(n)}" for n in p["notes"]] + [""]
@@ -276,6 +276,12 @@ def about_page(index: Index) -> str:
     lines += _table(["Value", "Meaning"], [[k, v] for k, v in IMPL_STATUS_LONG.items()]) + [""]
     lines += ["## Validation evidence", "", "As stated by each project:", ""]
     lines += _table(["Value", "Meaning"], [[VALIDATION[k], v] for k, v in VALIDATION_LONG.items()]) + [""]
+    lines += ["## Leads not yet verified", "",
+              "Candidates that may belong in the index but could not be checked yet; nothing here has been confirmed.", ""]
+    lines += [f"- [{l['name']}]({l['url']}) ({', '.join(l.get('languages') or [])}): {oneline(l['claim'])} {oneline(l['why'])}"
+              for l in index.leads] + [""]
+    lines += ["Not indexed because they are closed source: MATLAB Audio Toolbox, HEAD acoustics ArtemiS SUITE, "
+              "Simcenter Testlab, HBK BK Connect and Ansys Sound.", ""]
     lines += ["## Machine-readable data", "",
               f"- [index.json]({site['base_url']}index.json): the whole index as JSON",
               f"- [llms.txt]({site['base_url']}llms.txt) and [llms-full.txt]({site['base_url']}llms-full.txt): "

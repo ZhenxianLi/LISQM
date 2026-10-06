@@ -1,0 +1,78 @@
+id: sottek-hearing-model
+name: sottek-hearing-model
+repository: https://github.com/mlotinga/sottek-hearing-model
+languages: [Python]
+kind: library
+license: GPL-3.0-only
+license_note: >-
+  The LICENSE file has always been GPL-3.0 and the project metadata was changed to GPL-3.0-only on 2026-08-31;
+  the metadata of the current PyPI release (0.1.14) still says AGPL-3.0-only.
+packages:
+  - registry: pypi
+    name: sottek-hearing-model
+install: pip install sottek-hearing-model
+maintainers: [Mike Lotinga]
+summary: >-
+  Python implementation of the ECMA-418-2:2025 (4th edition) Sottek Hearing Model metrics: loudness, tonality
+  and roughness, with binaural combination, and fluctuation strength on the main branch. Translated from the
+  MATLAB code used in SQAT and the RefMap project.
+ai_assistance: not-stated
+paper:
+  citation: >-
+    Lotinga, M. J. B., Torjussen, M., & Felix Greco, G. (2025). Verified implementations of the Sottek
+    psychoacoustic Hearing Model standardised sound quality metrics (ECMA-418-2 loudness, tonality and roughness).
+    *Forum Acusticum / Euronoise 2025*, Málaga.
+  doi: 10.61782/fa.2025.0951
+notes:
+  - The paper verifies the MATLAB implementations of the 3rd edition, from which this package was translated; it does not cover the Python package itself.
+  - Maintained by one person at the University of Salford (RefMap project). Requires Python 3.11 or newer.
+  - pySQAT calls this package for its ECMA-418-2 metrics.
+caveats:
+  - Fluctuation strength is only on the main branch (not on PyPI yet) and its verification report is marked as a draft.
+  - Versions up to 0.1.13 are affected by an empty-array bug fixed in 0.1.14 ([#9](https://github.com/mlotinga/sottek-hearing-model/issues/9)).
+implements:
+  - method: loudness-ecma-418-2
+    reference: ecma-418-2-ed4
+    functions: [shm_loudness_ecma, shm_loudness_ecma_from_comp]
+    scope: mono or stereo, with combined binaural output
+    status: available
+    since: 0.1.9
+    validation: standard-data
+    note: >-
+      Unit tests check the standard's calibration signals (1 kHz, 40 dB gives 1 sone_HMS); the MATLAB code it
+      was translated from was compared with commercial reference software in the paper.
+  - method: tonality-ecma-418-2
+    reference: ecma-418-2-ed4
+    functions: [shm_tonality_ecma]
+    status: available
+    since: 0.1.9
+    validation: standard-data
+    note: Optional experimental tonal-annoyance weighting (Sottek & Becker, 2019) since 0.1.14.
+  - method: roughness-ecma-418-2
+    reference: ecma-418-2-ed4
+    functions: [shm_roughness_ecma]
+    scope: with combined binaural output
+    status: available
+    since: 0.1.9
+    validation: standard-data
+  - method: fluctuation-strength-ecma-418-2
+    reference: ecma-418-2-ed4
+    functions: [shm_fluctuation_ecma]
+    scope: needs at least 1.37 s of signal; binaural option
+    status: unreleased
+    validation: cross-implementation
+    note: >-
+      Merged on 2026-09-18. A draft report compares it with the MATLAB version (equal to floating-point precision)
+      and with HEAD ArtemiS SUITE v17 (calibration 0.994 vs 1.003 vacil_HMS; recordings −8 % to +12 %). Five
+      departures from the printed equations, judged to be misprints, are documented.
+manual:
+  last_commit: 2026-09-18
+  latest_release: {version: 0.1.14, date: 2026-03-13}
+  archived: false
+sources:
+  - https://github.com/mlotinga/sottek-hearing-model/blob/main/README.md
+  - https://github.com/mlotinga/sottek-hearing-model/blob/main/LICENSE
+  - https://github.com/mlotinga/sottek-hearing-model/blob/main/docs/validation/fluctuation_strength_verification.md
+  - https://pypi.org/project/sottek-hearing-model/
+  - https://github.com/mlotinga/sottek-hearing-model/issues/9
+checked: 2026-10-06

@@ -2,14 +2,15 @@
    A plain, typographic layout: one reading column, serif text, tables with thin rules, ordinary links.
    No frameworks, no web fonts, no JavaScript. */
 
+/* Layout: one reading column for prose; tables may widen around it. Neutrals lean slightly towards the link ink. */
 :root {
-  --bg: #fcfbf8;
-  --text: #1f1d1a;
-  --muted: #69645b;
-  --faint: #8f897e;
-  --rule: #d9d4c9;
-  --rule-strong: #3a3732;
-  --hairline: #ece8df;
+  --bg: #ffffff;
+  --text: #1b1d21;
+  --muted: #5e6570;
+  --faint: #868d98;
+  --rule: #d7dbe1;
+  --rule-strong: #2e3238;
+  --hairline: #eceef2;
   --link: #1f4f8f;
   --link-hover: #12325e;
   --serif: Charter, "Bitstream Charter", "Sitka Text", Cambria, "Iowan Old Style", "Palatino Linotype",
@@ -22,29 +23,29 @@
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #171614;
-    --text: #e9e5dc;
-    --muted: #a7a195;
-    --faint: #857f74;
-    --rule: #3c3934;
-    --rule-strong: #cfc9bd;
-    --hairline: #2a2825;
-    --link: #9dbcef;
-    --link-hover: #c9daf6;
+    --bg: #15171a;
+    --text: #e4e7eb;
+    --muted: #a2a9b3;
+    --faint: #7f8692;
+    --rule: #353a42;
+    --rule-strong: #c9ced6;
+    --hairline: #262a30;
+    --link: #93b4ec;
+    --link-hover: #c4d6f6;
     color-scheme: dark;
   }
 }
 
 :root[data-theme="dark"] {
-  --bg: #171614;
-  --text: #e9e5dc;
-  --muted: #a7a195;
-  --faint: #857f74;
-  --rule: #3c3934;
-  --rule-strong: #cfc9bd;
-  --hairline: #2a2825;
-  --link: #9dbcef;
-  --link-hover: #c9daf6;
+  --bg: #15171a;
+  --text: #e4e7eb;
+  --muted: #a2a9b3;
+  --faint: #7f8692;
+  --rule: #353a42;
+  --rule-strong: #c9ced6;
+  --hairline: #262a30;
+  --link: #93b4ec;
+  --link-hover: #c4d6f6;
   color-scheme: dark;
 }
 
@@ -232,9 +233,9 @@ h2 + .byline {
   color: var(--muted);
 }
 
-.in-short {
-  padding-left: 1rem;
-  border-left: 2px solid var(--rule-strong);
+.in-short strong:first-child {
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.04em;
 }
 
 .muted {

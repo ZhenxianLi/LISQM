@@ -64,6 +64,7 @@ def index_json(index: Index) -> str:
         "references": [_clean(r) for r in index.references],
         "projects": projects,
         "gaps": [m["id"] for m in index.gaps()],
+        "leads": [_clean(l) for l in index.leads],
         "updates": [_clean(u) for u in index.updates],
     }
     return json.dumps(doc, ensure_ascii=False, indent=2) + "\n"

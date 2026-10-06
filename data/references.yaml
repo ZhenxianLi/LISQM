@@ -148,6 +148,18 @@
   checked: 2026-10-06
 
 
+- id: chalupper-fastl-2002
+  label: Chalupper & Fastl (2002)
+  kind: paper
+  body: paper
+  title: Dynamic loudness model (DLM) for normal and hearing-impaired listeners
+  date: 2002
+  status: published
+  citation: >-
+    Chalupper, J., & Fastl, H. (2002). Dynamic loudness model (DLM) for normal and hearing-impaired
+    listeners. *Acta Acustica united with Acustica*, 88(3), 378–386.
+  checked: 2026-10-06
+
 - id: moore-2016
   label: Moore et al. (2016)
   kind: paper
