@@ -14,7 +14,7 @@ import re
 from .data import (GROUPS, IMPL_STATUS_LONG, PROJECT_KINDS, REGISTRIES, VALIDATION, VALIDATION_LONG,
                    Index, only_new)
 from .describe import (COVERAGE_COLUMNS, GROUP_RULE, ONLY_NEW, activity_text, ai_guide, by_language, coverage, current_statement,
-                       dedupe, edition_state, faq, impl_phrase, language_order, ref_status, release_text,
+                       dedupe, edition_state, faq, impl_phrase, introduce, language_order, ref_status, release_text,
                        standing_sentence, time_bins, timeline)
 from .paths import (ABOUT, AI, FAQ, HOME, LANGUAGES, METRICS, PROJECTS, STANDARDS, UPDATES, absolute, md_twin,
                     method_path, project_path, relative)
@@ -82,7 +82,7 @@ def layout(index: Index, path: str, *, title: str, description: str, body: str, 
             payload = {"@context": "https://schema.org", **payload}
         ld = ('<script type="application/ld+json">\n'
               + json.dumps(payload, ensure_ascii=False, indent=1).replace("</", "<\\/") + "\n</script>\n")
-    page_title = title if path == HOME else f"{title} · {site['title']}"
+    page_title = title if path == HOME else f"{title} · {site['name']}"
     md_head = (f'<link rel="alternate" type="text/markdown" href="{esc(rel(md_twin(path)))}" title="Markdown version">\n'
                if markdown else "")
     md_foot = f'<a href="{rel(md_twin(path))}">This page as Markdown</a> · ' if markdown else ""
@@ -97,12 +97,12 @@ def layout(index: Index, path: str, *, title: str, description: str, body: str, 
 <title>{esc(page_title)}</title>
 <meta name="description" content="{esc(description)}">
 <link rel="canonical" href="{esc(canonical)}">
-{md_head}<link rel="alternate" type="application/atom+xml" href="{esc(rel('feed.xml'))}" title="{esc(site['title'])}: updates">
+{md_head}<link rel="alternate" type="application/atom+xml" href="{esc(rel('feed.xml'))}" title="{esc(site['name'])}: updates">
 <link rel="icon" href="{esc(rel('favicon.svg'))}" type="image/svg+xml">
 <link rel="stylesheet" href="{esc(rel('style.css'))}">
 <meta name="theme-color" content="#25c59b">
 <meta property="og:type" content="{og_type}">
-<meta property="og:site_name" content="{esc(site['title'])}">
+<meta property="og:site_name" content="{esc(site['name'])}">
 <meta property="og:title" content="{esc(title)}">
 <meta property="og:description" content="{esc(description)}">
 <meta property="og:url" content="{esc(canonical)}">
@@ -114,7 +114,7 @@ def layout(index: Index, path: str, *, title: str, description: str, body: str, 
 <a class="skip" href="#content">Skip to content</a>
 <header class="masthead" id="top">
 <div class="container masthead-row">
-<a class="brand" href="{rel(HOME)}">{LOGO}<span class="brand-text"><span class="brand-name">{esc(site['title'])}</span><span class="brand-tagline">{esc(site.get('tagline', ''))}</span></span></a>
+<a class="brand" href="{rel(HOME)}">{LOGO}<span class="brand-text"><span class="brand-name">{esc(site['name'])}</span><span class="brand-tagline">{esc(site['tagline'])}</span></span></a>
 <p class="masthead-meta">Data as of {as_of}<br><a href="{esc(site['repository'])}">Source on GitHub</a></p>
 </div>
 <nav class="tabs" aria-label="Site"><div class="container">
@@ -364,8 +364,8 @@ def _lang_badge(lang: str) -> str:
 
 def _timeline_impl(path: str, i: dict, mark: bool = True) -> str:
     """One line per project: its language as a short code, the name (in bold for the most widely used projects),
-    a marker if the code is not released, and the marker of its group unless the group is folded under one; legacy
-    projects are grey. Version, languages and activity are in the tooltip."""
+    a marker if the code is not released, and the marker of its group unless it sits in a fold of that group only;
+    legacy projects are grey. Version, languages and activity are in the tooltip."""
     p = i["_project"]
     name = _breakable(p.get("short_name") or p["name"])
     if p["_mainstream"]:
@@ -382,27 +382,31 @@ def _timeline_impl(path: str, i: dict, mark: bool = True) -> str:
             f'<span class="nm">{" ".join(bits)}</span></li>')
 
 
-def _timeline_edition(path: str, m: dict, ref: dict, impls: list[dict]) -> str:
+# A timeline cell is long when it lists this many projects or more. There, the newly released, developing and legacy
+# projects of each edition fold together into one line.
+LONG_CELL = 5
+
+
+def _timeline_edition(path: str, m: dict, ref: dict, impls: list[dict], fold: bool = False) -> str:
     state = edition_state(m, ref)
     tip = f'{ref["title"]}. {ref_status(ref).capitalize()}.'
     label = f'<span class="ed-label" title="{esc(tip)}">{_breakable(ref["label"])}</span>'
     if state == "dev":
         label += " " + _tag("in development", "warn")
-    # Established projects first, then newly released, developing and legacy ones, each with its marker. Two or more
-    # projects of one of these groups fold into one line.
-    body, lines = "", []
-    for group in ("established", "newly-released", "developing", "legacy"):
-        members = [i for i in impls if i["_project"]["_group"] == group]
-        if len(members) >= 2 and group in GROUP_TAGS:
-            if lines:
-                body += f'<ul>{"".join(lines)}</ul>'
-                lines = []
-            body += (f'<details class="fold"><summary>{len(members)} {GROUP_TAGS[group]}</summary>'
-                     f'<ul>{"".join(_timeline_impl(path, i, mark=False) for i in members)}</ul></details>')
-        else:
-            lines += [_timeline_impl(path, i) for i in members]
-    if lines:
-        body += f'<ul>{"".join(lines)}</ul>'
+    # Established projects first, then newly released, developing and legacy ones, each with its marker (`impls` is
+    # in this order). With `fold`, two or more of the last three go together under one line that counts each kind.
+    rest = [i for i in impls if i["_project"]["_group"] in GROUP_TAGS] if fold else []
+    if len(rest) < 2:
+        rest = []
+    shown = [i for i in impls if not rest or i["_project"]["_group"] not in GROUP_TAGS]
+    body = f'<ul>{"".join(_timeline_impl(path, i) for i in shown)}</ul>' if shown else ""
+    if rest:
+        kinds = [g for g in GROUP_TAGS if any(i["_project"]["_group"] == g for i in rest)]
+        counts = " ".join(f'<span class="fold-n">{sum(i["_project"]["_group"] == g for i in rest)} '
+                          f'{GROUP_TAGS[g]}</span>' for g in kinds)
+        # The markers stay on the names when the fold holds more than one kind.
+        body += (f'<details class="fold"><summary>{counts}</summary>'
+                 f'<ul>{"".join(_timeline_impl(path, i, mark=len(kinds) > 1) for i in rest)}</ul></details>')
     cls = f"edition ed-{state}" if state else "edition"
     return f'<div class="{cls}">{label}{body}</div>'
 
@@ -423,7 +427,8 @@ def _timeline(index: Index, path: str) -> str:
             cells = []
             for n, cell in enumerate(row["cells"]):
                 cls = "bin life" if n >= row["first"] else "bin"
-                editions = "".join(_timeline_edition(path, m, ref, impls) for ref, impls in cell)
+                fold = sum(len(impls) for _, impls in cell) >= LONG_CELL
+                editions = "".join(_timeline_edition(path, m, ref, impls, fold) for ref, impls in cell)
                 cells.append(f'<td class="{cls}">{editions}</td>')
             lines.append(f'<tr><th scope="row" class="rowhead">{_method_link(path, m)}'
                          f'<span class="unit">{esc(m["unit"])}</span></th>' + "".join(cells) + "</tr>")
@@ -443,8 +448,8 @@ def _timeline(index: Index, path: str) -> str:
         "<p>No marker: established · <strong>bold name</strong>: one of the most widely used projects · "
         f"{NEW_TAG} newly released, first released less than about a year ago and not yet widely used · {DEV_TAG} "
         "public for more than a year, without a publication or documented use by others · "
-        f"{LEGACY_TAG} archived, or no commit for three years or more · two or more projects of one kind are "
-        "folded into one line (click to open)</p>"
+        f"{LEGACY_TAG} archived, or no commit for three years or more · in long cells, the newly released, "
+        "developing and legacy projects are folded together into one line (click to open)</p>"
         f'<p>{_tag("main", "warn")} merged, not in a release yet · {_tag("PR", "neutral")} open pull request · '
         "hover over a name for its languages, version and status</p>"
         "</div>")
@@ -522,8 +527,9 @@ def home(index: Index) -> str:
     parts.append("</div>")
 
     ld = [
-        {"@type": "WebSite", "name": site["title"], "url": site["base_url"], "description": plain(site["description"])},
-        {"@type": "Dataset", "name": site["title"], "description": plain(site["description"]),
+        {"@type": "WebSite", "name": site["name"], "alternateName": site["title"], "url": site["base_url"],
+         "description": plain(site["description"])},
+        {"@type": "Dataset", "name": f"{site['name']}: {site['title']}", "description": plain(site["description"]),
          "url": site["base_url"], "license": "https://opensource.org/licenses/MIT",
          "creator": {"@type": "Person", "name": site["maintainer"]["name"],
                      "url": f"https://github.com/{site['maintainer']['github']}"},
@@ -539,7 +545,7 @@ def home(index: Index) -> str:
     description = (f"Which open-source code implements which edition of ISO 532, ECMA-418-1/-2, DIN 45692 and other "
                    f"psychoacoustic metrics: {len(index.projects)} projects in "
                    f"{join_words(langs)}. Updated {index.as_of()}.")
-    return layout(index, path, title=site["title"], description=description, body="\n".join(parts),
+    return layout(index, path, title=f"{site['name']}: {site['tagline']}", description=description, body="\n".join(parts),
                   section="Home", jsonld=ld)
 
 
@@ -634,7 +640,7 @@ def method_page(index: Index, m: dict) -> str:
                {"@type": "ListItem", "position": n, "item": _software_ld(index, index.project[pid])}
                for n, pid in enumerate(projects, 1)]}},
           {"@type": "BreadcrumbList", "itemListElement": [
-              {"@type": "ListItem", "position": 1, "name": index.site["title"], "item": index.site["base_url"]},
+              {"@type": "ListItem", "position": 1, "name": index.site["name"], "item": index.site["base_url"]},
               {"@type": "ListItem", "position": 2, "name": m["title"], "item": absolute(index, path)}]}]
     current = join_words([index.ref[r]["label"] for r in m["current"]])
     impl_names = join_words(list(dict.fromkeys(i["_project"]["name"] for i in m["_current_impls"])))
@@ -968,7 +974,7 @@ def updates_page(index: Index) -> str:
         parts.append(f'<p class="byline"><time datetime="{esc(str(u["date"]))}">{esc(long_date(u["date"]))}</time></p>')
         parts.append(blocks(u["body"]))
         parts.append("</section>")
-    return layout(index, path, title="Updates", description="Notable changes to the Psychoacoustic Metrics Index.",
+    return layout(index, path, title="Updates", description=f"Notable changes to {index.site['name']}, the {index.site['title']}.",
                   body="\n".join(parts), section="Updates")
 
 
@@ -979,8 +985,8 @@ def about_page(index: Index) -> str:
     fams = join_words([f["name"].lower() for f in index.families])
     status_kind = {"available": "ok", "unreleased": "warn", "proposed": "neutral"}
     parts = [
-        "<h1>About this index</h1>",
-        f'<p class="lead">{esc(site["description"])}</p>',
+        f"<h1>About {esc(site['name'])}</h1>",
+        f'<p class="lead">{esc(introduce(site))}</p>',
 
         '<h2 id="scope">What is included</h2>',
         f"<p>Open-source code that computes a psychoacoustic metric and says which model or standard edition it "
@@ -997,7 +1003,7 @@ def about_page(index: Index) -> str:
         "<p>Each entry is written from the project's own README, documentation, release notes, licence file and "
         "package metadata, and links to those sources. The index records what a project claims; it does not run "
         "the code, and listing a project is not an endorsement.</p>",
-        "<p>Every week a GitHub Action refreshes repository dates, releases and package versions, searches GitHub "
+        "<p>Every month a GitHub Action refreshes repository dates, releases and package versions, searches GitHub "
         "and package registries for new candidate projects, and checks the ISO and Ecma catalogues for new "
         "editions. Its findings go into one issue that a person reviews before anything is added or changed.</p>",
         '<h2 id="status">Status of an implementation</h2>',
@@ -1043,8 +1049,8 @@ def about_page(index: Index) -> str:
         f"<p>Data, text and code are released under the {esc(site['license'])} licence.</p>",
         f"<p>{credit(index)}</p>",
     ]
-    return layout(index, path, title="About", description="Scope, method, definitions and data access of the "
-                  "Psychoacoustic Metrics Index.", body="\n".join(parts), section="About")
+    return layout(index, path, title="About", description=f"Scope, method, definitions and data access of {site['name']}, the "
+                  f"{site['title']}.", body="\n".join(parts), section="About")
 
 
 def _message_box(index: Index) -> str:
@@ -1109,7 +1115,8 @@ def ai_page(index: Index) -> str:
     ld = [{"@type": "WebPage", "name": "For AI agents and language models", "url": absolute(index, path),
            "description": intro}]
     return layout(index, path, title="For AI agents and language models",
-                  description="Machine-readable access to the Psychoacoustic Metrics Index: llms.txt, llms-full.txt, "
+                  description=f"Machine-readable access to {index.site['name']}, the {index.site['title']}: llms.txt, "
+                              "llms-full.txt, "
                               "index.json and a Markdown version of every page.",
                   body="\n".join(parts), section="For AI", jsonld=ld, side=side)
 

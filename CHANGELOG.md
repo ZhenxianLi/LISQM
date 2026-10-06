@@ -2,11 +2,12 @@
 
 Notable changes to the index. This file is generated from `data/updates.yaml`; the same notes are on the website (https://zhenxianli.github.io/psychoacoustic-metrics-index/updates.html) and in its Atom feed.
 
-## 2026-10-06: First public version
+## 2026-10-06: First public version of PsyMI
 
-The index starts with 32 projects in Python, MATLAB, Octave, C, C++, Rust, Julia and Pure Data, and 22
-methods from Zwicker loudness to aural detectability. Every implementation is tied to the standard edition
-or model paper it follows, with links to the documentation the facts were taken from.
+PsyMI, the Psychoacoustic Metrics Index, starts with 32 projects in Python, MATLAB, Octave, C, C++, Rust,
+Julia and Pure Data, and 22 methods from Zwicker loudness to aural detectability. Every implementation is
+tied to the standard edition or model paper it follows, with links to the documentation the facts were taken
+from. Repository dates, releases and package versions are refreshed once a month.
 
 Worth knowing as of today:
 
@@ -20,8 +21,9 @@ Worth knowing as of today:
 - No open implementation was found for DIN 38455:2024 (the first German roughness standard), DIN 45681 or
   ISO/TS 20065:2022.
 - Six projects disclose that AI tools assisted their development; each project page says where.
-- Every project is marked as established, developing or newly released (first released less than about a year
-  ago). Projects without a commit for three years, or archived, are listed as legacy. Lists put established
-  projects first and newly released and legacy projects last.
+- Every project is in one group: established, newly released (first released less than about a year ago and
+  not yet widely used), developing, legacy (archived, or no commit for three years) or others (calls another
+  indexed project). Lists follow this order, so a new, little-used or unmaintained project is never the first
+  suggestion.
 - Candidates that could not be checked yet, such as PsyTools (TU Graz) and the ITA-Toolbox, are listed on
   the About page as leads.

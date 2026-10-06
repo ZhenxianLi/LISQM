@@ -195,7 +195,8 @@ class Index:
         problems: list[str] = []
         add = problems.append
 
-        for key in ("title", "description", "base_url", "repository", "maintainer", "license", "credit"):
+        for key in ("name", "title", "tagline", "description", "base_url", "repository", "maintainer", "license",
+                    "credit"):
             if not self.site.get(key):
                 add(f"data/site.yaml: missing '{key}'")
         if self.site.get("base_url") and not str(self.site["base_url"]).endswith("/"):

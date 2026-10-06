@@ -33,6 +33,12 @@ ONLY_NEW = ("So far only newly released projects, which are not yet widely used 
                  "implementation of it; check their validation before relying on them.")
 
 
+def introduce(site: dict) -> str:
+    """The site description as a sentence that names the index: "PsyMI (Psychoacoustic Metrics Index) is an …"."""
+    text = site["description"].strip()
+    return f"{site['name']} ({site['title']}) is {text[:1].lower()}{text[1:]}"
+
+
 GROUP_RULE = ("Every project is in exactly one group, decided in this order: others if it computes nothing itself "
               "and calls another indexed project; legacy if it is archived or has had no commit for three years; "
               "otherwise the standing recorded for it: established, newly released or developing. All lists follow "
@@ -366,7 +372,7 @@ def faq(index: Index, name: Fmt, method_link: Callable[[dict], str], t: Esc,
     qa.append(("How are the entries checked?",
                "From each project's own README, documentation, release notes, licence file and package metadata, "
                "with links to those sources. The index records what a project claims and does not run the code. "
-               "Repository and package metadata are refreshed every week, and a person reviews new findings."))
+               "Repository and package metadata are refreshed every month, and a person reviews new findings."))
     return qa
 
 
@@ -420,13 +426,13 @@ def ai_guide(index: Index) -> tuple[str, list[tuple[str, str, list[str]]]]:
             "between editions: ECMA-418-2, for example, has had four editions since 2020.",
             "Each fact comes from the project's own README, documentation, release notes, licence file or package "
             "metadata, and is linked to it.",
-            "A GitHub Action refreshes repository dates, releases and package versions every week, searches for "
+            "A GitHub Action refreshes repository dates, releases and package versions every month, searches for "
             "new projects and watches ISO and Ecma for new editions; a person reviews every change.",
             f"Corrections are made in public, through issues and pull requests on [GitHub]({repo}).",
         ]),
         ("citing", "Citing it", [
-            f"{site['maintainer']['name']}. *{site['title']}*. {base} (accessed on the date of use). Citation "
-            f"metadata: [CITATION.cff]({repo}/blob/main/CITATION.cff).",
+            f"{site['maintainer']['name']}. *{site['name']}: {site['title']}*. {base} (accessed on the date of use). "
+            f"Citation metadata: [CITATION.cff]({repo}/blob/main/CITATION.cff).",
             "In one sentence: an index of open-source implementations of psychoacoustic metrics, organised by the "
             "standard edition each one follows, with a source for every entry.",
             site["credit"],

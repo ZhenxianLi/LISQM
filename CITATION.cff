@@ -1,15 +1,16 @@
 cff-version: 1.2.0
 message: "If you use this index in your work, please cite it as below. Developed by Zhenxian LI with assistance from Claude Code."
 type: dataset
-title: "Psychoacoustic Metrics Index"
+title: "PsyMI: Psychoacoustic Metrics Index"
 abstract: >-
-  A curated, weekly-refreshed index of open-source implementations of psychoacoustic metrics in any
-  programming language: loudness, sharpness, roughness, fluctuation strength, tonality, impulsiveness and
-  psychoacoustic annoyance, with related quantities such as equal-loudness contours, effective perceived
-  noise level (EPNL) and aural detectability. Each implementation is listed under the standard edition or
-  model paper it follows (for example ISO 532-1, ECMA-418-2 or DIN 45692), together with its licence,
-  packages, release activity and the validation evidence the project itself states. The index consists of
-  data and a static website; it contains no metric code and does not run the indexed software.
+  PsyMI (Psychoacoustic Metrics Index) is a curated, monthly-refreshed index of open-source
+  implementations of psychoacoustic metrics in any programming language: loudness, sharpness, roughness,
+  fluctuation strength, tonality, impulsiveness and psychoacoustic annoyance, with related quantities such
+  as equal-loudness contours, effective perceived noise level (EPNL) and aural detectability. Each
+  implementation is listed under the standard edition or model paper it follows (for example ISO 532-1,
+  ECMA-418-2 or DIN 45692), together with its licence, packages, release activity and the validation
+  evidence the project itself states. The index consists of data and a static website; it contains no
+  metric code and does not run the indexed software.
 authors:
   - given-names: Zhenxian
     family-names: LI
@@ -28,6 +29,7 @@ keywords:
   - DIN 45692
   - open source software
   - index
+  - PsyMI
 license: MIT
 repository-code: "https://github.com/ZhenxianLi/psychoacoustic-metrics-index"
 url: "https://zhenxianli.github.io/psychoacoustic-metrics-index/"

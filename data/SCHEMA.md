@@ -5,7 +5,7 @@ directory. Edit these files, never the generated output.
 
 | File | Edited by | Contents |
 |---|---|---|
-| `site.yaml` | people | Site title, base URL, maintainer, thresholds |
+| `site.yaml` | people | Short name (PsyMI), full name, subtitle, base URL, maintainer, thresholds |
 | `metrics.yaml` | people | Metric families and methods (one page per method) |
 | `references.yaml` | people | Standard editions, model papers and books that methods are defined by |
 | `projects/<id>.yaml` | people | One file per indexed project, including what it implements |
@@ -13,7 +13,7 @@ directory. Edit these files, never the generated output.
 | `ignored.yaml` | people | Candidates that were reviewed and not included, so discovery does not report them again |
 | `leads.yaml` | people | Candidates that could not be checked yet (shown on the About page, never as facts) |
 | `snapshot.json` | `scripts/refresh.py` | Repository and package metadata fetched from GitHub, PyPI, crates.io and npm |
-| `standards-watch.yaml` | people | Standards sources checked every week (ISO Open Data patterns, Ecma pages) |
+| `standards-watch.yaml` | people | Standards sources checked every month (ISO Open Data patterns, Ecma pages) |
 | `standards-watch.json` | `scripts/watch_standards.py` | Last seen state of those sources (format described in `scripts/watch_standards.py`) |
 | `index.json` | `scripts/build.py` | The whole index as one JSON document (generated, do not edit) |
 

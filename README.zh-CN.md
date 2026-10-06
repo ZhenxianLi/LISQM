@@ -1,7 +1,9 @@
-# 心理声学指标开源实现索引（Psychoacoustic Metrics Index）
+# PsyMI
 
-这是一个心理声学指标开源实现的索引，覆盖响度、尖锐度、粗糙度、波动强度、音调性、冲击性和心理声学烦恼度，
-不限编程语言。每个实现都按它对应的标准版本或模型论文归类，数据每周自动刷新。
+**心理声学指标开源实现索引**（Index of Open-Source Implementations of Psychoacoustic Metrics）
+
+PsyMI（Psychoacoustic Metrics Index）是一个心理声学指标开源实现的索引，覆盖响度、尖锐度、粗糙度、波动强度、
+音调性、冲击性和心理声学烦恼度，不限编程语言。每个实现都按它对应的标准版本或模型论文归类，数据每月自动刷新。
 
 Developed by Zhenxian LI with assistance from Claude Code.
 
@@ -166,8 +168,8 @@ Developed by Zhenxian LI with assistance from Claude Code.
   每个项目一个文件放在 `projects/`。格式见 [`data/SCHEMA.md`](data/SCHEMA.md)。
 - **生成**：[`scripts/build.py`](scripts/build.py) 校验数据，并生成网站、README 里的表格、`llms.txt`、
   `llms-full.txt` 和 `data/index.json`。
-- **每周刷新**：GitHub Action 每周更新各仓库和软件包的元数据（最近提交、发版、PyPI 和 crates.io 版本），在 GitHub
-  和包管理器里搜索新的候选项目，并检查 ISO 和 Ecma 是否发布了新版本。结果汇总到一个带 `weekly-review` 标签的
+- **每月刷新**：GitHub Action 每月更新各仓库和软件包的元数据（最近提交、发版、PyPI 和 crates.io 版本），在 GitHub
+  和包管理器里搜索新的候选项目，并检查 ISO 和 Ecma 是否发布了新版本。结果汇总到一个带 `monthly-review` 标签的
   issue 里，由人工确认后再修改数据。
 
 ## 使用数据

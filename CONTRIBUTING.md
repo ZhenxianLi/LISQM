@@ -1,6 +1,6 @@
 # Contributing
 
-Thank you for helping to keep the Psychoacoustic Metrics Index complete and accurate. The index lists
+Thank you for helping to keep PsyMI, the Psychoacoustic Metrics Index, complete and accurate. The index lists
 open-source implementations of psychoacoustic metrics, organised by the standard edition or model paper each
 one follows. The repository holds data and a static-site generator, not metric code: the website, the README
 tables and `data/index.json` are all generated from the YAML files in [`data/`](data/), which are described in
@@ -15,7 +15,7 @@ Everyone taking part is expected to follow the [Code of Conduct](CODE_OF_CONDUCT
 - [Reporting a new standard edition](#reporting-a-new-standard-edition)
 - [Writing rules](#writing-rules)
 - [Local checks](#local-checks)
-- [The weekly automation](#the-weekly-automation)
+- [The monthly automation](#the-monthly-automation)
 - [Review process](#review-process)
 
 ## Ways to contribute
@@ -109,7 +109,7 @@ writes the entry.
        validation: standard-data         # as the project states it; not-stated if it says nothing
    ```
 
-4. Do not add stars, versions or commit dates. The weekly refresh fetches them from GitHub, PyPI, crates.io
+4. Do not add stars, versions or commit dates. The monthly refresh fetches them from GitHub, PyPI, crates.io
    and npm. For a repository hosted elsewhere, fill in `manual` (last commit, latest release, archived).
 5. Run the [local checks](#local-checks) and open the pull request. One project per pull request is preferred.
 
@@ -143,7 +143,7 @@ withdrawal. To make the change yourself in a pull request:
    is published, put it in `current` in place of the old edition.
 4. Do not change project entries: a project moves to the new edition only when the project itself says so.
 
-To have the weekly job watch a standard that it does not cover yet, add a pattern or a page to
+To have the monthly job watch a standard that it does not cover yet, add a pattern or a page to
 [`data/standards-watch.yaml`](data/standards-watch.yaml).
 
 ## Writing rules
@@ -186,10 +186,11 @@ requests.
 
 The CI workflow runs the same checks (validation, unit tests and a full build) on every pull request.
 
-## The weekly automation
+## The monthly automation
 
-The Weekly refresh workflow ([`.github/workflows/refresh.yml`](.github/workflows/refresh.yml)) runs every
-Monday at 05:17 UTC and can also be started by hand:
+The Monthly refresh workflow ([`.github/workflows/refresh.yml`](.github/workflows/refresh.yml)) runs on the
+first day of every month at 05:17 UTC and can also be started by hand (Actions → Monthly refresh → Run
+workflow):
 
 1. **Refresh.** [`scripts/refresh.py`](scripts/refresh.py) fetches repository metadata from GitHub (stars,
    last commit on the default branch, latest release, archived flag, licence) and the latest versions from
@@ -202,8 +203,8 @@ Monday at 05:17 UTC and can also be started by hand:
 3. **Standards watch.** [`scripts/watch_standards.py`](scripts/watch_standards.py) checks the sources in
    `data/standards-watch.yaml` (ISO's open data on its deliverables and the Ecma standard pages) for new
    editions and stage changes, and commits the last seen state to `data/standards-watch.json`.
-4. **Weekly review.** The three reports go into one open issue labelled `weekly-review`, which is updated with
-   each week's findings (or opened if none is open); nothing is posted when there is nothing to review. A
+4. **Monthly review.** The three reports go into one open issue labelled `monthly-review`, which is updated
+   with each month's findings (or opened if none is open); nothing is posted when there is nothing to review. A
    person works through the issue, adding or rejecting candidates, recording new editions, confirming status
    changes after releases (for example `unreleased` to `available`) and updating `checked` dates, and closes
    it when done.
@@ -214,7 +215,7 @@ generated output. Everything that describes a project, a method or an edition is
 
 ## Review process
 
-- The maintainer reviews issues and pull requests, usually together with the weekly review.
+- The maintainer reviews issues and pull requests, usually together with the monthly review.
 - For a new project, the review checks the inclusion criteria, compares each fact with its source and reads
   the wording. Expect questions or small edits; the maintainer may also finish an entry started in an issue.
 - The CI checks must pass before a pull request is merged.

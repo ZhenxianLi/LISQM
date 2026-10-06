@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640" role="img" aria-labelledby="title desc">
-  <title id="title">Psychoacoustic Metrics Index</title>
-  <desc id="desc">Open-source implementations of psychoacoustic metrics, by standard edition. Loudness, sharpness, roughness, fluctuation strength, tonality, impulsiveness and annoyance.</desc>
+  <title id="title">PsyMI: Psychoacoustic Metrics Index</title>
+  <desc id="desc">Index of Open-Source Implementations of Psychoacoustic Metrics: loudness, sharpness, roughness, fluctuation strength, tonality, impulsiveness and annoyance, each listed under the standard edition it follows.</desc>
   <!-- Social preview for GitHub (Settings > General > Social preview), in the style of the website: its green and
        its mark. social-preview.png is rendered from this file with headless Chromium at 1280 x 640. -->
   <rect width="1280" height="640" fill="#ffffff"/>
@@ -19,12 +19,12 @@
     </g>
   </g>
   <g font-family="Charter, 'Bitstream Charter', Georgia, 'DejaVu Serif', serif" fill="#1f2328">
-    <text x="112" y="224" font-size="100" font-weight="700" letter-spacing="-1">Psychoacoustic</text>
-    <text x="112" y="336" font-size="100" font-weight="700" letter-spacing="-1">Metrics Index</text>
-    <text x="112" y="404" font-size="26" font-style="italic" fill="#5a636e">Open-source implementations of psychoacoustic metrics, by standard edition</text>
-    <rect x="112" y="452" width="1056" height="1.5" fill="#2b3137"/>
-    <text x="112" y="502" font-size="21">Loudness · Sharpness · Roughness · Fluctuation strength · Tonality · Impulsiveness · Annoyance</text>
-    <text x="112" y="552" font-size="22" font-weight="700" letter-spacing="1.5">
+    <text x="108" y="250" font-size="150" font-weight="700" letter-spacing="-2">PsyMI</text>
+    <text x="112" y="320" font-size="30" font-weight="700" fill="#0f7d60">Index of Open-Source Implementations of Psychoacoustic Metrics</text>
+    <text x="112" y="368" font-size="22" font-style="italic" fill="#5a636e">Psychoacoustic Metrics Index · each implementation listed under the standard edition it follows</text>
+    <rect x="112" y="430" width="1056" height="1.5" fill="#2b3137"/>
+    <text x="112" y="482" font-size="21">Loudness · Sharpness · Roughness · Fluctuation strength · Tonality · Impulsiveness · Annoyance</text>
+    <text x="112" y="534" font-size="22" font-weight="700" letter-spacing="1.5">
       <tspan fill="#2463ad">PYTHON</tspan><tspan fill="#8b949e">  ·  </tspan><tspan fill="#bd5512">MATLAB / OCTAVE</tspan><tspan fill="#8b949e">  ·  </tspan><tspan fill="#6b46a6">C / C++</tspan><tspan fill="#8b949e">  ·  </tspan><tspan fill="#94471c">RUST</tspan><tspan fill="#8b949e">  ·  </tspan><tspan fill="#8b3aa9">JULIA</tspan><tspan fill="#8b949e">  ·  </tspan><tspan fill="#36606e">PURE DATA</tspan>
     </text>
   </g>

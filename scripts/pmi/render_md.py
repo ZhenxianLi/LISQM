@@ -8,7 +8,7 @@ from __future__ import annotations
 from .data import (GROUP_NAMES, GROUPS, IMPL_STATUS_LONG, PROJECT_KINDS, REGISTRIES, VALIDATION, VALIDATION_LONG,
                    Index)
 from .describe import (COVERAGE_COLUMNS, GROUP_RULE, NEW_LABEL, activity_text, ai_guide, by_language, coverage, dedupe, edition_state,
-                       faq, in_short, legacy_label, ref_status, release_text, standing_sentence, timeline,
+                       faq, in_short, introduce, legacy_label, ref_status, release_text, standing_sentence, timeline,
                        version_label)
 from .paths import (ABOUT, AI, FAQ, HOME, LANGUAGES, METRICS, PROJECTS, STANDARDS, UPDATES, absolute, md_twin,
                     method_path, project_path)
@@ -39,8 +39,8 @@ def _ref_link(r: dict) -> str:
 
 def _header(index: Index, path: str) -> str:
     site = index.site
-    return (f"> Part of the [{site['title']}]({site['base_url']}), an index of open-source implementations of "
-            f"psychoacoustic metrics. Data as of {index.as_of()}. Web page: {absolute(index, path)}")
+    return (f"> Part of [{site['name']}]({site['base_url']}) ({site['title']}), an index of open-source "
+            f"implementations of psychoacoustic metrics. Data as of {index.as_of()}. Web page: {absolute(index, path)}")
 
 
 def _table(head: list[str], rows: list[list[str]]) -> list[str]:
@@ -430,7 +430,7 @@ def updates_page(index: Index) -> str:
 
 def about_page(index: Index) -> str:
     site = index.site
-    lines = ["# About this index", "", _header(index, ABOUT), "", site["description"].strip(), ""]
+    lines = [f"# About {site['name']}", "", _header(index, ABOUT), "", introduce(site), ""]
     lines += ["## What is included", "",
               "Open-source code that computes a psychoacoustic metric and says which model or standard edition "
               "it follows. Quantities: " + join_words([f["name"].lower() for f in index.families]) + ". "
@@ -442,7 +442,7 @@ def about_page(index: Index) -> str:
     lines += ["## How entries are checked", "",
               "Each entry is written from the project's own README, documentation, release notes, licence file "
               "and package metadata, with links to those sources. The index records what a project claims; it "
-              "does not run the code. Repository dates, releases and package versions are refreshed every week "
+              "does not run the code. Repository dates, releases and package versions are refreshed every month "
               "by a GitHub Action, which also searches for new candidate projects and watches the standards "
               "bodies for new editions. A person reviews the findings before anything is added.", ""]
     lines += ["## Status of an implementation", ""]
@@ -487,11 +487,11 @@ def faq_page(index: Index) -> str:
 
 def llms_txt(index: Index) -> str:
     site = index.site
-    lines = [f"# {site['title']}", "", f"> {plain(site['description'])}", "",
+    lines = [f"# {site['name']}: {site['title']}", "", f"> {plain(site['description'])}", "",
              f"Data as of {index.as_of()}. {plural(len(index.methods), 'method')}, "
              f"{plural(len(index.projects), 'project')}, languages: {', '.join(index.languages())}. Each "
              "implementation is tied to the standard edition or model paper it follows, with its validation "
-             "evidence as stated by the project. Repository and package metadata are refreshed weekly. "
+             "evidence as stated by the project. Repository and package metadata are refreshed monthly. "
              "Implementations are listed with established projects first, the most widely used "
              f"({join_words([p['name'] for p in index.mainstream()])}) at the top. Projects marked (newly released) were "
              "first released less than about a year ago and are not yet widely used in the community; projects "

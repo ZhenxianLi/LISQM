@@ -59,7 +59,9 @@ def index_json(index: Index) -> str:
             d["calls"] = list(dict.fromkeys(i["_via"]["id"] for i in p["_impls"] if i.get("_via")))
         projects.append(d)
     doc = {
-        "name": site["title"],
+        "name": site["name"],
+        "full_name": site["title"],
+        "tagline": site["tagline"],
         "description": plain(site["description"]),
         "url": site["base_url"],
         "repository": site["repository"],
@@ -70,7 +72,7 @@ def index_json(index: Index) -> str:
         "schema": f"{site['repository']}/blob/main/data/SCHEMA.md",
         "counts": {"methods": len(index.methods), "projects": len(index.projects),
                    "references": len(index.references)},
-        "ordering": ("Implementations and projects are listed by group: established, developing, newly released, legacy, "
+        "ordering": ("Implementations and projects are listed by group: established, newly released, developing, legacy, "
                      "others. Newly released projects were first released less than about a year ago and are not yet "
                      "widely used in the community. Legacy projects are archived or have had no commit for three "
                      "years or more; the most widely used projects (most_widely_used: true) and reference programs "
@@ -114,7 +116,7 @@ def atom_feed(index: Index) -> str:
   </entry>""")
     return f"""<?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>{xml_escape(site['title'])}</title>
+  <title>{xml_escape(site['name'])}: {xml_escape(site['title'])}</title>
   <subtitle>{xml_escape(plain(site['description']))}</subtitle>
   <link href="{xml_escape(feed_url)}" rel="self"/>
   <link href="{xml_escape(site['base_url'])}"/>

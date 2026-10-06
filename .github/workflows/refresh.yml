@@ -1,8 +1,8 @@
-name: Weekly refresh
+name: Monthly refresh
 
 on:
   schedule:
-    - cron: "17 5 * * 1" # Mondays 05:17 UTC
+    - cron: "17 5 1 * *" # 05:17 UTC on the first day of every month
   workflow_dispatch:
 
 permissions:
@@ -53,7 +53,7 @@ jobs:
             echo "Nothing to commit."
             exit 0
           fi
-          git commit -m "Weekly refresh: $(date -u +%F)"
+          git commit -m "Monthly refresh: $(date -u +%F)"
           git push || { git pull --rebase origin main && git push; }
 
       - name: Look for new candidates
@@ -78,12 +78,12 @@ jobs:
           GH_REPO: ${{ github.repository }}
         run: |
           # Created once; existing labels (and any colours changed by hand) are left alone.
-          gh label create weekly-review --color 0e8a16 --description "Automated weekly review of the index" 2>/dev/null || true
+          gh label create monthly-review --color 0e8a16 --description "Automated monthly review of the index" 2>/dev/null || true
           gh label create new-project --color 1d76db --description "Suggests a project for the index" 2>/dev/null || true
           gh label create correction --color d93f0b --description "Corrects an entry in the index" 2>/dev/null || true
           gh label create standards --color 5319e7 --description "New or revised standard edition" 2>/dev/null || true
 
-      - name: Update the weekly review issue
+      - name: Update the monthly review issue
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
@@ -115,17 +115,17 @@ jobs:
             fi
           done
           if [ "$findings" = false ]; then
-            echo "Nothing to review this week."
+            echo "Nothing to review this month."
             exit 0
           fi
 
-          number=$(gh issue list --label weekly-review --state open --limit 1 --json number --jq '.[0].number // empty')
+          number=$(gh issue list --label monthly-review --state open --limit 1 --json number --jq '.[0].number // empty')
           if [ -n "$number" ]; then
-            gh issue edit "$number" --title "Weekly review: $today" --body-file "$body"
+            gh issue edit "$number" --title "Monthly review: $today" --body-file "$body"
             # Editing an issue notifies nobody; a comment does.
             gh issue comment "$number" --body "Updated with the review of $today."
           else
-            gh issue create --title "Weekly review: $today" --label weekly-review --body-file "$body"
+            gh issue create --title "Monthly review: $today" --label monthly-review --body-file "$body"
           fi
 
   pages:
