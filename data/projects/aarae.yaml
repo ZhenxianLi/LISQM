@@ -1,0 +1,97 @@
+id: aarae
+name: AARAE
+repository: https://github.com/densilcabrera/aarae
+languages: [MATLAB]
+kind: application
+license: BSD-3-Clause
+license_note: >-
+  `License for AARAE.txt` says that contributed files may carry their own licences; for example, the ISO 226
+  calculator `iso226.m` comes with its own `license.txt`.
+maintainers: [Densil Cabrera, Jonothan Holmes, Ella Manor]
+summary: >-
+  Audio and Acoustical Response Analysis Environment: a MATLAB environment with a graphical interface, made to
+  support teaching and research in acoustics. Its analysers include ISO 532-1 and Chalupper–Fastl loudness,
+  Moore–Glasberg loudness (stationary, time-varying and binaural), sharpness and Daniel & Weber roughness.
+ai_assistance: not-stated
+paper:
+  citation: >-
+    Cabrera, D., Jimenez, D., & Martens, W. L. (2014). Audio and Acoustical Response Analysis Environment
+    (AARAE): a tool to support education and research in acoustics. *Proceedings of Inter-Noise 2014*,
+    Melbourne, Australia.
+  url: https://www.acoustics.asn.au/conference_proceedings/INTERNOISE2014/papers/p235.pdf
+notes:
+  - >-
+    `LoudnessZwickerISO532.m` computes Zwicker loudness with the ISO 532 one-third-octave filter bank; the
+    edition is not stated.
+  - >-
+    `Fluctuation.m` (Ella Manor, 2017) implements the fluctuation-strength model of Zhou et al., "A Model for
+    Calculating Psychoacoustical Fluctuation Strength" (JAES, September 2015), with 75 ERB channels and
+    generalized modulation depth.
+  - >-
+    `Tonality_thirdoctmethod.m` (May 2015) implements the one-third-octave tonality methods of ISO 1996-2
+    (edition not stated) and AS/NZS 2107.
+  - "`iso226.m` calculates ISO 226 equal-loudness contours; the edition is not stated in its header."
+caveats:
+  - >-
+    Runs inside MATLAB and needs several commercial toolboxes: Audio, DSP System, Signal Processing, and
+    Statistics and Machine Learning; some parts also use others, such as Curve Fitting.
+  - Apart from the ISO 532-1 analyser, the project does not state how the analysers were validated.
+implements:
+  - method: loudness-zwicker
+    reference: iso-532-1-2017
+    functions: [Loudness_ISO532_1]
+    scope: stationary and time-varying
+    status: available
+    validation: standard-data
+    note: >-
+      A commit of 2017-12-11 says the code was verified with the time-varying test signals of Annex B.5; no
+      check of the stationary method is stated. The header cites a 2014 draft of ISO 532-1 and describes the code
+      as Ella Manor's 2015 MATLAB port, with adjustments, of the Annex A C code.
+  - method: loudness-zwicker
+    reference: chalupper-fastl-2002
+    functions: [LoudnessCF]
+    scope: time-varying
+    status: available
+    validation: not-stated
+    note: Also outputs loudness fluctuation and time-varying sharpness.
+  - method: loudness-moore-glasberg
+    reference: moore-1997
+    functions: [Loudness_MGB2b]
+    scope: one channel, or two channels for binaural loudness
+    status: available
+    validation: not-stated
+    note: >-
+      Version 1.02 (27 October 2015). Two-channel input gives binaural loudness after Moore & Glasberg (2007).
+      The audio is resampled to 32 kHz.
+  - method: loudness-moore-glasberg-time-varying
+    reference: glasberg-moore-2002
+    functions: [Loudness_MGB2b]
+    scope: time-varying; one channel, or two channels for binaural loudness
+    status: available
+    validation: not-stated
+    note: Same function as the stationary model; the binaural extension follows Moore & Glasberg (2007).
+  - method: sharpness
+    reference: fastl-zwicker-2007
+    functions: [sharpness_Fastl]
+    scope: from the specific loudness of `LoudnessCF`
+    status: available
+    validation: not-stated
+    note: >-
+      The header describes a weighting fitted to data in Zwicker & Fastl's *Psychoacoustics: Facts and Models*
+      (edition not stated), names the method "Fastl (1991)" and credits Claire Churchill (2004).
+  - method: roughness-daniel-weber
+    reference: daniel-weber-1997
+    functions: [RoughnessDW]
+    status: available
+    validation: not-stated
+    note: Ported from PsySound3's `@RoughnessDW` by Ella Manor and Densil Cabrera (2015).
+manual:
+  last_commit: 2024-08-09
+  archived: false
+sources:
+  - https://github.com/densilcabrera/aarae
+  - https://github.com/densilcabrera/aarae/blob/master/README.txt
+  - https://github.com/densilcabrera/aarae/blob/master/License%20for%20AARAE.txt
+  - https://github.com/densilcabrera/aarae/tree/master/Analysers/Level%20and%20Strength
+  - https://github.com/densilcabrera/aarae/commits/master/Analysers/Level%20and%20Strength/Loudness_ISO532_1.m
+checked: 2026-10-06

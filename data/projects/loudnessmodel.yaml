@@ -1,0 +1,51 @@
+id: loudnessmodel
+name: LoudnessModel
+repository: https://github.com/MalcolmSlaney/LoudnessModel
+languages: [Python]
+kind: research-code
+license: BSD-2-Clause
+license_note: >-
+  The README also says "The source code is provided free for any research purposes"; the readme of the Cambridge
+  MATLAB code tv2018.m (see iso532-3) uses similar wording and asks commercial users to contact Brian C. J. Moore.
+maintainers: [Jeremy JX Hsiao, Malcolm Slaney]
+summary: >-
+  Python translation of the Cambridge MATLAB code for the TVL2018 loudness model: Moore et al. (2016) with the
+  revised time constants of Moore et al. (2018). Computes instantaneous, short-term and long-term loudness, in a
+  NumPy version and a JAX version.
+ai_assistance: not-stated
+notes:
+  - >-
+    The README credits Brian C. J. Moore, Brian R. Glasberg and Josef Schlittenlacher for the MATLAB model and
+    links the original MATLAB code (the first download on https://www.psychol.cam.ac.uk/hearing#programs).
+  - >-
+    The Python function names largely mirror the MATLAB files of tv2018 (see
+    [iso532-3](https://github.com/js2251/iso532-3)), e.g. `agc_next_frame` for `AGCNextFrame.m`. ISO 532-3 is
+    not mentioned in the repository.
+  - Outer- and middle-ear transfer functions for free-field, diffuse-field and eardrum presentation are included for 32 kHz.
+  - >-
+    There is no packaging metadata (no pyproject.toml or setup.py) and no PyPI package; the README installs from
+    a clone with requirements.txt. A Colab notebook with demos is linked.
+caveats:
+  - >-
+    The README says the JAX version "does not compile as there are several portions of the implementation that
+    are not pure".
+implements:
+  - method: loudness-moore-glasberg-time-varying
+    reference: moore-2018
+    functions: [tvl2018.compute_loudness, tvl2018_jax.compute_loudness]
+    scope: instantaneous, short-term and long-term loudness; binaural
+    status: available
+    validation: self-tests
+    note: >-
+      Tests run in GitHub Actions compare overall loudness, the first five short-term and long-term values and
+      selected intermediate stages for one input (1 kHz tone, 100 ms, 32 kHz) with hard-coded expected values.
+      The README calls this "a known accurate output", but neither it nor the tests say where the values come from.
+manual:
+  last_commit: 2025-03-20
+  archived: false
+sources:
+  - https://github.com/MalcolmSlaney/LoudnessModel
+  - https://github.com/MalcolmSlaney/LoudnessModel/blob/main/README.md
+  - https://github.com/MalcolmSlaney/LoudnessModel/blob/main/tvl2018_test.py
+  - https://github.com/MalcolmSlaney/LoudnessModel/blob/main/LICENSE
+checked: 2026-10-06

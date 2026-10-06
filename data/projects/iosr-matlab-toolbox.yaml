@@ -1,0 +1,38 @@
+id: iosr-matlab-toolbox
+name: IoSR Matlab Toolbox
+repository: https://github.com/IoSR-Surrey/MatlabToolbox
+languages: [MATLAB]
+kind: toolbox
+license: MIT
+maintainers: [Christopher Hummersone]
+summary: >-
+  General-purpose MATLAB toolbox from the Institute of Sound Recording (University of Surrey) for auditory
+  modelling, signal processing, source separation, statistics and plotting. For this index it provides
+  ISO 226:2003 equal-loudness contours; it has no loudness, sharpness or roughness models.
+ai_assistance: not-stated
+notes:
+  - >-
+    `iosr.auditory.loudWeight` returns loudness-weighting coefficients derived from the 65-phon ISO 226:2003
+    contour.
+  - >-
+    The two functions are also published on MATLAB File Exchange, as submissions 50348 ("ISO 226:2003 Normal
+    equal-loudness-level contours") and 50349 ("Loudness weighting coefficients").
+caveats:
+  - ISO 226:2003 was withdrawn in 2023 and replaced by ISO 226:2023; the function follows the 2003 edition.
+  - No commits since August 2017.
+implements:
+  - method: equal-loudness-contours
+    reference: iso-226-2003
+    functions: [iosr.auditory.iso226]
+    status: available
+    validation: not-stated
+manual:
+  last_commit: 2017-08-18
+  latest_release: {version: v2.8, date: 2017-06-17}
+  archived: false
+sources:
+  - https://github.com/IoSR-Surrey/MatlabToolbox
+  - https://github.com/IoSR-Surrey/MatlabToolbox/blob/master/README.md
+  - https://github.com/IoSR-Surrey/MatlabToolbox/blob/master/+iosr/+auditory/iso226.m
+  - https://github.com/IoSR-Surrey/MatlabToolbox/blob/master/+iosr/+auditory/loudWeight.m
+checked: 2026-10-06

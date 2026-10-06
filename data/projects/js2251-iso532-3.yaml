@@ -1,0 +1,56 @@
+id: js2251-iso532-3
+name: iso532-3 (tv2018.m)
+repository: https://github.com/js2251/iso532-3
+docs: https://github.com/js2251/iso532-3/blob/main/readme%20TVL%202018.pdf
+languages: [MATLAB]
+kind: reference-program
+license: none
+license_note: >-
+  No licence file. The readme PDF says: "The code is provided free for any research purposes. For commercial use
+  please contact Brian C. J. Moore."
+summary: >-
+  MATLAB code by Brian C. J. Moore, Brian R. Glasberg and Josef Schlittenlacher (Cambridge Hearing Group) for the
+  loudness of time-varying sounds: the model of Moore et al. (2016) with the revised time constants of Moore et
+  al. (2018). Its readme calls `tv2018.m` "the reference Matlab code referred to in ISO 532-3".
+ai_assistance: not-stated
+notes:
+  - >-
+    There is no README.md; the documentation is the PDF "readme TVL 2018", which includes a worked example with
+    the file 1k100ms.wav.
+  - >-
+    Takes a WAV file or a MATLAB variable with one or two channels and resamples it to 32 kHz. Outer- and
+    middle-ear transfer functions for free-field, diffuse-field and eardrum presentation are included. Returns
+    short-term and long-term loudness and the instantaneous loudness of each ear.
+  - >-
+    Also contains sone/phon conversion functions for the TV2015 and TV2018 tables (`Phon2SoneTV2015`,
+    `Sone2PhonTV2015`, `Phon2SoneTV2018`, `Sone2PhonTV2018`).
+  - The Python project LoudnessModel is a translation of the Cambridge MATLAB code for the same model.
+caveats:
+  - >-
+    The code was last changed in October 2021, before ISO 532-3 was published (July 2023); the readme refers to
+    "ISO 532-3 (2021)". Whether it is identical to the source code supplied with the published standard is not
+    stated.
+  - >-
+    For its text-file output, `tv2018.m` converts sone to phon with `Sone2PhonTV2015`, although TV2018 conversion
+    tables were added in October 2021.
+  - The WAV files that the Annex B script reads are not in the repository, and no computed tables are stored.
+implements:
+  - method: loudness-moore-glasberg-time-varying
+    reference: iso-532-3-2023
+    functions: [tv2018]
+    scope: reference MATLAB code referred to in ISO 532-3, per its readme
+    status: available
+    validation: not-stated
+    note: >-
+      Written by the model's authors (per the readme PDF). The folder "code for tables" has scripts that compute
+      Table 5 (sone to phon) and the values of Annexes B and C (AnnexC.m is headed "Signals numbered as in ISO
+      532-2 Annex B"); the scripts do not name ISO 532-3.
+manual:
+  last_commit: 2021-10-08
+  archived: false
+sources:
+  - https://github.com/js2251/iso532-3
+  - https://github.com/js2251/iso532-3/blob/main/readme%20TVL%202018.pdf
+  - https://github.com/js2251/iso532-3/blob/main/tv2018.m
+  - https://github.com/js2251/iso532-3/tree/main/code%20for%20tables
+checked: 2026-10-06

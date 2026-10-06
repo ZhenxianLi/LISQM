@@ -1,0 +1,66 @@
+id: psychobox
+name: PsychoBox
+repository: https://github.com/henriquealende/PsychoBox
+docs: https://github.com/henriquealende/PsychoBox/tree/main/Documentation
+languages: [Python]
+kind: application
+license: MIT
+summary: >-
+  Desktop application (PySide6 GUI) for playing, editing, filtering and analysing audio. Its psychoacoustic metrics
+  are computed by MoSQITo 1.2.1: Zwicker loudness, ECMA-418-2 loudness, DIN 45692 sharpness, Daniel & Weber
+  roughness and ECMA-418-2 roughness.
+ai_assistance: not-stated
+notes:
+  - "`requirements.txt` pins `mosqito==1.2.1`; PsychoBox itself states no standard editions."
+  - Also does recording and binaural playback correction. An install guide and a tutorial (PDF) are in the Documentation folder.
+caveats:
+  - >-
+    All metric values come from MoSQITo 1.2.1, whose ECMA-418-2 functions follow the 2nd edition (2022), two
+    editions behind the current one.
+implements:
+  - method: loudness-zwicker
+    reference: iso-532-1-2017
+    functions: [Loudness.loudnessZWK]
+    scope: stationary
+    status: available
+    via: mosqito
+    validation: not-stated
+    note: Calls `loudness_zwst` of MoSQITo 1.2.1.
+  - method: loudness-ecma-418-2
+    reference: ecma-418-2-ed2
+    functions: [Loudness.loudnessECMA]
+    status: available
+    via: mosqito
+    validation: not-stated
+    note: Calls `loudness_ecma` of MoSQITo 1.2.1, whose bibliography cites ECMA-418-2:2022.
+  - method: sharpness
+    reference: din-45692-2009
+    functions: [Sharpnes_DIN.sharpnessCalculation]
+    status: available
+    via: mosqito
+    validation: not-stated
+    note: Calls `sharpness_din_st` of MoSQITo 1.2.1 with the DIN weighting.
+  - method: roughness-daniel-weber
+    reference: daniel-weber-1997
+    functions: [Roughness.roughnessDW]
+    status: available
+    via: mosqito
+    validation: not-stated
+    note: Calls `roughness_dw` of MoSQITo 1.2.1.
+  - method: roughness-ecma-418-2
+    reference: ecma-418-2-ed2
+    functions: [Roughness.roughnessECMA]
+    status: available
+    via: mosqito
+    validation: not-stated
+    note: Calls `roughness_ecma` of MoSQITo 1.2.1, whose bibliography cites ECMA-418-2:2022.
+manual:
+  last_commit: 2026-03-16
+  archived: false
+sources:
+  - https://github.com/henriquealende/PsychoBox
+  - https://github.com/henriquealende/PsychoBox/blob/main/README.md
+  - https://github.com/henriquealende/PsychoBox/blob/main/requirements.txt
+  - https://github.com/henriquealende/PsychoBox/tree/main/Psychoacoustics
+  - https://github.com/Eomys/MoSQITo/blob/master/docs/ref.bib
+checked: 2026-10-06

@@ -1,0 +1,80 @@
+id: psysound3
+name: PsySound3
+repository: https://github.com/densilcabrera/psysound3
+languages: [MATLAB]
+kind: application
+license: none
+license_note: >-
+  The repository has no licence file, only a no-warranty disclaimer (`README-NO_WARRANTY`). The licence of the
+  original Google Code project was not checked.
+maintainers: [Densil Cabrera, Samuel Ferguson]
+summary: >-
+  MATLAB program with a graphical interface for analysing sound recordings. Its analysers include the
+  Chalupper–Fastl dynamic loudness model, Moore–Glasberg–Baer loudness and Daniel & Weber roughness.
+ai_assistance: not-stated
+paper:
+  citation: >-
+    PsySound3: a program for the analysis of sound recordings (2008). Acoustics'08 abstract, *The Journal of
+    the Acoustical Society of America*, 123(5_Supplement), 3247.
+  url: https://pubs.aip.org/asa/jasa/article/123/5_Supplement/3247/712568/
+notes:
+  - >-
+    The GitHub repository is an automatic export of the Google Code project `psysound3`; its commits run from
+    January 2009 to March 2015. It also bundles MIRtoolbox functions.
+  - >-
+    `@LoudnessMG` computes loudness with a "Moore et al. static model" adapted from PsySound2; the model
+    version is not stated.
+  - >-
+    Search results describe PsySound3 as also covering sharpness and fluctuation strength. In this mirror, the
+    descriptions of `@LoudnessCF` and `@LoudnessMG` list sharpness among their outputs; a fluctuation-strength
+    analyser was not confirmed.
+caveats:
+  - >-
+    `README-BUGSISSUES` lists open problems, including "Various Accuracy Bugs", "Calibration Problems" and
+    "Revisit calibration modes".
+  - The project states no validation, and there have been no commits since March 2015.
+  - With no licence file, the terms for reuse and redistribution are unclear.
+implements:
+  - method: loudness-zwicker
+    reference: chalupper-fastl-2002
+    functions: ["@LoudnessCF"]
+    scope: time-varying
+    status: available
+    validation: not-stated
+    note: The analyser names J. Chalupper and H. Fastl as authors.
+  - method: loudness-moore-glasberg
+    reference: moore-1997
+    functions: ["@LoudnessMGB"]
+    status: available
+    validation: not-stated
+    note: >-
+      Also cites Glasberg & Moore (1990) for the auditory filters. The analyser description says it covers
+      time-varying and binaural loudness, and it also cites Glasberg & Moore (2002) and Moore & Glasberg (2007).
+  - method: loudness-moore-glasberg-time-varying
+    reference: glasberg-moore-2002
+    functions: ["@LoudnessMGB"]
+    scope: time-varying and binaural
+    status: available
+    validation: not-stated
+    note: The same analyser as the stationary entry; its description cites Glasberg & Moore (2002).
+  - method: roughness-daniel-weber
+    reference: daniel-weber-1997
+    functions: ["@RoughnessDW"]
+    status: available
+    validation: not-stated
+    note: >-
+      Adapted for PsySound3 by Matt Flax (2006), with changes by Farhan Rizwi (2007). AARAE's `RoughnessDW.m`
+      is a port of this analyser.
+manual:
+  last_commit: 2015-03-28
+  archived: false
+sources:
+  - https://github.com/densilcabrera/psysound3
+  - https://github.com/densilcabrera/psysound3/blob/master/README-BUGSISSUES
+  - https://github.com/densilcabrera/psysound3/blob/master/README-NO_WARRANTY
+  - https://github.com/densilcabrera/psysound3/blob/master/AudioAnalysers/@LoudnessCF/getAuthors.m
+  - https://github.com/densilcabrera/psysound3/blob/master/AudioAnalysers/@LoudnessCF/getDescription.m
+  - https://github.com/densilcabrera/psysound3/blob/master/AudioAnalysers/@LoudnessMG/getDescription.m
+  - https://github.com/densilcabrera/psysound3/blob/master/AudioAnalysers/@LoudnessMGB/getDescription.m
+  - https://github.com/densilcabrera/psysound3/blob/master/AudioAnalysers/@RoughnessDW/getDescription.m
+checked: 2026-10-06

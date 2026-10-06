@@ -1,0 +1,49 @@
+id: numpylib-psychoacoustic
+name: NumpyLibforPsychoAcoustic
+repository: https://github.com/Ryrybros/NumpyLibforPsychoAcoustic
+languages: [Python]
+kind: research-code
+license: none
+maintainers: [Ryrybros]
+summary: >-
+  Python (NumPy) adaptation of loudness models from the Auditory Modeling Toolbox (AMT), written as a second-year
+  student project at Mines School of Nancy: the stationary model of Moore, Glasberg & Baer (1997) and the
+  time-varying model of Glasberg & Moore (2002).
+ai_assistance: not-stated
+notes:
+  - >-
+    The implementation document says the Moore (1997) model is "the same code as the amt-toolbox one"; the data
+    preparation follows AMT's Glasberg (2002) data function.
+  - >-
+    GitHub labels the repository TypeScript because of the React/Vite user interface in UI/Model_UI; the models
+    are Python.
+caveats:
+  - No licence file, so reuse is not permitted by default.
+  - >-
+    The implementation document describes only the Moore (1997) model as implemented; `glasberg2002` is in the
+    code (with data/Glasberg2002.json) but not documented.
+implements:
+  - method: loudness-moore-glasberg
+    reference: moore-1997
+    functions: [model.moore1997, equalSones.getEqualSones]
+    status: available
+    validation: standard-data
+    note: >-
+      The implementation document says the model is compared with the results shown in the original article
+      (plots of its Fig. 8 and Fig. 12). Numerical error reports (PDF) compare intermediate arrays, such as the
+      outer- and middle-ear filter, with AMT's MATLAB output.
+  - method: loudness-moore-glasberg-time-varying
+    reference: glasberg-moore-2002
+    functions: [model.glasberg2002]
+    status: available
+    validation: not-stated
+    note: Present in the code but not described in the implementation document.
+manual:
+  last_commit: 2026-06-07
+  archived: false
+sources:
+  - https://github.com/Ryrybros/NumpyLibforPsychoAcoustic
+  - https://github.com/Ryrybros/NumpyLibforPsychoAcoustic/blob/main/README.md
+  - https://github.com/Ryrybros/NumpyLibforPsychoAcoustic/blob/main/Documentation/Implementation_documentation.pdf
+  - https://github.com/Ryrybros/NumpyLibforPsychoAcoustic/tree/main/Numerical_error_report
+checked: 2026-10-06

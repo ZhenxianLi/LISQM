@@ -30,6 +30,8 @@ def impl_extras(impl: dict, with_ref: bool = False) -> list[str]:
     extras: list[str] = []
     if with_ref:
         extras.append(impl["_ref"]["label"])
+    if impl.get("_via"):
+        extras.append(f"via {impl['_via']['name']}")
     if impl.get("scope"):
         extras.append(impl["scope"])
     if impl["status"] == "unreleased":
@@ -55,6 +57,21 @@ def dedupe(impls: list[dict]) -> list[dict]:
             seen.add(key)
             out.append(i)
     return out
+
+
+def current_statement(index: Index, m: dict) -> str:
+    """'The current edition is …. In development: ….' (plain text)."""
+    refs = [index.ref[r] for r in m["current"]]
+    labels = join_words([r["label"] for r in refs])
+    if all(r["kind"] in PAPER_KINDS for r in refs):
+        s = (f"There is no standard; the reference model is {labels}." if len(refs) == 1 else
+             f"There is no standard; the reference models are {labels}.")
+    else:
+        s = f"The current edition is {labels}."
+    drafts = [index.ref[r] for r in m["references"] if index.ref[r]["status"] == "in-development"]
+    if drafts:
+        s += f" In development: {join_words([d['label'] for d in drafts])}."
+    return s
 
 
 def in_short(index: Index, m: dict, name: Fmt, t: Esc) -> str:
@@ -90,6 +107,8 @@ def by_language(impls: list[dict], name: Fmt) -> list[tuple[str, list[str]]]:
         extras = []
         if len(p["languages"]) > 1:
             extras.append("also " + ", ".join(p["languages"][1:]))
+        if i.get("_via"):
+            extras.append(f"via {i['_via']['name']}")
         if i["status"] == "unreleased":
             extras.append("unreleased")
         elif i["status"] == "proposed":

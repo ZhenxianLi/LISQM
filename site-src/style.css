@@ -256,6 +256,22 @@ h2 + .byline {
   font-size: 0.94em;
 }
 
+ul.by-lang {
+  list-style: none;
+  padding-left: 0;
+  margin-top: -0.4rem;
+}
+
+ul.by-lang .lang {
+  display: inline-block;
+  min-width: 4.6rem;
+}
+
+table.impls td:nth-child(1) { width: 14%; }
+table.impls td:nth-child(2) { width: 21%; }
+table.impls td:nth-child(3) { width: 20%; }
+table.impls td:nth-child(4) { width: 11%; }
+
 em.status {
   color: var(--muted);
 }

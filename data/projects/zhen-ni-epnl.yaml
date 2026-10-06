@@ -1,0 +1,37 @@
+id: zhen-ni-epnl
+name: epnl (Zhen-Ni)
+repository: https://github.com/Zhen-Ni/epnl
+languages: [Rust]
+kind: library
+license: none
+maintainers: [Zhen-Ni]
+summary: >-
+  Small Rust crate that computes perceived noisiness (noy), perceived noise level (PNL) and tone-corrected
+  perceived noise level (PNLT) from 24 one-third-octave band levels, citing ICAO Annex 16, Volume I, Appendix 2
+  in its code comments.
+ai_assistance: not-stated
+notes:
+  - The crate (version 0.1.0) has no README and is not published on crates.io; input.txt holds two example 24-band spectra.
+caveats:
+  - >-
+    The GitHub description reads "Calculate Effective Perceived Noise Level (EPNL) for aircrafts", but EPNL itself
+    is not implemented: there is no time integration or duration correction.
+  - No licence file, so reuse is not permitted by default.
+implements:
+  - method: epnl
+    reference: icao-annex-16-vol-1
+    functions: [SPL, Noy, PNL, PNLT]
+    scope: PNL and PNLT only; no duration correction to EPNL
+    status: available
+    validation: not-stated
+    note: >-
+      Code comments cite "Annex 16 - Volume I, APP 2-16 / 2-17" and number the 24 bands "consistent with ICAO ANNEX
+      16". The quantities are Rust types converted into each other with `From`.
+manual:
+  last_commit: 2023-07-10
+  archived: false
+sources:
+  - https://github.com/Zhen-Ni/epnl
+  - https://github.com/Zhen-Ni/epnl/blob/master/Cargo.toml
+  - https://github.com/Zhen-Ni/epnl/tree/master/src
+checked: 2026-10-06

@@ -2,34 +2,34 @@
 
 > An index of open-source implementations of psychoacoustic metrics (loudness, sharpness, roughness, fluctuation strength, tonality, impulsiveness and psychoacoustic annoyance), organised by the standard edition or model each implementation follows. All programming languages.
 
-Data as of 2026-10-06. 22 methods, 6 projects, languages: C, MATLAB, Python. Each implementation is tied to the standard edition or model paper it follows, with its validation evidence as stated by the project. Repository and package metadata are refreshed weekly.
+Data as of 2026-10-06. 22 methods, 32 projects, languages: C, C++, Julia, MATLAB, Octave, Pure Data, Python, Rust. Each implementation is tied to the standard edition or model paper it follows, with its validation evidence as stated by the project. Repository and package metadata are refreshed weekly.
 
 ## Loudness
 
-- [Zwicker loudness (ISO 532-1, DIN 45631)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/loudness-zwicker.md): current edition ISO 532-1:2017; implementations: MetaSona, MoSQITo, phonometry, pySQAT, SQAT
+- [Zwicker loudness (ISO 532-1, DIN 45631)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/loudness-zwicker.md): current edition ISO 532-1:2017; implementations: AARAE, iso532-1-rs, MetaSona, MoSQITo, phonometry, PsychoacousticParametersMeasurer, PsychoBox, pySQAT, SoundPalette, Soundscapy, SQAT, ZwickerLoudness.jl, ZwickerLoudnessAudio.jl
 - [Moore–Glasberg loudness of stationary sounds (ISO 532-2, ANSI S3.4)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/loudness-moore-glasberg.md): current edition ISO 532-2:2017; implementations: phonometry
-- [Time-varying loudness, Moore–Glasberg–Schlittenlacher (ISO 532-3)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/loudness-moore-glasberg-time-varying.md): current edition ISO 532-3:2023; implementations: phonometry
-- [Loudness from the Sottek Hearing Model (ECMA-418-2)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/loudness-ecma-418-2.md): current edition ECMA-418-2:2025 (4th ed.); implementations: MetaSona, phonometry, pySQAT, sottek-hearing-model, SQAT
+- [Time-varying loudness, Moore–Glasberg–Schlittenlacher (ISO 532-3)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/loudness-moore-glasberg-time-varying.md): current edition ISO 532-3:2023; implementations: iso532-3 (tv2018.m), phonometry
+- [Loudness from the Sottek Hearing Model (ECMA-418-2)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/loudness-ecma-418-2.md): current edition ECMA-418-2:2025 (4th ed.); implementations: MetaSona, phonometry, pySQAT, refmap-psychoacoustics, sottek-hearing-model, SQAT
 
 ## Sharpness
 
-- [Sharpness (DIN 45692, Aures, von Bismarck)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/sharpness.md): current edition DIN 45692:2009; implementations: MetaSona, MoSQITo, phonometry, pySQAT, SQAT
+- [Sharpness (DIN 45692, Aures, von Bismarck)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/sharpness.md): current edition DIN 45692:2009; implementations: MetaSona, MoSQITo, phonometry, PsychoacousticParametersMeasurer, PsychoBox, pySQAT, refmap-psychoacoustics, SoundPalette, Soundscapy, SQAT
 
 ## Roughness
 
-- [Roughness, Daniel & Weber model](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/roughness-daniel-weber.md): current edition Daniel & Weber (1997); implementations: MetaSona, MoSQITo, pySQAT, SQAT
-- [Roughness from the Sottek Hearing Model (ECMA-418-2)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/roughness-ecma-418-2.md): current edition ECMA-418-2:2025 (4th ed.); implementations: MetaSona, phonometry, pySQAT, sottek-hearing-model, SQAT
+- [Roughness, Daniel & Weber model](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/roughness-daniel-weber.md): current edition Daniel & Weber (1997); implementations: AARAE, MetaSona, MoSQITo, PsychoBox, PsySound3, pySQAT, SoundPalette, Soundscapy, SQAT
+- [Roughness from the Sottek Hearing Model (ECMA-418-2)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/roughness-ecma-418-2.md): current edition ECMA-418-2:2025 (4th ed.); implementations: MetaSona, phonometry, pySQAT, refmap-psychoacoustics, sottek-hearing-model, SQAT
 - [Roughness, DIN 38455](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/roughness-din-38455.md): current edition DIN 38455:2024; implementations: none found
 
 ## Fluctuation strength
 
-- [Fluctuation strength, Osses et al. model and Fastl & Zwicker formula](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/fluctuation-strength-osses.md): current edition Osses et al. (2016); implementations: phonometry, pySQAT, SQAT
+- [Fluctuation strength, Osses et al. model and Fastl & Zwicker formula](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/fluctuation-strength-osses.md): current edition Osses et al. (2016); implementations: fluctuation-strength-TUe, phonometry, pySQAT, SQAT
 - [Fluctuation strength from the Sottek Hearing Model (ECMA-418-2)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/fluctuation-strength-ecma-418-2.md): current edition ECMA-418-2:2025 (4th ed.); implementations: phonometry, sottek-hearing-model, SQAT
 
 ## Tonality
 
 - [Tonality, Aures/Terhardt model](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/tonality-aures.md): current edition Aures (1985b); implementations: MetaSona, pySQAT, SQAT, MoSQITo
-- [Tonality from the Sottek Hearing Model (ECMA-418-2)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/tonality-ecma-418-2.md): current edition ECMA-418-2:2025 (4th ed.); implementations: MetaSona, phonometry, pySQAT, sottek-hearing-model, SQAT
+- [Tonality from the Sottek Hearing Model (ECMA-418-2)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/tonality-ecma-418-2.md): current edition ECMA-418-2:2025 (4th ed.); implementations: MetaSona, phonometry, pySQAT, refmap-psychoacoustics, sottek-hearing-model, SQAT
 - [Tone-to-noise ratio and prominence ratio (ECMA-418-1)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/tone-to-noise-prominence-ratio.md): current edition ECMA-418-1:2024 (3rd ed.); implementations: phonometry
 - [Tonal components and tone adjustment (DIN 45681)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/tonality-din-45681.md): current edition DIN 45681:2005; implementations: none found
 - [Audibility of tones in noise (ISO/TS 20065)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/tonal-audibility-iso-20065.md): current edition ISO/TS 20065:2022; implementations: none found
@@ -42,22 +42,48 @@ Data as of 2026-10-06. 22 methods, 6 projects, languages: C, MATLAB, Python. Eac
 
 ## Psychoacoustic annoyance
 
-- [Psychoacoustic annoyance (Widmann, Zwicker & Fastl, More, Di et al.)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/psychoacoustic-annoyance.md): current edition Widmann (1992), Zwicker & Fastl (1999), More (2010), and Di et al. (2016); implementations: pySQAT, SQAT, phonometry
+- [Psychoacoustic annoyance (Widmann, Zwicker & Fastl, More, Di et al.)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/psychoacoustic-annoyance.md): current edition Widmann (1992), Zwicker & Fastl (1999), More (2010), and Di et al. (2016); implementations: pySQAT, refmap-psychoacoustics, SQAT, phonometry, PsychoacousticParametersMeasurer
 
 ## Related quantities
 
 - [Equal-loudness-level contours (ISO 226)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/equal-loudness-contours.md): current edition ISO 226:2023; implementations: phonometry
-- [Perceived noise level, PNLT and EPNL (ICAO Annex 16, 14 CFR Part 36)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/epnl.md): current edition ICAO Annex 16, Vol. I and 14 CFR Part 36; implementations: pySQAT, SQAT, phonometry
-- [Aural detectability of sounds in background noise](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/aural-detectability.md): current edition Fidell et al. (1974); implementations: none found
+- [Perceived noise level, PNLT and EPNL (ICAO Annex 16, 14 CFR Part 36)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/epnl.md): current edition ICAO Annex 16, Vol. I and 14 CFR Part 36; implementations: pySQAT, SQAT, epnl (Zhen-Ni), phonometry, SUAVE
+- [Aural detectability of sounds in background noise](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/aural-detectability.md): current edition Fidell et al. (1974); implementations: refmap-psychoacoustics
 
 ## Projects
 
+- [AARAE](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/aarae.md): MATLAB; Audio and Acoustical Response Analysis Environment: a MATLAB environment with a graphical interface, made to support teaching and research in acoustics.
+- [acoustic-toolbox](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/acoustic-toolbox.md): Python; Python acoustics library under the Université Gustave Eiffel GitHub organisation, continuing python-acoustics.
+- [Auditory Modeling Toolbox (AMT)](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/amt.md): MATLAB, Octave; MATLAB/Octave toolbox of auditory models for reproducible research.
+- [epnl (Zhen-Ni)](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/zhen-ni-epnl.md): Rust; Small Rust crate that computes perceived noisiness (noy), perceived noise level (PNL) and tone-corrected perceived noise level (PNLT) from 24 one-third-octave band levels, citing ICAO Annex 16, Volume I, Appendix 2 in its code comments.
+- [fluctuation-strength-TUe](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/fluctuation-strength-tue.md): MATLAB; MATLAB code of the fluctuation strength model of Osses, García & Kohlrausch (2016) (FluctuationStrength_TUe.m), with the stimuli of the paper and a demo that reproduces its figures.
+- [IoSR Matlab Toolbox](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/iosr-matlab-toolbox.md): MATLAB; General-purpose MATLAB toolbox from the Institute of Sound Recording (University of Surrey) for auditory modelling, signal processing, source separation, statistics and plotting.
+- [iso532-1-rs](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/iso532-1-rs.md): Rust, C, Python; Rust engine (README title "ISO532") for ISO 532-1:2017 Zwicker loudness: stationary, time-varying and a streaming interface, with a C ABI and a Python binding (PyO3/maturin).
+- [iso532-3 (tv2018.m)](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/js2251-iso532-3.md): MATLAB; MATLAB code by Brian C.
+- [loudness (deeuu)](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/deeuu-loudness.md): C++, Python; C++ library with SWIG Python bindings for building loudness models from cascaded processing modules.
+- [LoudnessModel](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/loudnessmodel.md): Python; Python translation of the Cambridge MATLAB code for the TVL2018 loudness model: Moore et al.
 - [MetaSona](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/metasona.md): Python, C; C library with a typed Python interface and prebuilt wheels, written to make repeated psychoacoustic analysis fast.
 - [MoSQITo](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/mosqito.md): Python; Python library for sound quality metrics: ISO 532-1 loudness, DIN 45692 sharpness, Daniel & Weber roughness, ECMA-418-2 loudness and roughness (2nd edition), tone-to-noise and prominence ratios, and the speech intelligibility index.
+- [MoSQITo-FDP](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/mosqito-fdp.md): Python; Archived Python snapshot of a MoSQITo fork made for a final-degree project.
+- [NumpyLibforPsychoAcoustic](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/numpylib-psychoacoustic.md): Python; Python (NumPy) adaptation of loudness models from the Auditory Modeling Toolbox (AMT), written as a second-year student project at Mines School of Nancy: the stationary model of Moore, Glasberg & Baer (1997) and the time-varying model of Glasberg & Moore (2002).
 - [phonometry](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/phonometry.md): Python; Python acoustics library (formerly PyOctaveBand) that added a large psychoacoustics module in July 2026: ISO 532-1, -2 and -3 loudness, ECMA-418-2:2025 loudness, tonality, roughness and fluctuation strength (monaural), DIN 45692 sharpness, Osses fluctuation strength, ECMA-418-1:2024 TNR/PR, tonal audibility, impulsiveness, EPNL and ISO 226:2023.
+- [PSYCHO (pd-psycho)](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/pd-psycho.md): Pure Data, C; Pure Data library of psychoacoustic objects (C externals and abstractions) from the author's research on dissonance models.
+- [PsychoacousticParametersMeasurer](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/psychoacoustic-parameters-measurer.md): Python; Python scripts, commented in Spanish, that translate psychoacoustic parameters described in Zwicker and Fastl's book: Zwicker loudness (stationary and time-varying, from third-octave levels), sharpness, roughness, fluctuation strength and psychoacoustic annoyance.
+- [PsychoBox](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/psychobox.md): Python; Desktop application (PySide6 GUI) for playing, editing, filtering and analysing audio.
+- [PsySound3](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/psysound3.md): MATLAB; MATLAB program with a graphical interface for analysing sound recordings.
+- [PyDSM](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/pydsm.md): Python; Python toolbox for the design and simulation of delta-sigma modulators.
 - [pySQAT](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/pysqat.md): Python; Python port of the MATLAB toolbox SQAT (README title "SQAT4PY") with a PySide6 graphical interface.
+- [python-acoustics](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/python-acoustics.md): Python; General Python library for acousticians, published on PyPI as acoustics.
+- [refmap-psychoacoustics](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/refmap-psychoacoustics.md): MATLAB, Python; Research code of the REFMAP project at the University of Salford, in MATLAB with Python ports.
 - [sottek-hearing-model](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/sottek-hearing-model.md): Python; Python implementation of the ECMA-418-2:2025 (4th edition) Sottek Hearing Model metrics: loudness, tonality and roughness, with binaural combination, and fluctuation strength on the main branch.
+- [SoundPalette](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/soundpalette.md): C++; C++ tool for game audio that analyses a folder of sound effects and draws each file as a glyph in a palette, built as a static library, a command-line tool (including a lint mode for CI) and a desktop app.
+- [Soundscapy](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/soundscapy.md): Python; Python library for soundscape assessment.
 - [SQAT](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/sqat.md): MATLAB; MATLAB toolbox for sound quality analysis that bundles most psychoacoustic metrics in one place: ISO 532-1 and ECMA-418-2 loudness, DIN 45692 sharpness, Daniel & Weber and ECMA-418-2 roughness, Osses fluctuation strength, Aures and ECMA-418-2 tonality, four psychoacoustic annoyance models and EPNL.
+- [SUAVE](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/suave.md): Python; Python environment for the multi-fidelity conceptual design of aircraft ("An Aerospace Vehicle Environment").
+- [torch_amt](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/torch-amt.md): Python; PyTorch implementations of models from the MATLAB Auditory Modeling Toolbox (AMT), differentiable and able to run on GPU.
+- [Zwicker's Loudness Calculation SW + Tool (ISO 532B)](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/zwickerloudness-sourceforge.md): C; Console program in C, for BSD, Linux and Windows, that calculates the loudness of stationary sounds with Zwicker's method (ISO 532B / DIN 45631) from one-third-octave band levels.
+- [ZwickerLoudness.jl](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/zwickerloudness-jl.md): Julia; Julia package that computes ISO 532-1:2017 Zwicker loudness from one-third-octave band levels: the stationary method (clause 5) from 28 band levels and, since v0.3.0, the time-varying method (clause 6) with N5 and N10 from a band-level time series.
+- [ZwickerLoudnessAudio.jl](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/zwickerloudnessaudio-jl.md): Julia; Julia front end to ZwickerLoudness.jl that computes ISO 532-1:2017 Zwicker loudness from waveforms or WAV files: stationary loudness, and since v0.3.0 time-varying loudness with N5 and N10.
 
 ## Data
 

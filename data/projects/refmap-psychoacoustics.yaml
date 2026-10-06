@@ -1,0 +1,121 @@
+id: refmap-psychoacoustics
+name: refmap-psychoacoustics
+repository: https://github.com/acoustics-code-salford/refmap-psychoacoustics
+languages: [MATLAB, Python]
+kind: research-code
+license: GPL-3.0-only
+license_note: >-
+  The licences disagree: the LICENSE file holds the GPL-3.0 text, while pyproject.toml declares
+  "AGPL-3.0-only".
+maintainers: [Mike Lotinga]
+summary: >-
+  Research code of the REFMAP project at the University of Salford, in MATLAB with Python ports. Implements
+  ECMA-418-2:2025 loudness, tonality and roughness, and also sharpness, impulsiveness, psychoacoustic annoyance
+  and aural detectability models.
+ai_assistance: not-stated
+paper:
+  citation: >-
+    Lotinga, M. J. B., Torjussen, M., & Felix Greco, G. (2025). Verified implementations of the Sottek
+    psychoacoustic Hearing Model standardised sound quality metrics (ECMA-418-2 loudness, tonality and
+    roughness). *Forum Acusticum / Euronoise 2025*, Málaga.
+  url: https://www.researchgate.net/publication/392904348
+notes:
+  - >-
+    The README says versions of the ECMA-418-2 code are also incorporated in SQAT. The Python port is also
+    published separately as the PyPI package sottek-hearing-model (repository mlotinga/sottek-hearing-model).
+  - The Python package defined in pyproject.toml (refmap-psychoacoustics 0.1.0) is not on PyPI.
+  - >-
+    Tonality has an optional tonal annoyance weighting after Sottek & Becker (2019), which is not part of
+    ECMA-418-2.
+  - >-
+    Further metrics without an entry in this index: partial loudness and partial tonality of a target in a masker
+    ("based on ECMA-418-2:2025", an extension of the standard), quasi-loudness from the spectral elements of
+    ISO 532-1 with optional ISO 532-3:2023 or ECMA-418-2:2025 ear filters, tonal sharpness, and impulsiveness
+    after Willemsen & Rao (2010) from ISO 532-1:2017 or ECMA-418-2:2025 loudness.
+  - >-
+    The Python code also has annoyance models after Willemsen et al. (2010), Torija et al. (2022) and Boucher et
+    al. (2024), which have no reference entry in this index.
+  - Also contains listening-test apps and analysis notebooks.
+caveats:
+  - >-
+    The README calls it "'work in progress' code for a research project. It is not a completed package or code
+    library."
+  - Some code comments still cite clauses of "ECMA 418-2:2022".
+implements:
+  - method: loudness-ecma-418-2
+    reference: ecma-418-2-ed4
+    functions: [acousticSHMLoudness, acousticSHMLoudnessFromComponent, shm_loudness_ecma, shm_loudness_ecma_from_comp]
+    scope: MATLAB and Python; binaural and specific loudness
+    status: available
+    validation: cross-implementation
+    note: >-
+      MATLAB and Python verified against HEAD acoustics ArtemiS v17.1 for a 1 kHz tone at 40 dB SPL, a 1 kHz tone
+      amplitude-modulated at 70 Hz at 60 dB SPL and a 30 s binaural street recording; the audio and reference
+      results are on Zenodo (doi:10.5281/zenodo.18849587).
+  - method: tonality-ecma-418-2
+    reference: ecma-418-2-ed4
+    functions: [acousticSHMTonality, shm_tonality_ecma]
+    scope: MATLAB and Python
+    status: available
+    validation: cross-implementation
+    note: Verified against HEAD acoustics ArtemiS v17.1 with the same three signals as loudness.
+  - method: roughness-ecma-418-2
+    reference: ecma-418-2-ed4
+    functions: [acousticSHMRoughness, shm_roughness_ecma]
+    scope: MATLAB and Python
+    status: available
+    validation: cross-implementation
+    note: Verified against HEAD acoustics ArtemiS v17.1 with the same three signals as loudness.
+  - method: sharpness
+    reference: din-45692-2009
+    functions: [acousticSharpnessSHM, acousticSharpFromSHMLoud]
+    scope: DIN 45692 weighting applied to ECMA-418-2 loudness
+    status: available
+    validation: not-stated
+    note: >-
+      The DIN 45692 weighting is the option `widmann`; Aures (the default) and von Bismarck weightings are also
+      offered. DIN 45692 itself is defined on Zwicker specific loudness. A further variant works from a
+      Zwicker-based quasi-loudness (`acousticSharpFromQuasiLoud`). An inaccuracy in the Aures weighting was fixed
+      on 2026-09-18.
+  - method: psychoacoustic-annoyance
+    reference: widmann-1992
+    functions: [acousticPsychAnnoy, widmannPA]
+    status: available
+    validation: standard-data
+    note: >-
+      The MATLAB header names the model Widmann (1992), "commonly misattributed to Zwicker". A validation script
+      (validation/metrics/mlab/acousticPsychAnnoyValidation.m) compares the MATLAB version with values from
+      Widmann (1992). The Python `widmannPA` takes precomputed metric values.
+  - method: psychoacoustic-annoyance
+    reference: more-2010
+    functions: [morePA]
+    scope: Python, from precomputed metric values
+    status: available
+    validation: not-stated
+  - method: psychoacoustic-annoyance
+    reference: di-2016
+    functions: [diPA]
+    scope: Python, from precomputed metric values
+    status: available
+    validation: not-stated
+  - method: aural-detectability
+    reference: fidell-1974
+    functions: [auralDetectability, auralDetectFromLeq, aural_detect, aural_detect_from_lzeqt]
+    scope: MATLAB and Python
+    status: available
+    validation: not-stated
+    note: >-
+      Code headers describe the Fidell, Pearsons & Bennett (1974) model as "developed further by NASA" and cite
+      "Rizzi, SA et al, 2024"; the README cites Rizzi et al. (2025), *Journal of Aircraft*, doi:10.2514/1.C038188.
+manual:
+  last_commit: 2026-10-02
+  archived: false
+sources:
+  - https://github.com/acoustics-code-salford/refmap-psychoacoustics
+  - https://github.com/acoustics-code-salford/refmap-psychoacoustics/blob/main/README.md
+  - https://github.com/acoustics-code-salford/refmap-psychoacoustics/blob/main/validation/ECMA-418-2/README.md
+  - https://github.com/acoustics-code-salford/refmap-psychoacoustics/blob/main/pyproject.toml
+  - https://github.com/acoustics-code-salford/refmap-psychoacoustics/blob/main/LICENSE
+  - https://doi.org/10.5281/zenodo.18849587
+  - https://pypi.org/project/sottek-hearing-model/
+checked: 2026-10-06

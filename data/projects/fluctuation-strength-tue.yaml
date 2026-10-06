@@ -1,0 +1,47 @@
+id: fluctuation-strength-tue
+name: fluctuation-strength-TUe
+repository: https://github.com/aosses-tue/fluctuation-strength-TUe
+languages: [MATLAB]
+kind: research-code
+license: none
+maintainers: [Alejandro Osses]
+summary: >-
+  MATLAB code of the fluctuation strength model of Osses, García & Kohlrausch (2016)
+  (`FluctuationStrength_TUe.m`), with the stimuli of the paper and a demo that reproduces its figures.
+ai_assistance: not-stated
+paper:
+  citation: >-
+    Osses, A., García, R., & Kohlrausch, A. (2016). Modelling the sensation of fluctuation strength. *Proceedings
+    of Meetings on Acoustics*, 28, 050005.
+  doi: 10.1121/2.0000410
+notes:
+  - >-
+    The header says the algorithm was "adapted from the Roughness model" and programmed by Alejandro Osses and
+    Rodrigo García at TU/e, 2014–2016.
+  - >-
+    The model is also documented in Osses Vecchi (2018), PhD thesis, TU Eindhoven (Chapter 2 and Appendix B),
+    linked from the README.
+  - Version 1.0 is a git tag of 2019-12-31; the code was optimised after the tag, on 2020-01-02.
+caveats:
+  - No licence file, so reuse is not permitted by default.
+implements:
+  - method: fluctuation-strength-osses
+    reference: osses-2016
+    functions: [FluctuationStrength_TUe]
+    status: available
+    since: "1.0"
+    validation: standard-data
+    note: >-
+      `demos/demo_osses2016a.m` reproduces the figures of the paper with the included stimuli (AM and FM tones, AM
+      noise and excerpts of real sounds).
+manual:
+  last_commit: 2020-01-02
+  latest_release: {version: "1.0", date: 2019-12-31}
+  archived: false
+sources:
+  - https://github.com/aosses-tue/fluctuation-strength-TUe
+  - https://github.com/aosses-tue/fluctuation-strength-TUe/blob/master/README.md
+  - https://github.com/aosses-tue/fluctuation-strength-TUe/blob/master/FluctuationStrength_TUe.m
+  - https://doi.org/10.1121/2.0000410
+  - https://research.tue.nl/files/103868563/20180919_Osses_Vecchi.pdf
+checked: 2026-10-06

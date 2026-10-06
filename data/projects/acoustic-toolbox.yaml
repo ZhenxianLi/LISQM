@@ -1,0 +1,44 @@
+id: acoustic-toolbox
+name: acoustic-toolbox
+repository: https://github.com/Universite-Gustave-Eiffel/acoustic-toolbox
+docs: https://acoustic-toolbox.readthedocs.io/
+languages: [Python]
+kind: library
+license: BSD-3-Clause
+packages:
+  - registry: pypi
+    name: acoustic-toolbox
+install: pip install acoustic-toolbox
+summary: >-
+  Python acoustics library under the Université Gustave Eiffel GitHub organisation, continuing python-acoustics.
+  For this index it is relevant for its tonal audibility and tonal adjustment after ISO 1996-2:2007.
+ai_assistance: not-stated
+notes:
+  - >-
+    Based on python-acoustics (per the README) and keeps its git history; development under the new name started
+    in July 2024.
+  - It has no loudness, sharpness or roughness modules.
+caveats:
+  - >-
+    It follows ISO 1996-2:2007, which has been withdrawn; ISO 1996-2:2017 replaced its tonal audibility method
+    with those of Annexes J and K.
+implements:
+  - method: tonal-audibility-iso-1996-2
+    reference: iso-1996-2-2007
+    functions: [Tonality, tonal_audibility, tonal_adjustment]
+    scope: tonal audibility and tonal adjustment
+    status: available
+    validation: self-tests
+    note: >-
+      Module `acoustic_toolbox.standards.iso_1996_2_2007`, the same code lineage as python-acoustics; as there, the
+      test of the examples in the standard is commented out.
+manual:
+  last_commit: 2026-02-12
+  latest_release: {version: 0.2.2, date: 2026-01-26}
+  archived: false
+sources:
+  - https://github.com/Universite-Gustave-Eiffel/acoustic-toolbox
+  - https://github.com/Universite-Gustave-Eiffel/acoustic-toolbox/blob/main/README.md
+  - https://github.com/Universite-Gustave-Eiffel/acoustic-toolbox/blob/main/acoustic_toolbox/standards/iso_1996_2_2007.py
+  - https://pypi.org/project/acoustic-toolbox/
+checked: 2026-10-06

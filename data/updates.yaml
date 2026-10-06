@@ -4,16 +4,21 @@
 - date: 2026-10-06
   title: First public version
   body: |
-    The index starts with the projects, methods and standard editions listed on the website. Every
-    implementation is tied to the edition or model paper it follows, with links to the documentation the
-    facts were taken from.
+    The index starts with 32 projects in Python, MATLAB, Octave, C, C++, Rust, Julia and Pure Data, and 22
+    methods from Zwicker loudness to aural detectability. Every implementation is tied to the standard edition
+    or model paper it follows, with links to the documentation the facts were taken from.
 
     Worth knowing as of today:
 
-    - ECMA-418-2 is at its 4th edition (June 2025), which added fluctuation strength. Implementations of
-      earlier editions are still in use, so check which edition a tool follows before comparing results.
-    - SQAT's main branch carries unreleased changes to Aures tonality and Daniel & Weber roughness
-      (September 2026) that change results compared with SQAT v1.3.
+    - ECMA-418-2 is at its 4th edition (June 2025), which added fluctuation strength. sottek-hearing-model,
+      phonometry, MetaSona and refmap-psychoacoustics follow it; SQAT has it on its main branch only, and
+      MoSQITo still follows the 2nd edition (2022).
+    - SQAT's latest release (v1.3) is licensed for non-commercial use only. Its main branch is GPL-3.0 and
+      carries unreleased fixes to ISO 532-1 time-varying loudness, Aures tonality and Daniel & Weber roughness
+      that change results.
     - All three parts of ISO 532 are being revised; committee drafts have existed since November 2024.
-    - DIN 38455:2024 is the first German standard for roughness. No open implementation is known.
-    - MetaSona (C library with a Python interface, first released in September 2026) is a new entry.
+    - No open implementation was found for DIN 38455:2024 (the first German roughness standard), DIN 45681 or
+      ISO/TS 20065:2022.
+    - Six projects disclose that AI tools assisted their development; each project page says where.
+    - Candidates that could not be checked yet, such as PsyTools (TU Graz) and the ITA-Toolbox, are listed on
+      the About page as leads.

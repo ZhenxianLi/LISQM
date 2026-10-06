@@ -1,0 +1,64 @@
+id: psychoacoustic-parameters-measurer
+name: PsychoacousticParametersMeasurer
+repository: https://github.com/AndreaCastiella/PsychoacousticParametersMeasurer
+languages: [Python]
+kind: research-code
+license: none
+maintainers: [Andrea Castiella Aguirrezabala]
+summary: >-
+  Python scripts, commented in Spanish, that translate psychoacoustic parameters described in Zwicker and Fastl's
+  book: Zwicker loudness (stationary and time-varying, from third-octave levels), sharpness, roughness,
+  fluctuation strength and psychoacoustic annoyance.
+ai_assistance: not-stated
+notes:
+  - >-
+    There is no README. The GitHub description calls the project "the translation to python of the most important
+    parameters in the field of Psychoacoustics based on the book of Zwicker and Fastl".
+  - >-
+    Roughness (`acousticRoughness`) follows the formula in Zwicker & Fastl's book, which is not one of the
+    roughness methods in this index.
+  - Also contains A-weighting, voice-activity detection and the scripts Main.py and Main_WAV.py for microphone or WAV input.
+caveats:
+  - No licence file, so reuse is not permitted by default.
+  - No documentation and no stated validation.
+implements:
+  - method: loudness-zwicker
+    reference: iso-532-1-2017
+    functions: [loudness_ISO532, loudness_ISO532_time]
+    scope: stationary and time-varying, from third-octave levels
+    status: available
+    validation: not-stated
+    note: >-
+      The file header says "Loudness ISO 532-1:2014" and the filter coefficients are labelled "ISO 532-1:2014";
+      the published edition is ISO 532-1:2017.
+  - method: sharpness
+    reference: din-45692-2009
+    functions: [calc_sharpness]
+    status: available
+    validation: not-stated
+    note: The file header says "Sharpness DIN 45692"; the function also returns the von Bismarck and Aures variants.
+  - method: fluctuation-strength-osses
+    reference: fastl-zwicker-2007
+    functions: [acousticFluctuation, fmoddetection]
+    scope: Zwicker & Fastl formula
+    status: available
+    validation: not-stated
+    note: >-
+      The header cites Zwicker & Fastl, "Psychoacoustics: Facts and Models", without naming an edition.
+  - method: psychoacoustic-annoyance
+    reference: zwicker-fastl-1999
+    functions: [psychoacousticAnnoyance]
+    status: available
+    validation: not-stated
+    note: >-
+      The header cites Zwicker & Fastl, "Psychoacoustics: Facts and Models", without naming an edition.
+manual:
+  last_commit: 2021-06-06
+  archived: false
+sources:
+  - https://github.com/AndreaCastiella/PsychoacousticParametersMeasurer
+  - https://github.com/AndreaCastiella/PsychoacousticParametersMeasurer/blob/main/loudness_ISO532.py
+  - https://github.com/AndreaCastiella/PsychoacousticParametersMeasurer/blob/main/Sharpness.py
+  - https://github.com/AndreaCastiella/PsychoacousticParametersMeasurer/blob/main/FluctuationStrength.py
+  - https://github.com/AndreaCastiella/PsychoacousticParametersMeasurer/blob/main/PsychoacousticAnnoyance.py
+checked: 2026-10-06

@@ -50,6 +50,8 @@ def _impl_note(i: dict) -> str:
     bits = []
     if i["status"] != "available":
         bits.append(i["status"].capitalize() + (f" ({i['link']})" if i.get("link") else "") + ".")
+    if i.get("_via"):
+        bits.append(f"Computed by {i['_via']['name']}.")
     if i.get("note"):
         bits.append(i["note"].strip())
     return " ".join(bits)
@@ -168,7 +170,7 @@ def overview_rows(index: Index, link_methods: bool = True) -> list[list[str]]:
             cell = " · ".join(f"{lang}: {', '.join(names)}" for lang, names in groups) or "none found"
             older = dedupe(m["_older_impls"])
             if older:
-                cell += " · earlier editions: " + ", ".join(
+                cell += " · earlier or related: " + ", ".join(
                     f"{name(i['_project'])} ({i['_ref']['label']})" for i in older
                     if i["_ref"]["status"] != "in-development")
             rows.append([fam["name"], _method_link(index, m) if link_methods else m["name"],

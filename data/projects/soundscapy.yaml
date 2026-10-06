@@ -1,0 +1,73 @@
+id: soundscapy
+name: Soundscapy
+repository: https://github.com/MitchellAcoustics/Soundscapy
+docs: https://soundscapy.readthedocs.io/en/latest/
+languages: [Python]
+kind: wrapper
+license: BSD-3-Clause
+packages:
+  - registry: pypi
+    name: soundscapy
+install: 'pip install "soundscapy[audio]"'
+maintainers: [Andrew Mitchell]
+summary: >-
+  Python library for soundscape assessment. Its optional audio module computes psychoacoustic metrics of binaural
+  recordings, per channel, by calling MoSQITo: time-varying Zwicker loudness, DIN 45692 sharpness and Daniel &
+  Weber roughness.
+ai_assistance: disclosed
+ai_note: >-
+  Commit metadata only; the README does not mention AI. At least 31 commits from March to May 2026 carry
+  co-author lines for Claude or Copilot, and eight commits are authored by copilot-swe-agent[bot].
+paper:
+  citation: >-
+    Mitchell, A., Aletta, F., & Kang, J. (2022). How to analyse and represent quantitative soundscape data.
+    *JASA Express Letters*, 2, 037201.
+  doi: 10.1121/10.0009794
+notes:
+  - >-
+    The psychoacoustic functions need the optional `audio` extra (MoSQITo 1.2.1 or newer). Environmental acoustic
+    metrics come from acoustic-toolbox and ecoacoustic indices from scikit-maad.
+  - >-
+    Issue [#123](https://github.com/MitchellAcoustics/Soundscapy/issues/123), open since 2025-10-29, plans to
+    integrate sottek-hearing-model for ECMA-418-2 metrics; its branch has no such code yet.
+  - The paper the README asks users to cite covers soundscape data analysis, not the psychoacoustic functions.
+caveats:
+  - >-
+    The psychoacoustic values are computed by MoSQITo, so their editions and accuracy are those of the installed
+    MoSQITo version.
+implements:
+  - method: loudness-zwicker
+    reference: iso-532-1-2017
+    functions: [Binaural.mosqito_metric, process_all_metrics]
+    scope: time-varying, per channel
+    status: available
+    via: mosqito
+    validation: not-stated
+    note: Calls `loudness_zwtv`.
+  - method: sharpness
+    reference: din-45692-2009
+    functions: [Binaural.mosqito_metric, process_all_metrics]
+    status: available
+    via: mosqito
+    validation: not-stated
+    note: >-
+      Calls `sharpness_din_from_loudness`, `sharpness_din_perseg` or `sharpness_din_tv`; the weighting can be
+      chosen.
+  - method: roughness-daniel-weber
+    reference: daniel-weber-1997
+    functions: [Binaural.mosqito_metric, process_all_metrics]
+    status: available
+    via: mosqito
+    validation: not-stated
+    note: Calls `roughness_dw`.
+manual:
+  last_commit: 2026-05-14
+  latest_release: {version: 0.8.5, date: 2026-05-12}
+  archived: false
+sources:
+  - https://github.com/MitchellAcoustics/Soundscapy
+  - https://github.com/MitchellAcoustics/Soundscapy/blob/main/README.md
+  - https://github.com/MitchellAcoustics/Soundscapy/blob/main/src/soundscapy/audio/metrics.py
+  - https://github.com/MitchellAcoustics/Soundscapy/issues/123
+  - https://pypi.org/project/soundscapy/
+checked: 2026-10-06

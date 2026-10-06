@@ -1,0 +1,53 @@
+id: iso532-1-rs
+name: iso532-1-rs
+repository: https://github.com/cclin99/iso532-1-rs
+languages: [Rust, C, Python]
+kind: library
+license: Apache-2.0
+maintainers: [cclin99]
+summary: >-
+  Rust engine (README title "ISO532") for ISO 532-1:2017 Zwicker loudness: stationary, time-varying and a
+  streaming interface, with a C ABI and a Python binding (PyO3/maturin). Only ISO 532-1 loudness is implemented.
+ai_assistance: disclosed
+ai_note: >-
+  The README describes "An AI-assisted Rust engine" developed "through human-directed AI collaboration"; 16
+  commits from July 2026 carry Claude co-author lines, and the repository contains Codex agent configuration.
+notes:
+  - >-
+    Not published on crates.io or PyPI (the crate and the Python module are named `iso532`). Version 0.1.0 exists
+    as a git tag of 2026-07-19 and in CHANGELOG.md and CITATION.cff; there is no GitHub release.
+  - >-
+    MoSQITo 1.2.1 is the reference implementation, credited in THIRD_PARTY_NOTICES.md; the stationary front end
+    follows MoSQITo's `noct_spectrum` path.
+  - >-
+    Expects calibrated pressure in pascals at 48 kHz. The stream outputs sone, phon and status flags on a 2 ms
+    grid and marks the first 580 frames as warm-up.
+caveats:
+  - >-
+    The MoSQITo golden data and the ISO Annex B fixtures are gitignored and must be regenerated locally; the README
+    says "Hosted CI does not by itself prove the local MoSQITo/Annex B golden chain".
+implements:
+  - method: loudness-zwicker
+    reference: iso-532-1-2017
+    functions: [loudness_zwst, loudness_zwtv, ZwtvStream]
+    scope: stationary, time-varying and streaming
+    status: available
+    since: 0.1.0
+    validation: standard-data
+    note: >-
+      Parity tests with MoSQITo 1.2.1 on nine synthetic and Annex B signals (worst reported difference 1.3e-9).
+      Checked separately against ISO 532-1 Annex B: the README reports stationary offsets of about +0.82 % and
+      −0.76 % for signals 3 and 5, inside the standard's tolerance, and details signals 3, 5 and 10 in
+      docs/ISO-ANNEXB-NUMERICAL-ERROR-2026-07-04.md. Python uses the same names (`iso532.loudness_zwst` …); the C
+      API has `iso532_loudness_zwst`, `iso532_loudness_zwtv` and `iso532_stream_*`.
+manual:
+  last_commit: 2026-07-21
+  latest_release: {version: 0.1.0, date: 2026-07-19}
+  archived: false
+sources:
+  - https://github.com/cclin99/iso532-1-rs
+  - https://github.com/cclin99/iso532-1-rs/blob/main/README.md
+  - https://github.com/cclin99/iso532-1-rs/blob/main/CHANGELOG.md
+  - https://github.com/cclin99/iso532-1-rs/blob/main/THIRD_PARTY_NOTICES.md
+  - https://github.com/cclin99/iso532-1-rs/blob/main/docs/ISO-ANNEXB-NUMERICAL-ERROR-2026-07-04.md
+checked: 2026-10-06

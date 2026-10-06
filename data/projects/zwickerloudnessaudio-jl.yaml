@@ -1,0 +1,56 @@
+id: zwickerloudnessaudio-jl
+name: ZwickerLoudnessAudio.jl
+repository: https://github.com/slink/ZwickerLoudnessAudio.jl
+languages: [Julia]
+kind: library
+license: MIT
+license_note: The README credits MoSQITo (Apache-2.0) for the transcribed time-varying filter tables.
+packages:
+  - registry: julia
+    name: ZwickerLoudnessAudio
+install: 'using Pkg; Pkg.add("ZwickerLoudnessAudio")'
+maintainers: [slink]
+summary: >-
+  Julia front end to ZwickerLoudness.jl that computes ISO 532-1:2017 Zwicker loudness from waveforms or WAV files:
+  stationary loudness, and since v0.3.0 time-varying loudness with N5 and N10.
+ai_assistance: not-stated
+notes:
+  - >-
+    Depends on ZwickerLoudness.jl (compat 0.3), which does the loudness calculation from band levels; this package
+    computes the band levels.
+  - First registered in the Julia General registry as version 0.2.0 (2026-06-01).
+caveats:
+  - Time-varying loudness accepts 48 kHz input only.
+implements:
+  - method: loudness-zwicker
+    reference: iso-532-1-2017
+    functions: [loudness_zwst, band_levels]
+    scope: stationary, from a waveform or WAV file
+    status: available
+    since: 0.2.0
+    validation: standard-data
+    note: >-
+      ISO 532-1 Annex B signals 2–5, synthesised in-process, are within the standard's ±5 % (+2.9 %, +3.6 %, +0.5 %
+      and +2.6 % per the README). Third-octave bands use per-band Butterworth filters of order 3 by default, as in
+      MoSQITo.
+  - method: loudness-zwicker
+    reference: iso-532-1-2017
+    functions: [loudness_zwtv]
+    scope: time-varying, from a waveform or WAV file at 48 kHz
+    status: available
+    since: 0.3.0
+    validation: standard-data
+    note: >-
+      Cross-checked end to end with MoSQITo `loudness_zwtv` (N(t) about 3e-16 relative, N5/N10 about 2e-15
+      absolute), plus an Annex B.4 test that is skipped when the ISO recording is not available locally. The
+      Annex A filter cascade is transcribed from MoSQITo (`_third_octave_levels`, `_square_and_smooth`).
+manual:
+  last_commit: 2026-09-02
+  latest_release: {version: 0.3.0, date: 2026-07-13}
+  archived: false
+sources:
+  - https://github.com/slink/ZwickerLoudnessAudio.jl
+  - https://github.com/slink/ZwickerLoudnessAudio.jl/blob/main/README.md
+  - https://github.com/slink/ZwickerLoudnessAudio.jl/releases
+  - https://github.com/JuliaRegistries/General/tree/master/Z/ZwickerLoudnessAudio
+checked: 2026-10-06

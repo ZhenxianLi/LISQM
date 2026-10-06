@@ -1,0 +1,70 @@
+id: deeuu-loudness
+name: loudness (deeuu)
+repository: https://github.com/deeuu/loudness
+languages: [C++, Python]
+kind: library
+license: GPL-3.0-or-later
+maintainers: [Dominic Ward]
+summary: >-
+  C++ library with SWIG Python bindings for building loudness models from cascaded processing modules. Includes
+  Moore–Glasberg models for stationary sounds (ANSI S3.4-2007, Chen et al. 2011) and time-varying sounds
+  (Glasberg & Moore 2002, Chen & Hu 2012), and stationary Zwicker loudness after DIN 45631:1991.
+ai_assistance: not-stated
+notes:
+  - >-
+    Also includes the dynamic loudness model of Chen & Hu (2012) (`DynamicLoudnessCH2012`) and partial-loudness
+    stages after Moore, Glasberg & Baer (1997) and Chen et al. (2011) (`SpecificPartialLoudnessMGB1997`,
+    `SpecificPartialLoudnessCHGM2011`); neither has an entry in this index.
+  - The interface is modelled on AIM-C. Building needs libsndfile, FFTW and zlib; the Python bindings need SWIG 3.
+  - >-
+    The last commit touching the source code, bindings or Python package was on 2017-06-01; the last commit
+    (2019-08-08) updated the README.
+  - "`swig/setup.py` names the Python package `loudness` 0.0.1, but it was never published on PyPI."
+caveats:
+  - The README says "This project is still in heavy development so is not stable".
+  - >-
+    The PyPI package named `loudness` is an unrelated LUFS (ITU-R BS.1770) project (iver56/loudness); this
+    library has to be built from source.
+implements:
+  - method: loudness-moore-glasberg
+    reference: ansi-s3-4-2007
+    functions: [StationaryLoudnessANSIS342007]
+    scope: with the binaural inhibition of Moore & Glasberg (2007) for two ears
+    status: available
+    validation: self-tests
+    note: >-
+      Unit tests cover each module and model. A validation script writes computed and expected loudness of pure
+      tones to CSV; the expected values are labelled "Table 7" and "Example 2" without naming their source.
+  - method: loudness-moore-glasberg
+    reference: chen-2011
+    functions: [StationaryLoudnessCHGM2011]
+    status: available
+    validation: self-tests
+  - method: loudness-moore-glasberg-time-varying
+    reference: glasberg-moore-2002
+    functions: [DynamicLoudnessGM2002]
+    status: available
+    validation: self-tests
+    note: >-
+      Per the header, excitation patterns follow ANSI S3.4-2007, and parameter sets use the modified long-term
+      time constants of Moore et al. (2003) and the ANSI S3.4-2007 equation for specific loudness at high levels.
+  - method: loudness-zwicker
+    reference: din-45631-1991
+    functions: [StationaryLoudnessDIN456311991]
+    scope: stationary only
+    status: available
+    validation: cross-implementation
+    note: >-
+      Tested against "a quick and dirty Python port of the Matlab code private by GENESIS ACOUSTICS". Uses 28
+      third-octave filters with third-order Butterworth responses after ANSI S1.11:1986; there is no
+      time-varying (DIN 45631/A1) model.
+manual:
+  last_commit: 2019-08-08
+  archived: false
+sources:
+  - https://github.com/deeuu/loudness
+  - https://github.com/deeuu/loudness/blob/master/README.md
+  - https://github.com/deeuu/loudness/tree/master/src/models
+  - https://github.com/deeuu/loudness/tree/master/python/tests
+  - https://pypi.org/project/loudness/
+checked: 2026-10-06

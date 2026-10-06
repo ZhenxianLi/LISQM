@@ -1,0 +1,61 @@
+id: zwickerloudness-jl
+name: ZwickerLoudness.jl
+repository: https://github.com/slink/ZwickerLoudness.jl
+languages: [Julia]
+kind: library
+license: MIT
+packages:
+  - registry: julia
+    name: ZwickerLoudness
+install: 'using Pkg; Pkg.add("ZwickerLoudness")'
+maintainers: [slink]
+summary: >-
+  Julia package that computes ISO 532-1:2017 Zwicker loudness from one-third-octave band levels: the stationary
+  method (clause 5) from 28 band levels and, since v0.3.0, the time-varying method (clause 6) with N5 and N10 from
+  a band-level time series. It does not take audio; ZwickerLoudnessAudio.jl is its front end for waveforms.
+ai_assistance: not-stated
+notes:
+  - >-
+    Version 0.1.0 (February 2026) was described as "ISO 532B" and was never registered; the code was rewritten for
+    ISO 532-1:2017 in 0.2.0, the first version in the Julia General registry (2026-02-11).
+  - >-
+    The time-varying kernel takes a 28 × n matrix of band levels at the standard's 2000 Hz block rate. Its
+    transcription reference is MoSQITo's `loudness_zwtv` at commit `d990c33f94f1`.
+  - Free-field and diffuse-field listening conditions are supported.
+caveats:
+  - >-
+    N5 and N10 use Hyndman–Fan type 7 quantiles; the README notes that MATLAB's `prctile` (type 5), used by SQAT,
+    can differ by a few percent on the same data.
+implements:
+  - method: loudness-zwicker
+    reference: iso-532-1-2017
+    functions: [zwicker_loudness]
+    scope: stationary, from 28 one-third-octave band levels
+    status: available
+    since: 0.2.0
+    validation: standard-data
+    note: >-
+      Checked against ISO 532-1 Annex B signal 1, the only 28-band reference in Annex B (83.296 sone, tolerance
+      ±5 %), and per Bark bin against MoSQITo output (maximum difference below 0.001 sone/Bark).
+  - method: loudness-zwicker
+    reference: iso-532-1-2017
+    functions: [zwicker_loudness_time_varying]
+    scope: time-varying, from band levels at 2000 Hz; N5 and N10
+    status: available
+    since: 0.3.0
+    validation: standard-data
+    note: >-
+      Stages are tested against MoSQITo `loudness_zwtv` intermediates (agreement about 1e-9 to 1e-15). An Annex B.4
+      "Test signal 6" test regenerates band levels from a local MoSQITo checkout and is skipped when none is
+      present; CI clones MoSQITo for it. The ISO WAV files are not included.
+manual:
+  last_commit: 2026-09-02
+  latest_release: {version: 0.3.0, date: 2026-07-13}
+  archived: false
+sources:
+  - https://github.com/slink/ZwickerLoudness.jl
+  - https://github.com/slink/ZwickerLoudness.jl/blob/main/README.md
+  - https://github.com/slink/ZwickerLoudness.jl/blob/main/test/fixtures/NOTICE.md
+  - https://github.com/slink/ZwickerLoudness.jl/releases
+  - https://github.com/JuliaRegistries/General/tree/master/Z/ZwickerLoudness
+checked: 2026-10-06

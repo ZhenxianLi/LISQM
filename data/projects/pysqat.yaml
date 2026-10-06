@@ -73,20 +73,20 @@ implements:
     reference: ecma-418-2-ed4
     functions: [Loudness_ECMA418_2]
     status: available
+    via: sottek-hearing-model
     validation: not-stated
-    note: A wrapper that calls sottek-hearing-model.
   - method: roughness-ecma-418-2
     reference: ecma-418-2-ed4
     functions: [Roughness_ECMA418_2]
     status: available
+    via: sottek-hearing-model
     validation: not-stated
-    note: A wrapper that calls sottek-hearing-model.
   - method: tonality-ecma-418-2
     reference: ecma-418-2-ed4
     functions: [Tonality_ECMA418_2]
     status: available
+    via: sottek-hearing-model
     validation: not-stated
-    note: A wrapper that calls sottek-hearing-model.
 manual:
   last_commit: 2026-06-27
   archived: false

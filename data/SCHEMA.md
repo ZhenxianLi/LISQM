@@ -110,6 +110,7 @@ implements:
     status: available                         # available | unreleased | proposed
     since: optional version
     link: optional URL (folder, pull request …)
+    via: optional project id, when another indexed project does the computation (wrappers)
     validation: standard-data                 # standard-data | reference-code | cross-implementation
                                               # | self-tests | not-stated
     note: optional markdown

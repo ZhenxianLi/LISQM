@@ -1,0 +1,52 @@
+id: mosqito-fdp
+name: MoSQITo-FDP
+repository: https://github.com/djcaminero/MoSQITo-FDP
+languages: [Python]
+kind: research-code
+license: Apache-2.0
+maintainers: [Daniel Jiménez-Caminero Costa]
+summary: >-
+  Archived Python snapshot of a MoSQITo fork made for a final-degree project. It adds the Sottek Hearing Model
+  with specific and total loudness (ECMA-418-2, 1st edition) as a step towards hearing-model tonality, and
+  contains tone-to-noise ratio and prominence ratio after ECMA-74 Annex D.
+ai_assistance: not-stated
+notes:
+  - >-
+    Commits run from 2021-06-13 to 2021-07-05. The package inside is still named `mosqito`, and later work went
+    into MoSQITo itself.
+  - The hearing-model code cites both ECMA-418-2 (1st edition, 2020) and ECMA-74 Annex F (17th edition, 2019).
+  - >-
+    Also contains the Zwicker loudness, DIN 45692 sharpness and Daniel & Weber roughness of the MoSQITo version
+    it was forked from.
+caveats:
+  - Archived snapshot without releases or maintenance.
+  - >-
+    The README marks hearing-model tonality (ECMA-74:2019 Annex G) as under development; the repository
+    contains the hearing-model stages, but no separate tonality function was found.
+implements:
+  - method: loudness-ecma-418-2
+    reference: ecma-418-2-ed1
+    functions: [comp_loudness]
+    scope: hearing model with specific and total loudness
+    status: available
+    validation: standard-data
+    note: >-
+      Validation scripts compare the ear filter and model output with figures and values from ECMA-418-2 and
+      ECMA-74 Annex F; module `mosqito.functions.hearing_model`.
+  - method: tone-to-noise-prominence-ratio
+    reference: ecma-74-ed17
+    functions: [comp_tnr, comp_pr]
+    scope: Annex D
+    status: available
+    validation: self-tests
+    note: >-
+      The README lists TNR/PR as available but not validated; the tests use synthetic tones in white noise.
+manual:
+  last_commit: 2021-07-05
+  archived: true
+sources:
+  - https://github.com/djcaminero/MoSQITo-FDP
+  - https://github.com/djcaminero/MoSQITo-FDP/blob/master/readme.md
+  - https://github.com/djcaminero/MoSQITo-FDP/tree/master/mosqito/functions/hearing_model
+  - https://github.com/djcaminero/MoSQITo-FDP/tree/master/mosqito/validations/hearing_model
+checked: 2026-10-06

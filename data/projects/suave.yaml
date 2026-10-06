@@ -1,0 +1,40 @@
+id: suave
+name: SUAVE
+repository: https://github.com/suavecode/SUAVE
+languages: [Python]
+kind: library
+license: LGPL-2.1
+maintainers: [SUAVE team (Stanford Aerospace Design Lab)]
+summary: >-
+  Python environment for the multi-fidelity conceptual design of aircraft ("An Aerospace Vehicle
+  Environment"). Its noise tools compute perceived noise level (PNL), tone-corrected PNL (PNLT) and effective
+  perceived noise level (EPNL) from one-third-octave spectra.
+ai_assistance: not-stated
+notes:
+  - >-
+    The noise tools are in `SUAVE/Methods/Noise/Fidelity_One/Noise_Tools`, written by C. Ilario (2015) and
+    modified by E. Botero (2016). The same folder has SENEL, dBA and noise-certification-limit helpers.
+caveats:
+  - >-
+    Development appears to have stopped in 2022: the last release (2.5.2) is from March 2022 and the last
+    commit from December 2022.
+  - No validation of the noise metrics is stated.
+implements:
+  - method: epnl
+    reference: icao-annex-16-vol-1
+    functions: [pnl_noise, noise_tone_correction, epnl_noise]
+    scope: PNL, PNLT and EPNL
+    status: available
+    validation: not-stated
+    note: >-
+      EPNL is computed from a PNLT time history. The noise tools cite neither ICAO Annex 16 nor 14 CFR Part 36,
+      nor an edition; their docstrings give "Source: None".
+manual:
+  last_commit: 2022-12-23
+  latest_release: {version: 2.5.2, date: 2022-03-17}
+  archived: false
+sources:
+  - https://github.com/suavecode/SUAVE
+  - https://github.com/suavecode/SUAVE/blob/develop/README.md
+  - https://github.com/suavecode/SUAVE/tree/develop/trunk/SUAVE/Methods/Noise/Fidelity_One/Noise_Tools
+checked: 2026-10-06

@@ -257,6 +257,10 @@ class Index:
                     add(f"{wi}: validation must be one of {sorted(VALIDATION)}")
                 if impl.get("functions") is not None and not isinstance(impl["functions"], list):
                     add(f"{wi}: functions must be a list")
+                if impl.get("via") and impl["via"] not in self.project:
+                    add(f"{wi}: via '{impl['via']}' is not an indexed project")
+                if impl.get("via") == pid:
+                    add(f"{wi}: via must name another project")
                 pair = (mid, rid, impl.get("status"), impl.get("scope"))
                 if pair in seen_pairs:
                     add(f"{wi}: duplicate of an earlier entry")
@@ -348,6 +352,7 @@ class Index:
                 impl["_project"] = p
                 impl["_method"] = self.method[impl["method"]]
                 impl["_ref"] = self.ref[impl["reference"]]
+                impl["_via"] = self.project.get(impl.get("via"))
                 p["_impls"].append(impl)
                 self.method[impl["method"]]["_impls"].append(impl)
                 self.ref[impl["reference"]]["_impls"].append(impl)

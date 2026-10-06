@@ -10,8 +10,8 @@ import re
 
 from .data import (IMPL_STATUS_LONG, PROJECT_KINDS, REF_STATUS, REGISTRIES, VALIDATION, VALIDATION_LONG,
                    Index)
-from .describe import (COVERAGE_COLUMNS, activity_text, by_language, coverage, dedupe, faq, in_short,
-                       ref_status, release_text)
+from .describe import (COVERAGE_COLUMNS, activity_text, by_language, coverage, current_statement, dedupe,
+                       faq, impl_phrase, ref_status, release_text)
 from .paths import (ABOUT, FAQ, HOME, PROJECTS, STANDARDS, UPDATES, absolute, md_twin, method_path,
                     project_path, relative)
 from .text import blocks, esc, inline, join_words, long_date, month, plain, plural
@@ -114,7 +114,8 @@ def _status_note(i: dict) -> str:
         status = '<em class="status">Proposed, not merged.</em>'
     if status and i.get("link"):
         status = f'<a href="{esc(i["link"])}">{status}</a>'
-    return " ".join(x for x in (status, inline(i.get("note") or "")) if x)
+    via = f'Computed by {esc(i["_via"]["name"])}.' if i.get("_via") else ""
+    return " ".join(x for x in (status, via, inline(i.get("note") or "")) if x)
 
 
 def _edition_cell(i: dict, label: str | None = None) -> str:
@@ -202,7 +203,7 @@ def home(index: Index) -> str:
                                for lang, names in groups) or '<span class="muted">none found</span>'
             older = [i for i in dedupe(m["_older_impls"]) if i["_ref"]["status"] != "in-development"]
             if older:
-                cell += ('<br><span class="older">Earlier editions: ' + ", ".join(
+                cell += ('<br><span class="older">Earlier or related: ' + ", ".join(
                     f'{name(i["_project"])} ({esc(i["_ref"]["label"])})' for i in older) + "</span>")
             rows.append([_method_link(path, m),
                          esc(join_words([index.ref[r]["label"] for r in m["current"]])), cell])
@@ -260,6 +261,24 @@ def home(index: Index) -> str:
                   description=description, body="\n".join(parts), section="Metrics", jsonld=ld)
 
 
+def _in_short_block(index: Index, m: dict, path: str) -> str:
+    """The answer first: current edition, then its implementations grouped by language, then the rest."""
+    name = lambda p: _project_link(path, p)  # noqa: E731
+    parts = [f'<p class="in-short"><strong>In short.</strong> {esc(current_statement(index, m))}']
+    groups = by_language(m["_current_impls"], name)
+    if groups:
+        parts[0] += " Open-source implementations of it:</p>"
+        parts.append('<ul class="by-lang">' + "".join(
+            f'<li><span class="lang">{esc(lang)}</span> {", ".join(names)}</li>' for lang, names in groups) + "</ul>")
+    else:
+        parts[0] += " No open-source implementation of it has been found.</p>"
+    older = [i for i in dedupe(m["_older_impls"]) if i["_ref"]["status"] != "in-development"]
+    if older:
+        parts.append('<p class="older">Earlier editions or related models: '
+                     + join_words([impl_phrase(i, name, esc, with_ref=True) for i in older]) + ".</p>")
+    return "\n".join(parts)
+
+
 def method_page(index: Index, m: dict) -> str:
     path = method_path(m)
     name = lambda p: _project_link(path, p)  # noqa: E731
@@ -273,7 +292,7 @@ def method_page(index: Index, m: dict) -> str:
         f"<h1>{esc(m['title'])}</h1>",
         f'<p class="byline">{" · ".join(byline)}</p>',
         blocks(m["summary"]),
-        f'<p class="in-short"><strong>In short.</strong> {in_short(index, m, name, esc)}</p>',
+        _in_short_block(index, m, path),
     ]
     if m.get("notes"):
         parts.append(blocks(m["notes"]))

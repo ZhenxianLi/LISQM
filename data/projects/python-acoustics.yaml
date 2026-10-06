@@ -1,0 +1,49 @@
+id: python-acoustics
+name: python-acoustics
+repository: https://github.com/python-acoustics/python-acoustics
+docs: https://python-acoustics.github.io/python-acoustics/
+languages: [Python]
+kind: library
+license: BSD-3-Clause
+packages:
+  - registry: pypi
+    name: acoustics
+install: pip install acoustics
+summary: >-
+  General Python library for acousticians, published on PyPI as `acoustics`. For this index it is relevant for
+  its tonal audibility and tonal adjustment after ISO 1996-2:2007. Archived in February 2024 and continued as
+  acoustic-toolbox.
+ai_assistance: not-stated
+notes:
+  - The successor is [acoustic-toolbox](https://github.com/Universite-Gustave-Eiffel/acoustic-toolbox), which continues the same code.
+  - It has no loudness, sharpness or roughness modules.
+caveats:
+  - The repository was archived on 2024-02-07 and is read-only.
+  - >-
+    A fix to the default window of the tonality code (2023-08-20) is on the default branch but not in the last
+    PyPI release (0.2.6, July 2022).
+  - >-
+    It follows ISO 1996-2:2007, which has been withdrawn; ISO 1996-2:2017 replaced its tonal audibility method
+    with those of Annexes J and K.
+implements:
+  - method: tonal-audibility-iso-1996-2
+    reference: iso-1996-2-2007
+    functions: [Tonality, tonal_audibility, tonal_adjustment]
+    scope: tonal audibility and tonal adjustment
+    status: available
+    validation: self-tests
+    note: >-
+      Module `acoustics.standards.iso_1996_2_2007`. The `Tonality` docstring uses the title of Annex C ("Objective
+      method for assessing the audibility of tones in noise"), though the code does not name the annex. A test of
+      the examples in the standard, using DELTA tone files, is commented out.
+manual:
+  last_commit: 2023-08-20
+  latest_release: {version: 0.2.6, date: 2022-07-08}
+  archived: true
+sources:
+  - https://github.com/python-acoustics/python-acoustics
+  - https://github.com/python-acoustics/python-acoustics/blob/master/README.md
+  - https://github.com/python-acoustics/python-acoustics/blob/master/acoustics/standards/iso_1996_2_2007.py
+  - https://github.com/python-acoustics/python-acoustics/blob/master/tests/standards/test_iso_1996_2_2007.py
+  - https://pypi.org/project/acoustics/
+checked: 2026-10-06

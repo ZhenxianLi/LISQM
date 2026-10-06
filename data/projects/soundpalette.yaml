@@ -1,0 +1,77 @@
+id: soundpalette
+name: SoundPalette
+repository: https://github.com/onyx-prismantium/soundpalette
+languages: [C++]
+kind: application
+license: FSL-1.1-Apache-2.0
+license_note: >-
+  Functional Source License 1.1, a source-available licence that is not OSI-approved: it allows any use except
+  a competing commercial product or service, and each release becomes Apache-2.0 two years after publication.
+  The README states that releases up to and including v0.7.0 were published under Apache-2.0.
+maintainers: [onyx-prismantium]
+summary: >-
+  C++ tool for game audio that analyses a folder of sound effects and draws each file as a glyph in a palette,
+  built as a static library, a command-line tool (including a lint mode for CI) and a desktop app. Its
+  psychoacoustic block reports ISO 532-1 loudness (N5), DIN 45692 sharpness, Daniel & Weber roughness and an
+  experimental fluctuation strength.
+ai_assistance: disclosed
+ai_note: >-
+  The repository contains a `CLAUDE.md` file, and 49 of its 54 commits carry "Co-Authored-By: Claude"
+  trailers.
+notes:
+  - The psychoacoustic metrics were added in v0.5.0 (July 2026), with "mapping v2".
+  - >-
+    Calibration convention: a signal measuring −23 LUFS is assumed to play at `ref_spl` dB SPL (default 75,
+    allowed range 60–85). The value is stored in every manifest and profile, and comparisons between
+    different `ref_spl` values are refused.
+  - >-
+    Also computes fluctuation strength in vacil, flagged as experimental; the README names no model for it.
+caveats:
+  - >-
+    The Functional Source License is source-available, not an OSI-approved open-source licence; check its
+    competing-use restriction before reusing the code.
+  - >-
+    `NOTES.md` documents simplifications: the third-octave bands come from an STFT rather than the standard's
+    filter bank, the temporal processing was tuned to MoSQITo's N5 values, and roughness uses a fixed 70 Hz
+    weighting and 28 instead of 47 channels. Tolerances (±5 % for stationary loudness and sharpness, ±10 % for
+    N5, ±15 % for roughness) are the acceptance criterion.
+  - Loudness in sones depends on the declared playback level (`ref_spl`), not on a measured calibration.
+implements:
+  - method: loudness-zwicker
+    reference: iso-532-1-2017
+    functions: ["sp::compute_psycho"]
+    scope: time-varying, reported as N5; monaural
+    status: available
+    since: v0.5.0
+    validation: cross-implementation
+    note: >-
+      Compared with MoSQITo 1.2.1 on calibrated test signals, used as a development-time reference
+      (`NOTES.md`, `tools/psycho_oracle`); no MoSQITo code is ported.
+  - method: sharpness
+    reference: din-45692-2009
+    functions: ["sp::compute_psycho"]
+    scope: from time-averaged specific loudness
+    status: available
+    since: v0.5.0
+    validation: cross-implementation
+    note: Compared with MoSQITo 1.2.1 (tolerance ±5 %).
+  - method: roughness-daniel-weber
+    reference: daniel-weber-1997
+    functions: ["sp::compute_psycho"]
+    status: available
+    since: v0.5.0
+    validation: cross-implementation
+    note: >-
+      Compared with MoSQITo 1.2.1 with a wider tolerance (±15 %); the README notes that published Daniel &
+      Weber implementations differ by about 10–20 %.
+manual:
+  last_commit: 2026-09-27
+  latest_release: {version: v0.8.0, date: 2026-09-27}
+  archived: false
+sources:
+  - https://github.com/onyx-prismantium/soundpalette
+  - https://github.com/onyx-prismantium/soundpalette/blob/main/README.md
+  - https://github.com/onyx-prismantium/soundpalette/blob/main/LICENSE.md
+  - https://github.com/onyx-prismantium/soundpalette/blob/main/NOTES.md
+  - https://github.com/onyx-prismantium/soundpalette/blob/main/core/include/soundpalette/psycho.h
+checked: 2026-10-06

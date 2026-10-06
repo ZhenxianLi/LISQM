@@ -1,0 +1,43 @@
+id: zwickerloudness-sourceforge
+name: "Zwicker's Loudness Calculation SW + Tool (ISO 532B)"
+repository: https://sourceforge.net/projects/zwickerloudness/
+languages: [C]
+kind: application
+license: GPL-2.0
+license_note: >-
+  SourceForge lists "GNU General Public License version 2.0"; whether later versions are allowed was not
+  checked.
+maintainers: [V. Portet]
+summary: >-
+  Console program in C, for BSD, Linux and Windows, that calculates the loudness of stationary sounds with
+  Zwicker's method (ISO 532B / DIN 45631) from one-third-octave band levels. A companion tool analyses WAV
+  files to produce those input files.
+ai_assistance: not-stated
+notes:
+  - >-
+    Partly ported from the BASIC "Program for calculating loudness according to DIN 45631 (ISO 532B)",
+    published in the Journal of the Acoustical Society of Japan in 1991, as obtained from Osaka University's
+    website.
+  - >-
+    Distributed as release archives on SourceForge, from release 010 (2010-04-15) to zwickerloudness-020
+    (2011-07-01). The last-commit date given here (2018-06-05) is the project's "Last Update" date on
+    SourceForge, not a commit date.
+caveats:
+  - Stationary sounds only; there is no procedure for time-varying sounds.
+  - >-
+    No validation is stated on the SourceForge pages; the README inside the release archive was not reviewed
+    for this entry.
+implements:
+  - method: loudness-zwicker
+    reference: iso-532-1975
+    scope: stationary, from one-third-octave band levels
+    status: available
+    validation: not-stated
+    note: Port of the 1991 BASIC program for DIN 45631 / ISO 532B.
+manual:
+  last_commit: 2018-06-05
+  latest_release: {version: zwickerloudness-020, date: 2011-07-01}
+sources:
+  - https://sourceforge.net/projects/zwickerloudness/
+  - https://sourceforge.net/projects/zwickerloudness/files/
+checked: 2026-10-06

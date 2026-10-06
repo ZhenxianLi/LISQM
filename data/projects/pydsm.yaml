@@ -1,0 +1,43 @@
+id: pydsm
+name: PyDSM
+repository: https://github.com/sergiocallegari/PyDSM
+docs: https://pythonhosted.org/pydsm/pydsm.iso226.html
+languages: [Python]
+kind: toolbox
+license: GPL-3.0-or-later
+packages:
+  - registry: pypi
+    name: pydsm
+install: pip install pydsm
+maintainers: [Sergio Callegari]
+summary: >-
+  Python toolbox for the design and simulation of delta-sigma modulators. It contains a helper module,
+  `pydsm.iso226`, with ISO 226:2003 equal-loudness contours.
+ai_assistance: not-stated
+notes:
+  - >-
+    The `pydsm.iso226` module was added in August 2013 and cites Jeff Tackett's 2005 MATLAB ISO 226 code. Its
+    tables can optionally be extended with a data point at 20 kHz.
+  - >-
+    A standalone extraction of the module, [jacobbaylesssmc/iso226](https://github.com/jacobbaylesssmc/iso226)
+    (GPL-3.0, two commits on 2019-07-09), also exists.
+caveats:
+  - ISO 226:2003 was withdrawn in 2023 and replaced by ISO 226:2023; the module follows the 2003 edition.
+implements:
+  - method: equal-loudness-contours
+    reference: iso-226-2003
+    functions: [pydsm.iso226]
+    scope: tabled and interpolated contours; optional 20 kHz extension
+    status: available
+    validation: not-stated
+manual:
+  last_commit: 2025-08-22
+  latest_release: {version: 0.15.2, date: 2025-08-22}
+  archived: false
+sources:
+  - https://github.com/sergiocallegari/PyDSM
+  - https://github.com/sergiocallegari/PyDSM/blob/main/README.md
+  - https://github.com/sergiocallegari/PyDSM/blob/main/src/pydsm/iso226.py
+  - https://pypi.org/project/pydsm/
+  - https://github.com/jacobbaylesssmc/iso226
+checked: 2026-10-06

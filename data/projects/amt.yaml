@@ -1,0 +1,80 @@
+id: amt
+name: Auditory Modeling Toolbox (AMT)
+repository: https://sourceforge.net/p/amtoolbox/code/
+homepage: https://amtoolbox.org
+languages: [MATLAB, Octave]
+kind: toolbox
+license: GPL-3.0
+license_note: >-
+  SourceForge lists the licence as GPLv3 without saying whether later versions are allowed; the torch_amt README,
+  which follows the AMT licence, gives it as GPL v3.0 or later.
+packages:
+  - registry: other
+    name: amtoolbox
+    url: https://sourceforge.net/projects/amtoolbox/files/
+summary: >-
+  MATLAB/Octave toolbox of auditory models for reproducible research. Its loudness models include the
+  Moore–Glasberg models for stationary sounds (`moore1997`, `chen2011`), time-varying sounds (`glasberg2002`) and
+  binaural loudness (`moore2016`).
+ai_assistance: not-stated
+paper:
+  citation: >-
+    Majdak, P., Hollomey, C., & Baumgartner, R. (2022). AMT 1.x: A toolbox for reproducible research in auditory
+    modeling. *Acta Acustica*, 6, 19.
+  doi: 10.1051/aacus/2022011
+notes:
+  - >-
+    Releases are published as downloads on SourceForge (`amtoolbox` and `amtoolbox-full`); the git repository's
+    default branch is `develop`. The SourceForge project page mentions no GitHub or GitLab mirror.
+  - >-
+    Also contains `bramslow2004`, a loudness model considering hearing loss (AUDMOD), with the experiment script
+    `exp_bramslow2004`; it has no reference entry in this index.
+  - >-
+    Neither the develop branch nor release 1.6.0 has a roughness, fluctuation strength, sharpness, tonality or
+    annoyance model (`osses2021` is a monaural perceptual-similarity model).
+  - >-
+    Python ports of some of its loudness models exist:
+    [torch_amt](https://github.com/StefanoGiacomelli/torch_amt) (`glasberg2002`, `moore2016`) and
+    [NumpyLibforPsychoAcoustic](https://github.com/Ryrybros/NumpyLibforPsychoAcoustic) (`moore1997`,
+    `glasberg2002`).
+implements:
+  - method: loudness-moore-glasberg
+    reference: moore-1997
+    functions: [moore1997]
+    status: available
+    validation: standard-data
+    note: >-
+      Listed as "MOORE1997 - Loudness model for stationary signals" in models/Contents.m. AMT's experiment
+      scripts (`exp_…`) reproduce published results; this model has `exp_moore1997`.
+  - method: loudness-moore-glasberg
+    reference: chen-2011
+    functions: [chen2011]
+    status: available
+    validation: standard-data
+    note: Listed as "CHEN2011 - Fast excitation pattern estimation"; experiment script `exp_chen2011`.
+  - method: loudness-moore-glasberg-time-varying
+    reference: glasberg-moore-2002
+    functions: [glasberg2002]
+    status: available
+    validation: standard-data
+    note: Listed as "GLASBERG2002 - Loudness model for time-variant signals"; experiment script `exp_glasberg2002`.
+  - method: loudness-moore-glasberg-time-varying
+    reference: moore-2016
+    functions: [moore2016]
+    scope: binaural
+    status: available
+    validation: not-stated
+    note: Listed as "MOORE2016 - Binaural loudness model"; there is no `exp_moore2016` experiment script on the develop branch.
+manual:
+  last_commit: 2026-06-14
+  latest_release: {version: 1.6.0, date: 2024-10-01}
+  archived: false
+sources:
+  - https://sourceforge.net/projects/amtoolbox/
+  - https://sourceforge.net/projects/amtoolbox/files/
+  - https://sourceforge.net/p/amtoolbox/code/ci/develop/tree/models/
+  - https://sourceforge.net/p/amtoolbox/code/ci/1.6.0/tree/models/
+  - https://sourceforge.net/p/amtoolbox/code/ci/develop/tree/experiments/
+  - https://sourceforge.net/p/amtoolbox/code/ci/develop/log/
+  - https://github.com/StefanoGiacomelli/torch_amt/blob/main/README.md
+checked: 2026-10-06

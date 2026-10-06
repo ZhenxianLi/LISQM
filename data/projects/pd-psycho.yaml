@@ -1,0 +1,51 @@
+id: pd-psycho
+name: PSYCHO (pd-psycho)
+repository: https://github.com/porres/pd-psycho
+languages: [Pure Data, C]
+kind: plugin
+license: GPL-3.0-only
+license_note: The header of roughness.c additionally allows "any later version".
+maintainers: [Alexandre Torres Porres]
+summary: >-
+  Pure Data library of psychoacoustic objects (C externals and abstractions) from the author's research on
+  dissonance models. Includes ISO 226:2003 equal-loudness contours and phon, sone and dB conversions, as well as
+  roughness, sharpness and tonalness objects.
+ai_assistance: not-stated
+paper:
+  citation: >-
+    Porres, A. T. (2011). Dissonance Model Toolbox in Pure Data. *Proceedings of the 4th Pure Data International
+    Convention (PdCon11)*, Berlin.
+notes:
+  - >-
+    The roughness objects (`[roughness]`, `[roughcurve]`) compute the sensory dissonance of a spectrum given as
+    lists of frequencies and amplitudes, with a model "derived from the work of Parncutt, Sethares, Vassilakis &
+    Barlow"; this is not one of the signal-based roughness methods in this index.
+  - "`[sharpness~]` is an abstraction built on `[barks~]` (24 Bark bands) and names no sharpness model."
+  - >-
+    Tonalness, pitch salience and commonality follow Parncutt & Strasburger (1994), after Terhardt; they are not
+    tonality metrics in the sense of this index.
+  - >-
+    From the author's MSc and PhD work (2005–2012). Version 1.1 was released on 2025-10-14 (git tags 1.0 of 2019
+    and 1.1; no GitHub releases). It builds with pd-lib-builder.
+caveats:
+  - The README calls the library "still a work in progress".
+implements:
+  - method: equal-loudness-contours
+    reference: iso-226-2003
+    functions: ["[iso226]"]
+    status: available
+    validation: not-stated
+    note: >-
+      The help patch names ISO 226:2003. Related objects convert between phon and dB (`[phon2db]`, `[db2phon]`) and
+      between phon and sone (`[phon2sone]`, `[sone2phon]`).
+manual:
+  last_commit: 2025-10-14
+  latest_release: {version: "1.1", date: 2025-10-14}
+  archived: false
+sources:
+  - https://github.com/porres/pd-psycho
+  - https://github.com/porres/pd-psycho/blob/master/README.md
+  - https://github.com/porres/pd-psycho/blob/master/LICENSE.txt
+  - https://github.com/porres/pd-psycho/tree/master/Classes
+  - https://github.com/porres/pd-psycho/tree/master/Help-files
+checked: 2026-10-06
