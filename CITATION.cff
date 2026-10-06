@@ -3,7 +3,7 @@ message: "If you use this list in your work, please cite it as below. Developed 
 type: dataset
 title: "LISQM: List of Implementations of Sound Quality Metrics"
 abstract: >-
-  LISQM (List of Implementations of Sound Quality Metrics) is a curated, monthly-refreshed list of
+  LISQM (List of Implementations of Sound Quality Metrics) is a curated list, refreshed twice a month, of
   open-source implementations of psychoacoustic metrics, also called sound quality metrics, in any
   programming language: loudness, sharpness, roughness, fluctuation strength, tonality, impulsiveness and
   psychoacoustic annoyance, with related quantities such as equal-loudness contours, effective perceived

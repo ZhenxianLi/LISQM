@@ -377,7 +377,7 @@ def faq(index: Index, name: Fmt, method_link: Callable[[dict], str], t: Esc,
     qa.append(("How are the entries checked?",
                "From each project's own README, documentation, release notes, licence file and package metadata, "
                "with links to those sources. The list records what a project claims and does not run the code. "
-               "Repository and package metadata are refreshed every month, and a person reviews new findings."))
+               "Repository and package metadata are refreshed twice a month, and a person reviews new findings."))
     return qa
 
 
@@ -431,7 +431,7 @@ def ai_guide(index: Index) -> tuple[str, list[tuple[str, str, list[str]]]]:
             "between editions: ECMA-418-2, for example, has had four editions since 2020.",
             "Each fact comes from the project's own README, documentation, release notes, licence file or package "
             "metadata, and is linked to it.",
-            "A GitHub Action refreshes repository dates, releases and package versions every month, searches for "
+            "A GitHub Action refreshes repository dates, releases and package versions twice a month, searches for "
             "new projects and watches ISO and Ecma for new editions; a person reviews every change.",
             f"Corrections are made in public, through issues and pull requests on [GitHub]({repo}).",
         ]),

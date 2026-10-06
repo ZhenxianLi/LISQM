@@ -277,6 +277,37 @@ class ReportTest(unittest.TestCase):
         self.assertEqual(report, "No changes in repository or package metadata (1 project refreshed).\n")
 
 
+    def test_review_lists_only_what_needs_a_person(self) -> None:
+        old = copy.deepcopy(EXPECTED_ENTRY)
+        old["github"].update(last_commit="2026-09-01", license="MIT",
+                             latest_release={"tag": "v0.2.1", "date": "2026-09-20", "url": "https://example.org/r"})
+        old["errors"] = ["PyPI metasona: HTTP 404 Not Found"]
+        new = copy.deepcopy(EXPECTED_ENTRY)
+        new["github"].update(archived=True, full_name="huaaudio/metasona-renamed")
+        new["errors"] = ["PyPI metasona: HTTP 404 Not Found"]
+        project = dict(PROJECT, implements=[{"status": "available"}, {"status": "unreleased"}])
+        review = refresh.render_review({"projects": {"metasona": old}}, {"projects": {"metasona": new}}, [project],
+                                       ["metasona"])
+        self.assertTrue(review.startswith("4 items in the repository and package metadata to check"), review)
+        for expected in ("licence MIT → GPL-3.0; check `license` in `data/projects/metasona.yaml`",
+                         "GitHub release [v0.2.2]", "check whether its unreleased implementations",
+                         "update `repository` in `data/projects/metasona.yaml`",
+                         "failed twice in a row: PyPI metasona: HTTP 404 Not Found"):
+            self.assertIn(expected, review)
+        self.assertNotIn("Last commits", review)
+        self.assertNotIn("archived", review)
+
+    def test_routine_changes_need_no_review(self) -> None:
+        old = copy.deepcopy(EXPECTED_ENTRY)
+        old["github"].update(last_commit="2026-09-01",
+                             latest_release={"tag": "v0.2.1", "date": "2026-09-20", "url": "https://example.org/r"})
+        new = copy.deepcopy(EXPECTED_ENTRY)
+        new["errors"] = ["PyPI metasona: HTTP 500 Internal Server Error"]  # a first failure is often temporary
+        review = refresh.render_review({"projects": {"metasona": old}}, {"projects": {"metasona": new}}, [PROJECT],
+                                       ["metasona"])
+        self.assertEqual(review, "Nothing in the repository and package metadata needs a person (1 project "
+                                 "refreshed; any changes were committed).\n")
+
 class MainTest(FakeWebCase):
     def setUp(self) -> None:
         super().setUp()

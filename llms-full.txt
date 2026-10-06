@@ -2,7 +2,7 @@
 
 > A list of open-source implementations of psychoacoustic metrics, also called sound quality (SQ) metrics: loudness, sharpness, roughness, fluctuation strength, tonality, impulsiveness and psychoacoustic annoyance. Each implementation is listed under the standard edition or model it follows. All programming languages.
 
-Data as of 2026-10-06. 22 methods, 32 projects, languages: C, C++, Julia, MATLAB, Octave, Pure Data, Python, Rust. Each implementation is tied to the standard edition or model paper it follows, with its validation evidence as stated by the project. Repository and package metadata are refreshed monthly. Implementations are listed with established projects first, the most widely used (SQAT, Auditory Modeling Toolbox (AMT), and MoSQITo) at the top. Projects marked (newly released) were first released less than about a year ago and are not yet widely used in the community; projects marked (legacy) are archived or have had no commit for three years or more.
+Data as of 2026-10-06. 22 methods, 32 projects, languages: C, C++, Julia, MATLAB, Octave, Pure Data, Python, Rust. Each implementation is tied to the standard edition or model paper it follows, with its validation evidence as stated by the project. Repository and package metadata are refreshed twice a month. Implementations are listed with established projects first, the most widely used (SQAT, Auditory Modeling Toolbox (AMT), and MoSQITo) at the top. Projects marked (newly released) were first released less than about a year ago and are not yet widely used in the community; projects marked (legacy) are archived or have had no commit for three years or more.
 
 Developed by Zhenxian LI with assistance from Claude Code.
 
@@ -126,7 +126,7 @@ Open-source code that computes a psychoacoustic metric and says which model or s
 
 ## How entries are checked
 
-Each entry is written from the project's own README, documentation, release notes, licence file and package metadata, with links to those sources. The list records what a project claims; it does not run the code. Repository dates, releases and package versions are refreshed every month by a GitHub Action, which also searches for new candidate projects and watches the standards bodies for new editions. A person reviews the findings before anything is added.
+Each entry is written from the project's own README, documentation, release notes, licence file and package metadata, with links to those sources. The list records what a project claims; it does not run the code. Repository dates, releases and package versions are refreshed twice a month by a GitHub Action, which also searches for new candidate projects and watches the standards bodies for new editions. A person reviews the findings before anything is added.
 
 ## Status of an implementation
 
@@ -219,7 +219,7 @@ Every project is in one group. Established: Described in a publication, used by 
 
 ## How are the entries checked?
 
-From each project's own README, documentation, release notes, licence file and package metadata, with links to those sources. The list records what a project claims and does not run the code. Repository and package metadata are refreshed every month, and a person reviews new findings.
+From each project's own README, documentation, release notes, licence file and package metadata, with links to those sources. The list records what a project claims and does not run the code. Repository and package metadata are refreshed twice a month, and a person reviews new findings.
 
 
 ---

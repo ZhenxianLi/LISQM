@@ -15,7 +15,7 @@ Everyone taking part is expected to follow the [Code of Conduct](CODE_OF_CONDUCT
 - [Reporting a new standard edition](#reporting-a-new-standard-edition)
 - [Writing rules](#writing-rules)
 - [Local checks](#local-checks)
-- [The monthly automation](#the-monthly-automation)
+- [The automation](#the-automation)
 - [Review process](#review-process)
 
 ## Ways to contribute
@@ -109,7 +109,7 @@ writes the entry.
        validation: standard-data         # as the project states it; not-stated if it says nothing
    ```
 
-4. Do not add stars, versions or commit dates. The monthly refresh fetches them from GitHub, PyPI, crates.io
+4. Do not add stars, versions or commit dates. The refresh fetches them from GitHub, PyPI, crates.io
    and npm. For a repository hosted elsewhere, fill in `manual` (last commit, latest release, archived).
 5. Run the [local checks](#local-checks) and open the pull request. One project per pull request is preferred.
 
@@ -143,7 +143,7 @@ withdrawal. To make the change yourself in a pull request:
    is published, put it in `current` in place of the old edition.
 4. Do not change project entries: a project moves to the new edition only when the project itself says so.
 
-To have the monthly job watch a standard that it does not cover yet, add a pattern or a page to
+To have the scheduled job watch a standard that it does not cover yet, add a pattern or a page to
 [`data/standards-watch.yaml`](data/standards-watch.yaml).
 
 ## Writing rules
@@ -186,16 +186,16 @@ requests.
 
 The CI workflow runs the same checks (validation, unit tests and a full build) on every pull request.
 
-## The monthly automation
+## The automation
 
-The Monthly refresh workflow ([`.github/workflows/refresh.yml`](.github/workflows/refresh.yml)) runs on the
-first day of every month at 05:17 UTC and can also be started by hand (Actions → Monthly refresh → Run
-workflow):
+The Refresh workflow ([`.github/workflows/refresh.yml`](.github/workflows/refresh.yml)) runs on the 1st and the
+15th of every month at 05:17 UTC and can also be started by hand (Actions → Refresh → Run workflow):
 
 1. **Refresh.** [`scripts/refresh.py`](scripts/refresh.py) fetches repository metadata from GitHub (stars,
    last commit on the default branch, latest release, archived flag, licence) and the latest versions from
    PyPI, crates.io and npm into `data/snapshot.json`. A failed fetch keeps the previous value and records the
-   error. The snapshot and the regenerated files are committed to `main`.
+   error. The snapshot and the regenerated files are committed to `main` without review; the commit message
+   lists what changed (new commits, versions, releases, archiving).
 2. **Discovery.** [`scripts/discover.py`](scripts/discover.py) searches GitHub, crates.io and npm for
    candidates that are neither listed nor in `data/ignored.yaml`, leaving out forks and projects without
    activity in the last three years. PyPI cannot be searched and other hosts are not covered, so suggestions
@@ -203,11 +203,13 @@ workflow):
 3. **Standards watch.** [`scripts/watch_standards.py`](scripts/watch_standards.py) checks the sources in
    `data/standards-watch.yaml` (ISO's open data on its deliverables and the Ecma standard pages) for new
    editions and stage changes, and commits the last seen state to `data/standards-watch.json`.
-4. **Monthly review.** The three reports go into one open issue labelled `monthly-review`, which is updated
-   with each month's findings (or opened if none is open); nothing is posted when there is nothing to review. A
-   person works through the issue, adding or rejecting candidates, recording new editions, confirming status
-   changes after releases (for example `unreleased` to `available`) and updating `checked` dates, and closes
-   it when done.
+4. **Review issue.** Only what needs a person goes into one open issue labelled `review`, which is updated with
+   each run's findings (or opened if none is open); nothing is posted when there is nothing to review. That is:
+   new candidates, new editions or stage changes of standards, a repository that moved, a licence that changed
+   (the `license` field is written by hand), a release of a project that has `unreleased` or `proposed`
+   implementations (their status may now be `available`), and a fetch that failed twice in a row. A person works
+   through the issue, adding or rejecting candidates, recording new editions, confirming status changes and
+   updating `checked` dates, and closes it when done.
 5. **Publish.** The website is rebuilt and deployed to GitHub Pages.
 
 The automation writes only machine-written files (`data/snapshot.json`, `data/standards-watch.json`) and
@@ -215,7 +217,7 @@ generated output. Everything that describes a project, a method or an edition is
 
 ## Review process
 
-- The maintainer reviews issues and pull requests, usually together with the monthly review.
+- The maintainer reviews issues and pull requests, usually together with the review issue.
 - For a new project, the review checks the inclusion criteria, compares each fact with its source and reads
   the wording. Expect questions or small edits; the maintainer may also finish an entry started in an issue.
 - The CI checks must pass before a pull request is merged.

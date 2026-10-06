@@ -13,7 +13,7 @@ directory. Edit these files, never the generated output.
 | `ignored.yaml` | people | Candidates that were reviewed and not included, so discovery does not report them again |
 | `leads.yaml` | people | Candidates that could not be checked yet (shown on the About page, never as facts) |
 | `snapshot.json` | `scripts/refresh.py` | Repository and package metadata fetched from GitHub, PyPI, crates.io and npm |
-| `standards-watch.yaml` | people | Standards sources checked every month (ISO Open Data patterns, Ecma pages) |
+| `standards-watch.yaml` | people | Standards sources checked twice a month (ISO Open Data patterns, Ecma pages) |
 | `standards-watch.json` | `scripts/watch_standards.py` | Last seen state of those sources (format described in `scripts/watch_standards.py`) |
 | `index.json` | `scripts/build.py` | The whole index as one JSON document (generated, do not edit) |
 

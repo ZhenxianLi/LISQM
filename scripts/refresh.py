@@ -312,6 +312,44 @@ def render_report(previous: dict[str, Any], current: dict[str, Any], projects: l
     return f"Metadata of {plural(len(refreshed), 'project')} refreshed.\n\n" + "\n".join(lines)
 
 
+def render_review(previous: dict[str, Any], current: dict[str, Any], projects: list[dict[str, Any]],
+                  refreshed: list[str]) -> str:
+    """Markdown list of the metadata changes that a person has to act on; a single line when there are none.
+
+    Everything else (new commits, versions and releases, archiving, descriptions) only changes generated output
+    and is committed without review. A person is needed when a repository moved or its licence changed (both are
+    written by hand in the project file), when a project that has unreleased or proposed implementations
+    publishes a release (their status may now be "available"), and when a fetch fails twice in a row (a single
+    failure is often temporary).
+    """
+    by_id = {project["id"]: project for project in projects}
+    items: list[str] = []
+    old_entries = previous.get("projects") or {}
+    for pid in refreshed:
+        project, new, old = by_id[pid], current["projects"][pid], old_entries.get(pid) or {}
+        label = f"**{md_text(project.get('name') or pid)}** (`{pid}`)"
+        where = f"`data/projects/{pid}.yaml`"
+        pending = sorted({i.get("status") for i in project.get("implements") or []} & {"unreleased", "proposed"})
+        if old:
+            for section, text in compare(old, new):
+                if section == "Licences":
+                    items.append(f"- {label}: licence {text}; check `license` in {where}")
+                elif section == "Releases" and pending:
+                    items.append(f"- {label}: {text}; check whether its {' and '.join(pending)} implementations in "
+                                 f"{where} are in this release")
+        repo, github = github_repo(project.get("repository")), new.get("github")
+        if repo and github and github["full_name"].lower() != "/".join(repo).lower():
+            items.append(f"- {label}: `{'/'.join(repo)}` is now [{github['full_name']}]"
+                         f"(https://github.com/{github['full_name']}); update `repository` in {where}")
+        if new["errors"] and old.get("errors"):
+            items += [f"- {label}: failed twice in a row: {md_text(error, limit=500)}" for error in new["errors"]]
+    if not items:
+        return (f"Nothing in the repository and package metadata needs a person "
+                f"({plural(len(refreshed), 'project')} refreshed; any changes were committed).\n")
+    head = f"{plural(len(items), 'item')} in the repository and package metadata to check:"
+    return head + "\n\n" + "\n".join(items) + "\n"
+
+
 # ---------------------------------------------------------------------------------------------- main
 
 
@@ -323,6 +361,9 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--report", type=Path, metavar="PATH",
                         help="write the Markdown change report to PATH (default: print it); it is a "
                              "single line when nothing changed")
+    parser.add_argument("--review", type=Path, metavar="PATH",
+                        help="also write the Markdown list of changes that a person has to act on to PATH; it is "
+                             "a single line when there are none")
     parser.add_argument("--dry-run", action="store_true",
                         help="print the refreshed entries and the report; write no files")
     args = parser.parse_args(argv)
@@ -341,13 +382,17 @@ def main(argv: list[str] | None = None) -> int:
         log("Neither GITHUB_TOKEN nor GH_TOKEN is set: GitHub metadata is not refreshed.")
     snapshot = refresh(previous, projects, selected, Http(token), utc_now(), use_github=token is not None)
     report = render_report(previous, snapshot, projects, selected)
+    review = render_review(previous, snapshot, projects, selected)
 
     if args.dry_run:
         print(dump_json({pid: snapshot["projects"][pid] for pid in selected}), end="")
         print(report, end="")
+        print(review, end="")
         return 0
     log(f"Wrote {path}" if write_snapshot(path, snapshot, previous) else f"No changes; {path} left untouched")
     write_report(report, args.report)
+    if args.review:
+        write_report(review, args.review)
     return 0
 
 

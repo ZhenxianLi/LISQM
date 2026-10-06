@@ -159,7 +159,7 @@ def md_text(text: Any, limit: int = 300) -> str:
     """Untrusted text (descriptions, titles, error messages) as one line of Markdown.
 
     Whitespace is collapsed, the text is shortened to `limit` characters, Markdown syntax is escaped, and
-    @mentions and #references are broken with a zero-width space, so that the monthly review issue built
+    @mentions and #references are broken with a zero-width space, so that the review issue built
     from the reports neither notifies people nor links unrelated issues. URLs are kept as they are, so that
     they still work as links.
     """

@@ -2,7 +2,7 @@
 site/
 
 # Reports from local runs of refresh.py, discover.py and watch_standards.py with --report
-# (the monthly workflow posts them to the monthly-review issue instead)
+# (the Refresh workflow puts them in its run summary and the review issue instead)
 refresh.md
 discover.md
 standards.md

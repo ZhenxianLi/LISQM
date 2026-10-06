@@ -1004,7 +1004,7 @@ def about_page(index: Index) -> str:
         "<p>Each entry is written from the project's own README, documentation, release notes, licence file and "
         "package metadata, and links to those sources. The list records what a project claims; it does not run "
         "the code, and listing a project is not an endorsement.</p>",
-        "<p>Every month a GitHub Action refreshes repository dates, releases and package versions, searches GitHub "
+        "<p>Twice a month a GitHub Action refreshes repository dates, releases and package versions, searches GitHub "
         "and package registries for new candidate projects, and checks the ISO and Ecma catalogues for new "
         "editions. Its findings go into one issue that a person reviews before anything is added or changed.</p>",
         '<h2 id="status">Status of an implementation</h2>',

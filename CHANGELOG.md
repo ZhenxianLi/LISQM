@@ -7,7 +7,7 @@ Notable changes to the list. This file is generated from `data/updates.yaml`; th
 LISQM (List of Implementations of Sound Quality Metrics) starts with 32 projects in Python, MATLAB, Octave, C,
 C++, Rust, Julia and Pure Data, and 22 methods from Zwicker loudness to aural detectability. Every implementation is
 tied to the standard edition or model paper it follows, with links to the documentation the facts were taken
-from. Repository dates, releases and package versions are refreshed once a month.
+from. Repository dates, releases and package versions are refreshed twice a month.
 
 Worth knowing as of today:
 

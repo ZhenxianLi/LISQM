@@ -1,6 +1,6 @@
-# Sources that scripts/watch_standards.py checks every month (from .github/workflows/refresh.yml) for new
+# Sources that scripts/watch_standards.py checks twice a month (from .github/workflows/refresh.yml) for new
 # editions and stage changes of the standards the list relies on. The last seen state is kept in
-# standards-watch.json (machine-written); what changed is reported in the monthly review issue.
+# standards-watch.json (machine-written); what changed is reported in the review issue.
 #
 # Every source has a unique `id` (its key in standards-watch.json), an optional `name` for the report, a
 # `type` and a `url`:

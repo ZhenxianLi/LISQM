@@ -431,7 +431,7 @@ def about_page(index: Index) -> str:
     lines += ["## How entries are checked", "",
               "Each entry is written from the project's own README, documentation, release notes, licence file "
               "and package metadata, with links to those sources. The list records what a project claims; it "
-              "does not run the code. Repository dates, releases and package versions are refreshed every month "
+              "does not run the code. Repository dates, releases and package versions are refreshed twice a month "
               "by a GitHub Action, which also searches for new candidate projects and watches the standards "
               "bodies for new editions. A person reviews the findings before anything is added.", ""]
     lines += ["## Status of an implementation", ""]
@@ -480,7 +480,7 @@ def llms_txt(index: Index) -> str:
              f"Data as of {index.as_of()}. {plural(len(index.methods), 'method')}, "
              f"{plural(len(index.projects), 'project')}, languages: {', '.join(index.languages())}. Each "
              "implementation is tied to the standard edition or model paper it follows, with its validation "
-             "evidence as stated by the project. Repository and package metadata are refreshed monthly. "
+             "evidence as stated by the project. Repository and package metadata are refreshed twice a month. "
              "Implementations are listed with established projects first, the most widely used "
              f"({join_words([p['name'] for p in index.mainstream()])}) at the top. Projects marked (newly released) were "
              "first released less than about a year ago and are not yet widely used in the community; projects "

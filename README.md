@@ -7,7 +7,7 @@
 LISQM stands for List of Implementations of Sound Quality Metrics. It lists open-source implementations of
 psychoacoustic metrics, also called sound quality (SQ) metrics: loudness, sharpness, roughness, fluctuation
 strength, tonality, impulsiveness and psychoacoustic annoyance. Each implementation is listed under the standard
-edition or model paper it follows. Any programming language. Refreshed every month. LISQM computes nothing
+edition or model paper it follows. Any programming language. Refreshed twice a month. LISQM computes nothing
 itself; it lists and compares the implementations.
 
 Developed by Zhenxian LI with assistance from Claude Code.
@@ -15,7 +15,7 @@ Developed by Zhenxian LI with assistance from Claude Code.
 **Data:** [`data/index.json`](data/index.json) · [`llms.txt`](llms.txt) · [`llms-full.txt`](llms-full.txt) · [schema](data/SCHEMA.md)
 
 [![Site](https://github.com/ZhenxianLi/LISQM/actions/workflows/pages.yml/badge.svg)](https://github.com/ZhenxianLi/LISQM/actions/workflows/pages.yml)
-[![Monthly refresh](https://github.com/ZhenxianLi/LISQM/actions/workflows/refresh.yml/badge.svg)](https://github.com/ZhenxianLi/LISQM/actions/workflows/refresh.yml)
+[![Refresh](https://github.com/ZhenxianLi/LISQM/actions/workflows/refresh.yml/badge.svg)](https://github.com/ZhenxianLi/LISQM/actions/workflows/refresh.yml)
 [![Licence: MIT](https://img.shields.io/badge/licence-MIT-blue.svg)](LICENSE)
 
 <!-- BEGIN GENERATED: stats -->
@@ -189,10 +189,11 @@ commit).
   [`data/SCHEMA.md`](data/SCHEMA.md).
 - **Build.** [`scripts/build.py`](scripts/build.py) validates the data and generates the website, the tables in
   this README, `llms.txt`, `llms-full.txt` and `data/index.json`.
-- **Monthly refresh.** Once a month, a GitHub Action updates repository and package metadata (last commit,
-  releases, PyPI and crates.io versions), searches GitHub and package registries for new candidate projects,
-  and checks ISO and Ecma for new editions. Its findings are collected in one issue labelled `monthly-review`,
-  which a person reviews before anything is added or changed.
+- **Refresh.** Twice a month (on the 1st and the 15th), a GitHub Action updates repository and package metadata
+  (last commit, releases, PyPI and crates.io versions) and commits it directly. It also searches GitHub and
+  package registries for new candidate projects and checks ISO and Ecma for new editions. Only what needs a
+  person (a candidate, a new edition, a moved repository, a changed licence, a release that may contain
+  unreleased work, a fetch that keeps failing) goes into one issue labelled `review`.
 
 ## Using the data
 
