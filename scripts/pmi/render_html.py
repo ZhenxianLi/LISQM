@@ -1062,9 +1062,12 @@ def _message_box(index: Index) -> str:
              "Messages are public.</p>"]
     if c.get("category_id"):
         attrs = {"src": "https://giscus.app/client.js", "data-repo": c["repo"], "data-repo-id": c["repo_id"],
-                 "data-category": c["category"], "data-category-id": c["category_id"], "data-mapping": "pathname",
-                 "data-strict": "1", "data-reactions-enabled": "1", "data-emit-metadata": "0",
-                 "data-input-position": "top", "data-theme": "preferred_color_scheme", "data-lang": "en",
+                 "data-category": c["category"], "data-category-id": c["category_id"],
+                 "data-mapping": c.get("mapping", "pathname"), "data-strict": str(c.get("strict", "0")),
+                 "data-reactions-enabled": str(c.get("reactions_enabled", "1")),
+                 "data-emit-metadata": str(c.get("emit_metadata", "0")),
+                 "data-input-position": c.get("input_position", "bottom"),
+                 "data-theme": c.get("theme", "preferred_color_scheme"), "data-lang": c.get("lang", "en"),
                  "crossorigin": "anonymous"}
         parts.append('<div class="giscus"></div><script '
                      + " ".join(f'{k}="{esc(v)}"' for k, v in attrs.items()) + " async></script>")

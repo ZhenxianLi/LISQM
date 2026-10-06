@@ -243,6 +243,11 @@ class BuildTest(unittest.TestCase):
         self.assertIn(f'action="{self.index.site["repository"]}/issues/new"', faq)
         self.assertIn('name="title"', faq)
         self.assertIn('name="body"', faq)
+        comments = self.index.site.get("comments") or {}
+        if comments.get("category_id"):  # giscus is switched on in site.yaml
+            self.assertIn('src="https://giscus.app/client.js"', faq)
+            self.assertIn(f'data-category-id="{comments["category_id"]}"', faq)
+            self.assertLess(faq.index("giscus.app/client.js"), faq.index('class="message-form"'))
         ai = (self.site / "ai.html").read_text(encoding="utf-8")
         for name in ("llms.txt", "llms-full.txt", "index.json"):
             self.assertIn(f'{self.index.site["base_url"]}{name}', ai, name)

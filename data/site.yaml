@@ -12,14 +12,21 @@ maintainer:
 license: MIT
 # The project's credit line, used verbatim on the website, in the READMEs and in llms.txt.
 credit: Developed by Zhenxian LI with assistance from Claude Code.
-# Comments on the FAQ page through giscus (GitHub Discussions). They appear once Discussions are enabled in the
-# repository settings, the giscus app is installed (https://github.com/apps/giscus) and category_id is copied from
-# https://giscus.app. Until then the FAQ page offers a form that opens a prefilled GitHub issue.
+# Comments on the FAQ page through giscus (GitHub Discussions), as configured on https://giscus.app. They need
+# Discussions enabled in the repository settings and the giscus app installed (https://github.com/apps/giscus).
+# Without a category_id the FAQ page offers only the form that opens a prefilled GitHub issue.
 comments:
   repo: ZhenxianLi/psychoacoustic-metrics-index
   repo_id: R_kgDOU9WdGQ
   category: Q&A
-  category_id: ""
+  category_id: DIC_kwDOU9WdGc4DHLlK
+  mapping: pathname
+  strict: "0"
+  reactions_enabled: "1"
+  emit_metadata: "0"
+  input_position: bottom
+  theme: preferred_color_scheme
+  lang: en
 # A project is shown as inactive when its last commit is older than this many days.
 inactive_after_days: 365
 # A project is listed as legacy when it is archived or its last commit is at least this many days old, unless it
