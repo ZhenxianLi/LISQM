@@ -1,9 +1,9 @@
 cff-version: 1.2.0
 message: "If you use this index in your work, please cite it as below. Developed by Zhenxian LI with assistance from Claude Code."
 type: dataset
-title: "OpenSQMI: Open Sound Quality Metric Implementations"
+title: "LISQM: List of Implementations of Sound Quality Metrics"
 abstract: >-
-  OpenSQMI (Open Sound Quality Metric Implementations) is a curated, monthly-refreshed index of
+  LISQM (List of Implementations of Sound Quality Metrics) is a curated, monthly-refreshed index of
   open-source implementations of psychoacoustic metrics, also called sound quality metrics, in any
   programming language: loudness, sharpness, roughness, fluctuation strength, tonality, impulsiveness and
   psychoacoustic annoyance, with related quantities such as equal-loudness contours, effective perceived
@@ -30,7 +30,7 @@ keywords:
   - open source software
   - index
   - sound quality metrics
-  - OpenSQMI
+  - LISQM
 license: MIT
 repository-code: "https://github.com/ZhenxianLi/psychoacoustic-metrics-index"
 url: "https://zhenxianli.github.io/psychoacoustic-metrics-index/"

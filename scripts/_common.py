@@ -191,7 +191,7 @@ def user_agent() -> str:
         repository = (load_yaml(DATA_DIR / "site.yaml") or {}).get("repository")
     except (OSError, yaml.YAMLError, AttributeError):
         repository = None
-    name = "OpenSQMI-bot"
+    name = "LISQM-bot"
     return f"{name} (+{repository})" if repository else name
 
 

@@ -5,7 +5,7 @@ directory. Edit these files, never the generated output.
 
 | File | Edited by | Contents |
 |---|---|---|
-| `site.yaml` | people | Short name (OpenSQMI), what it stands for, subtitle, base URL, maintainer, thresholds |
+| `site.yaml` | people | Short name (LISQM), what it stands for, subtitle, base URL, maintainer, thresholds |
 | `metrics.yaml` | people | Metric families and methods (one page per method) |
 | `references.yaml` | people | Standard editions, model papers and books that methods are defined by |
 | `projects/<id>.yaml` | people | One file per indexed project, including what it implements |

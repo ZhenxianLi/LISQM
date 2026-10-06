@@ -88,7 +88,7 @@ class GitHubTest(FakeWebCase):
         self.assertEqual(len(web.requests), 4)
         for request in web.requests:
             headers = {name.lower(): value for name, value in request.header_items()}
-            self.assertTrue(headers["user-agent"].startswith("OpenSQMI-bot"))
+            self.assertTrue(headers["user-agent"].startswith("LISQM-bot"))
             if request.host == "api.github.com":
                 self.assertEqual(headers["authorization"], "Bearer secret")
                 self.assertEqual(headers["accept"], "application/vnd.github+json")

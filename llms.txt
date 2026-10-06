@@ -1,4 +1,4 @@
-# OpenSQMI: Open Sound Quality Metric Implementations
+# LISQM: List of Implementations of Sound Quality Metrics
 
 > An index of open-source implementations of psychoacoustic metrics, also called sound quality (SQ) metrics: loudness, sharpness, roughness, fluctuation strength, tonality, impulsiveness and psychoacoustic annoyance. Each implementation is listed under the standard edition or model it follows. All programming languages.
 
