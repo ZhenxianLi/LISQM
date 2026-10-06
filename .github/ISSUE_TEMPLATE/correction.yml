@@ -9,14 +9,14 @@ body:
         Thank you for helping to keep the index accurate. Every correction needs a source that the maintainer
         can check: the project's README, documentation, release notes or changelog, a package page, a paper,
         or the catalogue page of a standards body. You can also correct the YAML file directly in a pull
-        request; see [CONTRIBUTING.md](https://github.com/ZhenxianLi/psychoacoustic-metrics-index/blob/main/CONTRIBUTING.md).
+        request; see [CONTRIBUTING.md](https://github.com/ZhenxianLi/LISQM/blob/main/CONTRIBUTING.md).
 
   - type: input
     id: entry
     attributes:
       label: Page or entry
       description: The URL of the page on the website, or the file and entry in `data/`.
-      placeholder: e.g. https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/metasona.html or data/projects/metasona.yaml
+      placeholder: e.g. https://zhenxianli.github.io/LISQM/projects/metasona.html or data/projects/metasona.yaml
     validations:
       required: true
 

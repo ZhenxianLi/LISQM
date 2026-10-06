@@ -14,7 +14,7 @@ releases.
 Please do not report security problems in public issues or pull requests. Use GitHub's private
 vulnerability reporting instead: open the repository's **Security** tab and choose
 **Report a vulnerability**, or go directly to
-<https://github.com/ZhenxianLi/psychoacoustic-metrics-index/security/advisories/new>.
+<https://github.com/ZhenxianLi/LISQM/security/advisories/new>.
 
 Please include what is affected (a script, a workflow, the generated website or the data), how to
 reproduce the problem and what an attacker could do with it. The maintainer will reply in the advisory,
@@ -29,5 +29,5 @@ Examples of what belongs here:
 
 A vulnerability in an indexed project should be reported to that project, following its own security
 policy. If the problem also makes an entry in this index misleading, open a
-[correction](https://github.com/ZhenxianLi/psychoacoustic-metrics-index/issues/new?template=correction.yml)
+[correction](https://github.com/ZhenxianLi/LISQM/issues/new?template=correction.yml)
 once the issue is public.

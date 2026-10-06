@@ -1,13 +1,15 @@
 # The short name (masthead, page titles, citations), what it stands for, and the subtitle under the short name.
 name: LISQM
 title: List of Implementations of Sound Quality Metrics
+# The version of the index (semantic versioning; also in CITATION.cff).
+version: 0.1.0
 tagline: A List of Open-Source Implementations of Psychoacoustic and Sound Quality Metrics
 description: >-
   An index of open-source implementations of psychoacoustic metrics, also called sound quality (SQ) metrics:
   loudness, sharpness, roughness, fluctuation strength, tonality, impulsiveness and psychoacoustic annoyance.
   Each implementation is listed under the standard edition or model it follows. All programming languages.
-base_url: https://zhenxianli.github.io/psychoacoustic-metrics-index/
-repository: https://github.com/ZhenxianLi/psychoacoustic-metrics-index
+base_url: https://zhenxianli.github.io/LISQM/
+repository: https://github.com/ZhenxianLi/LISQM
 maintainer:
   name: Zhenxian LI
   github: ZhenxianLi

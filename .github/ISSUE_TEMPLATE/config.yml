@@ -1,8 +1,8 @@
 blank_issues_enabled: true
 contact_links:
   - name: Browse the index
-    url: https://zhenxianli.github.io/psychoacoustic-metrics-index/
+    url: https://zhenxianli.github.io/LISQM/
     about: Check the website first to see whether a project or standard edition is already listed.
   - name: Data model (data/SCHEMA.md)
-    url: https://github.com/ZhenxianLi/psychoacoustic-metrics-index/blob/main/data/SCHEMA.md
+    url: https://github.com/ZhenxianLi/LISQM/blob/main/data/SCHEMA.md
     about: The fields used for projects, metrics and standard editions, for writing an entry yourself.

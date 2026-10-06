@@ -10,8 +10,8 @@ body:
         you do not need to test the code. The maintainer checks the details and writes the entry in
         `data/projects/`. If you prefer to write the entry yourself, open a pull request that adds
         `data/projects/<id>.yaml` instead (see
-        [CONTRIBUTING.md](https://github.com/ZhenxianLi/psychoacoustic-metrics-index/blob/main/CONTRIBUTING.md)
-        and [data/SCHEMA.md](https://github.com/ZhenxianLi/psychoacoustic-metrics-index/blob/main/data/SCHEMA.md)).
+        [CONTRIBUTING.md](https://github.com/ZhenxianLi/LISQM/blob/main/CONTRIBUTING.md)
+        and [data/SCHEMA.md](https://github.com/ZhenxianLi/LISQM/blob/main/data/SCHEMA.md)).
 
   - type: input
     id: repository

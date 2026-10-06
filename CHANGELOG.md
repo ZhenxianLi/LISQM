@@ -1,8 +1,8 @@
 # Changelog
 
-Notable changes to the index. This file is generated from `data/updates.yaml`; the same notes are on the website (https://zhenxianli.github.io/psychoacoustic-metrics-index/updates.html) and in its Atom feed.
+Notable changes to the index. This file is generated from `data/updates.yaml`; the same notes are on the website (https://zhenxianli.github.io/LISQM/updates.html) and in its Atom feed.
 
-## 2026-10-06: First public version of LISQM
+## 2026-10-06: Version 0.1, the first public version of LISQM
 
 LISQM (List of Implementations of Sound Quality Metrics) starts with 32 projects in Python, MATLAB, Octave, C,
 C++, Rust, Julia and Pure Data, and 22 methods from Zwicker loudness to aural detectability. Every implementation is

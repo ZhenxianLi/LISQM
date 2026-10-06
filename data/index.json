@@ -2,9 +2,10 @@
   "name": "LISQM",
   "full_name": "List of Implementations of Sound Quality Metrics",
   "tagline": "A List of Open-Source Implementations of Psychoacoustic and Sound Quality Metrics",
+  "version": "0.1.0",
   "description": "An index of open-source implementations of psychoacoustic metrics, also called sound quality (SQ) metrics: loudness, sharpness, roughness, fluctuation strength, tonality, impulsiveness and psychoacoustic annoyance. Each implementation is listed under the standard edition or model it follows. All programming languages.",
-  "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/",
-  "repository": "https://github.com/ZhenxianLi/psychoacoustic-metrics-index",
+  "url": "https://zhenxianli.github.io/LISQM/",
+  "repository": "https://github.com/ZhenxianLi/LISQM",
   "license": "MIT",
   "maintainer": {
     "name": "Zhenxian LI",
@@ -12,7 +13,7 @@
   },
   "credit": "Developed by Zhenxian LI with assistance from Claude Code.",
   "as_of": "2026-10-06",
-  "schema": "https://github.com/ZhenxianLi/psychoacoustic-metrics-index/blob/main/data/SCHEMA.md",
+  "schema": "https://github.com/ZhenxianLi/LISQM/blob/main/data/SCHEMA.md",
   "counts": {
     "methods": 22,
     "projects": 32,
@@ -144,7 +145,7 @@
         "sharpness",
         "loudness-ecma-418-2"
       ],
-      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/loudness-zwicker.html",
+      "url": "https://zhenxianli.github.io/LISQM/metrics/loudness-zwicker.html",
       "coverage": {
         "Python": "current",
         "MATLAB/Octave": "current",
@@ -424,7 +425,7 @@
       "see_also": [
         "loudness-moore-glasberg-time-varying"
       ],
-      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/loudness-moore-glasberg.html",
+      "url": "https://zhenxianli.github.io/LISQM/metrics/loudness-moore-glasberg.html",
       "coverage": {
         "Python": "new",
         "MATLAB/Octave": "partial",
@@ -559,7 +560,7 @@
       "see_also": [
         "loudness-moore-glasberg"
       ],
-      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/loudness-moore-glasberg-time-varying.html",
+      "url": "https://zhenxianli.github.io/LISQM/metrics/loudness-moore-glasberg-time-varying.html",
       "coverage": {
         "Python": "new",
         "MATLAB/Octave": "current",
@@ -726,7 +727,7 @@
         "roughness-ecma-418-2",
         "fluctuation-strength-ecma-418-2"
       ],
-      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/loudness-ecma-418-2.html",
+      "url": "https://zhenxianli.github.io/LISQM/metrics/loudness-ecma-418-2.html",
       "coverage": {
         "Python": "current",
         "MATLAB/Octave": "current",
@@ -895,7 +896,7 @@
       "see_also": [
         "loudness-zwicker"
       ],
-      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/sharpness.html",
+      "url": "https://zhenxianli.github.io/LISQM/metrics/sharpness.html",
       "coverage": {
         "Python": "current",
         "MATLAB/Octave": "current",
@@ -1071,7 +1072,7 @@
       "see_also": [
         "roughness-ecma-418-2"
       ],
-      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/roughness-daniel-weber.html",
+      "url": "https://zhenxianli.github.io/LISQM/metrics/roughness-daniel-weber.html",
       "coverage": {
         "Python": "current",
         "MATLAB/Octave": "current",
@@ -1217,7 +1218,7 @@
         "roughness-daniel-weber",
         "loudness-ecma-418-2"
       ],
-      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/roughness-ecma-418-2.html",
+      "url": "https://zhenxianli.github.io/LISQM/metrics/roughness-ecma-418-2.html",
       "coverage": {
         "Python": "current",
         "MATLAB/Octave": "current",
@@ -1358,7 +1359,7 @@
         "roughness-ecma-418-2",
         "roughness-daniel-weber"
       ],
-      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/roughness-din-38455.html",
+      "url": "https://zhenxianli.github.io/LISQM/metrics/roughness-din-38455.html",
       "coverage": {
         "Python": "",
         "MATLAB/Octave": "",
@@ -1397,7 +1398,7 @@
       "see_also": [
         "fluctuation-strength-ecma-418-2"
       ],
-      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/fluctuation-strength-osses.html",
+      "url": "https://zhenxianli.github.io/LISQM/metrics/fluctuation-strength-osses.html",
       "coverage": {
         "Python": "current",
         "MATLAB/Octave": "current",
@@ -1502,7 +1503,7 @@
         "fluctuation-strength-osses",
         "loudness-ecma-418-2"
       ],
-      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/fluctuation-strength-ecma-418-2.html",
+      "url": "https://zhenxianli.github.io/LISQM/metrics/fluctuation-strength-ecma-418-2.html",
       "coverage": {
         "Python": "new",
         "MATLAB/Octave": "partial",
@@ -1578,7 +1579,7 @@
       "see_also": [
         "tonality-ecma-418-2"
       ],
-      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/tonality-aures.html",
+      "url": "https://zhenxianli.github.io/LISQM/metrics/tonality-aures.html",
       "coverage": {
         "Python": "current",
         "MATLAB/Octave": "current",
@@ -1668,7 +1669,7 @@
         "tone-to-noise-prominence-ratio",
         "loudness-ecma-418-2"
       ],
-      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/tonality-ecma-418-2.html",
+      "url": "https://zhenxianli.github.io/LISQM/metrics/tonality-ecma-418-2.html",
       "coverage": {
         "Python": "current",
         "MATLAB/Octave": "current",
@@ -1796,7 +1797,7 @@
         "tonality-ecma-418-2",
         "tonal-audibility-iso-20065"
       ],
-      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/tone-to-noise-prominence-ratio.html",
+      "url": "https://zhenxianli.github.io/LISQM/metrics/tone-to-noise-prominence-ratio.html",
       "coverage": {
         "Python": "new",
         "MATLAB/Octave": "",
@@ -1875,7 +1876,7 @@
       "see_also": [
         "tonal-audibility-iso-20065"
       ],
-      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/tonality-din-45681.html",
+      "url": "https://zhenxianli.github.io/LISQM/metrics/tonality-din-45681.html",
       "coverage": {
         "Python": "",
         "MATLAB/Octave": "",
@@ -1916,7 +1917,7 @@
         "tonality-din-45681",
         "tonal-audibility-iso-1996-2"
       ],
-      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/tonal-audibility-iso-20065.html",
+      "url": "https://zhenxianli.github.io/LISQM/metrics/tonal-audibility-iso-20065.html",
       "coverage": {
         "Python": "partial",
         "MATLAB/Octave": "",
@@ -1973,7 +1974,7 @@
         "tonal-audibility-iso-20065",
         "tonal-audibility-iec-61400-11"
       ],
-      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/tonal-audibility-iso-1996-2.html",
+      "url": "https://zhenxianli.github.io/LISQM/metrics/tonal-audibility-iso-1996-2.html",
       "coverage": {
         "Python": "new",
         "MATLAB/Octave": "",
@@ -2061,7 +2062,7 @@
       "see_also": [
         "tonal-audibility-iso-1996-2"
       ],
-      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/tonal-audibility-iec-61400-11.html",
+      "url": "https://zhenxianli.github.io/LISQM/metrics/tonal-audibility-iec-61400-11.html",
       "coverage": {
         "Python": "new",
         "MATLAB/Octave": "",
@@ -2108,7 +2109,7 @@
         "nt-acou-112-2002": "Nordic test method.",
         "iso-pas-1996-3-2022": "Publicly available specification."
       },
-      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/impulsiveness.html",
+      "url": "https://zhenxianli.github.io/LISQM/metrics/impulsiveness.html",
       "coverage": {
         "Python": "new",
         "MATLAB/Octave": "",
@@ -2170,7 +2171,7 @@
         "di-2016": "Adapted for tonal noise.",
         "iso-26573-draft": "Approved work item (stage 20.00) since 2026."
       },
-      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/psychoacoustic-annoyance.html",
+      "url": "https://zhenxianli.github.io/LISQM/metrics/psychoacoustic-annoyance.html",
       "coverage": {
         "Python": "current",
         "MATLAB/Octave": "current",
@@ -2333,7 +2334,7 @@
         "iso-226-2003": "Second edition; withdrawn in 2023.",
         "iso-226-2023": "Third edition."
       },
-      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/equal-loudness-contours.html",
+      "url": "https://zhenxianli.github.io/LISQM/metrics/equal-loudness-contours.html",
       "coverage": {
         "Python": "new",
         "MATLAB/Octave": "partial",
@@ -2427,7 +2428,7 @@
         "icao-annex-16-vol-1": "International standard for aircraft noise certification.",
         "cfr-14-part-36": "US regulation (Appendices A and B)."
       },
-      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/epnl.html",
+      "url": "https://zhenxianli.github.io/LISQM/metrics/epnl.html",
       "coverage": {
         "Python": "current",
         "MATLAB/Octave": "current",
@@ -2523,7 +2524,7 @@
         "fidell-1974": "Model paper.",
         "rizzi-2025": "NASA's use of the model in annoyance assessments of urban air mobility, with audibility as a factor."
       },
-      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/aural-detectability.html",
+      "url": "https://zhenxianli.github.io/LISQM/metrics/aural-detectability.html",
       "coverage": {
         "Python": "current",
         "MATLAB/Octave": "current",
@@ -3477,7 +3478,7 @@
         "https://github.com/ggrecow/SQAT/pull/79"
       ],
       "checked": "2026-10-06",
-      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/sqat.html",
+      "url": "https://zhenxianli.github.io/LISQM/projects/sqat.html",
       "last_commit": "2026-10-02",
       "latest_release": {
         "version": "v1.3",
@@ -3580,7 +3581,7 @@
         "https://github.com/StefanoGiacomelli/torch_amt/blob/main/README.md"
       ],
       "checked": "2026-10-06",
-      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/amt.html",
+      "url": "https://zhenxianli.github.io/LISQM/projects/amt.html",
       "last_commit": "2026-06-14",
       "latest_release": {
         "version": "1.6.0",
@@ -3757,7 +3758,7 @@
         "https://github.com/Eomys/MoSQITo/pull/97"
       ],
       "checked": "2026-10-06",
-      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/mosqito.html",
+      "url": "https://zhenxianli.github.io/LISQM/projects/mosqito.html",
       "last_commit": "2024-04-22",
       "latest_release": {
         "version": "1.2.1",
@@ -3820,7 +3821,7 @@
         "https://pypi.org/project/acoustic-toolbox/"
       ],
       "checked": "2026-10-06",
-      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/acoustic-toolbox.html",
+      "url": "https://zhenxianli.github.io/LISQM/projects/acoustic-toolbox.html",
       "last_commit": "2026-02-12",
       "latest_release": {
         "version": "0.2.2",
@@ -3886,7 +3887,7 @@
         "https://github.com/porres/pd-psycho/tree/master/Help-files"
       ],
       "checked": "2026-10-06",
-      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/pd-psycho.html",
+      "url": "https://zhenxianli.github.io/LISQM/projects/pd-psycho.html",
       "last_commit": "2025-10-14",
       "latest_release": {
         "version": "1.1",
@@ -4054,7 +4055,7 @@
         "https://pypi.org/project/sottek-hearing-model/"
       ],
       "checked": "2026-10-06",
-      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/refmap-psychoacoustics.html",
+      "url": "https://zhenxianli.github.io/LISQM/projects/refmap-psychoacoustics.html",
       "last_commit": "2026-10-02",
       "latest_release": null,
       "prerelease": null,
@@ -4158,7 +4159,7 @@
         "https://github.com/mlotinga/sottek-hearing-model/issues/9"
       ],
       "checked": "2026-10-06",
-      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/sottek-hearing-model.html",
+      "url": "https://zhenxianli.github.io/LISQM/projects/sottek-hearing-model.html",
       "last_commit": "2026-09-18",
       "latest_release": {
         "version": "0.1.14",
@@ -4279,7 +4280,7 @@
         "https://github.com/densilcabrera/aarae/commits/master/Analysers/Level%20and%20Strength/Loudness_ISO532_1.m"
       ],
       "checked": "2026-10-06",
-      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/aarae.html",
+      "url": "https://zhenxianli.github.io/LISQM/projects/aarae.html",
       "last_commit": "2024-08-09",
       "latest_release": null,
       "prerelease": null,
@@ -4335,7 +4336,7 @@
         "https://github.com/js2251/iso532-3/tree/main/code%20for%20tables"
       ],
       "checked": "2026-10-06",
-      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/js2251-iso532-3.html",
+      "url": "https://zhenxianli.github.io/LISQM/projects/js2251-iso532-3.html",
       "last_commit": "2021-10-08",
       "latest_release": null,
       "prerelease": null,
@@ -4395,7 +4396,7 @@
         "https://github.com/jacobbaylesssmc/iso226"
       ],
       "checked": "2026-10-06",
-      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/pydsm.html",
+      "url": "https://zhenxianli.github.io/LISQM/projects/pydsm.html",
       "last_commit": "2025-08-22",
       "latest_release": {
         "version": "0.15.2",
@@ -4546,7 +4547,7 @@
         "https://github.com/huaaudio/metasona/blob/main/python/metasona/_abi.py"
       ],
       "checked": "2026-10-06",
-      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/metasona.html",
+      "url": "https://zhenxianli.github.io/LISQM/projects/metasona.html",
       "last_commit": "2026-09-25",
       "latest_release": {
         "version": "0.2.2",
@@ -4613,7 +4614,7 @@
         "https://github.com/cclin99/iso532-1-rs/blob/main/docs/ISO-ANNEXB-NUMERICAL-ERROR-2026-07-04.md"
       ],
       "checked": "2026-10-06",
-      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/iso532-1-rs.html",
+      "url": "https://zhenxianli.github.io/LISQM/projects/iso532-1-rs.html",
       "last_commit": "2026-07-21",
       "latest_release": {
         "version": "0.1.0",
@@ -4683,7 +4684,7 @@
         "https://github.com/Ryrybros/NumpyLibforPsychoAcoustic/tree/main/Numerical_error_report"
       ],
       "checked": "2026-10-06",
-      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/numpylib-psychoacoustic.html",
+      "url": "https://zhenxianli.github.io/LISQM/projects/numpylib-psychoacoustic.html",
       "last_commit": "2026-06-07",
       "latest_release": null,
       "prerelease": null,
@@ -4966,7 +4967,7 @@
         "https://pypi.org/project/phonometry/"
       ],
       "checked": "2026-10-06",
-      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/phonometry.html",
+      "url": "https://zhenxianli.github.io/LISQM/projects/phonometry.html",
       "last_commit": "2026-10-01",
       "latest_release": {
         "version": "3.3.0",
@@ -5054,7 +5055,7 @@
         "https://github.com/onyx-prismantium/soundpalette/blob/main/core/include/soundpalette/psycho.h"
       ],
       "checked": "2026-10-06",
-      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/soundpalette.html",
+      "url": "https://zhenxianli.github.io/LISQM/projects/soundpalette.html",
       "last_commit": "2026-09-27",
       "latest_release": {
         "version": "v0.8.0",
@@ -5132,7 +5133,7 @@
         "https://pypi.org/project/torch-amt/"
       ],
       "checked": "2026-10-06",
-      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/torch-amt.html",
+      "url": "https://zhenxianli.github.io/LISQM/projects/torch-amt.html",
       "last_commit": "2026-03-19",
       "latest_release": {
         "version": "0.2.0",
@@ -5212,7 +5213,7 @@
         "https://github.com/JuliaRegistries/General/tree/master/Z/ZwickerLoudness"
       ],
       "checked": "2026-10-06",
-      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/zwickerloudness-jl.html",
+      "url": "https://zhenxianli.github.io/LISQM/projects/zwickerloudness-jl.html",
       "last_commit": "2026-09-02",
       "latest_release": {
         "version": "0.3.0",
@@ -5379,7 +5380,7 @@
         "https://github.com/PALILA-TUDelft/pySQAT/issues/1"
       ],
       "checked": "2026-10-06",
-      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/pysqat.html",
+      "url": "https://zhenxianli.github.io/LISQM/projects/pysqat.html",
       "last_commit": "2026-06-27",
       "latest_release": null,
       "prerelease": null,
@@ -5438,7 +5439,7 @@
         "https://github.com/MalcolmSlaney/LoudnessModel/blob/main/LICENSE"
       ],
       "checked": "2026-10-06",
-      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/loudnessmodel.html",
+      "url": "https://zhenxianli.github.io/LISQM/projects/loudnessmodel.html",
       "last_commit": "2025-03-20",
       "latest_release": null,
       "prerelease": null,
@@ -5493,7 +5494,7 @@
         "https://github.com/Zhen-Ni/epnl/tree/master/src"
       ],
       "checked": "2026-10-06",
-      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/zhen-ni-epnl.html",
+      "url": "https://zhenxianli.github.io/LISQM/projects/zhen-ni-epnl.html",
       "last_commit": "2023-07-10",
       "latest_release": null,
       "prerelease": null,
@@ -5551,7 +5552,7 @@
         "https://research.tue.nl/files/103868563/20180919_Osses_Vecchi.pdf"
       ],
       "checked": "2026-10-06",
-      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/fluctuation-strength-tue.html",
+      "url": "https://zhenxianli.github.io/LISQM/projects/fluctuation-strength-tue.html",
       "last_commit": "2020-01-02",
       "latest_release": {
         "version": "1.0",
@@ -5606,7 +5607,7 @@
         "https://github.com/IoSR-Surrey/MatlabToolbox/blob/master/+iosr/+auditory/loudWeight.m"
       ],
       "checked": "2026-10-06",
-      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/iosr-matlab-toolbox.html",
+      "url": "https://zhenxianli.github.io/LISQM/projects/iosr-matlab-toolbox.html",
       "last_commit": "2017-08-18",
       "latest_release": {
         "version": "v2.8",
@@ -5700,7 +5701,7 @@
         "https://pypi.org/project/loudness/"
       ],
       "checked": "2026-10-06",
-      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/deeuu-loudness.html",
+      "url": "https://zhenxianli.github.io/LISQM/projects/deeuu-loudness.html",
       "last_commit": "2019-08-08",
       "latest_release": null,
       "prerelease": null,
@@ -5766,7 +5767,7 @@
         "https://github.com/djcaminero/MoSQITo-FDP/tree/master/mosqito/validations/hearing_model"
       ],
       "checked": "2026-10-06",
-      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/mosqito-fdp.html",
+      "url": "https://zhenxianli.github.io/LISQM/projects/mosqito-fdp.html",
       "last_commit": "2021-07-05",
       "latest_release": null,
       "prerelease": null,
@@ -5854,7 +5855,7 @@
         "https://github.com/AndreaCastiella/PsychoacousticParametersMeasurer/blob/main/PsychoacousticAnnoyance.py"
       ],
       "checked": "2026-10-06",
-      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/psychoacoustic-parameters-measurer.html",
+      "url": "https://zhenxianli.github.io/LISQM/projects/psychoacoustic-parameters-measurer.html",
       "last_commit": "2021-06-06",
       "latest_release": null,
       "prerelease": null,
@@ -5950,7 +5951,7 @@
         "https://github.com/densilcabrera/psysound3/blob/master/AudioAnalysers/@RoughnessDW/getDescription.m"
       ],
       "checked": "2026-10-06",
-      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/psysound3.html",
+      "url": "https://zhenxianli.github.io/LISQM/projects/psysound3.html",
       "last_commit": "2015-03-28",
       "latest_release": null,
       "prerelease": null,
@@ -6012,7 +6013,7 @@
         "https://pypi.org/project/acoustics/"
       ],
       "checked": "2026-10-06",
-      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/python-acoustics.html",
+      "url": "https://zhenxianli.github.io/LISQM/projects/python-acoustics.html",
       "last_commit": "2023-08-20",
       "latest_release": {
         "version": "0.2.6",
@@ -6069,7 +6070,7 @@
         "https://github.com/suavecode/SUAVE/tree/develop/trunk/SUAVE/Methods/Noise/Fidelity_One/Noise_Tools"
       ],
       "checked": "2026-10-06",
-      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/suave.html",
+      "url": "https://zhenxianli.github.io/LISQM/projects/suave.html",
       "last_commit": "2022-12-23",
       "latest_release": {
         "version": "2.5.2",
@@ -6124,7 +6125,7 @@
         "https://sourceforge.net/projects/zwickerloudness/files/"
       ],
       "checked": "2026-10-06",
-      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/zwickerloudness-sourceforge.html",
+      "url": "https://zhenxianli.github.io/LISQM/projects/zwickerloudness-sourceforge.html",
       "last_commit": "2018-06-05",
       "latest_release": {
         "version": "zwickerloudness-020",
@@ -6226,7 +6227,7 @@
         "https://github.com/Eomys/MoSQITo/blob/master/docs/ref.bib"
       ],
       "checked": "2026-10-06",
-      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/psychobox.html",
+      "url": "https://zhenxianli.github.io/LISQM/projects/psychobox.html",
       "last_commit": "2026-03-16",
       "latest_release": null,
       "prerelease": null,
@@ -6322,7 +6323,7 @@
         "https://pypi.org/project/soundscapy/"
       ],
       "checked": "2026-10-06",
-      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/soundscapy.html",
+      "url": "https://zhenxianli.github.io/LISQM/projects/soundscapy.html",
       "last_commit": "2026-05-14",
       "latest_release": {
         "version": "0.8.5",
@@ -6406,7 +6407,7 @@
         "https://github.com/JuliaRegistries/General/tree/master/Z/ZwickerLoudnessAudio"
       ],
       "checked": "2026-10-06",
-      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/zwickerloudnessaudio-jl.html",
+      "url": "https://zhenxianli.github.io/LISQM/projects/zwickerloudnessaudio-jl.html",
       "last_commit": "2026-09-02",
       "latest_release": {
         "version": "0.3.0",
@@ -6523,7 +6524,7 @@
   "updates": [
     {
       "date": "2026-10-06",
-      "title": "First public version of LISQM",
+      "title": "Version 0.1, the first public version of LISQM",
       "body": "LISQM (List of Implementations of Sound Quality Metrics) starts with 32 projects in Python, MATLAB, Octave, C,\nC++, Rust, Julia and Pure Data, and 22 methods from Zwicker loudness to aural detectability. Every implementation is\ntied to the standard edition or model paper it follows, with links to the documentation the facts were taken\nfrom. Repository dates, releases and package versions are refreshed once a month.\n\nWorth knowing as of today:\n\n- ECMA-418-2 is at its 4th edition (June 2025), which added fluctuation strength. sottek-hearing-model and\n  refmap-psychoacoustics follow it, as do phonometry and MetaSona, two newly released projects that are not yet\n  widely used. SQAT has it on its main branch only, and MoSQITo still follows the 2nd edition (2022).\n- SQAT's latest release (v1.3) is licensed for non-commercial use only. Its main branch is GPL-3.0 and\n  carries unreleased fixes to ISO 532-1 time-varying loudness, Aures tonality and Daniel & Weber roughness\n  that change results.\n- All three parts of ISO 532 are being revised; committee drafts have existed since November 2024.\n- No open implementation was found for DIN 38455:2024 (the first German roughness standard), DIN 45681 or\n  ISO/TS 20065:2022.\n- Six projects disclose that AI tools assisted their development; each project page says where.\n- Every project is in one group: established, newly released (first released less than about a year ago and\n  not yet widely used), developing, legacy (archived, or no commit for three years) or others (calls another\n  indexed project). Lists follow this order, so a new, little-used or unmaintained project is never the first\n  suggestion.\n- Candidates that could not be checked yet, such as PsyTools (TU Graz) and the ITA-Toolbox, are listed on\n  the About page as leads.\n"
     }
   ]

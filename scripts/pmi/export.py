@@ -62,6 +62,7 @@ def index_json(index: Index) -> str:
         "name": site["name"],
         "full_name": site["title"],
         "tagline": site["tagline"],
+        "version": str(site.get("version", "")),
         "description": plain(site["description"]),
         "url": site["base_url"],
         "repository": site["repository"],

@@ -115,7 +115,7 @@ def layout(index: Index, path: str, *, title: str, description: str, body: str, 
 <header class="masthead" id="top">
 <div class="container masthead-row">
 <a class="brand" href="{rel(HOME)}">{LOGO}<span class="brand-text"><span class="brand-name">{esc(site['name'])}</span><span class="brand-tagline">{esc(site['tagline'])}</span></span></a>
-<p class="masthead-meta">Data as of {as_of}<br><a href="{esc(site['repository'])}">Source on GitHub</a></p>
+<p class="masthead-meta">Version {esc(str(site.get('version', '')))} · data as of {as_of}<br><a href="{esc(site['repository'])}">Source on GitHub</a></p>
 </div>
 <nav class="tabs" aria-label="Site"><div class="container">
 {tabs}
@@ -131,7 +131,7 @@ def layout(index: Index, path: str, *, title: str, description: str, body: str, 
 <div class="container">
 <p class="credit">{credit(index)}</p>
 <p>Facts are taken from each project's own documentation and package metadata and checked by hand; corrections
-are welcome on <a href="{esc(site['repository'])}">GitHub</a>. Data as of {as_of}. {esc(site['license'])} licence.</p>
+are welcome on <a href="{esc(site['repository'])}">GitHub</a>. Version {esc(str(site.get('version', '')))}, data as of {as_of}. {esc(site['license'])} licence.</p>
 <p><a href="{rel('index.json')}">JSON</a> · <a href="{rel('llms.txt')}">llms.txt</a> · {md_foot}<a href="{rel('feed.xml')}">Atom feed</a></p>
 </div>
 </footer>

@@ -229,7 +229,7 @@ generated output. Everything that describes a project, a method or an edition is
 By contributing, you agree that your contribution is published under the [MIT License](LICENSE) of this
 repository.
 
-[issue-add]: https://github.com/ZhenxianLi/psychoacoustic-metrics-index/issues/new?template=add-project.yml
-[issue-fix]: https://github.com/ZhenxianLi/psychoacoustic-metrics-index/issues/new?template=correction.yml
-[issue-std]: https://github.com/ZhenxianLi/psychoacoustic-metrics-index/issues/new?template=standard-edition.yml
-[issue-blank]: https://github.com/ZhenxianLi/psychoacoustic-metrics-index/issues/new
+[issue-add]: https://github.com/ZhenxianLi/LISQM/issues/new?template=add-project.yml
+[issue-fix]: https://github.com/ZhenxianLi/LISQM/issues/new?template=correction.yml
+[issue-std]: https://github.com/ZhenxianLi/LISQM/issues/new?template=standard-edition.yml
+[issue-blank]: https://github.com/ZhenxianLi/LISQM/issues/new
