@@ -1110,6 +1110,7 @@ MATLAB toolbox for sound quality analysis that bundles most psychoacoustic metri
 - **Licence:** GPL-3.0-or-later (main) / CC-BY-NC-4.0 (releases) — The default branch has been GPL-3.0-or-later since 2026-09-15, with BSD-3-Clause (ISO 532-1 loudness), MIT (Daniel & Weber roughness and nine utilities) and CC0-1.0 (colour maps) exceptions. Every release up to and including v1.3 is CC-BY-NC-4.0 (non-commercial) at repository level, while 21 metric files in v1.3 carry BSD-style notices and the ECMA-418-2 files say GPL-3.0.
 - **Latest release:** v1.3 (2025-04)
 - **Last commit:** 2026-10-02 (active)
+- **GitHub stars:** 100
 - **Maintainers:** Gil Felix Greco, Roberto Merino-Martínez, Alejandro Osses, Mike Lotinga
 - **AI assistance:** disclosed — Header comments in 20 files changed in August and September 2026 say the changes were assisted by Claude (Anthropic) and verified by the authors; 32 commits carry AI co-author trailers. The README has no AI statement.
 - **Paper:** Felix Greco, G., Merino-Martínez, R., Osses, A., & Langer, S. C. (2023). SQAT: a MATLAB-based toolbox for quantitative sound quality analysis. *Proceedings of INTER-NOISE 2023*, Chiba, Japan. https://doi.org/10.3397/IN_2023_1075
@@ -1228,8 +1229,9 @@ Python library for sound quality metrics: ISO 532-1 loudness, DIN 45692 sharpnes
 - **Licence:** Apache-2.0
 - **Package:** PyPI `mosqito` (https://pypi.org/project/mosqito/)
 - **Install:** `pip install mosqito`
-- **Latest release:** 1.2.1 (2024-04)
+- **Latest release:** v1.2.1 (2024-04)
 - **Last commit:** 2024-04-22 (inactive since 2024-04)
+- **GitHub stars:** 178
 - **Maintainers:** Eomys / Green Forge Coop
 - **AI assistance:** not stated
 - **Paper:** San Millán-Castillo, R., Latorre-Iglesias, E., Glesser, M., Wanty, S., Jiménez-Caminero, D., & Álvarez-Jimeno, J. M. (2021). MOSQITO: an open-source and free toolbox for sound quality metrics in the industry and education. *INTER-NOISE 2021*, INCE Conference Proceedings 263(5), 1164–1175. https://doi.org/10.3397/IN-2021-1767
@@ -1291,8 +1293,9 @@ Python acoustics library under the Université Gustave Eiffel GitHub organisatio
 - **Licence:** BSD-3-Clause
 - **Package:** PyPI `acoustic-toolbox` (https://pypi.org/project/acoustic-toolbox/)
 - **Install:** `pip install acoustic-toolbox`
-- **Latest release:** 0.2.2 (2026-01)
+- **Latest release:** v0.2.2 (2026-01)
 - **Last commit:** 2026-02-12 (active)
+- **GitHub stars:** 30
 - **AI assistance:** not stated
 - **Entry checked:** 2026-10-06
 
@@ -1334,6 +1337,7 @@ Pure Data library of psychoacoustic objects (C externals and abstractions) from 
 - **Licence:** GPL-3.0-or-later — LICENSE.txt holds the GPL v3 text; the only licence notice in the sources (roughness.c) allows any later version.
 - **Latest release:** 1.1 (2025-10)
 - **Last commit:** 2025-10-14 (active)
+- **GitHub stars:** 22
 - **Maintainers:** Alexandre Torres Porres
 - **AI assistance:** not stated
 - **Paper:** Porres, A. T. (2011). Dissonance Model Toolbox in Pure Data. *Proceedings of the 4th Pure Data International Convention (PdCon11)*, Berlin.
@@ -1379,7 +1383,8 @@ Research code of the REFMAP project at the University of Salford, in MATLAB with
 - **Group:** established (Described in a publication, used by others, or written by the authors of the model, with more than a year of history.)
 - **Licence:** GPL-3.0 — The licences disagree: the LICENSE file holds the GPL-3.0 text, while pyproject.toml declares "AGPL-3.0-only". Neither says whether later GPL versions are allowed.
 - **Latest release:** no release
-- **Last commit:** 2026-10-02 (active)
+- **Last commit:** 2026-10-06 (active)
+- **GitHub stars:** 23
 - **Maintainers:** Mike Lotinga
 - **AI assistance:** not stated
 - **Paper:** Lotinga, M. J. B., Torjussen, M., & Felix Greco, G. (2025). Verified implementations of the Sottek psychoacoustic Hearing Model standardised sound quality metrics (ECMA-418-2 loudness, tonality and roughness). *Forum Acusticum / Euronoise 2025*, Málaga. https://doi.org/10.61782/fa.2025.0951
@@ -1439,8 +1444,9 @@ Python implementation of the ECMA-418-2:2025 (4th edition) Sottek Hearing Model 
 - **Licence:** GPL-3.0-only — The LICENSE file has always been GPL-3.0 and the project metadata was changed to GPL-3.0-only on 2026-08-31; the metadata of the current PyPI release (0.1.14) still says AGPL-3.0-only.
 - **Package:** PyPI `sottek-hearing-model` (https://pypi.org/project/sottek-hearing-model/)
 - **Install:** `pip install sottek-hearing-model`
-- **Latest release:** 0.1.14 (2026-03)
+- **Latest release:** v0.1.14 (2026-03)
 - **Last commit:** 2026-09-18 (active)
+- **GitHub stars:** 23
 - **Maintainers:** Mike Lotinga
 - **AI assistance:** not stated
 - **Paper:** Lotinga, M. J. B., Torjussen, M., & Felix Greco, G. (2025). Verified implementations of the Sottek psychoacoustic Hearing Model standardised sound quality metrics (ECMA-418-2 loudness, tonality and roughness). *Forum Acusticum / Euronoise 2025*, Málaga. https://doi.org/10.61782/fa.2025.0951
@@ -1490,6 +1496,7 @@ Audio and Acoustical Response Analysis Environment: a MATLAB environment with a 
 - **Licence:** BSD-3-Clause — License for AARAE.txt says that contributed files may carry their own licences; for example, the ISO 226 calculator iso226.m comes with its own license.txt.
 - **Latest release:** no release
 - **Last commit:** 2024-08-09 (inactive since 2024-08)
+- **GitHub stars:** 36
 - **Maintainers:** Densil Cabrera, Jonothan Holmes, Ella Manor
 - **AI assistance:** not stated
 - **Paper:** Cabrera, D., Jimenez, D., & Martens, W. L. (2014). Audio and Acoustical Response Analysis Environment (AARAE): a tool to support education and research in acoustics. *Proceedings of Inter-Noise 2014*, Melbourne, Australia.
@@ -1543,6 +1550,7 @@ MATLAB code by Brian C. J. Moore, Brian R. Glasberg and Josef Schlittenlacher (C
 - **Licence:** none — No licence file. The readme PDF says: "The code is provided free for any research purposes. For commercial use please contact Brian C. J. Moore."
 - **Latest release:** no release
 - **Last commit:** 2021-10-08 (inactive since 2021-10)
+- **GitHub stars:** 2
 - **AI assistance:** not stated
 - **Entry checked:** 2026-10-06
 
@@ -1591,6 +1599,7 @@ Python toolbox for the design and simulation of delta-sigma modulators. It conta
 - **Install:** `pip install pydsm`
 - **Latest release:** 0.15.2 (2025-08)
 - **Last commit:** 2025-08-22 (inactive since 2025-08)
+- **GitHub stars:** 22
 - **Maintainers:** Sergio Callegari
 - **AI assistance:** not stated
 - **Entry checked:** 2026-10-06
@@ -1637,8 +1646,9 @@ C library with a typed Python interface and prebuilt wheels, written to make rep
 - **Licence:** GPL-3.0-only AND Apache-2.0 AND BSD-3-Clause AND MIT — The combined distribution is GPL-3.0. MetaSona's own code is Apache-2.0; the ECMA-418-2 kernels (from SQAT/RefMap) and the current Aures tonality port are GPL-3.0; SQAT's ISO 532-1 filtering (BSD-3-Clause), SQAT's Daniel & Weber roughness (MIT), MoSQITo data (Apache-2.0) and PocketFFT (BSD-3-Clause) keep their notices.
 - **Package:** PyPI `metasona` (https://pypi.org/project/metasona/)
 - **Install:** `pip install metasona`
-- **Latest release:** 0.2.2 (2026-09)
+- **Latest release:** v0.2.2 (2026-09)
 - **Last commit:** 2026-09-25 (active)
+- **GitHub stars:** 1
 - **Maintainers:** Jiahua Zhang
 - **AI assistance:** disclosed — README and NOTICE state that it was developed with assistance from OpenAI Codex.
 - **Entry checked:** 2026-10-06
@@ -1694,6 +1704,7 @@ Rust engine (README title "ISO532") for ISO 532-1:2017 Zwicker loudness: station
 - **Licence:** Apache-2.0
 - **Latest release:** 0.1.0 (2026-07)
 - **Last commit:** 2026-07-21 (active)
+- **GitHub stars:** 1
 - **Maintainers:** cclin99
 - **AI assistance:** disclosed — The README describes "An AI-assisted Rust engine" developed "through human-directed AI collaboration"; 16 commits from July 2026 carry Claude co-author lines, and the repository contains Codex agent configuration.
 - **Entry checked:** 2026-10-06
@@ -1740,6 +1751,7 @@ Python (NumPy) adaptation of loudness models from the Auditory Modeling Toolbox 
 - **Licence:** none
 - **Latest release:** no release
 - **Last commit:** 2026-06-07 (active)
+- **GitHub stars:** 0
 - **Maintainers:** Ryrybros
 - **AI assistance:** not stated
 - **Entry checked:** 2026-10-06
@@ -1787,8 +1799,9 @@ Python acoustics library (formerly PyOctaveBand) that added a large psychoacoust
 - **Licence:** MIT
 - **Package:** PyPI `phonometry` (https://pypi.org/project/phonometry/)
 - **Install:** `pip install phonometry`
-- **Latest release:** 3.3.0 (2026-07)
-- **Last commit:** 2026-10-01 (active)
+- **Latest release:** v3.3.0 (2026-07); pre-release 4.0.0rc1 (2026-09)
+- **Last commit:** 2026-10-06 (active)
+- **GitHub stars:** 119
 - **Maintainers:** José M. Requena Plens
 - **AI assistance:** disclosed — The draft paper (`paper/paper.md`) has an AI usage disclosure: language models drafted code, tests and documentation from the author's clause-by-clause readings, under the author's direction and review. 34 commits from July 2026 contain Claude Code session links.
 - **Entry checked:** 2026-10-06
@@ -1861,6 +1874,7 @@ C++ tool for game audio that analyses a folder of sound effects and draws each f
 - **Licence:** FSL-1.1-Apache-2.0 — Functional Source License 1.1, a source-available licence that is not OSI-approved: it allows any use except a competing commercial product or service, and each release becomes Apache-2.0 two years after publication. The README states that releases up to and including v0.7.0 were published under Apache-2.0.
 - **Latest release:** v0.8.0 (2026-09)
 - **Last commit:** 2026-09-27 (active)
+- **GitHub stars:** 0
 - **Maintainers:** onyx-prismantium
 - **AI assistance:** disclosed — The repository contains a `CLAUDE.md` file, and 49 of its 54 commits carry "Co-Authored-By: Claude" trailers.
 - **Entry checked:** 2026-10-06
@@ -1914,6 +1928,7 @@ PyTorch implementations of models from the MATLAB Auditory Modeling Toolbox (AMT
 - **Install:** `pip install torch-amt`
 - **Latest release:** 0.2.0 (2026-02)
 - **Last commit:** 2026-03-19 (active)
+- **GitHub stars:** 3
 - **Maintainers:** Stefano Giacomelli
 - **AI assistance:** not stated
 - **Entry checked:** 2026-10-06
@@ -1959,8 +1974,9 @@ Julia package that computes ISO 532-1:2017 Zwicker loudness from one-third-octav
 - **Licence:** MIT
 - **Package:** Julia General `ZwickerLoudness` (https://juliahub.com/ui/Packages/General/ZwickerLoudness)
 - **Install:** `using Pkg; Pkg.add("ZwickerLoudness")`
-- **Latest release:** 0.3.0 (2026-07)
+- **Latest release:** v0.3.0 (2026-09)
 - **Last commit:** 2026-09-02 (active)
+- **GitHub stars:** 4
 - **Maintainers:** slink
 - **AI assistance:** not stated
 - **Entry checked:** 2026-10-06
@@ -2006,6 +2022,7 @@ Python port of the MATLAB toolbox SQAT (README title "SQAT4PY") with a PySide6 g
 - **Licence:** none — No licence file at the repository root. The bundled copy of SQAT v1.3 (MATLAB, used as the validation reference) carries SQAT's CC-BY-NC-4.0 licence.
 - **Latest release:** no release
 - **Last commit:** 2026-06-27 (active)
+- **GitHub stars:** 5
 - **Maintainers:** Gerard Mendoza Ferrandis
 - **AI assistance:** not stated
 - **Entry checked:** 2026-10-06
@@ -2059,6 +2076,7 @@ Python translation of the Cambridge MATLAB code for the TVL2018 loudness model: 
 - **Licence:** BSD-2-Clause — The README also says "The source code is provided free for any research purposes"; the readme of the Cambridge MATLAB code tv2018.m (see iso532-3) uses similar wording and asks commercial users to contact Brian C. J. Moore.
 - **Latest release:** no release
 - **Last commit:** 2025-03-20 (inactive since 2025-03)
+- **GitHub stars:** 17
 - **Maintainers:** Jeremy JX Hsiao, Malcolm Slaney
 - **AI assistance:** not stated
 - **Entry checked:** 2026-10-06
@@ -2105,6 +2123,7 @@ Small Rust crate that computes perceived noisiness (noy), perceived noise level 
 - **Licence:** none
 - **Latest release:** no release
 - **Last commit:** 2023-07-10 (inactive since 2023-07)
+- **GitHub stars:** 0
 - **Maintainers:** Zhen-Ni
 - **AI assistance:** not stated
 - **Entry checked:** 2026-10-06
@@ -2146,8 +2165,9 @@ MATLAB code of the fluctuation strength model of Osses, García & Kohlrausch (20
 - **Kind:** Research code
 - **Group:** legacy (Archived, or no commit for three years or more. Kept for reference: the code may follow an older edition and may not run with current software.)
 - **Licence:** none
-- **Latest release:** 1.0 (2019-12)
+- **Latest release:** v1.0 (2019-12)
 - **Last commit:** 2020-01-02 (inactive since 2020-01)
+- **GitHub stars:** 1
 - **Maintainers:** Alejandro Osses
 - **AI assistance:** not stated
 - **Paper:** Osses, A., García, R., & Kohlrausch, A. (2016). Modelling the sensation of fluctuation strength. *Proceedings of Meetings on Acoustics*, 28, 050005. https://doi.org/10.1121/2.0000410
@@ -2195,6 +2215,7 @@ General-purpose MATLAB toolbox from the Institute of Sound Recording (University
 - **Licence:** MIT
 - **Latest release:** v2.8 (2017-06)
 - **Last commit:** 2017-08-18 (inactive since 2017-08)
+- **GitHub stars:** 133
 - **Maintainers:** Christopher Hummersone
 - **AI assistance:** not stated
 - **Entry checked:** 2026-10-06
@@ -2240,6 +2261,7 @@ C++ library with SWIG Python bindings for building loudness models from cascaded
 - **Licence:** GPL-3.0-or-later
 - **Latest release:** no release
 - **Last commit:** 2019-08-08 (inactive since 2019-08)
+- **GitHub stars:** 40
 - **Maintainers:** Dominic Ward
 - **AI assistance:** not stated
 - **Entry checked:** 2026-10-06
@@ -2291,6 +2313,7 @@ Archived Python snapshot of a MoSQITo fork made for a final-degree project. It a
 - **Licence:** Apache-2.0
 - **Latest release:** no release
 - **Last commit:** 2021-07-05 (archived)
+- **GitHub stars:** 2
 - **Maintainers:** Daniel Jiménez-Caminero Costa
 - **AI assistance:** not stated
 - **Entry checked:** 2026-10-06
@@ -2338,6 +2361,7 @@ Python scripts, commented in Spanish, that translate psychoacoustic parameters d
 - **Licence:** none
 - **Latest release:** no release
 - **Last commit:** 2021-06-06 (inactive since 2021-06)
+- **GitHub stars:** 13
 - **Maintainers:** Andrea Castiella Aguirrezabala
 - **AI assistance:** not stated
 - **Entry checked:** 2026-10-06
@@ -2388,6 +2412,7 @@ MATLAB program with a graphical interface for analysing sound recordings. Its an
 - **Licence:** none — The repository has no licence file, only a no-warranty disclaimer (README-NO_WARRANTY). The licence of the original Google Code project was not checked.
 - **Latest release:** no release
 - **Last commit:** 2015-03-28 (inactive since 2015-03)
+- **GitHub stars:** 17
 - **Maintainers:** Densil Cabrera, Samuel Ferguson
 - **AI assistance:** not stated
 - **Paper:** PsySound3: a program for the analysis of sound recordings (2008). Acoustics'08 abstract, *The Journal of the Acoustical Society of America*, 123(5_Supplement), 3247.
@@ -2446,6 +2471,7 @@ General Python library for acousticians, published on PyPI as `acoustics`. For t
 - **Install:** `pip install acoustics`
 - **Latest release:** 0.2.6 (2022-07)
 - **Last commit:** 2023-08-20 (archived)
+- **GitHub stars:** 563
 - **AI assistance:** not stated
 - **Entry checked:** 2026-10-06
 
@@ -2492,6 +2518,7 @@ Python environment for the multi-fidelity conceptual design of aircraft ("An Aer
 - **Licence:** LGPL-2.1
 - **Latest release:** 2.5.2 (2022-03)
 - **Last commit:** 2022-12-23 (inactive since 2022-12)
+- **GitHub stars:** 530
 - **Maintainers:** SUAVE team (Stanford Aerospace Design Lab)
 - **AI assistance:** not stated
 - **Entry checked:** 2026-10-06
@@ -2577,6 +2604,7 @@ Desktop application (PySide6 GUI) for playing, editing, filtering and analysing 
 - **Licence:** MIT
 - **Latest release:** no release
 - **Last commit:** 2026-03-16 (active)
+- **GitHub stars:** 10
 - **AI assistance:** not stated
 - **Entry checked:** 2026-10-06
 
@@ -2625,8 +2653,9 @@ Python library for soundscape assessment. Its optional audio module computes psy
 - **Licence:** BSD-3-Clause
 - **Package:** PyPI `soundscapy` (https://pypi.org/project/soundscapy/)
 - **Install:** `pip install "soundscapy[audio]"`
-- **Latest release:** 0.8.5 (2026-05)
+- **Latest release:** v0.8.5 (2026-05)
 - **Last commit:** 2026-05-14 (active)
+- **GitHub stars:** 59
 - **Maintainers:** Andrew Mitchell
 - **AI assistance:** disclosed — Commit metadata only; the README does not mention AI. At least 31 commits from March to May 2026 carry co-author lines for Claude or Copilot, and eight commits are authored by copilot-swe-agent[bot].
 - **Paper:** Mitchell, A., Aletta, F., & Kang, J. (2022). How to analyse and represent quantitative soundscape data. *JASA Express Letters*, 2, 037201. https://doi.org/10.1121/10.0009794
@@ -2676,8 +2705,9 @@ Julia front end to ZwickerLoudness.jl that computes ISO 532-1:2017 Zwicker loudn
 - **Licence:** MIT — The README credits MoSQITo (Apache-2.0) for the transcribed time-varying filter tables.
 - **Package:** Julia General `ZwickerLoudnessAudio` (https://juliahub.com/ui/Packages/General/ZwickerLoudnessAudio)
 - **Install:** `using Pkg; Pkg.add("ZwickerLoudnessAudio")`
-- **Latest release:** 0.3.0 (2026-07)
+- **Latest release:** v0.3.0 (2026-09)
 - **Last commit:** 2026-09-02 (active)
+- **GitHub stars:** 2
 - **Maintainers:** slink
 - **AI assistance:** not stated
 - **Entry checked:** 2026-10-06

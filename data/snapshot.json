@@ -1,0 +1,805 @@
+{
+  "generated": "2026-10-06T23:29:27Z",
+  "projects": {
+    "aarae": {
+      "errors": [],
+      "fetched": "2026-10-06T23:29:27Z",
+      "github": {
+        "archived": false,
+        "default_branch": "master",
+        "description": null,
+        "forks": 12,
+        "full_name": "densilcabrera/aarae",
+        "last_commit": "2024-08-09",
+        "latest_release": null,
+        "license": null,
+        "open_issues": 5,
+        "pushed_at": "2024-08-09T02:05:32Z",
+        "stars": 36,
+        "topics": []
+      },
+      "packages": {}
+    },
+    "acoustic-toolbox": {
+      "errors": [],
+      "fetched": "2026-10-06T23:29:27Z",
+      "github": {
+        "archived": false,
+        "default_branch": "main",
+        "description": "A Python library for acousticians.",
+        "forks": 8,
+        "full_name": "Universite-Gustave-Eiffel/acoustic-toolbox",
+        "last_commit": "2026-02-12",
+        "latest_release": {
+          "date": "2026-01-26",
+          "tag": "v0.2.2",
+          "url": "https://github.com/Universite-Gustave-Eiffel/acoustic-toolbox/releases/tag/v0.2.2"
+        },
+        "license": "BSD-3-Clause",
+        "open_issues": 10,
+        "pushed_at": "2026-02-12T07:32:02Z",
+        "stars": 30,
+        "topics": [
+          "acoustic",
+          "audio",
+          "audio-analysis",
+          "python",
+          "sound"
+        ]
+      },
+      "packages": {
+        "pypi:acoustic-toolbox": {
+          "date": "2026-01-26",
+          "prerelease": null,
+          "url": "https://pypi.org/project/acoustic-toolbox/",
+          "version": "0.2.2"
+        }
+      }
+    },
+    "amt": {
+      "errors": [],
+      "fetched": "2026-10-06T23:29:27Z",
+      "github": null,
+      "packages": {}
+    },
+    "deeuu-loudness": {
+      "errors": [],
+      "fetched": "2026-10-06T23:29:27Z",
+      "github": {
+        "archived": false,
+        "default_branch": "master",
+        "description": "Audio library for modelling loudness",
+        "forks": 11,
+        "full_name": "deeuu/loudness",
+        "last_commit": "2019-08-08",
+        "latest_release": null,
+        "license": "GPL-3.0",
+        "open_issues": 0,
+        "pushed_at": "2019-08-08T08:33:32Z",
+        "stars": 40,
+        "topics": []
+      },
+      "packages": {}
+    },
+    "fluctuation-strength-tue": {
+      "errors": [],
+      "fetched": "2026-10-06T23:29:27Z",
+      "github": {
+        "archived": false,
+        "default_branch": "master",
+        "description": "Model of fluctuation strength",
+        "forks": 0,
+        "full_name": "aosses-tue/fluctuation-strength-TUe",
+        "last_commit": "2020-01-02",
+        "latest_release": {
+          "date": "2019-12-31",
+          "tag": "v1.0",
+          "url": "https://github.com/aosses-tue/fluctuation-strength-TUe/releases/tag/v1.0"
+        },
+        "license": null,
+        "open_issues": 0,
+        "pushed_at": "2020-01-02T15:22:03Z",
+        "stars": 1,
+        "topics": []
+      },
+      "packages": {}
+    },
+    "iosr-matlab-toolbox": {
+      "errors": [],
+      "fetched": "2026-10-06T23:29:27Z",
+      "github": {
+        "archived": false,
+        "default_branch": "master",
+        "description": "General purpose Matlab toolbox",
+        "forks": 45,
+        "full_name": "IoSR-Surrey/MatlabToolbox",
+        "last_commit": "2017-08-18",
+        "latest_release": {
+          "date": "2017-06-17",
+          "tag": "v2.8",
+          "url": "https://github.com/IoSR-Surrey/MatlabToolbox/releases/tag/v2.8"
+        },
+        "license": "MIT",
+        "open_issues": 6,
+        "pushed_at": "2020-01-03T22:40:26Z",
+        "stars": 133,
+        "topics": []
+      },
+      "packages": {}
+    },
+    "iso532-1-rs": {
+      "errors": [],
+      "fetched": "2026-10-06T23:29:27Z",
+      "github": {
+        "archived": false,
+        "default_branch": "main",
+        "description": " Rust engine for ISO 532-1:2017 Zwicker loudness, with batch/streaming APIs, AVX2 acceleration, C ABI, Python bindings, and locally reproducible MoSQITo parity tests.",
+        "forks": 0,
+        "full_name": "cclin99/iso532-1-rs",
+        "last_commit": "2026-07-21",
+        "latest_release": null,
+        "license": "Apache-2.0",
+        "open_issues": 0,
+        "pushed_at": "2026-07-21T00:29:05Z",
+        "stars": 1,
+        "topics": [
+          "iso-532-1",
+          "psychoacoustics",
+          "rust",
+          "simd",
+          "zwicker"
+        ]
+      },
+      "packages": {}
+    },
+    "js2251-iso532-3": {
+      "errors": [],
+      "fetched": "2026-10-06T23:29:27Z",
+      "github": {
+        "archived": false,
+        "default_branch": "main",
+        "description": null,
+        "forks": 0,
+        "full_name": "js2251/iso532-3",
+        "last_commit": "2021-10-08",
+        "latest_release": null,
+        "license": null,
+        "open_issues": 0,
+        "pushed_at": "2021-10-08T15:32:00Z",
+        "stars": 2,
+        "topics": []
+      },
+      "packages": {}
+    },
+    "loudnessmodel": {
+      "errors": [],
+      "fetched": "2026-10-06T23:29:27Z",
+      "github": {
+        "archived": false,
+        "default_branch": "main",
+        "description": "Python code for calculating the perceived loudness of time-varying sounds",
+        "forks": 5,
+        "full_name": "MalcolmSlaney/LoudnessModel",
+        "last_commit": "2025-03-20",
+        "latest_release": null,
+        "license": "BSD-2-Clause",
+        "open_issues": 0,
+        "pushed_at": "2025-03-20T04:02:17Z",
+        "stars": 17,
+        "topics": []
+      },
+      "packages": {}
+    },
+    "metasona": {
+      "errors": [],
+      "fetched": "2026-10-06T23:29:27Z",
+      "github": {
+        "archived": false,
+        "default_branch": "main",
+        "description": "Fast Psychoacoustic metrics in C, with a typed Python interface.",
+        "forks": 0,
+        "full_name": "huaaudio/metasona",
+        "last_commit": "2026-09-25",
+        "latest_release": {
+          "date": "2026-09-25",
+          "tag": "v0.2.2",
+          "url": "https://github.com/huaaudio/metasona/releases/tag/v0.2.2"
+        },
+        "license": "GPL-3.0",
+        "open_issues": 0,
+        "pushed_at": "2026-09-25T16:00:27Z",
+        "stars": 1,
+        "topics": [
+          "acoustics",
+          "acoustics-toolbox"
+        ]
+      },
+      "packages": {
+        "pypi:metasona": {
+          "date": "2026-09-25",
+          "prerelease": null,
+          "url": "https://pypi.org/project/metasona/",
+          "version": "0.2.2"
+        }
+      }
+    },
+    "mosqito": {
+      "errors": [],
+      "fetched": "2026-10-06T23:29:27Z",
+      "github": {
+        "archived": false,
+        "default_branch": "master",
+        "description": "MoSQITo is a unified and modular development framework of key sound quality metrics favoring reproducible science and efficient shared scripting among engineers, teachers and researchers community.",
+        "forks": 47,
+        "full_name": "Eomys/MoSQITo",
+        "last_commit": "2024-04-22",
+        "latest_release": {
+          "date": "2024-04-22",
+          "tag": "v1.2.1",
+          "url": "https://github.com/Eomys/MoSQITo/releases/tag/v1.2.1"
+        },
+        "license": "Apache-2.0",
+        "open_issues": 25,
+        "pushed_at": "2024-09-10T07:15:52Z",
+        "stars": 178,
+        "topics": [
+          "acoustic",
+          "audio",
+          "audio-analysis",
+          "python",
+          "signal-processing",
+          "sound-quality",
+          "sq-metrics"
+        ]
+      },
+      "packages": {
+        "pypi:mosqito": {
+          "date": "2024-04-22",
+          "prerelease": null,
+          "url": "https://pypi.org/project/mosqito/",
+          "version": "1.2.1"
+        }
+      }
+    },
+    "mosqito-fdp": {
+      "errors": [],
+      "fetched": "2026-10-06T23:29:27Z",
+      "github": {
+        "archived": true,
+        "default_branch": "master",
+        "description": "\"djcaminero/MoSQITo-FDP\" preserves the state of algorithms and functions created for the Final Degree Project (FDP) of Daniel Jiménez-Caminero Costa, \"Python implementation of the tonality psychoacoustic parameter based on the hearing model\". \"djcaminero/MoSQITo\" is updated with code additions by EOMYS employees and project collaborators.",
+        "forks": 0,
+        "full_name": "djcaminero/MoSQITo-FDP",
+        "last_commit": "2021-07-05",
+        "latest_release": null,
+        "license": "Apache-2.0",
+        "open_issues": 0,
+        "pushed_at": "2021-07-05T00:13:03Z",
+        "stars": 2,
+        "topics": []
+      },
+      "packages": {}
+    },
+    "numpylib-psychoacoustic": {
+      "errors": [],
+      "fetched": "2026-10-06T23:29:27Z",
+      "github": {
+        "archived": false,
+        "default_branch": "main",
+        "description": "This is the repository of work for my 2nd year project at Mines School of Nancy. It is a Python adaptation of models described by the Amt toolBox :  https://amtoolbox.org/",
+        "forks": 0,
+        "full_name": "Ryrybros/NumpyLibforPsychoAcoustic",
+        "last_commit": "2026-06-07",
+        "latest_release": null,
+        "license": null,
+        "open_issues": 0,
+        "pushed_at": "2026-06-07T13:32:40Z",
+        "stars": 0,
+        "topics": []
+      },
+      "packages": {}
+    },
+    "pd-psycho": {
+      "errors": [],
+      "fetched": "2026-10-06T23:29:27Z",
+      "github": {
+        "archived": false,
+        "default_branch": "master",
+        "description": "Pd library with some psychoacoustic tools",
+        "forks": 1,
+        "full_name": "porres/pd-psycho",
+        "last_commit": "2025-10-14",
+        "latest_release": {
+          "date": "2025-10-14",
+          "tag": "1.1",
+          "url": "https://github.com/porres/pd-psycho/releases/tag/1.1"
+        },
+        "license": "GPL-3.0",
+        "open_issues": 0,
+        "pushed_at": "2025-10-14T02:28:42Z",
+        "stars": 22,
+        "topics": []
+      },
+      "packages": {}
+    },
+    "phonometry": {
+      "errors": [],
+      "fetched": "2026-10-06T23:29:27Z",
+      "github": {
+        "archived": false,
+        "default_branch": "main",
+        "description": "Standards-conformant acoustics library for Python: measurement and metrology, building, environmental and room acoustics, psychoacoustics, electroacoustics, vibration, underwater and aircraft/rotorcraft noise. Every method is implemented from the standard and validated against reference data, with teaching-style docs (formerly PyOctaveBand).",
+        "forks": 29,
+        "full_name": "jmrplens/phonometry",
+        "last_commit": "2026-10-06",
+        "latest_release": {
+          "date": "2026-07-26",
+          "tag": "v3.3.0",
+          "url": "https://github.com/jmrplens/phonometry/releases/tag/v3.3.0"
+        },
+        "license": "MIT",
+        "open_issues": 0,
+        "pushed_at": "2026-10-06T10:48:01Z",
+        "stars": 119,
+        "topics": [
+          "acoustics",
+          "aircraft-noise",
+          "building-acoustics",
+          "dsp",
+          "environmental-noise",
+          "filter-bank",
+          "frequency-analysis",
+          "iec-61260",
+          "iec-61672",
+          "metrology",
+          "noise-measurement",
+          "octave",
+          "psychoacoustics",
+          "python3",
+          "room-acoustics",
+          "signal-processing",
+          "sound-level-meter",
+          "standards",
+          "underwater-acoustics",
+          "vibration"
+        ]
+      },
+      "packages": {
+        "pypi:phonometry": {
+          "date": "2026-07-26",
+          "prerelease": {
+            "date": "2026-09-10",
+            "version": "4.0.0rc1"
+          },
+          "url": "https://pypi.org/project/phonometry/",
+          "version": "3.3.0"
+        }
+      }
+    },
+    "psychoacoustic-parameters-measurer": {
+      "errors": [],
+      "fetched": "2026-10-06T23:29:27Z",
+      "github": {
+        "archived": false,
+        "default_branch": "main",
+        "description": "This project is the translation to python of the most important parameters in the field of Psychoacoustics based on the book of Zwicker and Fastl \"Psychoacoustics Facts and Models\".",
+        "forks": 2,
+        "full_name": "AndreaCastiella/PsychoacousticParametersMeasurer",
+        "last_commit": "2021-06-06",
+        "latest_release": null,
+        "license": null,
+        "open_issues": 2,
+        "pushed_at": "2021-06-06T09:16:58Z",
+        "stars": 13,
+        "topics": []
+      },
+      "packages": {}
+    },
+    "psychobox": {
+      "errors": [],
+      "fetched": "2026-10-06T23:29:27Z",
+      "github": {
+        "archived": false,
+        "default_branch": "main",
+        "description": "PsychToolbox is a framework developed for playing, editing and processing audio signals. In addition to modeling sound quality-related metrics",
+        "forks": 3,
+        "full_name": "henriquealende/PsychoBox",
+        "last_commit": "2026-03-16",
+        "latest_release": null,
+        "license": "MIT",
+        "open_issues": 0,
+        "pushed_at": "2026-03-16T12:13:07Z",
+        "stars": 10,
+        "topics": []
+      },
+      "packages": {}
+    },
+    "psysound3": {
+      "errors": [],
+      "fetched": "2026-10-06T23:29:27Z",
+      "github": {
+        "archived": false,
+        "default_branch": "master",
+        "description": "Automatically exported from code.google.com/p/psysound3",
+        "forks": 11,
+        "full_name": "densilcabrera/psysound3",
+        "last_commit": "2015-03-28",
+        "latest_release": null,
+        "license": null,
+        "open_issues": 13,
+        "pushed_at": "2017-03-31T07:12:22Z",
+        "stars": 17,
+        "topics": []
+      },
+      "packages": {}
+    },
+    "pydsm": {
+      "errors": [],
+      "fetched": "2026-10-06T23:29:27Z",
+      "github": {
+        "archived": false,
+        "default_branch": "main",
+        "description": "Python/Scipy toolbox for the design and simulation of ΔΣ Modulators, with emphasis on digital modulators",
+        "forks": 6,
+        "full_name": "sergiocallegari/PyDSM",
+        "last_commit": "2025-08-22",
+        "latest_release": {
+          "date": "2025-08-22",
+          "tag": "0.15.2",
+          "url": "https://github.com/sergiocallegari/PyDSM/releases/tag/0.15.2"
+        },
+        "license": "GPL-3.0",
+        "open_issues": 3,
+        "pushed_at": "2025-08-22T14:38:34Z",
+        "stars": 22,
+        "topics": []
+      },
+      "packages": {
+        "pypi:pydsm": {
+          "date": "2025-08-22",
+          "prerelease": null,
+          "url": "https://pypi.org/project/pydsm/",
+          "version": "0.15.2"
+        }
+      }
+    },
+    "pysqat": {
+      "errors": [],
+      "fetched": "2026-10-06T23:29:27Z",
+      "github": {
+        "archived": false,
+        "default_branch": "main",
+        "description": "This repository contains the Sound Quality Analysis Toolbox (SQAT, originally developed in MATLAB in https://github.com/ggrecow/SQAT) translated to Python",
+        "forks": 1,
+        "full_name": "PALILA-TUDelft/pySQAT",
+        "last_commit": "2026-06-27",
+        "latest_release": null,
+        "license": null,
+        "open_issues": 1,
+        "pushed_at": "2026-06-27T19:16:08Z",
+        "stars": 5,
+        "topics": []
+      },
+      "packages": {}
+    },
+    "python-acoustics": {
+      "errors": [],
+      "fetched": "2026-10-06T23:29:27Z",
+      "github": {
+        "archived": true,
+        "default_branch": "master",
+        "description": "A Python library aimed at acousticians.",
+        "forks": 154,
+        "full_name": "python-acoustics/python-acoustics",
+        "last_commit": "2023-08-20",
+        "latest_release": null,
+        "license": "BSD-3-Clause",
+        "open_issues": 32,
+        "pushed_at": "2023-12-10T22:34:10Z",
+        "stars": 563,
+        "topics": [
+          "acoustics",
+          "audio",
+          "python",
+          "signal-processing"
+        ]
+      },
+      "packages": {
+        "pypi:acoustics": {
+          "date": "2022-07-08",
+          "prerelease": null,
+          "url": "https://pypi.org/project/acoustics/",
+          "version": "0.2.6"
+        }
+      }
+    },
+    "refmap-psychoacoustics": {
+      "errors": [],
+      "fetched": "2026-10-06T23:29:27Z",
+      "github": {
+        "archived": false,
+        "default_branch": "main",
+        "description": "REFMAP project task 4.3: Psychoacoustics of unmanned aerial vehicle (UAV) sound",
+        "forks": 4,
+        "full_name": "acoustics-code-salford/refmap-psychoacoustics",
+        "last_commit": "2026-10-06",
+        "latest_release": null,
+        "license": "GPL-3.0",
+        "open_issues": 4,
+        "pushed_at": "2026-10-06T19:55:16Z",
+        "stars": 23,
+        "topics": []
+      },
+      "packages": {}
+    },
+    "sottek-hearing-model": {
+      "errors": [],
+      "fetched": "2026-10-06T23:29:27Z",
+      "github": {
+        "archived": false,
+        "default_branch": "main",
+        "description": "An implementation of the Sottek Hearing Model psychoacoustic sound quality metrics defined in ECMA-418-2.",
+        "forks": 2,
+        "full_name": "mlotinga/sottek-hearing-model",
+        "last_commit": "2026-09-18",
+        "latest_release": {
+          "date": "2026-03-13",
+          "tag": "v0.1.14",
+          "url": "https://github.com/mlotinga/sottek-hearing-model/releases/tag/v0.1.14"
+        },
+        "license": "GPL-3.0",
+        "open_issues": 4,
+        "pushed_at": "2026-09-18T21:08:49Z",
+        "stars": 23,
+        "topics": [
+          "psychoacoustics",
+          "signal-processing",
+          "signal-processing-algorithms",
+          "sound-quality"
+        ]
+      },
+      "packages": {
+        "pypi:sottek-hearing-model": {
+          "date": "2026-03-13",
+          "prerelease": null,
+          "url": "https://pypi.org/project/sottek-hearing-model/",
+          "version": "0.1.14"
+        }
+      }
+    },
+    "soundpalette": {
+      "errors": [],
+      "fetched": "2026-10-06T23:29:27Z",
+      "github": {
+        "archived": false,
+        "default_branch": "main",
+        "description": "Treat your game's sound effects like a color palette: scan, visualize, and lint audio cohesion. C++20 core + CLI + ImGui app.",
+        "forks": 0,
+        "full_name": "onyx-prismantium/soundpalette",
+        "last_commit": "2026-09-27",
+        "latest_release": null,
+        "license": "NOASSERTION",
+        "open_issues": 0,
+        "pushed_at": "2026-09-27T18:06:17Z",
+        "stars": 0,
+        "topics": []
+      },
+      "packages": {}
+    },
+    "soundscapy": {
+      "errors": [],
+      "fetched": "2026-10-06T23:29:27Z",
+      "github": {
+        "archived": false,
+        "default_branch": "main",
+        "description": "A python library for soundscape assessments",
+        "forks": 11,
+        "full_name": "MitchellAcoustics/Soundscapy",
+        "last_commit": "2026-05-14",
+        "latest_release": {
+          "date": "2026-05-12",
+          "tag": "v0.8.5",
+          "url": "https://github.com/MitchellAcoustics/Soundscapy/releases/tag/v0.8.5"
+        },
+        "license": "NOASSERTION",
+        "open_issues": 23,
+        "pushed_at": "2026-06-12T15:55:42Z",
+        "stars": 59,
+        "topics": []
+      },
+      "packages": {
+        "pypi:soundscapy": {
+          "date": "2026-05-12",
+          "prerelease": null,
+          "url": "https://pypi.org/project/soundscapy/",
+          "version": "0.8.5"
+        }
+      }
+    },
+    "sqat": {
+      "errors": [],
+      "fetched": "2026-10-06T23:29:27Z",
+      "github": {
+        "archived": false,
+        "default_branch": "main",
+        "description": "SQAT: a sound quality analysis toolbox for MATLAB. Open-source implementations of key psychoacoustic models and a sound level meter, validated against standards and published data, with ready-to-run examples.",
+        "forks": 23,
+        "full_name": "ggrecow/SQAT",
+        "last_commit": "2026-10-02",
+        "latest_release": {
+          "date": "2025-04-04",
+          "tag": "v1.3",
+          "url": "https://github.com/ggrecow/SQAT/releases/tag/v1.3"
+        },
+        "license": "GPL-3.0",
+        "open_issues": 2,
+        "pushed_at": "2026-10-02T09:18:19Z",
+        "stars": 100,
+        "topics": [
+          "acoustics",
+          "audio-analysis",
+          "ecma-418-2",
+          "loudness",
+          "matlab",
+          "open-source",
+          "psychoacoustics",
+          "roughness",
+          "sharpness",
+          "signal-processing",
+          "sound-quality",
+          "tonality"
+        ]
+      },
+      "packages": {}
+    },
+    "suave": {
+      "errors": [],
+      "fetched": "2026-10-06T23:29:27Z",
+      "github": {
+        "archived": false,
+        "default_branch": "develop",
+        "description": "An Aircraft Design Toolbox",
+        "forks": 460,
+        "full_name": "suavecode/SUAVE",
+        "last_commit": "2022-12-23",
+        "latest_release": {
+          "date": "2022-03-17",
+          "tag": "2.5.2",
+          "url": "https://github.com/suavecode/SUAVE/releases/tag/2.5.2"
+        },
+        "license": "LGPL-2.1",
+        "open_issues": 39,
+        "pushed_at": "2024-02-14T22:19:54Z",
+        "stars": 530,
+        "topics": [
+          "aerospace",
+          "aircraft",
+          "aircraft-design",
+          "evtol",
+          "mdo",
+          "python",
+          "urban-air-mobility"
+        ]
+      },
+      "packages": {}
+    },
+    "torch-amt": {
+      "errors": [],
+      "fetched": "2026-10-06T23:29:27Z",
+      "github": {
+        "archived": false,
+        "default_branch": "main",
+        "description": "Differentiable, GPU-accelerated PyTorch implementations of Computational Auditory models from the MATLAB Auditory Modeling Toolbox (AMT).",
+        "forks": 1,
+        "full_name": "StefanoGiacomelli/torch_amt",
+        "last_commit": "2026-03-19",
+        "latest_release": {
+          "date": "2026-02-08",
+          "tag": "v0.1.0",
+          "url": "https://github.com/StefanoGiacomelli/torch_amt/releases/tag/v0.1.0"
+        },
+        "license": "GPL-3.0",
+        "open_issues": 0,
+        "pushed_at": "2026-03-19T17:41:17Z",
+        "stars": 3,
+        "topics": [
+          "audio-analysis",
+          "auditory-model",
+          "deep-learning",
+          "neural-networks",
+          "psychoacoustics",
+          "pytorch",
+          "signal-processing"
+        ]
+      },
+      "packages": {
+        "pypi:torch-amt": {
+          "date": "2026-02-10",
+          "prerelease": null,
+          "url": "https://pypi.org/project/torch-amt/",
+          "version": "0.2.0"
+        }
+      }
+    },
+    "zhen-ni-epnl": {
+      "errors": [],
+      "fetched": "2026-10-06T23:29:27Z",
+      "github": {
+        "archived": false,
+        "default_branch": "master",
+        "description": "Calculate Effective Perceived Noise Level (EPNL) for aircrafts",
+        "forks": 1,
+        "full_name": "Zhen-Ni/epnl",
+        "last_commit": "2023-07-10",
+        "latest_release": null,
+        "license": null,
+        "open_issues": 0,
+        "pushed_at": "2023-07-10T01:32:51Z",
+        "stars": 0,
+        "topics": []
+      },
+      "packages": {}
+    },
+    "zwickerloudness-jl": {
+      "errors": [],
+      "fetched": "2026-10-06T23:29:27Z",
+      "github": {
+        "archived": false,
+        "default_branch": "main",
+        "description": "Zwicker loudness (ISO 532-1:2017) for stationary sounds in Julia — 1/3-octave SPL → sones/phons",
+        "forks": 0,
+        "full_name": "slink/ZwickerLoudness.jl",
+        "last_commit": "2026-09-02",
+        "latest_release": {
+          "date": "2026-09-02",
+          "tag": "v0.3.0",
+          "url": "https://github.com/slink/ZwickerLoudness.jl/releases/tag/v0.3.0"
+        },
+        "license": "MIT",
+        "open_issues": 1,
+        "pushed_at": "2026-09-05T08:02:50Z",
+        "stars": 4,
+        "topics": [
+          "acoustics",
+          "audio",
+          "iso-532-1",
+          "julia",
+          "loudness",
+          "psychoacoustics",
+          "signal-processing",
+          "zwicker"
+        ]
+      },
+      "packages": {}
+    },
+    "zwickerloudness-sourceforge": {
+      "errors": [],
+      "fetched": "2026-10-06T23:29:27Z",
+      "github": null,
+      "packages": {}
+    },
+    "zwickerloudnessaudio-jl": {
+      "errors": [],
+      "fetched": "2026-10-06T23:29:27Z",
+      "github": {
+        "archived": false,
+        "default_branch": "main",
+        "description": "Audio-file companion to ZwickerLoudness.jl: ISO 532-1:2017 stationary loudness from .wav files or time-domain signals.",
+        "forks": 0,
+        "full_name": "slink/ZwickerLoudnessAudio.jl",
+        "last_commit": "2026-09-02",
+        "latest_release": {
+          "date": "2026-09-02",
+          "tag": "v0.3.0",
+          "url": "https://github.com/slink/ZwickerLoudnessAudio.jl/releases/tag/v0.3.0"
+        },
+        "license": "MIT",
+        "open_issues": 1,
+        "pushed_at": "2026-09-04T17:54:04Z",
+        "stars": 2,
+        "topics": []
+      },
+      "packages": {}
+    }
+  }
+}

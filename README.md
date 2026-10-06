@@ -139,25 +139,25 @@ Which languages have an implementation of each method.
 |---|---|---|---|---|---|---|
 | [SQAT](https://github.com/ggrecow/SQAT) | established, most widely used | MATLAB | GPL-3.0-or-later (main) / CC-BY-NC-4.0 (releases) | v1.3 (2025-04) | 2026-10-02 | active |
 | [Auditory Modeling Toolbox (AMT)](https://sourceforge.net/p/amtoolbox/code/) | established, most widely used | MATLAB, Octave | GPL-3.0 | 1.6.0 (2024-10) | 2026-06-14 | active |
-| [MoSQITo](https://github.com/Eomys/MoSQITo) | established, most widely used | Python | Apache-2.0 | 1.2.1 (2024-04) | 2024-04-22 | inactive since 2024-04 |
-| [acoustic-toolbox](https://github.com/Universite-Gustave-Eiffel/acoustic-toolbox) | established | Python | BSD-3-Clause | 0.2.2 (2026-01) | 2026-02-12 | active |
+| [MoSQITo](https://github.com/Eomys/MoSQITo) | established, most widely used | Python | Apache-2.0 | v1.2.1 (2024-04) | 2024-04-22 | inactive since 2024-04 |
+| [acoustic-toolbox](https://github.com/Universite-Gustave-Eiffel/acoustic-toolbox) | established | Python | BSD-3-Clause | v0.2.2 (2026-01) | 2026-02-12 | active |
 | [PSYCHO (pd-psycho)](https://github.com/porres/pd-psycho) | established | Pure Data, C | GPL-3.0-or-later | 1.1 (2025-10) | 2025-10-14 | active |
-| [refmap-psychoacoustics](https://github.com/acoustics-code-salford/refmap-psychoacoustics) | established | MATLAB, Python | GPL-3.0 | no release | 2026-10-02 | active |
-| [sottek-hearing-model](https://github.com/mlotinga/sottek-hearing-model) | established | Python | GPL-3.0-only | 0.1.14 (2026-03) | 2026-09-18 | active |
+| [refmap-psychoacoustics](https://github.com/acoustics-code-salford/refmap-psychoacoustics) | established | MATLAB, Python | GPL-3.0 | no release | 2026-10-06 | active |
+| [sottek-hearing-model](https://github.com/mlotinga/sottek-hearing-model) | established | Python | GPL-3.0-only | v0.1.14 (2026-03) | 2026-09-18 | active |
 | [AARAE](https://github.com/densilcabrera/aarae) | established | MATLAB | BSD-3-Clause | no release | 2024-08-09 | inactive since 2024-08 |
 | [iso532-3 (tv2018.m)](https://github.com/js2251/iso532-3) | established | MATLAB | none | no release | 2021-10-08 | inactive since 2021-10 |
 | [PyDSM](https://github.com/sergiocallegari/PyDSM) | established | Python | GPL-3.0-or-later | 0.15.2 (2025-08) | 2025-08-22 | inactive since 2025-08 |
-| [MetaSona](https://github.com/huaaudio/metasona) | newly released, not yet widely used | Python, C | GPL-3.0-only AND Apache-2.0 AND BSD-3-Clause AND MIT | 0.2.2 (2026-09) | 2026-09-25 | active |
+| [MetaSona](https://github.com/huaaudio/metasona) | newly released, not yet widely used | Python, C | GPL-3.0-only AND Apache-2.0 AND BSD-3-Clause AND MIT | v0.2.2 (2026-09) | 2026-09-25 | active |
 | [iso532-1-rs](https://github.com/cclin99/iso532-1-rs) | newly released, not yet widely used | Rust, C, Python | Apache-2.0 | 0.1.0 (2026-07) | 2026-07-21 | active |
 | [NumpyLibforPsychoAcoustic](https://github.com/Ryrybros/NumpyLibforPsychoAcoustic) | newly released, not yet widely used | Python | none | no release | 2026-06-07 | active |
-| [phonometry](https://github.com/jmrplens/phonometry) | newly released, not yet widely used | Python | MIT | 3.3.0 (2026-07) | 2026-10-01 | active |
+| [phonometry](https://github.com/jmrplens/phonometry) | newly released, not yet widely used | Python | MIT | v3.3.0 (2026-07) | 2026-10-06 | active |
 | [SoundPalette](https://github.com/onyx-prismantium/soundpalette) | newly released, not yet widely used | C++ | FSL-1.1-Apache-2.0 | v0.8.0 (2026-09) | 2026-09-27 | active |
 | [torch_amt](https://github.com/StefanoGiacomelli/torch_amt) | newly released, not yet widely used | Python | GPL-3.0-or-later | 0.2.0 (2026-02) | 2026-03-19 | active |
-| [ZwickerLoudness.jl](https://github.com/slink/ZwickerLoudness.jl) | newly released, not yet widely used | Julia | MIT | 0.3.0 (2026-07) | 2026-09-02 | active |
+| [ZwickerLoudness.jl](https://github.com/slink/ZwickerLoudness.jl) | newly released, not yet widely used | Julia | MIT | v0.3.0 (2026-09) | 2026-09-02 | active |
 | [pySQAT](https://github.com/PALILA-TUDelft/pySQAT) | developing | Python | none | no release | 2026-06-27 | active |
 | [LoudnessModel](https://github.com/MalcolmSlaney/LoudnessModel) | developing | Python | BSD-2-Clause | no release | 2025-03-20 | inactive since 2025-03 |
 | [epnl (Zhen-Ni)](https://github.com/Zhen-Ni/epnl) | legacy, no commit since 2023-07 | Rust | none | no release | 2023-07-10 | inactive since 2023-07 |
-| [fluctuation-strength-TUe](https://github.com/aosses-tue/fluctuation-strength-TUe) | legacy, no commit since 2020-01 | MATLAB | none | 1.0 (2019-12) | 2020-01-02 | inactive since 2020-01 |
+| [fluctuation-strength-TUe](https://github.com/aosses-tue/fluctuation-strength-TUe) | legacy, no commit since 2020-01 | MATLAB | none | v1.0 (2019-12) | 2020-01-02 | inactive since 2020-01 |
 | [IoSR Matlab Toolbox](https://github.com/IoSR-Surrey/MatlabToolbox) | legacy, no commit since 2017-08 | MATLAB | MIT | v2.8 (2017-06) | 2017-08-18 | inactive since 2017-08 |
 | [loudness (deeuu)](https://github.com/deeuu/loudness) | legacy, no commit since 2019-08 | C++, Python | GPL-3.0-or-later | no release | 2019-08-08 | inactive since 2019-08 |
 | [MoSQITo-FDP](https://github.com/djcaminero/MoSQITo-FDP) | legacy, archived | Python | Apache-2.0 | no release | 2021-07-05 | archived |
@@ -167,8 +167,8 @@ Which languages have an implementation of each method.
 | [SUAVE](https://github.com/suavecode/SUAVE) | legacy, no commit since 2022-12 | Python | LGPL-2.1 | 2.5.2 (2022-03) | 2022-12-23 | inactive since 2022-12 |
 | [Zwicker's Loudness Calculation SW + Tool (ISO 532B)](https://sourceforge.net/projects/zwickerloudness/) | legacy, no commit since 2018-06 | C | GPL-2.0 | zwickerloudness-020 (2011-07) | 2018-06-05 | inactive since 2018-06 |
 | [PsychoBox](https://github.com/henriquealende/PsychoBox) | other: calls MoSQITo | Python | MIT | no release | 2026-03-16 | active |
-| [Soundscapy](https://github.com/MitchellAcoustics/Soundscapy) | other: calls MoSQITo | Python | BSD-3-Clause | 0.8.5 (2026-05) | 2026-05-14 | active |
-| [ZwickerLoudnessAudio.jl](https://github.com/slink/ZwickerLoudnessAudio.jl) | other: calls ZwickerLoudness.jl | Julia | MIT | 0.3.0 (2026-07) | 2026-09-02 | active |
+| [Soundscapy](https://github.com/MitchellAcoustics/Soundscapy) | other: calls MoSQITo | Python | BSD-3-Clause | v0.8.5 (2026-05) | 2026-05-14 | active |
+| [ZwickerLoudnessAudio.jl](https://github.com/slink/ZwickerLoudnessAudio.jl) | other: calls ZwickerLoudness.jl | Julia | MIT | v0.3.0 (2026-09) | 2026-09-02 | active |
 <!-- END GENERATED: projects -->
 
 Every project is in exactly one group: *established* (described in a publication, used by others, or written by

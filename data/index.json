@@ -3453,12 +3453,12 @@
       "latest_release": {
         "version": "v1.3",
         "date": "2025-04-04",
-        "source": ""
+        "source": "GitHub release"
       },
       "prerelease": null,
       "activity": "active",
       "archived": false,
-      "stars": null,
+      "stars": 100,
       "group": "established",
       "most_widely_used": true
     },
@@ -3731,14 +3731,14 @@
       "url": "https://zhenxianli.github.io/LISQM/projects/mosqito.html",
       "last_commit": "2024-04-22",
       "latest_release": {
-        "version": "1.2.1",
+        "version": "v1.2.1",
         "date": "2024-04-22",
-        "source": ""
+        "source": "GitHub release"
       },
       "prerelease": null,
       "activity": "inactive",
       "archived": false,
-      "stars": null,
+      "stars": 178,
       "group": "established",
       "most_widely_used": true
     },
@@ -3794,14 +3794,14 @@
       "url": "https://zhenxianli.github.io/LISQM/projects/acoustic-toolbox.html",
       "last_commit": "2026-02-12",
       "latest_release": {
-        "version": "0.2.2",
+        "version": "v0.2.2",
         "date": "2026-01-26",
-        "source": ""
+        "source": "GitHub release"
       },
       "prerelease": null,
       "activity": "active",
       "archived": false,
-      "stars": null,
+      "stars": 30,
       "group": "established",
       "most_widely_used": false
     },
@@ -3862,12 +3862,12 @@
       "latest_release": {
         "version": "1.1",
         "date": "2025-10-14",
-        "source": ""
+        "source": "GitHub release"
       },
       "prerelease": null,
       "activity": "active",
       "archived": false,
-      "stars": null,
+      "stars": 22,
       "group": "established",
       "most_widely_used": false
     },
@@ -4026,12 +4026,12 @@
       ],
       "checked": "2026-10-06",
       "url": "https://zhenxianli.github.io/LISQM/projects/refmap-psychoacoustics.html",
-      "last_commit": "2026-10-02",
+      "last_commit": "2026-10-06",
       "latest_release": null,
       "prerelease": null,
       "activity": "active",
       "archived": false,
-      "stars": null,
+      "stars": 23,
       "group": "established",
       "most_widely_used": false
     },
@@ -4132,14 +4132,14 @@
       "url": "https://zhenxianli.github.io/LISQM/projects/sottek-hearing-model.html",
       "last_commit": "2026-09-18",
       "latest_release": {
-        "version": "0.1.14",
+        "version": "v0.1.14",
         "date": "2026-03-13",
-        "source": ""
+        "source": "GitHub release"
       },
       "prerelease": null,
       "activity": "active",
       "archived": false,
-      "stars": null,
+      "stars": 23,
       "group": "established",
       "most_widely_used": false
     },
@@ -4256,7 +4256,7 @@
       "prerelease": null,
       "activity": "inactive",
       "archived": false,
-      "stars": null,
+      "stars": 36,
       "group": "established",
       "most_widely_used": false
     },
@@ -4312,7 +4312,7 @@
       "prerelease": null,
       "activity": "inactive",
       "archived": false,
-      "stars": null,
+      "stars": 2,
       "group": "established",
       "most_widely_used": false
     },
@@ -4371,12 +4371,12 @@
       "latest_release": {
         "version": "0.15.2",
         "date": "2025-08-22",
-        "source": ""
+        "source": "GitHub release"
       },
       "prerelease": null,
       "activity": "inactive",
       "archived": false,
-      "stars": null,
+      "stars": 22,
       "group": "established",
       "most_widely_used": false
     },
@@ -4520,14 +4520,14 @@
       "url": "https://zhenxianli.github.io/LISQM/projects/metasona.html",
       "last_commit": "2026-09-25",
       "latest_release": {
-        "version": "0.2.2",
+        "version": "v0.2.2",
         "date": "2026-09-25",
-        "source": ""
+        "source": "GitHub release"
       },
       "prerelease": null,
       "activity": "active",
       "archived": false,
-      "stars": null,
+      "stars": 1,
       "group": "newly-released",
       "most_widely_used": false
     },
@@ -4594,7 +4594,7 @@
       "prerelease": null,
       "activity": "active",
       "archived": false,
-      "stars": null,
+      "stars": 1,
       "group": "newly-released",
       "most_widely_used": false
     },
@@ -4660,7 +4660,7 @@
       "prerelease": null,
       "activity": "active",
       "archived": false,
-      "stars": null,
+      "stars": 0,
       "group": "newly-released",
       "most_widely_used": false
     },
@@ -4938,16 +4938,19 @@
       ],
       "checked": "2026-10-06",
       "url": "https://zhenxianli.github.io/LISQM/projects/phonometry.html",
-      "last_commit": "2026-10-01",
+      "last_commit": "2026-10-06",
       "latest_release": {
-        "version": "3.3.0",
+        "version": "v3.3.0",
         "date": "2026-07-26",
-        "source": ""
+        "source": "GitHub release"
       },
-      "prerelease": null,
+      "prerelease": {
+        "date": "2026-09-10",
+        "version": "4.0.0rc1"
+      },
       "activity": "active",
       "archived": false,
-      "stars": null,
+      "stars": 119,
       "group": "newly-released",
       "most_widely_used": false
     },
@@ -5035,7 +5038,7 @@
       "prerelease": null,
       "activity": "active",
       "archived": false,
-      "stars": null,
+      "stars": 0,
       "group": "newly-released",
       "most_widely_used": false
     },
@@ -5108,12 +5111,12 @@
       "latest_release": {
         "version": "0.2.0",
         "date": "2026-02-10",
-        "source": ""
+        "source": "PyPI"
       },
       "prerelease": null,
       "activity": "active",
       "archived": false,
-      "stars": null,
+      "stars": 3,
       "group": "newly-released",
       "most_widely_used": false
     },
@@ -5186,14 +5189,14 @@
       "url": "https://zhenxianli.github.io/LISQM/projects/zwickerloudness-jl.html",
       "last_commit": "2026-09-02",
       "latest_release": {
-        "version": "0.3.0",
-        "date": "2026-07-13",
-        "source": ""
+        "version": "v0.3.0",
+        "date": "2026-09-02",
+        "source": "GitHub release"
       },
       "prerelease": null,
       "activity": "active",
       "archived": false,
-      "stars": null,
+      "stars": 4,
       "group": "newly-released",
       "most_widely_used": false
     },
@@ -5356,7 +5359,7 @@
       "prerelease": null,
       "activity": "active",
       "archived": false,
-      "stars": null,
+      "stars": 5,
       "group": "developing",
       "most_widely_used": false
     },
@@ -5415,7 +5418,7 @@
       "prerelease": null,
       "activity": "inactive",
       "archived": false,
-      "stars": null,
+      "stars": 17,
       "group": "developing",
       "most_widely_used": false
     },
@@ -5470,7 +5473,7 @@
       "prerelease": null,
       "activity": "inactive",
       "archived": false,
-      "stars": null,
+      "stars": 0,
       "group": "legacy",
       "most_widely_used": false
     },
@@ -5525,14 +5528,14 @@
       "url": "https://zhenxianli.github.io/LISQM/projects/fluctuation-strength-tue.html",
       "last_commit": "2020-01-02",
       "latest_release": {
-        "version": "1.0",
+        "version": "v1.0",
         "date": "2019-12-31",
-        "source": ""
+        "source": "GitHub release"
       },
       "prerelease": null,
       "activity": "inactive",
       "archived": false,
-      "stars": null,
+      "stars": 1,
       "group": "legacy",
       "most_widely_used": false
     },
@@ -5582,12 +5585,12 @@
       "latest_release": {
         "version": "v2.8",
         "date": "2017-06-17",
-        "source": ""
+        "source": "GitHub release"
       },
       "prerelease": null,
       "activity": "inactive",
       "archived": false,
-      "stars": null,
+      "stars": 133,
       "group": "legacy",
       "most_widely_used": false
     },
@@ -5677,7 +5680,7 @@
       "prerelease": null,
       "activity": "inactive",
       "archived": false,
-      "stars": null,
+      "stars": 40,
       "group": "legacy",
       "most_widely_used": false
     },
@@ -5743,7 +5746,7 @@
       "prerelease": null,
       "activity": "archived",
       "archived": true,
-      "stars": null,
+      "stars": 2,
       "group": "legacy",
       "most_widely_used": false
     },
@@ -5831,7 +5834,7 @@
       "prerelease": null,
       "activity": "inactive",
       "archived": false,
-      "stars": null,
+      "stars": 13,
       "group": "legacy",
       "most_widely_used": false
     },
@@ -5927,7 +5930,7 @@
       "prerelease": null,
       "activity": "inactive",
       "archived": false,
-      "stars": null,
+      "stars": 17,
       "group": "legacy",
       "most_widely_used": false
     },
@@ -5988,12 +5991,12 @@
       "latest_release": {
         "version": "0.2.6",
         "date": "2022-07-08",
-        "source": ""
+        "source": "PyPI"
       },
       "prerelease": null,
       "activity": "archived",
       "archived": true,
-      "stars": null,
+      "stars": 563,
       "group": "legacy",
       "most_widely_used": false
     },
@@ -6045,12 +6048,12 @@
       "latest_release": {
         "version": "2.5.2",
         "date": "2022-03-17",
-        "source": ""
+        "source": "GitHub release"
       },
       "prerelease": null,
       "activity": "inactive",
       "archived": false,
-      "stars": null,
+      "stars": 530,
       "group": "legacy",
       "most_widely_used": false
     },
@@ -6203,7 +6206,7 @@
       "prerelease": null,
       "activity": "active",
       "archived": false,
-      "stars": null,
+      "stars": 10,
       "group": "others",
       "most_widely_used": false,
       "calls": [
@@ -6296,14 +6299,14 @@
       "url": "https://zhenxianli.github.io/LISQM/projects/soundscapy.html",
       "last_commit": "2026-05-14",
       "latest_release": {
-        "version": "0.8.5",
+        "version": "v0.8.5",
         "date": "2026-05-12",
-        "source": ""
+        "source": "GitHub release"
       },
       "prerelease": null,
       "activity": "active",
       "archived": false,
-      "stars": null,
+      "stars": 59,
       "group": "others",
       "most_widely_used": false,
       "calls": [
@@ -6380,14 +6383,14 @@
       "url": "https://zhenxianli.github.io/LISQM/projects/zwickerloudnessaudio-jl.html",
       "last_commit": "2026-09-02",
       "latest_release": {
-        "version": "0.3.0",
-        "date": "2026-07-13",
-        "source": ""
+        "version": "v0.3.0",
+        "date": "2026-09-02",
+        "source": "GitHub release"
       },
       "prerelease": null,
       "activity": "active",
       "archived": false,
-      "stars": null,
+      "stars": 2,
       "group": "others",
       "most_widely_used": false,
       "calls": [
