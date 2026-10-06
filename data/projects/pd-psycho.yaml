@@ -7,7 +7,7 @@ kind: plugin
 core: C
 language_note: >-
   Objects for Pure Data: C externals built with pd-lib-builder, and Pd abstractions.
-standing: developing
+standing: established
 license: GPL-3.0-or-later
 license_note: >-
   LICENSE.txt holds the GPL v3 text; the only licence notice in the sources (roughness.c) allows any later

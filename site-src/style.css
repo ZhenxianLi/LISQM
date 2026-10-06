@@ -608,8 +608,10 @@ a.tag:hover {
 .tag-info    { color: var(--info);    background: var(--info-bg); }
 .tag-warn    { color: var(--warn);    background: var(--warn-bg); }
 .tag-neutral { color: var(--neutral); background: var(--neutral-bg); }
-.tag-new     { color: var(--new);     background: var(--new-bg); text-transform: uppercase; letter-spacing: .05em; }
-.tag-legacy  { color: var(--neutral); background: var(--neutral-bg); font-style: italic; }
+.tag-new     { color: var(--new);     background: var(--new-bg); }
+.tag-dev     { color: var(--info);    background: var(--info-bg); }
+.tag-legacy  { color: var(--neutral); background: var(--neutral-bg); }
+.tag-new, .tag-dev, .tag-legacy { text-transform: uppercase; letter-spacing: .05em; }
 
 .lang {
   font-variant-caps: all-small-caps;
@@ -638,6 +640,7 @@ a.tag:hover {
   padding: 0 .2em;
   border: 1px solid currentColor;
   border-radius: 3px;
+  background: color-mix(in srgb, currentColor 14%, transparent);
   font-family: var(--mono);
   font-size: .74em;
   font-weight: 700;
@@ -1069,6 +1072,14 @@ table.timeline li .tag {
   margin-left: .1em;
 }
 
+/* Group markers in the dense timeline are a little smaller, so that most fit beside the name. */
+table.timeline .tag-new,
+table.timeline .tag-dev,
+table.timeline .tag-legacy {
+  font-size: .64em;
+  letter-spacing: .03em;
+}
+
 details.fold {
   margin-top: .3rem;
 }
@@ -1127,7 +1138,7 @@ table.langs td:nth-child(2) { width: 50%; }
 /* ---------------------------------------------------------------- message box (FAQ) */
 
 .message {
-  margin-top: 3rem;
+  margin: 1.4rem 0 2.4rem;
   padding: 1.1rem 1.3rem 1.2rem;
   max-width: var(--measure);
   background: var(--note-bg);
@@ -1189,10 +1200,6 @@ table.langs td:nth-child(2) { width: 50%; }
   background: var(--tab-hover);
 }
 
-.giscus {
-  margin: 1rem 0;
-}
-
 /* ---------------------------------------------------------------- home page columns */
 
 .columns {
@@ -1209,13 +1216,24 @@ table.langs td:nth-child(2) { width: 50%; }
 /* ---------------------------------------------------------------- smaller screens */
 
 @media (max-width: 64rem) {
-  .page.with-sidebar {
+  /* One column: the content first, the sidebar after it. */
+  .page.with-sidebar,
+  .page.with-sidebar.narrow-side {
     grid-template-columns: minmax(0, 1fr);
+    gap: 1.6rem;
+  }
+
+  .page.with-sidebar main {
+    grid-column: 1;
+    grid-row: 1;
   }
 
   .page.with-sidebar .sidebar {
     grid-column: 1;
     grid-row: 2;
+    position: static;
+    max-height: none;
+    overflow: visible;
   }
 
   .columns {

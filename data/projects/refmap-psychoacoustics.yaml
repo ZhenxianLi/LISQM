@@ -7,7 +7,7 @@ kind: research-code
 language_note: >-
   MATLAB code with Python ports in the same repository. The Python port of its ECMA-418-2 code is published
   separately as sottek-hearing-model.
-standing: developing
+standing: established
 license: GPL-3.0
 license_note: >-
   The licences disagree: the LICENSE file holds the GPL-3.0 text, while pyproject.toml declares

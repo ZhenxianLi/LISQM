@@ -135,9 +135,9 @@ checked: 2026-10-06                           # last time a person checked this 
 
 | Standing | Meaning |
 |---|---|
-| `established` | Described in a publication, used by others, or written by the authors of the model, with a track record of more than a year |
-| `developing` | Research, teaching or hobby code without documented use by others, or a project still in development |
-| `newly-released` | First released less than about a year ago and not yet widely used in the community |
+| `established` | Described in a publication, used by others, or written by the authors of the model, with more than a year of history |
+| `newly-released` | First released less than about a year ago, and not yet widely used in the community |
+| `developing` | Public for more than a year, but without a publication or documented use by others: research, teaching or personal code |
 
 Two more groups follow from the data rather than from the project file:
 
@@ -145,10 +145,10 @@ Two more groups follow from the data rather than from the project file:
   projects and reference programs (`kind: reference-program`) are never legacy.
 - **others**: every implementation row has `via`, so the tool does not compute the metrics itself.
 
-Lists of implementations go established, developing, newly released, legacy, so a project that has not yet been
-used much, or is no longer maintained, is never the first suggestion. Lists of projects (the projects page, the
-README) show newly released projects before developing ones. Review the standing of `newly-released` projects
-once they are a year old.
+Every project is in exactly one group, decided in this order: others, legacy, then its standing. All lists follow
+the order established, newly released, developing, legacy, others, so a project that is new, little used or no
+longer maintained is never the first suggestion. Review the standing of `newly-released` projects once they are a
+year old: they become `established` or `developing`.
 
 Within a group, projects with a `rank` come first, in rank order. Established projects with a rank are the most
 widely used ones, at present SQAT (1), the Auditory Modeling Toolbox (2) and MoSQITo (3): they are shown in bold

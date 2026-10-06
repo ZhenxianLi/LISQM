@@ -5,9 +5,9 @@ Links point to absolute URLs of the HTML pages, so the text stays useful when it
 
 from __future__ import annotations
 
-from .data import (GROUP_NAMES, GROUPS, IMPL_STATUS_LONG, PROJECT_KINDS, REGISTRIES, STANDING, VALIDATION, VALIDATION_LONG,
+from .data import (GROUP_NAMES, GROUPS, IMPL_STATUS_LONG, PROJECT_KINDS, REGISTRIES, VALIDATION, VALIDATION_LONG,
                    Index)
-from .describe import (COVERAGE_COLUMNS, NEW_LABEL, activity_text, ai_guide, by_language, coverage, dedupe, edition_state,
+from .describe import (COVERAGE_COLUMNS, GROUP_RULE, NEW_LABEL, activity_text, ai_guide, by_language, coverage, dedupe, edition_state,
                        faq, in_short, legacy_label, ref_status, release_text, standing_sentence, timeline,
                        version_label)
 from .paths import (ABOUT, AI, FAQ, HOME, LANGUAGES, METRICS, PROJECTS, STANDARDS, UPDATES, absolute, md_twin,
@@ -51,6 +51,7 @@ def _table(head: list[str], rows: list[list[str]]) -> list[str]:
 
 def _impl_note(i: dict) -> str:
     bits = {"newly-released": ["Newly released project, not yet widely used."],
+            "developing": ["Developing project: no publication or documented use by others."],
             "legacy": ["Legacy project, no longer maintained."]}.get(i["_project"]["_group"], [])
     if i["status"] != "available":
         bits.append(i["status"].capitalize() + (f" ({i['link']})" if i.get("link") else "") + ".")
@@ -138,11 +139,9 @@ def project_page(index: Index, p: dict) -> str:
         if p.get(key):
             facts.append((label, p[key]))
     facts += [("Language", ", ".join(p["languages"])), ("Kind", PROJECT_KINDS[p["kind"]]),
-              ("Standing", f"{p['standing']} ({STANDING[p['standing']]}"
-                           + (" One of the most widely used projects in the index." if p["_mainstream"] else "")
-                           + ")")]
-    if p["_group"] in ("legacy", "others"):
-        facts.append(("Listed under", f"{GROUP_NAMES[p['_group']]} ({GROUPS[p['_group']]})"))
+              ("Group", f"{GROUP_NAMES[p['_group']]} ({GROUPS[p['_group']]}"
+                        + (" One of the most widely used projects in the index." if p["_mainstream"] else "")
+                        + ")")]
     facts += [
               ("Licence", p["license"] + (f" — {plain(p['license_note'])}" if p.get("license_note") else ""))]
     for pkg in p.get("packages") or []:
@@ -228,8 +227,10 @@ def _timeline_impl(i: dict, name) -> str:
         bits.append(legacy_label(p))
     elif p["_activity"] in ("inactive", "archived"):
         bits.append(activity_text(p))
-    if p["standing"] == "newly-released":
+    if p["_group"] == "newly-released":
         bits.append(NEW_LABEL)
+    elif p["_group"] == "developing":
+        bits.append("developing")
     return f"{name(p)} ({'; '.join(bits)})"
 
 
@@ -300,7 +301,7 @@ def metrics_page(index: Index) -> str:
             current = join_words([index.ref[r]["label"] for r in m["current"]])
             who = ", ".join(dict.fromkeys(
                 name(i["_project"]) + (f" ({GROUP_NAMES[i['_project']['_group']]})"
-                                       if i["_project"]["_group"] in ("newly-released", "legacy") else "")
+                                       if i["_project"]["_group"] in ("newly-released", "developing", "legacy") else "")
                 for i in m["_current_impls"])) or "none found"
             rows.append([_method_link(index, m), m["unit"], current, who])
         lines += _table(["Method", "Unit", "Current edition", "Implementations of it"], rows) + [""]
@@ -339,7 +340,7 @@ def languages_page(index: Index) -> str:
                                          if i["reference"] in i["_method"]["current"] and i["status"] == "available"
                                          and not i.get("_via")))
             group = GROUP_NAMES[p["_group"]]
-            rows.append([name(p) + (f" ({group})" if p["_group"] in ("newly-released", "legacy") else ""), how,
+            rows.append([name(p) + (f" ({group})" if p["_group"] in ("newly-released", "developing", "legacy") else ""), how,
                          ", ".join(methods) or "older editions or unreleased code only"])
         lines += _table(["Project", "How it is used", "Current editions it implements"], rows) + [""]
     lines += ["## Calling code across languages", "",
@@ -449,11 +450,9 @@ def about_page(index: Index) -> str:
     lines += ["## Validation evidence", "", "As stated by each project:", ""]
     lines += _table(["Value", "Meaning"], [[VALIDATION[k], v] for k, v in VALIDATION_LONG.items()]) + [""]
     lines += ["## Standing of a project", "",
-              "Every project is marked as established, developing or newly released. Two more groups follow from the data: "
-              "legacy (archived, or no commit for three years or more) and others (tools that only call another "
-              "indexed project). Lists of implementations follow this order. Within each group the most widely used "
-              f"projects come first ({join_words([p['name'] for p in index.mainstream()])}); they are never listed "
-              "as legacy, and neither are reference programs published with a standard.", ""]
+              GROUP_RULE + " "
+              f"({join_words([p['name'] for p in index.mainstream()])}); they are never listed as legacy, and neither "
+              "are reference programs published with a standard.", ""]
     lines += _table(["Group", "Meaning"], [[k, v] for k, v in GROUPS.items()]) + [""]
     lines += ["## Leads not yet verified", "",
               "Candidates that may belong in the index but could not be checked yet; nothing here has been confirmed.", ""]
@@ -475,8 +474,11 @@ def about_page(index: Index) -> str:
 
 
 def faq_page(index: Index) -> str:
-    lines = ["# Frequently asked questions", "", _header(index, FAQ), ""]
-    for q, a in faq(index, _namer(index), lambda m: _method_link(index, m, m["title"]), _plain):
+    lines = ["# Frequently asked questions", "", _header(index, FAQ), "",
+             "Questions, corrections and suggestions are welcome as GitHub issues: "
+             f"{index.site['repository']}/issues/new", ""]
+    for q, a in faq(index, _namer(index), lambda m: _method_link(index, m, m["title"]), _plain,
+                    lambda target, label: f"[{label}]({absolute(index, target)})"):
         lines += [f"## {q}", "", a, ""]
     return "\n".join(lines)
 
@@ -501,7 +503,7 @@ def llms_txt(index: Index) -> str:
             current = join_words([index.ref[r]["label"] for r in m["current"]])
             projects = ", ".join(dict.fromkeys(
                 i["_project"]["name"] + (f" ({GROUP_NAMES[i['_project']['_group']]})"
-                                         if i["_project"]["_group"] in ("newly-released", "legacy") else "")
+                                         if i["_project"]["_group"] in ("newly-released", "developing", "legacy") else "")
                 for i in m["_current_impls"]))
             projects = projects or "none found"
             lines.append(f"- [{m['title']}]({site['base_url']}{md_twin(method_path(m))}): current edition "

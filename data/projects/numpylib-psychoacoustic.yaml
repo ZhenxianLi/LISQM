@@ -6,7 +6,8 @@ kind: research-code
 based_on: amt
 language_note: >-
   NumPy adaptation of the AMT functions `moore1997` and `glasberg2002`.
-standing: developing
+standing: newly-released
+standing_note: First published on GitHub in November 2025.
 license: none
 maintainers: [Ryrybros]
 summary: >-

@@ -78,26 +78,25 @@ REGISTRIES = {
 AI_ASSISTANCE = {"disclosed", "not-stated"}
 STATUS_ORDER = {"available": 0, "unreleased": 1, "proposed": 2}
 STANDING = {
-    "established": "Described in a publication, used by others, or written by the authors of the model, with a "
-                   "track record of more than a year.",
-    "developing": "Research, teaching or hobby code without documented use by others, or a project still in "
-                  "development.",
-    "newly-released": "First released less than about a year ago and not yet widely used in the community.",
+    "established": "Described in a publication, used by others, or written by the authors of the model, with more "
+                   "than a year of history.",
+    "newly-released": "First released less than about a year ago, and not yet widely used in the community.",
+    "developing": "Public for more than a year, but without a publication or documented use by others: research, "
+                  "teaching or personal code.",
 }
-# Every list of projects is grouped and ordered like this: the standing recorded in the project file, except for
-# two groups that follow from the data. Legacy: archived, or no commit for `legacy_after_days` (three years), unless
-# the project is one of the most widely used (it has a rank) or a reference program, which is not expected to
-# change. Others: tools whose results all come from another indexed project.
+# Every project is in exactly one group, decided in this order: others (it computes nothing itself), legacy (archived,
+# or no commit for `legacy_after_days`, except the most widely used projects and reference programs, which are not
+# expected to change), then the standing recorded in the project file. Every list uses the order of GROUPS.
 GROUPS = {
-    **STANDING,
+    "established": STANDING["established"],
+    "newly-released": STANDING["newly-released"],
+    "developing": STANDING["developing"],
     "legacy": "Archived, or no commit for three years or more. Kept for reference: the code may follow an older "
               "edition and may not run with current software.",
     "others": "Tools that do not compute the metrics themselves: interfaces, front ends and wrappers that call one "
               "of the indexed projects.",
 }
-GROUP_ORDER = {key: n for n, key in enumerate(GROUPS)}  # lists of implementations
-# Lists of projects (the projects page, the README) show newly released projects before developing ones.
-PROJECT_ORDER = {key: n for n, key in enumerate(["established", "newly-released", "developing", "legacy", "others"])}
+GROUP_ORDER = {key: n for n, key in enumerate(GROUPS)}
 GROUP_NAMES = {"established": "established", "developing": "developing", "newly-released": "newly released",
                "legacy": "legacy", "others": "other"}
 ACTIVITY_ORDER = {"active": 0, "unknown": 1, "inactive": 2, "archived": 3}
@@ -119,7 +118,7 @@ def project_tier(p: dict) -> int:
 
 
 def impl_rank(impl: dict) -> tuple:
-    """The order of implementations everywhere: by group (established first, then developing, newly released and
+    """The order of implementations everywhere: by group (established first, then newly released, developing and
     legacy); then released code before unreleased before proposed; then active, recognised projects first (see
     `project_tier`)."""
     p = impl["_project"]
@@ -280,6 +279,8 @@ class Index:
                 add(f"{w}: standing must be one of {sorted(STANDING)}")
             if p.get("standing") == "newly-released" and not p.get("standing_note"):
                 add(f"{w}: a newly released project needs a standing_note (when it was first released)")
+            if p.get("standing") == "developing" and p.get("paper"):
+                add(f"{w}: a project described in a publication (paper) is established, not developing")
             if p.get("rank") is not None and (not isinstance(p["rank"], int) or p["rank"] < 1):
                 add(f"{w}: rank must be a positive whole number")
             if p.get("based_on") and p["based_on"] not in self.project:
@@ -454,9 +455,9 @@ class Index:
         return [(f, [m for m in self.methods if m.get("family") == f["id"]]) for f in self.families]
 
     def projects_by_group(self) -> list[dict]:
-        """All projects by group, in the order of the projects page: established, newly released, developing,
-        legacy, others; within each group, ranked and active projects first."""
-        return sorted(self.projects, key=lambda p: (PROJECT_ORDER[p["_group"]], project_tier(p), project_rank(p),
+        """All projects by group: established, newly released, developing, legacy, others; within each group, ranked
+        and active projects first."""
+        return sorted(self.projects, key=lambda p: (GROUP_ORDER[p["_group"]], project_tier(p), project_rank(p),
                                                     p["name"].lower()))
 
     def group(self, key: str) -> list[dict]:

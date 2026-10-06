@@ -15,7 +15,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "scripts"))
 
 import build  # noqa: E402
-from pmi.data import GROUP_ORDER, PROJECT_ORDER, load  # noqa: E402
+from pmi.data import GROUP_ORDER, load  # noqa: E402
 from pmi.describe import timeline  # noqa: E402
 
 
@@ -137,7 +137,7 @@ class BuildTest(unittest.TestCase):
                     for ref, impls in cell:
                         self.assertEqual(ranks(impls), sorted(ranks(impls)), f"{row['method']['id']} {ref['id']}")
         ordered = self.index.projects_by_group()
-        self.assertEqual([p["_group"] for p in ordered], sorted((p["_group"] for p in ordered), key=PROJECT_ORDER.get))
+        self.assertEqual([p["_group"] for p in ordered], sorted((p["_group"] for p in ordered), key=GROUP_ORDER.get))
         self.assertEqual(ordered[-len(self.index.others()):], self.index.others(), "tools under Others come last")
         self.assertEqual([p["id"] for p in ordered[:3]], ["sqat", "amt", "mosqito"])
         self.assertEqual(self.index.group("newly-released")[0]["id"], "metasona")
@@ -202,7 +202,7 @@ class BuildTest(unittest.TestCase):
             if p["standing"] != "newly-released":
                 continue
             text = (self.site / "projects" / f"{p['id']}.html").read_text(encoding="utf-8")
-            self.assertIn("not yet widely used", text, p["id"])
+            self.assertIn("not yet widely used", text.lower(), p["id"])
 
     def test_home_page_opens_with_the_timeline(self) -> None:
         html = (self.site / "index.html").read_text(encoding="utf-8")
@@ -243,11 +243,9 @@ class BuildTest(unittest.TestCase):
         self.assertIn(f'action="{self.index.site["repository"]}/issues/new"', faq)
         self.assertIn('name="title"', faq)
         self.assertIn('name="body"', faq)
-        comments = self.index.site.get("comments") or {}
-        if comments.get("category_id"):  # giscus is switched on in site.yaml
-            self.assertIn('src="https://giscus.app/client.js"', faq)
-            self.assertIn(f'data-category-id="{comments["category_id"]}"', faq)
-            self.assertLess(faq.index("giscus.app/client.js"), faq.index('class="message-form"'))
+        self.assertNotIn("giscus", faq)
+        self.assertLess(faq.index('class="message-form"'), faq.index('id="q1"'), "the message box comes first")
+        self.assertLessEqual(faq.count('<h2 id="q'), 8, "only the key questions")
         ai = (self.site / "ai.html").read_text(encoding="utf-8")
         for name in ("llms.txt", "llms-full.txt", "index.json"):
             self.assertIn(f'{self.index.site["base_url"]}{name}', ai, name)

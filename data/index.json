@@ -19,14 +19,14 @@
   "ordering": "Implementations and projects are listed by group: established, developing, newly released, legacy, others. Newly released projects were first released less than about a year ago and are not yet widely used in the community. Legacy projects are archived or have had no commit for three years or more; the most widely used projects (most_widely_used: true) and reference programs are never legacy. Within each group, projects that are still active and widely recognised come first. Projects in the others group do not compute the metrics themselves; they call another indexed project (listed in calls), and their rows appear under also_through instead of implementations.",
   "definitions": {
     "standing": {
-      "established": "Described in a publication, used by others, or written by the authors of the model, with a track record of more than a year.",
-      "developing": "Research, teaching or hobby code without documented use by others, or a project still in development.",
-      "newly-released": "First released less than about a year ago and not yet widely used in the community."
+      "established": "Described in a publication, used by others, or written by the authors of the model, with more than a year of history.",
+      "newly-released": "First released less than about a year ago, and not yet widely used in the community.",
+      "developing": "Public for more than a year, but without a publication or documented use by others: research, teaching or personal code."
     },
     "group": {
-      "established": "Described in a publication, used by others, or written by the authors of the model, with a track record of more than a year.",
-      "developing": "Research, teaching or hobby code without documented use by others, or a project still in development.",
-      "newly-released": "First released less than about a year ago and not yet widely used in the community.",
+      "established": "Described in a publication, used by others, or written by the authors of the model, with more than a year of history.",
+      "newly-released": "First released less than about a year ago, and not yet widely used in the community.",
+      "developing": "Public for more than a year, but without a publication or documented use by others: research, teaching or personal code.",
       "legacy": "Archived, or no commit for three years or more. Kept for reference: the code may follow an older edition and may not run with current software.",
       "others": "Tools that do not compute the metrics themselves: interfaces, front ends and wrappers that call one of the indexed projects."
     },
@@ -203,16 +203,6 @@
           "note": "Also outputs loudness fluctuation and time-varying sharpness."
         },
         {
-          "project": "pysqat",
-          "reference": "iso-532-1-2017",
-          "functions": [
-            "Loudness_ISO532_1"
-          ],
-          "status": "available",
-          "validation": "cross-implementation",
-          "note": "Compared with SQAT (MATLAB)."
-        },
-        {
           "project": "metasona",
           "reference": "iso-532-1-2017",
           "functions": [
@@ -288,6 +278,16 @@
           "since": "0.3.0",
           "validation": "standard-data",
           "note": "Stages are tested against MoSQITo `loudness_zwtv` intermediates (agreement about 1e-9 to 1e-15). An Annex B.4 \"Test signal 6\" test regenerates band levels from a local MoSQITo checkout and is skipped when none is present; CI clones MoSQITo for it. The ISO WAV files are not included."
+        },
+        {
+          "project": "pysqat",
+          "reference": "iso-532-1-2017",
+          "functions": [
+            "Loudness_ISO532_1"
+          ],
+          "status": "available",
+          "validation": "cross-implementation",
+          "note": "Compared with SQAT (MATLAB)."
         },
         {
           "project": "psychoacoustic-parameters-measurer",
@@ -464,17 +464,6 @@
           "note": "Version 1.02 (27 October 2015). Two-channel input gives binaural loudness after Moore & Glasberg (2007). The audio is resampled to 32 kHz."
         },
         {
-          "project": "numpylib-psychoacoustic",
-          "reference": "moore-1997",
-          "functions": [
-            "model.moore1997",
-            "equalSones.getEqualSones"
-          ],
-          "status": "available",
-          "validation": "standard-data",
-          "note": "The implementation document says the model is compared with the results shown in the original article (plots of its Fig. 8 and Fig. 12). Numerical error reports (PDF) compare intermediate arrays, such as the outer- and middle-ear filter, with AMT's MATLAB output."
-        },
-        {
           "project": "phonometry",
           "reference": "iso-532-2-2017",
           "functions": [
@@ -487,6 +476,17 @@
           "since": "3.1.0",
           "validation": "standard-data",
           "note": "The documentation says it reproduces the Annex B tone and broadband cases to within a percent or two."
+        },
+        {
+          "project": "numpylib-psychoacoustic",
+          "reference": "moore-1997",
+          "functions": [
+            "model.moore1997",
+            "equalSones.getEqualSones"
+          ],
+          "status": "available",
+          "validation": "standard-data",
+          "note": "The implementation document says the model is compared with the results shown in the original article (plots of its Fig. 8 and Fig. 12). Numerical error reports (PDF) compare intermediate arrays, such as the outer- and middle-ear filter, with AMT's MATLAB output."
         },
         {
           "project": "deeuu-loudness",
@@ -611,28 +611,6 @@
           "note": "Same function as the stationary model; the binaural extension follows Moore & Glasberg (2007)."
         },
         {
-          "project": "loudnessmodel",
-          "reference": "moore-2018",
-          "functions": [
-            "tvl2018.compute_loudness",
-            "tvl2018_jax.compute_loudness"
-          ],
-          "scope": "instantaneous, short-term and long-term loudness; binaural",
-          "status": "available",
-          "validation": "self-tests",
-          "note": "Tests run in GitHub Actions compare overall loudness, the first five short-term and long-term values and selected intermediate stages for one input (1 kHz tone, 100 ms, 32 kHz) with hard-coded expected values. The README calls this \"a known accurate output\", but neither it nor the tests say where the values come from."
-        },
-        {
-          "project": "numpylib-psychoacoustic",
-          "reference": "glasberg-moore-2002",
-          "functions": [
-            "model.glasberg2002"
-          ],
-          "status": "available",
-          "validation": "not-stated",
-          "note": "Present in the code but not described in the implementation document."
-        },
-        {
           "project": "phonometry",
           "reference": "iso-532-3-2023",
           "functions": [
@@ -655,6 +633,16 @@
           "note": "Described as a \"1:1 port\" of AMT `moore2016`, with outer and middle ear per ANSI S3.4-2007 (docstring); agreement with AMT is claimed in the documentation, without stored reference data."
         },
         {
+          "project": "numpylib-psychoacoustic",
+          "reference": "glasberg-moore-2002",
+          "functions": [
+            "model.glasberg2002"
+          ],
+          "status": "available",
+          "validation": "not-stated",
+          "note": "Present in the code but not described in the implementation document."
+        },
+        {
           "project": "torch-amt",
           "reference": "glasberg-moore-2002",
           "functions": [
@@ -664,6 +652,18 @@
           "status": "available",
           "validation": "cross-implementation",
           "note": "Ported from AMT `glasberg2002`; agreement with AMT is claimed in the documentation, without stored reference data."
+        },
+        {
+          "project": "loudnessmodel",
+          "reference": "moore-2018",
+          "functions": [
+            "tvl2018.compute_loudness",
+            "tvl2018_jax.compute_loudness"
+          ],
+          "scope": "instantaneous, short-term and long-term loudness; binaural",
+          "status": "available",
+          "validation": "self-tests",
+          "note": "Tests run in GitHub Actions compare overall loudness, the first five short-term and long-term values and selected intermediate stages for one input (1 kHz tone, 100 ms, 32 kHz) with hard-coded expected values. The README calls this \"a known accurate output\", but neither it nor the tests say where the values come from."
         },
         {
           "project": "deeuu-loudness",
@@ -735,6 +735,20 @@
       },
       "implementations": [
         {
+          "project": "refmap-psychoacoustics",
+          "reference": "ecma-418-2-ed4",
+          "functions": [
+            "acousticSHMLoudness",
+            "acousticSHMLoudnessFromComponent",
+            "shm_loudness_ecma",
+            "shm_loudness_ecma_from_comp"
+          ],
+          "scope": "MATLAB and Python; binaural and specific loudness",
+          "status": "available",
+          "validation": "cross-implementation",
+          "note": "MATLAB and Python verified against HEAD acoustics ArtemiS v17.1 for a 1 kHz tone at 40 dB SPL, a 1 kHz tone amplitude-modulated at 70 Hz at 60 dB SPL and a 30 s binaural street recording; the audio and reference results are on Zenodo (doi:10.5281/zenodo.18849587)."
+        },
+        {
           "project": "sottek-hearing-model",
           "reference": "ecma-418-2-ed4",
           "functions": [
@@ -782,20 +796,6 @@
           "since": "1.2.0",
           "validation": "standard-data",
           "note": "Followed the 1st edition (2020) in versions 1.0.0–1.1.1 and the 2nd edition (2022) from 1.2.0. Validation scripts compare with figures of the standard."
-        },
-        {
-          "project": "refmap-psychoacoustics",
-          "reference": "ecma-418-2-ed4",
-          "functions": [
-            "acousticSHMLoudness",
-            "acousticSHMLoudnessFromComponent",
-            "shm_loudness_ecma",
-            "shm_loudness_ecma_from_comp"
-          ],
-          "scope": "MATLAB and Python; binaural and specific loudness",
-          "status": "available",
-          "validation": "cross-implementation",
-          "note": "MATLAB and Python verified against HEAD acoustics ArtemiS v17.1 for a 1 kHz tone at 40 dB SPL, a 1 kHz tone amplitude-modulated at 70 Hz at 60 dB SPL and a 30 s binaural street recording; the audio and reference results are on Zenodo (doi:10.5281/zenodo.18849587)."
         },
         {
           "project": "metasona",
@@ -934,28 +934,6 @@
           "note": "Validation scripts use the DIN 45692 test signals; the documentation marks it as validated."
         },
         {
-          "project": "aarae",
-          "reference": "fastl-zwicker-2007",
-          "functions": [
-            "sharpness_Fastl"
-          ],
-          "scope": "from the specific loudness of `LoudnessCF`",
-          "status": "available",
-          "validation": "not-stated",
-          "note": "The header describes a weighting fitted to data in Zwicker & Fastl's *Psychoacoustics: Facts and Models* (edition not stated), names the method \"Fastl (1991)\" and credits Claire Churchill (2004)."
-        },
-        {
-          "project": "pysqat",
-          "reference": "din-45692-2009",
-          "functions": [
-            "Sharpness_DIN45692",
-            "Sharpness_DIN45692_from_loudness"
-          ],
-          "status": "available",
-          "validation": "cross-implementation",
-          "note": "Compared with SQAT (MATLAB)."
-        },
-        {
           "project": "refmap-psychoacoustics",
           "reference": "din-45692-2009",
           "functions": [
@@ -966,6 +944,17 @@
           "status": "available",
           "validation": "not-stated",
           "note": "The DIN 45692 weighting is the option `widmann`; Aures (the default) and von Bismarck weightings are also offered. DIN 45692 itself is defined on Zwicker specific loudness. A further variant works from a Zwicker-based quasi-loudness (`acousticSharpFromQuasiLoud`). An inaccuracy in the Aures weighting was fixed on 2026-09-18."
+        },
+        {
+          "project": "aarae",
+          "reference": "fastl-zwicker-2007",
+          "functions": [
+            "sharpness_Fastl"
+          ],
+          "scope": "from the specific loudness of `LoudnessCF`",
+          "status": "available",
+          "validation": "not-stated",
+          "note": "The header describes a weighting fitted to data in Zwicker & Fastl's *Psychoacoustics: Facts and Models* (edition not stated), names the method \"Fastl (1991)\" and credits Claire Churchill (2004)."
         },
         {
           "project": "metasona",
@@ -1002,6 +991,17 @@
           "since": "v0.5.0",
           "validation": "cross-implementation",
           "note": "Compared with MoSQITo 1.2.1 (tolerance ±5 %)."
+        },
+        {
+          "project": "pysqat",
+          "reference": "din-45692-2009",
+          "functions": [
+            "Sharpness_DIN45692",
+            "Sharpness_DIN45692_from_loudness"
+          ],
+          "status": "available",
+          "validation": "cross-implementation",
+          "note": "Compared with SQAT (MATLAB)."
         },
         {
           "project": "psychoacoustic-parameters-measurer",
@@ -1114,16 +1114,6 @@
           "note": "Ported from PsySound3's `@RoughnessDW` by Ella Manor and Densil Cabrera (2015)."
         },
         {
-          "project": "pysqat",
-          "reference": "daniel-weber-1997",
-          "functions": [
-            "Roughness_Daniel1997"
-          ],
-          "status": "available",
-          "validation": "cross-implementation",
-          "note": "Compared with SQAT v1.3, before SQAT's September 2026 rewrite."
-        },
-        {
           "project": "metasona",
           "reference": "daniel-weber-1997",
           "functions": [
@@ -1144,6 +1134,16 @@
           "since": "v0.5.0",
           "validation": "cross-implementation",
           "note": "Compared with MoSQITo 1.2.1 with a wider tolerance (±15 %); the README notes that published Daniel & Weber implementations differ by about 10–20 %."
+        },
+        {
+          "project": "pysqat",
+          "reference": "daniel-weber-1997",
+          "functions": [
+            "Roughness_Daniel1997"
+          ],
+          "status": "available",
+          "validation": "cross-implementation",
+          "note": "Compared with SQAT v1.3, before SQAT's September 2026 rewrite."
         },
         {
           "project": "psysound3",
@@ -1226,6 +1226,18 @@
       },
       "implementations": [
         {
+          "project": "refmap-psychoacoustics",
+          "reference": "ecma-418-2-ed4",
+          "functions": [
+            "acousticSHMRoughness",
+            "shm_roughness_ecma"
+          ],
+          "scope": "MATLAB and Python",
+          "status": "available",
+          "validation": "cross-implementation",
+          "note": "Verified against HEAD acoustics ArtemiS v17.1 with the same three signals as loudness."
+        },
+        {
           "project": "sottek-hearing-model",
           "reference": "ecma-418-2-ed4",
           "functions": [
@@ -1267,18 +1279,6 @@
           "since": "1.2.0",
           "validation": "standard-data",
           "note": "The documentation still lists it as under development. An open pull request (#95) fixes the low-pass filter range, which caused discrepancies with SQAT for time-varying signals."
-        },
-        {
-          "project": "refmap-psychoacoustics",
-          "reference": "ecma-418-2-ed4",
-          "functions": [
-            "acousticSHMRoughness",
-            "shm_roughness_ecma"
-          ],
-          "scope": "MATLAB and Python",
-          "status": "available",
-          "validation": "cross-implementation",
-          "note": "Verified against HEAD acoustics ArtemiS v17.1 with the same three signals as loudness."
         },
         {
           "project": "metasona",
@@ -1418,15 +1418,6 @@
           "note": "Checked against amplitude- and frequency-modulation dependences from the literature."
         },
         {
-          "project": "pysqat",
-          "reference": "osses-2016",
-          "functions": [
-            "FluctuationStrength_Osses2016"
-          ],
-          "status": "available",
-          "validation": "cross-implementation"
-        },
-        {
           "project": "phonometry",
           "reference": "osses-2016",
           "functions": [
@@ -1448,6 +1439,15 @@
           "since": "3.1.0",
           "validation": "standard-data",
           "note": "A conformance row checks Eq. (10.2) of Fastl & Zwicker for amplitude-modulated broadband noise."
+        },
+        {
+          "project": "pysqat",
+          "reference": "osses-2016",
+          "functions": [
+            "FluctuationStrength_Osses2016"
+          ],
+          "status": "available",
+          "validation": "cross-implementation"
         },
         {
           "project": "fluctuation-strength-tue",
@@ -1607,16 +1607,6 @@
           "note": "Pull request from April 2026 following the improved Aures metric of Estreder et al. (2023); no maintainer reply."
         },
         {
-          "project": "pysqat",
-          "reference": "aures-1985-euphony",
-          "functions": [
-            "Tonality_Aures1985"
-          ],
-          "status": "available",
-          "validation": "cross-implementation",
-          "note": "A June 2026 commit corrected its calibration; it predates SQAT's September 2026 fixes."
-        },
-        {
           "project": "metasona",
           "reference": "aures-1985-euphony",
           "functions": [
@@ -1626,6 +1616,16 @@
           "since": "0.1.0",
           "validation": "cross-implementation",
           "note": "Follows SQAT's September 2026 revision (250 ms Hann windows, 125 ms hop); exact agreement with MATLAB is not established. Comparison results are not published."
+        },
+        {
+          "project": "pysqat",
+          "reference": "aures-1985-euphony",
+          "functions": [
+            "Tonality_Aures1985"
+          ],
+          "status": "available",
+          "validation": "cross-implementation",
+          "note": "A June 2026 commit corrected its calibration; it predates SQAT's September 2026 fixes."
         }
       ]
     },
@@ -1677,6 +1677,18 @@
       },
       "implementations": [
         {
+          "project": "refmap-psychoacoustics",
+          "reference": "ecma-418-2-ed4",
+          "functions": [
+            "acousticSHMTonality",
+            "shm_tonality_ecma"
+          ],
+          "scope": "MATLAB and Python",
+          "status": "available",
+          "validation": "cross-implementation",
+          "note": "Verified against HEAD acoustics ArtemiS v17.1 with the same three signals as loudness."
+        },
+        {
           "project": "sottek-hearing-model",
           "reference": "ecma-418-2-ed4",
           "functions": [
@@ -1706,18 +1718,6 @@
           "status": "available",
           "since": "v1.3",
           "validation": "cross-implementation"
-        },
-        {
-          "project": "refmap-psychoacoustics",
-          "reference": "ecma-418-2-ed4",
-          "functions": [
-            "acousticSHMTonality",
-            "shm_tonality_ecma"
-          ],
-          "scope": "MATLAB and Python",
-          "status": "available",
-          "validation": "cross-implementation",
-          "note": "Verified against HEAD acoustics ArtemiS v17.1 with the same three signals as loudness."
         },
         {
           "project": "metasona",
@@ -2191,6 +2191,16 @@
           "note": "No verification routine (README)."
         },
         {
+          "project": "refmap-psychoacoustics",
+          "reference": "di-2016",
+          "functions": [
+            "diPA"
+          ],
+          "scope": "Python, from precomputed metric values",
+          "status": "available",
+          "validation": "not-stated"
+        },
+        {
           "project": "sqat",
           "reference": "more-2010",
           "functions": [
@@ -2201,6 +2211,16 @@
           "since": "v1.0",
           "validation": "not-stated",
           "note": "No verification routine (README)."
+        },
+        {
+          "project": "refmap-psychoacoustics",
+          "reference": "more-2010",
+          "functions": [
+            "morePA"
+          ],
+          "scope": "Python, from precomputed metric values",
+          "status": "available",
+          "validation": "not-stated"
         },
         {
           "project": "sqat",
@@ -2214,64 +2234,6 @@
           "validation": "not-stated"
         },
         {
-          "project": "sqat",
-          "reference": "widmann-1992",
-          "functions": [
-            "PsychoacousticAnnoyance_Widmann1992",
-            "PsychoacousticAnnoyance_Widmann1992_from_percentile"
-          ],
-          "status": "unreleased",
-          "validation": "not-stated",
-          "note": "Added on `main` in June 2025; the README describes it as the same model as the Zwicker & Fastl entry under its original attribution."
-        },
-        {
-          "project": "pysqat",
-          "reference": "di-2016",
-          "functions": [
-            "PsychoacousticAnnoyance_Di2016"
-          ],
-          "status": "available",
-          "validation": "cross-implementation"
-        },
-        {
-          "project": "refmap-psychoacoustics",
-          "reference": "di-2016",
-          "functions": [
-            "diPA"
-          ],
-          "scope": "Python, from precomputed metric values",
-          "status": "available",
-          "validation": "not-stated"
-        },
-        {
-          "project": "pysqat",
-          "reference": "more-2010",
-          "functions": [
-            "PsychoacousticAnnoyance_More2010"
-          ],
-          "status": "available",
-          "validation": "cross-implementation"
-        },
-        {
-          "project": "refmap-psychoacoustics",
-          "reference": "more-2010",
-          "functions": [
-            "morePA"
-          ],
-          "scope": "Python, from precomputed metric values",
-          "status": "available",
-          "validation": "not-stated"
-        },
-        {
-          "project": "pysqat",
-          "reference": "zwicker-fastl-1999",
-          "functions": [
-            "PsychoacousticAnnoyance_Zwicker1999"
-          ],
-          "status": "available",
-          "validation": "cross-implementation"
-        },
-        {
           "project": "refmap-psychoacoustics",
           "reference": "widmann-1992",
           "functions": [
@@ -2281,6 +2243,17 @@
           "status": "available",
           "validation": "standard-data",
           "note": "The MATLAB header names the model Widmann (1992), \"commonly misattributed to Zwicker\". A validation script (validation/metrics/mlab/acousticPsychAnnoyValidation.m) compares the MATLAB version with values from Widmann (1992). The Python `widmannPA` takes precomputed metric values."
+        },
+        {
+          "project": "sqat",
+          "reference": "widmann-1992",
+          "functions": [
+            "PsychoacousticAnnoyance_Widmann1992",
+            "PsychoacousticAnnoyance_Widmann1992_from_percentile"
+          ],
+          "status": "unreleased",
+          "validation": "not-stated",
+          "note": "Added on `main` in June 2025; the README describes it as the same model as the Zwicker & Fastl entry under its original attribution."
         },
         {
           "project": "phonometry",
@@ -2293,6 +2266,33 @@
           "since": "3.1.0",
           "validation": "standard-data",
           "note": "Follows Eqs. 16.2–16.4 of Fastl & Zwicker (2007), the textbook form of Widmann's model."
+        },
+        {
+          "project": "pysqat",
+          "reference": "di-2016",
+          "functions": [
+            "PsychoacousticAnnoyance_Di2016"
+          ],
+          "status": "available",
+          "validation": "cross-implementation"
+        },
+        {
+          "project": "pysqat",
+          "reference": "more-2010",
+          "functions": [
+            "PsychoacousticAnnoyance_More2010"
+          ],
+          "status": "available",
+          "validation": "cross-implementation"
+        },
+        {
+          "project": "pysqat",
+          "reference": "zwicker-fastl-1999",
+          "functions": [
+            "PsychoacousticAnnoyance_Zwicker1999"
+          ],
+          "status": "available",
+          "validation": "cross-implementation"
         },
         {
           "project": "psychoacoustic-parameters-measurer",
@@ -2353,16 +2353,6 @@
           "note": "The docstring gives no edition; it is based on Jeff Tackett's MATLAB code for ISO 226:2003."
         },
         {
-          "project": "pydsm",
-          "reference": "iso-226-2003",
-          "functions": [
-            "pydsm.iso226"
-          ],
-          "scope": "tabled and interpolated contours; optional 20 kHz extension",
-          "status": "available",
-          "validation": "not-stated"
-        },
-        {
           "project": "pd-psycho",
           "reference": "iso-226-2003",
           "functions": [
@@ -2371,6 +2361,16 @@
           "status": "available",
           "validation": "not-stated",
           "note": "The help patch names ISO 226:2003. Related objects convert between phon and dB (`[phon2db]`, `[db2phon]`) and between phon and sone (`[phon2sone]`, `[sone2phon]`)."
+        },
+        {
+          "project": "pydsm",
+          "reference": "iso-226-2003",
+          "functions": [
+            "pydsm.iso226"
+          ],
+          "scope": "tabled and interpolated contours; optional 20 kHz extension",
+          "status": "available",
+          "validation": "not-stated"
         },
         {
           "project": "phonometry",
@@ -2450,6 +2450,14 @@
           "note": "The README says no reference implementation or test signals exist, so it was only cross-checked. Follows Amendment 36-26 (2005)."
         },
         {
+          "project": "phonometry",
+          "reference": "icao-annex-16-vol-1",
+          "scope": "PNL, PNLT and EPNL, in the `phonometry.aircraft` namespace",
+          "status": "available",
+          "validation": "standard-data",
+          "note": "Tested with the EPNL example of ICAO Doc 9501 (Environmental Technical Manual)."
+        },
+        {
           "project": "pysqat",
           "reference": "cfr-14-part-36",
           "functions": [
@@ -2457,14 +2465,6 @@
           ],
           "status": "available",
           "validation": "cross-implementation"
-        },
-        {
-          "project": "phonometry",
-          "reference": "icao-annex-16-vol-1",
-          "scope": "PNL, PNLT and EPNL, in the `phonometry.aircraft` namespace",
-          "status": "available",
-          "validation": "standard-data",
-          "note": "Tested with the EPNL example of ICAO Doc 9501 (Environmental Technical Manual)."
         },
         {
           "project": "zhen-ni-epnl",
@@ -3833,6 +3833,236 @@
       "most_widely_used": false
     },
     {
+      "id": "pd-psycho",
+      "name": "PSYCHO (pd-psycho)",
+      "short_name": "PSYCHO",
+      "repository": "https://github.com/porres/pd-psycho",
+      "languages": [
+        "Pure Data",
+        "C"
+      ],
+      "kind": "plugin",
+      "core": "C",
+      "language_note": "Objects for Pure Data: C externals built with pd-lib-builder, and Pd abstractions.",
+      "standing": "established",
+      "license": "GPL-3.0-or-later",
+      "license_note": "LICENSE.txt holds the GPL v3 text; the only licence notice in the sources (roughness.c) allows any later version.",
+      "maintainers": [
+        "Alexandre Torres Porres"
+      ],
+      "summary": "Pure Data library of psychoacoustic objects (C externals and abstractions) from the author's research on dissonance models. Includes ISO 226:2003 equal-loudness contours and phon, sone and dB conversions, as well as roughness, sharpness and tonalness objects.",
+      "ai_assistance": "not-stated",
+      "paper": {
+        "citation": "Porres, A. T. (2011). Dissonance Model Toolbox in Pure Data. *Proceedings of the 4th Pure Data International Convention (PdCon11)*, Berlin."
+      },
+      "notes": [
+        "The roughness objects (`[roughness]`, `[roughcurve]`) compute the sensory dissonance of a spectrum given as lists of frequencies and amplitudes, with a model \"derived from the work of Parncutt, Sethares, Vassilakis & Barlow\"; this is not one of the signal-based roughness methods in this index.",
+        "`[sharpness~]` is an abstraction built on `[barks~]` (24 Bark bands) and names no sharpness model.",
+        "Tonalness, pitch salience and commonality follow Parncutt & Strasburger (1994), after Terhardt; they are not tonality metrics in the sense of this index.",
+        "From the author's MSc and PhD work (2005–2012). Version 1.1 was released on 2025-10-14 (git tags 1.0 of 2019 and 1.1; no GitHub releases). It builds with pd-lib-builder."
+      ],
+      "caveats": [
+        "The README calls the library \"still a work in progress\"."
+      ],
+      "implements": [
+        {
+          "method": "equal-loudness-contours",
+          "reference": "iso-226-2003",
+          "functions": [
+            "[iso226]"
+          ],
+          "status": "available",
+          "validation": "not-stated",
+          "note": "The help patch names ISO 226:2003. Related objects convert between phon and dB (`[phon2db]`, `[db2phon]`) and between phon and sone (`[phon2sone]`, `[sone2phon]`)."
+        }
+      ],
+      "sources": [
+        "https://github.com/porres/pd-psycho",
+        "https://github.com/porres/pd-psycho/blob/master/README.md",
+        "https://github.com/porres/pd-psycho/blob/master/LICENSE.txt",
+        "https://github.com/porres/pd-psycho/tree/master/Classes",
+        "https://github.com/porres/pd-psycho/tree/master/Help-files"
+      ],
+      "checked": "2026-10-06",
+      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/pd-psycho.html",
+      "last_commit": "2025-10-14",
+      "latest_release": {
+        "version": "1.1",
+        "date": "2025-10-14",
+        "source": ""
+      },
+      "prerelease": null,
+      "activity": "active",
+      "archived": false,
+      "stars": null,
+      "group": "established",
+      "most_widely_used": false
+    },
+    {
+      "id": "refmap-psychoacoustics",
+      "name": "refmap-psychoacoustics",
+      "short_name": "refmap",
+      "repository": "https://github.com/acoustics-code-salford/refmap-psychoacoustics",
+      "languages": [
+        "MATLAB",
+        "Python"
+      ],
+      "kind": "research-code",
+      "language_note": "MATLAB code with Python ports in the same repository. The Python port of its ECMA-418-2 code is published separately as sottek-hearing-model.",
+      "standing": "established",
+      "license": "GPL-3.0",
+      "license_note": "The licences disagree: the LICENSE file holds the GPL-3.0 text, while pyproject.toml declares \"AGPL-3.0-only\". Neither says whether later GPL versions are allowed.",
+      "maintainers": [
+        "Mike Lotinga"
+      ],
+      "summary": "Research code of the REFMAP project at the University of Salford, in MATLAB with Python ports. Implements ECMA-418-2:2025 loudness, tonality and roughness, and also sharpness, impulsiveness, psychoacoustic annoyance and aural detectability models.",
+      "ai_assistance": "not-stated",
+      "paper": {
+        "citation": "Lotinga, M. J. B., Torjussen, M., & Felix Greco, G. (2025). Verified implementations of the Sottek psychoacoustic Hearing Model standardised sound quality metrics (ECMA-418-2 loudness, tonality and roughness). *Forum Acusticum / Euronoise 2025*, Málaga.",
+        "doi": "10.61782/fa.2025.0951"
+      },
+      "notes": [
+        "The README says versions of the ECMA-418-2 code are also incorporated in SQAT. The Python port is also published separately as the PyPI package sottek-hearing-model (repository mlotinga/sottek-hearing-model).",
+        "The Python package defined in pyproject.toml (refmap-psychoacoustics 0.1.0) is not on PyPI.",
+        "Tonality has an optional tonal annoyance weighting after Sottek & Becker (2019), which is not part of ECMA-418-2.",
+        "Further metrics without an entry in this index: partial loudness and partial tonality of a target in a masker (\"based on ECMA-418-2:2025\", an extension of the standard), quasi-loudness from the spectral elements of ISO 532-1 with optional ISO 532-3:2023 or ECMA-418-2:2025 ear filters, tonal sharpness, and impulsiveness after Willemsen & Rao (2010) from ISO 532-1:2017 or ECMA-418-2:2025 loudness.",
+        "The Python code also has annoyance models after Willemsen et al. (2010), Torija et al. (2022) and Boucher et al. (2024), which have no reference entry in this index.",
+        "Also contains listening-test apps and analysis notebooks."
+      ],
+      "caveats": [
+        "The README calls it \"'work in progress' code for a research project. It is not a completed package or code library.\"",
+        "Some code comments still cite clauses of \"ECMA 418-2:2022\"."
+      ],
+      "implements": [
+        {
+          "method": "loudness-ecma-418-2",
+          "reference": "ecma-418-2-ed4",
+          "functions": [
+            "acousticSHMLoudness",
+            "acousticSHMLoudnessFromComponent",
+            "shm_loudness_ecma",
+            "shm_loudness_ecma_from_comp"
+          ],
+          "scope": "MATLAB and Python; binaural and specific loudness",
+          "status": "available",
+          "validation": "cross-implementation",
+          "note": "MATLAB and Python verified against HEAD acoustics ArtemiS v17.1 for a 1 kHz tone at 40 dB SPL, a 1 kHz tone amplitude-modulated at 70 Hz at 60 dB SPL and a 30 s binaural street recording; the audio and reference results are on Zenodo (doi:10.5281/zenodo.18849587)."
+        },
+        {
+          "method": "tonality-ecma-418-2",
+          "reference": "ecma-418-2-ed4",
+          "functions": [
+            "acousticSHMTonality",
+            "shm_tonality_ecma"
+          ],
+          "scope": "MATLAB and Python",
+          "status": "available",
+          "validation": "cross-implementation",
+          "note": "Verified against HEAD acoustics ArtemiS v17.1 with the same three signals as loudness."
+        },
+        {
+          "method": "roughness-ecma-418-2",
+          "reference": "ecma-418-2-ed4",
+          "functions": [
+            "acousticSHMRoughness",
+            "shm_roughness_ecma"
+          ],
+          "scope": "MATLAB and Python",
+          "status": "available",
+          "validation": "cross-implementation",
+          "note": "Verified against HEAD acoustics ArtemiS v17.1 with the same three signals as loudness."
+        },
+        {
+          "method": "sharpness",
+          "reference": "din-45692-2009",
+          "functions": [
+            "acousticSharpnessSHM",
+            "acousticSharpFromSHMLoud"
+          ],
+          "scope": "DIN 45692 weighting applied to ECMA-418-2 loudness",
+          "status": "available",
+          "validation": "not-stated",
+          "note": "The DIN 45692 weighting is the option `widmann`; Aures (the default) and von Bismarck weightings are also offered. DIN 45692 itself is defined on Zwicker specific loudness. A further variant works from a Zwicker-based quasi-loudness (`acousticSharpFromQuasiLoud`). An inaccuracy in the Aures weighting was fixed on 2026-09-18."
+        },
+        {
+          "method": "psychoacoustic-annoyance",
+          "reference": "widmann-1992",
+          "functions": [
+            "acousticPsychAnnoy",
+            "widmannPA"
+          ],
+          "status": "available",
+          "validation": "standard-data",
+          "note": "The MATLAB header names the model Widmann (1992), \"commonly misattributed to Zwicker\". A validation script (validation/metrics/mlab/acousticPsychAnnoyValidation.m) compares the MATLAB version with values from Widmann (1992). The Python `widmannPA` takes precomputed metric values."
+        },
+        {
+          "method": "psychoacoustic-annoyance",
+          "reference": "more-2010",
+          "functions": [
+            "morePA"
+          ],
+          "scope": "Python, from precomputed metric values",
+          "status": "available",
+          "validation": "not-stated"
+        },
+        {
+          "method": "psychoacoustic-annoyance",
+          "reference": "di-2016",
+          "functions": [
+            "diPA"
+          ],
+          "scope": "Python, from precomputed metric values",
+          "status": "available",
+          "validation": "not-stated"
+        },
+        {
+          "method": "aural-detectability",
+          "reference": "fidell-1974",
+          "functions": [
+            "auralDetectability",
+            "auralDetectFromLeq",
+            "aural_detect",
+            "aural_detect_from_lzeqt"
+          ],
+          "scope": "MATLAB and Python",
+          "status": "available",
+          "validation": "not-stated",
+          "note": "Code headers describe the Fidell, Pearsons & Bennett (1974) model as \"developed further by NASA\" and cite \"Rizzi, SA et al, 2024\"; the README cites Rizzi et al. (2025), *Journal of Aircraft*, doi:10.2514/1.C038188."
+        },
+        {
+          "method": "aural-detectability",
+          "reference": "rizzi-2025",
+          "functions": [
+            "auralDetectability",
+            "aural_detect"
+          ],
+          "scope": "MATLAB and Python",
+          "status": "available",
+          "validation": "not-stated",
+          "note": "The same functions; the README cites this paper for the NASA development of the model."
+        }
+      ],
+      "sources": [
+        "https://github.com/acoustics-code-salford/refmap-psychoacoustics",
+        "https://github.com/acoustics-code-salford/refmap-psychoacoustics/blob/main/README.md",
+        "https://github.com/acoustics-code-salford/refmap-psychoacoustics/blob/main/validation/ECMA-418-2/README.md",
+        "https://github.com/acoustics-code-salford/refmap-psychoacoustics/blob/main/pyproject.toml",
+        "https://github.com/acoustics-code-salford/refmap-psychoacoustics/blob/main/LICENSE",
+        "https://doi.org/10.5281/zenodo.18849587",
+        "https://pypi.org/project/sottek-hearing-model/"
+      ],
+      "checked": "2026-10-06",
+      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/refmap-psychoacoustics.html",
+      "last_commit": "2026-10-02",
+      "latest_release": null,
+      "prerelease": null,
+      "activity": "active",
+      "archived": false,
+      "stars": null,
+      "group": "established",
+      "most_widely_used": false
+    },
+    {
       "id": "sottek-hearing-model",
       "name": "sottek-hearing-model",
       "repository": "https://github.com/mlotinga/sottek-hearing-model",
@@ -4396,6 +4626,72 @@
       "most_widely_used": false
     },
     {
+      "id": "numpylib-psychoacoustic",
+      "name": "NumpyLibforPsychoAcoustic",
+      "repository": "https://github.com/Ryrybros/NumpyLibforPsychoAcoustic",
+      "languages": [
+        "Python"
+      ],
+      "kind": "research-code",
+      "based_on": "amt",
+      "language_note": "NumPy adaptation of the AMT functions `moore1997` and `glasberg2002`.",
+      "standing": "newly-released",
+      "standing_note": "First published on GitHub in November 2025.",
+      "license": "none",
+      "maintainers": [
+        "Ryrybros"
+      ],
+      "summary": "Python (NumPy) adaptation of loudness models from the Auditory Modeling Toolbox (AMT), written as a second-year student project at Mines School of Nancy: the stationary model of Moore, Glasberg & Baer (1997) and the time-varying model of Glasberg & Moore (2002).",
+      "ai_assistance": "not-stated",
+      "notes": [
+        "The implementation document says the Moore (1997) model is \"the same code as the amt-toolbox one\"; the data preparation follows AMT's Glasberg (2002) data function.",
+        "GitHub labels the repository TypeScript because of the React/Vite user interface in UI/Model_UI; the models are Python."
+      ],
+      "caveats": [
+        "No licence file, so reuse is not permitted by default.",
+        "The implementation document describes only the Moore (1997) model as implemented; `glasberg2002` is in the code (with data/Glasberg2002.json) but not documented."
+      ],
+      "implements": [
+        {
+          "method": "loudness-moore-glasberg",
+          "reference": "moore-1997",
+          "functions": [
+            "model.moore1997",
+            "equalSones.getEqualSones"
+          ],
+          "status": "available",
+          "validation": "standard-data",
+          "note": "The implementation document says the model is compared with the results shown in the original article (plots of its Fig. 8 and Fig. 12). Numerical error reports (PDF) compare intermediate arrays, such as the outer- and middle-ear filter, with AMT's MATLAB output."
+        },
+        {
+          "method": "loudness-moore-glasberg-time-varying",
+          "reference": "glasberg-moore-2002",
+          "functions": [
+            "model.glasberg2002"
+          ],
+          "status": "available",
+          "validation": "not-stated",
+          "note": "Present in the code but not described in the implementation document."
+        }
+      ],
+      "sources": [
+        "https://github.com/Ryrybros/NumpyLibforPsychoAcoustic",
+        "https://github.com/Ryrybros/NumpyLibforPsychoAcoustic/blob/main/README.md",
+        "https://github.com/Ryrybros/NumpyLibforPsychoAcoustic/blob/main/Documentation/Implementation_documentation.pdf",
+        "https://github.com/Ryrybros/NumpyLibforPsychoAcoustic/tree/main/Numerical_error_report"
+      ],
+      "checked": "2026-10-06",
+      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/numpylib-psychoacoustic.html",
+      "last_commit": "2026-06-07",
+      "latest_release": null,
+      "prerelease": null,
+      "activity": "active",
+      "archived": false,
+      "stars": null,
+      "group": "newly-released",
+      "most_widely_used": false
+    },
+    {
       "id": "phonometry",
       "name": "phonometry",
       "repository": "https://github.com/jmrplens/phonometry",
@@ -4929,137 +5225,6 @@
       "most_widely_used": false
     },
     {
-      "id": "numpylib-psychoacoustic",
-      "name": "NumpyLibforPsychoAcoustic",
-      "repository": "https://github.com/Ryrybros/NumpyLibforPsychoAcoustic",
-      "languages": [
-        "Python"
-      ],
-      "kind": "research-code",
-      "based_on": "amt",
-      "language_note": "NumPy adaptation of the AMT functions `moore1997` and `glasberg2002`.",
-      "standing": "developing",
-      "license": "none",
-      "maintainers": [
-        "Ryrybros"
-      ],
-      "summary": "Python (NumPy) adaptation of loudness models from the Auditory Modeling Toolbox (AMT), written as a second-year student project at Mines School of Nancy: the stationary model of Moore, Glasberg & Baer (1997) and the time-varying model of Glasberg & Moore (2002).",
-      "ai_assistance": "not-stated",
-      "notes": [
-        "The implementation document says the Moore (1997) model is \"the same code as the amt-toolbox one\"; the data preparation follows AMT's Glasberg (2002) data function.",
-        "GitHub labels the repository TypeScript because of the React/Vite user interface in UI/Model_UI; the models are Python."
-      ],
-      "caveats": [
-        "No licence file, so reuse is not permitted by default.",
-        "The implementation document describes only the Moore (1997) model as implemented; `glasberg2002` is in the code (with data/Glasberg2002.json) but not documented."
-      ],
-      "implements": [
-        {
-          "method": "loudness-moore-glasberg",
-          "reference": "moore-1997",
-          "functions": [
-            "model.moore1997",
-            "equalSones.getEqualSones"
-          ],
-          "status": "available",
-          "validation": "standard-data",
-          "note": "The implementation document says the model is compared with the results shown in the original article (plots of its Fig. 8 and Fig. 12). Numerical error reports (PDF) compare intermediate arrays, such as the outer- and middle-ear filter, with AMT's MATLAB output."
-        },
-        {
-          "method": "loudness-moore-glasberg-time-varying",
-          "reference": "glasberg-moore-2002",
-          "functions": [
-            "model.glasberg2002"
-          ],
-          "status": "available",
-          "validation": "not-stated",
-          "note": "Present in the code but not described in the implementation document."
-        }
-      ],
-      "sources": [
-        "https://github.com/Ryrybros/NumpyLibforPsychoAcoustic",
-        "https://github.com/Ryrybros/NumpyLibforPsychoAcoustic/blob/main/README.md",
-        "https://github.com/Ryrybros/NumpyLibforPsychoAcoustic/blob/main/Documentation/Implementation_documentation.pdf",
-        "https://github.com/Ryrybros/NumpyLibforPsychoAcoustic/tree/main/Numerical_error_report"
-      ],
-      "checked": "2026-10-06",
-      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/numpylib-psychoacoustic.html",
-      "last_commit": "2026-06-07",
-      "latest_release": null,
-      "prerelease": null,
-      "activity": "active",
-      "archived": false,
-      "stars": null,
-      "group": "developing",
-      "most_widely_used": false
-    },
-    {
-      "id": "pd-psycho",
-      "name": "PSYCHO (pd-psycho)",
-      "short_name": "PSYCHO",
-      "repository": "https://github.com/porres/pd-psycho",
-      "languages": [
-        "Pure Data",
-        "C"
-      ],
-      "kind": "plugin",
-      "core": "C",
-      "language_note": "Objects for Pure Data: C externals built with pd-lib-builder, and Pd abstractions.",
-      "standing": "developing",
-      "license": "GPL-3.0-or-later",
-      "license_note": "LICENSE.txt holds the GPL v3 text; the only licence notice in the sources (roughness.c) allows any later version.",
-      "maintainers": [
-        "Alexandre Torres Porres"
-      ],
-      "summary": "Pure Data library of psychoacoustic objects (C externals and abstractions) from the author's research on dissonance models. Includes ISO 226:2003 equal-loudness contours and phon, sone and dB conversions, as well as roughness, sharpness and tonalness objects.",
-      "ai_assistance": "not-stated",
-      "paper": {
-        "citation": "Porres, A. T. (2011). Dissonance Model Toolbox in Pure Data. *Proceedings of the 4th Pure Data International Convention (PdCon11)*, Berlin."
-      },
-      "notes": [
-        "The roughness objects (`[roughness]`, `[roughcurve]`) compute the sensory dissonance of a spectrum given as lists of frequencies and amplitudes, with a model \"derived from the work of Parncutt, Sethares, Vassilakis & Barlow\"; this is not one of the signal-based roughness methods in this index.",
-        "`[sharpness~]` is an abstraction built on `[barks~]` (24 Bark bands) and names no sharpness model.",
-        "Tonalness, pitch salience and commonality follow Parncutt & Strasburger (1994), after Terhardt; they are not tonality metrics in the sense of this index.",
-        "From the author's MSc and PhD work (2005–2012). Version 1.1 was released on 2025-10-14 (git tags 1.0 of 2019 and 1.1; no GitHub releases). It builds with pd-lib-builder."
-      ],
-      "caveats": [
-        "The README calls the library \"still a work in progress\"."
-      ],
-      "implements": [
-        {
-          "method": "equal-loudness-contours",
-          "reference": "iso-226-2003",
-          "functions": [
-            "[iso226]"
-          ],
-          "status": "available",
-          "validation": "not-stated",
-          "note": "The help patch names ISO 226:2003. Related objects convert between phon and dB (`[phon2db]`, `[db2phon]`) and between phon and sone (`[phon2sone]`, `[sone2phon]`)."
-        }
-      ],
-      "sources": [
-        "https://github.com/porres/pd-psycho",
-        "https://github.com/porres/pd-psycho/blob/master/README.md",
-        "https://github.com/porres/pd-psycho/blob/master/LICENSE.txt",
-        "https://github.com/porres/pd-psycho/tree/master/Classes",
-        "https://github.com/porres/pd-psycho/tree/master/Help-files"
-      ],
-      "checked": "2026-10-06",
-      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/pd-psycho.html",
-      "last_commit": "2025-10-14",
-      "latest_release": {
-        "version": "1.1",
-        "date": "2025-10-14",
-        "source": ""
-      },
-      "prerelease": null,
-      "activity": "active",
-      "archived": false,
-      "stars": null,
-      "group": "developing",
-      "most_widely_used": false
-    },
-    {
       "id": "pysqat",
       "name": "pySQAT",
       "repository": "https://github.com/PALILA-TUDelft/pySQAT",
@@ -5214,170 +5379,6 @@
       "checked": "2026-10-06",
       "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/pysqat.html",
       "last_commit": "2026-06-27",
-      "latest_release": null,
-      "prerelease": null,
-      "activity": "active",
-      "archived": false,
-      "stars": null,
-      "group": "developing",
-      "most_widely_used": false
-    },
-    {
-      "id": "refmap-psychoacoustics",
-      "name": "refmap-psychoacoustics",
-      "short_name": "refmap",
-      "repository": "https://github.com/acoustics-code-salford/refmap-psychoacoustics",
-      "languages": [
-        "MATLAB",
-        "Python"
-      ],
-      "kind": "research-code",
-      "language_note": "MATLAB code with Python ports in the same repository. The Python port of its ECMA-418-2 code is published separately as sottek-hearing-model.",
-      "standing": "developing",
-      "license": "GPL-3.0",
-      "license_note": "The licences disagree: the LICENSE file holds the GPL-3.0 text, while pyproject.toml declares \"AGPL-3.0-only\". Neither says whether later GPL versions are allowed.",
-      "maintainers": [
-        "Mike Lotinga"
-      ],
-      "summary": "Research code of the REFMAP project at the University of Salford, in MATLAB with Python ports. Implements ECMA-418-2:2025 loudness, tonality and roughness, and also sharpness, impulsiveness, psychoacoustic annoyance and aural detectability models.",
-      "ai_assistance": "not-stated",
-      "paper": {
-        "citation": "Lotinga, M. J. B., Torjussen, M., & Felix Greco, G. (2025). Verified implementations of the Sottek psychoacoustic Hearing Model standardised sound quality metrics (ECMA-418-2 loudness, tonality and roughness). *Forum Acusticum / Euronoise 2025*, Málaga.",
-        "doi": "10.61782/fa.2025.0951"
-      },
-      "notes": [
-        "The README says versions of the ECMA-418-2 code are also incorporated in SQAT. The Python port is also published separately as the PyPI package sottek-hearing-model (repository mlotinga/sottek-hearing-model).",
-        "The Python package defined in pyproject.toml (refmap-psychoacoustics 0.1.0) is not on PyPI.",
-        "Tonality has an optional tonal annoyance weighting after Sottek & Becker (2019), which is not part of ECMA-418-2.",
-        "Further metrics without an entry in this index: partial loudness and partial tonality of a target in a masker (\"based on ECMA-418-2:2025\", an extension of the standard), quasi-loudness from the spectral elements of ISO 532-1 with optional ISO 532-3:2023 or ECMA-418-2:2025 ear filters, tonal sharpness, and impulsiveness after Willemsen & Rao (2010) from ISO 532-1:2017 or ECMA-418-2:2025 loudness.",
-        "The Python code also has annoyance models after Willemsen et al. (2010), Torija et al. (2022) and Boucher et al. (2024), which have no reference entry in this index.",
-        "Also contains listening-test apps and analysis notebooks."
-      ],
-      "caveats": [
-        "The README calls it \"'work in progress' code for a research project. It is not a completed package or code library.\"",
-        "Some code comments still cite clauses of \"ECMA 418-2:2022\"."
-      ],
-      "implements": [
-        {
-          "method": "loudness-ecma-418-2",
-          "reference": "ecma-418-2-ed4",
-          "functions": [
-            "acousticSHMLoudness",
-            "acousticSHMLoudnessFromComponent",
-            "shm_loudness_ecma",
-            "shm_loudness_ecma_from_comp"
-          ],
-          "scope": "MATLAB and Python; binaural and specific loudness",
-          "status": "available",
-          "validation": "cross-implementation",
-          "note": "MATLAB and Python verified against HEAD acoustics ArtemiS v17.1 for a 1 kHz tone at 40 dB SPL, a 1 kHz tone amplitude-modulated at 70 Hz at 60 dB SPL and a 30 s binaural street recording; the audio and reference results are on Zenodo (doi:10.5281/zenodo.18849587)."
-        },
-        {
-          "method": "tonality-ecma-418-2",
-          "reference": "ecma-418-2-ed4",
-          "functions": [
-            "acousticSHMTonality",
-            "shm_tonality_ecma"
-          ],
-          "scope": "MATLAB and Python",
-          "status": "available",
-          "validation": "cross-implementation",
-          "note": "Verified against HEAD acoustics ArtemiS v17.1 with the same three signals as loudness."
-        },
-        {
-          "method": "roughness-ecma-418-2",
-          "reference": "ecma-418-2-ed4",
-          "functions": [
-            "acousticSHMRoughness",
-            "shm_roughness_ecma"
-          ],
-          "scope": "MATLAB and Python",
-          "status": "available",
-          "validation": "cross-implementation",
-          "note": "Verified against HEAD acoustics ArtemiS v17.1 with the same three signals as loudness."
-        },
-        {
-          "method": "sharpness",
-          "reference": "din-45692-2009",
-          "functions": [
-            "acousticSharpnessSHM",
-            "acousticSharpFromSHMLoud"
-          ],
-          "scope": "DIN 45692 weighting applied to ECMA-418-2 loudness",
-          "status": "available",
-          "validation": "not-stated",
-          "note": "The DIN 45692 weighting is the option `widmann`; Aures (the default) and von Bismarck weightings are also offered. DIN 45692 itself is defined on Zwicker specific loudness. A further variant works from a Zwicker-based quasi-loudness (`acousticSharpFromQuasiLoud`). An inaccuracy in the Aures weighting was fixed on 2026-09-18."
-        },
-        {
-          "method": "psychoacoustic-annoyance",
-          "reference": "widmann-1992",
-          "functions": [
-            "acousticPsychAnnoy",
-            "widmannPA"
-          ],
-          "status": "available",
-          "validation": "standard-data",
-          "note": "The MATLAB header names the model Widmann (1992), \"commonly misattributed to Zwicker\". A validation script (validation/metrics/mlab/acousticPsychAnnoyValidation.m) compares the MATLAB version with values from Widmann (1992). The Python `widmannPA` takes precomputed metric values."
-        },
-        {
-          "method": "psychoacoustic-annoyance",
-          "reference": "more-2010",
-          "functions": [
-            "morePA"
-          ],
-          "scope": "Python, from precomputed metric values",
-          "status": "available",
-          "validation": "not-stated"
-        },
-        {
-          "method": "psychoacoustic-annoyance",
-          "reference": "di-2016",
-          "functions": [
-            "diPA"
-          ],
-          "scope": "Python, from precomputed metric values",
-          "status": "available",
-          "validation": "not-stated"
-        },
-        {
-          "method": "aural-detectability",
-          "reference": "fidell-1974",
-          "functions": [
-            "auralDetectability",
-            "auralDetectFromLeq",
-            "aural_detect",
-            "aural_detect_from_lzeqt"
-          ],
-          "scope": "MATLAB and Python",
-          "status": "available",
-          "validation": "not-stated",
-          "note": "Code headers describe the Fidell, Pearsons & Bennett (1974) model as \"developed further by NASA\" and cite \"Rizzi, SA et al, 2024\"; the README cites Rizzi et al. (2025), *Journal of Aircraft*, doi:10.2514/1.C038188."
-        },
-        {
-          "method": "aural-detectability",
-          "reference": "rizzi-2025",
-          "functions": [
-            "auralDetectability",
-            "aural_detect"
-          ],
-          "scope": "MATLAB and Python",
-          "status": "available",
-          "validation": "not-stated",
-          "note": "The same functions; the README cites this paper for the NASA development of the model."
-        }
-      ],
-      "sources": [
-        "https://github.com/acoustics-code-salford/refmap-psychoacoustics",
-        "https://github.com/acoustics-code-salford/refmap-psychoacoustics/blob/main/README.md",
-        "https://github.com/acoustics-code-salford/refmap-psychoacoustics/blob/main/validation/ECMA-418-2/README.md",
-        "https://github.com/acoustics-code-salford/refmap-psychoacoustics/blob/main/pyproject.toml",
-        "https://github.com/acoustics-code-salford/refmap-psychoacoustics/blob/main/LICENSE",
-        "https://doi.org/10.5281/zenodo.18849587",
-        "https://pypi.org/project/sottek-hearing-model/"
-      ],
-      "checked": "2026-10-06",
-      "url": "https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/refmap-psychoacoustics.html",
-      "last_commit": "2026-10-02",
       "latest_release": null,
       "prerelease": null,
       "activity": "active",
