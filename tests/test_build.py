@@ -149,7 +149,8 @@ class BuildTest(unittest.TestCase):
     def test_home_page_opens_with_the_timeline(self) -> None:
         html = (self.site / "index.html").read_text(encoding="utf-8")
         body = html[html.index("<main"):]
-        self.assertLess(body.index('<figure class="timeline"'), body.index("<h2"))
+        self.assertTrue(body[body.index("<h2"):].startswith('<h2 id="timeline">'), "the first section is not the timeline")
+        self.assertLess(body.index('<table class="timeline">'), body.index('id="coverage"'))
         for m in self.index.methods:
             self.assertIn(f'href="metrics/{m["id"]}.html"', html, m["id"])
         for f in self.index.families:

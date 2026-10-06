@@ -1,14 +1,17 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640" role="img" aria-labelledby="title desc">
   <title id="title">Psychoacoustic Metrics Index</title>
   <desc id="desc">Open-source implementations of psychoacoustic metrics, by standard edition. Loudness, sharpness, roughness, fluctuation strength, tonality, impulsiveness and annoyance.</desc>
-  <!-- Social preview for GitHub (Settings > General > Social preview). social-preview.png is rendered from this
-       file with headless Chromium at 1280 x 640, using Bitstream Charter. -->
+  <!-- Social preview for GitHub (Settings > General > Social preview), in the colours of the website.
+       social-preview.png is rendered from this file with headless Chromium at 1280 x 640. -->
   <rect width="1280" height="640" fill="#ffffff"/>
-  <g font-family="Charter, 'Bitstream Charter', Georgia, 'DejaVu Serif', serif" fill="#1b1d21" style="font-kerning: normal">
-    <text x="112" y="210" font-size="112" letter-spacing="-1">Psychoacoustic</text>
-    <text x="112" y="330" font-size="112" letter-spacing="-1">Metrics Index</text>
-    <text x="112" y="404" font-size="28" font-style="italic" fill="#1b1d21">Open-source implementations of psychoacoustic metrics, by standard edition</text>
-    <rect x="112" y="458" width="1056" height="1.5" fill="#2e3238"/>
-    <text x="112" y="506" font-size="23" fill="#5e6570">Loudness · Sharpness · Roughness · Fluctuation strength · Tonality · Impulsiveness · Annoyance</text>
+  <rect width="1280" height="392" fill="#1f4f8b"/>
+  <rect y="392" width="1280" height="10" fill="#163b69"/>
+  <g font-family="'Segoe UI', 'Helvetica Neue', Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif">
+    <rect x="96" y="92" width="92" height="92" fill="none" stroke="#c9dbf1" stroke-width="5"/>
+    <text x="142" y="160" font-size="62" text-anchor="middle" fill="#ffffff" font-family="Georgia, 'DejaVu Serif', serif">ψ</text>
+    <text x="96" y="282" font-size="64" font-weight="700" fill="#ffffff">Psychoacoustic Metrics Index</text>
+    <text x="96" y="334" font-size="27" fill="#c9dbf1">Open-source implementations of psychoacoustic metrics, by standard edition</text>
+    <text x="96" y="478" font-size="25" fill="#1c2430">Loudness · Sharpness · Roughness · Fluctuation strength · Tonality · Impulsiveness · Annoyance</text>
+    <text x="96" y="530" font-size="22" fill="#546072">ISO 532-1/-2/-3 · ECMA-418-1/-2 · DIN 45692 · DIN 38455 · ISO/TS 20065 · ISO 1996-2 · ISO 226</text>
   </g>
 </svg>

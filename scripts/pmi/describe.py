@@ -112,14 +112,16 @@ LABELS = {"en": {"new": "new", "also": "also", "via": "via", "unreleased": "unre
           "zh": {"new": "新项目", "also": "也支持", "via": "调用", "unreleased": "未发布", "proposed": "待合并"}}
 
 
-def by_language(impls: list[dict], name: Fmt, lang: str = "en") -> list[tuple[str, list[str]]]:
-    """Group implementations by each project's main (first-listed) language: [('Python', ['MoSQITo', …]), …]."""
+def by_language(impls: list[dict], name: Fmt, lang: str = "en",
+                new_tag: str | None = None) -> list[tuple[str, list[str]]]:
+    """Group implementations by each project's main (first-listed) language: [('Python', ['MoSQITo', …]), …].
+    With `new_tag`, new projects get that marker after their name instead of the word in parentheses."""
     words = LABELS[lang]
     groups: dict[str, list[str]] = {}
     for i in dedupe(impls):
         p = i["_project"]
         extras = []
-        if p.get("standing") == "new":
+        if p.get("standing") == "new" and new_tag is None:
             extras.append(words["new"])
         if len(p["languages"]) > 1:
             extras.append(f"{words['also']} " + ", ".join(p["languages"][1:]))
@@ -129,7 +131,8 @@ def by_language(impls: list[dict], name: Fmt, lang: str = "en") -> list[tuple[st
             extras.append(words["unreleased"])
         elif i["status"] == "proposed":
             extras.append(words["proposed"])
-        label = name(p) + (f" ({'; '.join(extras)})" if extras else "")
+        label = name(p) + (f" {new_tag}" if new_tag and p.get("standing") == "new" else "")
+        label += f" ({'; '.join(extras)})" if extras else ""
         lang = p["languages"][0]
         if label not in groups.setdefault(lang, []):
             groups[lang].append(label)
