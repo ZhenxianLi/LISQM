@@ -31,11 +31,13 @@ caveats:
     for this entry.
 implements:
   - method: loudness-zwicker
-    reference: iso-532-1975
+    reference: din-45631-1991
     scope: stationary, from one-third-octave band levels
     status: available
     validation: not-stated
-    note: Port of the 1991 BASIC program for DIN 45631 / ISO 532B.
+    note: >-
+      Port of the 1991 BASIC program "according to DIN 45631 (ISO 532B)", the program that accompanies
+      DIN 45631:1991; the same program is the basis of deeuu/loudness.
 manual:
   last_commit: 2018-06-05
   latest_release: {version: zwickerloudness-020, date: 2011-07-01}

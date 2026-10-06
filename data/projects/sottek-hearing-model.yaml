@@ -14,8 +14,8 @@ packages:
 install: pip install sottek-hearing-model
 maintainers: [Mike Lotinga]
 summary: >-
-  Python implementation of the ECMA-418-2:2025 (4th edition) Sottek Hearing Model metrics: loudness, tonality
-  and roughness, with binaural combination, and fluctuation strength on the main branch. Translated from the
+  Python implementation of the ECMA-418-2:2025 (4th edition) Sottek Hearing Model metrics: loudness and
+  roughness (with binaural combination), tonality (per channel), and fluctuation strength on the main branch. Translated from the
   MATLAB code used in SQAT and the RefMap project.
 ai_assistance: not-stated
 paper:
@@ -65,7 +65,7 @@ implements:
     note: >-
       Merged on 2026-09-18. A draft report compares it with the MATLAB version (equal to floating-point precision)
       and with HEAD ArtemiS SUITE v17 (calibration 0.994 vs 1.003 vacil_HMS; recordings −8 % to +12 %). Five
-      departures from the printed equations, judged to be misprints, are documented.
+      departures from the printed text are documented (four equations and one interpretation of Section 9.1.8).
 manual:
   last_commit: 2026-09-18
   latest_release: {version: 0.1.14, date: 2026-03-13}

@@ -4,10 +4,10 @@ repository: https://github.com/acoustics-code-salford/refmap-psychoacoustics
 languages: [MATLAB, Python]
 kind: research-code
 standing: developing
-license: GPL-3.0-only
+license: GPL-3.0
 license_note: >-
   The licences disagree: the LICENSE file holds the GPL-3.0 text, while pyproject.toml declares
-  "AGPL-3.0-only".
+  "AGPL-3.0-only". Neither says whether later GPL versions are allowed.
 maintainers: [Mike Lotinga]
 summary: >-
   Research code of the REFMAP project at the University of Salford, in MATLAB with Python ports. Implements
@@ -19,7 +19,7 @@ paper:
     Lotinga, M. J. B., Torjussen, M., & Felix Greco, G. (2025). Verified implementations of the Sottek
     psychoacoustic Hearing Model standardised sound quality metrics (ECMA-418-2 loudness, tonality and
     roughness). *Forum Acusticum / Euronoise 2025*, Málaga.
-  url: https://www.researchgate.net/publication/392904348
+  doi: 10.61782/fa.2025.0951
 notes:
   - >-
     The README says versions of the ECMA-418-2 code are also incorporated in SQAT. The Python port is also
@@ -108,6 +108,13 @@ implements:
     note: >-
       Code headers describe the Fidell, Pearsons & Bennett (1974) model as "developed further by NASA" and cite
       "Rizzi, SA et al, 2024"; the README cites Rizzi et al. (2025), *Journal of Aircraft*, doi:10.2514/1.C038188.
+  - method: aural-detectability
+    reference: rizzi-2025
+    functions: [auralDetectability, aural_detect]
+    scope: MATLAB and Python
+    status: available
+    validation: not-stated
+    note: The same functions; the README cites this paper for the NASA development of the model.
 manual:
   last_commit: 2026-10-02
   archived: false

@@ -15,8 +15,9 @@ maintainers: [Gil Felix Greco, Roberto Merino-Martínez, Alejandro Osses, Mike L
 summary: >-
   MATLAB toolbox for sound quality analysis that bundles most psychoacoustic metrics in one place: ISO 532-1
   and ECMA-418-2 loudness, DIN 45692 sharpness, Daniel & Weber and ECMA-418-2 roughness, Osses fluctuation
-  strength, Aures and ECMA-418-2 tonality, four psychoacoustic annoyance models and EPNL. Each metric has its
-  own verification routine.
+  strength, Aures and ECMA-418-2 tonality, three psychoacoustic annoyance models (Zwicker & Fastl, which `main`
+  also provides under its original attribution to Widmann; More; Di et al.) and EPNL. Every metric except the
+  annoyance models has its own verification routine.
 ai_assistance: disclosed
 ai_note: >-
   Header comments in 20 files changed in August and September 2026 say the changes were assisted by Claude

@@ -75,19 +75,28 @@ implements:
     functions: [Loudness_ECMA418_2]
     status: available
     via: sottek-hearing-model
-    validation: not-stated
+    validation: cross-implementation
+    note: >-
+      Compared by validation/FINAL_VAL.py with the bundled SQAT v1.3 MATLAB code, which follows
+      ECMA-418-2:2024 (3rd edition), so the comparison crosses editions.
   - method: roughness-ecma-418-2
     reference: ecma-418-2-ed4
     functions: [Roughness_ECMA418_2]
     status: available
     via: sottek-hearing-model
-    validation: not-stated
+    validation: cross-implementation
+    note: >-
+      Compared by validation/FINAL_VAL.py with the bundled SQAT v1.3 MATLAB code, which follows
+      ECMA-418-2:2024 (3rd edition), so the comparison crosses editions.
   - method: tonality-ecma-418-2
     reference: ecma-418-2-ed4
     functions: [Tonality_ECMA418_2]
     status: available
     via: sottek-hearing-model
-    validation: not-stated
+    validation: cross-implementation
+    note: >-
+      Compared by validation/FINAL_VAL.py with the bundled SQAT v1.3 MATLAB code, which follows
+      ECMA-418-2:2024 (3rd edition), so the comparison crosses editions.
 manual:
   last_commit: 2026-06-27
   archived: false

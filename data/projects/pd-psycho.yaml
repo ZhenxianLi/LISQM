@@ -5,8 +5,10 @@ repository: https://github.com/porres/pd-psycho
 languages: [Pure Data, C]
 kind: plugin
 standing: developing
-license: GPL-3.0-only
-license_note: The header of roughness.c additionally allows "any later version".
+license: GPL-3.0-or-later
+license_note: >-
+  LICENSE.txt holds the GPL v3 text; the only licence notice in the sources (roughness.c) allows any later
+  version.
 maintainers: [Alexandre Torres Porres]
 summary: >-
   Pure Data library of psychoacoustic objects (C externals and abstractions) from the author's research on

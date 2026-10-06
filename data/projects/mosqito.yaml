@@ -13,14 +13,14 @@ install: pip install mosqito
 maintainers: [Eomys / Green Forge Coop]
 summary: >-
   Python library for sound quality metrics: ISO 532-1 loudness, DIN 45692 sharpness, Daniel & Weber roughness,
-  ECMA-418-2 loudness and roughness (2nd edition), tone-to-noise and prominence ratios, and the speech
-  intelligibility index. Widely used, but without a release or a commit since April 2024.
+  ECMA-418-2 hearing-model loudness (Clause 5) and roughness (2nd edition), tone-to-noise and prominence ratios,
+  and the speech intelligibility index. Widely used, but without a release or a commit since April 2024.
 ai_assistance: not-stated
 paper:
   citation: >-
     San Millán-Castillo, R., Latorre-Iglesias, E., Glesser, M., Wanty, S., Jiménez-Caminero, D., &
     Álvarez-Jimeno, J. M. (2021). MOSQITO: an open-source and free toolbox for sound quality metrics in the
-    industry and education. *INTER-NOISE 2021*, INCE Conference Proceedings 263(5).
+    industry and education. *INTER-NOISE 2021*, INCE Conference Proceedings 263(5), 1164–1175.
   doi: 10.3397/IN-2021-1767
 notes:
   - Started by EOMYS in 2020. The default branch is `master`; its last commit and the last release (1.2.1) are both from 2024-04-22.
@@ -28,6 +28,7 @@ notes:
   - Also computes the ANSI S3.5 speech intelligibility index (`sii_ansi`), which is outside the scope of this index.
   - "Open, unanswered pull requests add Aures tonality ([#97](https://github.com/Eomys/MoSQITo/pull/97), 2026), ECMA-418-2 roughness fixes ([#95](https://github.com/Eomys/MoSQITo/pull/95), 2026) and an ISO 1996-2 Annex K tone detector ([#52](https://github.com/Eomys/MoSQITo/pull/52), 2022)."
   - A C#/.NET port, Mosqito.NET, was announced in issue [#98](https://github.com/Eomys/MoSQITo/issues/98) (not checked).
+  - The documentation lists hearing-model tonality (citing ECMA-74) as under development; there is no function for it.
 caveats:
   - No maintainer has answered issues or pull requests opened since 2024, including bug reports on TNR/PR (#80, #81, #99) and on the ECMA-418-2 roughness low-pass filter (#92, #95).
   - "`import mosqito` fails when matplotlib is not installed, because it is imported but not declared as a dependency ([#100](https://github.com/Eomys/MoSQITo/issues/100)); install matplotlib yourself."
@@ -44,6 +45,9 @@ implements:
   - method: loudness-ecma-418-2
     reference: ecma-418-2-ed2
     functions: [loudness_ecma]
+    scope: >-
+      Clause 5 hearing-model specific and total loudness only; the Clause 8 loudness added in the 2nd edition is
+      not implemented
     status: available
     since: 1.2.0
     validation: standard-data

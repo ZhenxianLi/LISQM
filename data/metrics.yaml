@@ -66,7 +66,10 @@ methods:
       critical-band (Bark) scale and integrated. ISO 532-1:2017 specifies one procedure for stationary sounds
       and one for time-varying sounds (from which percentile values such as N5 are taken), and replaced
       method B of ISO 532:1975. The German standards DIN 45631 (stationary) and DIN 45631/A1 (time-varying)
-      describe the same method.
+      specify Zwicker's method; ISO 532-1:2017 states that its stationary method is based on DIN 45631:1991.
+    notes: >-
+      In China, GB/T 25982-2024 (interior noise of buses, in force since July 2025) sets loudness and sharpness
+      limits and gives Zwicker's calculation in an informative annex.
     references: [iso-532-1975, din-45631-1991, chalupper-fastl-2002, din-45631-a1-2010, iso-532-1-2017, iso-532-1-ed2-draft]
     current: [iso-532-1-2017]
     edition_notes:
@@ -179,8 +182,9 @@ methods:
       not standardised, and the paper leaves details open (filter bank, calibration, framing), so
       implementations can give different values for the same signal.
     notes: >-
-      SQAT replaced its implementation in September 2026 with one that follows Dik Hermes's code, which changes
-      results compared with SQAT v1.3 and earlier.
+      SQAT rewrote its implementation in September 2026 (PR #65). It builds on Alejandro Osses's code and was
+      corrected against revised code that Dik Hermes provided in 2025, which changes results compared with SQAT
+      v1.3 and earlier.
     references: [aures-1985-roughness, daniel-weber-1997]
     current: [daniel-weber-1997]
     edition_notes:
@@ -197,14 +201,14 @@ methods:
     unit: asper_HMS
     summary: >-
       Roughness from the Sottek Hearing Model, Clause 7 of ECMA-418-2. The 2nd edition (2022) added an
-      optional entropy weighting for cases where rotational speed is measured; the 3rd edition (2024) changed
-      zero-padding and segmentation, the largest change to roughness so far.
+      optional entropy weighting for cases where rotational speed is measured; the 3rd edition (2024) adapted
+      zero-padding and segmentation, and its refinements were mainly to roughness.
     references: [ecma-418-2-ed1, ecma-418-2-ed2, ecma-418-2-ed3, ecma-418-2-ed4]
     current: [ecma-418-2-ed4]
     edition_notes:
       ecma-418-2-ed1: Clause 7 roughness.
       ecma-418-2-ed2: Refined calculation; optional entropy-weighted roughness.
-      ecma-418-2-ed3: Zero-padding and segmentation adapted; main revision of roughness.
+      ecma-418-2-ed3: Zero-padding and segmentation adapted; refinements mainly to roughness.
       ecma-418-2-ed4: Hearing-model and conformance updates (48 kHz sampling).
     see_also: [roughness-daniel-weber, loudness-ecma-418-2]
 
@@ -272,8 +276,9 @@ methods:
       Tonality from Aures (1985): tonal components are extracted with the method of Terhardt, Stoll & Seewann
       (1982), weighted, and related to the loudness of the whole sound. Not standardised.
     notes: >-
-      SQAT corrected several issues in September 2026 (for example, only the first tonal component entered
-      the weighting), which changes results compared with SQAT v1.3 and earlier.
+      SQAT corrected several issues in September 2026 (for example, the level excess of only one tonal
+      component, the last positive one, entered the result, combined with the first component's frequency and
+      bandwidth), which changes results compared with SQAT v1.3 and earlier.
     references: [terhardt-1982, aures-1985-euphony]
     current: [aures-1985-euphony]
     edition_notes:
@@ -298,7 +303,7 @@ methods:
       ecma-74-ed17: Hearing model and tonality before ECMA-418-2 existed.
       ecma-418-2-ed1: Clause 6 tonality.
       ecma-418-2-ed2: Refined calculation.
-      ecma-418-2-ed3: Further refinement.
+      ecma-418-2-ed3: Diffuse-field outer and middle ear filter added (affects all metrics); refinements mainly to roughness.
       ecma-418-2-ed4: Hearing-model and conformance updates (48 kHz sampling).
     see_also: [tonality-aures, tone-to-noise-prominence-ratio, loudness-ecma-418-2]
 
@@ -332,12 +337,12 @@ methods:
     unit: dB
     summary: >-
       German method that detects tonal components in noise from narrow-band spectra and derives a tone
-      adjustment for the assessment of noise immissions. DIN 45681:2005 with its corrections of 2005 and 2006
-      is current.
+      adjustment for the assessment of noise immissions. DIN 45681:2005, corrected by Berichtigung 2:2006-08
+      (which replaced Berichtigung 1:2005-08), is current.
     references: [din-45681-2005]
     current: [din-45681-2005]
     edition_notes:
-      din-45681-2005: Current, with corrections of 2005-08 and 2006-08.
+      din-45681-2005: Current; Berichtigung 2:2006-08 replaced Berichtigung 1:2005-08.
     see_also: [tonal-audibility-iso-20065]
 
   - id: tonal-audibility-iso-20065
@@ -386,10 +391,11 @@ methods:
     summary: >-
       Tonality analysis in the acoustic noise measurement of wind turbines: tones are identified in
       narrow-band spectra and their tonal audibility is reported.
-    references: [iec-61400-11-2012]
+    references: [iec-61400-11-2002, iec-61400-11-2012]
     current: [iec-61400-11-2012]
     edition_notes:
-      iec-61400-11-2012: Edition 3 with Amendment 1 (2018).
+      iec-61400-11-2002: Edition 2 (Amendment 1 in 2006); already has a tonal audibility procedure.
+      iec-61400-11-2012: Edition 3 with Amendment 1 (2018); tonal audibility in clause 9.5.
     see_also: [tonal-audibility-iso-1996-2]
 
   # ------------------------------------------------------------------------------------- impulsiveness
@@ -460,7 +466,7 @@ methods:
       Effective perceived noise level for aircraft noise certification: perceived noisiness in noy, the
       tone-corrected perceived noise level (PNLT) and a duration correction. Defined in ICAO Annex 16,
       Volume I, and in the US regulation 14 CFR Part 36.
-    references: [icao-annex-16-vol-1, cfr-14-part-36]
+    references: [cfr-14-part-36, icao-annex-16-vol-1]
     current: [icao-annex-16-vol-1, cfr-14-part-36]
     edition_notes:
       icao-annex-16-vol-1: International standard for aircraft noise certification.
@@ -477,7 +483,8 @@ methods:
       How likely a listener is to detect a sound in background noise, from signal-to-noise ratios in auditory
       filters and signal-detection theory. Used for aircraft, drone and urban air mobility noise. Not
       standardised.
-    references: [fidell-1974]
+    references: [fidell-1974, rizzi-2025]
     current: [fidell-1974]
     edition_notes:
       fidell-1974: Model paper.
+      rizzi-2025: NASA's use of the model in annoyance assessments of urban air mobility, with audibility as a factor.

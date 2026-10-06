@@ -56,6 +56,10 @@ A project is included when all three of these hold:
 | Psychoacoustic annoyance | Widmann; Zwicker and Fastl; More; Di et al. |
 | Related quantities | Equal-loudness contours (ISO 226); perceived noise level and EPNL (ICAO Annex 16, 14 CFR Part 36); aural detectability |
 
+**Wrappers.** A project that only calls another indexed project is listed, with `via`, when it is an end-user
+application (for example a program with a graphical interface) or an established library through which people
+commonly compute these metrics. Other wrappers are recorded in `data/ignored.yaml`.
+
 **Out of scope:**
 
 - broadcast and programme loudness: LUFS, ITU-R BS.1770, EBU R128;

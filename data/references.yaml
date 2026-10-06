@@ -13,8 +13,8 @@
   superseded_by: iso-532-1-2017
   url: https://www.iso.org/standard/4603.html
   note: >-
-    Method A (Stevens) and method B (Zwicker). Withdrawn on 2017-06-15 and replaced by ISO 532-1:2017 and
-    ISO 532-2:2017.
+    Method A (Stevens) and method B (Zwicker). Withdrawn on 2017-06-15; ISO lists ISO 532-1:2017 as its
+    replacement.
   checked: 2026-10-06
 
 - id: din-45631-1991
@@ -227,8 +227,8 @@
   url: https://ecma-international.org/publications-and-standards/standards/ecma-74/
   note: >-
     Contained the TNR/PR method (Annex D) and the hearing model with tonality that moved to ECMA-418-1 and
-    ECMA-418-2 in 2020. Since the 18th edition (2021) those annexes only point to ECMA-418. The current
-    edition is the 22nd (December 2025).
+    ECMA-418-2 in 2020. Since the 18th edition (2021) those annexes only point to ECMA-418, and an Annex H on
+    roughness was added. The current edition is the 22nd (December 2025).
   checked: 2026-10-06
 
 - id: ecma-418-1-ed1
@@ -499,7 +499,25 @@
   status: current
   url: https://www.iso.org/standard/59766.html
   note: Annex J (engineering method) and Annex K (survey method) for tonal audibility. Confirmed after review.
+  revision: >-
+    ISO Open Data (2026-09-30) links it to a successor project (ISO 86954), which has not been published yet.
   checked: 2026-10-06
+
+- id: iec-61400-11-2002
+  label: IEC 61400-11:2002
+  kind: standard
+  body: IEC
+  title: "Wind turbine generator systems — Part 11: Acoustic noise measurement techniques"
+  edition: Edition 2 (2002); 2.1 with Amendment 1 (2006)
+  date: 2002-12
+  status: superseded
+  superseded_by: iec-61400-11-2012
+  url: https://webstore.iec.ch/en/publication/19736
+  note: >-
+    Already has a tonality and tonal-audibility procedure (critical-band analysis, masking classification and a
+    frequency-dependent audibility criterion). Replaced the first edition of 1998.
+  checked: 2026-10-06
+
 
 - id: iec-61400-11-2012
   label: IEC 61400-11:2012+AMD1:2018
@@ -523,6 +541,7 @@
   title: "Acoustics: Prominence of impulsive sounds and for adjustment of LAeq"
   date: 2002-05
   status: current
+  url: http://www.nordtest.info/wp/2002/05/01/acoustics-prominence-of-impulsive-sounds-and-for-adjustment-of-laeq-nt-acou-112/
   citation: >-
     Nordtest (2002). *NT ACOU 112: Acoustics — Prominence of impulsive sounds and for adjustment of LAeq*.
     Nordtest, Taastrup.
@@ -540,6 +559,8 @@
   status: current
   url: https://www.iso.org/standard/77035.html
   note: Adjustment of 0 to 9 dB. Confirmed in 2025.
+  revision: >-
+    ISO Open Data (2026-09-30) links it to a successor project (ISO 95221), which has not been published yet.
   checked: 2026-10-06
 
 # ---------------------------------------------------------------------------------------------- annoyance
@@ -614,7 +635,9 @@
   status: withdrawn
   superseded_by: iso-226-2023
   url: https://www.iso.org/standard/34222.html
-  note: Withdrawn on 2023-03-29. Still referenced by ECMA-418-2:2025.
+  note: >-
+    Withdrawn on 2023-03-29. Still referenced by ECMA-418-2:2025. Adopted in China as GB/T 4963-2007, which was
+    reviewed and kept in force in December 2023.
   checked: 2026-10-06
 
 - id: iso-226-2023
@@ -670,4 +693,21 @@
   citation: >-
     Fidell, S., Pearsons, K. S., & Bennett, R. (1974). Prediction of aural detectability of noise signals.
     *Human Factors*, 16(4), 373–383.
+  checked: 2026-10-06
+
+
+- id: rizzi-2025
+  label: Rizzi et al. (2025)
+  kind: paper
+  body: paper
+  title: Annoyance model assessments of urban air mobility vehicle operations
+  date: 2025-07
+  status: published
+  doi: 10.2514/1.C038188
+  citation: >-
+    Rizzi, S. A., Christian, A. W., Letica, S. J., & Lympany, S. V. (2026). Annoyance model assessments of urban
+    air mobility vehicle operations. *Journal of Aircraft*, 63(1). Published online 2025-07-02.
+  note: >-
+    Journal version of the AIAA Aeroacoustics 2024 conference paper. Reviews an annoyance model that includes
+    audibility, based on the detectability index d′, as a factor.
   checked: 2026-10-06

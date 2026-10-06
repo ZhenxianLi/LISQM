@@ -14,6 +14,9 @@ ai_assistance: not-stated
 notes:
   - "`requirements.txt` pins `mosqito==1.2.1`; PsychoBox itself states no standard editions."
   - Also does recording and binaural playback correction. An install guide and a tutorial (PDF) are in the Documentation folder.
+  - >-
+    Listed as an end-user application, although its metric values come from MoSQITo. Wrappers that are neither an
+    application nor an established library are recorded in `data/ignored.yaml` instead.
 caveats:
   - >-
     All metric values come from MoSQITo 1.2.1, whose ECMA-418-2 functions follow the 2nd edition (2022), two
@@ -30,10 +33,11 @@ implements:
   - method: loudness-ecma-418-2
     reference: ecma-418-2-ed2
     functions: [Loudness.loudnessECMA]
+    scope: Clause 5 hearing-model loudness only
     status: available
     via: mosqito
     validation: not-stated
-    note: Calls `loudness_ecma` of MoSQITo 1.2.1, whose bibliography cites ECMA-418-2:2022.
+    note: Calls `loudness_ecma` of MoSQITo 1.2.1 (ECMA-418-2:2022, Clause 5 only).
   - method: sharpness
     reference: din-45692-2009
     functions: [Sharpnes_DIN.sharpnessCalculation]

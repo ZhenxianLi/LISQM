@@ -38,7 +38,10 @@ notes:
     Python ports of some of its loudness models exist:
     [torch_amt](https://github.com/StefanoGiacomelli/torch_amt) (`glasberg2002`, `moore2016`) and
     [NumpyLibforPsychoAcoustic](https://github.com/Ryrybros/NumpyLibforPsychoAcoustic) (`moore1997`,
-    `glasberg2002`).
+    `glasberg2002`). There is no official Python package (amtoolbox and pyamtoolbox are not on PyPI).
+  - >-
+    The validation entries rest on AMT's design: each `exp_…` script is meant to reproduce figures of the model
+    paper. The scripts' output was not checked for this index.
 implements:
   - method: loudness-moore-glasberg
     reference: moore-1997

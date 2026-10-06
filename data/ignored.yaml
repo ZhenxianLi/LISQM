@@ -4,7 +4,9 @@
 
 # --- Wrappers, tutorials and tools without their own implementation
 - url: https://github.com/ym1025-2/Sonemeter
-  reason: Thin wrapper that calls MoSQITo loudness_zwtv; no implementation of its own.
+  reason: >-
+    Command-line wrapper that calls MoSQITo loudness_zwtv (two commits, not on PyPI); no implementation of its own.
+    Wrappers are listed only when they are end-user applications or established libraries.
   checked: 2026-10-06
 - url: https://github.com/mandip42/psychoacoustics-tutorial
   reason: Teaching code with simplified proxies (RMS "loudness", spectral-centroid "sharpness"), not the named models.

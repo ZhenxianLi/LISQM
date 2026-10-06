@@ -8,8 +8,10 @@ standing: new
 standing_note: First released in September 2026.
 license: GPL-3.0-only AND Apache-2.0 AND BSD-3-Clause AND MIT
 license_note: >-
-  The combined distribution is GPL-3.0; MetaSona's own code keeps Apache-2.0 and the adapted SQAT,
-  MoSQITo and PocketFFT parts keep their BSD-3-Clause, MIT or Apache-2.0 notices.
+  The combined distribution is GPL-3.0. MetaSona's own code is Apache-2.0; the ECMA-418-2 kernels (from
+  SQAT/RefMap) and the current Aures tonality port are GPL-3.0; SQAT's ISO 532-1 filtering (BSD-3-Clause),
+  SQAT's Daniel & Weber roughness (MIT), MoSQITo data (Apache-2.0) and PocketFFT (BSD-3-Clause) keep their
+  notices.
 packages:
   - registry: pypi
     name: metasona
@@ -24,8 +26,9 @@ ai_note: README and NOTICE state that it was developed with assistance from Open
 notes:
   - First commit and first PyPI release on 2026-09-16.
   - >-
-    Ports a pinned SQAT revision (`e6228b78`, after SQAT's September 2026 fixes) and model data from
-    MoSQITo; differences to both are listed in
+    Ports SQAT revision `e6228b78` (2026-09-15), which includes the Daniel & Weber rewrite (#65) and the Aures
+    tonality fixes (#66–#73) but not PR #77 (2026-09-17), a fix to the Terhardt filter bank that Daniel & Weber
+    roughness uses. Model data come from MoSQITo; differences to both are listed in
     [THIRD_PARTY.md](https://github.com/huaaudio/metasona/blob/main/THIRD_PARTY.md).
   - Expects calibrated pressure in pascals. The Python interface resamples to 48 kHz; the C functions require 48 kHz.
   - The README reports speed-ups over MoSQITo 1.2.1 (e.g. 73× for time-varying loudness on its benchmark signal).
@@ -45,7 +48,7 @@ implements:
     validation: cross-implementation
     note: >-
       Model tables taken from MoSQITo and checked element by element; one upper-slope value (0.22) follows
-      the ISO 532-1 reference C table where MoSQITo uses 0.24.
+      the ISO 532-1 reference C table where MoSQITo uses 0.24. Comparison results are not published.
   - method: sharpness
     reference: din-45692-2009
     functions: [sharpness_din45692]
@@ -59,7 +62,9 @@ implements:
     status: available
     since: 0.1.0
     validation: cross-implementation
-    note: Follows SQAT revision `e6228b78`, which includes SQAT's September 2026 rewrite.
+    note: >-
+      Follows SQAT revision `e6228b78`, which includes SQAT's September 2026 rewrite but not its later fix to the
+      Terhardt filter bank (PR #77). Comparison results are not published.
   - method: tonality-aures
     reference: aures-1985-euphony
     functions: [tonality_aures]
@@ -68,7 +73,7 @@ implements:
     validation: cross-implementation
     note: >-
       Follows SQAT's September 2026 revision (250 ms Hann windows, 125 ms hop); exact agreement with
-      MATLAB is not established.
+      MATLAB is not established. Comparison results are not published.
   - method: loudness-ecma-418-2
     reference: ecma-418-2-ed4
     functions: [loudness_ecma, ecma_tonal_analysis]
@@ -76,7 +81,7 @@ implements:
     status: available
     since: 0.2.0
     validation: cross-implementation
-    note: Adapted from the SQAT/RefMap MATLAB code by Lotinga and Torjussen.
+    note: Adapted from the SQAT/RefMap MATLAB code by Lotinga and Torjussen. Comparison results are not published.
   - method: roughness-ecma-418-2
     reference: ecma-418-2-ed4
     functions: [roughness_ecma]
@@ -84,7 +89,9 @@ implements:
     status: available
     since: 0.2.0
     validation: cross-implementation
-    note: Uses the standard's 20 ms grid and nominal calibration factor, where SQAT uses a slightly adjusted calibration.
+    note: >-
+      Uses the standard's 20 ms grid and nominal calibration factor, where SQAT uses a slightly adjusted
+      calibration. Comparison results are not published.
   - method: tonality-ecma-418-2
     reference: ecma-418-2-ed4
     functions: [tonality_ecma, ecma_tonal_analysis]
@@ -92,6 +99,7 @@ implements:
     status: available
     since: 0.2.0
     validation: cross-implementation
+    note: Comparison results are not published.
 manual:
   last_commit: 2026-09-25
   latest_release: {version: 0.2.2, date: 2026-09-25}

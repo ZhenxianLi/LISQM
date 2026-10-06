@@ -98,7 +98,7 @@ implements:
     status: available
     since: 3.1.0
     validation: standard-data
-    note: Checked with the DIN 45692 reference signal and Table A.2.
+    note: Checked with the DIN 45692 reference signal and Tables A.2 and A.3.
   - method: fluctuation-strength-osses
     reference: osses-2016
     functions: [fluctuation_strength]
@@ -114,7 +114,8 @@ implements:
     scope: closed-form expression for amplitude-modulated noise
     status: available
     since: 3.1.0
-    validation: not-stated
+    validation: standard-data
+    note: A conformance row checks Eq. (10.2) of Fastl & Zwicker for amplitude-modulated broadband noise.
   - method: psychoacoustic-annoyance
     reference: zwicker-fastl-1999
     functions: [psychoacoustic_annoyance, psychoacoustic_annoyance_from_signal]
@@ -135,7 +136,10 @@ implements:
     status: available
     since: 3.1.0
     validation: standard-data
-    note: Follows the 2016 PAS, not the 2022 TS. Does not apply the A-weighting required by clause 5.3.2.
+    note: >-
+      Follows the 2016 PAS, not the 2022 TS. Does not apply the A-weighting required by clause 5.3.2.
+      Reproduces the Annex E worked example; parts are checked against DIN 45681:2005 and its Annex J reference
+      program (DIN 45681 itself is not implemented).
   - method: equal-loudness-contours
     reference: iso-226-2023
     functions: [equal_loudness_contour, equal_loudness_contours, loudness_level, hearing_threshold]

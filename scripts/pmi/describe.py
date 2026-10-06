@@ -300,7 +300,9 @@ def faq(index: Index, name: Fmt, method_link: Callable[[dict], str], t: Esc) -> 
                "Psychoacoustic standards change between editions. ECMA-418-2, for example, has had four editions "
                "since 2020 that changed the hearing model, roughness and loudness, and all three parts of ISO 532 "
                "are being revised. Two tools that both claim to implement a standard can therefore give different "
-               "values for the same sound. Each method page lists the editions and which tool follows which."))
+               "values for the same sound. Liu et al. (2026, Acoustics Australia, doi:10.1007/s40857-026-00393-3) "
+               "compared four tools and found differences large enough to change the predictions of sound-quality "
+               "models. Each method page lists the editions and which tool follows which."))
     qa.append(("Which projects are new?",
                "Projects first released less than about a year ago, which are not yet widely used in the community: "
                + join_words([name(p) + t(f" ({p.get('standing_note', '').strip().rstrip('.')})")
