@@ -14,12 +14,6 @@ from .paths import (ABOUT, AI, FAQ, HOME, LANGUAGES, METRICS, PROJECTS, STANDARD
                     method_path, project_path)
 from .text import first_sentence, join_words, long_date, month, oneline, plain, plural
 
-FAMILY_ZH = {
-    "loudness": "响度", "sharpness": "尖锐度", "roughness": "粗糙度", "fluctuation-strength": "波动强度",
-    "tonality": "音调性", "impulsiveness": "冲击性", "annoyance": "烦恼度", "related": "相关指标",
-}
-
-
 def _plain(text: str) -> str:
     return text
 
@@ -180,17 +174,16 @@ def project_page(index: Index, p: dict) -> str:
     return "\n".join(lines)
 
 
-def overview_rows(index: Index, link_methods: bool = True, lang: str = "en") -> list[list[str]]:
+def overview_rows(index: Index, link_methods: bool = True) -> list[list[str]]:
     name = _namer(index)
     rows = []
     for fam, methods in index.families_with_methods():
         for m in methods:
-            groups = by_language(m["_current_impls"], name, lang)
-            cell = " · ".join(f"{lng}: {', '.join(names)}" for lng, names in groups) or (
-                "没有找到" if lang == "zh" else "none found")
+            groups = by_language(m["_current_impls"], name)
+            cell = " · ".join(f"{lng}: {', '.join(names)}" for lng, names in groups) or "none found"
             older = [i for i in dedupe(m["_older_impls"]) if i["_ref"]["status"] != "in-development"]
             if older:
-                cell += (" · 旧版本或相关模型：" if lang == "zh" else " · earlier or related: ") + ", ".join(
+                cell += " · earlier or related: " + ", ".join(
                     f"{name(i['_project'])} ({i['_ref']['label']})" for i in older)
             rows.append([fam["name"], _method_link(index, m) if link_methods else m["name"],
                          join_words([index.ref[r]["label"] for r in m["current"]]), cell])
@@ -200,18 +193,14 @@ def overview_rows(index: Index, link_methods: bool = True, lang: str = "en") -> 
 COVERAGE_MARK = {"current": "●", "new": "◐", "partial": "○", "": "—"}
 
 
-def coverage_table(index: Index, lang: str = "en") -> str:
+def coverage_table(index: Index) -> str:
     cols = [c for c, _ in COVERAGE_COLUMNS] + ["Other"]
-    head = (["方法"] if lang == "zh" else ["Method"]) + (cols if lang != "zh" else cols[:-1] + ["其它"])
+    head = ["Method"] + cols
     rows = []
     for m in index.methods:
         cov = coverage(m)
-        label = m.get("name_zh") if lang == "zh" and m.get("name_zh") else m["name"]
-        rows.append([_method_link(index, m, label)] + [COVERAGE_MARK[cov[c]] for c in cols])
-    legend = ("● 现行版本有可用实现；◐ 现行版本有可用实现，但只来自新发布项目（发布不到一年，社区使用还不广泛）；"
-              "○ 只有未发布、待合并或旧版本的实现；— 没有找到。含绑定接口：带 Python 接口的 C 库也算 Python。"
-              if lang == "zh" else
-              "● an available implementation of the current edition; ◐ the same, but only from newly released projects "
+        rows.append([_method_link(index, m, m["name"])] + [COVERAGE_MARK[cov[c]] for c in cols])
+    legend = ("● an available implementation of the current edition; ◐ the same, but only from newly released projects "
               "that are not yet widely used; ○ only unreleased, proposed or older-edition implementations; — none "
               "found. Bindings count: a C library with a Python interface counts for Python.")
     return "\n".join(_table(head, rows)) + "\n\n" + legend
@@ -553,43 +542,18 @@ def llms_full(index: Index) -> str:
 
 # ---------------------------------------------------------------------------------------------- README
 
-def readme_overview(index: Index, lang: str = "en") -> str:
-    rows = overview_rows(index, lang=lang)
-    if lang == "zh":
-        for row, (fam, m) in zip(rows, [(f, m) for f, ms in index.families_with_methods() for m in ms]):
-            row[0] = FAMILY_ZH.get(fam["id"], fam["name"])
-            if m.get("name_zh"):
-                row[1] = _method_link(index, m, m["name_zh"])
-        head = ["类别", "方法", "现行版本", "已有的开源实现（按语言）"]
-    else:
-        head = ["Quantity", "Method", "Current edition", "Open-source implementations (by language)"]
-    return "\n".join(_table(head, rows))
+def readme_overview(index: Index) -> str:
+    head = ["Quantity", "Method", "Current edition", "Open-source implementations (by language)"]
+    return "\n".join(_table(head, overview_rows(index)))
 
 
-GROUP_ZH = {"established": "成熟", "developing": "发展中", "newly-released": "新发布，使用尚少", "legacy": "停止维护"}
-
-
-def readme_projects(index: Index, lang: str = "en") -> str:
-    head = (["项目", "定位", "语言", "许可证", "最新发布", "最近提交", "状态"] if lang == "zh"
-            else ["Project", "Standing", "Language", "Licence", "Latest release", "Last commit", "Activity"])
-    def zh_release(p: dict) -> str:
-        return release_text(p).replace("no release", "未发版")
-
-    def zh_activity(p: dict) -> str:
-        a = p["_activity"]
-        if a == "inactive":
-            return f"{p['_last_commit'][:7]} 起不活跃"
-        return {"active": "活跃", "archived": "已归档"}.get(a, "未知")
+def readme_projects(index: Index) -> str:
+    head = ["Project", "Standing", "Language", "Licence", "Latest release", "Last commit", "Activity"]
 
     def standing(p: dict) -> str:
         group = p["_group"]
         if group == "others":
-            calls = join_words(_calls(p), "和" if lang == "zh" else "and")
-            return f"其他：调用 {calls}，自身不计算指标" if lang == "zh" else f"other: calls {calls}"
-        if lang == "zh":
-            if group == "legacy":
-                return "停止维护：已归档" if p["_archived"] else f"停止维护：{month(p['_last_commit'])} 后无提交"
-            return GROUP_ZH[group] + ("，主流" if p["_mainstream"] else "")
+            return f"other: calls {join_words(_calls(p))}"
         if group == "legacy":
             return legacy_label(p)
         if group == "newly-released":
@@ -597,31 +561,26 @@ def readme_projects(index: Index, lang: str = "en") -> str:
         return group + (", most widely used" if p["_mainstream"] else "")
 
     rows = [[f"[{p['name']}]({p['repository']})", standing(p),
-             ", ".join(p["languages"]), p["license"], zh_release(p) if lang == "zh" else release_text(p),
-             p["_last_commit"] or ("未知" if lang == "zh" else "unknown"),
-             zh_activity(p) if lang == "zh" else activity_text(p)]
+             ", ".join(p["languages"]), p["license"], release_text(p), p["_last_commit"] or "unknown",
+             activity_text(p)]
             for p in index.projects_by_group()]
     return "\n".join(_table(head, rows))
 
 
-def readme_gaps(index: Index, lang: str = "en") -> str:
+def readme_gaps(index: Index) -> str:
     def item(m: dict) -> str:
-        return f"- {_method_link(index, m, m.get('name_zh') if lang == 'zh' and m.get('name_zh') else m['title'])}"
+        return f"- {_method_link(index, m, m['title'])}"
 
     gaps = index.gaps()
-    lines = [item(m) for m in gaps] or (["无。"] if lang == "zh" else ["None at the moment."])
+    lines = [item(m) for m in gaps] or ["None at the moment."]
     if index.new_only():
-        lines += ["", "现行版本只有新发布项目（发布不到一年，社区使用还不广泛）给出了已发布的实现：" if lang == "zh" else
-                  "Released implementations of the current edition come only from newly released projects, which are not "
+        lines += ["", "Released implementations of the current edition come only from newly released projects, which are not "
                   "yet widely used, for:", ""]
         lines += [item(m) for m in index.new_only()]
     return "\n".join(lines)
 
 
-def readme_stats(index: Index, lang: str = "en") -> str:
-    if lang == "zh":
-        return (f"数据截至 {index.as_of()}：{len(index.methods)} 个方法，{len(index.projects)} 个项目，"
-                f"语言包括 {', '.join(index.languages())}。")
+def readme_stats(index: Index) -> str:
     return (f"Data as of {index.as_of()}: {plural(len(index.methods), 'method')}, "
             f"{plural(len(index.projects), 'project')}, languages: {', '.join(index.languages())}.")
 

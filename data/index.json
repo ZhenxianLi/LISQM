@@ -56,49 +56,41 @@
     {
       "id": "loudness",
       "name": "Loudness",
-      "name_zh": "响度",
       "summary": "How loud a sound is perceived, in sone (loudness) and phon (loudness level). Four model families are standardised: Zwicker (ISO 532-1), Moore–Glasberg (ISO 532-2), Moore–Glasberg–Schlittenlacher (ISO 532-3) and the Sottek Hearing Model (ECMA-418-2)."
     },
     {
       "id": "sharpness",
       "name": "Sharpness",
-      "name_zh": "尖锐度",
       "summary": "The sensation produced by high-frequency content, in acum. Standardised in DIN 45692 on top of Zwicker loudness; ECMA-418-2 does not define sharpness."
     },
     {
       "id": "roughness",
       "name": "Roughness",
-      "name_zh": "粗糙度",
       "summary": "The sensation produced by fast amplitude or frequency modulation (roughly 15 to 300 Hz, strongest near 70 Hz), in asper."
     },
     {
       "id": "fluctuation-strength",
       "name": "Fluctuation strength",
-      "name_zh": "波动强度",
       "summary": "The sensation produced by slow modulation (below about 20 Hz, strongest near 4 Hz), in vacil."
     },
     {
       "id": "tonality",
       "name": "Tonality",
-      "name_zh": "音调性",
       "summary": "How prominent tonal components are. Covers psychoacoustic tonality models (Aures, ECMA-418-2) and the engineering measures used for product noise (tone-to-noise ratio, prominence ratio) and for environmental noise (tonal audibility and tone adjustments)."
     },
     {
       "id": "impulsiveness",
       "name": "Impulsiveness",
-      "name_zh": "冲击性",
       "summary": "How prominent impulsive sounds are, and the adjustment applied to them in environmental noise assessment."
     },
     {
       "id": "annoyance",
       "name": "Psychoacoustic annoyance",
-      "name_zh": "心理声学烦恼度",
       "summary": "Single-number models that combine loudness, sharpness, roughness, fluctuation strength and, in later models, tonality into a predicted annoyance."
     },
     {
       "id": "related",
       "name": "Related quantities",
-      "name_zh": "相关指标",
       "summary": "Quantities that psychoacoustic tools often include and that are closely tied to the metrics above."
     }
   ],
@@ -107,7 +99,6 @@
       "id": "loudness-zwicker",
       "family": "loudness",
       "name": "Zwicker loudness",
-      "name_zh": "Zwicker 响度（ISO 532-1）",
       "title": "Zwicker loudness (ISO 532-1, DIN 45631)",
       "aka": [
         "ISO 532-1",
@@ -394,7 +385,6 @@
       "id": "loudness-moore-glasberg",
       "family": "loudness",
       "name": "Moore–Glasberg loudness",
-      "name_zh": "Moore–Glasberg 稳态响度（ISO 532-2）",
       "title": "Moore–Glasberg loudness of stationary sounds (ISO 532-2, ANSI S3.4)",
       "aka": [
         "ISO 532-2",
@@ -527,7 +517,6 @@
       "id": "loudness-moore-glasberg-time-varying",
       "family": "loudness",
       "name": "Time-varying loudness (Moore–Glasberg–Schlittenlacher)",
-      "name_zh": "Moore–Glasberg–Schlittenlacher 时变响度（ISO 532-3）",
       "title": "Time-varying loudness, Moore–Glasberg–Schlittenlacher (ISO 532-3)",
       "aka": [
         "ISO 532-3",
@@ -695,7 +684,6 @@
       "id": "loudness-ecma-418-2",
       "family": "loudness",
       "name": "Sottek Hearing Model loudness",
-      "name_zh": "Sottek 听觉模型响度（ECMA-418-2）",
       "title": "Loudness from the Sottek Hearing Model (ECMA-418-2)",
       "aka": [
         "ECMA-418-2 loudness",
@@ -867,7 +855,6 @@
       "id": "sharpness",
       "family": "sharpness",
       "name": "Sharpness",
-      "name_zh": "尖锐度（DIN 45692）",
       "title": "Sharpness (DIN 45692, Aures, von Bismarck)",
       "aka": [
         "DIN 45692",
@@ -1047,7 +1034,6 @@
       "id": "roughness-daniel-weber",
       "family": "roughness",
       "name": "Roughness (Daniel & Weber)",
-      "name_zh": "粗糙度（Daniel & Weber 模型）",
       "title": "Roughness, Daniel & Weber model",
       "aka": [
         "Daniel and Weber roughness",
@@ -1189,7 +1175,6 @@
       "id": "roughness-ecma-418-2",
       "family": "roughness",
       "name": "Sottek Hearing Model roughness",
-      "name_zh": "Sottek 听觉模型粗糙度（ECMA-418-2）",
       "title": "Roughness from the Sottek Hearing Model (ECMA-418-2)",
       "aka": [
         "ECMA-418-2 roughness",
@@ -1337,7 +1322,6 @@
       "id": "roughness-din-38455",
       "family": "roughness",
       "name": "Roughness (DIN 38455)",
-      "name_zh": "粗糙度（DIN 38455）",
       "title": "Roughness, DIN 38455",
       "aka": [
         "DIN 38455",
@@ -1374,7 +1358,6 @@
       "id": "fluctuation-strength-osses",
       "family": "fluctuation-strength",
       "name": "Fluctuation strength (Osses et al.)",
-      "name_zh": "波动强度（Osses 模型）",
       "title": "Fluctuation strength, Osses et al. model and Fastl & Zwicker formula",
       "aka": [
         "fluctuation strength",
@@ -1481,7 +1464,6 @@
       "id": "fluctuation-strength-ecma-418-2",
       "family": "fluctuation-strength",
       "name": "Sottek Hearing Model fluctuation strength",
-      "name_zh": "Sottek 听觉模型波动强度（ECMA-418-2）",
       "title": "Fluctuation strength from the Sottek Hearing Model (ECMA-418-2)",
       "aka": [
         "ECMA-418-2 fluctuation strength",
@@ -1553,7 +1535,6 @@
       "id": "tonality-aures",
       "family": "tonality",
       "name": "Tonality (Aures)",
-      "name_zh": "音调性（Aures 模型）",
       "title": "Tonality, Aures/Terhardt model",
       "aka": [
         "Aures tonality",
@@ -1636,7 +1617,6 @@
       "id": "tonality-ecma-418-2",
       "family": "tonality",
       "name": "Sottek Hearing Model tonality",
-      "name_zh": "Sottek 听觉模型音调性（ECMA-418-2）",
       "title": "Tonality from the Sottek Hearing Model (ECMA-418-2)",
       "aka": [
         "ECMA-418-2 tonality",
@@ -1766,7 +1746,6 @@
       "id": "tone-to-noise-prominence-ratio",
       "family": "tonality",
       "name": "Tone-to-noise ratio and prominence ratio",
-      "name_zh": "音噪比与突出比（ECMA-418-1）",
       "title": "Tone-to-noise ratio and prominence ratio (ECMA-418-1)",
       "aka": [
         "TNR",
@@ -1854,7 +1833,6 @@
       "id": "tonality-din-45681",
       "family": "tonality",
       "name": "Tonal components (DIN 45681)",
-      "name_zh": "音调成分与音调修正（DIN 45681）",
       "title": "Tonal components and tone adjustment (DIN 45681)",
       "aka": [
         "DIN 45681",
@@ -1891,7 +1869,6 @@
       "id": "tonal-audibility-iso-20065",
       "family": "tonality",
       "name": "Audibility of tones in noise (ISO/TS 20065)",
-      "name_zh": "噪声中音调的可听度（ISO/TS 20065）",
       "title": "Audibility of tones in noise (ISO/TS 20065)",
       "aka": [
         "ISO/TS 20065",
@@ -1948,7 +1925,6 @@
       "id": "tonal-audibility-iso-1996-2",
       "family": "tonality",
       "name": "Tonal audibility (ISO 1996-2)",
-      "name_zh": "环境噪声音调可听度（ISO 1996-2）",
       "title": "Tonal audibility in environmental noise (ISO 1996-2)",
       "aka": [
         "ISO 1996-2 Annex C",
@@ -2039,7 +2015,6 @@
       "id": "tonal-audibility-iec-61400-11",
       "family": "tonality",
       "name": "Tonal audibility of wind turbines (IEC 61400-11)",
-      "name_zh": "风电机组音调可听度（IEC 61400-11）",
       "title": "Tonal audibility of wind turbine noise (IEC 61400-11)",
       "aka": [
         "IEC 61400-11",
@@ -2087,7 +2062,6 @@
       "id": "impulsiveness",
       "family": "impulsiveness",
       "name": "Impulse prominence",
-      "name_zh": "冲击声显著性（ISO/PAS 1996-3）",
       "title": "Prominence of impulsive sounds (ISO/PAS 1996-3, NT ACOU 112)",
       "aka": [
         "ISO/PAS 1996-3",
@@ -2139,7 +2113,6 @@
       "id": "psychoacoustic-annoyance",
       "family": "annoyance",
       "name": "Psychoacoustic annoyance",
-      "name_zh": "心理声学烦恼度",
       "title": "Psychoacoustic annoyance (Widmann, Zwicker & Fastl, More, Di et al.)",
       "aka": [
         "PA",
@@ -2313,7 +2286,6 @@
       "id": "equal-loudness-contours",
       "family": "related",
       "name": "Equal-loudness contours",
-      "name_zh": "等响曲线（ISO 226）",
       "title": "Equal-loudness-level contours (ISO 226)",
       "aka": [
         "ISO 226",
@@ -2403,7 +2375,6 @@
       "id": "epnl",
       "family": "related",
       "name": "Perceived noise level and EPNL",
-      "name_zh": "有效感觉噪声级（EPNL）",
       "title": "Perceived noise level, PNLT and EPNL (ICAO Annex 16, 14 CFR Part 36)",
       "aka": [
         "EPNL",
@@ -2502,7 +2473,6 @@
       "id": "aural-detectability",
       "family": "related",
       "name": "Aural detectability",
-      "name_zh": "可察觉度",
       "title": "Aural detectability of sounds in background noise",
       "aka": [
         "detectability",

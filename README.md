@@ -2,6 +2,8 @@
 
 **A List of Open-Source Implementations of Psychoacoustic and Sound Quality Metrics**
 
+[![Open the website: zhenxianli.github.io/LISQM](https://img.shields.io/badge/Open_the_website-zhenxianli.github.io%2FLISQM-25c59b?style=for-the-badge&labelColor=0f7d60)](https://zhenxianli.github.io/LISQM/)
+
 LISQM stands for List of Implementations of Sound Quality Metrics. It lists open-source implementations of
 psychoacoustic metrics, also called sound quality (SQ) metrics: loudness, sharpness, roughness, fluctuation
 strength, tonality, impulsiveness and psychoacoustic annoyance. Each implementation is listed under the standard
@@ -10,9 +12,7 @@ itself; it lists and compares the implementations.
 
 Developed by Zhenxian LI with assistance from Claude Code.
 
-**Website:** <https://zhenxianli.github.io/LISQM/>
 **Data:** [`data/index.json`](data/index.json) · [`llms.txt`](llms.txt) · [`llms-full.txt`](llms-full.txt) · [schema](data/SCHEMA.md)
-**中文说明：** [README.zh-CN.md](README.zh-CN.md)
 
 [![Site](https://github.com/ZhenxianLi/LISQM/actions/workflows/pages.yml/badge.svg)](https://github.com/ZhenxianLi/LISQM/actions/workflows/pages.yml)
 [![Monthly refresh](https://github.com/ZhenxianLi/LISQM/actions/workflows/refresh.yml/badge.svg)](https://github.com/ZhenxianLi/LISQM/actions/workflows/refresh.yml)

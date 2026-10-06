@@ -145,18 +145,16 @@ def in_short(index: Index, m: dict, name: Fmt, t: Esc) -> str:
     return s
 
 
-LABELS = {"en": {"newly-released": "newly released", "developing": "developing", "legacy": "legacy", "also": "also", "via": "via", "unreleased": "unreleased",
-                 "proposed": "proposed"},
-          "zh": {"newly-released": "新发布", "developing": "发展中", "legacy": "停止维护", "also": "也支持", "via": "调用", "unreleased": "未发布",
-                 "proposed": "待合并"}}
+LABELS = {"newly-released": "newly released", "developing": "developing", "legacy": "legacy", "also": "also",
+          "via": "via", "unreleased": "unreleased", "proposed": "proposed"}
 
 
-def by_language(impls: list[dict], name: Fmt, lang: str = "en",
+def by_language(impls: list[dict], name: Fmt,
                 tags: dict[str, str] | None = None) -> list[tuple[str, list[str]]]:
     """Group implementations by each project's main (first-listed) language: [('Python', ['MoSQITo', …]), …].
     With `tags` ({'newly-released': …, 'legacy': …}), newly released and legacy projects get that marker after
     their name instead of the word in parentheses."""
-    words = LABELS[lang]
+    words = LABELS
     best: dict[str, dict] = {}  # a project that has a released implementation is not also listed as unreleased
     for i in dedupe(impls):
         key = i["_project"]["id"]

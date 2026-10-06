@@ -6,7 +6,7 @@
 
 Inputs:  data/*.yaml, data/projects/*.yaml, data/snapshot.json, site-src/ (stylesheet, icon), assets/
 Outputs: site/ (HTML pages with Markdown twins, index.json, llms.txt, llms-full.txt, feed.xml, sitemap.xml)
-         README.md and README.zh-CN.md (between GENERATED markers), CHANGELOG.md, llms.txt, llms-full.txt,
+         README.md (between GENERATED markers), CHANGELOG.md, llms.txt, llms-full.txt,
          data/index.json
 """
 
@@ -102,19 +102,16 @@ def make_preview(out: Path) -> None:
 
 def build_repo_files(index) -> list[str]:
     changed = []
-    for name, lang in (("README.md", "en"), ("README.zh-CN.md", "zh")):
-        path = ROOT / name
-        if not path.exists():
-            continue
-        text = replace_blocks(path.read_text(encoding="utf-8"), {
-            "stats": render_md.readme_stats(index, lang),
-            "overview": render_md.readme_overview(index, lang),
-            "gaps": render_md.readme_gaps(index, lang),
-            "coverage": render_md.coverage_table(index, lang),
-            "projects": render_md.readme_projects(index, lang),
-        }, name)
-        if write(path, text):
-            changed.append(name)
+    path = ROOT / "README.md"
+    text = replace_blocks(path.read_text(encoding="utf-8"), {
+        "stats": render_md.readme_stats(index),
+        "overview": render_md.readme_overview(index),
+        "gaps": render_md.readme_gaps(index),
+        "coverage": render_md.coverage_table(index),
+        "projects": render_md.readme_projects(index),
+    }, "README.md")
+    if write(path, text):
+        changed.append("README.md")
     for name, text in (("CHANGELOG.md", render_md.changelog(index)),
                        ("llms.txt", render_md.llms_txt(index)),
                        ("llms-full.txt", render_md.llms_full(index)),

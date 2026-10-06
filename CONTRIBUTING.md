@@ -179,7 +179,7 @@ python -m unittest discover -s tests   # only needed when you change the scripts
 
 Open `site/index.html` in a browser to look at the result; the pages use relative links, so they work from the
 local folder. The full build also rewrites the generated files kept in the repository: the tables in
-`README.md` and `README.zh-CN.md` (between `GENERATED` markers), `CHANGELOG.md`, `llms.txt`, `llms-full.txt`
+`README.md` (between `GENERATED` markers), `CHANGELOG.md`, `llms.txt`, `llms-full.txt`
 and `data/index.json`. Never edit these by hand, and there is no need to commit them: after every merge into
 `main` the Pages workflow regenerates and commits them, and leaving them out avoids conflicts between pull
 requests.

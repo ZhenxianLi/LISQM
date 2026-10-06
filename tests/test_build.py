@@ -109,7 +109,7 @@ class BuildTest(unittest.TestCase):
         self.assertTrue(llms.startswith(f"# {self.index.site['name']}: {self.index.site['title']}\n\n> "))
 
     def test_readme_markers(self) -> None:
-        for name in ("README.md", "README.zh-CN.md"):
+        for name in ("README.md",):
             text = (ROOT / name).read_text(encoding="utf-8")
             for key in ("stats", "overview", "gaps", "coverage", "projects"):
                 self.assertIn(f"<!-- BEGIN GENERATED: {key} -->", text, f"{name}: {key}")
@@ -121,7 +121,7 @@ class BuildTest(unittest.TestCase):
         for page in self.pages:
             text = re.sub(r"<[^>]+>", "", page.read_text(encoding="utf-8"))
             self.assertIn(credit, text, page.name)
-        for name in ("README.md", "README.zh-CN.md", "llms.txt", "llms-full.txt", "CITATION.cff"):
+        for name in ("README.md", "llms.txt", "llms-full.txt", "CITATION.cff"):
             self.assertIn(credit, (ROOT / name).read_text(encoding="utf-8"), name)
         self.assertIn(credit, (self.site / "llms.txt").read_text(encoding="utf-8"))
 

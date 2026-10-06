@@ -46,7 +46,7 @@ jobs:
 
       - name: Commit refreshed metadata
         run: |
-          files="data/snapshot.json README.md README.zh-CN.md CHANGELOG.md llms.txt llms-full.txt data/index.json"
+          files="data/snapshot.json README.md CHANGELOG.md llms.txt llms-full.txt data/index.json"
           # Stage the files that changed (git add fails on a path that does not exist).
           git status --porcelain -z -- $files | cut -z -c4- | xargs -0 -r git add -A --
           if git diff --cached --quiet; then

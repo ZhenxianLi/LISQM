@@ -27,14 +27,12 @@ Dates are written `YYYY-MM-DD`, `YYYY-MM` or `YYYY`. Text fields marked *markdow
 families:
   - id: loudness
     name: Loudness
-    name_zh: 响度                              # optional, used in README.zh-CN.md
     summary: One or two sentences.            # markdown
 
 methods:                                      # one page per method, in display order
   - id: loudness-zwicker
     family: loudness                          # a family id
     name: Zwicker loudness                    # short name used in tables
-    name_zh: Zwicker 响度（ISO 532-1）          # optional, used in README.zh-CN.md
     title: Zwicker loudness (ISO 532-1, DIN 45631)   # page title
     aka: [ISO 532-1, ISO 532B, DIN 45631]     # other names people search for
     unit: sone, phon
