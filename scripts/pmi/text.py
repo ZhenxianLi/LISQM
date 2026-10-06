@@ -64,6 +64,16 @@ def plain(text: str | None) -> str:
     return re.sub(r"\s+", " ", out).strip()
 
 
+# A full stop that ends a sentence: not after an initial ("Brian C. J. Moore") or an abbreviation ("et al.").
+_SENTENCE_END = re.compile(r"(?<!\b[A-Z])(?<!\bal)(?<!\be\.g)(?<!\bi\.e)(?<!\bcf)(?<!\bvs)\.\s+(?=[A-Z(\"“])")
+
+
+def first_sentence(text: str | None) -> str:
+    """The first sentence of a plain-text paragraph, with its full stop."""
+    out = _SENTENCE_END.split(plain(text), maxsplit=1)[0].rstrip(".")
+    return out + "." if out else ""
+
+
 def oneline(text: str | None) -> str:
     """Collapse whitespace so Markdown text can sit in a table cell."""
     return re.sub(r"\s+", " ", str(text or "")).strip().replace("|", "\\|")

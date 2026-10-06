@@ -37,6 +37,10 @@ def index_json(index: Index) -> str:
         d["implementations"] = [
             {"project": i["_project"]["id"], **_clean({k: v for k, v in i.items() if k != "method"})}
             for i in m["_impls"]]
+        if m["_via_impls"]:  # tools that call one of the implementations above
+            d["also_through"] = [
+                {"project": i["_project"]["id"], **_clean({k: v for k, v in i.items() if k != "method"})}
+                for i in m["_via_impls"]]
         methods.append(d)
     projects = []
     for p in index.projects_by_standing():
@@ -48,6 +52,9 @@ def index_json(index: Index) -> str:
         d["activity"] = p["_activity"]
         d["archived"] = p["_archived"]
         d["stars"] = p["_stars"]
+        d["other"] = p["_others"]
+        if p["_others"]:
+            d["calls"] = list(dict.fromkeys(i["_via"]["id"] for i in p["_impls"] if i.get("_via")))
         projects.append(d)
     doc = {
         "name": site["title"],
@@ -63,7 +70,10 @@ def index_json(index: Index) -> str:
                    "references": len(index.references)},
         "ordering": ("Implementations and projects are listed with established projects first and new projects "
                      "last; new projects were first released less than about a year ago and are not yet widely "
-                     "used in the community."),
+                     "used in the community. Within each group, projects that are still active and widely "
+                     "recognised come first. Projects with other: true do not compute the metrics themselves; "
+                     "they call another indexed project (listed in calls), and their rows appear under "
+                     "also_through instead of implementations."),
         "definitions": {"standing": STANDING, "status": IMPL_STATUS_LONG, "validation": VALIDATION_LONG,
                         "coverage": {"current": "an available implementation of the current edition",
                                      "new": "an available implementation of the current edition, but only from "

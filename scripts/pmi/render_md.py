@@ -9,7 +9,7 @@ from .data import (IMPL_STATUS_LONG, PROJECT_KINDS, REGISTRIES, STANDING, VALIDA
 from .describe import (COVERAGE_COLUMNS, NEW_LABEL, activity_text, by_language, coverage, dedupe, edition_state,
                        faq, in_short, ref_status, release_text, standing_sentence, timeline, version_label)
 from .paths import ABOUT, FAQ, HOME, PROJECTS, STANDARDS, UPDATES, absolute, md_twin, method_path, project_path
-from .text import join_words, long_date, month, oneline, plain, plural
+from .text import first_sentence, join_words, long_date, month, oneline, plain, plural
 
 FAMILY_ZH = {
     "loudness": "响度", "sharpness": "尖锐度", "roughness": "粗糙度", "fluctuation-strength": "波动强度",
@@ -110,6 +110,10 @@ def method_page(index: Index, m: dict) -> str:
         lines.append("No open-source implementation has been found yet. "
                      f"If you know one, please [open an issue]({index.site['repository']}/issues/new/choose).")
     lines += [""]
+    if m["_via_impls"]:
+        lines += ["Also available through tools that call one of these implementations: " + join_words(
+            [f"{name(i['_project'])} (via {i['_via']['name']}, {i['_ref']['label']})" for i in dedupe(m["_via_impls"])])
+            + ".", ""]
     if m.get("see_also"):
         lines += ["**See also:** " + ", ".join(_method_link(index, index.method[s], index.method[s]["title"])
                                               for s in m["see_also"]), ""]
@@ -269,14 +273,21 @@ def home(index: Index) -> str:
 
 STANDING_HEADINGS = [("established", "Established projects"), ("developing", "Developing projects"),
                      ("new", "New projects")]
+OTHERS = ("Tools that do not compute the metrics themselves: interfaces, front ends and wrappers that call one of "
+          "the indexed projects. They are not listed under the metrics.")
+
+
+def _calls(p: dict) -> list[str]:
+    """The indexed projects that a tool under Others calls."""
+    return list(dict.fromkeys(i["_via"]["name"] for i in p["_impls"] if i.get("_via")))
 
 
 def projects_page(index: Index) -> str:
     lines = ["# Projects", "", _header(index, PROJECTS), "",
              f"{plural(len(index.projects), 'project')}, grouped by standing: established projects first, new "
-             "projects last.", ""]
+             "projects last. Tools that only call another project's implementation are listed under Others.", ""]
     for key, title in STANDING_HEADINGS:
-        projects = [p for p in index.projects_by_standing() if p["standing"] == key]
+        projects = [p for p in index.projects_by_standing() if p["standing"] == key and not p["_others"]]
         if not projects:
             continue
         lines += [f"## {title}", "", STANDING[key], ""]
@@ -286,6 +297,14 @@ def projects_page(index: Index) -> str:
                 for p in projects]
         lines += _table(["Project", "Language", "Kind", "Licence", "Latest release", "Last commit", "Activity",
                          "Covers"], rows) + [""]
+    others = index.others()
+    if others:
+        lines += ["## Others", "", OTHERS, ""]
+        rows = [[f"[{p['name']}]({absolute(index, project_path(p))})", ", ".join(p["languages"]),
+                 PROJECT_KINDS[p["kind"]], p["license"], release_text(p), p["_last_commit"] or "unknown",
+                 activity_text(p), join_words(_calls(p))] for p in others]
+        lines += _table(["Project", "Language", "Kind", "Licence", "Latest release", "Last commit", "Activity",
+                         "Calls"], rows) + [""]
     return "\n".join(lines)
 
 
@@ -387,10 +406,19 @@ def llms_txt(index: Index) -> str:
         lines.append("")
     lines += ["## Projects", ""]
     for p in index.projects_by_standing():
+        if p["_others"]:
+            continue
         lines.append(f"- [{p['name']}]({site['base_url']}{md_twin(project_path(p))}): "
                      f"{', '.join(p['languages'])}; {p['standing']}"
                      + (" (not yet widely used)" if p["standing"] == "new" else "")
-                     + f"; {plain(p['summary']).split('. ')[0].rstrip('.')}.")
+                     + f"; {first_sentence(p['summary'])}")
+    if index.others():
+        lines += ["", "## Others", "", OTHERS, ""]
+        for p in index.others():
+            lines.append(f"- [{p['name']}]({site['base_url']}{md_twin(project_path(p))}): "
+                         f"{', '.join(p['languages'])}; calls {join_words(_calls(p))}"
+                         + ("; new (not yet widely used)" if p["standing"] == "new" else "")
+                         + f"; {first_sentence(p['summary'])}")
     lines += ["", "## Data", "",
               f"- [index.json]({site['base_url']}index.json): the complete index as JSON",
               f"- [llms-full.txt]({site['base_url']}llms-full.txt): all pages in one Markdown file",
@@ -444,9 +472,15 @@ def readme_projects(index: Index, lang: str = "en") -> str:
             return f"{p['_last_commit'][:7]} 起不活跃"
         return {"active": "活跃", "archived": "已归档"}.get(a, "未知")
 
-    rows = [[f"[{p['name']}]({p['repository']})",
-             STANDING_ZH[p["standing"]] if lang == "zh" else
-             (f"{p['standing']}, not yet widely used" if p["standing"] == "new" else p["standing"]),
+    def standing(p: dict) -> str:
+        if p["_others"]:
+            calls = join_words(_calls(p), "和" if lang == "zh" else "and")
+            return f"其他：调用 {calls}，自身不计算指标" if lang == "zh" else f"other: calls {calls}"
+        if lang == "zh":
+            return STANDING_ZH[p["standing"]]
+        return f"{p['standing']}, not yet widely used" if p["standing"] == "new" else p["standing"]
+
+    rows = [[f"[{p['name']}]({p['repository']})", standing(p),
              ", ".join(p["languages"]), p["license"], zh_release(p) if lang == "zh" else release_text(p),
              p["_last_commit"] or ("未知" if lang == "zh" else "unknown"),
              zh_activity(p) if lang == "zh" else activity_text(p)]

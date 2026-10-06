@@ -93,19 +93,28 @@ def project_rank(p: dict) -> int:
     return int(p.get("rank") or 999)
 
 
+def project_tier(p: dict) -> int:
+    """Within a standing: projects that are still active and widely recognised first, then recognised but
+    inactive ones, then other active projects, then the rest."""
+    active = p.get("_activity") == "active"
+    if p.get("rank"):
+        return 0 if active else 1
+    return 2 if active else 3
+
+
 def impl_rank(impl: dict) -> tuple:
     """The order of implementations everywhere: established projects first and new ones last; then released code
-    before unreleased before proposed; widely used projects (rank) first; own code before wrappers; active
-    projects before inactive ones."""
+    before unreleased before proposed; then active, recognised projects first (see `project_tier`)."""
     p = impl["_project"]
-    return (STANDING_ORDER[p["standing"]], STATUS_ORDER[impl["status"]], project_rank(p),
-            1 if impl.get("_via") else 0, ACTIVITY_ORDER.get(p.get("_activity", "unknown"), 1), p["name"].lower())
+    return (STANDING_ORDER[p["standing"]], STATUS_ORDER[impl["status"]], project_tier(p), project_rank(p),
+            1 if impl.get("_via") else 0, p["name"].lower())
 
 
 def only_new(m: dict) -> bool:
     """True when every released implementation of a method's current edition comes from a new project."""
     released = [i for i in m["_current_impls"] if i["status"] == "available"]
     return bool(released) and all(i["_project"]["standing"] == "new" for i in released)
+
 
 _ID = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 _DATE = re.compile(r"^\d{4}(?:-\d{2}(?:-\d{2})?)?$")
@@ -339,6 +348,7 @@ class Index:
 
         for m in self.methods:
             m["_impls"] = []
+            m["_via_impls"] = []
             m["_family"] = self.family.get(m.get("family"), {})
         for r in self.references:
             r["_methods"] = [m for m in self.methods if r["id"] in (m.get("references") or [])]
@@ -389,14 +399,20 @@ class Index:
                 impl["_ref"] = self.ref[impl["reference"]]
                 impl["_via"] = self.project.get(impl.get("via"))
                 p["_impls"].append(impl)
+                if impl["_via"]:  # the computation is done by another indexed project
+                    self.method[impl["method"]]["_via_impls"].append(impl)
+                    continue
                 self.method[impl["method"]]["_impls"].append(impl)
                 self.ref[impl["reference"]]["_impls"].append(impl)
+            # Tools whose results all come from other indexed projects are listed under "Others".
+            p["_others"] = bool(p["_impls"]) and all(i["_via"] for i in p["_impls"])
 
         for m in self.methods:
             order = {rid: i for i, rid in enumerate(m.get("references") or [])}
             # Standing comes before the edition, so a new project never heads a list of implementations.
             m["_impls"].sort(key=lambda i: (STANDING_ORDER[i["_project"]["standing"]], -order[i["reference"]],
                                             *impl_rank(i)[1:]))
+            m["_via_impls"].sort(key=impl_rank)
             current = set(m.get("current") or [])
             m["_current_impls"] = [i for i in m["_impls"] if i["reference"] in current]
             m["_older_impls"] = [i for i in m["_impls"] if i["reference"] not in current]
@@ -412,9 +428,14 @@ class Index:
         return [(f, [m for m in self.methods if m.get("family") == f["id"]]) for f in self.families]
 
     def projects_by_standing(self) -> list[dict]:
-        """Established projects first, new ones last; widely used projects (rank) first within each group, then
-        alphabetical."""
-        return sorted(self.projects, key=lambda p: (STANDING_ORDER[p["standing"]], project_rank(p), p["name"].lower()))
+        """Projects that implement metrics: established first and new last; within each standing, active and
+        widely recognised projects first. Tools listed under "Others" come after all of them."""
+        return sorted(self.projects, key=lambda p: (p["_others"], STANDING_ORDER[p["standing"]], project_tier(p),
+                                                    project_rank(p), p["name"].lower()))
+
+    def others(self) -> list[dict]:
+        """Tools that do not compute the metrics themselves but call another indexed project."""
+        return [p for p in self.projects_by_standing() if p["_others"]]
 
     def languages(self) -> list[str]:
         return sorted({lang for p in self.projects for lang in p.get("languages") or []}, key=str.lower)

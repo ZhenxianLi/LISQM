@@ -9,7 +9,7 @@ from __future__ import annotations
 import re
 from typing import Callable
 
-from .data import REF_STATUS, Index, impl_rank, only_new
+from .data import REF_STATUS, STATUS_ORDER, Index, impl_rank, only_new
 from .text import join_words, month
 
 Fmt = Callable[[dict], str]
@@ -117,8 +117,13 @@ def by_language(impls: list[dict], name: Fmt, lang: str = "en",
     """Group implementations by each project's main (first-listed) language: [('Python', ['MoSQITo', …]), …].
     With `new_tag`, new projects get that marker after their name instead of the word in parentheses."""
     words = LABELS[lang]
-    groups: dict[str, list[str]] = {}
+    best: dict[str, dict] = {}  # a project that has a released implementation is not also listed as unreleased
     for i in dedupe(impls):
+        key = i["_project"]["id"]
+        if key not in best or STATUS_ORDER[i["status"]] < STATUS_ORDER[best[key]["status"]]:
+            best[key] = i
+    groups: dict[str, list[str]] = {}
+    for i in best.values():
         p = i["_project"]
         extras = []
         if p.get("standing") == "new" and new_tag is None:
@@ -311,6 +316,14 @@ def faq(index: Index, name: Fmt, method_link: Callable[[dict], str], t: Esc) -> 
                + join_words([name(p) + t(f" ({p.get('standing_note', '').strip().rstrip('.')})")
                              for p in index.projects_by_standing() if p["standing"] == "new"])
                + ". The index lists them after established projects; check their validation before relying on them."))
+    if index.others():
+        qa.append(("Why are some tools listed under Others?",
+                   "They do not compute the metrics themselves. They are interfaces, front ends or wrappers that call "
+                   "one of the indexed projects, so listing them under the metrics would count the same code twice: "
+                   + join_words([name(p) + t(" (calls " + join_words(list(dict.fromkeys(
+                       i["_via"]["name"] for i in p["_impls"] if i.get("_via")))) + ")") for p in index.others()])
+                   + ". Each method page names them after its own implementations, and they keep their own project "
+                   "pages."))
     qa.append(("How are the entries checked?",
                "From each project's own README, documentation, release notes, licence file and package metadata, "
                "with links to those sources. The index records what a project claims and does not run the code. "

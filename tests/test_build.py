@@ -136,8 +136,50 @@ class BuildTest(unittest.TestCase):
                 for cell in row["cells"]:
                     for ref, impls in cell:
                         self.assertEqual(ranks(impls), sorted(ranks(impls)), f"{row['method']['id']} {ref['id']}")
-        self.assertEqual([p["standing"] for p in self.index.projects_by_standing()],
-                         sorted((p["standing"] for p in self.index.projects), key=STANDING_ORDER.get))
+        listed = [p for p in self.index.projects_by_standing() if not p["_others"]]
+        self.assertEqual([p["standing"] for p in listed], sorted((p["standing"] for p in listed), key=STANDING_ORDER.get))
+        ordered = self.index.projects_by_standing()
+        self.assertEqual(ordered[len(listed):], self.index.others(), "tools under Others come last")
+
+    def test_others_are_not_listed_under_metrics(self) -> None:
+        others = {p["id"] for p in self.index.others()}
+        self.assertTrue({"psychobox", "soundscapy"} <= others)
+        for m in self.index.methods:
+            self.assertFalse(any(i.get("_via") for i in m["_impls"]), m["id"])
+            self.assertFalse(others & {i["_project"]["id"] for i in m["_impls"]}, m["id"])
+        html = (self.site / "index.html").read_text(encoding="utf-8")
+        table = html[html.index('<table class="timeline">'):html.index("</table>", html.index('<table class="timeline">'))]
+        self.assertNotIn("projects/psychobox.html", table)
+        llms = (self.site / "llms.txt").read_text(encoding="utf-8")
+        projects, rest = llms.split("\n## Others\n")
+        for p in self.index.others():
+            self.assertNotIn(f"projects/{p['id']}.md", projects[projects.index("\n## Projects\n"):], p["id"])
+            self.assertIn(f"projects/{p['id']}.md", rest, p["id"])
+        data = json.loads((self.site / "index.json").read_text(encoding="utf-8"))
+        flagged = {p["id"]: p for p in data["projects"] if p["other"]}
+        self.assertEqual(set(flagged), others)
+        self.assertEqual(flagged["psychobox"]["calls"], ["mosqito"])
+
+    def test_coverage_marks_are_drawn(self) -> None:
+        html = (self.site / "index.html").read_text(encoding="utf-8")
+        legend = html[html.index('class="small mark-key"'):]
+        legend = legend[:legend.index("</p>")]
+        for state in ("current", "new", "partial", "none"):
+            self.assertIn(f'class="mark mark-{state}"', legend, state)
+        table = html[html.index('<table class="grid coverage">'):]
+        table = table[:table.index("</table>")]
+        cells = re.findall(r"<td[^>]*>(.*?)</td>", table)
+        marks = [c for c in cells if 'class="mark ' in c]
+        self.assertEqual(len(marks), len(self.index.methods) * 6)
+        self.assertFalse(re.search("[●◐○]", table), "coverage marks should be drawn, not typed")
+
+    def test_a_project_is_named_once_per_language(self) -> None:
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        overview = readme[readme.index("BEGIN GENERATED: overview"):readme.index("END GENERATED: overview")]
+        for row in overview.splitlines()[3:]:
+            for group in row.split(" · "):
+                names = re.findall(r"\[([^\]]+)\]\([^)]+/projects/", group.split("earlier or related")[0])
+                self.assertEqual(len(names), len(set(names)), group[:120])
 
     def test_new_projects_are_marked(self) -> None:
         for p in self.index.projects:

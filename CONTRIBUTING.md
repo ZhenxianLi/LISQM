@@ -58,7 +58,9 @@ A project is included when all three of these hold:
 
 **Wrappers.** A project that only calls another indexed project is listed, with `via`, when it is an end-user
 application (for example a program with a graphical interface) or an established library through which people
-commonly compute these metrics. Other wrappers are recorded in `data/ignored.yaml`.
+commonly compute these metrics. Rows with `via` are not counted as implementations of the metric: the website
+lists such a project under Others and names it after the implementation it calls. Other wrappers are recorded in
+`data/ignored.yaml`.
 
 **Out of scope:**
 
