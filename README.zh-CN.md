@@ -3,7 +3,7 @@
 这是一个心理声学指标开源实现的索引，覆盖响度、尖锐度、粗糙度、波动强度、音调性、冲击性和心理声学烦恼度，
 不限编程语言。每个实现都按它对应的标准版本或模型论文归类，数据每周自动刷新。
 
-Developed by Zhenxian LI with assistance from Claude Codex.
+Developed by Zhenxian LI with assistance from Claude Code.
 
 **网站：** <https://zhenxianli.github.io/psychoacoustic-metrics-index/>（英文）
 **数据：** [`data/index.json`](data/index.json) · [`llms.txt`](llms.txt) · [`llms-full.txt`](llms-full.txt) · [数据格式](data/SCHEMA.md)
@@ -55,7 +55,7 @@ Developed by Zhenxian LI with assistance from Claude Codex.
 | 音调性 | [风电机组音调可听度（IEC 61400-11）](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/tonal-audibility-iec-61400-11.html) | IEC 61400-11:2012+AMD1:2018 | Python: [phonometry](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/phonometry.html) (新项目) |
 | 冲击性 | [冲击声显著性（ISO/PAS 1996-3）](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/impulsiveness.html) | ISO/PAS 1996-3:2022 | Python: [phonometry](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/phonometry.html) (新项目) · 旧版本或相关模型：[phonometry](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/phonometry.html) (NT ACOU 112) |
 | 烦恼度 | [心理声学烦恼度](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/psychoacoustic-annoyance.html) | Widmann (1992), Zwicker & Fastl (1999), More (2010), and Di et al. (2016) | Python: [pySQAT](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/pysqat.html), [PsychoacousticParametersMeasurer](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/psychoacoustic-parameters-measurer.html), [phonometry](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/phonometry.html) (新项目) · MATLAB: [SQAT](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/sqat.html), [SQAT](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/sqat.html) (未发布), [refmap-psychoacoustics](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/refmap-psychoacoustics.html) (也支持 Python) |
-| 相关指标 | [等响曲线（ISO 226）](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/equal-loudness-contours.html) | ISO 226:2023 | Python: [phonometry](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/phonometry.html) (新项目) · 旧版本或相关模型：[IoSR Matlab Toolbox](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/iosr-matlab-toolbox.html) (ISO 226:2003), [MoSQITo](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/mosqito.html) (ISO 226:2003), [PyDSM](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/pydsm.html) (ISO 226:2003), [PSYCHO (pd-psycho)](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/pd-psycho.html) (ISO 226:2003) |
+| 相关指标 | [等响曲线（ISO 226）](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/equal-loudness-contours.html) | ISO 226:2023 | Python: [phonometry](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/phonometry.html) (新项目) · 旧版本或相关模型：[MoSQITo](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/mosqito.html) (ISO 226:2003), [IoSR Matlab Toolbox](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/iosr-matlab-toolbox.html) (ISO 226:2003), [PyDSM](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/pydsm.html) (ISO 226:2003), [PSYCHO (pd-psycho)](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/pd-psycho.html) (ISO 226:2003) |
 | 相关指标 | [有效感觉噪声级（EPNL）](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/epnl.html) | ICAO Annex 16, Vol. I and 14 CFR Part 36 | Python: [SUAVE](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/suave.html), [pySQAT](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/pysqat.html), [phonometry](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/phonometry.html) (新项目) · MATLAB: [SQAT](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/sqat.html) · Rust: [epnl (Zhen-Ni)](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/zhen-ni-epnl.html) |
 | 相关指标 | [可察觉度](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/aural-detectability.html) | Fidell et al. (1974) | MATLAB: [refmap-psychoacoustics](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/refmap-psychoacoustics.html) (也支持 Python) · 旧版本或相关模型：[refmap-psychoacoustics](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/refmap-psychoacoustics.html) (Rizzi et al. (2025)) |
 <!-- END GENERATED: overview -->
@@ -118,19 +118,19 @@ Developed by Zhenxian LI with assistance from Claude Codex.
 <!-- BEGIN GENERATED: projects -->
 | 项目 | 定位 | 语言 | 许可证 | 最新发布 | 最近提交 | 状态 |
 |---|---|---|---|---|---|---|
+| [SQAT](https://github.com/ggrecow/SQAT) | 成熟 | MATLAB | GPL-3.0-or-later (main) / CC-BY-NC-4.0 (releases) | v1.3 (2025-04) | 2026-10-02 | 活跃 |
+| [Auditory Modeling Toolbox (AMT)](https://sourceforge.net/p/amtoolbox/code/) | 成熟 | MATLAB, Octave | GPL-3.0 | 1.6.0 (2024-10) | 2026-06-14 | 活跃 |
+| [MoSQITo](https://github.com/Eomys/MoSQITo) | 成熟 | Python | Apache-2.0 | 1.2.1 (2024-04) | 2024-04-22 | 2024-04 起不活跃 |
 | [AARAE](https://github.com/densilcabrera/aarae) | 成熟 | MATLAB | BSD-3-Clause | 未发版 | 2024-08-09 | 2024-08 起不活跃 |
 | [acoustic-toolbox](https://github.com/Universite-Gustave-Eiffel/acoustic-toolbox) | 成熟 | Python | BSD-3-Clause | 0.2.2 (2026-01) | 2026-02-12 | 活跃 |
-| [Auditory Modeling Toolbox (AMT)](https://sourceforge.net/p/amtoolbox/code/) | 成熟 | MATLAB, Octave | GPL-3.0 | 1.6.0 (2024-10) | 2026-06-14 | 活跃 |
 | [fluctuation-strength-TUe](https://github.com/aosses-tue/fluctuation-strength-TUe) | 成熟 | MATLAB | none | 1.0 (2019-12) | 2020-01-02 | 2020-01 起不活跃 |
 | [IoSR Matlab Toolbox](https://github.com/IoSR-Surrey/MatlabToolbox) | 成熟 | MATLAB | MIT | v2.8 (2017-06) | 2017-08-18 | 2017-08 起不活跃 |
 | [iso532-3 (tv2018.m)](https://github.com/js2251/iso532-3) | 成熟 | MATLAB | none | 未发版 | 2021-10-08 | 2021-10 起不活跃 |
-| [MoSQITo](https://github.com/Eomys/MoSQITo) | 成熟 | Python | Apache-2.0 | 1.2.1 (2024-04) | 2024-04-22 | 2024-04 起不活跃 |
 | [PsySound3](https://github.com/densilcabrera/psysound3) | 成熟 | MATLAB | none | 未发版 | 2015-03-28 | 2015-03 起不活跃 |
 | [PyDSM](https://github.com/sergiocallegari/PyDSM) | 成熟 | Python | GPL-3.0-or-later | 0.15.2 (2025-08) | 2025-08-22 | 2025-08 起不活跃 |
 | [python-acoustics](https://github.com/python-acoustics/python-acoustics) | 成熟 | Python | BSD-3-Clause | 0.2.6 (2022-07) | 2023-08-20 | 已归档 |
 | [sottek-hearing-model](https://github.com/mlotinga/sottek-hearing-model) | 成熟 | Python | GPL-3.0-only | 0.1.14 (2026-03) | 2026-09-18 | 活跃 |
 | [Soundscapy](https://github.com/MitchellAcoustics/Soundscapy) | 成熟 | Python | BSD-3-Clause | 0.8.5 (2026-05) | 2026-05-14 | 活跃 |
-| [SQAT](https://github.com/ggrecow/SQAT) | 成熟 | MATLAB | GPL-3.0-or-later (main) / CC-BY-NC-4.0 (releases) | v1.3 (2025-04) | 2026-10-02 | 活跃 |
 | [SUAVE](https://github.com/suavecode/SUAVE) | 成熟 | Python | LGPL-2.1 | 2.5.2 (2022-03) | 2022-12-23 | 2022-12 起不活跃 |
 | [epnl (Zhen-Ni)](https://github.com/Zhen-Ni/epnl) | 发展中 | Rust | none | 未发版 | 2023-07-10 | 2023-07 起不活跃 |
 | [loudness (deeuu)](https://github.com/deeuu/loudness) | 发展中 | C++, Python | GPL-3.0-or-later | 未发版 | 2019-08-08 | 2019-08 起不活跃 |

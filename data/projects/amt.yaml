@@ -6,6 +6,7 @@ homepage: https://amtoolbox.org
 languages: [MATLAB, Octave]
 kind: toolbox
 standing: established
+rank: 2
 license: GPL-3.0
 license_note: >-
   SourceForge lists the licence as GPLv3 without saying whether later versions are allowed; the torch_amt README,

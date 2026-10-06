@@ -5,6 +5,7 @@ docs: https://github.com/ggrecow/SQAT#readme
 languages: [MATLAB]
 kind: toolbox
 standing: established
+rank: 1
 license: GPL-3.0-or-later (main) / CC-BY-NC-4.0 (releases)
 license_note: >-
   The default branch has been GPL-3.0-or-later since 2026-09-15, with BSD-3-Clause (ISO 532-1 loudness),

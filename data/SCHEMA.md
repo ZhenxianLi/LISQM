@@ -88,6 +88,7 @@ kind: library                                 # library | toolbox | research-cod
                                               # | application | plugin | teaching
 standing: new                                 # established | developing | new (see below)
 standing_note: First released in September 2026.   # required when standing is new: when it was first released
+rank: 1                                       # optional: widely used, recognised projects, 1 first (see below)
 license: GPL-3.0-only                         # SPDX expression, or "none" (no licence file) or "proprietary-free"
 license_note: optional markdown
 packages:                                     # optional
@@ -135,6 +136,9 @@ checked: 2026-10-06                           # last time a person checked this 
 
 Lists of implementations put established projects first and new projects last, so a project that has not yet
 been used much is never the first suggestion. Review the standing of `new` projects once they are a year old.
+
+Within the same standing, projects with a `rank` come first, in rank order. It is given only to widely used,
+recognised projects, at present SQAT (1), the Auditory Modeling Toolbox (2) and MoSQITo (3).
 
 ### Status of an implementation
 

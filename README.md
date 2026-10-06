@@ -4,7 +4,7 @@ An index of open-source implementations of psychoacoustic metrics (loudness, sha
 fluctuation strength, tonality, impulsiveness and psychoacoustic annoyance), organised by the standard edition
 or model paper each implementation follows. Any programming language. Refreshed every week.
 
-Developed by Zhenxian LI with assistance from Claude Codex.
+Developed by Zhenxian LI with assistance from Claude Code.
 
 **Website:** <https://zhenxianli.github.io/psychoacoustic-metrics-index/>
 **Data:** [`data/index.json`](data/index.json) · [`llms.txt`](llms.txt) · [`llms-full.txt`](llms-full.txt) · [schema](data/SCHEMA.md)
@@ -68,7 +68,7 @@ notes.
 | Tonality | [Tonal audibility of wind turbines (IEC 61400-11)](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/tonal-audibility-iec-61400-11.html) | IEC 61400-11:2012+AMD1:2018 | Python: [phonometry](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/phonometry.html) (new) |
 | Impulsiveness | [Impulse prominence](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/impulsiveness.html) | ISO/PAS 1996-3:2022 | Python: [phonometry](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/phonometry.html) (new) · earlier or related: [phonometry](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/phonometry.html) (NT ACOU 112) |
 | Psychoacoustic annoyance | [Psychoacoustic annoyance](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/psychoacoustic-annoyance.html) | Widmann (1992), Zwicker & Fastl (1999), More (2010), and Di et al. (2016) | Python: [pySQAT](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/pysqat.html), [PsychoacousticParametersMeasurer](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/psychoacoustic-parameters-measurer.html), [phonometry](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/phonometry.html) (new) · MATLAB: [SQAT](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/sqat.html), [SQAT](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/sqat.html) (unreleased), [refmap-psychoacoustics](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/refmap-psychoacoustics.html) (also Python) |
-| Related quantities | [Equal-loudness contours](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/equal-loudness-contours.html) | ISO 226:2023 | Python: [phonometry](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/phonometry.html) (new) · earlier or related: [IoSR Matlab Toolbox](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/iosr-matlab-toolbox.html) (ISO 226:2003), [MoSQITo](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/mosqito.html) (ISO 226:2003), [PyDSM](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/pydsm.html) (ISO 226:2003), [PSYCHO (pd-psycho)](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/pd-psycho.html) (ISO 226:2003) |
+| Related quantities | [Equal-loudness contours](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/equal-loudness-contours.html) | ISO 226:2023 | Python: [phonometry](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/phonometry.html) (new) · earlier or related: [MoSQITo](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/mosqito.html) (ISO 226:2003), [IoSR Matlab Toolbox](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/iosr-matlab-toolbox.html) (ISO 226:2003), [PyDSM](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/pydsm.html) (ISO 226:2003), [PSYCHO (pd-psycho)](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/pd-psycho.html) (ISO 226:2003) |
 | Related quantities | [Perceived noise level and EPNL](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/epnl.html) | ICAO Annex 16, Vol. I and 14 CFR Part 36 | Python: [SUAVE](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/suave.html), [pySQAT](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/pysqat.html), [phonometry](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/phonometry.html) (new) · MATLAB: [SQAT](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/sqat.html) · Rust: [epnl (Zhen-Ni)](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/zhen-ni-epnl.html) |
 | Related quantities | [Aural detectability](https://zhenxianli.github.io/psychoacoustic-metrics-index/metrics/aural-detectability.html) | Fidell et al. (1974) | MATLAB: [refmap-psychoacoustics](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/refmap-psychoacoustics.html) (also Python) · earlier or related: [refmap-psychoacoustics](https://zhenxianli.github.io/psychoacoustic-metrics-index/projects/refmap-psychoacoustics.html) (Rizzi et al. (2025)) |
 <!-- END GENERATED: overview -->
@@ -131,19 +131,19 @@ Which languages have an implementation of each method.
 <!-- BEGIN GENERATED: projects -->
 | Project | Standing | Language | Licence | Latest release | Last commit | Activity |
 |---|---|---|---|---|---|---|
+| [SQAT](https://github.com/ggrecow/SQAT) | established | MATLAB | GPL-3.0-or-later (main) / CC-BY-NC-4.0 (releases) | v1.3 (2025-04) | 2026-10-02 | active |
+| [Auditory Modeling Toolbox (AMT)](https://sourceforge.net/p/amtoolbox/code/) | established | MATLAB, Octave | GPL-3.0 | 1.6.0 (2024-10) | 2026-06-14 | active |
+| [MoSQITo](https://github.com/Eomys/MoSQITo) | established | Python | Apache-2.0 | 1.2.1 (2024-04) | 2024-04-22 | inactive since 2024-04 |
 | [AARAE](https://github.com/densilcabrera/aarae) | established | MATLAB | BSD-3-Clause | no release | 2024-08-09 | inactive since 2024-08 |
 | [acoustic-toolbox](https://github.com/Universite-Gustave-Eiffel/acoustic-toolbox) | established | Python | BSD-3-Clause | 0.2.2 (2026-01) | 2026-02-12 | active |
-| [Auditory Modeling Toolbox (AMT)](https://sourceforge.net/p/amtoolbox/code/) | established | MATLAB, Octave | GPL-3.0 | 1.6.0 (2024-10) | 2026-06-14 | active |
 | [fluctuation-strength-TUe](https://github.com/aosses-tue/fluctuation-strength-TUe) | established | MATLAB | none | 1.0 (2019-12) | 2020-01-02 | inactive since 2020-01 |
 | [IoSR Matlab Toolbox](https://github.com/IoSR-Surrey/MatlabToolbox) | established | MATLAB | MIT | v2.8 (2017-06) | 2017-08-18 | inactive since 2017-08 |
 | [iso532-3 (tv2018.m)](https://github.com/js2251/iso532-3) | established | MATLAB | none | no release | 2021-10-08 | inactive since 2021-10 |
-| [MoSQITo](https://github.com/Eomys/MoSQITo) | established | Python | Apache-2.0 | 1.2.1 (2024-04) | 2024-04-22 | inactive since 2024-04 |
 | [PsySound3](https://github.com/densilcabrera/psysound3) | established | MATLAB | none | no release | 2015-03-28 | inactive since 2015-03 |
 | [PyDSM](https://github.com/sergiocallegari/PyDSM) | established | Python | GPL-3.0-or-later | 0.15.2 (2025-08) | 2025-08-22 | inactive since 2025-08 |
 | [python-acoustics](https://github.com/python-acoustics/python-acoustics) | established | Python | BSD-3-Clause | 0.2.6 (2022-07) | 2023-08-20 | archived |
 | [sottek-hearing-model](https://github.com/mlotinga/sottek-hearing-model) | established | Python | GPL-3.0-only | 0.1.14 (2026-03) | 2026-09-18 | active |
 | [Soundscapy](https://github.com/MitchellAcoustics/Soundscapy) | established | Python | BSD-3-Clause | 0.8.5 (2026-05) | 2026-05-14 | active |
-| [SQAT](https://github.com/ggrecow/SQAT) | established | MATLAB | GPL-3.0-or-later (main) / CC-BY-NC-4.0 (releases) | v1.3 (2025-04) | 2026-10-02 | active |
 | [SUAVE](https://github.com/suavecode/SUAVE) | established | Python | LGPL-2.1 | 2.5.2 (2022-03) | 2022-12-23 | inactive since 2022-12 |
 | [epnl (Zhen-Ni)](https://github.com/Zhen-Ni/epnl) | developing | Rust | none | no release | 2023-07-10 | inactive since 2023-07 |
 | [loudness (deeuu)](https://github.com/deeuu/loudness) | developing | C++, Python | GPL-3.0-or-later | no release | 2019-08-08 | inactive since 2019-08 |

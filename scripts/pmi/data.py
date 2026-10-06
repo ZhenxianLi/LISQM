@@ -88,12 +88,18 @@ STANDING_ORDER = {"established": 0, "developing": 1, "new": 2}
 ACTIVITY_ORDER = {"active": 0, "unknown": 1, "inactive": 2, "archived": 3}
 
 
+def project_rank(p: dict) -> int:
+    """Widely used, recognised projects carry a rank (1 first); the others follow."""
+    return int(p.get("rank") or 999)
+
+
 def impl_rank(impl: dict) -> tuple:
     """The order of implementations everywhere: established projects first and new ones last; then released code
-    before unreleased before proposed, own code before wrappers, and active projects before inactive ones."""
+    before unreleased before proposed; widely used projects (rank) first; own code before wrappers; active
+    projects before inactive ones."""
     p = impl["_project"]
-    return (STANDING_ORDER[p["standing"]], STATUS_ORDER[impl["status"]], 1 if impl.get("_via") else 0,
-            ACTIVITY_ORDER.get(p.get("_activity", "unknown"), 1), p["name"].lower())
+    return (STANDING_ORDER[p["standing"]], STATUS_ORDER[impl["status"]], project_rank(p),
+            1 if impl.get("_via") else 0, ACTIVITY_ORDER.get(p.get("_activity", "unknown"), 1), p["name"].lower())
 
 
 def only_new(m: dict) -> bool:
@@ -248,6 +254,8 @@ class Index:
                 add(f"{w}: standing must be one of {sorted(STANDING)}")
             if p.get("standing") == "new" and not p.get("standing_note"):
                 add(f"{w}: a new project needs a standing_note (when it was first released)")
+            if p.get("rank") is not None and (not isinstance(p["rank"], int) or p["rank"] < 1):
+                add(f"{w}: rank must be a positive whole number")
             if p.get("ai_assistance") and p["ai_assistance"] not in AI_ASSISTANCE:
                 add(f"{w}: ai_assistance must be one of {sorted(AI_ASSISTANCE)}")
             if not isinstance(p.get("languages", []), list):
@@ -404,8 +412,9 @@ class Index:
         return [(f, [m for m in self.methods if m.get("family") == f["id"]]) for f in self.families]
 
     def projects_by_standing(self) -> list[dict]:
-        """Established projects first, new ones last; alphabetical within each group."""
-        return sorted(self.projects, key=lambda p: (STANDING_ORDER[p["standing"]], p["name"].lower()))
+        """Established projects first, new ones last; widely used projects (rank) first within each group, then
+        alphabetical."""
+        return sorted(self.projects, key=lambda p: (STANDING_ORDER[p["standing"]], project_rank(p), p["name"].lower()))
 
     def languages(self) -> list[str]:
         return sorted({lang for p in self.projects for lang in p.get("languages") or []}, key=str.lower)

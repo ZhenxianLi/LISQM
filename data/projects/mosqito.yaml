@@ -5,6 +5,7 @@ docs: https://mosqito.readthedocs.io/en/latest/
 languages: [Python]
 kind: library
 standing: established
+rank: 3
 license: Apache-2.0
 packages:
   - registry: pypi

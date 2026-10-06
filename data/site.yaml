@@ -10,6 +10,6 @@ maintainer:
   github: ZhenxianLi
 license: MIT
 # The project's credit line, used verbatim on the website, in the READMEs and in llms.txt.
-credit: Developed by Zhenxian LI with assistance from Claude Codex.
+credit: Developed by Zhenxian LI with assistance from Claude Code.
 # A project is shown as inactive when its last commit is older than this many days.
 inactive_after_days: 365

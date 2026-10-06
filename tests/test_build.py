@@ -117,7 +117,7 @@ class BuildTest(unittest.TestCase):
 
     def test_credit_line_everywhere(self) -> None:
         credit = self.index.site["credit"]
-        self.assertEqual(credit, "Developed by Zhenxian LI with assistance from Claude Codex.")
+        self.assertEqual(credit, "Developed by Zhenxian LI with assistance from Claude Code.")
         for page in self.pages:
             text = re.sub(r"<[^>]+>", "", page.read_text(encoding="utf-8"))
             self.assertIn(credit, text, page.name)
