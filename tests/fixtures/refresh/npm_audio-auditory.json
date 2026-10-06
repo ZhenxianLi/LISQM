@@ -1,0 +1,33 @@
+{
+ "_id": "@audio/auditory",
+ "name": "@audio/auditory",
+ "dist-tags": {
+  "latest": "1.0.2"
+ },
+ "versions": {
+  "1.0.0": {
+   "name": "@audio/auditory",
+   "version": "1.0.0"
+  },
+  "1.0.1": {
+   "name": "@audio/auditory",
+   "version": "1.0.1"
+  },
+  "1.0.2": {
+   "name": "@audio/auditory",
+   "version": "1.0.2"
+  }
+ },
+ "time": {
+  "created": "2026-07-08T19:43:28.714Z",
+  "modified": "2026-07-11T00:55:02.047Z",
+  "1.0.0": "2026-07-08T19:43:29.007Z",
+  "1.0.1": "2026-07-10T23:30:59.584Z",
+  "1.0.2": "2026-07-11T00:55:01.880Z"
+ },
+ "repository": {
+  "type": "git",
+  "url": "git+https://github.com/audiojs/auditory.git"
+ },
+ "description": "Auditory filterbanks — umbrella for @audio/auditory-* atoms (bark, ERB, mel, gammatone, octave)"
+}

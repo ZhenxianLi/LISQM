@@ -1,0 +1,26 @@
+{
+ "total_count": 6,
+ "incomplete_results": false,
+ "items": [
+  {"full_name": "huaaudio/metasona", "html_url": "https://github.com/huaaudio/metasona",
+   "description": "Source-informed C and Python implementations of psychoacoustic metrics", "fork": false,
+   "archived": false, "language": "C", "stargazers_count": 3, "pushed_at": "2026-09-25T15:50:48Z",
+   "topics": ["psychoacoustics"]},
+  {"full_name": "acoustics-lab/sqm-toolbox", "html_url": "https://github.com/acoustics-lab/sqm-toolbox",
+   "description": "Sound quality metrics: Zwicker loudness, sharpness, roughness @maintainer see #12", "fork": false,
+   "archived": false, "language": "Python", "stargazers_count": 12, "pushed_at": "2026-09-30T10:00:00Z",
+   "topics": ["psychoacoustics", "sound-quality"]},
+  {"full_name": "audiojs/effect", "html_url": "https://github.com/audiojs/effect",
+   "description": "Audio effects", "fork": false, "archived": false, "language": "JavaScript",
+   "stargazers_count": 40, "pushed_at": "2026-09-29T08:00:00Z", "topics": []},
+  {"full_name": "someone/mosqito", "html_url": "https://github.com/someone/mosqito",
+   "description": "Fork of MoSQITo", "fork": true, "archived": false, "language": "Python",
+   "stargazers_count": 0, "pushed_at": "2026-09-01T00:00:00Z", "topics": []},
+  {"full_name": "old/zwicker-2019", "html_url": "https://github.com/old/zwicker-2019",
+   "description": "Psychoacoustic loudness for a 2019 thesis", "fork": false, "archived": true,
+   "language": "MATLAB", "stargazers_count": 5, "pushed_at": "2021-03-01T00:00:00Z", "topics": []},
+  {"full_name": "Example/Ignored-Meter", "html_url": "https://github.com/Example/Ignored-Meter",
+   "description": "LUFS meter with a psychoacoustic tagline", "fork": false, "archived": false,
+   "language": "Rust", "stargazers_count": 7, "pushed_at": "2026-08-01T00:00:00Z", "topics": []}
+ ]
+}

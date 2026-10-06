@@ -1,0 +1,133 @@
+name: Weekly refresh
+
+on:
+  schedule:
+    - cron: "17 5 * * 1" # Mondays 05:17 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ github.token }} # GitHub API access for refresh.py and discover.py
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Refresh repository and package metadata
+        run: python scripts/refresh.py --report "$RUNNER_TEMP/refresh.md"
+
+      - name: Build
+        run: python scripts/build.py
+
+      - name: Commit refreshed metadata
+        run: |
+          files="data/snapshot.json README.md README.zh-CN.md CHANGELOG.md llms.txt llms-full.txt data/index.json"
+          # Stage the files that changed (git add fails on a path that does not exist).
+          git status --porcelain -z -- $files | cut -z -c4- | xargs -0 -r git add -A --
+          if git diff --cached --quiet; then
+            echo "Nothing to commit."
+            exit 0
+          fi
+          git commit -m "Weekly refresh: $(date -u +%F)"
+          git push || { git pull --rebase origin main && git push; }
+
+      - name: Look for new candidates
+        run: python scripts/discover.py --report "$RUNNER_TEMP/discover.md"
+
+      - name: Watch standards
+        run: python scripts/watch_standards.py --report "$RUNNER_TEMP/standards.md"
+
+      - name: Commit standards watch state
+        run: |
+          git add data/standards-watch.json
+          if git diff --cached --quiet; then
+            echo "Nothing to commit."
+            exit 0
+          fi
+          git commit -m "Standards watch: $(date -u +%F)"
+          git push || { git pull --rebase origin main && git push; }
+
+      - name: Make sure the issue labels exist
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          # Created once; existing labels (and any colours changed by hand) are left alone.
+          gh label create weekly-review --color 0e8a16 --description "Automated weekly review of the index" 2>/dev/null || true
+          gh label create new-project --color 1d76db --description "Suggests a project for the index" 2>/dev/null || true
+          gh label create correction --color d93f0b --description "Corrects an entry in the index" 2>/dev/null || true
+          gh label create standards --color 5319e7 --description "New or revised standard edition" 2>/dev/null || true
+
+      - name: Update the weekly review issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          today=$(date -u +%F)
+          body="$RUNNER_TEMP/issue.md"
+          {
+            echo "Automated review of $today ([workflow run]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID))."
+            echo
+            echo "## Repository and package metadata"
+            echo
+            cat "$RUNNER_TEMP/refresh.md"
+            echo
+            echo "## New candidates"
+            echo
+            cat "$RUNNER_TEMP/discover.md"
+            echo
+            echo "## Standards"
+            echo
+            cat "$RUNNER_TEMP/standards.md"
+          } > "$body"
+          cat "$body" >> "$GITHUB_STEP_SUMMARY"
+
+          # Each script writes a single line when it has nothing to report.
+          findings=false
+          for report in refresh discover standards; do
+            if [ "$(grep -c . "$RUNNER_TEMP/$report.md")" -gt 1 ]; then
+              findings=true
+            fi
+          done
+          if [ "$findings" = false ]; then
+            echo "Nothing to review this week."
+            exit 0
+          fi
+
+          number=$(gh issue list --label weekly-review --state open --limit 1 --json number --jq '.[0].number // empty')
+          if [ -n "$number" ]; then
+            gh issue edit "$number" --title "Weekly review: $today" --body-file "$body"
+            # Editing an issue notifies nobody; a comment does.
+            gh issue comment "$number" --body "Updated with the review of $today."
+          else
+            gh issue create --title "Weekly review: $today" --label weekly-review --body-file "$body"
+          fi
+
+  pages:
+    needs: refresh
+    uses: ./.github/workflows/pages.yml

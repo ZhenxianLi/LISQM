@@ -62,6 +62,10 @@ A project is included when all three of these hold:
 - speech intelligibility;
 - audio and speech codec quality metrics such as PEAQ, PESQ and ViSQOL;
 - software for running psychophysics or listening experiments;
+- music sensory-dissonance models (Plomp–Levelt, Sethares, Vassilakis), which estimate the roughness of musical
+  intervals rather than the sound-quality metric;
+- feature extractors whose "loudness" or "sharpness" descriptors do not follow a named psychoacoustic model
+  (for example Meyda, LibXtract, Yaafe);
 - closed-source tools, including free-of-charge tools whose metric code is not published.
 
 Inclusion is not an endorsement and does not depend on popularity, activity or quality. Inactive and archived

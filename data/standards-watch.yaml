@@ -1,0 +1,37 @@
+# Sources that scripts/watch_standards.py checks every week (from .github/workflows/refresh.yml) for new
+# editions and stage changes of the standards the index relies on. The last seen state is kept in
+# standards-watch.json (machine-written); what changed is reported in the weekly review issue.
+#
+# Every source has a unique `id` (its key in standards-watch.json), an optional `name` for the report, a
+# `type` and a `url`:
+#   type: iso-open-data  ISO's open data set of deliverables. `patterns` are regular expressions (Python
+#                        syntax) matched against each deliverable's reference, such as "ISO 532-1:2017",
+#                        "ISO/CD 532-1" or "ISO/PAS 20065:2016"; every match is recorded with its stage,
+#                        publication date, edition and successor.
+#   type: page           A web page. `extract` is a regular expression; every match in the page's visible
+#                        text is recorded (whole match, whitespace collapsed), together with a hash of the
+#                        text, so that other changes to the page are noticed too.
+
+- id: iso
+  name: ISO Open Data
+  type: iso-open-data
+  url: https://isopublicstorageprod.blob.core.windows.net/opendata/_latest/iso_deliverables_metadata/json/iso_deliverables_metadata.jsonl
+  patterns:
+    - '^ISO(/\w+)? 532(-[123])?\b'  # loudness: ISO 532:1975, 532-1 (Zwicker), 532-2 and 532-3 (Moore–Glasberg)
+    - '^ISO(/\w+)? 226\b'           # normal equal-loudness-level contours
+    - '^ISO(/\w+)? 20065\b'         # audibility of tones in noise (ISO/PAS and ISO/TS 20065)
+    - '^ISO(/\w+)? 1996-[23]\b'     # environmental noise: tonal adjustment (-2), impulsive sounds (-3)
+    - '^ISO(/\w+)? 26573\b'         # noise-induced perceptual annoyance in listening tests (work item)
+    - '^ISO(/\w+)? 12913-3\b'       # soundscape data analysis, including psychoacoustic indicators
+
+- id: ecma-418
+  name: ECMA-418 (psychoacoustic metrics for ITT equipment)
+  type: page
+  url: https://ecma-international.org/publications-and-standards/standards/ecma-418/
+  extract: '(?i)\b\d+(?:st|nd|rd|th) edition\b'
+
+- id: ecma-74
+  name: ECMA-74 (airborne noise of IT and telecommunications equipment)
+  type: page
+  url: https://ecma-international.org/publications-and-standards/standards/ecma-74/
+  extract: '(?i)\b\d+(?:st|nd|rd|th) edition\b'

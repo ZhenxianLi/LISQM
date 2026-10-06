@@ -1,0 +1,31 @@
+{
+ "crate": {
+  "id": "zimtohrli-sys",
+  "name": "zimtohrli-sys",
+  "description": "Rust FFI bindings to the Zimtohrli psychoacoustic audio metric",
+  "repository": "https://github.com/xnorpx/rust-zimtohrli",
+  "created_at": "2025-12-14T15:36:28.435606Z",
+  "updated_at": "2025-12-26T06:14:26.391394Z",
+  "max_version": "0.2.0",
+  "max_stable_version": "0.2.0",
+  "newest_version": "0.2.0",
+  "default_version": "0.2.0",
+  "num_versions": 2
+ },
+ "versions": [
+  {
+   "id": 1902873,
+   "num": "0.2.0",
+   "created_at": "2025-12-26T06:14:26.391394Z",
+   "updated_at": "2025-12-26T06:14:26.391394Z",
+   "yanked": false
+  },
+  {
+   "id": 1880211,
+   "num": "0.1.0",
+   "created_at": "2025-12-14T15:36:28.435606Z",
+   "updated_at": "2025-12-14T15:36:28.435606Z",
+   "yanked": false
+  }
+ ]
+}

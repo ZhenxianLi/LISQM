@@ -1,0 +1,77 @@
+name: Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "data/**"
+      - "scripts/**"
+      - "site-src/**"
+      - "assets/**"
+      - "requirements.txt"
+      - "README*.md"
+      - ".github/workflows/pages.yml"
+  workflow_dispatch:
+  workflow_call: # from refresh.yml, because its pushes (made with GITHUB_TOKEN) do not trigger workflows
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # The head of the branch rather than the triggering commit: when refresh.yml calls this workflow,
+          # the triggering commit predates the refresh that it has just pushed.
+          ref: ${{ github.ref }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Build the site and the generated files
+        run: python scripts/build.py
+
+      - name: Commit regenerated files
+        if: ${{ (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main' }}
+        run: |
+          files="README.md README.zh-CN.md CHANGELOG.md llms.txt llms-full.txt data/index.json"
+          # Stage the files that changed (git add fails on a path that does not exist).
+          git status --porcelain -z -- $files | cut -z -c4- | xargs -0 -r git add -A --
+          if git diff --cached --quiet; then
+            echo "Generated files are up to date."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Regenerate index files"
+          git push || { git pull --rebase origin main && git push; }
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

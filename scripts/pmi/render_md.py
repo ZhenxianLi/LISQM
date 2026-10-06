@@ -264,8 +264,10 @@ def about_page(index: Index) -> str:
               "Open-source code that computes a psychoacoustic metric and says which model or standard edition "
               "it follows. Quantities: " + join_words([f["name"].lower() for f in index.families]) + ". "
               "Not included: LUFS / ITU-R BS.1770, speech intelligibility, codec quality metrics (PEAQ, PESQ, "
-              "ViSQOL), psychophysics experiment software and closed-source tools. Reference programs that are "
-              "free to download but not open source (such as the ISO 532 programs) are listed and marked.", ""]
+              "ViSQOL), psychophysics experiment software, music sensory-dissonance models, feature extractors "
+              "whose loudness or sharpness follow no named psychoacoustic model, and closed-source tools. The ISO "
+              "532 reference programs (free to download, not modifiable) are described on the standards' entries. "
+              f"Reviewed exclusions are listed with reasons in {site['repository']}/blob/main/data/ignored.yaml.", ""]
     lines += ["## How entries are checked", "",
               "Each entry is written from the project's own README, documentation, release notes, licence file "
               "and package metadata, with links to those sources. The index records what a project claims; it "

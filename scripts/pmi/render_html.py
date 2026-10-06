@@ -497,9 +497,12 @@ def about_page(index: Index) -> str:
         f"<p>Open-source code that computes a psychoacoustic metric and says which model or standard edition it "
         f"follows. The index covers {esc(fams)}, in any programming language.</p>",
         "<p>Not included: broadcast loudness (LUFS, ITU-R BS.1770, EBU R 128), speech intelligibility (SII, STI), "
-        "codec and speech quality metrics (PEAQ, PESQ, ViSQOL), psychophysics experiment software and closed-source "
-        "tools. Reference programs that can be downloaded free of charge but are not open source, such as the "
-        "ISO 532 programs, are listed and marked as such.</p>",
+        "codec and speech quality metrics (PEAQ, PESQ, ViSQOL), psychophysics experiment software, music "
+        "sensory-dissonance models (Plomp–Levelt, Sethares, Vassilakis), feature extractors whose loudness or "
+        "sharpness descriptors follow no named psychoacoustic model, and closed-source tools. The ISO 532 reference "
+        "programs can be downloaded free of charge but may not be modified, so they are described on the standards' "
+        "own entries rather than listed as projects. Candidates that were reviewed and left out are recorded, with "
+        f'the reason, in <a href="{repo}/blob/main/data/ignored.yaml">data/ignored.yaml</a>.</p>',
         '<h2 id="method">How entries are checked</h2>',
         "<p>Each entry is written from the project's own README, documentation, release notes, licence file and "
         "package metadata, and links to those sources. The index records what a project claims; it does not run "

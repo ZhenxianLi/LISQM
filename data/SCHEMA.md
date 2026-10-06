@@ -12,8 +12,9 @@ directory. Edit these files, never the generated output.
 | `updates.yaml` | people | Dated notes shown on the Updates page, in the Atom feed and in `CHANGELOG.md` |
 | `ignored.yaml` | people | Candidates that were reviewed and not included, so discovery does not report them again |
 | `leads.yaml` | people | Candidates that could not be checked yet (shown on the About page, never as facts) |
-| `snapshot.json` | `scripts/refresh.py` | Repository and package metadata fetched from GitHub, PyPI and crates.io |
-| `standards-watch.json` | `scripts/watch_standards.py` | Last seen state of standards pages that are watched for new editions |
+| `snapshot.json` | `scripts/refresh.py` | Repository and package metadata fetched from GitHub, PyPI, crates.io and npm |
+| `standards-watch.yaml` | people | Standards sources checked every week (ISO Open Data patterns, Ecma pages) |
+| `standards-watch.json` | `scripts/watch_standards.py` | Last seen state of those sources (format described in `scripts/watch_standards.py`) |
 | `index.json` | `scripts/build.py` | The whole index as one JSON document (generated, do not edit) |
 
 Identifiers (`id`) are lowercase kebab-case and never change once published, because they are part of page URLs.

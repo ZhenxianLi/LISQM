@@ -1,0 +1,104 @@
+{
+ "info": {
+  "name": "metasona",
+  "package_url": "https://pypi.org/project/metasona/",
+  "project_url": "https://pypi.org/project/metasona/",
+  "release_url": "https://pypi.org/project/metasona/0.2.2/",
+  "summary": "Source-informed C and Python implementations of psychoacoustic metrics",
+  "version": "0.2.2",
+  "yanked": false,
+  "yanked_reason": null
+ },
+ "releases": {
+  "0.1.0": [
+   {
+    "filename": "metasona-0.1.0-py3-none-macosx_10_9_x86_64.whl",
+    "packagetype": "bdist_wheel",
+    "upload_time": "2026-09-16T01:05:56",
+    "upload_time_iso_8601": "2026-09-16T01:05:56.532107Z",
+    "yanked": false,
+    "yanked_reason": null
+   },
+   {
+    "filename": "metasona-0.1.0-py3-none-macosx_11_0_arm64.whl",
+    "packagetype": "bdist_wheel",
+    "upload_time": "2026-09-16T01:05:57",
+    "upload_time_iso_8601": "2026-09-16T01:05:57.909037Z",
+    "yanked": false,
+    "yanked_reason": null
+   }
+  ],
+  "0.1.1": [
+   {
+    "filename": "metasona-0.1.1-py3-none-macosx_10_9_x86_64.whl",
+    "packagetype": "bdist_wheel",
+    "upload_time": "2026-09-16T01:32:14",
+    "upload_time_iso_8601": "2026-09-16T01:32:14.347291Z",
+    "yanked": false,
+    "yanked_reason": null
+   },
+   {
+    "filename": "metasona-0.1.1-py3-none-macosx_11_0_arm64.whl",
+    "packagetype": "bdist_wheel",
+    "upload_time": "2026-09-16T01:32:15",
+    "upload_time_iso_8601": "2026-09-16T01:32:15.851298Z",
+    "yanked": false,
+    "yanked_reason": null
+   }
+  ],
+  "0.2.0": [
+   {
+    "filename": "metasona-0.2.0-py3-none-macosx_10_9_x86_64.whl",
+    "packagetype": "bdist_wheel",
+    "upload_time": "2026-09-16T09:43:11",
+    "upload_time_iso_8601": "2026-09-16T09:43:11.806038Z",
+    "yanked": false,
+    "yanked_reason": null
+   },
+   {
+    "filename": "metasona-0.2.0-py3-none-macosx_11_0_arm64.whl",
+    "packagetype": "bdist_wheel",
+    "upload_time": "2026-09-16T09:43:13",
+    "upload_time_iso_8601": "2026-09-16T09:43:13.167367Z",
+    "yanked": false,
+    "yanked_reason": null
+   }
+  ],
+  "0.2.1": [
+   {
+    "filename": "metasona-0.2.1-py3-none-macosx_10_9_x86_64.whl",
+    "packagetype": "bdist_wheel",
+    "upload_time": "2026-09-25T14:53:10",
+    "upload_time_iso_8601": "2026-09-25T14:53:10.901305Z",
+    "yanked": true,
+    "yanked_reason": "0.2.1 didn't fix completely the dependency problem and didn't introduce any new feature"
+   },
+   {
+    "filename": "metasona-0.2.1-py3-none-macosx_11_0_arm64.whl",
+    "packagetype": "bdist_wheel",
+    "upload_time": "2026-09-25T14:53:12",
+    "upload_time_iso_8601": "2026-09-25T14:53:12.746603Z",
+    "yanked": true,
+    "yanked_reason": "0.2.1 didn't fix completely the dependency problem and didn't introduce any new feature"
+   }
+  ],
+  "0.2.2": [
+   {
+    "filename": "metasona-0.2.2-py3-none-macosx_10_9_x86_64.whl",
+    "packagetype": "bdist_wheel",
+    "upload_time": "2026-09-25T16:06:03",
+    "upload_time_iso_8601": "2026-09-25T16:06:03.157883Z",
+    "yanked": false,
+    "yanked_reason": null
+   },
+   {
+    "filename": "metasona-0.2.2-py3-none-macosx_11_0_arm64.whl",
+    "packagetype": "bdist_wheel",
+    "upload_time": "2026-09-25T16:06:04",
+    "upload_time_iso_8601": "2026-09-25T16:06:04.636743Z",
+    "yanked": false,
+    "yanked_reason": null
+   }
+  ]
+ }
+}

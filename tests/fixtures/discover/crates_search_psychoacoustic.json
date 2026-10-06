@@ -1,0 +1,65 @@
+{
+ "crates": [
+  {
+   "id": "oxideav-mp2",
+   "name": "oxideav-mp2",
+   "description": "Pure-Rust MPEG-1 / MPEG-2 LSF Audio Layer II (MP2) encoder and decoder",
+   "repository": "https://github.com/OxideAV/oxideav-mp2",
+   "homepage": "https://github.com/OxideAV/oxideav-mp2",
+   "keywords": null,
+   "updated_at": "2026-09-01T00:38:50.428337Z",
+   "created_at": "2026-04-17T17:01:09.175887Z",
+   "max_version": "0.0.10",
+   "max_stable_version": "0.0.10",
+   "newest_version": "0.0.10",
+   "downloads": 1329
+  },
+  {
+   "id": "zimtohrli-sys",
+   "name": "zimtohrli-sys",
+   "description": "Rust FFI bindings to the Zimtohrli psychoacoustic audio metric",
+   "repository": "https://github.com/xnorpx/rust-zimtohrli",
+   "homepage": "https://github.com/xnorpx/rust-zimtohrli",
+   "keywords": null,
+   "updated_at": "2025-12-26T06:14:26.391394Z",
+   "created_at": "2025-12-14T15:36:28.435606Z",
+   "max_version": "0.2.0",
+   "max_stable_version": "0.2.0",
+   "newest_version": "0.2.0",
+   "downloads": 185
+  },
+  {
+   "id": "oxideav-vorbis",
+   "name": "oxideav-vorbis",
+   "description": "Pure-Rust Ogg/Vorbis I audio codec — sample-exact streaming decoder and a psychoacoustic whole-stream encoder, clean-room from the Vorbis I specification.",
+   "repository": "https://github.com/OxideAV/oxideav-vorbis",
+   "homepage": "https://github.com/OxideAV/oxideav-vorbis",
+   "keywords": null,
+   "updated_at": "2026-09-01T00:40:20.976725Z",
+   "created_at": "2026-04-17T16:04:51.530101Z",
+   "max_version": "0.0.12",
+   "max_stable_version": "0.0.12",
+   "newest_version": "0.0.12",
+   "downloads": 1261
+  },
+  {
+   "id": "surgefx-emphasize",
+   "name": "surgefx-emphasize",
+   "description": "surge synthesizer -- emphasize effect",
+   "repository": "https://github.com/klebz/surge-rs",
+   "homepage": null,
+   "keywords": null,
+   "updated_at": "2023-04-07T22:33:11.494635Z",
+   "created_at": "2021-10-26T01:41:55.549491Z",
+   "max_version": "0.2.12-alpha.0",
+   "max_stable_version": null,
+   "newest_version": "0.2.12-alpha.0",
+   "downloads": 19752
+  }
+ ],
+ "meta": {
+  "total": 4,
+  "next_page": null,
+  "prev_page": null
+ }
+}

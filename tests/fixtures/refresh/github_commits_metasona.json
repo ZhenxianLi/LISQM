@@ -1,0 +1,11 @@
+[
+ {
+  "sha": "9f0c3d1e4b6a8c2d7e5f1a3b9c8d7e6f5a4b3c2d",
+  "commit": {
+   "author": {"name": "Jiahua Zhang", "date": "2026-09-25T15:49:02Z"},
+   "committer": {"name": "GitHub", "date": "2026-09-25T15:50:40Z"},
+   "message": "Release 0.2.2"
+  },
+  "html_url": "https://github.com/huaaudio/metasona/commit/9f0c3d1e4b6a8c2d7e5f1a3b9c8d7e6f5a4b3c2d"
+ }
+]
