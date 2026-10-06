@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640" role="img" aria-labelledby="title desc">
-  <title id="title">PsyMI: Psychoacoustic Metrics Index</title>
-  <desc id="desc">Index of Open-Source Implementations of Psychoacoustic Metrics: loudness, sharpness, roughness, fluctuation strength, tonality, impulsiveness and annoyance, each listed under the standard edition it follows.</desc>
+  <title id="title">OpenSQMI: Open Sound Quality Metric Implementations</title>
+  <desc id="desc">An Index of Open-Source Implementations of Psychoacoustic and Sound Quality Metrics: loudness, sharpness, roughness, fluctuation strength, tonality, impulsiveness and annoyance, each listed under the standard edition it follows.</desc>
   <!-- Social preview for GitHub (Settings > General > Social preview), in the style of the website: its green and
        its mark. social-preview.png is rendered from this file with headless Chromium at 1280 x 640. -->
   <rect width="1280" height="640" fill="#ffffff"/>
@@ -19,9 +19,9 @@
     </g>
   </g>
   <g font-family="Charter, 'Bitstream Charter', Georgia, 'DejaVu Serif', serif" fill="#1f2328">
-    <text x="108" y="250" font-size="150" font-weight="700" letter-spacing="-2">PsyMI</text>
-    <text x="112" y="320" font-size="30" font-weight="700" fill="#0f7d60">Index of Open-Source Implementations of Psychoacoustic Metrics</text>
-    <text x="112" y="368" font-size="22" font-style="italic" fill="#5a636e">Psychoacoustic Metrics Index · each implementation listed under the standard edition it follows</text>
+    <text x="108" y="250" font-size="132" font-weight="700" letter-spacing="-2">OpenSQMI</text>
+    <text x="112" y="320" font-size="25" font-weight="700" fill="#0f7d60">An Index of Open-Source Implementations of Psychoacoustic and Sound Quality Metrics</text>
+    <text x="112" y="368" font-size="22" font-style="italic" fill="#5a636e">Open Sound Quality Metric Implementations · each listed under the standard edition it follows</text>
     <rect x="112" y="430" width="1056" height="1.5" fill="#2b3137"/>
     <text x="112" y="482" font-size="21">Loudness · Sharpness · Roughness · Fluctuation strength · Tonality · Impulsiveness · Annoyance</text>
     <text x="112" y="534" font-size="22" font-weight="700" letter-spacing="1.5">

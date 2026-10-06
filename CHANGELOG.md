@@ -2,10 +2,10 @@
 
 Notable changes to the index. This file is generated from `data/updates.yaml`; the same notes are on the website (https://zhenxianli.github.io/psychoacoustic-metrics-index/updates.html) and in its Atom feed.
 
-## 2026-10-06: First public version of PsyMI
+## 2026-10-06: First public version of OpenSQMI
 
-PsyMI, the Psychoacoustic Metrics Index, starts with 32 projects in Python, MATLAB, Octave, C, C++, Rust,
-Julia and Pure Data, and 22 methods from Zwicker loudness to aural detectability. Every implementation is
+OpenSQMI (Open Sound Quality Metric Implementations) starts with 32 projects in Python, MATLAB, Octave, C,
+C++, Rust, Julia and Pure Data, and 22 methods from Zwicker loudness to aural detectability. Every implementation is
 tied to the standard edition or model paper it follows, with links to the documentation the facts were taken
 from. Repository dates, releases and package versions are refreshed once a month.
 

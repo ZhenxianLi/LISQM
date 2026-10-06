@@ -1,10 +1,12 @@
-# PsyMI
+# OpenSQMI
 
-**Index of Open-Source Implementations of Psychoacoustic Metrics**
+**An Index of Open-Source Implementations of Psychoacoustic and Sound Quality Metrics**
 
-PsyMI (Psychoacoustic Metrics Index) lists open-source implementations of psychoacoustic metrics (loudness,
-sharpness, roughness, fluctuation strength, tonality, impulsiveness and psychoacoustic annoyance), organised by
-the standard edition or model paper each implementation follows. Any programming language. Refreshed every month.
+OpenSQMI stands for Open Sound Quality Metric Implementations. It lists open-source implementations of
+psychoacoustic metrics, also called sound quality (SQ) metrics: loudness, sharpness, roughness, fluctuation
+strength, tonality, impulsiveness and psychoacoustic annoyance. Each implementation is listed under the standard
+edition or model paper it follows. Any programming language. Refreshed every month. OpenSQMI computes nothing
+itself; it lists and compares the implementations.
 
 Developed by Zhenxian LI with assistance from Claude Code.
 

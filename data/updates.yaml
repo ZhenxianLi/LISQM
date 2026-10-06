@@ -2,10 +2,10 @@
 # Body: Markdown paragraphs and "- " bullet lists. See data/SCHEMA.md.
 
 - date: 2026-10-06
-  title: First public version of PsyMI
+  title: First public version of OpenSQMI
   body: |
-    PsyMI, the Psychoacoustic Metrics Index, starts with 32 projects in Python, MATLAB, Octave, C, C++, Rust,
-    Julia and Pure Data, and 22 methods from Zwicker loudness to aural detectability. Every implementation is
+    OpenSQMI (Open Sound Quality Metric Implementations) starts with 32 projects in Python, MATLAB, Octave, C,
+    C++, Rust, Julia and Pure Data, and 22 methods from Zwicker loudness to aural detectability. Every implementation is
     tied to the standard edition or model paper it follows, with links to the documentation the facts were taken
     from. Repository dates, releases and package versions are refreshed once a month.
 

@@ -1,6 +1,6 @@
 # Contributing
 
-Thank you for helping to keep PsyMI, the Psychoacoustic Metrics Index, complete and accurate. The index lists
+Thank you for helping to keep OpenSQMI complete and accurate. The index lists
 open-source implementations of psychoacoustic metrics, organised by the standard edition or model paper each
 one follows. The repository holds data and a static-site generator, not metric code: the website, the README
 tables and `data/index.json` are all generated from the YAML files in [`data/`](data/), which are described in

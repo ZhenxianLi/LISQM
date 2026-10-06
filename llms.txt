@@ -1,6 +1,6 @@
-# PsyMI: Psychoacoustic Metrics Index
+# OpenSQMI: Open Sound Quality Metric Implementations
 
-> An index of open-source implementations of psychoacoustic metrics (loudness, sharpness, roughness, fluctuation strength, tonality, impulsiveness and psychoacoustic annoyance), organised by the standard edition or model each implementation follows. All programming languages.
+> An index of open-source implementations of psychoacoustic metrics, also called sound quality (SQ) metrics: loudness, sharpness, roughness, fluctuation strength, tonality, impulsiveness and psychoacoustic annoyance. Each implementation is listed under the standard edition or model it follows. All programming languages.
 
 Data as of 2026-10-06. 22 methods, 32 projects, languages: C, C++, Julia, MATLAB, Octave, Pure Data, Python, Rust. Each implementation is tied to the standard edition or model paper it follows, with its validation evidence as stated by the project. Repository and package metadata are refreshed monthly. Implementations are listed with established projects first, the most widely used (SQAT, Auditory Modeling Toolbox (AMT), and MoSQITo) at the top. Projects marked (newly released) were first released less than about a year ago and are not yet widely used in the community; projects marked (legacy) are archived or have had no commit for three years or more.
 

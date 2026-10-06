@@ -14,7 +14,7 @@ import re
 from .data import (GROUPS, IMPL_STATUS_LONG, PROJECT_KINDS, REGISTRIES, VALIDATION, VALIDATION_LONG,
                    Index, only_new)
 from .describe import (COVERAGE_COLUMNS, GROUP_RULE, ONLY_NEW, activity_text, ai_guide, by_language, coverage, current_statement,
-                       dedupe, edition_state, faq, impl_phrase, introduce, language_order, ref_status, release_text,
+                       dedupe, edition_state, faq, impl_phrase, introduce, language_order, name_note, ref_status, release_text,
                        standing_sentence, time_bins, timeline)
 from .paths import (ABOUT, AI, FAQ, HOME, LANGUAGES, METRICS, PROJECTS, STANDARDS, UPDATES, absolute, md_twin,
                     method_path, project_path, relative)
@@ -974,7 +974,7 @@ def updates_page(index: Index) -> str:
         parts.append(f'<p class="byline"><time datetime="{esc(str(u["date"]))}">{esc(long_date(u["date"]))}</time></p>')
         parts.append(blocks(u["body"]))
         parts.append("</section>")
-    return layout(index, path, title="Updates", description=f"Notable changes to {index.site['name']}, the {index.site['title']}.",
+    return layout(index, path, title="Updates", description=f"Notable changes to {index.site['name']}.",
                   body="\n".join(parts), section="Updates")
 
 
@@ -987,6 +987,7 @@ def about_page(index: Index) -> str:
     parts = [
         f"<h1>About {esc(site['name'])}</h1>",
         f'<p class="lead">{esc(introduce(site))}</p>',
+        f"<p>{esc(name_note(site))}</p>",
 
         '<h2 id="scope">What is included</h2>',
         f"<p>Open-source code that computes a psychoacoustic metric and says which model or standard edition it "
@@ -1049,8 +1050,7 @@ def about_page(index: Index) -> str:
         f"<p>Data, text and code are released under the {esc(site['license'])} licence.</p>",
         f"<p>{credit(index)}</p>",
     ]
-    return layout(index, path, title="About", description=f"Scope, method, definitions and data access of {site['name']}, the "
-                  f"{site['title']}.", body="\n".join(parts), section="About")
+    return layout(index, path, title="About", description=f"Scope, method, definitions and data access of {site['name']}.", body="\n".join(parts), section="About")
 
 
 def _message_box(index: Index) -> str:
@@ -1115,9 +1115,8 @@ def ai_page(index: Index) -> str:
     ld = [{"@type": "WebPage", "name": "For AI agents and language models", "url": absolute(index, path),
            "description": intro}]
     return layout(index, path, title="For AI agents and language models",
-                  description=f"Machine-readable access to {index.site['name']}, the {index.site['title']}: llms.txt, "
-                              "llms-full.txt, "
-                              "index.json and a Markdown version of every page.",
+                  description=f"Machine-readable access to {index.site['name']}: llms.txt, llms-full.txt, index.json "
+                              "and a Markdown version of every page.",
                   body="\n".join(parts), section="For AI", jsonld=ld, side=side)
 
 

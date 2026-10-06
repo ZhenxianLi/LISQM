@@ -1,11 +1,11 @@
-# The short name (masthead, page titles, citations), the full name, and the subtitle under the short name.
-name: PsyMI
-title: Psychoacoustic Metrics Index
-tagline: Index of Open-Source Implementations of Psychoacoustic Metrics
+# The short name (masthead, page titles, citations), what it stands for, and the subtitle under the short name.
+name: OpenSQMI
+title: Open Sound Quality Metric Implementations
+tagline: An Index of Open-Source Implementations of Psychoacoustic and Sound Quality Metrics
 description: >-
-  An index of open-source implementations of psychoacoustic metrics (loudness, sharpness, roughness,
-  fluctuation strength, tonality, impulsiveness and psychoacoustic annoyance), organised by the standard
-  edition or model each implementation follows. All programming languages.
+  An index of open-source implementations of psychoacoustic metrics, also called sound quality (SQ) metrics:
+  loudness, sharpness, roughness, fluctuation strength, tonality, impulsiveness and psychoacoustic annoyance.
+  Each implementation is listed under the standard edition or model it follows. All programming languages.
 base_url: https://zhenxianli.github.io/psychoacoustic-metrics-index/
 repository: https://github.com/ZhenxianLi/psychoacoustic-metrics-index
 maintainer:

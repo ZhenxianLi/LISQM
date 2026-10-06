@@ -34,9 +34,16 @@ ONLY_NEW = ("So far only newly released projects, which are not yet widely used 
 
 
 def introduce(site: dict) -> str:
-    """The site description as a sentence that names the index: "PsyMI (Psychoacoustic Metrics Index) is an …"."""
+    """What the name stands for, then the site description: "OpenSQMI stands for … It is an index …"."""
     text = site["description"].strip()
-    return f"{site['name']} ({site['title']}) is {text[:1].lower()}{text[1:]}"
+    return f"{site['name']} stands for {site['title']}. It is {text[:1].lower()}{text[1:]}"
+
+
+def name_note(site: dict) -> str:
+    """What "open" refers to, and that the index computes nothing itself."""
+    return (f"“Open” refers to the code: every indexed implementation is open source, and {site['name']} itself is "
+            f"open data. Many of the standards the implementations follow are not free. {site['name']} computes "
+            "nothing itself; it lists and compares the implementations.")
 
 
 GROUP_RULE = ("Every project is in exactly one group, decided in this order: others if it computes nothing itself "

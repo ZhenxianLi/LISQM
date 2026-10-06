@@ -1,9 +1,11 @@
-# PsyMI
+# OpenSQMI
 
-**心理声学指标开源实现索引**（Index of Open-Source Implementations of Psychoacoustic Metrics）
+**心理声学与声品质指标开源实现索引**（An Index of Open-Source Implementations of Psychoacoustic and Sound Quality Metrics）
 
-PsyMI（Psychoacoustic Metrics Index）是一个心理声学指标开源实现的索引，覆盖响度、尖锐度、粗糙度、波动强度、
-音调性、冲击性和心理声学烦恼度，不限编程语言。每个实现都按它对应的标准版本或模型论文归类，数据每月自动刷新。
+OpenSQMI 是 Open Sound Quality Metric Implementations 的缩写，意思是“开源的声品质指标实现”。它收录心理声学指标
+（也叫声品质指标，sound quality metrics）的开源实现，覆盖响度、尖锐度、粗糙度、波动强度、音调性、冲击性和心理声学
+烦恼度，不限编程语言。每个实现都按它对应的标准版本或模型论文归类，数据每月自动刷新。OpenSQMI 本身不计算任何指标，
+只列出和比较各个实现。
 
 Developed by Zhenxian LI with assistance from Claude Code.
 

@@ -8,7 +8,7 @@ from __future__ import annotations
 from .data import (GROUP_NAMES, GROUPS, IMPL_STATUS_LONG, PROJECT_KINDS, REGISTRIES, VALIDATION, VALIDATION_LONG,
                    Index)
 from .describe import (COVERAGE_COLUMNS, GROUP_RULE, NEW_LABEL, activity_text, ai_guide, by_language, coverage, dedupe, edition_state,
-                       faq, in_short, introduce, legacy_label, ref_status, release_text, standing_sentence, timeline,
+                       faq, in_short, introduce, legacy_label, name_note, ref_status, release_text, standing_sentence, timeline,
                        version_label)
 from .paths import (ABOUT, AI, FAQ, HOME, LANGUAGES, METRICS, PROJECTS, STANDARDS, UPDATES, absolute, md_twin,
                     method_path, project_path)
@@ -430,7 +430,7 @@ def updates_page(index: Index) -> str:
 
 def about_page(index: Index) -> str:
     site = index.site
-    lines = [f"# About {site['name']}", "", _header(index, ABOUT), "", introduce(site), ""]
+    lines = [f"# About {site['name']}", "", _header(index, ABOUT), "", introduce(site), "", name_note(site), ""]
     lines += ["## What is included", "",
               "Open-source code that computes a psychoacoustic metric and says which model or standard edition "
               "it follows. Quantities: " + join_words([f["name"].lower() for f in index.families]) + ". "
