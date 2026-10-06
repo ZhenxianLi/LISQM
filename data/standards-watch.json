@@ -1,1 +1,290 @@
-{}
+{
+  "ecma-418": {
+    "editions": [
+      "1st edition",
+      "2nd edition",
+      "3rd edition",
+      "4th edition"
+    ],
+    "text_sha256": "dc0283aa72119f3b55d73c5e58ce30e986145b2828fd298d835ad1b52d0e3554"
+  },
+  "ecma-74": {
+    "editions": [
+      "10th edition",
+      "11th edition",
+      "12th edition",
+      "13th edition",
+      "14th edition",
+      "15th edition",
+      "16th edition",
+      "17th edition",
+      "18th edition",
+      "19th edition",
+      "1st edition",
+      "20th edition",
+      "21st edition",
+      "22nd edition",
+      "2nd edition",
+      "3rd edition",
+      "4th edition",
+      "5th edition",
+      "6th edition",
+      "7th edition",
+      "8th edition",
+      "9th edition"
+    ],
+    "text_sha256": "a3cc1af55fe31020d9c8da5f3cb9fc123002446d5576d53363e4b48e24c52af9"
+  },
+  "iso": {
+    "deliverables": {
+      "23776": {
+        "currentStage": 9599,
+        "edition": 1,
+        "publicationDate": "1998-09-17",
+        "reference": "ISO 1996-2:1987/Amd 1:1998",
+        "replacedBy": [
+          28633,
+          41860
+        ]
+      },
+      "30173": {
+        "currentStage": 2098,
+        "edition": 2,
+        "publicationDate": null,
+        "reference": "ISO/WD 226",
+        "replacedBy": null
+      },
+      "31826": {
+        "currentStage": 4098,
+        "edition": 2,
+        "publicationDate": null,
+        "reference": "ISO/DIS 1996-2",
+        "replacedBy": null
+      },
+      "31827": {
+        "currentStage": 2098,
+        "edition": 2,
+        "publicationDate": null,
+        "reference": "ISO/WD 1996-3",
+        "replacedBy": null
+      },
+      "34222": {
+        "currentStage": 9599,
+        "edition": 2,
+        "publicationDate": "2003-08-21",
+        "reference": "ISO 226:2003",
+        "replacedBy": [
+          56052,
+          81331,
+          83117
+        ]
+      },
+      "4099": {
+        "currentStage": 9599,
+        "edition": 1,
+        "publicationDate": "1961-12-01",
+        "reference": "ISO/R 226:1961",
+        "replacedBy": [
+          4100
+        ]
+      },
+      "4100": {
+        "currentStage": 9599,
+        "edition": 1,
+        "publicationDate": "1987-05-07",
+        "reference": "ISO 226:1987",
+        "replacedBy": [
+          30173,
+          34222
+        ]
+      },
+      "41860": {
+        "currentStage": 9599,
+        "edition": 2,
+        "publicationDate": "2007-03-09",
+        "reference": "ISO 1996-2:2007",
+        "replacedBy": [
+          59766
+        ]
+      },
+      "45100": {
+        "currentStage": 4098,
+        "edition": 1,
+        "publicationDate": null,
+        "reference": "ISO/DIS 532-1",
+        "replacedBy": null
+      },
+      "4603": {
+        "currentStage": 9599,
+        "edition": 1,
+        "publicationDate": "1975-07-01",
+        "reference": "ISO 532:1975",
+        "replacedBy": [
+          45100,
+          63077
+        ]
+      },
+      "51999": {
+        "currentStage": 98,
+        "edition": 3,
+        "publicationDate": null,
+        "reference": "ISO/PWI 532-2",
+        "replacedBy": null
+      },
+      "56052": {
+        "currentStage": 1098,
+        "edition": 3,
+        "publicationDate": null,
+        "reference": "ISO/NP 226",
+        "replacedBy": null
+      },
+      "59766": {
+        "currentStage": 9093,
+        "edition": 3,
+        "publicationDate": "2017-07-14",
+        "reference": "ISO 1996-2:2017",
+        "replacedBy": [
+          86954
+        ]
+      },
+      "63077": {
+        "currentStage": 9092,
+        "edition": 1,
+        "publicationDate": "2017-06-15",
+        "reference": "ISO 532-1:2017",
+        "replacedBy": [
+          90809
+        ]
+      },
+      "63078": {
+        "currentStage": 9092,
+        "edition": 1,
+        "publicationDate": "2017-06-26",
+        "reference": "ISO 532-2:2017",
+        "replacedBy": [
+          90812
+        ]
+      },
+      "66941": {
+        "currentStage": 9599,
+        "edition": 1,
+        "publicationDate": "2016-07-01",
+        "reference": "ISO/PAS 20065:2016",
+        "replacedBy": [
+          81518
+        ]
+      },
+      "6749": {
+        "currentStage": 9599,
+        "edition": 1,
+        "publicationDate": "1987-04-16",
+        "reference": "ISO 1996-2:1987",
+        "replacedBy": [
+          28633,
+          41860
+        ]
+      },
+      "6750": {
+        "currentStage": 9599,
+        "edition": 1,
+        "publicationDate": "1987-12-10",
+        "reference": "ISO 1996-3:1987",
+        "replacedBy": [
+          28633,
+          31827,
+          41860
+        ]
+      },
+      "69856": {
+        "currentStage": 9092,
+        "edition": 1,
+        "publicationDate": "2023-07-13",
+        "reference": "ISO 532-3:2023",
+        "replacedBy": [
+          90816
+        ]
+      },
+      "69864": {
+        "currentStage": 9599,
+        "edition": 1,
+        "publicationDate": "2019-12-10",
+        "reference": "ISO/TS 12913-3:2019",
+        "replacedBy": [
+          86955
+        ]
+      },
+      "77035": {
+        "currentStage": 9093,
+        "edition": 1,
+        "publicationDate": "2022-07-06",
+        "reference": "ISO/PAS 1996-3:2022",
+        "replacedBy": [
+          95221
+        ]
+      },
+      "81331": {
+        "currentStage": 4098,
+        "edition": 3,
+        "publicationDate": null,
+        "reference": "ISO/DIS 226",
+        "replacedBy": null
+      },
+      "81518": {
+        "currentStage": 9093,
+        "edition": 1,
+        "publicationDate": "2022-12-19",
+        "reference": "ISO/TS 20065:2022",
+        "replacedBy": null
+      },
+      "83117": {
+        "currentStage": 6060,
+        "edition": 3,
+        "publicationDate": "2023-03-29",
+        "reference": "ISO 226:2023",
+        "replacedBy": null
+      },
+      "855": {
+        "currentStage": 9599,
+        "edition": 1,
+        "publicationDate": "1966-01-01",
+        "reference": "ISO/R 532:1966",
+        "replacedBy": null
+      },
+      "86955": {
+        "currentStage": 6060,
+        "edition": 2,
+        "publicationDate": "2025-05-08",
+        "reference": "ISO/TS 12913-3:2025",
+        "replacedBy": null
+      },
+      "90809": {
+        "currentStage": 3099,
+        "edition": 2,
+        "publicationDate": null,
+        "reference": "ISO/CD 532-1",
+        "replacedBy": null
+      },
+      "90812": {
+        "currentStage": 3099,
+        "edition": 2,
+        "publicationDate": null,
+        "reference": "ISO/CD 532-2",
+        "replacedBy": null
+      },
+      "90816": {
+        "currentStage": 3099,
+        "edition": 2,
+        "publicationDate": null,
+        "reference": "ISO/CD 532-3",
+        "replacedBy": null
+      },
+      "93922": {
+        "currentStage": 2000,
+        "edition": 1,
+        "publicationDate": null,
+        "reference": "ISO/AWI 26573",
+        "replacedBy": null
+      }
+    }
+  }
+}
