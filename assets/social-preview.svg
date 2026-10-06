@@ -1,17 +1,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640" role="img" aria-labelledby="title desc">
   <title id="title">Psychoacoustic Metrics Index</title>
   <desc id="desc">Open-source implementations of psychoacoustic metrics, by standard edition. Loudness, sharpness, roughness, fluctuation strength, tonality, impulsiveness and annoyance.</desc>
-  <!-- Social preview for GitHub (Settings > General > Social preview), in the colours of the website.
+  <!-- Social preview for GitHub (Settings > General > Social preview), in the style of the website.
        social-preview.png is rendered from this file with headless Chromium at 1280 x 640. -->
   <rect width="1280" height="640" fill="#ffffff"/>
-  <rect width="1280" height="392" fill="#1f4f8b"/>
-  <rect y="392" width="1280" height="10" fill="#163b69"/>
-  <g font-family="'Segoe UI', 'Helvetica Neue', Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif">
-    <rect x="96" y="92" width="92" height="92" fill="none" stroke="#c9dbf1" stroke-width="5"/>
-    <text x="142" y="160" font-size="62" text-anchor="middle" fill="#ffffff" font-family="Georgia, 'DejaVu Serif', serif">ψ</text>
-    <text x="96" y="282" font-size="64" font-weight="700" fill="#ffffff">Psychoacoustic Metrics Index</text>
-    <text x="96" y="334" font-size="27" fill="#c9dbf1">Open-source implementations of psychoacoustic metrics, by standard edition</text>
-    <text x="96" y="478" font-size="25" fill="#1c2430">Loudness · Sharpness · Roughness · Fluctuation strength · Tonality · Impulsiveness · Annoyance</text>
-    <text x="96" y="530" font-size="22" fill="#546072">ISO 532-1/-2/-3 · ECMA-418-1/-2 · DIN 45692 · DIN 38455 · ISO/TS 20065 · ISO 1996-2 · ISO 226</text>
+  <rect x="112" y="96" width="96" height="8" fill="#0b62d6"/>
+  <g font-family="Charter, 'Bitstream Charter', Georgia, 'DejaVu Serif', serif" fill="#1f2328">
+    <text x="112" y="224" font-size="100" font-weight="700" letter-spacing="-1">Psychoacoustic</text>
+    <text x="112" y="336" font-size="100" font-weight="700" letter-spacing="-1">Metrics Index</text>
+    <text x="112" y="404" font-size="26" font-style="italic" fill="#5a636e">Open-source implementations of psychoacoustic metrics, by standard edition</text>
+    <rect x="112" y="452" width="1056" height="1.5" fill="#2b3137"/>
+    <text x="112" y="502" font-size="21">Loudness · Sharpness · Roughness · Fluctuation strength · Tonality · Impulsiveness · Annoyance</text>
+    <text x="112" y="552" font-size="22" font-weight="700" letter-spacing="1.5">
+      <tspan fill="#2463ad">PYTHON</tspan><tspan fill="#8b949e">  ·  </tspan><tspan fill="#bd5512">MATLAB</tspan><tspan fill="#8b949e">  ·  </tspan><tspan fill="#6b46a6">C / C++</tspan><tspan fill="#8b949e">  ·  </tspan><tspan fill="#94471c">RUST</tspan><tspan fill="#8b949e">  ·  </tspan><tspan fill="#8b3aa9">JULIA</tspan><tspan fill="#8b949e">  ·  </tspan><tspan fill="#866600">JAVASCRIPT</tspan>
+    </text>
   </g>
 </svg>

@@ -1,7 +1,8 @@
 """HTML output: static, pre-rendered pages (no JavaScript needed) with Markdown twins and JSON-LD.
 
-The layout follows academic software sites: a coloured masthead and tab bar over one fixed-width container,
-a sidebar that lists every metric, gridded tables, and small coloured tags for languages and states.
+The look is a blog: serif text, ruled tables and plain links, laid out for desktop screens in one container that
+the header, titles and tables share. Colour is used where it helps reading: links stand out from the text, and the
+states that matter (current edition, new project, release state, validation) are marked in colour.
 """
 
 from __future__ import annotations
@@ -38,14 +39,13 @@ STANDING_HEADINGS = [("established", "Established projects"), ("developing", "De
 # ---------------------------------------------------------------------------------------------- layout
 
 def layout(index: Index, path: str, *, title: str, description: str, body: str, section: str,
-           jsonld: list[dict] | None = None, og_type: str = "website", markdown: bool = True,
-           sidebar: bool = True) -> str:
+           jsonld: list[dict] | None = None, og_type: str = "website", markdown: bool = True) -> str:
     site = index.site
     rel = lambda target: relative(path, target)  # noqa: E731
     canonical = absolute(index, path)
     current = ' aria-current="page"'
-    tabs = "\n".join(f'<a href="{rel(target)}"{current if label == section else ""}>{label}</a>'
-                     for label, target in NAV)
+    nav = "\n".join(f'<a href="{rel(target)}"{current if label == section else ""}>{label}</a>'
+                    for label, target in NAV)
     ld = ""
     if jsonld:
         payload = jsonld[0] if len(jsonld) == 1 else {"@context": "https://schema.org", "@graph": jsonld}
@@ -57,8 +57,6 @@ def layout(index: Index, path: str, *, title: str, description: str, body: str, 
     md_head = (f'<link rel="alternate" type="text/markdown" href="{esc(rel(md_twin(path)))}" title="Markdown version">\n'
                if markdown else "")
     md_foot = f'<a href="{rel(md_twin(path))}">This page as Markdown</a> · ' if markdown else ""
-    side = _sidebar(index, path) if sidebar else ""
-    page_class = "page with-sidebar" if sidebar else "page"
     as_of = esc(long_date(index.as_of()))
     return f"""<!doctype html>
 <html lang="en">
@@ -81,54 +79,27 @@ def layout(index: Index, path: str, *, title: str, description: str, body: str, 
 {ld}</head>
 <body>
 <a class="skip" href="#content">Skip to content</a>
-<header class="masthead">
-<div class="container masthead-row">
-<a class="brand" href="{rel(HOME)}"><span class="brand-mark" aria-hidden="true">ψ</span><span class="brand-text"><span class="brand-name">{esc(site['title'])}</span><span class="brand-tagline">{esc(site.get('tagline', ''))}</span></span></a>
-<p class="masthead-meta">Data as of {as_of}<br><a href="{esc(site['repository'])}">Source on GitHub</a></p>
-</div>
-<nav class="tabs" aria-label="Site"><div class="container">
-{tabs}
-</div></nav>
+<div class="wrap">
+<header class="site">
+<a class="site-name" href="{rel(HOME)}">{esc(site['title'])}</a>
+<nav aria-label="Site">
+{nav}
+<a class="external" href="{esc(site['repository'])}">GitHub</a>
+</nav>
 </header>
-<div class="container {page_class}">
 <main id="content">
 {body}
 </main>
-{side}
-</div>
-<footer class="site-footer">
-<div class="container">
+<footer class="site">
 <p class="credit">{credit(index)}</p>
 <p>Facts are taken from each project's own documentation and package metadata and checked by hand; corrections
 are welcome on <a href="{esc(site['repository'])}">GitHub</a>. Data as of {as_of}. {esc(site['license'])} licence.</p>
 <p><a href="{rel('index.json')}">JSON</a> · <a href="{rel('llms.txt')}">llms.txt</a> · {md_foot}<a href="{rel('feed.xml')}">Atom feed</a></p>
-</div>
 </footer>
+</div>
 </body>
 </html>
 """
-
-
-def _sidebar(index: Index, path: str) -> str:
-    """Every metric by family, then the index pages and the data files."""
-    rel = lambda target: relative(path, target)  # noqa: E731
-    here = lambda target: ' aria-current="page"' if target == path else ""  # noqa: E731
-    parts = ['<aside class="sidebar" aria-label="All metrics and pages">', '<p class="side-head">Metrics</p>']
-    for fam, methods in index.families_with_methods():
-        parts.append(f'<p class="side-family"><a href="{rel(HOME)}#{esc(fam["id"])}">{esc(fam["name"])}</a></p>')
-        parts.append("<ul>" + "".join(f'<li><a href="{rel(method_path(m))}"{here(method_path(m))}>'
-                                      f'{esc(m["name"])}</a></li>' for m in methods) + "</ul>")
-    pages = (("All projects", PROJECTS), ("Standards and models", STANDARDS), ("Questions and answers", FAQ),
-             ("Updates", UPDATES), ("About and method", ABOUT))
-    parts.append('<p class="side-head">Index</p>')
-    parts.append("<ul>" + "".join(f'<li><a href="{rel(t)}"{here(t)}>{label}</a></li>' for label, t in pages) + "</ul>")
-    parts.append('<p class="side-head">Data</p>')
-    parts.append(f'<ul><li><a href="{rel("index.json")}">index.json</a></li>'
-                 f'<li><a href="{rel("llms.txt")}">llms.txt</a></li>'
-                 f'<li><a href="{rel("feed.xml")}">Atom feed</a></li>'
-                 f'<li><a href="{esc(index.site["repository"])}">GitHub repository</a></li></ul>')
-    parts.append("</aside>")
-    return "\n".join(parts)
 
 
 def credit(index: Index) -> str:
@@ -148,9 +119,9 @@ def _tag(text: str, kind: str, title: str = "", href: str = "") -> str:
     return f'<span class="tag tag-{kind}"{tip}>{esc(text)}</span>'
 
 
-def _lang_tag(lang: str, short: bool = False) -> str:
-    code, cls = LANGUAGES.get(lang, (lang[:3], "other"))
-    return f'<span class="lt lt-{cls}" title="{esc(lang)}">{esc(code if short else lang)}</span>'
+def _lang_tag(lang: str) -> str:
+    _, cls = LANGUAGES.get(lang, (lang, "other"))
+    return f'<span class="lang lang-{cls}">{esc(lang)}</span>'
 
 
 def _langs(langs: list[str]) -> str:
@@ -256,7 +227,7 @@ def _software_ld(index: Index, p: dict) -> dict:
 
 
 def _crumbs(*links: str) -> str:
-    return '<nav class="crumbs" aria-label="Breadcrumb">' + ' <span aria-hidden="true">›</span> '.join(links) + "</nav>"
+    return '<p class="crumbs">' + ' <span class="sep" aria-hidden="true">›</span> '.join(links) + "</p>"
 
 
 # ---------------------------------------------------------------------------------------------- timeline
@@ -284,8 +255,8 @@ def _impl_tip(i: dict) -> str:
 def _timeline_impl(path: str, i: dict) -> str:
     """One project under an edition: language, name, the first release with that edition, and markers."""
     p = i["_project"]
-    bits = [_lang_tag(p["languages"][0], short=True),
-            f'<a href="{relative(path, project_path(p))}">{_breakable(p.get("short_name") or p["name"])}</a>']
+    bits = [f'<a href="{relative(path, project_path(p))}">{_breakable(p.get("short_name") or p["name"])}</a>',
+            _lang_tag(p["languages"][0])]
     version = version_label(i)
     if i["status"] == "proposed":
         bits.append(_tag(version, "neutral", IMPL_STATUS_LONG["proposed"], href=i.get("link", "")))
@@ -335,16 +306,15 @@ def _timeline(index: Index, path: str) -> str:
             lines.append(f'<tr><th scope="row" class="rowhead">{_method_link(path, m)}'
                          f'<span class="unit">{esc(m["unit"])}</span></th>' + "".join(cells) + "</tr>")
         groups.append("<tbody>\n" + "\n".join(lines) + "\n</tbody>")
-    key_langs = " ".join(f"{_lang_tag(lang, short=True)} {esc(label)}" for lang, label in (
-        ("Python", "Python"), ("MATLAB", "MATLAB or Octave"), ("C++", "C or C++"), ("Rust", "Rust"),
-        ("Julia", "Julia"), ("JavaScript", "JavaScript"), ("Pure Data", "Pure Data")))
+    key_langs = ", ".join(_lang_tag(lang) for lang in ("Python", "MATLAB", "C", "C++", "Rust", "Julia",
+                                                       "JavaScript", "Pure Data"))
     legend = (
         '<div class="legend">'
         '<p><span class="key key-current">ISO 532-1:2017</span> current edition '
         '<span class="key key-old">ISO 226:2003</span> superseded or withdrawn '
         f'{_tag("in development", "warn")} draft or new work item '
         '<span class="key key-life"></span> years since the method’s first edition</p>'
-        f"<p>{key_langs}</p>"
+        f"<p>Languages in colour: {key_langs}.</p>"
         f"<p>{NEW_TAG} first released less than about a year ago and not yet widely used, always listed last · "
         f'{_tag("unreleased", "warn")} merged, not in a release yet · {_tag("PR #97", "neutral")} open pull request · '
         '<span class="ver">v1.0</span> first release with that edition · '
@@ -371,13 +341,12 @@ def home(index: Index) -> str:
     langs = index.languages()
     parts = [
         "<h1>Open-source implementations of psychoacoustic metrics</h1>",
+        f'<p class="byline">Updated {esc(long_date(index.as_of()))} · {plural(len(index.methods), "method")} · '
+        f'{plural(len(index.projects), "project")} · {plural(len(langs), "language")} · '
+        f'{plural(len(index.references), "standard or paper", "standards and papers")}</p>',
         '<p class="lead">Which open-source code implements which edition of each psychoacoustic standard or model, '
         "in any programming language. Standards such as ECMA-418-2 and ISO 532 change between editions, so two "
         "tools that both say they implement a standard can give different results.</p>",
-        f'<p class="meta-line">{plural(len(index.methods), "method")} · {plural(len(index.projects), "project")} · '
-        f'{plural(len(langs), "language")} · '
-        f'{plural(len(index.references), "standard or paper", "standards and papers")} · '
-        f'updated {esc(long_date(index.as_of()))}</p>',
         _timeline(index, path),
         '<div class="columns">',
         '<section class="col-main" aria-labelledby="coverage">',
@@ -444,7 +413,7 @@ def home(index: Index) -> str:
                    f"psychoacoustic metrics: {len(index.projects)} projects in "
                    f"{join_words(langs)}. Updated {index.as_of()}.")
     return layout(index, path, title=site["title"], description=description, body="\n".join(parts),
-                  section="Metrics", jsonld=ld, sidebar=False)
+                  section="Metrics", jsonld=ld)
 
 
 def _in_short_block(index: Index, m: dict, path: str) -> str:
@@ -453,7 +422,7 @@ def _in_short_block(index: Index, m: dict, path: str) -> str:
     groups = by_language(m["_current_impls"], name, new_tag=NEW_TAG)
     first = esc(current_statement(index, m)) + (" Open-source implementations of it:" if groups else
                                                  " No open-source implementation of it has been found.")
-    parts = ['<div class="box box-info">', '<p class="box-title">In short</p>', f"<p>{first}</p>"]
+    parts = ['<div class="in-short">', f"<p><strong>In short.</strong> {first}</p>"]
     if groups:
         parts.append('<ul class="by-lang">' + "".join(
             f"<li>{_lang_tag(lang)} {', '.join(names)}</li>" for lang, names in groups) + "</ul>")
@@ -478,7 +447,7 @@ def method_page(index: Index, m: dict) -> str:
         _crumbs(f'<a href="{relative(path, HOME)}">Metrics</a>',
                 f'<a href="{relative(path, HOME)}#{esc(fam["id"])}">{esc(fam["name"])}</a>'),
         f"<h1>{esc(m['title'])}</h1>",
-        f'<p class="meta-line">{" · ".join(meta)}</p>',
+        f'<p class="byline">{" · ".join(meta)}</p>',
         blocks(m["summary"]),
         _in_short_block(index, m, path),
     ]
@@ -590,12 +559,12 @@ def project_page(index: Index, p: dict) -> str:
         _crumbs(f'<a href="{relative(path, PROJECTS)}">Projects</a>',
                 f'<a href="{relative(path, PROJECTS)}#{esc(p["standing"])}">{esc(heading)}</a>'),
         f"<h1>{esc(p['name'])}</h1>",
-        f'<p class="meta-line">{_langs(p["languages"])} {_tag(PROJECT_KINDS[p["kind"]], "neutral")} '
+        f'<p class="byline">{_langs(p["languages"])} · {esc(PROJECT_KINDS[p["kind"]].lower())} · '
         f"{_standing_tag(p)} {_activity_tag(p)}</p>",
     ]
     if p["standing"] == "new":
-        parts.append(f'<div class="box box-warn"><p><strong>New project.</strong> {esc(standing_sentence(p))} '
-                     "Check its validation before relying on it.</p></div>")
+        parts.append(f'<p class="notice"><strong>New project.</strong> {esc(standing_sentence(p))} '
+                     "Check its validation before relying on it.</p>")
     parts.append(blocks(p["summary"]))
     parts.append('<table class="facts"><tbody>' + "".join(f'<tr><th scope="row">{k}</th><td>{v}</td></tr>'
                                                          for k, v in facts) + "</tbody></table>")
@@ -625,7 +594,7 @@ def projects_page(index: Index) -> str:
     langs = index.languages()
     parts = [
         "<h1>Projects</h1>",
-        f'<p class="meta-line">{plural(len(index.projects), "project")} · {plural(len(langs), "language")}</p>',
+        f'<p class="byline">{plural(len(index.projects), "project")} · {plural(len(langs), "language")}</p>',
         "<p>Grouped by standing: established projects first, with the most widely used ones at the top, and new "
         "projects last. “Last commit” is the last commit on the default branch; a project is shown as inactive "
         f"after {index.site.get('inactive_after_days', 365)} days without one.</p>",
@@ -661,7 +630,7 @@ def standards_page(index: Index) -> str:
     papers = [r for r in index.references if r["kind"] in ("paper", "book", "thesis")]
     parts = [
         "<h1>Standards and models</h1>",
-        f'<p class="meta-line">{plural(len(docs), "standard document")} · {plural(len(papers), "model reference")}</p>',
+        f'<p class="byline">{plural(len(docs), "standard document")} · {plural(len(papers), "model reference")}</p>',
         "<p>Every document the index refers to, newest first. Each implementation in the index is tied to one of "
         "these editions, so this is also a timeline of how the definitions have changed.</p>",
         '<p class="toc"><a href="#standards">Standards and regulations</a> · '
@@ -690,12 +659,12 @@ def standards_page(index: Index) -> str:
 def updates_page(index: Index) -> str:
     path = UPDATES
     parts = ["<h1>Updates</h1>",
-             '<p class="meta-line">Notable changes to the index and to the projects it follows. '
+             '<p class="byline">Notable changes to the index and to the projects it follows. '
              f'Also available as an <a href="{relative(path, "feed.xml")}">Atom feed</a>.</p>']
     for u in index.updates:
         parts.append(f'<section class="update" id="{esc(str(u["date"]))}">')
         parts.append(f'<h2>{esc(u["title"])}</h2>')
-        parts.append(f'<p class="meta-line"><time datetime="{esc(str(u["date"]))}">{esc(long_date(u["date"]))}</time></p>')
+        parts.append(f'<p class="byline"><time datetime="{esc(str(u["date"]))}">{esc(long_date(u["date"]))}</time></p>')
         parts.append(blocks(u["body"]))
         parts.append("</section>")
     return layout(index, path, title="Updates", description="Notable changes to the Psychoacoustic Metrics Index.",
@@ -783,7 +752,7 @@ def faq_page(index: Index) -> str:
     path = FAQ
     pairs = faq(index, lambda p: _project_link(path, p), lambda m: _method_link(path, m, m["title"]), esc)
     parts = ["<h1>Questions and answers</h1>",
-             '<p class="meta-line">Answers are generated from the index data, so they always match the tables.</p>',
+             '<p class="byline">Answers are generated from the index data, so they always match the tables.</p>',
              '<ol class="faq-toc">' + "".join(f'<li><a href="#q{n}">{esc(q)}</a></li>'
                                               for n, (q, _) in enumerate(pairs, 1)) + "</ol>"]
     for n, (q, a) in enumerate(pairs, 1):

@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <!-- A slab-serif Greek psi in white on the site's blue, drawn on a 2-unit grid so it stays sharp at 16 px. -->
-  <rect width="32" height="32" fill="#1f4f8b"/>
+  <!-- A slab-serif Greek psi in white on the site's link blue, drawn on a 2-unit grid so it stays sharp at 16 px. -->
+  <rect width="32" height="32" fill="#0b62d6"/>
   <g fill="#ffffff">
     <rect x="14" y="3" width="4" height="26"/>
     <rect x="12" y="3" width="8" height="2"/>
