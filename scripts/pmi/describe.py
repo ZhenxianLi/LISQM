@@ -495,34 +495,39 @@ def faq(index: Index, name: Fmt, method_link: Callable[[dict], str], t: Esc,
     `page_link(path, label)` links another page of the site."""
     supers = index.super_projects()
     qa: list[tuple[str, str]] = []
-    # Newly released projects often check themselves against MoSQITo or SQAT; some are built for a particular use.
+    # Newer projects often check themselves against MoSQITo or SQAT, and some are built for a particular use.
+    # The examples stay whatever group their projects move to.
     newly = index.group("newly-released")
     checked = [p for p in newly
                if any(c in ("mosqito", "sqat") for i in p["_impls"] for c in i.get("compared_with") or [])]
-    uses = [name(p) + t(text) for p, text in (
-        (index.project.get("metasona"), " is a C library written for fast, repeated analysis, with a rolling "
-                                        "analyser for audio that arrives in chunks"),
-        (index.project.get("iso532-1-rs"), " is a Rust engine with a streaming interface and a C interface"),
-        (index.project.get("torch-amt"), " brings the AMT loudness models to PyTorch, differentiable and able to run "
-                                         "on GPU"),
-        (index.project.get("kirin-hypha"), " measures Zwicker loudness and sharpness inside a mixing and mastering "
-                                           "plug-in")) if p and p["_group"] == "newly-released"]
-    qa.append(("Which code should I use for a psychoacoustic metric?",
-               "Choose by your own environment first: the language you work in and how the results will be used. "
-               f"The {page_link(LANGUAGES, 'Languages')} page shows which metrics can be computed from each language "
-               f"and how each project can be called, also from another language. The {page_link(METRICS, 'Metrics')} "
-               f"page names the current edition of each of the {len(index.methods)} methods, and each method page "
-               "lists every implementation of it, with the validation it states, the code it was ported from and the "
-               "choices that change its numbers. The most widely used projects, "
-               + join_words([name(p) + t(f" ({', '.join(p['languages'])})") for p in supers])
-               + ", come first in the lists, but they are not the only choice."
-               + (" Newly released projects, not yet widely used, often check their results against MoSQITo or SQAT "
-                  f"({len(checked)} of the {len(newly)} do)" if checked else "")
-               + ((", and some are built for a particular use: " if checked else
-                   " Some newly released projects are built for a particular use: ") + "; ".join(uses) if uses else "")
-               + ("." if checked or uses else "")
-               + " Before relying on any of them, check the validation each project states and whether the fix you "
-               "need is in a release or only on its main branch."))
+    uses = [name(index.project[pid]) + t(text) for pid, text in (
+        ("metasona", " is a C library written for fast, real-time analysis, with a rolling analyser for audio that "
+                     "arrives in chunks"),
+        ("iso532-1-rs", " is a Rust engine with a streaming interface and a C interface"),
+        ("torch-amt", " brings the AMT loudness models to PyTorch, differentiable and able to run on GPU"),
+    ) if pid in index.project]
+    choose = [
+        "Choose by your own environment first: the language you work in and how the results will be used.",
+        f"The {page_link(LANGUAGES, 'Languages')} page shows which metrics can be computed from each language and "
+        "how each project can be called, also from another language.",
+        f"The {page_link(METRICS, 'Metrics')} page names the current edition of each of the {len(index.methods)} "
+        "methods, and each method page lists every implementation of it, with the validation it states, the code it "
+        "was ported from and the choices that change its numbers.",
+        "The most widely used projects, " + join_words([name(p) + t(f" ({', '.join(p['languages'])})") for p in supers])
+        + ", come first in the lists, but they are not the only choice.",
+    ]
+    if checked:
+        choose.append("Newer projects, which are not yet as widely used, often check their results against MoSQITo or "
+                      f"SQAT ({len(checked)} of the {len(newly)} newly released ones do)"
+                      + (", and some are built for a particular use: " + "; ".join(uses) if uses else "") + ".")
+    elif uses:
+        choose.append("Some newer projects are built for a particular use: " + "; ".join(uses) + ".")
+    if "pysqat" in index.project:
+        choose.append(name(index.project["pysqat"]) + t(" ports SQAT to Python, adds a graphical interface and checks "
+                                                        "each metric against SQAT v1.3."))
+    choose.append("Before relying on any of them, check the validation each project states and whether the fix you "
+                  "need is in a release or only on its main branch.")
+    qa.append(("Which code should I use for a psychoacoustic metric?", " ".join(choose)))
     counts = []
     for col, _ in COVERAGE_COLUMNS:
         current = sum(coverage(m)[col] == "current" for m in index.methods)
@@ -626,7 +631,7 @@ def ai_guide(index: Index) -> tuple[str, list[tuple[str, str, list[str]]]]:
             "implement that edition. The lists put the most widely used projects first, but the right project also "
             "depends on the language the reader works in and how the results will be used: the "
             f"[Languages]({base}{LANGUAGES}) page shows what can be computed from each language, and some projects "
-            "are built for a particular use, such as fast or streaming analysis.",
+            "are built for a particular use, such as real-time or streaming analysis.",
             "Say when a project is newly released or legacy, and when code is only on a main branch (unreleased) "
             "or in a pull request (proposed).",
             "Validation is as stated by each project; the list does not run the code.",
