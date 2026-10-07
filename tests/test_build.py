@@ -218,27 +218,29 @@ class BuildTest(unittest.TestCase):
         from pmi.render_html import TIMELINE_SHOWN
         html = (self.site / "index.html").read_text(encoding="utf-8")
         table = html[html.index('<table class="timeline">'):html.index("</table>")]
-        self.assertNotIn("<details", table)
         group = {p["id"]: p["_group"] for p in self.index.projects}
         more = 0
         for edition in table.split('<div class="edition')[1:]:
             edition = edition[:edition.index("</div>")]
-            self.assertLessEqual(edition.count("<li"), TIMELINE_SHOWN, edition[:80])
+            shown, _, hidden = edition.partition("<details>")
+            self.assertLessEqual(shown.count("<li"), TIMELINE_SHOWN, edition[:80])
             order = [GROUP_ORDER[group[pid]] for pid in re.findall(r'href="projects/([^"#]+)\.html"', edition)]
             self.assertEqual(order, sorted(order), "the most established projects come first")
-            found = re.search(r'<li class="more"><a href="(metrics/[a-z0-9-]+\.html)#editions"[^>]*>\+(\d+) more',
+            found = re.search(r'<li class="more"><details><summary[^>]*><span class="closed">\+(\d+) more</span>',
                               edition)
+            self.assertEqual(bool(found), bool(hidden), edition[:80])
             if found:
                 more += 1
-                self.assertGreaterEqual(int(found.group(2)), 2, "never just one more")
-                self.assertTrue((self.site / found.group(1)).exists())
+                self.assertGreaterEqual(int(found.group(1)), 2, "never just one more")
+                self.assertEqual(hidden.count("<li"), int(found.group(1)), "the rest open in place")
+                self.assertNotIn("#editions", edition, "+ more no longer leads away")
         self.assertGreater(more, 0)
         iso = table[table.index("ISO 532-1:2017"):]
         iso = iso[:iso.index("</div>")]
         zwicker = next(row for _, rows in timeline(self.index) for row in rows
                        if row["method"]["id"] == "loudness-zwicker")
         current = next(impls for cell in zwicker["cells"] for ref, impls in cell if ref["id"] == "iso-532-1-2017")
-        self.assertIn(f">+{len(current) - (TIMELINE_SHOWN - 1)} more →<", iso)
+        self.assertIn(f">+{len(current) - (TIMELINE_SHOWN - 1)} more</span>", iso)
         self.assertIn('class="mk mk-new"', table)
 
     def test_search_engine_key_and_verification_tags(self) -> None:
@@ -271,6 +273,65 @@ class BuildTest(unittest.TestCase):
         side = side[side.index('<aside class="sidebar"'):]
         self.assertIn('projects/pysqat.html" aria-current="page"', side)
         self.assertIn('projects/metasona.html"', side)
+
+    def test_validation_details(self) -> None:
+        html = (self.site / "projects/psychoacousticmetrics-jl.html").read_text(encoding="utf-8")
+        section = html[html.index('<h2 id="validation">How it was validated</h2>'):]
+        section = section[:section.index("<h2", 4)]
+        self.assertIn('also compared with <a href="../projects/mosqito.html">MoSQITo</a>', section)
+        self.assertIn('reference code: <a href="../projects/sqat.html">SQAT</a>', section)
+        self.assertIn('compared with <a href="../projects/sqat.html">SQAT</a></span>', section)
+        self.assertIn("41 reference signals of DIN 45692:2009", section)
+        self.assertIn("840-case formula grid", section)
+        table = html[html.index('<h2 id="implements">'):html.index('<h2 id="validation">')]
+        self.assertIn('href="#v-psychoacoustic-annoyance-widmann-1992"', table, "the table links to the details")
+        self.assertIn(">compared with SQAT</a>", table)
+        self.assertIn("also compared with MoSQITo", table)
+        self.assertNotIn(">another implementation<", html)
+        # Rows with the same evidence and details are described once; nothing stated is summed up in one line.
+        pysqat = (self.site / "projects/pysqat.html").read_text(encoding="utf-8")
+        self.assertEqual(pysqat.count("generated reports are not committed"), 1)
+        sqat = (self.site / "projects/sqat.html").read_text(encoding="utf-8")
+        self.assertIn("Not stated for Sottek Hearing Model fluctuation strength · ECMA-418-2:2025", sqat)
+        method = (self.site / "metrics/sharpness.html").read_text(encoding="utf-8")
+        self.assertIn('<h2 id="validation">How they were validated</h2>', method)
+        self.assertIn('href="#v-kirin-hypha-din-45692-2009"', method)
+        twin = (self.site / "projects/psychoacousticmetrics-jl.md").read_text(encoding="utf-8")
+        self.assertIn("## How it was validated", twin)
+        self.assertIn("  - Cross-checked against MoSQITo for all four weightings.", twin)
+        data = json.loads((self.site / "index.json").read_text(encoding="utf-8"))
+        jl = next(p for p in data["projects"] if p["id"] == "psychoacousticmetrics-jl")
+        self.assertEqual(jl["implements"][0]["compared_with"], ["mosqito"])
+        self.assertTrue(jl["implements"][0]["validation_details"])
+
+    def test_validation_fields_are_checked(self) -> None:
+        impl = self.index.project["kirin-hypha"]["implements"][0]
+        saved = dict(impl)
+        try:
+            impl["compared_with"] = "mosqito"
+            impl["validation_details"] = []
+            problems = "\n".join(self.index.validate())
+            self.assertIn("compared_with must be a non-empty list of strings", problems)
+            self.assertIn("validation_details must be a non-empty list of strings", problems)
+            impl["compared_with"] = ["kirin-hypha"]
+            impl.pop("validation_details")
+            self.assertIn("compared_with must name other implementations", "\n".join(self.index.validate()))
+        finally:
+            impl.clear()
+            impl.update(saved)
+        self.assertEqual(self.index.validate(), [])
+
+    def test_edition_links_and_main_language(self) -> None:
+        html = (self.site / "projects/psychoacousticmetrics-jl.html").read_text(encoding="utf-8")
+        table = html[html.index('<h2 id="implements">'):html.index('<h2 id="validation">')]
+        url = self.index.ref["din-45692-2009"]["url"]
+        self.assertIn(f'<a href="{url}">DIN 45692:2009</a>', table, "the edition links to the standard")
+        self.assertEqual(self.index.project["metasona"]["languages"][0], "C")
+        home = (self.site / "index.html").read_text(encoding="utf-8")
+        self.assertIn('<span class="lb lang-c" title="C">c</span><span class="nm"><a href="projects/metasona.html">',
+                      home, "MetaSona is shown as C on the home page")
+        page = (self.site / "projects/metasona.html").read_text(encoding="utf-8")
+        self.assertIn('<span class="lang lang-c">C</span> <span class="lang lang-py">Python</span>', page)
 
     def test_languages_page(self) -> None:
         html = (self.site / "languages.html").read_text(encoding="utf-8")

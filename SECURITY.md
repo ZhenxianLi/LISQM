@@ -27,7 +27,7 @@ Examples of what belongs here:
 - workflows that could leak a token or run untrusted code with write permissions;
 - a link in the list that points to a compromised repository or a malicious package.
 
-A vulnerability in an listed project should be reported to that project, following its own security
+A vulnerability in a listed project should be reported to that project, following its own security
 policy. If the problem also makes an entry in this list misleading, open a
 [correction](https://github.com/ZhenxianLi/LISQM/issues/new?template=correction.yml)
 once the issue is public.

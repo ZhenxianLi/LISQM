@@ -31,17 +31,19 @@ implements:
     scope: hearing model with specific and total loudness
     status: available
     validation: standard-data
-    note: >-
-      Validation scripts compare the ear filter and model output with figures and values from ECMA-418-2 and
-      ECMA-74 Annex F; module `mosqito.functions.hearing_model`.
+    validation_details:
+      - >-
+        Validation scripts compare the ear filter and model output with figures and values from ECMA-418-2 and ECMA-74
+        Annex F.
+    note: Module `mosqito.functions.hearing_model`.
   - method: tone-to-noise-prominence-ratio
     reference: ecma-74-ed17
     functions: [comp_tnr, comp_pr]
     scope: Annex D
     status: available
     validation: self-tests
-    note: >-
-      The README lists TNR/PR as available but not validated; the tests use synthetic tones in white noise.
+    validation_details:
+      - The README lists TNR/PR as available but not validated; the tests use synthetic tones in white noise.
 manual:
   last_commit: 2021-07-05
   archived: true

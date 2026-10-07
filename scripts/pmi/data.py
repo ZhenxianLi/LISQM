@@ -43,14 +43,15 @@ IMPL_STATUS_LONG = {
 VALIDATION = {
     "standard-data": "standard or paper data",
     "reference-code": "reference code",
-    "cross-implementation": "another implementation",
+    "cross-implementation": "compared with another implementation",
     "self-tests": "own tests only",
     "not-stated": "not stated",
 }
 VALIDATION_LONG = {
     "standard-data": "Compared with test signals or values published in the standard or the model paper.",
     "reference-code": "Compared with the reference program or the model authors' own code.",
-    "cross-implementation": "Compared with another independent implementation.",
+    "cross-implementation": "Compared with another implementation, named where the project says which. Agreement "
+                            "shows that both compute the same values, not that either follows the standard.",
     "self-tests": "Tests exist, but without external reference data.",
     "not-stated": "The project does not say how it was validated.",
 }
@@ -336,9 +337,16 @@ class Index:
                 if impl.get("functions") is not None and not isinstance(impl["functions"], list):
                     add(f"{wi}: functions must be a list")
                 if impl.get("via") and impl["via"] not in self.project:
-                    add(f"{wi}: via '{impl['via']}' is not an listed project")
+                    add(f"{wi}: via '{impl['via']}' is not a listed project")
                 if impl.get("via") == pid:
                     add(f"{wi}: via must name another project")
+                for key in ("compared_with", "validation_details"):
+                    value = impl.get(key)
+                    if value is not None and not (isinstance(value, list) and value
+                                                  and all(isinstance(v, str) and v.strip() for v in value)):
+                        add(f"{wi}: {key} must be a non-empty list of strings")
+                if pid in (impl.get("compared_with") or []):
+                    add(f"{wi}: compared_with must name other implementations")
                 pair = (mid, rid, impl.get("status"), impl.get("scope"))
                 if pair in seen_pairs:
                     add(f"{wi}: duplicate of an earlier entry")
@@ -355,12 +363,12 @@ class Index:
                 if not lead.get(key):
                     add(f"data/leads.yaml[{i}]: missing '{key}'")
             if lead.get("url") and normalise_url(lead["url"]) in repos:
-                add(f"data/leads.yaml[{i}]: {lead['url']} is already an listed project")
+                add(f"data/leads.yaml[{i}]: {lead['url']} is already a listed project")
         for i, ig in enumerate(self.ignored):
             if not ig.get("url") or not ig.get("reason"):
                 add(f"data/ignored.yaml[{i}]: needs url and reason")
             elif normalise_url(ig["url"]) in repos:
-                add(f"data/ignored.yaml[{i}]: {ig['url']} is also an listed project")
+                add(f"data/ignored.yaml[{i}]: {ig['url']} is also a listed project")
         return problems
 
     # ------------------------------------------------------------------ derived data
@@ -436,6 +444,9 @@ class Index:
                 impl["_method"] = self.method[impl["method"]]
                 impl["_ref"] = self.ref[impl["reference"]]
                 impl["_via"] = self.project.get(impl.get("via"))
+                # What it was compared with: listed projects by id, anything else by name.
+                impl["_compared"] = [(self.project[c]["name"], self.project[c]) if c in self.project else (c, None)
+                                     for c in impl.get("compared_with") or []]
                 p["_impls"].append(impl)
                 if impl["_via"]:  # the computation is done by another listed project
                     self.method[impl["method"]]["_via_impls"].append(impl)

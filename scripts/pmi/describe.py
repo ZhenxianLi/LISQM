@@ -9,7 +9,7 @@ from __future__ import annotations
 import re
 from typing import Callable
 
-from .data import GROUPS as GROUPS_TEXT, REF_STATUS, STATUS_ORDER, Index, impl_rank, only_new
+from .data import GROUPS as GROUPS_TEXT, REF_STATUS, STATUS_ORDER, VALIDATION, Index, impl_rank, only_new
 from .paths import LANGUAGES, METRICS, PROJECTS
 from .text import join_words, long_date, month, plural
 
@@ -31,6 +31,64 @@ def edition_short(ref: dict) -> str:
 NEW_LABEL = "newly released, not yet widely used"
 ONLY_NEW = ("So far only newly released projects, which are not yet widely used in the community, have released an "
                  "implementation of it; check their validation before relying on them.")
+
+
+def compared_names(i: dict, name: Fmt | None = None, t: Esc = str) -> list[str]:
+    """What an implementation was compared with: listed projects through `name`, anything else through `t`."""
+    return [name(p) if p and name else t(n) for n, p in i.get("_compared") or []]
+
+
+def validation_label(i: dict, name: Fmt | None = None, t: Esc = str) -> str:
+    """The stated evidence, naming what the implementation was compared with when the project says so:
+    "compared with MoSQITo", "reference code: SQAT", or the plain label ("standard or paper data" …)."""
+    v, names = i["validation"], compared_names(i, name, t)
+    if v == "cross-implementation" and names:
+        return "compared with " + join_words(names)
+    if v == "reference-code" and names:
+        return "reference code: " + join_words(names)
+    return t(VALIDATION[v])
+
+
+def validation_also(i: dict, name: Fmt | None = None, t: Esc = str) -> str:
+    """"also compared with …" when a project names comparisons beside evidence of another kind, else ''."""
+    if i["validation"] in ("cross-implementation", "reference-code") or not i.get("_compared"):
+        return ""
+    return "also compared with " + join_words(compared_names(i, name, t))
+
+
+def validation_groups(impls: list[dict], key: Callable[[dict], str]) -> tuple[list[list[dict]], list[dict]]:
+    """Implementations for a "How it was validated" section, in order: groups of rows with the same key (the
+    project, on a method page), evidence, comparisons and details, shown once; and the rows with nothing stated."""
+    groups: dict[tuple, list[dict]] = {}
+    silent = []
+    for i in impls:
+        details = tuple(i.get("validation_details") or ())
+        compared = tuple(n for n, _ in i.get("_compared") or ())
+        if i["validation"] == "not-stated" and not details and not compared:
+            silent.append(i)
+        else:
+            groups.setdefault((key(i), i["validation"], compared, details), []).append(i)
+    return list(groups.values()), silent
+
+
+def silent_line(impls: list[dict], groups: list[list[dict]], silent: list[dict], on_method: bool) -> str:
+    """The implementations whose projects state nothing about validation, in one sentence. A project page names
+    the metric and edition; a method page names the project, with the editions when the project has others there."""
+    if not on_method:
+        return "Not stated for " + "; ".join(dict.fromkeys(f'{i["_method"]["name"]} · {i["_ref"]["label"]}'
+                                                           for i in silent)) + "."
+    stated = {i["_project"]["id"] for group in groups for i in group}
+    by_project: dict[str, list[dict]] = {}
+    for i in silent:
+        by_project.setdefault(i["_project"]["id"], []).append(i)
+    names = []
+    for pid, rows in by_project.items():
+        name = rows[0]["_project"]["name"]
+        if pid in stated or len({i["reference"] for i in impls if i["_project"]["id"] == pid}) > 1:
+            name += " for " + join_words(list(dict.fromkeys(i["_ref"]["label"] for i in rows)))
+        names.append(name)
+    joined = "; ".join(names) if any(" for " in n for n in names) else join_words(names)
+    return f"Not stated by {joined}."
 
 
 def introduce(site: dict) -> str:

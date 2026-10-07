@@ -32,9 +32,10 @@ implements:
     status: available
     since: "1.0"
     validation: standard-data
-    note: >-
-      `demos/demo_osses2016a.m` reproduces the figures of the paper with the included stimuli (AM and FM tones, AM
-      noise and excerpts of real sounds).
+    validation_details:
+      - >-
+        `demos/demo_osses2016a.m` reproduces the figures of the paper with the included stimuli (AM and FM tones, AM
+        noise and excerpts of real sounds).
 manual:
   last_commit: 2020-01-02
   latest_release: {version: "1.0", date: 2019-12-31}

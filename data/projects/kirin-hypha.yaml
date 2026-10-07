@@ -37,7 +37,10 @@ implements:
     status: available
     since: 1.0.0
     validation: cross-implementation
-    note: Ported from MoSQITo v1.2.1; tests assert specific loudness within a relative 1e-3 of MoSQITo.
+    compared_with: [mosqito]
+    validation_details:
+      - Tests assert specific loudness within a relative 1e-3 of MoSQITo.
+    note: Ported from MoSQITo v1.2.1.
   - method: sharpness
     reference: din-45692-2009
     functions: [kirin_measure::phase_d::sharpness]
@@ -45,7 +48,9 @@ implements:
     status: available
     since: 1.0.0
     validation: cross-implementation
-    note: Tests assert agreement with MoSQITo within 0.05 acum.
+    compared_with: [mosqito]
+    validation_details:
+      - Tests assert agreement with MoSQITo within 0.05 acum.
 manual:
   last_commit: 2026-10-07
   latest_release: {version: v1.1.50, date: 2026-09-21}

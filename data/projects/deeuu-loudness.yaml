@@ -38,9 +38,11 @@ implements:
     scope: with the binaural inhibition of Moore & Glasberg (2007) for two ears
     status: available
     validation: self-tests
-    note: >-
-      Unit tests cover each module and model. A validation script writes computed and expected loudness of pure
-      tones to CSV; the expected values are labelled "Table 7" and "Example 2" without naming their source.
+    validation_details:
+      - Unit tests cover each module and model.
+      - >-
+        A validation script writes computed and expected loudness of pure tones to CSV; the expected values are
+        labelled "Table 7" and "Example 2" without naming their source.
   - method: loudness-moore-glasberg
     reference: chen-2011
     functions: [StationaryLoudnessCHGM2011]
@@ -60,9 +62,11 @@ implements:
     scope: stationary only
     status: available
     validation: cross-implementation
+    compared_with: ["GENESIS ACOUSTICS code (Python port)"]
+    validation_details:
+      - Tested against "a quick and dirty Python port of the Matlab code private by GENESIS ACOUSTICS".
     note: >-
-      Tested against "a quick and dirty Python port of the Matlab code private by GENESIS ACOUSTICS". Uses 28
-      third-octave filters with third-order Butterworth responses after ANSI S1.11:1986; there is no
+      Uses 28 third-octave filters with third-order Butterworth responses after ANSI S1.11:1986; there is no
       time-varying (DIN 45631/A1) model.
 manual:
   last_commit: 2019-08-08

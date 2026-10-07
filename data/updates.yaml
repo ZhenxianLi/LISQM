@@ -2,6 +2,16 @@
 # Body: Markdown paragraphs and "- " bullet lists. See data/SCHEMA.md.
 
 - date: 2026-10-07
+  title: How each implementation was validated
+  body: |
+    Project and method pages have a new section, *How it was validated*: what each project says it checked, and
+    against what (test signals of the standard, the model authors' code, MoSQITo, SQAT or commercial software),
+    with the tolerances and results it reports. Validation tags now name what an implementation was compared with,
+    for example "compared with MoSQITo", instead of "another implementation". Agreement with another implementation
+    shows that both compute the same values, not that either follows the standard. MetaSona is now listed as a C
+    library with a Python interface.
+
+- date: 2026-10-07
   title: Two newly released projects
   body: |
     PsychoacousticMetrics.jl (Julia) adds DIN 45692 sharpness, Daniel & Weber roughness, Osses et al. (2016)

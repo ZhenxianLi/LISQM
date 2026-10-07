@@ -566,6 +566,83 @@ ul.caveats li::marker {
   color: var(--new);
 }
 
+/* How it was validated: one entry per implementation, or per group of rows with the same evidence and details. */
+dl.validation {
+  margin: .6rem 0 1.4rem;
+}
+
+dl.validation dt {
+  margin-top: 1.1rem;
+  font-weight: 600;
+}
+
+dl.validation dt + dt {
+  margin-top: .1rem;
+}
+
+dl.validation dt .sep {
+  color: var(--faint);
+  font-weight: 400;
+}
+
+dl.validation dt .muted,
+dl.validation dt .tag {
+  font-weight: 400;
+}
+
+dl.validation dt .tag-new,
+dl.validation dt .tag-dev,
+dl.validation dt .tag-legacy {
+  font-weight: 700;
+}
+
+dl.validation dd {
+  margin: .3rem 0 0;
+  padding-left: .9rem;
+  border-left: 2px solid var(--hairline);
+}
+
+dl.validation dd p {
+  margin: .2rem 0;
+}
+
+dl.validation .evidence {
+  color: var(--muted);
+}
+
+dl.validation .evidence .tag {
+  font-size: .8em;
+}
+
+dl.validation dd ul {
+  margin: .25rem 0 0;
+  padding-left: 1.1rem;
+}
+
+dl.validation dd li + li {
+  margin-top: .25rem;
+}
+
+/* The entry a validation tag in a table links to. */
+dl.validation dt:target {
+  background: var(--warn-bg);
+  box-shadow: 0 0 0 .2rem var(--warn-bg);
+}
+
+/* Evidence tags can name long things ("compared with ArtemiS SUITE (HEAD acoustics)"), so they wrap. */
+table.impls .tag,
+dl.validation .evidence .tag {
+  white-space: normal;
+}
+
+/* In the details, the projects a tag names link to their pages. */
+.tag a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: .12em;
+}
+
 ul.updates {
   padding-left: 1.1rem;
 }
@@ -1090,14 +1167,56 @@ table.timeline .mk {
 .mk-dev { color: var(--info); }
 .key-quiet { color: var(--muted); }
 
-/* "+3 more": the rest of an edition's projects are on the method page. */
+/* "+3 more" shows the rest of an edition's projects in place; once open, the toggle sits under them and reads
+   "show fewer". */
 table.timeline li.more {
+  display: block;
   margin-top: .15rem;
-  font-size: .85em;
 }
 
-table.timeline li.more a {
+table.timeline li.more summary {
+  display: inline-block;
   color: var(--muted);
+  font-size: .85em;
+  cursor: pointer;
+  list-style: none;
+}
+
+table.timeline li.more summary::-webkit-details-marker {
+  display: none;
+}
+
+table.timeline li.more summary:hover {
+  color: var(--link-hover);
+  text-decoration: underline;
+}
+
+table.timeline li.more summary:focus:not(:focus-visible) {
+  outline: none;
+}
+
+table.timeline li.more .opened,
+table.timeline li.more details[open] .closed {
+  display: none;
+}
+
+table.timeline li.more details[open] .opened {
+  display: inline;
+}
+
+table.timeline li.more details[open] {
+  position: relative;
+  padding-bottom: 1.3em;
+}
+
+table.timeline li.more details[open] > summary {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+}
+
+table.timeline li.more ul {
+  margin-top: 0;
 }
 
 .others-note {

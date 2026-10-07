@@ -81,11 +81,12 @@ short_name: optional shorter name for dense views such as the home-page timeline
 repository: https://github.com/huaaudio/metasona   # canonical source location (any host)
 homepage: optional URL
 docs: optional URL
-languages: [Python, C]                        # programming languages a user calls it from
+languages: [C, Python]                        # programming languages a user calls it from, the main one first
+                                              # (the home page shows the first)
 kind: library                                 # library | toolbox | research-code | reference-program | wrapper
                                               # | application | plugin | teaching
-core: C                                       # optional: the language the computation is written in, when it is
-                                              # not the first of `languages`
+# core: C                                     # optional: the language the computation is written in, when it is
+                                              # not the first of `languages` (Pure Data objects written in C)
 based_on: sqat                                # optional: id of the listed project this one ports
 language_note: optional markdown              # how the project is built and called (shown on the Languages page)
 standing: newly-released                      # established | developing | newly-released (see below)
@@ -120,7 +121,10 @@ implements:
          rows all have via is listed under Others and not under the metrics)
     validation: standard-data                 # standard-data | reference-code | cross-implementation
                                               # | self-tests | not-stated
-    note: optional markdown
+    compared_with: [mosqito]                  # optional: what it was compared with, as listed project ids (linked)
+                                              # or names ("ArtemiS SUITE (HEAD acoustics)")
+    validation_details: [markdown strings]    # optional: what was checked, against what, tolerance and result
+    note: optional markdown (other facts; validation goes in validation_details)
 manual:                                       # optional fallback when the refresher cannot reach the host
   last_commit: 2026-09-25
   latest_release: {version: 0.2.2, date: 2026-09-25}
@@ -166,11 +170,15 @@ and never listed as legacy. MetaSona has rank 1 among the newly released project
 |---|---|
 | `standard-data` | Compared with test signals or values published in the standard or the model paper |
 | `reference-code` | Compared with the reference program or the model authors' own code |
-| `cross-implementation` | Compared with another independent implementation |
+| `cross-implementation` | Compared with another implementation, named in `compared_with` where the project says which |
 | `self-tests` | Tests exist, but without external reference data |
 | `not-stated` | The project does not say how it was validated |
 
-These record what the project itself claims. The list does not run the code.
+These record what the project itself claims. The list does not run the code. `compared_with` names what an
+implementation was compared with: the tag then reads "compared with MoSQITo" (cross-implementation), "reference
+code: SQAT" (reference-code) or adds "also compared with …" to another kind of evidence. `validation_details` are
+shown, one bullet each, under *How it was validated* on the project and method pages. Agreement with another
+implementation shows that both compute the same values, not that either follows the standard.
 
 ## `snapshot.json` (machine-written)
 

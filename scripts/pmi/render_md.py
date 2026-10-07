@@ -8,8 +8,8 @@ from __future__ import annotations
 from .data import (GROUP_NAMES, GROUPS, IMPL_STATUS_LONG, PROJECT_KINDS, REGISTRIES, VALIDATION, VALIDATION_LONG,
                    Index)
 from .describe import (COVERAGE_COLUMNS, GROUP_RULE, NEW_LABEL, activity_text, ai_guide, by_language, coverage, dedupe, edition_state,
-                       faq, in_short, introduce, legacy_label, name_note, ref_status, release_text, standing_sentence, timeline,
-                       version_label)
+                       faq, in_short, introduce, legacy_label, name_note, ref_status, release_text, silent_line,
+                       standing_sentence, timeline, validation_also, validation_groups, validation_label, version_label)
 from .paths import (ABOUT, AI, FAQ, HOME, LANGUAGES, METRICS, PROJECTS, STANDARDS, UPDATES, absolute, md_twin,
                     method_path, project_path)
 from .text import first_sentence, join_words, long_date, month, oneline, plain, plural
@@ -56,9 +56,63 @@ def _impl_note(i: dict) -> str:
     return " ".join(bits)
 
 
-def _edition(i: dict) -> str:
+def _edition_link(index: Index, r: dict) -> str:
+    """The edition linked to the standard or paper, or to its full citation on the Standards page."""
+    if r.get("url") or r.get("doi"):
+        return _ref_link(r)
+    return f"[{r['label']}]({absolute(index, STANDARDS)}#ref-{r['id']})"
+
+
+def _edition(index: Index, i: dict) -> str:
     extra = ([i["scope"]] if i.get("scope") else []) + ([f"since {i['since']}"] if i.get("since") else [])
-    return i["_ref"]["label"] + (f" ({'; '.join(extra)})" if extra else "")
+    return _edition_link(index, i["_ref"]) + (f" ({'; '.join(extra)})" if extra else "")
+
+
+def _validation(i: dict) -> str:
+    """Table cell: the stated evidence, naming what the implementation was compared with."""
+    also = validation_also(i)
+    return validation_label(i) + (f"; {also}" if also else "")
+
+
+def _validation_section(index: Index, impls: list[dict], on_method: bool) -> list[str]:
+    """Markdown twin of the "How it was validated" section of the HTML pages."""
+    name = _namer(index)
+    groups, silent = validation_groups(impls, (lambda i: i["_project"]["id"]) if on_method else (lambda i: ""))
+    triples = [(i["_project"]["id"], i["method"], i["reference"]) for i in impls]
+
+    def title(i: dict, named: bool = True) -> str:
+        edition = i["_ref"]["label"]
+        if i.get("scope") and triples.count((i["_project"]["id"], i["method"], i["reference"])) > 1:
+            edition += f" ({i['scope']})"
+        if not named:
+            return edition
+        head = name(i["_project"]) if on_method else _method_link(index, i["_method"])
+        if on_method and i.get("_via"):
+            head += f" (via {i['_via']['name']})"
+        return f"{head}, {edition}"
+
+    who = "each project" if on_method else "the project"
+    lines = [f"## How {'they were' if on_method else 'it was'} validated", "",
+             f"As stated by {who}; {index.site['name']} has not run the code. Agreement with another implementation "
+             "shows that both compute the same values, not that either follows the standard.", ""]
+    for group in groups:
+        i = group[0]
+        evidence = validation_label(i, name)
+        also = validation_also(i, name)
+        # On a method page a group is one project: name it once, then the editions.
+        heads = [title(group[0])] + [title(j, named=not on_method) for j in group[1:]]
+        lines.append(f"- **{'; '.join(heads)}**: {evidence}" + (f"; {also}" if also else ""))
+        lines += [f"  - {oneline(d)}" for d in i.get("validation_details") or []]
+    if groups:
+        lines.append("")
+    if silent:
+        if not groups:
+            lines.append("None of these projects says how its code was validated." if on_method
+                         else "The project does not say how any of these were validated.")
+        else:
+            lines.append(silent_line(impls, groups, silent, on_method))
+        lines.append("")
+    return lines
 
 
 def _functions(i: dict) -> str:
@@ -96,14 +150,14 @@ def method_page(index: Index, m: dict) -> str:
         who = ", ".join(name(i["_project"]) + ("" if i["status"] == "available" else f" ({i['status']})")
                         for i in impls)
         status = ref_status(r) + (f"; {r['revision']}" if r.get("revision") else "")
-        rows.append([month(r.get("date")) or "—", _ref_link(r), status,
+        rows.append([month(r.get("date")) or "—", _edition_link(index, r), status,
                      (m.get("edition_notes") or {}).get(rid, ""), who])
     lines += _table(["Date", "Edition", "Status", "What changed", "Implemented by"], rows) + [""]
 
     lines += ["## Implementations", ""]
     if m["_impls"]:
-        rows = [[name(i["_project"]), ", ".join(i["_project"]["languages"]), _edition(i), _functions(i),
-                 VALIDATION[i["validation"]], _impl_note(i)] for i in m["_impls"]]
+        rows = [[name(i["_project"]), ", ".join(i["_project"]["languages"]), _edition(index, i), _functions(i),
+                 _validation(i), _impl_note(i)] for i in m["_impls"]]
         lines += _table(["Project", "Language", "Edition", "Functions", "Validation (as stated)", "Notes"], rows)
     else:
         lines.append("No open-source implementation has been found yet. "
@@ -116,6 +170,9 @@ def method_page(index: Index, m: dict) -> str:
     if m.get("see_also"):
         lines += ["**See also:** " + ", ".join(_method_link(index, index.method[s], index.method[s]["title"])
                                               for s in m["see_also"]), ""]
+    checked = m["_impls"] + dedupe(m["_via_impls"])
+    if checked:
+        lines += _validation_section(index, checked, on_method=True)
     lines += ["## References", ""] + _reference_list([index.ref[r] for r in m["references"]]) + [""]
     return "\n".join(lines)
 
@@ -163,9 +220,10 @@ def project_page(index: Index, p: dict) -> str:
     lines += [f"- **{k}:** {v}" for k, v in facts] + [""]
 
     lines += ["## What it implements", ""]
-    rows = [[_method_link(index, i["_method"]), _edition(i), _functions(i), i["status"], VALIDATION[i["validation"]],
+    rows = [[_method_link(index, i["_method"]), _edition(index, i), _functions(i), i["status"], _validation(i),
              (i.get("note") or "").strip()] for i in p["_impls"]]
     lines += _table(["Metric", "Edition", "Functions", "Status", "Validation (as stated)", "Notes"], rows) + [""]
+    lines += _validation_section(index, p["_impls"], on_method=False)
     if p.get("notes"):
         lines += ["## Notes", ""] + [f"- {oneline(n)}" for n in p["notes"]] + [""]
     if p.get("caveats"):
@@ -436,7 +494,11 @@ def about_page(index: Index) -> str:
               "bodies for new editions. A person reviews the findings before anything is added.", ""]
     lines += ["## Status of an implementation", ""]
     lines += _table(["Value", "Meaning"], [[k, v] for k, v in IMPL_STATUS_LONG.items()]) + [""]
-    lines += ["## Validation evidence", "", "As stated by each project:", ""]
+    lines += ["## Validation evidence", "",
+              "As stated by each project. Where a project says what it compared its results with (MoSQITo, SQAT, the "
+              "model authors' code or commercial software), the list names it, and each project page sets out the "
+              "details under *How it was validated*. Agreement with another implementation shows that both compute "
+              "the same values, not that either follows the standard: an error they share goes unnoticed.", ""]
     lines += _table(["Value", "Meaning"], [[VALIDATION[k], v] for k, v in VALIDATION_LONG.items()]) + [""]
     lines += ["## Standing of a project", "",
               GROUP_RULE + " "

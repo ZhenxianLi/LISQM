@@ -43,10 +43,11 @@ implements:
     scope: reference MATLAB code referred to in ISO 532-3, per its readme
     status: available
     validation: not-stated
-    note: >-
-      Written by the model's authors (per the readme PDF). The folder "code for tables" has scripts that compute
-      Table 5 (sone to phon) and the values of Annexes B and C (AnnexC.m is headed "Signals numbered as in ISO
-      532-2 Annex B"); the scripts do not name ISO 532-3.
+    validation_details:
+      - >-
+        The folder "code for tables" has scripts that compute Table 5 (sone to phon) and the values of Annexes B and C
+        (AnnexC.m is headed "Signals numbered as in ISO 532-2 Annex B"); the scripts do not name ISO 532-3.
+    note: Written by the model's authors (per the readme PDF).
 manual:
   last_commit: 2021-10-08
   archived: false

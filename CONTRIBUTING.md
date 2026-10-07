@@ -88,15 +88,17 @@ writes the entry.
 1. Copy [`data/projects/metasona.yaml`](data/projects/metasona.yaml), a complete example, to
    `data/projects/<id>.yaml`. The `id` is lowercase kebab-case, usually the project name, and equals the file
    name. It never changes once published, because it is part of page URLs.
-2. Fill in the required fields: `name`, `repository`, `languages`, `kind`, `standing`, `license`,
-   `summary`, `ai_assistance`, `implements`, `sources` and `checked`. `standing` is `established`,
-   `newly-released` or `developing`; a project first released less than about a year ago is `newly-released`
-   and needs a `standing_note` saying when it was first released. Lists put established projects first, so a
-   project that has not yet been used much is never the first suggestion; projects without a commit for three
-   years are listed as legacy automatically. If the
-   computation is written in another language than the first of `languages` (a C library with a Python
-   package, say), set `core` and explain how it is called in `language_note`. The optional fields are
-   described in [`data/SCHEMA.md`](data/SCHEMA.md). Leave out what you do not know rather than guessing.
+2. Fill in the required fields: `name`, `repository`, `languages`, `kind`, `standing`, `license`, `summary`,
+   `ai_assistance`, `implements`, `sources` and `checked`. `standing` is `established`, `newly-released` or
+   `developing`; a project first released less than about a year ago is `newly-released` and needs a
+   `standing_note` saying when it was first released. Lists put established projects first, so a project that
+   has not yet been used much is never the first suggestion; projects without a commit for three years are
+   listed as legacy automatically. `languages` lists the language the computation is written in first, then
+   the languages it can be called from: a C library with a Python package is `[C, Python]`, and the home page
+   shows C. If users work in an environment rather than in that language (Pure Data objects written in C,
+   say), list the environment first, set `core` to the language of the computation, and explain how it is
+   called in `language_note`. The optional fields are described in [`data/SCHEMA.md`](data/SCHEMA.md). Leave
+   out what you do not know rather than guessing.
 3. Add one `implements` entry per method and edition. A project that implements two editions of the same
    method gets two entries.
 
@@ -107,7 +109,14 @@ writes the entry.
        functions: [stationary_loudness, time_varying_loudness]
        status: available                 # available | unreleased | proposed
        validation: standard-data         # as the project states it; not-stated if it says nothing
+       compared_with: [mosqito]          # optional: what it was compared with (listed project ids or names)
+       validation_details:               # optional: what was checked, against what, with which tolerance
+         - Tested against the Annex B test signals within the standard's tolerance.
    ```
+
+   `compared_with` and `validation_details` appear on the project and method pages under *How it was
+   validated*. Write them from the project's own words: what was compared, with which reference or
+   implementation, the tolerance and the result. Keep other facts in `note`.
 
 4. Do not add stars, versions or commit dates. The refresh fetches them from GitHub, PyPI, crates.io
    and npm. For a repository hosted elsewhere, fill in `manual` (last commit, latest release, archived).
@@ -156,6 +165,8 @@ To have the scheduled job watch a standard that it does not cover yet, add a pat
   page. When a statement may change, link to a release, a tag or a commit.
 - **Claims, not tests.** `validation` records the evidence the project describes: `standard-data`,
   `reference-code`, `cross-implementation`, `self-tests` or `not-stated`. The list does not run the code.
+  Name what it was compared with in `compared_with` whenever the project says so, so that readers see
+  "compared with MoSQITo" rather than "another implementation".
 - **AI assistance** is `disclosed` only when the project itself says so; `ai_note` says where. Otherwise it
   is `not-stated`.
 - **Caveats** are limitations the project states or documents, such as a known deviation or an open issue,

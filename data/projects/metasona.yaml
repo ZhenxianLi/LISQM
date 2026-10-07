@@ -1,10 +1,9 @@
 id: metasona
 name: MetaSona
 repository: https://github.com/huaaudio/metasona
-docs: https://github.com/huaaudio/metasona/blob/main/docs/python-api.md
-languages: [Python, C]
+docs: https://github.com/huaaudio/metasona/tree/main/docs
+languages: [C, Python]
 kind: library
-core: C
 based_on: sqat
 language_note: >-
   A CMake library in C11 with the header `metasona/metasona.h` and a documented C API. The Python package
@@ -54,9 +53,14 @@ implements:
     status: available
     since: 0.1.0
     validation: cross-implementation
-    note: >-
-      Model tables taken from MoSQITo and checked element by element; one upper-slope value (0.22) follows
-      the ISO 532-1 reference C table where MoSQITo uses 0.24. Comparison results are not published.
+    compared_with: [mosqito]
+    validation_details:
+      - >-
+        Model tables taken from MoSQITo were checked element by element; one upper-slope value (0.22) follows the ISO
+        532-1 reference C table where MoSQITo uses 0.24.
+      - >-
+        The project says that detailed validation and reference comparisons are kept outside the repository; the
+        results are not published. The README says standards conformance has not been established.
   - method: sharpness
     reference: din-45692-2009
     functions: [sharpness_din45692]
@@ -70,18 +74,28 @@ implements:
     status: available
     since: 0.1.0
     validation: cross-implementation
+    compared_with: [sqat]
+    validation_details:
+      - >-
+        The project says that detailed validation and reference comparisons are kept outside the repository; the
+        results are not published.
+      - The API documentation calls the function experimental and says normative validation remains open.
     note: >-
       Follows SQAT revision `e6228b78`, which includes SQAT's September 2026 rewrite but not its later fix to the
-      Terhardt filter bank (PR #77). Comparison results are not published.
+      Terhardt filter bank (PR #77).
   - method: tonality-aures
     reference: aures-1985-euphony
     functions: [tonality_aures]
     status: available
     since: 0.1.0
     validation: cross-implementation
-    note: >-
-      Follows SQAT's September 2026 revision (250 ms Hann windows, 125 ms hop); exact agreement with
-      MATLAB is not established. Comparison results are not published.
+    compared_with: [sqat]
+    validation_details:
+      - >-
+        The project calls its source-based Python comparisons "development checks, not an executed MATLAB/Octave
+        validation"; exact agreement with MATLAB is not established.
+      - The results are not published.
+    note: Follows SQAT's September 2026 revision (250 ms Hann windows, 125 ms hop).
   - method: loudness-ecma-418-2
     reference: ecma-418-2-ed4
     functions: [loudness_ecma, ecma_tonal_analysis]
@@ -89,7 +103,12 @@ implements:
     status: available
     since: 0.2.0
     validation: cross-implementation
-    note: Adapted from the SQAT/RefMap MATLAB code by Lotinga and Torjussen. Comparison results are not published.
+    compared_with: [sqat]
+    validation_details:
+      - >-
+        The project says that detailed validation and reference comparisons are kept outside the repository; the
+        results are not published.
+    note: Adapted from the SQAT/RefMap MATLAB code by Lotinga and Torjussen.
   - method: roughness-ecma-418-2
     reference: ecma-418-2-ed4
     functions: [roughness_ecma]
@@ -97,9 +116,13 @@ implements:
     status: available
     since: 0.2.0
     validation: cross-implementation
+    compared_with: [sqat]
+    validation_details:
+      - >-
+        The project says that detailed validation and reference comparisons are kept outside the repository; the
+        results are not published.
     note: >-
-      Uses the standard's 20 ms grid and nominal calibration factor, where SQAT uses a slightly adjusted
-      calibration. Comparison results are not published.
+      Uses the standard's 20 ms grid and nominal calibration factor, where SQAT uses a slightly adjusted calibration.
   - method: tonality-ecma-418-2
     reference: ecma-418-2-ed4
     functions: [tonality_ecma, ecma_tonal_analysis]
@@ -107,7 +130,11 @@ implements:
     status: available
     since: 0.2.0
     validation: cross-implementation
-    note: Comparison results are not published.
+    compared_with: [sqat]
+    validation_details:
+      - >-
+        The project says that detailed validation and reference comparisons are kept outside the repository; the
+        results are not published.
 manual:
   last_commit: 2026-09-25
   latest_release: {version: 0.2.2, date: 2026-09-25}
@@ -118,4 +145,6 @@ sources:
   - https://github.com/huaaudio/metasona/blob/main/NOTICE
   - https://pypi.org/project/metasona/
   - https://github.com/huaaudio/metasona/blob/main/python/metasona/_abi.py
-checked: 2026-10-06
+  - https://github.com/huaaudio/metasona/blob/main/docs/c-api.md
+  - https://github.com/huaaudio/metasona/blob/main/docs/python-api.md
+checked: 2026-10-07

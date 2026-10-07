@@ -42,7 +42,8 @@ implements:
     status: available
     since: 1.0.0
     validation: standard-data
-    note: Validation scripts use the ISO 532-1 Annex B test signals; the documentation marks it as validated.
+    validation_details:
+      - Validation scripts use the ISO 532-1 Annex B test signals; the documentation marks it as validated.
   - method: loudness-ecma-418-2
     reference: ecma-418-2-ed2
     functions: [loudness_ecma]
@@ -52,7 +53,9 @@ implements:
     status: available
     since: 1.2.0
     validation: standard-data
-    note: Followed the 1st edition (2020) in versions 1.0.0–1.1.1 and the 2nd edition (2022) from 1.2.0. Validation scripts compare with figures of the standard.
+    validation_details:
+      - Validation scripts compare with figures of the standard.
+    note: Followed the 1st edition (2020) in versions 1.0.0–1.1.1 and the 2nd edition (2022) from 1.2.0.
   - method: sharpness
     reference: din-45692-2009
     functions: [sharpness_din_st, sharpness_din_tv, sharpness_din_perseg, sharpness_din_from_loudness, sharpness_din_freq]
@@ -60,14 +63,16 @@ implements:
     status: available
     since: 1.0.2
     validation: standard-data
-    note: Validation scripts use the DIN 45692 test signals; the documentation marks it as validated.
+    validation_details:
+      - Validation scripts use the DIN 45692 test signals; the documentation marks it as validated.
   - method: roughness-daniel-weber
     reference: daniel-weber-1997
     functions: [roughness_dw, roughness_dw_freq]
     status: available
     since: 1.0.0
     validation: standard-data
-    note: The documentation marks it as validated against reference data.
+    validation_details:
+      - The documentation marks it as validated against reference data.
   - method: roughness-ecma-418-2
     reference: ecma-418-2-ed2
     functions: [roughness_ecma]
@@ -83,9 +88,11 @@ implements:
     status: available
     since: 1.0.2
     validation: not-stated
+    validation_details:
+      - The documentation marks it as available but not validated.
     note: >-
-      Docstrings say "ECMA 418-1" without an edition; the helper code and the bibliography cite ECMA-74 Annex D
-      (17th edition, 2019). The documentation marks it as available but not validated.
+      Docstrings say "ECMA 418-1" without an edition; the helper code and the bibliography cite ECMA-74 Annex D (17th
+      edition, 2019).
   - method: equal-loudness-contours
     reference: iso-226-2003
     functions: [equal_loudness_contours]

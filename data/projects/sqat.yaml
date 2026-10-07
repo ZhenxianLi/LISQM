@@ -57,9 +57,10 @@ implements:
     status: available
     since: v1.0
     validation: standard-data
+    validation_details:
+      - Checked with the 25 test signals of Annex B.2–B.5 against the standard's tolerances.
     note: >-
-      Checked with the 25 test signals of Annex B.2–B.5 against the standard's tolerances. Fixes to the
-      time-varying procedure are on `main` only (PR #48).
+      Fixes to the time-varying procedure are on `main` only (PR #48).
   - method: sharpness
     reference: din-45692-2009
     functions: [Sharpness_DIN45692, Sharpness_DIN45692_from_loudness, Sharpness_DIN45692_from_wavfile]
@@ -67,34 +68,39 @@ implements:
     status: available
     since: v1.0
     validation: standard-data
-    note: Checked with the narrowband and broadband test signals of DIN 45692.
+    validation_details:
+      - Checked with the narrowband and broadband test signals of DIN 45692.
   - method: roughness-daniel-weber
     reference: daniel-weber-1997
     functions: [Roughness_Daniel1997, Roughness_Daniel1997_from_wavfile]
     status: available
     since: v1.0
     validation: standard-data
+    validation_details:
+      - Checked against amplitude- and frequency-modulation dependences from the literature.
     note: >-
-      Checked against amplitude- and frequency-modulation dependences from the literature. Rewritten on `main`
-      (PR #65, 2026-09-08) after revised code from Dik Hermes: 63 of 119 validation values go up and 56 down
-      (largest change 0.155 asper).
+      Rewritten on `main` (PR #65, 2026-09-08) after revised code from Dik Hermes: 63 of 119 validation values go up
+      and 56 down (largest change 0.155 asper).
   - method: fluctuation-strength-osses
     reference: osses-2016
     functions: [FluctuationStrength_Osses2016, FluctuationStrength_Osses2016_from_wavfile]
     status: available
     since: v1.0
     validation: standard-data
-    note: Checked against amplitude- and frequency-modulation dependences from the literature.
+    validation_details:
+      - Checked against amplitude- and frequency-modulation dependences from the literature.
   - method: tonality-aures
     reference: aures-1985-euphony
     functions: [Tonality_Aures1985, Tonality_Aures1985_from_wavfile]
     status: available
     since: v1.0
     validation: standard-data
+    validation_details:
+      - v1.3 is checked with one signal-to-noise comparison.
+      - The September 2026 fixes on `main` add checks against Aures's Figs. 5 and 6.
     note: >-
-      v1.3 is checked with one signal-to-noise comparison. Eight defects were fixed on `main` in September 2026
-      (for example, only one tonal component's level excess entered the result, and tones were removed from the
-      wrong spectrum), with new checks against Aures's Figs. 5 and 6.
+      Eight defects were fixed on `main` in September 2026 (for example, only one tonal component's level excess
+      entered the result, and tones were removed from the wrong spectrum).
   - method: psychoacoustic-annoyance
     reference: zwicker-fastl-1999
     functions: [PsychoacousticAnnoyance_Zwicker1999, PsychoacousticAnnoyance_Zwicker1999_from_percentile]
@@ -113,21 +119,32 @@ implements:
     status: available
     since: v1.0
     validation: not-stated
-    note: No verification routine (README).
+    validation_details:
+      - No verification routine (README).
   - method: psychoacoustic-annoyance
     reference: di-2016
     functions: [PsychoacousticAnnoyance_Di2016, PsychoacousticAnnoyance_Di2016_from_percentile]
     status: available
     since: v1.0
     validation: not-stated
-    note: No verification routine (README).
+    validation_details:
+      - No verification routine (README).
   - method: epnl
     reference: cfr-14-part-36
     functions: [EPNL_FAR_Part36, get_PNL, get_PNLT, get_Duration_Correction]
     status: available
     since: v1.1
     validation: cross-implementation
-    note: The README says no reference implementation or test signals exist, so it was only cross-checked. Follows Amendment 36-26 (2005).
+    compared_with: ["published EPNL values (Rizzi et al., 2020)"]
+    validation_details:
+      - The README says that no reference implementation or test signals exist, so the verification is partial.
+      - >-
+        Perceived noisiness is checked at its definition (a third-octave band of noise at 1 kHz and 40 dB SPL gives 1
+        noy), and the tone correction factor against Table 3.7 of ICAO Doc 9501.
+      - >-
+        EPNL is cross-checked with Table 4 of Rizzi et al. (2020), AIAA 2020-2582, for 15 flyover sounds (five cases
+        auralised by three tools): the largest difference is about 0.6 EPNdB.
+    note: Follows Amendment 36-26 (2005).
   - method: loudness-ecma-418-2
     reference: ecma-418-2-ed3
     functions: [Loudness_ECMA418_2, LoudnessFromComp_ECMA418_2]
@@ -135,12 +152,22 @@ implements:
     status: available
     since: v1.3
     validation: cross-implementation
-    note: Checked against equal-loudness contours and against reference results from commercial software on a binaural recording.
+    compared_with: ["commercial software"]
+    validation_details:
+      - >-
+        Checked against the ISO 226:2003 equal-loudness contours and against reference results from commercial
+        software for a binaural recording of a train station.
   - method: loudness-ecma-418-2
     reference: ecma-418-2-ed4
     functions: [Loudness_ECMA418_2, LoudnessFromComp_ECMA418_2]
     status: unreleased
     validation: cross-implementation
+    compared_with: ["commercial software"]
+    validation_details:
+      - >-
+        On `main`, checked for the 4th edition against the ISO 226:2003 equal-loudness contours and against
+        reference results from commercial software for a binaural recording of a train station (last checked in
+        November 2025).
     note: Updated to the 4th edition on `main` in 2025.
   - method: roughness-ecma-418-2
     reference: ecma-418-2-ed3
@@ -149,11 +176,22 @@ implements:
     status: available
     since: v1.3
     validation: cross-implementation
+    compared_with: ["commercial software"]
+    validation_details:
+      - >-
+        Checked for the dependence of the roughness of AM tones on modulation frequency, and against reference results
+        from commercial software for a binaural recording of a train station.
   - method: roughness-ecma-418-2
     reference: ecma-418-2-ed4
     functions: [Roughness_ECMA418_2]
     status: unreleased
     validation: cross-implementation
+    compared_with: ["commercial software"]
+    validation_details:
+      - >-
+        On `main`, checked for the 4th edition for the dependence of the roughness of AM tones on modulation
+        frequency, and against reference results from commercial software for a binaural recording of a train
+        station.
     note: Amended to the 4th edition on `main` in November 2025.
   - method: tonality-ecma-418-2
     reference: ecma-418-2-ed3
@@ -161,14 +199,22 @@ implements:
     status: available
     since: v1.3
     validation: cross-implementation
+    compared_with: ["commercial software"]
+    validation_details:
+      - Checked against reference results from commercial software for a binaural recording of a train station.
   - method: tonality-ecma-418-2
     reference: ecma-418-2-ed4
     functions: [Tonality_ECMA418_2]
     status: unreleased
     validation: cross-implementation
-    note: >-
-      A verification against Annex B.2 (PR #79) was merged and reverted on 2026-09-21 because the Annex B values of
-      the 2025 edition appear to be out of date.
+    compared_with: ["commercial software"]
+    validation_details:
+      - >-
+        On `main`, checked for the 4th edition against reference results from commercial software for a binaural
+        recording of a train station.
+      - >-
+        A verification against Annex B.2 (PR #79) was merged and reverted on 2026-09-21 because the Annex B values of
+        the 2025 edition appear to be out of date.
   - method: fluctuation-strength-ecma-418-2
     reference: ecma-418-2-ed4
     functions: [FluctuationStrength_ECMA418_2]
@@ -190,4 +236,7 @@ sources:
   - https://github.com/ggrecow/SQAT/pull/65
   - https://github.com/ggrecow/SQAT/pull/78
   - https://github.com/ggrecow/SQAT/pull/79
-checked: 2026-10-06
+  - https://github.com/ggrecow/SQAT/tree/main/validation
+  - https://github.com/ggrecow/SQAT/tree/main/validation/EPNL_FAR_Part36
+  - https://github.com/ggrecow/SQAT/tree/v1.3/validation
+checked: 2026-10-07

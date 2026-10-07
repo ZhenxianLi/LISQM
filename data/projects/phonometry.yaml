@@ -43,7 +43,9 @@ implements:
     status: available
     since: 3.1.0
     validation: standard-data
-    note: Written from the Annex A reference program; Annex B test signals are used in the tests.
+    validation_details:
+      - Annex B test signals are used in the tests.
+    note: Written from the Annex A reference program.
   - method: loudness-moore-glasberg
     reference: iso-532-2-2017
     functions: [loudness_moore_glasberg, loudness_moore_glasberg_from_spectrum, loudness_moore_glasberg_from_third_octave]
@@ -51,16 +53,19 @@ implements:
     status: available
     since: 3.1.0
     validation: standard-data
-    note: The documentation says it reproduces the Annex B tone and broadband cases to within a percent or two.
+    validation_details:
+      - The documentation says it reproduces the Annex B tone and broadband cases to within a percent or two.
   - method: loudness-moore-glasberg-time-varying
     reference: iso-532-3-2023
     functions: [loudness_moore_glasberg_time]
     status: available
     since: 3.1.0
     validation: standard-data
+    validation_details:
+      - >-
+        A documented deviation: the Annex B WAV-file cases are not reproduced, and Annex C values are used instead.
     note: >-
-      Documented deviations: it runs at the native sample rate instead of resampling to 32 kHz, and the Annex B
-      WAV-file cases are not reproduced (Annex C values are used instead).
+      Documented deviation: it runs at the native sample rate instead of resampling to 32 kHz.
   - method: loudness-ecma-418-2
     reference: ecma-418-2-ed4
     functions: [loudness_ecma]
@@ -68,7 +73,8 @@ implements:
     status: available
     since: 3.1.0
     validation: standard-data
-    note: Checked at the calibration signal only, where it gives 0.9843 sone_HMS (−1.55 %).
+    validation_details:
+      - Checked at the calibration signal only, where it gives 0.9843 sone_HMS (−1.55 %).
   - method: tonality-ecma-418-2
     reference: ecma-418-2-ed4
     functions: [tonality_ecma]
@@ -76,7 +82,8 @@ implements:
     status: available
     since: 3.1.0
     validation: standard-data
-    note: Checked at the calibration signal only.
+    validation_details:
+      - Checked at the calibration signal only.
   - method: roughness-ecma-418-2
     reference: ecma-418-2-ed4
     functions: [roughness_ecma]
@@ -84,7 +91,8 @@ implements:
     status: available
     since: 3.1.0
     validation: standard-data
-    note: Checked at the calibration signal only.
+    validation_details:
+      - Checked at the calibration signal only.
   - method: fluctuation-strength-ecma-418-2
     reference: ecma-418-2-ed4
     functions: [fluctuation_strength_ecma]
@@ -92,7 +100,9 @@ implements:
     status: available
     since: 3.3.0
     validation: standard-data
-    note: Checked at the calibration signal only (0.993 vacil_HMS); misprints found in Clause 9 are listed in its errata.
+    validation_details:
+      - Checked at the calibration signal only (0.993 vacil_HMS).
+    note: Misprints found in Clause 9 are listed in the project's errata.
   - method: sharpness
     reference: din-45692-2009
     functions: [sharpness_din, sharpness_din_from_specific]
@@ -100,16 +110,18 @@ implements:
     status: available
     since: 3.1.0
     validation: standard-data
-    note: Checked with the DIN 45692 reference signal and Tables A.2 and A.3.
+    validation_details:
+      - Checked with the DIN 45692 reference signal and Tables A.2 and A.3.
   - method: fluctuation-strength-osses
     reference: osses-2016
     functions: [fluctuation_strength]
     status: available
     since: 3.1.0
     validation: standard-data
-    note: >-
-      Compared with Table 1 of Osses et al. (2016) and with SQAT (correlation 0.98). Validated for amplitude
-      modulation only; a steady 1 kHz tone reads about 0.09 vacil.
+    compared_with: [sqat]
+    validation_details:
+      - Compared with Table 1 of Osses et al. (2016) and with SQAT (correlation 0.98).
+      - Validated for amplitude modulation only; a steady 1 kHz tone reads about 0.09 vacil.
   - method: fluctuation-strength-osses
     reference: fastl-zwicker-2007
     functions: [fluctuation_strength_am_noise]
@@ -117,7 +129,8 @@ implements:
     status: available
     since: 3.1.0
     validation: standard-data
-    note: A conformance row checks Eq. (10.2) of Fastl & Zwicker for amplitude-modulated broadband noise.
+    validation_details:
+      - A conformance row checks Eq. (10.2) of Fastl & Zwicker for amplitude-modulated broadband noise.
   - method: psychoacoustic-annoyance
     reference: zwicker-fastl-1999
     functions: [psychoacoustic_annoyance, psychoacoustic_annoyance_from_signal]
@@ -138,10 +151,13 @@ implements:
     status: available
     since: 3.1.0
     validation: standard-data
+    compared_with: ["DIN 45681 Annex J reference program"]
+    validation_details:
+      - Reproduces the Annex E worked example.
+      - Parts are checked against DIN 45681:2005 and its Annex J reference program.
     note: >-
-      Follows the 2016 PAS, not the 2022 TS. Does not apply the A-weighting required by clause 5.3.2.
-      Reproduces the Annex E worked example; parts are checked against DIN 45681:2005 and its Annex J reference
-      program (DIN 45681 itself is not implemented).
+      Follows the 2016 PAS, not the 2022 TS. Does not apply the A-weighting required by clause 5.3.2. DIN 45681 itself
+      is not implemented.
   - method: equal-loudness-contours
     reference: iso-226-2023
     functions: [equal_loudness_contour, equal_loudness_contours, loudness_level, hearing_threshold]
@@ -178,7 +194,8 @@ implements:
     scope: PNL, PNLT and EPNL, in the `phonometry.aircraft` namespace
     status: available
     validation: standard-data
-    note: Tested with the EPNL example of ICAO Doc 9501 (Environmental Technical Manual).
+    validation_details:
+      - Tested with the EPNL example of ICAO Doc 9501 (Environmental Technical Manual).
 manual:
   last_commit: 2026-10-01
   latest_release: {version: 3.3.0, date: 2026-07-26}

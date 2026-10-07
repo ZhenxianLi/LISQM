@@ -44,10 +44,13 @@ implements:
     scope: stationary and time-varying
     status: available
     validation: standard-data
+    validation_details:
+      - >-
+        A commit of 2017-12-11 says the code was verified with the time-varying test signals of Annex B.5; no check of
+        the stationary method is stated.
     note: >-
-      A commit of 2017-12-11 says the code was verified with the time-varying test signals of Annex B.5; no
-      check of the stationary method is stated. The header cites a 2014 draft of ISO 532-1 and describes the code
-      as Ella Manor's 2015 MATLAB port, with adjustments, of the Annex A C code.
+      The header cites a 2014 draft of ISO 532-1 and describes the code as Ella Manor's 2015 MATLAB port, with
+      adjustments, of the Annex A C code.
   - method: loudness-zwicker
     reference: chalupper-fastl-2002
     functions: [LoudnessCF]

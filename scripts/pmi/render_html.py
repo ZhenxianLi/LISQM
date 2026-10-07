@@ -15,7 +15,8 @@ from .data import (GROUP_NAMES, GROUPS, IMPL_STATUS_LONG, VERIFICATION_META, PRO
                    Index, only_new)
 from .describe import (COVERAGE_COLUMNS, GROUP_RULE, ONLY_NEW, activity_text, ai_guide, by_language, coverage, current_statement,
                        dedupe, edition_state, faq, impl_phrase, introduce, language_order, name_note, ref_status, release_text,
-                       standing_sentence, time_bins, timeline)
+                       silent_line, standing_sentence, time_bins, timeline, validation_also, validation_groups,
+                       validation_label)
 from .paths import (ABOUT, AI, FAQ, HOME, LANGUAGES, METRICS, PROJECTS, STANDARDS, UPDATES, absolute, md_twin,
                     method_path, project_path, relative)
 from .text import blocks, esc, inline, join_words, long_date, month, plain, plural
@@ -224,9 +225,77 @@ def _langs(langs: list[str]) -> str:
     return " ".join(_lang_tag(lang) for lang in langs)
 
 
-def _validation(i: dict) -> str:
+def _validation(i: dict, href: str = "") -> str:
+    """Table cell: the stated evidence as a tag that names what the implementation was compared with, linked to the
+    details further down the page."""
     v = i["validation"]
-    return _tag(VALIDATION[v], VALIDATION_KIND[v], VALIDATION_LONG[v])
+    cell = _tag(validation_label(i), VALIDATION_KIND[v], VALIDATION_LONG[v] + (" Details below." if href else ""),
+                href=href)
+    also = validation_also(i)
+    if also:
+        cell += f'<br><span class="small muted">{esc(also)}</span>'
+    return cell
+
+
+def _validation_ids(impls: list[dict], first) -> dict[int, str]:
+    """Anchors of the validation details, e.g. v-sharpness-din-45692-2009 (or v-mosqito-… on a method page)."""
+    ids: dict[int, str] = {}
+    seen: dict[str, int] = {}
+    for i in impls:
+        base = f"v-{first(i)}-{i['reference']}"
+        seen[base] = seen.get(base, 0) + 1
+        ids[id(i)] = base if seen[base] == 1 else f"{base}-{seen[base]}"
+    return ids
+
+
+def _validation_section(index: Index, path: str, impls: list[dict], ids: dict[int, str], *, on_method: bool) -> str:
+    """"How it was validated": for each implementation (rows with the same evidence and details together), the
+    evidence it states, what it was compared with and the details it gives. Rows with nothing stated share one line."""
+    groups, silent = validation_groups(impls, (lambda i: i["_project"]["id"]) if on_method else (lambda i: ""))
+    triples = [(i["_project"]["id"], i["method"], i["reference"]) for i in impls]
+    linked = lambda q: _project_link(path, q)  # noqa: E731
+
+    def title(i: dict) -> str:
+        if on_method:
+            p = i["_project"]
+            head = _project_link(path, p) + (f" {GROUP_TAGS[p['_group']]}" if p["_group"] in GROUP_TAGS else "")
+            if i.get("_via"):
+                head += f' <span class="muted">via {esc(i["_via"]["name"])}</span>'
+        else:
+            head = _method_link(path, i["_method"])
+        head += f' <span class="sep">·</span> {esc(i["_ref"]["label"])}'
+        if i.get("scope") and triples.count((i["_project"]["id"], i["method"], i["reference"])) > 1:
+            head += f' <span class="muted">({esc(i["scope"])})</span>'
+        return head
+
+    entries = []
+    for group in groups:
+        i = group[0]
+        v = i["validation"]
+        names = "".join(f'<dt id="{ids[id(j)]}">{title(j)}</dt>' for j in group)
+        evidence = (f'<span class="tag tag-{VALIDATION_KIND[v]}" title="{esc(VALIDATION_LONG[v])}">'
+                    f"{validation_label(i, linked, esc)}</span>")
+        also = validation_also(i, linked, esc)
+        if also:
+            evidence += f" {also}"
+        details = i.get("validation_details") or []
+        body = ("<ul>" + "".join(f"<li>{inline(d)}</li>" for d in details) + "</ul>" if details
+                else '<p class="muted">No further details are recorded here.</p>')
+        entries.append(f'{names}\n<dd><p class="evidence">{evidence}</p>{body}</dd>')
+    who = "each project" if on_method else "the project"
+    parts = [f'<h2 id="validation">How {"they were" if on_method else "it was"} validated</h2>',
+             f'<p class="small muted">As stated by {who}; {esc(index.site["name"])} has not run the code. Agreement '
+             "with another implementation shows that both compute the same values, not that either follows the "
+             f'standard. <a href="{relative(path, ABOUT)}#validation">Kinds of evidence</a>.</p>']
+    if entries:
+        parts.append('<dl class="validation">\n' + "\n".join(entries) + "\n</dl>")
+    if silent:
+        if not entries:
+            parts.append("<p>" + ("None of these projects says how its code was validated." if on_method
+                                  else "The project does not say how any of these were validated.") + "</p>")
+        else:
+            parts.append(f'<p class="muted">{esc(silent_line(impls, groups, silent, on_method))}</p>')
+    return "\n".join(parts)
 
 
 def _ref_tag(r: dict) -> str:
@@ -267,6 +336,15 @@ def _ref_link(r: dict) -> str:
     return f'<a href="{esc(url)}">{esc(r["label"])}</a>' if url else esc(r["label"])
 
 
+def _edition_link(path: str, r: dict) -> str:
+    """An edition linked to the standard or paper, or, when it has no address online, to its full citation on the
+    Standards page."""
+    if r.get("url") or r.get("doi"):
+        return _ref_link(r)
+    return (f'<a href="{relative(path, STANDARDS)}#ref-{esc(r["id"])}" title="Full reference on the Standards page">'
+            f'{esc(r["label"])}</a>')
+
+
 def _functions(i: dict) -> str:
     return ", ".join(f"<code>{esc(f)}</code>" for f in i.get("functions") or [])
 
@@ -287,9 +365,9 @@ def _status_note(i: dict) -> str:
     return " ".join(bits)
 
 
-def _edition_cell(i: dict) -> str:
-    """Edition label with scope and first version underneath."""
-    cell = esc(i["_ref"]["label"])
+def _edition_cell(path: str, i: dict) -> str:
+    """Edition label, linked to the standard or paper, with scope and first version underneath."""
+    cell = _edition_link(path, i["_ref"])
     extra = [esc(i["scope"])] if i.get("scope") else []
     if i.get("since"):
         extra.append(f"since {esc(i['since'])}")
@@ -392,7 +470,7 @@ def _timeline_impl(path: str, i: dict) -> str:
 
 
 # An edition lists at most this many projects, the most established first. When there are more, the last line
-# counts the rest and links to the method page, which lists all of them.
+# counts the rest and shows them in place when clicked.
 TIMELINE_SHOWN = 4
 
 
@@ -410,8 +488,10 @@ def _timeline_edition(path: str, m: dict, ref: dict, impls: list[dict]) -> str:
         for i in rest:
             kinds.setdefault(GROUP_NAMES[i["_project"]["_group"]], []).append(i["_project"]["name"])
         also = "; ".join(f"{', '.join(names)} ({kind})" for kind, names in kinds.items())
-        href = relative(path, method_path(m)) + "#editions"
-        lines.append(f'<li class="more"><a href="{esc(href)}" title="Also: {esc(also)}">+{len(rest)} more →</a></li>')
+        hidden = "".join(_timeline_impl(path, i) for i in rest)
+        lines.append(f'<li class="more"><details><summary title="Also: {esc(also)}"><span class="closed">'
+                     f'+{len(rest)} more</span><span class="opened">show fewer</span></summary>'
+                     f"<ul>{hidden}</ul></details></li>")
     body = f'<ul>{"".join(lines)}</ul>' if lines else ""
     cls = f"edition ed-{state}" if state else "edition"
     return f'<div class="{cls}">{label}{body}</div>'
@@ -455,7 +535,7 @@ def _timeline(index: Index, path: str) -> str:
         'widely used · <span class="mk mk-dev">dev</span> developing: public for more than a year, without a '
         'publication or documented use by others · <span class="key-quiet">grey name</span>: legacy, archived or '
         f"no commit for three years or more · each edition shows at most {TIMELINE_SHOWN} projects, the most "
-        "established first; <em>+ more</em> leads to the method page, which lists them all</p>"
+        "established first; <em>+ more</em> shows the rest</p>"
         f'<p>{_tag("main", "warn")} merged, not in a release yet · {_tag("PR", "neutral")} open pull request · '
         "hover over a name for its languages, version and status</p>"
         "</div>")
@@ -606,7 +686,7 @@ def method_page(index: Index, m: dict) -> str:
         status = _ref_tag(r)
         if r.get("revision"):
             status += f'<br><span class="muted">{inline(r["revision"])}</span>'
-        label = _ref_link(r)
+        label = _edition_link(path, r)
         if r["status"] in ("superseded", "withdrawn"):
             label = f'<span class="old">{label}</span>'
         elif rid in m["current"]:
@@ -616,13 +696,18 @@ def method_page(index: Index, m: dict) -> str:
     parts.append(_table("editions", ["Date", "Edition", "Status", "What changed", "Implemented by"], rows))
 
     parts.append('<h2 id="implementations">Implementations</h2>')
+    checked = m["_impls"] + dedupe(m["_via_impls"])
+    ids = _validation_ids(checked, lambda i: i["_project"]["id"])
+    stated = {id(i) for group in validation_groups(checked, lambda i: i["_project"]["id"])[0] for i in group}
     if m["_impls"]:
-        rows = [[f'{name(i["_project"])}<br>{_langs(i["_project"]["languages"])}', _edition_cell(i),
-                 _functions(i), _validation(i), _status_note(i)] for i in m["_impls"]]
+        rows = [[f'{name(i["_project"])}<br>{_langs(i["_project"]["languages"])}', _edition_cell(path, i),
+                 _functions(i), _validation(i, f"#{ids[id(i)]}" if id(i) in stated else ""), _status_note(i)]
+                for i in m["_impls"]]
         parts.append(_table("impls", ["Project", "Edition", "Functions", "Validation (as stated)", "Notes"], rows))
         parts.append(f'<p class="small muted">Listed with widely used and established projects first and new projects '
-                     f'last. Validation is what each project states about its own testing; see '
-                     f'<a href="{relative(path, ABOUT)}#validation">the definitions</a>.</p>')
+                     f'last. Validation is what each project states about its own testing: the details are '
+                     f'<a href="#validation">below</a>, the kinds of evidence on <a href="{relative(path, ABOUT)}'
+                     f'#validation">the About page</a>.</p>')
     else:
         parts.append("<p>No open-source implementation has been found yet. If you know one, please "
                      f'<a href="{esc(index.site["repository"])}/issues/new/choose">open an issue</a>.</p>')
@@ -634,6 +719,8 @@ def method_page(index: Index, m: dict) -> str:
     if m.get("see_also"):
         parts.append("<p>See also: " + ", ".join(_method_link(path, index.method[s], index.method[s]["title"])
                                                   for s in m["see_also"]) + ".</p>")
+    if checked:
+        parts.append(_validation_section(index, path, checked, ids, on_method=True))
     parts.append('<h2 id="references">References</h2>')
     parts.append(_ref_list([index.ref[r] for r in m["references"]]))
 
@@ -724,9 +811,12 @@ def project_page(index: Index, p: dict) -> str:
     parts.append('<table class="facts"><tbody>' + "".join(f'<tr><th scope="row">{k}</th><td>{v}</td></tr>'
                                                          for k, v in facts) + "</tbody></table>")
     parts.append('<h2 id="implements">What it implements</h2>')
-    rows = [[_method_link(path, i["_method"]), _edition_cell(i), _functions(i), _validation(i), _status_note(i)]
-            for i in p["_impls"]]
+    ids = _validation_ids(p["_impls"], lambda i: i["method"])
+    stated = {id(i) for group in validation_groups(p["_impls"], lambda i: "")[0] for i in group}
+    rows = [[_method_link(path, i["_method"]), _edition_cell(path, i), _functions(i),
+             _validation(i, f"#{ids[id(i)]}" if id(i) in stated else ""), _status_note(i)] for i in p["_impls"]]
     parts.append(_table("impls", ["Metric", "Edition", "Functions", "Validation (as stated)", "Notes"], rows))
+    parts.append(_validation_section(index, path, p["_impls"], ids, on_method=False))
     if p.get("notes"):
         parts.append('<h2 id="notes">Notes</h2>')
         parts.append("<ul>" + "".join(f"<li>{inline(n)}</li>" for n in p["notes"]) + "</ul>")
@@ -1012,11 +1102,15 @@ def about_page(index: Index) -> str:
         "the code, and listing a project is not an endorsement.</p>",
         "<p>Twice a month a GitHub Action refreshes repository dates, releases and package versions, searches GitHub "
         "and package registries for new candidate projects, and checks the ISO and Ecma catalogues for new "
-        "editions. Its findings go into one issue that a person reviews before anything is added or changed.</p>",
+        "editions. Dates and versions are updated directly; new candidates and editions go into one issue that a "
+        "person reviews before anything is added.</p>",
         '<h2 id="status">Status of an implementation</h2>',
         _table("defs", ["Value", "Meaning"], [[_tag(k, status_kind[k]), esc(v)] for k, v in IMPL_STATUS_LONG.items()]),
         '<h2 id="validation">Validation evidence</h2>',
-        "<p>As stated by each project:</p>",
+        "<p>As stated by each project. Where a project says what it compared its results with (MoSQITo, SQAT, the "
+        "model authors' code or commercial software), the list names it, and each project page sets out the "
+        "details under <em>How it was validated</em>. Agreement with another implementation shows that both "
+        "compute the same values, not that either follows the standard: an error they share goes unnoticed.</p>",
         _table("defs", ["Value", "Meaning"], [[_tag(VALIDATION[k], VALIDATION_KIND[k]), esc(v)]
                                               for k, v in VALIDATION_LONG.items()]),
         '<h2 id="standing">Groups of projects</h2>',

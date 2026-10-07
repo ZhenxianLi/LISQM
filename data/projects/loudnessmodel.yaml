@@ -40,10 +40,11 @@ implements:
     scope: instantaneous, short-term and long-term loudness; binaural
     status: available
     validation: self-tests
-    note: >-
-      Tests run in GitHub Actions compare overall loudness, the first five short-term and long-term values and
-      selected intermediate stages for one input (1 kHz tone, 100 ms, 32 kHz) with hard-coded expected values.
-      The README calls this "a known accurate output", but neither it nor the tests say where the values come from.
+    validation_details:
+      - >-
+        Tests run in GitHub Actions compare overall loudness, the first five short-term and long-term values and
+        selected intermediate stages for one input (1 kHz tone, 100 ms, 32 kHz) with hard-coded expected values.
+      - The README calls this "a known accurate output", but neither it nor the tests say where the values come from.
 manual:
   last_commit: 2025-03-20
   archived: false

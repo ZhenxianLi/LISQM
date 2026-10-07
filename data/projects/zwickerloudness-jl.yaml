@@ -38,9 +38,12 @@ implements:
     status: available
     since: 0.2.0
     validation: standard-data
-    note: >-
-      Checked against ISO 532-1 Annex B signal 1, the only 28-band reference in Annex B (83.296 sone, tolerance
-      ±5 %), and per Bark bin against MoSQITo output (maximum difference below 0.001 sone/Bark).
+    compared_with: [mosqito]
+    validation_details:
+      - >-
+        Checked against ISO 532-1 Annex B signal 1, the only 28-band reference in Annex B (83.296 sone, tolerance ±5
+        %).
+      - Checked per Bark bin against MoSQITo output (maximum difference below 0.001 sone/Bark).
   - method: loudness-zwicker
     reference: iso-532-1-2017
     functions: [zwicker_loudness_time_varying]
@@ -48,10 +51,13 @@ implements:
     status: available
     since: 0.3.0
     validation: standard-data
-    note: >-
-      Stages are tested against MoSQITo `loudness_zwtv` intermediates (agreement about 1e-9 to 1e-15). An Annex B.4
-      "Test signal 6" test regenerates band levels from a local MoSQITo checkout and is skipped when none is
-      present; CI clones MoSQITo for it. The ISO WAV files are not included.
+    compared_with: [mosqito]
+    validation_details:
+      - Stages are tested against MoSQITo `loudness_zwtv` intermediates (agreement about 1e-9 to 1e-15).
+      - >-
+        An Annex B.4 "Test signal 6" test regenerates band levels from a local MoSQITo checkout and is skipped when
+        none is present; CI clones MoSQITo for it.
+      - The ISO WAV files are not included.
 manual:
   last_commit: 2026-09-02
   latest_release: {version: 0.3.0, date: 2026-07-13}

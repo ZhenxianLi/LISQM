@@ -48,9 +48,12 @@ implements:
     status: available
     since: v0.5.0
     validation: cross-implementation
-    note: >-
-      Compared with MoSQITo 1.2.1 on calibrated test signals, used as a development-time reference
-      (`NOTES.md`, `tools/psycho_oracle`); no MoSQITo code is ported.
+    compared_with: [mosqito]
+    validation_details:
+      - >-
+        Compared with MoSQITo 1.2.1 on calibrated test signals, used as a development-time reference (`NOTES.md`,
+        `tools/psycho_oracle`).
+    note: No MoSQITo code is ported.
   - method: sharpness
     reference: din-45692-2009
     functions: ["sp::compute_psycho"]
@@ -58,16 +61,20 @@ implements:
     status: available
     since: v0.5.0
     validation: cross-implementation
-    note: Compared with MoSQITo 1.2.1 (tolerance ±5 %).
+    compared_with: [mosqito]
+    validation_details:
+      - Compared with MoSQITo 1.2.1 (tolerance ±5 %).
   - method: roughness-daniel-weber
     reference: daniel-weber-1997
     functions: ["sp::compute_psycho"]
     status: available
     since: v0.5.0
     validation: cross-implementation
-    note: >-
-      Compared with MoSQITo 1.2.1 with a wider tolerance (±15 %); the README notes that published Daniel &
-      Weber implementations differ by about 10–20 %.
+    compared_with: [mosqito]
+    validation_details:
+      - >-
+        Compared with MoSQITo 1.2.1 with a wider tolerance (±15 %); the README notes that published Daniel & Weber
+        implementations differ by about 10–20 %.
 manual:
   last_commit: 2026-09-27
   latest_release: {version: v0.8.0, date: 2026-09-27}

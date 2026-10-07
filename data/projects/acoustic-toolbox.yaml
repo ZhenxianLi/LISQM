@@ -30,9 +30,9 @@ implements:
     scope: tonal audibility and tonal adjustment
     status: available
     validation: self-tests
-    note: >-
-      Module `acoustic_toolbox.standards.iso_1996_2_2007`, the same code lineage as python-acoustics; as there, the
-      test of the examples in the standard is commented out.
+    validation_details:
+      - As in python-acoustics, the test of the examples in the standard is commented out.
+    note: Module `acoustic_toolbox.standards.iso_1996_2_2007`, the same code lineage as python-acoustics.
 manual:
   last_commit: 2026-02-12
   latest_release: {version: 0.2.2, date: 2026-01-26}

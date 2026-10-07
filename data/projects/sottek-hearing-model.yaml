@@ -42,15 +42,17 @@ implements:
     status: available
     since: 0.1.9
     validation: standard-data
-    note: >-
-      Unit tests check the standard's calibration signals (1 kHz, 40 dB gives 1 sone_HMS); the MATLAB code it
-      was translated from was compared with commercial reference software in the paper.
+    validation_details:
+      - Unit tests check the standard's calibration signals (1 kHz, 40 dB gives 1 sone_HMS).
+      - The MATLAB code it was translated from was compared with commercial reference software in the paper.
   - method: tonality-ecma-418-2
     reference: ecma-418-2-ed4
     functions: [shm_tonality_ecma]
     status: available
     since: 0.1.9
     validation: standard-data
+    validation_details:
+      - Unit tests check the standard's reference signal, which should give 1 tu_HMS, at 48 and 44.1 kHz.
     note: Optional experimental tonal-annoyance weighting (Sottek & Becker, 2019) since 0.1.14.
   - method: roughness-ecma-418-2
     reference: ecma-418-2-ed4
@@ -59,16 +61,27 @@ implements:
     status: available
     since: 0.1.9
     validation: standard-data
+    validation_details:
+      - Unit tests check the standard's reference signal, which should give 1 asper_HMS, at 48 and 44.1 kHz.
   - method: fluctuation-strength-ecma-418-2
     reference: ecma-418-2-ed4
     functions: [shm_fluctuation_ecma]
     scope: needs at least 1.37 s of signal; binaural option
     status: unreleased
     validation: cross-implementation
+    compared_with: ["its MATLAB original", "ArtemiS SUITE (HEAD acoustics)"]
+    validation_details:
+      - >-
+        A draft report (18 September 2026) compares it with `acousticSHMFluctuation.m`, the MATLAB code it was
+        translated from: equal to floating-point precision on the synthetic signals and on one channel of each
+        recording, with a small difference in a short time window on the other channel.
+      - >-
+        Against HEAD acoustics ArtemiS SUITE v17: 0.994 against 1.003 vacil_HMS for the calibration signal (the
+        standard's target is 1.0), −8 % to +12 % for the overall values of three binaural recordings, and correlations
+        of 0.91 to 0.998 for the time-dependent values.
     note: >-
-      Merged on 2026-09-18. A draft report compares it with the MATLAB version (equal to floating-point precision)
-      and with HEAD ArtemiS SUITE v17 (calibration 0.994 vs 1.003 vacil_HMS; recordings −8 % to +12 %). Five
-      departures from the printed text are documented (four equations and one interpretation of Section 9.1.8).
+      Merged on 2026-09-18. Five departures from the printed text are documented (four equations and one
+      interpretation of Section 9.1.8).
 manual:
   last_commit: 2026-09-18
   latest_release: {version: 0.1.14, date: 2026-03-13}
@@ -79,4 +92,5 @@ sources:
   - https://github.com/mlotinga/sottek-hearing-model/blob/main/docs/validation/fluctuation_strength_verification.md
   - https://pypi.org/project/sottek-hearing-model/
   - https://github.com/mlotinga/sottek-hearing-model/issues/9
-checked: 2026-10-06
+  - https://github.com/mlotinga/sottek-hearing-model/tree/main/tests
+checked: 2026-10-07

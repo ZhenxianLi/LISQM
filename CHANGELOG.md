@@ -2,6 +2,15 @@
 
 Notable changes to the list. This file is generated from `data/updates.yaml`; the same notes are on the website (https://zhenxianli.github.io/LISQM/updates.html) and in its Atom feed.
 
+## 2026-10-07: How each implementation was validated
+
+Project and method pages have a new section, *How it was validated*: what each project says it checked, and
+against what (test signals of the standard, the model authors' code, MoSQITo, SQAT or commercial software),
+with the tolerances and results it reports. Validation tags now name what an implementation was compared with,
+for example "compared with MoSQITo", instead of "another implementation". Agreement with another implementation
+shows that both compute the same values, not that either follows the standard. MetaSona is now listed as a C
+library with a Python interface.
+
 ## 2026-10-07: Two newly released projects
 
 PsychoacousticMetrics.jl (Julia) adds DIN 45692 sharpness, Daniel & Weber roughness, Osses et al. (2016)

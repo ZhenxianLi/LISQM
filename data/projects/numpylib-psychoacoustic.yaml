@@ -33,10 +33,14 @@ implements:
     functions: [model.moore1997, equalSones.getEqualSones]
     status: available
     validation: standard-data
-    note: >-
-      The implementation document says the model is compared with the results shown in the original article
-      (plots of its Fig. 8 and Fig. 12). Numerical error reports (PDF) compare intermediate arrays, such as the
-      outer- and middle-ear filter, with AMT's MATLAB output.
+    compared_with: [amt]
+    validation_details:
+      - >-
+        The implementation document says the model is compared with the results shown in the original article (plots
+        of its Fig. 8 and Fig. 12).
+      - >-
+        Numerical error reports (PDF) compare intermediate arrays, such as the outer- and middle-ear filter, with
+        AMT's MATLAB output.
   - method: loudness-moore-glasberg-time-varying
     reference: glasberg-moore-2002
     functions: [model.glasberg2002]

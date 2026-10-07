@@ -37,16 +37,20 @@ implements:
     scope: short-term and long-term loudness
     status: available
     validation: cross-implementation
-    note: Ported from AMT `glasberg2002`; agreement with AMT is claimed in the documentation, without stored reference data.
+    compared_with: [amt]
+    validation_details:
+      - Agreement with AMT is claimed in the documentation, without stored reference data.
+    note: Ported from AMT `glasberg2002`.
   - method: loudness-moore-glasberg-time-varying
     reference: moore-2016
     functions: [torch_amt.models.Moore2016]
     scope: binaural
     status: available
     validation: cross-implementation
-    note: >-
-      Described as a "1:1 port" of AMT `moore2016`, with outer and middle ear per ANSI S3.4-2007 (docstring);
-      agreement with AMT is claimed in the documentation, without stored reference data.
+    compared_with: [amt]
+    validation_details:
+      - Agreement with AMT is claimed in the documentation, without stored reference data.
+    note: Described as a "1:1 port" of AMT `moore2016`, with outer and middle ear per ANSI S3.4-2007 (docstring).
 manual:
   last_commit: 2026-03-19
   latest_release: {version: 0.2.0, date: 2026-02-10}

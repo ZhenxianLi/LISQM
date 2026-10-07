@@ -41,7 +41,7 @@
     "validation": {
       "standard-data": "Compared with test signals or values published in the standard or the model paper.",
       "reference-code": "Compared with the reference program or the model authors' own code.",
-      "cross-implementation": "Compared with another independent implementation.",
+      "cross-implementation": "Compared with another implementation, named where the project says which. Agreement shows that both compute the same values, not that either follows the standard.",
       "self-tests": "Tests exist, but without external reference data.",
       "not-stated": "The project does not say how it was validated."
     },
@@ -157,7 +157,10 @@
           "status": "available",
           "since": "v1.0",
           "validation": "standard-data",
-          "note": "Checked with the 25 test signals of Annex B.2–B.5 against the standard's tolerances. Fixes to the time-varying procedure are on `main` only (PR #48)."
+          "validation_details": [
+            "Checked with the 25 test signals of Annex B.2–B.5 against the standard's tolerances."
+          ],
+          "note": "Fixes to the time-varying procedure are on `main` only (PR #48)."
         },
         {
           "project": "mosqito",
@@ -172,7 +175,9 @@
           "status": "available",
           "since": "1.0.0",
           "validation": "standard-data",
-          "note": "Validation scripts use the ISO 532-1 Annex B test signals; the documentation marks it as validated."
+          "validation_details": [
+            "Validation scripts use the ISO 532-1 Annex B test signals; the documentation marks it as validated."
+          ]
         },
         {
           "project": "aarae",
@@ -183,7 +188,10 @@
           "scope": "stationary and time-varying",
           "status": "available",
           "validation": "standard-data",
-          "note": "A commit of 2017-12-11 says the code was verified with the time-varying test signals of Annex B.5; no check of the stationary method is stated. The header cites a 2014 draft of ISO 532-1 and describes the code as Ella Manor's 2015 MATLAB port, with adjustments, of the Annex A C code."
+          "validation_details": [
+            "A commit of 2017-12-11 says the code was verified with the time-varying test signals of Annex B.5; no check of the stationary method is stated."
+          ],
+          "note": "The header cites a 2014 draft of ISO 532-1 and describes the code as Ella Manor's 2015 MATLAB port, with adjustments, of the Annex A C code."
         },
         {
           "project": "aarae",
@@ -208,7 +216,13 @@
           "status": "available",
           "since": "0.1.0",
           "validation": "cross-implementation",
-          "note": "Model tables taken from MoSQITo and checked element by element; one upper-slope value (0.22) follows the ISO 532-1 reference C table where MoSQITo uses 0.24. Comparison results are not published."
+          "compared_with": [
+            "mosqito"
+          ],
+          "validation_details": [
+            "Model tables taken from MoSQITo were checked element by element; one upper-slope value (0.22) follows the ISO 532-1 reference C table where MoSQITo uses 0.24.",
+            "The project says that detailed validation and reference comparisons are kept outside the repository; the results are not published. The README says standards conformance has not been established."
+          ]
         },
         {
           "project": "iso532-1-rs",
@@ -222,7 +236,14 @@
           "status": "available",
           "since": "0.1.0",
           "validation": "standard-data",
-          "note": "Parity tests with MoSQITo 1.2.1 on nine synthetic and Annex B signals (worst reported difference 1.3e-9). Checked separately against ISO 532-1 Annex B: the README reports stationary offsets of about +0.82 % and −0.76 % for signals 3 and 5, inside the standard's tolerance, and details signals 3, 5 and 10 in docs/ISO-ANNEXB-NUMERICAL-ERROR-2026-07-04.md. Python uses the same names (`iso532.loudness_zwst` …); the C API has `iso532_loudness_zwst`, `iso532_loudness_zwtv` and `iso532_stream_*`."
+          "compared_with": [
+            "mosqito"
+          ],
+          "validation_details": [
+            "Parity tests with MoSQITo 1.2.1 on nine synthetic and Annex B signals (worst reported difference 1.3e-9).",
+            "Checked separately against ISO 532-1 Annex B: the README reports stationary offsets of about +0.82 % and −0.76 % for signals 3 and 5, inside the standard's tolerance, and details signals 3, 5 and 10 in docs/ISO-ANNEXB-NUMERICAL-ERROR-2026-07-04.md."
+          ],
+          "note": "Python uses the same names (`iso532.loudness_zwst` …); the C API has `iso532_loudness_zwst`, `iso532_loudness_zwtv` and `iso532_stream_*`."
         },
         {
           "project": "kirin-hypha",
@@ -234,7 +255,13 @@
           "status": "available",
           "since": "1.0.0",
           "validation": "cross-implementation",
-          "note": "Ported from MoSQITo v1.2.1; tests assert specific loudness within a relative 1e-3 of MoSQITo."
+          "compared_with": [
+            "mosqito"
+          ],
+          "validation_details": [
+            "Tests assert specific loudness within a relative 1e-3 of MoSQITo."
+          ],
+          "note": "Ported from MoSQITo v1.2.1."
         },
         {
           "project": "phonometry",
@@ -247,7 +274,10 @@
           "status": "available",
           "since": "3.1.0",
           "validation": "standard-data",
-          "note": "Written from the Annex A reference program; Annex B test signals are used in the tests."
+          "validation_details": [
+            "Annex B test signals are used in the tests."
+          ],
+          "note": "Written from the Annex A reference program."
         },
         {
           "project": "soundpalette",
@@ -259,7 +289,13 @@
           "status": "available",
           "since": "v0.5.0",
           "validation": "cross-implementation",
-          "note": "Compared with MoSQITo 1.2.1 on calibrated test signals, used as a development-time reference (`NOTES.md`, `tools/psycho_oracle`); no MoSQITo code is ported."
+          "compared_with": [
+            "mosqito"
+          ],
+          "validation_details": [
+            "Compared with MoSQITo 1.2.1 on calibrated test signals, used as a development-time reference (`NOTES.md`, `tools/psycho_oracle`)."
+          ],
+          "note": "No MoSQITo code is ported."
         },
         {
           "project": "zwickerloudness-jl",
@@ -271,7 +307,13 @@
           "status": "available",
           "since": "0.2.0",
           "validation": "standard-data",
-          "note": "Checked against ISO 532-1 Annex B signal 1, the only 28-band reference in Annex B (83.296 sone, tolerance ±5 %), and per Bark bin against MoSQITo output (maximum difference below 0.001 sone/Bark)."
+          "compared_with": [
+            "mosqito"
+          ],
+          "validation_details": [
+            "Checked against ISO 532-1 Annex B signal 1, the only 28-band reference in Annex B (83.296 sone, tolerance ±5 %).",
+            "Checked per Bark bin against MoSQITo output (maximum difference below 0.001 sone/Bark)."
+          ]
         },
         {
           "project": "zwickerloudness-jl",
@@ -283,7 +325,14 @@
           "status": "available",
           "since": "0.3.0",
           "validation": "standard-data",
-          "note": "Stages are tested against MoSQITo `loudness_zwtv` intermediates (agreement about 1e-9 to 1e-15). An Annex B.4 \"Test signal 6\" test regenerates band levels from a local MoSQITo checkout and is skipped when none is present; CI clones MoSQITo for it. The ISO WAV files are not included."
+          "compared_with": [
+            "mosqito"
+          ],
+          "validation_details": [
+            "Stages are tested against MoSQITo `loudness_zwtv` intermediates (agreement about 1e-9 to 1e-15).",
+            "An Annex B.4 \"Test signal 6\" test regenerates band levels from a local MoSQITo checkout and is skipped when none is present; CI clones MoSQITo for it.",
+            "The ISO WAV files are not included."
+          ]
         },
         {
           "project": "pysqat",
@@ -293,7 +342,12 @@
           ],
           "status": "available",
           "validation": "cross-implementation",
-          "note": "Compared with SQAT (MATLAB)."
+          "compared_with": [
+            "sqat"
+          ],
+          "validation_details": [
+            "Compared with SQAT v1.3, run in MATLAB, by `validation/FINAL_VAL.py`; the generated reports are not committed."
+          ]
         },
         {
           "project": "psychoacoustic-parameters-measurer",
@@ -327,7 +381,13 @@
           "scope": "stationary only",
           "status": "available",
           "validation": "cross-implementation",
-          "note": "Tested against \"a quick and dirty Python port of the Matlab code private by GENESIS ACOUSTICS\". Uses 28 third-octave filters with third-order Butterworth responses after ANSI S1.11:1986; there is no time-varying (DIN 45631/A1) model."
+          "compared_with": [
+            "GENESIS ACOUSTICS code (Python port)"
+          ],
+          "validation_details": [
+            "Tested against \"a quick and dirty Python port of the Matlab code private by GENESIS ACOUSTICS\"."
+          ],
+          "note": "Uses 28 third-octave filters with third-order Butterworth responses after ANSI S1.11:1986; there is no time-varying (DIN 45631/A1) model."
         },
         {
           "project": "zwickerloudness-sourceforge",
@@ -376,7 +436,10 @@
           "since": "0.2.0",
           "via": "zwickerloudness-jl",
           "validation": "standard-data",
-          "note": "Computes the third-octave levels itself (per-band Butterworth filters of order 3 by default, as in MoSQITo) and passes them to ZwickerLoudness.jl for the loudness. ISO 532-1 Annex B signals 2–5, synthesised in-process, are within the standard's ±5 % (+2.9 %, +3.6 %, +0.5 % and +2.6 % per the README)."
+          "validation_details": [
+            "ISO 532-1 Annex B signals 2–5, synthesised in-process, are within the standard's ±5 % (+2.9 %, +3.6 %, +0.5 % and +2.6 % per the README)."
+          ],
+          "note": "Computes the third-octave levels itself (per-band Butterworth filters of order 3 by default, as in MoSQITo) and passes them to ZwickerLoudness.jl for the loudness."
         },
         {
           "project": "zwickerloudnessaudio-jl",
@@ -389,7 +452,14 @@
           "since": "0.3.0",
           "via": "zwickerloudness-jl",
           "validation": "standard-data",
-          "note": "Cross-checked end to end with MoSQITo `loudness_zwtv` (N(t) about 3e-16 relative, N5/N10 about 2e-15 absolute), plus an Annex B.4 test that is skipped when the ISO recording is not available locally. The Annex A filter cascade is transcribed from MoSQITo (`_third_octave_levels`, `_square_and_smooth`)."
+          "compared_with": [
+            "mosqito"
+          ],
+          "validation_details": [
+            "Cross-checked end to end with MoSQITo `loudness_zwtv` (N(t) about 3e-16 relative, N5/N10 about 2e-15 absolute).",
+            "An Annex B.4 test is skipped when the ISO recording is not available locally."
+          ],
+          "note": "The Annex A filter cascade is transcribed from MoSQITo (`_third_octave_levels`, `_square_and_smooth`)."
         }
       ]
     },
@@ -445,7 +515,10 @@
           ],
           "status": "available",
           "validation": "standard-data",
-          "note": "Listed as \"CHEN2011 - Fast excitation pattern estimation\"; experiment script `exp_chen2011`."
+          "validation_details": [
+            "Has the experiment script `exp_chen2011`; AMT's experiment scripts reproduce the results of the publication they are named after."
+          ],
+          "note": "Listed as \"CHEN2011 - Fast excitation pattern estimation\"."
         },
         {
           "project": "amt",
@@ -455,7 +528,10 @@
           ],
           "status": "available",
           "validation": "standard-data",
-          "note": "Listed as \"MOORE1997 - Loudness model for stationary signals\" in models/Contents.m. AMT's experiment scripts (`exp_…`) reproduce published results; this model has `exp_moore1997`."
+          "validation_details": [
+            "AMT's experiment scripts (`exp_…`) reproduce published results; this model has `exp_moore1997`."
+          ],
+          "note": "Listed as \"MOORE1997 - Loudness model for stationary signals\" in models/Contents.m."
         },
         {
           "project": "aarae",
@@ -480,7 +556,9 @@
           "status": "available",
           "since": "3.1.0",
           "validation": "standard-data",
-          "note": "The documentation says it reproduces the Annex B tone and broadband cases to within a percent or two."
+          "validation_details": [
+            "The documentation says it reproduces the Annex B tone and broadband cases to within a percent or two."
+          ]
         },
         {
           "project": "numpylib-psychoacoustic",
@@ -491,7 +569,13 @@
           ],
           "status": "available",
           "validation": "standard-data",
-          "note": "The implementation document says the model is compared with the results shown in the original article (plots of its Fig. 8 and Fig. 12). Numerical error reports (PDF) compare intermediate arrays, such as the outer- and middle-ear filter, with AMT's MATLAB output."
+          "compared_with": [
+            "amt"
+          ],
+          "validation_details": [
+            "The implementation document says the model is compared with the results shown in the original article (plots of its Fig. 8 and Fig. 12).",
+            "Numerical error reports (PDF) compare intermediate arrays, such as the outer- and middle-ear filter, with AMT's MATLAB output."
+          ]
         },
         {
           "project": "deeuu-loudness",
@@ -511,7 +595,10 @@
           "scope": "with the binaural inhibition of Moore & Glasberg (2007) for two ears",
           "status": "available",
           "validation": "self-tests",
-          "note": "Unit tests cover each module and model. A validation script writes computed and expected loudness of pure tones to CSV; the expected values are labelled \"Table 7\" and \"Example 2\" without naming their source."
+          "validation_details": [
+            "Unit tests cover each module and model.",
+            "A validation script writes computed and expected loudness of pure tones to CSV; the expected values are labelled \"Table 7\" and \"Example 2\" without naming their source."
+          ]
         },
         {
           "project": "psysound3",
@@ -580,7 +667,10 @@
           "scope": "reference MATLAB code referred to in ISO 532-3, per its readme",
           "status": "available",
           "validation": "not-stated",
-          "note": "Written by the model's authors (per the readme PDF). The folder \"code for tables\" has scripts that compute Table 5 (sone to phon) and the values of Annexes B and C (AnnexC.m is headed \"Signals numbered as in ISO 532-2 Annex B\"); the scripts do not name ISO 532-3."
+          "validation_details": [
+            "The folder \"code for tables\" has scripts that compute Table 5 (sone to phon) and the values of Annexes B and C (AnnexC.m is headed \"Signals numbered as in ISO 532-2 Annex B\"); the scripts do not name ISO 532-3."
+          ],
+          "note": "Written by the model's authors (per the readme PDF)."
         },
         {
           "project": "amt",
@@ -591,7 +681,10 @@
           "scope": "binaural",
           "status": "available",
           "validation": "not-stated",
-          "note": "Listed as \"MOORE2016 - Binaural loudness model\"; there is no `exp_moore2016` experiment script on the develop branch."
+          "validation_details": [
+            "There is no `exp_moore2016` experiment script on the develop branch."
+          ],
+          "note": "Listed as \"MOORE2016 - Binaural loudness model\"."
         },
         {
           "project": "amt",
@@ -601,7 +694,10 @@
           ],
           "status": "available",
           "validation": "standard-data",
-          "note": "Listed as \"GLASBERG2002 - Loudness model for time-variant signals\"; experiment script `exp_glasberg2002`."
+          "validation_details": [
+            "Has the experiment script `exp_glasberg2002`; AMT's experiment scripts reproduce the results of the publication they are named after."
+          ],
+          "note": "Listed as \"GLASBERG2002 - Loudness model for time-variant signals\"."
         },
         {
           "project": "aarae",
@@ -623,7 +719,10 @@
           "status": "available",
           "since": "3.1.0",
           "validation": "standard-data",
-          "note": "Documented deviations: it runs at the native sample rate instead of resampling to 32 kHz, and the Annex B WAV-file cases are not reproduced (Annex C values are used instead)."
+          "validation_details": [
+            "A documented deviation: the Annex B WAV-file cases are not reproduced, and Annex C values are used instead."
+          ],
+          "note": "Documented deviation: it runs at the native sample rate instead of resampling to 32 kHz."
         },
         {
           "project": "torch-amt",
@@ -634,7 +733,13 @@
           "scope": "binaural",
           "status": "available",
           "validation": "cross-implementation",
-          "note": "Described as a \"1:1 port\" of AMT `moore2016`, with outer and middle ear per ANSI S3.4-2007 (docstring); agreement with AMT is claimed in the documentation, without stored reference data."
+          "compared_with": [
+            "amt"
+          ],
+          "validation_details": [
+            "Agreement with AMT is claimed in the documentation, without stored reference data."
+          ],
+          "note": "Described as a \"1:1 port\" of AMT `moore2016`, with outer and middle ear per ANSI S3.4-2007 (docstring)."
         },
         {
           "project": "numpylib-psychoacoustic",
@@ -655,7 +760,13 @@
           "scope": "short-term and long-term loudness",
           "status": "available",
           "validation": "cross-implementation",
-          "note": "Ported from AMT `glasberg2002`; agreement with AMT is claimed in the documentation, without stored reference data."
+          "compared_with": [
+            "amt"
+          ],
+          "validation_details": [
+            "Agreement with AMT is claimed in the documentation, without stored reference data."
+          ],
+          "note": "Ported from AMT `glasberg2002`."
         },
         {
           "project": "loudnessmodel",
@@ -667,7 +778,10 @@
           "scope": "instantaneous, short-term and long-term loudness; binaural",
           "status": "available",
           "validation": "self-tests",
-          "note": "Tests run in GitHub Actions compare overall loudness, the first five short-term and long-term values and selected intermediate stages for one input (1 kHz tone, 100 ms, 32 kHz) with hard-coded expected values. The README calls this \"a known accurate output\", but neither it nor the tests say where the values come from."
+          "validation_details": [
+            "Tests run in GitHub Actions compare overall loudness, the first five short-term and long-term values and selected intermediate stages for one input (1 kHz tone, 100 ms, 32 kHz) with hard-coded expected values.",
+            "The README calls this \"a known accurate output\", but neither it nor the tests say where the values come from."
+          ]
         },
         {
           "project": "deeuu-loudness",
@@ -749,7 +863,13 @@
           "scope": "MATLAB and Python; binaural and specific loudness",
           "status": "available",
           "validation": "cross-implementation",
-          "note": "MATLAB and Python verified against HEAD acoustics ArtemiS v17.1 for a 1 kHz tone at 40 dB SPL, a 1 kHz tone amplitude-modulated at 70 Hz at 60 dB SPL and a 30 s binaural street recording; the audio and reference results are on Zenodo (doi:10.5281/zenodo.18849587)."
+          "compared_with": [
+            "ArtemiS SUITE (HEAD acoustics)"
+          ],
+          "validation_details": [
+            "MATLAB and Python verified against HEAD acoustics ArtemiS v17.1 for a 1 kHz tone at 40 dB SPL, a 1 kHz tone amplitude-modulated at 70 Hz at 60 dB SPL and a 30 s binaural street recording.",
+            "The audio and reference results are on Zenodo (doi:10.5281/zenodo.18849587)."
+          ]
         },
         {
           "project": "sottek-hearing-model",
@@ -762,7 +882,10 @@
           "status": "available",
           "since": "0.1.9",
           "validation": "standard-data",
-          "note": "Unit tests check the standard's calibration signals (1 kHz, 40 dB gives 1 sone_HMS); the MATLAB code it was translated from was compared with commercial reference software in the paper."
+          "validation_details": [
+            "Unit tests check the standard's calibration signals (1 kHz, 40 dB gives 1 sone_HMS).",
+            "The MATLAB code it was translated from was compared with commercial reference software in the paper."
+          ]
         },
         {
           "project": "sqat",
@@ -773,6 +896,12 @@
           ],
           "status": "unreleased",
           "validation": "cross-implementation",
+          "compared_with": [
+            "commercial software"
+          ],
+          "validation_details": [
+            "On `main`, checked for the 4th edition against the ISO 226:2003 equal-loudness contours and against reference results from commercial software for a binaural recording of a train station (last checked in November 2025)."
+          ],
           "note": "Updated to the 4th edition on `main` in 2025."
         },
         {
@@ -786,7 +915,12 @@
           "status": "available",
           "since": "v1.3",
           "validation": "cross-implementation",
-          "note": "Checked against equal-loudness contours and against reference results from commercial software on a binaural recording."
+          "compared_with": [
+            "commercial software"
+          ],
+          "validation_details": [
+            "Checked against the ISO 226:2003 equal-loudness contours and against reference results from commercial software for a binaural recording of a train station."
+          ]
         },
         {
           "project": "mosqito",
@@ -798,7 +932,10 @@
           "status": "available",
           "since": "1.2.0",
           "validation": "standard-data",
-          "note": "Followed the 1st edition (2020) in versions 1.0.0–1.1.1 and the 2nd edition (2022) from 1.2.0. Validation scripts compare with figures of the standard."
+          "validation_details": [
+            "Validation scripts compare with figures of the standard."
+          ],
+          "note": "Followed the 1st edition (2020) in versions 1.0.0–1.1.1 and the 2nd edition (2022) from 1.2.0."
         },
         {
           "project": "metasona",
@@ -811,7 +948,13 @@
           "status": "available",
           "since": "0.2.0",
           "validation": "cross-implementation",
-          "note": "Adapted from the SQAT/RefMap MATLAB code by Lotinga and Torjussen. Comparison results are not published."
+          "compared_with": [
+            "sqat"
+          ],
+          "validation_details": [
+            "The project says that detailed validation and reference comparisons are kept outside the repository; the results are not published."
+          ],
+          "note": "Adapted from the SQAT/RefMap MATLAB code by Lotinga and Torjussen."
         },
         {
           "project": "phonometry",
@@ -823,7 +966,9 @@
           "status": "available",
           "since": "3.1.0",
           "validation": "standard-data",
-          "note": "Checked at the calibration signal only, where it gives 0.9843 sone_HMS (−1.55 %)."
+          "validation_details": [
+            "Checked at the calibration signal only, where it gives 0.9843 sone_HMS (−1.55 %)."
+          ]
         },
         {
           "project": "mosqito-fdp",
@@ -834,7 +979,10 @@
           "scope": "hearing model with specific and total loudness",
           "status": "available",
           "validation": "standard-data",
-          "note": "Validation scripts compare the ear filter and model output with figures and values from ECMA-418-2 and ECMA-74 Annex F; module `mosqito.functions.hearing_model`."
+          "validation_details": [
+            "Validation scripts compare the ear filter and model output with figures and values from ECMA-418-2 and ECMA-74 Annex F."
+          ],
+          "note": "Module `mosqito.functions.hearing_model`."
         }
       ],
       "also_through": [
@@ -847,7 +995,12 @@
           "status": "available",
           "via": "sottek-hearing-model",
           "validation": "cross-implementation",
-          "note": "Compared by validation/FINAL_VAL.py with the bundled SQAT v1.3 MATLAB code, which follows ECMA-418-2:2024 (3rd edition), so the comparison crosses editions."
+          "compared_with": [
+            "sqat"
+          ],
+          "validation_details": [
+            "Compared by `validation/FINAL_VAL.py` with the bundled SQAT v1.3 MATLAB code, which follows ECMA-418-2:2024 (3rd edition), so the comparison crosses editions."
+          ]
         },
         {
           "project": "psychobox",
@@ -917,7 +1070,9 @@
           "status": "available",
           "since": "v1.0",
           "validation": "standard-data",
-          "note": "Checked with the narrowband and broadband test signals of DIN 45692."
+          "validation_details": [
+            "Checked with the narrowband and broadband test signals of DIN 45692."
+          ]
         },
         {
           "project": "mosqito",
@@ -933,7 +1088,9 @@
           "status": "available",
           "since": "1.0.2",
           "validation": "standard-data",
-          "note": "Validation scripts use the DIN 45692 test signals; the documentation marks it as validated."
+          "validation_details": [
+            "Validation scripts use the DIN 45692 test signals; the documentation marks it as validated."
+          ]
         },
         {
           "project": "refmap-psychoacoustics",
@@ -979,7 +1136,12 @@
           "status": "available",
           "since": "1.0.0",
           "validation": "cross-implementation",
-          "note": "Tests assert agreement with MoSQITo within 0.05 acum."
+          "compared_with": [
+            "mosqito"
+          ],
+          "validation_details": [
+            "Tests assert agreement with MoSQITo within 0.05 acum."
+          ]
         },
         {
           "project": "phonometry",
@@ -992,7 +1154,9 @@
           "status": "available",
           "since": "3.1.0",
           "validation": "standard-data",
-          "note": "Checked with the DIN 45692 reference signal and Tables A.2 and A.3."
+          "validation_details": [
+            "Checked with the DIN 45692 reference signal and Tables A.2 and A.3."
+          ]
         },
         {
           "project": "psychoacousticmetrics-jl",
@@ -1004,7 +1168,14 @@
           "status": "available",
           "since": "0.2.0",
           "validation": "standard-data",
-          "note": "Tested against all 41 reference signals of DIN 45692:2009 chapter 6 (21 narrowband, 20 broadband) within the standard's tolerance of ±max(5 %, 0.05 acum), and cross-checked against MoSQITo for all four weightings."
+          "compared_with": [
+            "mosqito"
+          ],
+          "validation_details": [
+            "Tested against all 41 reference signals of DIN 45692:2009 chapter 6 (21 narrowband, 20 broadband) within the standard's tolerance of ±max(5 %, 0.05 acum).",
+            "Cross-checked against MoSQITo for all four weightings.",
+            "Total loudness N is computed as the Riemann sum over the 240-bin specific loudness (`0.1 * sum`), not taken from `ZwickerResult.loudness` (see the `sharpness` docstring)."
+          ]
         },
         {
           "project": "soundpalette",
@@ -1016,7 +1187,12 @@
           "status": "available",
           "since": "v0.5.0",
           "validation": "cross-implementation",
-          "note": "Compared with MoSQITo 1.2.1 (tolerance ±5 %)."
+          "compared_with": [
+            "mosqito"
+          ],
+          "validation_details": [
+            "Compared with MoSQITo 1.2.1 (tolerance ±5 %)."
+          ]
         },
         {
           "project": "pysqat",
@@ -1027,7 +1203,12 @@
           ],
           "status": "available",
           "validation": "cross-implementation",
-          "note": "Compared with SQAT (MATLAB)."
+          "compared_with": [
+            "sqat"
+          ],
+          "validation_details": [
+            "Compared with SQAT v1.3, run in MATLAB, by `validation/FINAL_VAL.py`; the generated reports are not committed."
+          ]
         },
         {
           "project": "psychoacoustic-parameters-measurer",
@@ -1114,7 +1295,10 @@
           "status": "available",
           "since": "v1.0",
           "validation": "standard-data",
-          "note": "Checked against amplitude- and frequency-modulation dependences from the literature. Rewritten on `main` (PR #65, 2026-09-08) after revised code from Dik Hermes: 63 of 119 validation values go up and 56 down (largest change 0.155 asper)."
+          "validation_details": [
+            "Checked against amplitude- and frequency-modulation dependences from the literature."
+          ],
+          "note": "Rewritten on `main` (PR #65, 2026-09-08) after revised code from Dik Hermes: 63 of 119 validation values go up and 56 down (largest change 0.155 asper)."
         },
         {
           "project": "mosqito",
@@ -1126,7 +1310,9 @@
           "status": "available",
           "since": "1.0.0",
           "validation": "standard-data",
-          "note": "The documentation marks it as validated against reference data."
+          "validation_details": [
+            "The documentation marks it as validated against reference data."
+          ]
         },
         {
           "project": "aarae",
@@ -1147,7 +1333,14 @@
           "status": "available",
           "since": "0.1.0",
           "validation": "cross-implementation",
-          "note": "Follows SQAT revision `e6228b78`, which includes SQAT's September 2026 rewrite but not its later fix to the Terhardt filter bank (PR #77). Comparison results are not published."
+          "compared_with": [
+            "sqat"
+          ],
+          "validation_details": [
+            "The project says that detailed validation and reference comparisons are kept outside the repository; the results are not published.",
+            "The API documentation calls the function experimental and says normative validation remains open."
+          ],
+          "note": "Follows SQAT revision `e6228b78`, which includes SQAT's September 2026 rewrite but not its later fix to the Terhardt filter bank (PR #77)."
         },
         {
           "project": "psychoacousticmetrics-jl",
@@ -1158,7 +1351,14 @@
           "status": "available",
           "since": "0.2.0",
           "validation": "standard-data",
-          "note": "Tested against the Zwicker & Fastl reference curves on MoSQITo's validation grid (±0.1 asper) and cross-checked against MoSQITo's `roughness_dw`. Five points at a 2 kHz carrier miss the ±0.1 asper gate, as MoSQITo does, and are checked against MoSQITo instead."
+          "compared_with": [
+            "mosqito"
+          ],
+          "validation_details": [
+            "Tested against the Zwicker & Fastl reference curves on MoSQITo's validation grid (7 carrier × 11 modulation frequencies) within ±0.1 asper, and cross-checked against MoSQITo's `roughness_dw` on identical signals.",
+            "Five points at a 2 kHz carrier miss the ±0.1 asper gate. MoSQITo misses them by the same amount (and overshoots Daniel & Weber's own curve there by 15–31 %), so these five are checked for agreement with MoSQITo to 5e-3 asper instead.",
+            "Against the Daniel & Weber curves themselves, 63 of the 77 grid points are within 30 % of the reference (reported, not gated)."
+          ]
         },
         {
           "project": "soundpalette",
@@ -1169,7 +1369,12 @@
           "status": "available",
           "since": "v0.5.0",
           "validation": "cross-implementation",
-          "note": "Compared with MoSQITo 1.2.1 with a wider tolerance (±15 %); the README notes that published Daniel & Weber implementations differ by about 10–20 %."
+          "compared_with": [
+            "mosqito"
+          ],
+          "validation_details": [
+            "Compared with MoSQITo 1.2.1 with a wider tolerance (±15 %); the README notes that published Daniel & Weber implementations differ by about 10–20 %."
+          ]
         },
         {
           "project": "pysqat",
@@ -1179,7 +1384,13 @@
           ],
           "status": "available",
           "validation": "cross-implementation",
-          "note": "Compared with SQAT v1.3, before SQAT's September 2026 rewrite."
+          "compared_with": [
+            "sqat"
+          ],
+          "validation_details": [
+            "Compared with SQAT v1.3, run in MATLAB, by `validation/FINAL_VAL.py`; the generated reports are not committed."
+          ],
+          "note": "Follows SQAT v1.3, before SQAT's September 2026 rewrite."
         },
         {
           "project": "psysound3",
@@ -1270,7 +1481,12 @@
           "scope": "MATLAB and Python",
           "status": "available",
           "validation": "cross-implementation",
-          "note": "Verified against HEAD acoustics ArtemiS v17.1 with the same three signals as loudness."
+          "compared_with": [
+            "ArtemiS SUITE (HEAD acoustics)"
+          ],
+          "validation_details": [
+            "Verified against HEAD acoustics ArtemiS v17.1 with the same three signals as loudness."
+          ]
         },
         {
           "project": "sottek-hearing-model",
@@ -1281,7 +1497,10 @@
           "scope": "with combined binaural output",
           "status": "available",
           "since": "0.1.9",
-          "validation": "standard-data"
+          "validation": "standard-data",
+          "validation_details": [
+            "Unit tests check the standard's reference signal, which should give 1 asper_HMS, at 48 and 44.1 kHz."
+          ]
         },
         {
           "project": "sqat",
@@ -1291,6 +1510,12 @@
           ],
           "status": "unreleased",
           "validation": "cross-implementation",
+          "compared_with": [
+            "commercial software"
+          ],
+          "validation_details": [
+            "On `main`, checked for the 4th edition for the dependence of the roughness of AM tones on modulation frequency, and against reference results from commercial software for a binaural recording of a train station."
+          ],
           "note": "Amended to the 4th edition on `main` in November 2025."
         },
         {
@@ -1302,7 +1527,13 @@
           "scope": "with binaural combination",
           "status": "available",
           "since": "v1.3",
-          "validation": "cross-implementation"
+          "validation": "cross-implementation",
+          "compared_with": [
+            "commercial software"
+          ],
+          "validation_details": [
+            "Checked for the dependence of the roughness of AM tones on modulation frequency, and against reference results from commercial software for a binaural recording of a train station."
+          ]
         },
         {
           "project": "mosqito",
@@ -1325,7 +1556,13 @@
           "status": "available",
           "since": "0.2.0",
           "validation": "cross-implementation",
-          "note": "Uses the standard's 20 ms grid and nominal calibration factor, where SQAT uses a slightly adjusted calibration. Comparison results are not published."
+          "compared_with": [
+            "sqat"
+          ],
+          "validation_details": [
+            "The project says that detailed validation and reference comparisons are kept outside the repository; the results are not published."
+          ],
+          "note": "Uses the standard's 20 ms grid and nominal calibration factor, where SQAT uses a slightly adjusted calibration."
         },
         {
           "project": "phonometry",
@@ -1337,7 +1574,9 @@
           "status": "available",
           "since": "3.1.0",
           "validation": "standard-data",
-          "note": "Checked at the calibration signal only."
+          "validation_details": [
+            "Checked at the calibration signal only."
+          ]
         }
       ],
       "also_through": [
@@ -1350,7 +1589,12 @@
           "status": "available",
           "via": "sottek-hearing-model",
           "validation": "cross-implementation",
-          "note": "Compared by validation/FINAL_VAL.py with the bundled SQAT v1.3 MATLAB code, which follows ECMA-418-2:2024 (3rd edition), so the comparison crosses editions."
+          "compared_with": [
+            "sqat"
+          ],
+          "validation_details": [
+            "Compared by `validation/FINAL_VAL.py` with the bundled SQAT v1.3 MATLAB code, which follows ECMA-418-2:2024 (3rd edition), so the comparison crosses editions."
+          ]
         },
         {
           "project": "psychobox",
@@ -1448,7 +1692,9 @@
           "status": "available",
           "since": "v1.0",
           "validation": "standard-data",
-          "note": "Checked against amplitude- and frequency-modulation dependences from the literature."
+          "validation_details": [
+            "Checked against amplitude- and frequency-modulation dependences from the literature."
+          ]
         },
         {
           "project": "phonometry",
@@ -1459,7 +1705,13 @@
           "status": "available",
           "since": "3.1.0",
           "validation": "standard-data",
-          "note": "Compared with Table 1 of Osses et al. (2016) and with SQAT (correlation 0.98). Validated for amplitude modulation only; a steady 1 kHz tone reads about 0.09 vacil."
+          "compared_with": [
+            "sqat"
+          ],
+          "validation_details": [
+            "Compared with Table 1 of Osses et al. (2016) and with SQAT (correlation 0.98).",
+            "Validated for amplitude modulation only; a steady 1 kHz tone reads about 0.09 vacil."
+          ]
         },
         {
           "project": "psychoacousticmetrics-jl",
@@ -1470,7 +1722,14 @@
           "status": "available",
           "since": "0.3.0",
           "validation": "reference-code",
-          "note": "Cross-checked against SQAT's `FluctuationStrength_Osses2016` (run under Octave) on 26 cases, including the 18 points of Fastl and Zwicker's reference grid, to a relative tolerance of 1e-6."
+          "compared_with": [
+            "sqat"
+          ],
+          "validation_details": [
+            "Cross-checked against SQAT's `FluctuationStrength_Osses2016`, run under Octave, on identical signals: 26 cases, including all 18 points of Fastl & Zwicker's AM/FM reference grid (Osses 2018 thesis, Table B.1), each reproduced to a relative tolerance of 1e-6 (measured 3e-9).",
+            "The grid stimuli are synthesised following the Osses et al. (2016) validation files that SQAT's own validation reads; the tests also check that each synthetic stimulus gives the value SQAT gives on the real file (tones to 5e-3, noise to 25 % across random draws).",
+            "Against the published curves, 11 of the 18 points are within 30 %, and exactly those 11 are gated. The other seven are misses of the reference model itself (FM tones with a modulation frequency above 4 Hz overestimated three- to fourfold, thesis §B.4.1; the shoulder and tail points of AM tones and noise), which SQAT's own validation figures also show."
+          ]
         },
         {
           "project": "phonometry",
@@ -1482,7 +1741,9 @@
           "status": "available",
           "since": "3.1.0",
           "validation": "standard-data",
-          "note": "A conformance row checks Eq. (10.2) of Fastl & Zwicker for amplitude-modulated broadband noise."
+          "validation_details": [
+            "A conformance row checks Eq. (10.2) of Fastl & Zwicker for amplitude-modulated broadband noise."
+          ]
         },
         {
           "project": "pysqat",
@@ -1491,7 +1752,13 @@
             "FluctuationStrength_Osses2016"
           ],
           "status": "available",
-          "validation": "cross-implementation"
+          "validation": "cross-implementation",
+          "compared_with": [
+            "sqat"
+          ],
+          "validation_details": [
+            "Compared with SQAT v1.3, run in MATLAB, by `validation/FINAL_VAL.py`; the generated reports are not committed."
+          ]
         },
         {
           "project": "fluctuation-strength-tue",
@@ -1502,7 +1769,9 @@
           "status": "available",
           "since": "1.0",
           "validation": "standard-data",
-          "note": "`demos/demo_osses2016a.m` reproduces the figures of the paper with the included stimuli (AM and FM tones, AM noise and excerpts of real sounds)."
+          "validation_details": [
+            "`demos/demo_osses2016a.m` reproduces the figures of the paper with the included stimuli (AM and FM tones, AM noise and excerpts of real sounds)."
+          ]
         },
         {
           "project": "psychoacoustic-parameters-measurer",
@@ -1562,7 +1831,15 @@
           "scope": "needs at least 1.37 s of signal; binaural option",
           "status": "unreleased",
           "validation": "cross-implementation",
-          "note": "Merged on 2026-09-18. A draft report compares it with the MATLAB version (equal to floating-point precision) and with HEAD ArtemiS SUITE v17 (calibration 0.994 vs 1.003 vacil_HMS; recordings −8 % to +12 %). Five departures from the printed text are documented (four equations and one interpretation of Section 9.1.8)."
+          "compared_with": [
+            "its MATLAB original",
+            "ArtemiS SUITE (HEAD acoustics)"
+          ],
+          "validation_details": [
+            "A draft report (18 September 2026) compares it with `acousticSHMFluctuation.m`, the MATLAB code it was translated from: equal to floating-point precision on the synthetic signals and on one channel of each recording, with a small difference in a short time window on the other channel.",
+            "Against HEAD acoustics ArtemiS SUITE v17: 0.994 against 1.003 vacil_HMS for the calibration signal (the standard's target is 1.0), −8 % to +12 % for the overall values of three binaural recordings, and correlations of 0.91 to 0.998 for the time-dependent values."
+          ],
+          "note": "Merged on 2026-09-18. Five departures from the printed text are documented (four equations and one interpretation of Section 9.1.8)."
         },
         {
           "project": "sqat",
@@ -1585,7 +1862,10 @@
           "status": "available",
           "since": "3.3.0",
           "validation": "standard-data",
-          "note": "Checked at the calibration signal only (0.993 vacil_HMS); misprints found in Clause 9 are listed in its errata."
+          "validation_details": [
+            "Checked at the calibration signal only (0.993 vacil_HMS)."
+          ],
+          "note": "Misprints found in Clause 9 are listed in the project's errata."
         }
       ]
     },
@@ -1638,7 +1918,11 @@
           "status": "available",
           "since": "v1.0",
           "validation": "standard-data",
-          "note": "v1.3 is checked with one signal-to-noise comparison. Eight defects were fixed on `main` in September 2026 (for example, only one tonal component's level excess entered the result, and tones were removed from the wrong spectrum), with new checks against Aures's Figs. 5 and 6."
+          "validation_details": [
+            "v1.3 is checked with one signal-to-noise comparison.",
+            "The September 2026 fixes on `main` add checks against Aures's Figs. 5 and 6."
+          ],
+          "note": "Eight defects were fixed on `main` in September 2026 (for example, only one tonal component's level excess entered the result, and tones were removed from the wrong spectrum)."
         },
         {
           "project": "mosqito",
@@ -1657,7 +1941,14 @@
           "status": "available",
           "since": "0.1.0",
           "validation": "cross-implementation",
-          "note": "Follows SQAT's September 2026 revision (250 ms Hann windows, 125 ms hop); exact agreement with MATLAB is not established. Comparison results are not published."
+          "compared_with": [
+            "sqat"
+          ],
+          "validation_details": [
+            "The project calls its source-based Python comparisons \"development checks, not an executed MATLAB/Octave validation\"; exact agreement with MATLAB is not established.",
+            "The results are not published."
+          ],
+          "note": "Follows SQAT's September 2026 revision (250 ms Hann windows, 125 ms hop)."
         },
         {
           "project": "pysqat",
@@ -1667,6 +1958,12 @@
           ],
           "status": "available",
           "validation": "cross-implementation",
+          "compared_with": [
+            "sqat"
+          ],
+          "validation_details": [
+            "Compared with SQAT v1.3, run in MATLAB, by `validation/FINAL_VAL.py`; the generated reports are not committed."
+          ],
           "note": "A June 2026 commit corrected its calibration; it predates SQAT's September 2026 fixes."
         }
       ]
@@ -1727,7 +2024,12 @@
           "scope": "MATLAB and Python",
           "status": "available",
           "validation": "cross-implementation",
-          "note": "Verified against HEAD acoustics ArtemiS v17.1 with the same three signals as loudness."
+          "compared_with": [
+            "ArtemiS SUITE (HEAD acoustics)"
+          ],
+          "validation_details": [
+            "Verified against HEAD acoustics ArtemiS v17.1 with the same three signals as loudness."
+          ]
         },
         {
           "project": "sottek-hearing-model",
@@ -1738,6 +2040,9 @@
           "status": "available",
           "since": "0.1.9",
           "validation": "standard-data",
+          "validation_details": [
+            "Unit tests check the standard's reference signal, which should give 1 tu_HMS, at 48 and 44.1 kHz."
+          ],
           "note": "Optional experimental tonal-annoyance weighting (Sottek & Becker, 2019) since 0.1.14."
         },
         {
@@ -1748,7 +2053,13 @@
           ],
           "status": "unreleased",
           "validation": "cross-implementation",
-          "note": "A verification against Annex B.2 (PR #79) was merged and reverted on 2026-09-21 because the Annex B values of the 2025 edition appear to be out of date."
+          "compared_with": [
+            "commercial software"
+          ],
+          "validation_details": [
+            "On `main`, checked for the 4th edition against reference results from commercial software for a binaural recording of a train station.",
+            "A verification against Annex B.2 (PR #79) was merged and reverted on 2026-09-21 because the Annex B values of the 2025 edition appear to be out of date."
+          ]
         },
         {
           "project": "sqat",
@@ -1758,7 +2069,13 @@
           ],
           "status": "available",
           "since": "v1.3",
-          "validation": "cross-implementation"
+          "validation": "cross-implementation",
+          "compared_with": [
+            "commercial software"
+          ],
+          "validation_details": [
+            "Checked against reference results from commercial software for a binaural recording of a train station."
+          ]
         },
         {
           "project": "metasona",
@@ -1771,7 +2088,12 @@
           "status": "available",
           "since": "0.2.0",
           "validation": "cross-implementation",
-          "note": "Comparison results are not published."
+          "compared_with": [
+            "sqat"
+          ],
+          "validation_details": [
+            "The project says that detailed validation and reference comparisons are kept outside the repository; the results are not published."
+          ]
         },
         {
           "project": "phonometry",
@@ -1783,7 +2105,9 @@
           "status": "available",
           "since": "3.1.0",
           "validation": "standard-data",
-          "note": "Checked at the calibration signal only."
+          "validation_details": [
+            "Checked at the calibration signal only."
+          ]
         }
       ],
       "also_through": [
@@ -1796,7 +2120,12 @@
           "status": "available",
           "via": "sottek-hearing-model",
           "validation": "cross-implementation",
-          "note": "Compared by validation/FINAL_VAL.py with the bundled SQAT v1.3 MATLAB code, which follows ECMA-418-2:2024 (3rd edition), so the comparison crosses editions."
+          "compared_with": [
+            "sqat"
+          ],
+          "validation_details": [
+            "Compared by `validation/FINAL_VAL.py` with the bundled SQAT v1.3 MATLAB code, which follows ECMA-418-2:2024 (3rd edition), so the comparison crosses editions."
+          ]
         }
       ]
     },
@@ -1858,7 +2187,10 @@
           "status": "available",
           "since": "1.0.2",
           "validation": "not-stated",
-          "note": "Docstrings say \"ECMA 418-1\" without an edition; the helper code and the bibliography cite ECMA-74 Annex D (17th edition, 2019). The documentation marks it as available but not validated."
+          "validation_details": [
+            "The documentation marks it as available but not validated."
+          ],
+          "note": "Docstrings say \"ECMA 418-1\" without an edition; the helper code and the bibliography cite ECMA-74 Annex D (17th edition, 2019)."
         },
         {
           "project": "phonometry",
@@ -1883,7 +2215,9 @@
           "scope": "Annex D",
           "status": "available",
           "validation": "self-tests",
-          "note": "The README lists TNR/PR as available but not validated; the tests use synthetic tones in white noise."
+          "validation_details": [
+            "The README lists TNR/PR as available but not validated; the tests use synthetic tones in white noise."
+          ]
         }
       ]
     },
@@ -1975,7 +2309,14 @@
           "status": "available",
           "since": "3.1.0",
           "validation": "standard-data",
-          "note": "Follows the 2016 PAS, not the 2022 TS. Does not apply the A-weighting required by clause 5.3.2. Reproduces the Annex E worked example; parts are checked against DIN 45681:2005 and its Annex J reference program (DIN 45681 itself is not implemented)."
+          "compared_with": [
+            "DIN 45681 Annex J reference program"
+          ],
+          "validation_details": [
+            "Reproduces the Annex E worked example.",
+            "Parts are checked against DIN 45681:2005 and its Annex J reference program."
+          ],
+          "note": "Follows the 2016 PAS, not the 2022 TS. Does not apply the A-weighting required by clause 5.3.2. DIN 45681 itself is not implemented."
         }
       ]
     },
@@ -2038,7 +2379,10 @@
           "scope": "tonal audibility and tonal adjustment",
           "status": "available",
           "validation": "self-tests",
-          "note": "Module `acoustic_toolbox.standards.iso_1996_2_2007`, the same code lineage as python-acoustics; as there, the test of the examples in the standard is commented out."
+          "validation_details": [
+            "As in python-acoustics, the test of the examples in the standard is commented out."
+          ],
+          "note": "Module `acoustic_toolbox.standards.iso_1996_2_2007`, the same code lineage as python-acoustics."
         },
         {
           "project": "phonometry",
@@ -2065,7 +2409,10 @@
           "scope": "tonal audibility and tonal adjustment",
           "status": "available",
           "validation": "self-tests",
-          "note": "Module `acoustics.standards.iso_1996_2_2007`. The `Tonality` docstring uses the title of Annex C (\"Objective method for assessing the audibility of tones in noise\"), though the code does not name the annex. A test of the examples in the standard, using DELTA tone files, is commented out."
+          "validation_details": [
+            "A test of the examples in the standard, using DELTA tone files, is commented out."
+          ],
+          "note": "Module `acoustics.standards.iso_1996_2_2007`. The `Tonality` docstring uses the title of Annex C (\"Objective method for assessing the audibility of tones in noise\"), though the code does not name the annex."
         }
       ]
     },
@@ -2222,7 +2569,9 @@
           "status": "available",
           "since": "v1.0",
           "validation": "not-stated",
-          "note": "No verification routine (README)."
+          "validation_details": [
+            "No verification routine (README)."
+          ]
         },
         {
           "project": "refmap-psychoacoustics",
@@ -2244,7 +2593,9 @@
           "status": "available",
           "since": "v1.0",
           "validation": "not-stated",
-          "note": "No verification routine (README)."
+          "validation_details": [
+            "No verification routine (README)."
+          ]
         },
         {
           "project": "refmap-psychoacoustics",
@@ -2276,7 +2627,10 @@
           ],
           "status": "available",
           "validation": "standard-data",
-          "note": "The MATLAB header names the model Widmann (1992), \"commonly misattributed to Zwicker\". A validation script (validation/metrics/mlab/acousticPsychAnnoyValidation.m) compares the MATLAB version with values from Widmann (1992). The Python `widmannPA` takes precomputed metric values."
+          "validation_details": [
+            "A validation script (`validation/metrics/mlab/acousticPsychAnnoyValidation.m`) compares the MATLAB version with values from Widmann (1992)."
+          ],
+          "note": "The MATLAB header names the model Widmann (1992), \"commonly misattributed to Zwicker\". The Python `widmannPA` takes precomputed metric values."
         },
         {
           "project": "sqat",
@@ -2311,7 +2665,13 @@
           "status": "available",
           "since": "0.4.0",
           "validation": "cross-implementation",
-          "note": "Cross-checked against SQAT's `PsychoacousticAnnoyance_Widmann1992` (an 840-case formula grid reproduced exactly, and six signal-level cases) and checked at the 1 au anchor (1 kHz tone at 40 dB SPL)."
+          "compared_with": [
+            "sqat"
+          ],
+          "validation_details": [
+            "Cross-checked against SQAT's `PsychoacousticAnnoyance_Widmann1992`: an 840-case formula grid, reproduced bit-exactly, and six signal-level cases with SQAT's own N5, S5, R5 and FS5 vendored, so that every deviation is attributed to a component.",
+            "Checked at the published 1 au anchor (a 1 kHz tone at 40 dB SPL): on the 4 s cross-check case, the percentile convention lands 0.1 % from it and the stationary approximation 0.8 %; on the README's 5 s examples, 0.3 % and 1.4 %."
+          ]
         },
         {
           "project": "pysqat",
@@ -2320,7 +2680,13 @@
             "PsychoacousticAnnoyance_Di2016"
           ],
           "status": "available",
-          "validation": "cross-implementation"
+          "validation": "cross-implementation",
+          "compared_with": [
+            "sqat"
+          ],
+          "validation_details": [
+            "Compared with SQAT v1.3, run in MATLAB, by `validation/FINAL_VAL.py`; the generated reports are not committed."
+          ]
         },
         {
           "project": "pysqat",
@@ -2329,7 +2695,13 @@
             "PsychoacousticAnnoyance_More2010"
           ],
           "status": "available",
-          "validation": "cross-implementation"
+          "validation": "cross-implementation",
+          "compared_with": [
+            "sqat"
+          ],
+          "validation_details": [
+            "Compared with SQAT v1.3, run in MATLAB, by `validation/FINAL_VAL.py`; the generated reports are not committed."
+          ]
         },
         {
           "project": "pysqat",
@@ -2338,7 +2710,13 @@
             "PsychoacousticAnnoyance_Zwicker1999"
           ],
           "status": "available",
-          "validation": "cross-implementation"
+          "validation": "cross-implementation",
+          "compared_with": [
+            "sqat"
+          ],
+          "validation_details": [
+            "Compared with SQAT v1.3, run in MATLAB, by `validation/FINAL_VAL.py`; the generated reports are not committed."
+          ]
         },
         {
           "project": "psychoacoustic-parameters-measurer",
@@ -2491,7 +2869,15 @@
           "status": "available",
           "since": "v1.1",
           "validation": "cross-implementation",
-          "note": "The README says no reference implementation or test signals exist, so it was only cross-checked. Follows Amendment 36-26 (2005)."
+          "compared_with": [
+            "published EPNL values (Rizzi et al., 2020)"
+          ],
+          "validation_details": [
+            "The README says that no reference implementation or test signals exist, so the verification is partial.",
+            "Perceived noisiness is checked at its definition (a third-octave band of noise at 1 kHz and 40 dB SPL gives 1 noy), and the tone correction factor against Table 3.7 of ICAO Doc 9501.",
+            "EPNL is cross-checked with Table 4 of Rizzi et al. (2020), AIAA 2020-2582, for 15 flyover sounds (five cases auralised by three tools): the largest difference is about 0.6 EPNdB."
+          ],
+          "note": "Follows Amendment 36-26 (2005)."
         },
         {
           "project": "phonometry",
@@ -2499,7 +2885,9 @@
           "scope": "PNL, PNLT and EPNL, in the `phonometry.aircraft` namespace",
           "status": "available",
           "validation": "standard-data",
-          "note": "Tested with the EPNL example of ICAO Doc 9501 (Environmental Technical Manual)."
+          "validation_details": [
+            "Tested with the EPNL example of ICAO Doc 9501 (Environmental Technical Manual)."
+          ]
         },
         {
           "project": "pysqat",
@@ -2508,7 +2896,13 @@
             "EPNL_FAR_Part36"
           ],
           "status": "available",
-          "validation": "cross-implementation"
+          "validation": "cross-implementation",
+          "compared_with": [
+            "sqat"
+          ],
+          "validation_details": [
+            "Compared with SQAT v1.3, run in MATLAB, by `validation/FINAL_VAL.py`; the generated reports are not committed."
+          ]
         },
         {
           "project": "zhen-ni-epnl",
@@ -3317,7 +3711,10 @@
           "status": "available",
           "since": "v1.0",
           "validation": "standard-data",
-          "note": "Checked with the 25 test signals of Annex B.2–B.5 against the standard's tolerances. Fixes to the time-varying procedure are on `main` only (PR #48)."
+          "validation_details": [
+            "Checked with the 25 test signals of Annex B.2–B.5 against the standard's tolerances."
+          ],
+          "note": "Fixes to the time-varying procedure are on `main` only (PR #48)."
         },
         {
           "method": "sharpness",
@@ -3331,7 +3728,9 @@
           "status": "available",
           "since": "v1.0",
           "validation": "standard-data",
-          "note": "Checked with the narrowband and broadband test signals of DIN 45692."
+          "validation_details": [
+            "Checked with the narrowband and broadband test signals of DIN 45692."
+          ]
         },
         {
           "method": "roughness-daniel-weber",
@@ -3343,7 +3742,10 @@
           "status": "available",
           "since": "v1.0",
           "validation": "standard-data",
-          "note": "Checked against amplitude- and frequency-modulation dependences from the literature. Rewritten on `main` (PR #65, 2026-09-08) after revised code from Dik Hermes: 63 of 119 validation values go up and 56 down (largest change 0.155 asper)."
+          "validation_details": [
+            "Checked against amplitude- and frequency-modulation dependences from the literature."
+          ],
+          "note": "Rewritten on `main` (PR #65, 2026-09-08) after revised code from Dik Hermes: 63 of 119 validation values go up and 56 down (largest change 0.155 asper)."
         },
         {
           "method": "fluctuation-strength-osses",
@@ -3355,7 +3757,9 @@
           "status": "available",
           "since": "v1.0",
           "validation": "standard-data",
-          "note": "Checked against amplitude- and frequency-modulation dependences from the literature."
+          "validation_details": [
+            "Checked against amplitude- and frequency-modulation dependences from the literature."
+          ]
         },
         {
           "method": "tonality-aures",
@@ -3367,7 +3771,11 @@
           "status": "available",
           "since": "v1.0",
           "validation": "standard-data",
-          "note": "v1.3 is checked with one signal-to-noise comparison. Eight defects were fixed on `main` in September 2026 (for example, only one tonal component's level excess entered the result, and tones were removed from the wrong spectrum), with new checks against Aures's Figs. 5 and 6."
+          "validation_details": [
+            "v1.3 is checked with one signal-to-noise comparison.",
+            "The September 2026 fixes on `main` add checks against Aures's Figs. 5 and 6."
+          ],
+          "note": "Eight defects were fixed on `main` in September 2026 (for example, only one tonal component's level excess entered the result, and tones were removed from the wrong spectrum)."
         },
         {
           "method": "psychoacoustic-annoyance",
@@ -3401,7 +3809,9 @@
           "status": "available",
           "since": "v1.0",
           "validation": "not-stated",
-          "note": "No verification routine (README)."
+          "validation_details": [
+            "No verification routine (README)."
+          ]
         },
         {
           "method": "psychoacoustic-annoyance",
@@ -3413,7 +3823,9 @@
           "status": "available",
           "since": "v1.0",
           "validation": "not-stated",
-          "note": "No verification routine (README)."
+          "validation_details": [
+            "No verification routine (README)."
+          ]
         },
         {
           "method": "epnl",
@@ -3427,7 +3839,15 @@
           "status": "available",
           "since": "v1.1",
           "validation": "cross-implementation",
-          "note": "The README says no reference implementation or test signals exist, so it was only cross-checked. Follows Amendment 36-26 (2005)."
+          "compared_with": [
+            "published EPNL values (Rizzi et al., 2020)"
+          ],
+          "validation_details": [
+            "The README says that no reference implementation or test signals exist, so the verification is partial.",
+            "Perceived noisiness is checked at its definition (a third-octave band of noise at 1 kHz and 40 dB SPL gives 1 noy), and the tone correction factor against Table 3.7 of ICAO Doc 9501.",
+            "EPNL is cross-checked with Table 4 of Rizzi et al. (2020), AIAA 2020-2582, for 15 flyover sounds (five cases auralised by three tools): the largest difference is about 0.6 EPNdB."
+          ],
+          "note": "Follows Amendment 36-26 (2005)."
         },
         {
           "method": "loudness-ecma-418-2",
@@ -3440,7 +3860,12 @@
           "status": "available",
           "since": "v1.3",
           "validation": "cross-implementation",
-          "note": "Checked against equal-loudness contours and against reference results from commercial software on a binaural recording."
+          "compared_with": [
+            "commercial software"
+          ],
+          "validation_details": [
+            "Checked against the ISO 226:2003 equal-loudness contours and against reference results from commercial software for a binaural recording of a train station."
+          ]
         },
         {
           "method": "loudness-ecma-418-2",
@@ -3451,6 +3876,12 @@
           ],
           "status": "unreleased",
           "validation": "cross-implementation",
+          "compared_with": [
+            "commercial software"
+          ],
+          "validation_details": [
+            "On `main`, checked for the 4th edition against the ISO 226:2003 equal-loudness contours and against reference results from commercial software for a binaural recording of a train station (last checked in November 2025)."
+          ],
           "note": "Updated to the 4th edition on `main` in 2025."
         },
         {
@@ -3462,7 +3893,13 @@
           "scope": "with binaural combination",
           "status": "available",
           "since": "v1.3",
-          "validation": "cross-implementation"
+          "validation": "cross-implementation",
+          "compared_with": [
+            "commercial software"
+          ],
+          "validation_details": [
+            "Checked for the dependence of the roughness of AM tones on modulation frequency, and against reference results from commercial software for a binaural recording of a train station."
+          ]
         },
         {
           "method": "roughness-ecma-418-2",
@@ -3472,6 +3909,12 @@
           ],
           "status": "unreleased",
           "validation": "cross-implementation",
+          "compared_with": [
+            "commercial software"
+          ],
+          "validation_details": [
+            "On `main`, checked for the 4th edition for the dependence of the roughness of AM tones on modulation frequency, and against reference results from commercial software for a binaural recording of a train station."
+          ],
           "note": "Amended to the 4th edition on `main` in November 2025."
         },
         {
@@ -3482,7 +3925,13 @@
           ],
           "status": "available",
           "since": "v1.3",
-          "validation": "cross-implementation"
+          "validation": "cross-implementation",
+          "compared_with": [
+            "commercial software"
+          ],
+          "validation_details": [
+            "Checked against reference results from commercial software for a binaural recording of a train station."
+          ]
         },
         {
           "method": "tonality-ecma-418-2",
@@ -3492,7 +3941,13 @@
           ],
           "status": "unreleased",
           "validation": "cross-implementation",
-          "note": "A verification against Annex B.2 (PR #79) was merged and reverted on 2026-09-21 because the Annex B values of the 2025 edition appear to be out of date."
+          "compared_with": [
+            "commercial software"
+          ],
+          "validation_details": [
+            "On `main`, checked for the 4th edition against reference results from commercial software for a binaural recording of a train station.",
+            "A verification against Annex B.2 (PR #79) was merged and reverted on 2026-09-21 because the Annex B values of the 2025 edition appear to be out of date."
+          ]
         },
         {
           "method": "fluctuation-strength-ecma-418-2",
@@ -3515,9 +3970,12 @@
         "https://github.com/ggrecow/SQAT/pull/48",
         "https://github.com/ggrecow/SQAT/pull/65",
         "https://github.com/ggrecow/SQAT/pull/78",
-        "https://github.com/ggrecow/SQAT/pull/79"
+        "https://github.com/ggrecow/SQAT/pull/79",
+        "https://github.com/ggrecow/SQAT/tree/main/validation",
+        "https://github.com/ggrecow/SQAT/tree/main/validation/EPNL_FAR_Part36",
+        "https://github.com/ggrecow/SQAT/tree/v1.3/validation"
       ],
-      "checked": "2026-10-06",
+      "checked": "2026-10-07",
       "url": "https://zhenxianli.github.io/LISQM/projects/sqat.html",
       "last_commit": "2026-10-02",
       "latest_release": {
@@ -3577,7 +4035,10 @@
           ],
           "status": "available",
           "validation": "standard-data",
-          "note": "Listed as \"MOORE1997 - Loudness model for stationary signals\" in models/Contents.m. AMT's experiment scripts (`exp_…`) reproduce published results; this model has `exp_moore1997`."
+          "validation_details": [
+            "AMT's experiment scripts (`exp_…`) reproduce published results; this model has `exp_moore1997`."
+          ],
+          "note": "Listed as \"MOORE1997 - Loudness model for stationary signals\" in models/Contents.m."
         },
         {
           "method": "loudness-moore-glasberg",
@@ -3587,7 +4048,10 @@
           ],
           "status": "available",
           "validation": "standard-data",
-          "note": "Listed as \"CHEN2011 - Fast excitation pattern estimation\"; experiment script `exp_chen2011`."
+          "validation_details": [
+            "Has the experiment script `exp_chen2011`; AMT's experiment scripts reproduce the results of the publication they are named after."
+          ],
+          "note": "Listed as \"CHEN2011 - Fast excitation pattern estimation\"."
         },
         {
           "method": "loudness-moore-glasberg-time-varying",
@@ -3597,7 +4061,10 @@
           ],
           "status": "available",
           "validation": "standard-data",
-          "note": "Listed as \"GLASBERG2002 - Loudness model for time-variant signals\"; experiment script `exp_glasberg2002`."
+          "validation_details": [
+            "Has the experiment script `exp_glasberg2002`; AMT's experiment scripts reproduce the results of the publication they are named after."
+          ],
+          "note": "Listed as \"GLASBERG2002 - Loudness model for time-variant signals\"."
         },
         {
           "method": "loudness-moore-glasberg-time-varying",
@@ -3608,7 +4075,10 @@
           "scope": "binaural",
           "status": "available",
           "validation": "not-stated",
-          "note": "Listed as \"MOORE2016 - Binaural loudness model\"; there is no `exp_moore2016` experiment script on the develop branch."
+          "validation_details": [
+            "There is no `exp_moore2016` experiment script on the develop branch."
+          ],
+          "note": "Listed as \"MOORE2016 - Binaural loudness model\"."
         }
       ],
       "sources": [
@@ -3690,7 +4160,9 @@
           "status": "available",
           "since": "1.0.0",
           "validation": "standard-data",
-          "note": "Validation scripts use the ISO 532-1 Annex B test signals; the documentation marks it as validated."
+          "validation_details": [
+            "Validation scripts use the ISO 532-1 Annex B test signals; the documentation marks it as validated."
+          ]
         },
         {
           "method": "loudness-ecma-418-2",
@@ -3702,7 +4174,10 @@
           "status": "available",
           "since": "1.2.0",
           "validation": "standard-data",
-          "note": "Followed the 1st edition (2020) in versions 1.0.0–1.1.1 and the 2nd edition (2022) from 1.2.0. Validation scripts compare with figures of the standard."
+          "validation_details": [
+            "Validation scripts compare with figures of the standard."
+          ],
+          "note": "Followed the 1st edition (2020) in versions 1.0.0–1.1.1 and the 2nd edition (2022) from 1.2.0."
         },
         {
           "method": "sharpness",
@@ -3718,7 +4193,9 @@
           "status": "available",
           "since": "1.0.2",
           "validation": "standard-data",
-          "note": "Validation scripts use the DIN 45692 test signals; the documentation marks it as validated."
+          "validation_details": [
+            "Validation scripts use the DIN 45692 test signals; the documentation marks it as validated."
+          ]
         },
         {
           "method": "roughness-daniel-weber",
@@ -3730,7 +4207,9 @@
           "status": "available",
           "since": "1.0.0",
           "validation": "standard-data",
-          "note": "The documentation marks it as validated against reference data."
+          "validation_details": [
+            "The documentation marks it as validated against reference data."
+          ]
         },
         {
           "method": "roughness-ecma-418-2",
@@ -3757,7 +4236,10 @@
           "status": "available",
           "since": "1.0.2",
           "validation": "not-stated",
-          "note": "Docstrings say \"ECMA 418-1\" without an edition; the helper code and the bibliography cite ECMA-74 Annex D (17th edition, 2019). The documentation marks it as available but not validated."
+          "validation_details": [
+            "The documentation marks it as available but not validated."
+          ],
+          "note": "Docstrings say \"ECMA 418-1\" without an edition; the helper code and the bibliography cite ECMA-74 Annex D (17th edition, 2019)."
         },
         {
           "method": "equal-loudness-contours",
@@ -3851,7 +4333,10 @@
           "scope": "tonal audibility and tonal adjustment",
           "status": "available",
           "validation": "self-tests",
-          "note": "Module `acoustic_toolbox.standards.iso_1996_2_2007`, the same code lineage as python-acoustics; as there, the test of the examples in the standard is commented out."
+          "validation_details": [
+            "As in python-acoustics, the test of the examples in the standard is commented out."
+          ],
+          "note": "Module `acoustic_toolbox.standards.iso_1996_2_2007`, the same code lineage as python-acoustics."
         }
       ],
       "sources": [
@@ -3989,7 +4474,13 @@
           "scope": "MATLAB and Python; binaural and specific loudness",
           "status": "available",
           "validation": "cross-implementation",
-          "note": "MATLAB and Python verified against HEAD acoustics ArtemiS v17.1 for a 1 kHz tone at 40 dB SPL, a 1 kHz tone amplitude-modulated at 70 Hz at 60 dB SPL and a 30 s binaural street recording; the audio and reference results are on Zenodo (doi:10.5281/zenodo.18849587)."
+          "compared_with": [
+            "ArtemiS SUITE (HEAD acoustics)"
+          ],
+          "validation_details": [
+            "MATLAB and Python verified against HEAD acoustics ArtemiS v17.1 for a 1 kHz tone at 40 dB SPL, a 1 kHz tone amplitude-modulated at 70 Hz at 60 dB SPL and a 30 s binaural street recording.",
+            "The audio and reference results are on Zenodo (doi:10.5281/zenodo.18849587)."
+          ]
         },
         {
           "method": "tonality-ecma-418-2",
@@ -4001,7 +4492,12 @@
           "scope": "MATLAB and Python",
           "status": "available",
           "validation": "cross-implementation",
-          "note": "Verified against HEAD acoustics ArtemiS v17.1 with the same three signals as loudness."
+          "compared_with": [
+            "ArtemiS SUITE (HEAD acoustics)"
+          ],
+          "validation_details": [
+            "Verified against HEAD acoustics ArtemiS v17.1 with the same three signals as loudness."
+          ]
         },
         {
           "method": "roughness-ecma-418-2",
@@ -4013,7 +4509,12 @@
           "scope": "MATLAB and Python",
           "status": "available",
           "validation": "cross-implementation",
-          "note": "Verified against HEAD acoustics ArtemiS v17.1 with the same three signals as loudness."
+          "compared_with": [
+            "ArtemiS SUITE (HEAD acoustics)"
+          ],
+          "validation_details": [
+            "Verified against HEAD acoustics ArtemiS v17.1 with the same three signals as loudness."
+          ]
         },
         {
           "method": "sharpness",
@@ -4036,7 +4537,10 @@
           ],
           "status": "available",
           "validation": "standard-data",
-          "note": "The MATLAB header names the model Widmann (1992), \"commonly misattributed to Zwicker\". A validation script (validation/metrics/mlab/acousticPsychAnnoyValidation.m) compares the MATLAB version with values from Widmann (1992). The Python `widmannPA` takes precomputed metric values."
+          "validation_details": [
+            "A validation script (`validation/metrics/mlab/acousticPsychAnnoyValidation.m`) compares the MATLAB version with values from Widmann (1992)."
+          ],
+          "note": "The MATLAB header names the model Widmann (1992), \"commonly misattributed to Zwicker\". The Python `widmannPA` takes precomputed metric values."
         },
         {
           "method": "psychoacoustic-annoyance",
@@ -4094,7 +4598,7 @@
         "https://doi.org/10.5281/zenodo.18849587",
         "https://pypi.org/project/sottek-hearing-model/"
       ],
-      "checked": "2026-10-06",
+      "checked": "2026-10-07",
       "url": "https://zhenxianli.github.io/LISQM/projects/refmap-psychoacoustics.html",
       "last_commit": "2026-10-06",
       "latest_release": null,
@@ -4155,7 +4659,10 @@
           "status": "available",
           "since": "0.1.9",
           "validation": "standard-data",
-          "note": "Unit tests check the standard's calibration signals (1 kHz, 40 dB gives 1 sone_HMS); the MATLAB code it was translated from was compared with commercial reference software in the paper."
+          "validation_details": [
+            "Unit tests check the standard's calibration signals (1 kHz, 40 dB gives 1 sone_HMS).",
+            "The MATLAB code it was translated from was compared with commercial reference software in the paper."
+          ]
         },
         {
           "method": "tonality-ecma-418-2",
@@ -4166,6 +4673,9 @@
           "status": "available",
           "since": "0.1.9",
           "validation": "standard-data",
+          "validation_details": [
+            "Unit tests check the standard's reference signal, which should give 1 tu_HMS, at 48 and 44.1 kHz."
+          ],
           "note": "Optional experimental tonal-annoyance weighting (Sottek & Becker, 2019) since 0.1.14."
         },
         {
@@ -4177,7 +4687,10 @@
           "scope": "with combined binaural output",
           "status": "available",
           "since": "0.1.9",
-          "validation": "standard-data"
+          "validation": "standard-data",
+          "validation_details": [
+            "Unit tests check the standard's reference signal, which should give 1 asper_HMS, at 48 and 44.1 kHz."
+          ]
         },
         {
           "method": "fluctuation-strength-ecma-418-2",
@@ -4188,7 +4701,15 @@
           "scope": "needs at least 1.37 s of signal; binaural option",
           "status": "unreleased",
           "validation": "cross-implementation",
-          "note": "Merged on 2026-09-18. A draft report compares it with the MATLAB version (equal to floating-point precision) and with HEAD ArtemiS SUITE v17 (calibration 0.994 vs 1.003 vacil_HMS; recordings −8 % to +12 %). Five departures from the printed text are documented (four equations and one interpretation of Section 9.1.8)."
+          "compared_with": [
+            "its MATLAB original",
+            "ArtemiS SUITE (HEAD acoustics)"
+          ],
+          "validation_details": [
+            "A draft report (18 September 2026) compares it with `acousticSHMFluctuation.m`, the MATLAB code it was translated from: equal to floating-point precision on the synthetic signals and on one channel of each recording, with a small difference in a short time window on the other channel.",
+            "Against HEAD acoustics ArtemiS SUITE v17: 0.994 against 1.003 vacil_HMS for the calibration signal (the standard's target is 1.0), −8 % to +12 % for the overall values of three binaural recordings, and correlations of 0.91 to 0.998 for the time-dependent values."
+          ],
+          "note": "Merged on 2026-09-18. Five departures from the printed text are documented (four equations and one interpretation of Section 9.1.8)."
         }
       ],
       "sources": [
@@ -4196,9 +4717,10 @@
         "https://github.com/mlotinga/sottek-hearing-model/blob/main/LICENSE",
         "https://github.com/mlotinga/sottek-hearing-model/blob/main/docs/validation/fluctuation_strength_verification.md",
         "https://pypi.org/project/sottek-hearing-model/",
-        "https://github.com/mlotinga/sottek-hearing-model/issues/9"
+        "https://github.com/mlotinga/sottek-hearing-model/issues/9",
+        "https://github.com/mlotinga/sottek-hearing-model/tree/main/tests"
       ],
-      "checked": "2026-10-06",
+      "checked": "2026-10-07",
       "url": "https://zhenxianli.github.io/LISQM/projects/sottek-hearing-model.html",
       "last_commit": "2026-09-18",
       "latest_release": {
@@ -4255,7 +4777,10 @@
           "scope": "stationary and time-varying",
           "status": "available",
           "validation": "standard-data",
-          "note": "A commit of 2017-12-11 says the code was verified with the time-varying test signals of Annex B.5; no check of the stationary method is stated. The header cites a 2014 draft of ISO 532-1 and describes the code as Ella Manor's 2015 MATLAB port, with adjustments, of the Annex A C code."
+          "validation_details": [
+            "A commit of 2017-12-11 says the code was verified with the time-varying test signals of Annex B.5; no check of the stationary method is stated."
+          ],
+          "note": "The header cites a 2014 draft of ISO 532-1 and describes the code as Ella Manor's 2015 MATLAB port, with adjustments, of the Annex A C code."
         },
         {
           "method": "loudness-zwicker",
@@ -4366,7 +4891,10 @@
           "scope": "reference MATLAB code referred to in ISO 532-3, per its readme",
           "status": "available",
           "validation": "not-stated",
-          "note": "Written by the model's authors (per the readme PDF). The folder \"code for tables\" has scripts that compute Table 5 (sone to phon) and the values of Annexes B and C (AnnexC.m is headed \"Signals numbered as in ISO 532-2 Annex B\"); the scripts do not name ISO 532-3."
+          "validation_details": [
+            "The folder \"code for tables\" has scripts that compute Table 5 (sone to phon) and the values of Annexes B and C (AnnexC.m is headed \"Signals numbered as in ISO 532-2 Annex B\"); the scripts do not name ISO 532-3."
+          ],
+          "note": "Written by the model's authors (per the readme PDF)."
         }
       ],
       "sources": [
@@ -4454,13 +4982,12 @@
       "id": "metasona",
       "name": "MetaSona",
       "repository": "https://github.com/huaaudio/metasona",
-      "docs": "https://github.com/huaaudio/metasona/blob/main/docs/python-api.md",
+      "docs": "https://github.com/huaaudio/metasona/tree/main/docs",
       "languages": [
-        "Python",
-        "C"
+        "C",
+        "Python"
       ],
       "kind": "library",
-      "core": "C",
       "based_on": "sqat",
       "language_note": "A CMake library in C11 with the header `metasona/metasona.h` and a documented C API. The Python package loads the compiled library with ctypes and ships prebuilt wheels for Windows x64, Linux x64 and ARM64 and macOS (Intel and Apple silicon), for Python 3.9 to 3.14. The C functions take 48 kHz input; the Python interface resamples.",
       "standing": "newly-released",
@@ -4505,7 +5032,13 @@
           "status": "available",
           "since": "0.1.0",
           "validation": "cross-implementation",
-          "note": "Model tables taken from MoSQITo and checked element by element; one upper-slope value (0.22) follows the ISO 532-1 reference C table where MoSQITo uses 0.24. Comparison results are not published."
+          "compared_with": [
+            "mosqito"
+          ],
+          "validation_details": [
+            "Model tables taken from MoSQITo were checked element by element; one upper-slope value (0.22) follows the ISO 532-1 reference C table where MoSQITo uses 0.24.",
+            "The project says that detailed validation and reference comparisons are kept outside the repository; the results are not published. The README says standards conformance has not been established."
+          ]
         },
         {
           "method": "sharpness",
@@ -4527,7 +5060,14 @@
           "status": "available",
           "since": "0.1.0",
           "validation": "cross-implementation",
-          "note": "Follows SQAT revision `e6228b78`, which includes SQAT's September 2026 rewrite but not its later fix to the Terhardt filter bank (PR #77). Comparison results are not published."
+          "compared_with": [
+            "sqat"
+          ],
+          "validation_details": [
+            "The project says that detailed validation and reference comparisons are kept outside the repository; the results are not published.",
+            "The API documentation calls the function experimental and says normative validation remains open."
+          ],
+          "note": "Follows SQAT revision `e6228b78`, which includes SQAT's September 2026 rewrite but not its later fix to the Terhardt filter bank (PR #77)."
         },
         {
           "method": "tonality-aures",
@@ -4538,7 +5078,14 @@
           "status": "available",
           "since": "0.1.0",
           "validation": "cross-implementation",
-          "note": "Follows SQAT's September 2026 revision (250 ms Hann windows, 125 ms hop); exact agreement with MATLAB is not established. Comparison results are not published."
+          "compared_with": [
+            "sqat"
+          ],
+          "validation_details": [
+            "The project calls its source-based Python comparisons \"development checks, not an executed MATLAB/Octave validation\"; exact agreement with MATLAB is not established.",
+            "The results are not published."
+          ],
+          "note": "Follows SQAT's September 2026 revision (250 ms Hann windows, 125 ms hop)."
         },
         {
           "method": "loudness-ecma-418-2",
@@ -4551,7 +5098,13 @@
           "status": "available",
           "since": "0.2.0",
           "validation": "cross-implementation",
-          "note": "Adapted from the SQAT/RefMap MATLAB code by Lotinga and Torjussen. Comparison results are not published."
+          "compared_with": [
+            "sqat"
+          ],
+          "validation_details": [
+            "The project says that detailed validation and reference comparisons are kept outside the repository; the results are not published."
+          ],
+          "note": "Adapted from the SQAT/RefMap MATLAB code by Lotinga and Torjussen."
         },
         {
           "method": "roughness-ecma-418-2",
@@ -4563,7 +5116,13 @@
           "status": "available",
           "since": "0.2.0",
           "validation": "cross-implementation",
-          "note": "Uses the standard's 20 ms grid and nominal calibration factor, where SQAT uses a slightly adjusted calibration. Comparison results are not published."
+          "compared_with": [
+            "sqat"
+          ],
+          "validation_details": [
+            "The project says that detailed validation and reference comparisons are kept outside the repository; the results are not published."
+          ],
+          "note": "Uses the standard's 20 ms grid and nominal calibration factor, where SQAT uses a slightly adjusted calibration."
         },
         {
           "method": "tonality-ecma-418-2",
@@ -4576,7 +5135,12 @@
           "status": "available",
           "since": "0.2.0",
           "validation": "cross-implementation",
-          "note": "Comparison results are not published."
+          "compared_with": [
+            "sqat"
+          ],
+          "validation_details": [
+            "The project says that detailed validation and reference comparisons are kept outside the repository; the results are not published."
+          ]
         }
       ],
       "sources": [
@@ -4584,9 +5148,11 @@
         "https://github.com/huaaudio/metasona/blob/main/THIRD_PARTY.md",
         "https://github.com/huaaudio/metasona/blob/main/NOTICE",
         "https://pypi.org/project/metasona/",
-        "https://github.com/huaaudio/metasona/blob/main/python/metasona/_abi.py"
+        "https://github.com/huaaudio/metasona/blob/main/python/metasona/_abi.py",
+        "https://github.com/huaaudio/metasona/blob/main/docs/c-api.md",
+        "https://github.com/huaaudio/metasona/blob/main/docs/python-api.md"
       ],
-      "checked": "2026-10-06",
+      "checked": "2026-10-07",
       "url": "https://zhenxianli.github.io/LISQM/projects/metasona.html",
       "last_commit": "2026-09-25",
       "latest_release": {
@@ -4643,7 +5209,14 @@
           "status": "available",
           "since": "0.1.0",
           "validation": "standard-data",
-          "note": "Parity tests with MoSQITo 1.2.1 on nine synthetic and Annex B signals (worst reported difference 1.3e-9). Checked separately against ISO 532-1 Annex B: the README reports stationary offsets of about +0.82 % and −0.76 % for signals 3 and 5, inside the standard's tolerance, and details signals 3, 5 and 10 in docs/ISO-ANNEXB-NUMERICAL-ERROR-2026-07-04.md. Python uses the same names (`iso532.loudness_zwst` …); the C API has `iso532_loudness_zwst`, `iso532_loudness_zwtv` and `iso532_stream_*`."
+          "compared_with": [
+            "mosqito"
+          ],
+          "validation_details": [
+            "Parity tests with MoSQITo 1.2.1 on nine synthetic and Annex B signals (worst reported difference 1.3e-9).",
+            "Checked separately against ISO 532-1 Annex B: the README reports stationary offsets of about +0.82 % and −0.76 % for signals 3 and 5, inside the standard's tolerance, and details signals 3, 5 and 10 in docs/ISO-ANNEXB-NUMERICAL-ERROR-2026-07-04.md."
+          ],
+          "note": "Python uses the same names (`iso532.loudness_zwst` …); the C API has `iso532_loudness_zwst`, `iso532_loudness_zwtv` and `iso532_stream_*`."
         }
       ],
       "sources": [
@@ -4705,7 +5278,13 @@
           "status": "available",
           "since": "1.0.0",
           "validation": "cross-implementation",
-          "note": "Ported from MoSQITo v1.2.1; tests assert specific loudness within a relative 1e-3 of MoSQITo."
+          "compared_with": [
+            "mosqito"
+          ],
+          "validation_details": [
+            "Tests assert specific loudness within a relative 1e-3 of MoSQITo."
+          ],
+          "note": "Ported from MoSQITo v1.2.1."
         },
         {
           "method": "sharpness",
@@ -4717,7 +5296,12 @@
           "status": "available",
           "since": "1.0.0",
           "validation": "cross-implementation",
-          "note": "Tests assert agreement with MoSQITo within 0.05 acum."
+          "compared_with": [
+            "mosqito"
+          ],
+          "validation_details": [
+            "Tests assert agreement with MoSQITo within 0.05 acum."
+          ]
         }
       ],
       "sources": [
@@ -4778,7 +5362,13 @@
           ],
           "status": "available",
           "validation": "standard-data",
-          "note": "The implementation document says the model is compared with the results shown in the original article (plots of its Fig. 8 and Fig. 12). Numerical error reports (PDF) compare intermediate arrays, such as the outer- and middle-ear filter, with AMT's MATLAB output."
+          "compared_with": [
+            "amt"
+          ],
+          "validation_details": [
+            "The implementation document says the model is compared with the results shown in the original article (plots of its Fig. 8 and Fig. 12).",
+            "Numerical error reports (PDF) compare intermediate arrays, such as the outer- and middle-ear filter, with AMT's MATLAB output."
+          ]
         },
         {
           "method": "loudness-moore-glasberg-time-varying",
@@ -4861,7 +5451,10 @@
           "status": "available",
           "since": "3.1.0",
           "validation": "standard-data",
-          "note": "Written from the Annex A reference program; Annex B test signals are used in the tests."
+          "validation_details": [
+            "Annex B test signals are used in the tests."
+          ],
+          "note": "Written from the Annex A reference program."
         },
         {
           "method": "loudness-moore-glasberg",
@@ -4875,7 +5468,9 @@
           "status": "available",
           "since": "3.1.0",
           "validation": "standard-data",
-          "note": "The documentation says it reproduces the Annex B tone and broadband cases to within a percent or two."
+          "validation_details": [
+            "The documentation says it reproduces the Annex B tone and broadband cases to within a percent or two."
+          ]
         },
         {
           "method": "loudness-moore-glasberg-time-varying",
@@ -4886,7 +5481,10 @@
           "status": "available",
           "since": "3.1.0",
           "validation": "standard-data",
-          "note": "Documented deviations: it runs at the native sample rate instead of resampling to 32 kHz, and the Annex B WAV-file cases are not reproduced (Annex C values are used instead)."
+          "validation_details": [
+            "A documented deviation: the Annex B WAV-file cases are not reproduced, and Annex C values are used instead."
+          ],
+          "note": "Documented deviation: it runs at the native sample rate instead of resampling to 32 kHz."
         },
         {
           "method": "loudness-ecma-418-2",
@@ -4898,7 +5496,9 @@
           "status": "available",
           "since": "3.1.0",
           "validation": "standard-data",
-          "note": "Checked at the calibration signal only, where it gives 0.9843 sone_HMS (−1.55 %)."
+          "validation_details": [
+            "Checked at the calibration signal only, where it gives 0.9843 sone_HMS (−1.55 %)."
+          ]
         },
         {
           "method": "tonality-ecma-418-2",
@@ -4910,7 +5510,9 @@
           "status": "available",
           "since": "3.1.0",
           "validation": "standard-data",
-          "note": "Checked at the calibration signal only."
+          "validation_details": [
+            "Checked at the calibration signal only."
+          ]
         },
         {
           "method": "roughness-ecma-418-2",
@@ -4922,7 +5524,9 @@
           "status": "available",
           "since": "3.1.0",
           "validation": "standard-data",
-          "note": "Checked at the calibration signal only."
+          "validation_details": [
+            "Checked at the calibration signal only."
+          ]
         },
         {
           "method": "fluctuation-strength-ecma-418-2",
@@ -4934,7 +5538,10 @@
           "status": "available",
           "since": "3.3.0",
           "validation": "standard-data",
-          "note": "Checked at the calibration signal only (0.993 vacil_HMS); misprints found in Clause 9 are listed in its errata."
+          "validation_details": [
+            "Checked at the calibration signal only (0.993 vacil_HMS)."
+          ],
+          "note": "Misprints found in Clause 9 are listed in the project's errata."
         },
         {
           "method": "sharpness",
@@ -4947,7 +5554,9 @@
           "status": "available",
           "since": "3.1.0",
           "validation": "standard-data",
-          "note": "Checked with the DIN 45692 reference signal and Tables A.2 and A.3."
+          "validation_details": [
+            "Checked with the DIN 45692 reference signal and Tables A.2 and A.3."
+          ]
         },
         {
           "method": "fluctuation-strength-osses",
@@ -4958,7 +5567,13 @@
           "status": "available",
           "since": "3.1.0",
           "validation": "standard-data",
-          "note": "Compared with Table 1 of Osses et al. (2016) and with SQAT (correlation 0.98). Validated for amplitude modulation only; a steady 1 kHz tone reads about 0.09 vacil."
+          "compared_with": [
+            "sqat"
+          ],
+          "validation_details": [
+            "Compared with Table 1 of Osses et al. (2016) and with SQAT (correlation 0.98).",
+            "Validated for amplitude modulation only; a steady 1 kHz tone reads about 0.09 vacil."
+          ]
         },
         {
           "method": "fluctuation-strength-osses",
@@ -4970,7 +5585,9 @@
           "status": "available",
           "since": "3.1.0",
           "validation": "standard-data",
-          "note": "A conformance row checks Eq. (10.2) of Fastl & Zwicker for amplitude-modulated broadband noise."
+          "validation_details": [
+            "A conformance row checks Eq. (10.2) of Fastl & Zwicker for amplitude-modulated broadband noise."
+          ]
         },
         {
           "method": "psychoacoustic-annoyance",
@@ -5010,7 +5627,14 @@
           "status": "available",
           "since": "3.1.0",
           "validation": "standard-data",
-          "note": "Follows the 2016 PAS, not the 2022 TS. Does not apply the A-weighting required by clause 5.3.2. Reproduces the Annex E worked example; parts are checked against DIN 45681:2005 and its Annex J reference program (DIN 45681 itself is not implemented)."
+          "compared_with": [
+            "DIN 45681 Annex J reference program"
+          ],
+          "validation_details": [
+            "Reproduces the Annex E worked example.",
+            "Parts are checked against DIN 45681:2005 and its Annex J reference program."
+          ],
+          "note": "Follows the 2016 PAS, not the 2022 TS. Does not apply the A-weighting required by clause 5.3.2. DIN 45681 itself is not implemented."
         },
         {
           "method": "equal-loudness-contours",
@@ -5068,7 +5692,9 @@
           "scope": "PNL, PNLT and EPNL, in the `phonometry.aircraft` namespace",
           "status": "available",
           "validation": "standard-data",
-          "note": "Tested with the EPNL example of ICAO Doc 9501 (Environmental Technical Manual)."
+          "validation_details": [
+            "Tested with the EPNL example of ICAO Doc 9501 (Environmental Technical Manual)."
+          ]
         }
       ],
       "sources": [
@@ -5142,7 +5768,14 @@
           "status": "available",
           "since": "0.2.0",
           "validation": "standard-data",
-          "note": "Tested against all 41 reference signals of DIN 45692:2009 chapter 6 (21 narrowband, 20 broadband) within the standard's tolerance of ±max(5 %, 0.05 acum), and cross-checked against MoSQITo for all four weightings."
+          "compared_with": [
+            "mosqito"
+          ],
+          "validation_details": [
+            "Tested against all 41 reference signals of DIN 45692:2009 chapter 6 (21 narrowband, 20 broadband) within the standard's tolerance of ±max(5 %, 0.05 acum).",
+            "Cross-checked against MoSQITo for all four weightings.",
+            "Total loudness N is computed as the Riemann sum over the 240-bin specific loudness (`0.1 * sum`), not taken from `ZwickerResult.loudness` (see the `sharpness` docstring)."
+          ]
         },
         {
           "method": "roughness-daniel-weber",
@@ -5153,7 +5786,14 @@
           "status": "available",
           "since": "0.2.0",
           "validation": "standard-data",
-          "note": "Tested against the Zwicker & Fastl reference curves on MoSQITo's validation grid (±0.1 asper) and cross-checked against MoSQITo's `roughness_dw`. Five points at a 2 kHz carrier miss the ±0.1 asper gate, as MoSQITo does, and are checked against MoSQITo instead."
+          "compared_with": [
+            "mosqito"
+          ],
+          "validation_details": [
+            "Tested against the Zwicker & Fastl reference curves on MoSQITo's validation grid (7 carrier × 11 modulation frequencies) within ±0.1 asper, and cross-checked against MoSQITo's `roughness_dw` on identical signals.",
+            "Five points at a 2 kHz carrier miss the ±0.1 asper gate. MoSQITo misses them by the same amount (and overshoots Daniel & Weber's own curve there by 15–31 %), so these five are checked for agreement with MoSQITo to 5e-3 asper instead.",
+            "Against the Daniel & Weber curves themselves, 63 of the 77 grid points are within 30 % of the reference (reported, not gated)."
+          ]
         },
         {
           "method": "fluctuation-strength-osses",
@@ -5164,7 +5804,14 @@
           "status": "available",
           "since": "0.3.0",
           "validation": "reference-code",
-          "note": "Cross-checked against SQAT's `FluctuationStrength_Osses2016` (run under Octave) on 26 cases, including the 18 points of Fastl and Zwicker's reference grid, to a relative tolerance of 1e-6."
+          "compared_with": [
+            "sqat"
+          ],
+          "validation_details": [
+            "Cross-checked against SQAT's `FluctuationStrength_Osses2016`, run under Octave, on identical signals: 26 cases, including all 18 points of Fastl & Zwicker's AM/FM reference grid (Osses 2018 thesis, Table B.1), each reproduced to a relative tolerance of 1e-6 (measured 3e-9).",
+            "The grid stimuli are synthesised following the Osses et al. (2016) validation files that SQAT's own validation reads; the tests also check that each synthetic stimulus gives the value SQAT gives on the real file (tones to 5e-3, noise to 25 % across random draws).",
+            "Against the published curves, 11 of the 18 points are within 30 %, and exactly those 11 are gated. The other seven are misses of the reference model itself (FM tones with a modulation frequency above 4 Hz overestimated three- to fourfold, thesis §B.4.1; the shoulder and tail points of AM tones and noise), which SQAT's own validation figures also show."
+          ]
         },
         {
           "method": "psychoacoustic-annoyance",
@@ -5176,12 +5823,18 @@
           "status": "available",
           "since": "0.4.0",
           "validation": "cross-implementation",
-          "note": "Cross-checked against SQAT's `PsychoacousticAnnoyance_Widmann1992` (an 840-case formula grid reproduced exactly, and six signal-level cases) and checked at the 1 au anchor (1 kHz tone at 40 dB SPL)."
+          "compared_with": [
+            "sqat"
+          ],
+          "validation_details": [
+            "Cross-checked against SQAT's `PsychoacousticAnnoyance_Widmann1992`: an 840-case formula grid, reproduced bit-exactly, and six signal-level cases with SQAT's own N5, S5, R5 and FS5 vendored, so that every deviation is attributed to a component.",
+            "Checked at the published 1 au anchor (a 1 kHz tone at 40 dB SPL): on the 4 s cross-check case, the percentile convention lands 0.1 % from it and the stationary approximation 0.8 %; on the README's 5 s examples, 0.3 % and 1.4 %."
+          ]
         }
       ],
       "sources": [
         "https://github.com/slink/PsychoacousticMetrics.jl",
-        "https://github.com/slink/PsychoacousticMetrics.jl/blob/main/README.md",
+        "https://github.com/slink/PsychoacousticMetrics.jl/blob/main/README.md#conformance",
         "https://github.com/slink/PsychoacousticMetrics.jl/blob/main/test/data/NOTICE",
         "https://github.com/slink/PsychoacousticMetrics.jl/blob/main/Project.toml",
         "https://github.com/JuliaRegistries/General/tree/master/P/PsychoacousticMetrics"
@@ -5241,7 +5894,13 @@
           "status": "available",
           "since": "v0.5.0",
           "validation": "cross-implementation",
-          "note": "Compared with MoSQITo 1.2.1 on calibrated test signals, used as a development-time reference (`NOTES.md`, `tools/psycho_oracle`); no MoSQITo code is ported."
+          "compared_with": [
+            "mosqito"
+          ],
+          "validation_details": [
+            "Compared with MoSQITo 1.2.1 on calibrated test signals, used as a development-time reference (`NOTES.md`, `tools/psycho_oracle`)."
+          ],
+          "note": "No MoSQITo code is ported."
         },
         {
           "method": "sharpness",
@@ -5253,7 +5912,12 @@
           "status": "available",
           "since": "v0.5.0",
           "validation": "cross-implementation",
-          "note": "Compared with MoSQITo 1.2.1 (tolerance ±5 %)."
+          "compared_with": [
+            "mosqito"
+          ],
+          "validation_details": [
+            "Compared with MoSQITo 1.2.1 (tolerance ±5 %)."
+          ]
         },
         {
           "method": "roughness-daniel-weber",
@@ -5264,7 +5928,12 @@
           "status": "available",
           "since": "v0.5.0",
           "validation": "cross-implementation",
-          "note": "Compared with MoSQITo 1.2.1 with a wider tolerance (±15 %); the README notes that published Daniel & Weber implementations differ by about 10–20 %."
+          "compared_with": [
+            "mosqito"
+          ],
+          "validation_details": [
+            "Compared with MoSQITo 1.2.1 with a wider tolerance (±15 %); the README notes that published Daniel & Weber implementations differ by about 10–20 %."
+          ]
         }
       ],
       "sources": [
@@ -5332,7 +6001,13 @@
           "scope": "short-term and long-term loudness",
           "status": "available",
           "validation": "cross-implementation",
-          "note": "Ported from AMT `glasberg2002`; agreement with AMT is claimed in the documentation, without stored reference data."
+          "compared_with": [
+            "amt"
+          ],
+          "validation_details": [
+            "Agreement with AMT is claimed in the documentation, without stored reference data."
+          ],
+          "note": "Ported from AMT `glasberg2002`."
         },
         {
           "method": "loudness-moore-glasberg-time-varying",
@@ -5343,7 +6018,13 @@
           "scope": "binaural",
           "status": "available",
           "validation": "cross-implementation",
-          "note": "Described as a \"1:1 port\" of AMT `moore2016`, with outer and middle ear per ANSI S3.4-2007 (docstring); agreement with AMT is claimed in the documentation, without stored reference data."
+          "compared_with": [
+            "amt"
+          ],
+          "validation_details": [
+            "Agreement with AMT is claimed in the documentation, without stored reference data."
+          ],
+          "note": "Described as a \"1:1 port\" of AMT `moore2016`, with outer and middle ear per ANSI S3.4-2007 (docstring)."
         }
       ],
       "sources": [
@@ -5410,7 +6091,13 @@
           "status": "available",
           "since": "0.2.0",
           "validation": "standard-data",
-          "note": "Checked against ISO 532-1 Annex B signal 1, the only 28-band reference in Annex B (83.296 sone, tolerance ±5 %), and per Bark bin against MoSQITo output (maximum difference below 0.001 sone/Bark)."
+          "compared_with": [
+            "mosqito"
+          ],
+          "validation_details": [
+            "Checked against ISO 532-1 Annex B signal 1, the only 28-band reference in Annex B (83.296 sone, tolerance ±5 %).",
+            "Checked per Bark bin against MoSQITo output (maximum difference below 0.001 sone/Bark)."
+          ]
         },
         {
           "method": "loudness-zwicker",
@@ -5422,7 +6109,14 @@
           "status": "available",
           "since": "0.3.0",
           "validation": "standard-data",
-          "note": "Stages are tested against MoSQITo `loudness_zwtv` intermediates (agreement about 1e-9 to 1e-15). An Annex B.4 \"Test signal 6\" test regenerates band levels from a local MoSQITo checkout and is skipped when none is present; CI clones MoSQITo for it. The ISO WAV files are not included."
+          "compared_with": [
+            "mosqito"
+          ],
+          "validation_details": [
+            "Stages are tested against MoSQITo `loudness_zwtv` intermediates (agreement about 1e-9 to 1e-15).",
+            "An Annex B.4 \"Test signal 6\" test regenerates band levels from a local MoSQITo checkout and is skipped when none is present; CI clones MoSQITo for it.",
+            "The ISO WAV files are not included."
+          ]
         }
       ],
       "sources": [
@@ -5466,8 +6160,7 @@
       "summary": "Python port of the MATLAB toolbox SQAT (README title \"SQAT4PY\") with a PySide6 graphical interface. Covers ISO 532-1 loudness, DIN 45692 sharpness, Daniel & Weber roughness, Osses fluctuation strength, Aures tonality, three psychoacoustic annoyance models and EPNL; its ECMA-418-2 functions call sottek-hearing-model.",
       "ai_assistance": "not-stated",
       "notes": [
-        "Developed since May 2025 under the PALILA-TUDelft GitHub organisation; no release or tag yet.",
-        "Validation scripts run SQAT in MATLAB and compare the Python results with it; the generated reports are not committed."
+        "Developed since May 2025 under the PALILA-TUDelft GitHub organisation; no release or tag yet."
       ],
       "caveats": [
         "Without a licence, reuse rights are unclear, and the bundled MATLAB code is licensed for non-commercial use only.",
@@ -5482,7 +6175,12 @@
           ],
           "status": "available",
           "validation": "cross-implementation",
-          "note": "Compared with SQAT (MATLAB)."
+          "compared_with": [
+            "sqat"
+          ],
+          "validation_details": [
+            "Compared with SQAT v1.3, run in MATLAB, by `validation/FINAL_VAL.py`; the generated reports are not committed."
+          ]
         },
         {
           "method": "sharpness",
@@ -5493,7 +6191,12 @@
           ],
           "status": "available",
           "validation": "cross-implementation",
-          "note": "Compared with SQAT (MATLAB)."
+          "compared_with": [
+            "sqat"
+          ],
+          "validation_details": [
+            "Compared with SQAT v1.3, run in MATLAB, by `validation/FINAL_VAL.py`; the generated reports are not committed."
+          ]
         },
         {
           "method": "roughness-daniel-weber",
@@ -5503,7 +6206,13 @@
           ],
           "status": "available",
           "validation": "cross-implementation",
-          "note": "Compared with SQAT v1.3, before SQAT's September 2026 rewrite."
+          "compared_with": [
+            "sqat"
+          ],
+          "validation_details": [
+            "Compared with SQAT v1.3, run in MATLAB, by `validation/FINAL_VAL.py`; the generated reports are not committed."
+          ],
+          "note": "Follows SQAT v1.3, before SQAT's September 2026 rewrite."
         },
         {
           "method": "fluctuation-strength-osses",
@@ -5512,7 +6221,13 @@
             "FluctuationStrength_Osses2016"
           ],
           "status": "available",
-          "validation": "cross-implementation"
+          "validation": "cross-implementation",
+          "compared_with": [
+            "sqat"
+          ],
+          "validation_details": [
+            "Compared with SQAT v1.3, run in MATLAB, by `validation/FINAL_VAL.py`; the generated reports are not committed."
+          ]
         },
         {
           "method": "tonality-aures",
@@ -5522,6 +6237,12 @@
           ],
           "status": "available",
           "validation": "cross-implementation",
+          "compared_with": [
+            "sqat"
+          ],
+          "validation_details": [
+            "Compared with SQAT v1.3, run in MATLAB, by `validation/FINAL_VAL.py`; the generated reports are not committed."
+          ],
           "note": "A June 2026 commit corrected its calibration; it predates SQAT's September 2026 fixes."
         },
         {
@@ -5531,7 +6252,13 @@
             "PsychoacousticAnnoyance_Zwicker1999"
           ],
           "status": "available",
-          "validation": "cross-implementation"
+          "validation": "cross-implementation",
+          "compared_with": [
+            "sqat"
+          ],
+          "validation_details": [
+            "Compared with SQAT v1.3, run in MATLAB, by `validation/FINAL_VAL.py`; the generated reports are not committed."
+          ]
         },
         {
           "method": "psychoacoustic-annoyance",
@@ -5540,7 +6267,13 @@
             "PsychoacousticAnnoyance_More2010"
           ],
           "status": "available",
-          "validation": "cross-implementation"
+          "validation": "cross-implementation",
+          "compared_with": [
+            "sqat"
+          ],
+          "validation_details": [
+            "Compared with SQAT v1.3, run in MATLAB, by `validation/FINAL_VAL.py`; the generated reports are not committed."
+          ]
         },
         {
           "method": "psychoacoustic-annoyance",
@@ -5549,7 +6282,13 @@
             "PsychoacousticAnnoyance_Di2016"
           ],
           "status": "available",
-          "validation": "cross-implementation"
+          "validation": "cross-implementation",
+          "compared_with": [
+            "sqat"
+          ],
+          "validation_details": [
+            "Compared with SQAT v1.3, run in MATLAB, by `validation/FINAL_VAL.py`; the generated reports are not committed."
+          ]
         },
         {
           "method": "epnl",
@@ -5558,7 +6297,13 @@
             "EPNL_FAR_Part36"
           ],
           "status": "available",
-          "validation": "cross-implementation"
+          "validation": "cross-implementation",
+          "compared_with": [
+            "sqat"
+          ],
+          "validation_details": [
+            "Compared with SQAT v1.3, run in MATLAB, by `validation/FINAL_VAL.py`; the generated reports are not committed."
+          ]
         },
         {
           "method": "loudness-ecma-418-2",
@@ -5569,7 +6314,12 @@
           "status": "available",
           "via": "sottek-hearing-model",
           "validation": "cross-implementation",
-          "note": "Compared by validation/FINAL_VAL.py with the bundled SQAT v1.3 MATLAB code, which follows ECMA-418-2:2024 (3rd edition), so the comparison crosses editions."
+          "compared_with": [
+            "sqat"
+          ],
+          "validation_details": [
+            "Compared by `validation/FINAL_VAL.py` with the bundled SQAT v1.3 MATLAB code, which follows ECMA-418-2:2024 (3rd edition), so the comparison crosses editions."
+          ]
         },
         {
           "method": "roughness-ecma-418-2",
@@ -5580,7 +6330,12 @@
           "status": "available",
           "via": "sottek-hearing-model",
           "validation": "cross-implementation",
-          "note": "Compared by validation/FINAL_VAL.py with the bundled SQAT v1.3 MATLAB code, which follows ECMA-418-2:2024 (3rd edition), so the comparison crosses editions."
+          "compared_with": [
+            "sqat"
+          ],
+          "validation_details": [
+            "Compared by `validation/FINAL_VAL.py` with the bundled SQAT v1.3 MATLAB code, which follows ECMA-418-2:2024 (3rd edition), so the comparison crosses editions."
+          ]
         },
         {
           "method": "tonality-ecma-418-2",
@@ -5591,15 +6346,21 @@
           "status": "available",
           "via": "sottek-hearing-model",
           "validation": "cross-implementation",
-          "note": "Compared by validation/FINAL_VAL.py with the bundled SQAT v1.3 MATLAB code, which follows ECMA-418-2:2024 (3rd edition), so the comparison crosses editions."
+          "compared_with": [
+            "sqat"
+          ],
+          "validation_details": [
+            "Compared by `validation/FINAL_VAL.py` with the bundled SQAT v1.3 MATLAB code, which follows ECMA-418-2:2024 (3rd edition), so the comparison crosses editions."
+          ]
         }
       ],
       "sources": [
         "https://github.com/PALILA-TUDelft/pySQAT/blob/main/README.md",
         "https://github.com/PALILA-TUDelft/pySQAT/tree/main/validation",
+        "https://github.com/PALILA-TUDelft/pySQAT/blob/main/validation/FINAL_VAL.py",
         "https://github.com/PALILA-TUDelft/pySQAT/issues/1"
       ],
-      "checked": "2026-10-06",
+      "checked": "2026-10-07",
       "url": "https://zhenxianli.github.io/LISQM/projects/pysqat.html",
       "last_commit": "2026-06-27",
       "latest_release": null,
@@ -5649,7 +6410,10 @@
           "scope": "instantaneous, short-term and long-term loudness; binaural",
           "status": "available",
           "validation": "self-tests",
-          "note": "Tests run in GitHub Actions compare overall loudness, the first five short-term and long-term values and selected intermediate stages for one input (1 kHz tone, 100 ms, 32 kHz) with hard-coded expected values. The README calls this \"a known accurate output\", but neither it nor the tests say where the values come from."
+          "validation_details": [
+            "Tests run in GitHub Actions compare overall loudness, the first five short-term and long-term values and selected intermediate stages for one input (1 kHz tone, 100 ms, 32 kHz) with hard-coded expected values.",
+            "The README calls this \"a known accurate output\", but neither it nor the tests say where the values come from."
+          ]
         }
       ],
       "sources": [
@@ -5761,7 +6525,9 @@
           "status": "available",
           "since": "1.0",
           "validation": "standard-data",
-          "note": "`demos/demo_osses2016a.m` reproduces the figures of the paper with the included stimuli (AM and FM tones, AM noise and excerpts of real sounds)."
+          "validation_details": [
+            "`demos/demo_osses2016a.m` reproduces the figures of the paper with the included stimuli (AM and FM tones, AM noise and excerpts of real sounds)."
+          ]
         }
       ],
       "sources": [
@@ -5880,7 +6646,10 @@
           "scope": "with the binaural inhibition of Moore & Glasberg (2007) for two ears",
           "status": "available",
           "validation": "self-tests",
-          "note": "Unit tests cover each module and model. A validation script writes computed and expected loudness of pure tones to CSV; the expected values are labelled \"Table 7\" and \"Example 2\" without naming their source."
+          "validation_details": [
+            "Unit tests cover each module and model.",
+            "A validation script writes computed and expected loudness of pure tones to CSV; the expected values are labelled \"Table 7\" and \"Example 2\" without naming their source."
+          ]
         },
         {
           "method": "loudness-moore-glasberg",
@@ -5910,7 +6679,13 @@
           "scope": "stationary only",
           "status": "available",
           "validation": "cross-implementation",
-          "note": "Tested against \"a quick and dirty Python port of the Matlab code private by GENESIS ACOUSTICS\". Uses 28 third-octave filters with third-order Butterworth responses after ANSI S1.11:1986; there is no time-varying (DIN 45631/A1) model."
+          "compared_with": [
+            "GENESIS ACOUSTICS code (Python port)"
+          ],
+          "validation_details": [
+            "Tested against \"a quick and dirty Python port of the Matlab code private by GENESIS ACOUSTICS\"."
+          ],
+          "note": "Uses 28 third-octave filters with third-order Butterworth responses after ANSI S1.11:1986; there is no time-varying (DIN 45631/A1) model."
         }
       ],
       "sources": [
@@ -5965,7 +6740,10 @@
           "scope": "hearing model with specific and total loudness",
           "status": "available",
           "validation": "standard-data",
-          "note": "Validation scripts compare the ear filter and model output with figures and values from ECMA-418-2 and ECMA-74 Annex F; module `mosqito.functions.hearing_model`."
+          "validation_details": [
+            "Validation scripts compare the ear filter and model output with figures and values from ECMA-418-2 and ECMA-74 Annex F."
+          ],
+          "note": "Module `mosqito.functions.hearing_model`."
         },
         {
           "method": "tone-to-noise-prominence-ratio",
@@ -5977,7 +6755,9 @@
           "scope": "Annex D",
           "status": "available",
           "validation": "self-tests",
-          "note": "The README lists TNR/PR as available but not validated; the tests use synthetic tones in white noise."
+          "validation_details": [
+            "The README lists TNR/PR as available but not validated; the tests use synthetic tones in white noise."
+          ]
         }
       ],
       "sources": [
@@ -6222,7 +7002,10 @@
           "scope": "tonal audibility and tonal adjustment",
           "status": "available",
           "validation": "self-tests",
-          "note": "Module `acoustics.standards.iso_1996_2_2007`. The `Tonality` docstring uses the title of Annex C (\"Objective method for assessing the audibility of tones in noise\"), though the code does not name the annex. A test of the examples in the standard, using DELTA tone files, is commented out."
+          "validation_details": [
+            "A test of the examples in the standard, using DELTA tone files, is commented out."
+          ],
+          "note": "Module `acoustics.standards.iso_1996_2_2007`. The `Tonality` docstring uses the title of Annex C (\"Objective method for assessing the audibility of tones in noise\"), though the code does not name the annex."
         }
       ],
       "sources": [
@@ -6604,7 +7387,10 @@
           "since": "0.2.0",
           "via": "zwickerloudness-jl",
           "validation": "standard-data",
-          "note": "Computes the third-octave levels itself (per-band Butterworth filters of order 3 by default, as in MoSQITo) and passes them to ZwickerLoudness.jl for the loudness. ISO 532-1 Annex B signals 2–5, synthesised in-process, are within the standard's ±5 % (+2.9 %, +3.6 %, +0.5 % and +2.6 % per the README)."
+          "validation_details": [
+            "ISO 532-1 Annex B signals 2–5, synthesised in-process, are within the standard's ±5 % (+2.9 %, +3.6 %, +0.5 % and +2.6 % per the README)."
+          ],
+          "note": "Computes the third-octave levels itself (per-band Butterworth filters of order 3 by default, as in MoSQITo) and passes them to ZwickerLoudness.jl for the loudness."
         },
         {
           "method": "loudness-zwicker",
@@ -6617,7 +7403,14 @@
           "since": "0.3.0",
           "via": "zwickerloudness-jl",
           "validation": "standard-data",
-          "note": "Cross-checked end to end with MoSQITo `loudness_zwtv` (N(t) about 3e-16 relative, N5/N10 about 2e-15 absolute), plus an Annex B.4 test that is skipped when the ISO recording is not available locally. The Annex A filter cascade is transcribed from MoSQITo (`_third_octave_levels`, `_square_and_smooth`)."
+          "compared_with": [
+            "mosqito"
+          ],
+          "validation_details": [
+            "Cross-checked end to end with MoSQITo `loudness_zwtv` (N(t) about 3e-16 relative, N5/N10 about 2e-15 absolute).",
+            "An Annex B.4 test is skipped when the ISO recording is not available locally."
+          ],
+          "note": "The Annex A filter cascade is transcribed from MoSQITo (`_third_octave_levels`, `_square_and_smooth`)."
         }
       ],
       "sources": [
@@ -6742,6 +7535,11 @@
     }
   ],
   "updates": [
+    {
+      "date": "2026-10-07",
+      "title": "How each implementation was validated",
+      "body": "Project and method pages have a new section, *How it was validated*: what each project says it checked, and\nagainst what (test signals of the standard, the model authors' code, MoSQITo, SQAT or commercial software),\nwith the tolerances and results it reports. Validation tags now name what an implementation was compared with,\nfor example \"compared with MoSQITo\", instead of \"another implementation\". Agreement with another implementation\nshows that both compute the same values, not that either follows the standard. MetaSona is now listed as a C\nlibrary with a Python interface.\n"
+    },
     {
       "date": "2026-10-07",
       "title": "Two newly released projects",

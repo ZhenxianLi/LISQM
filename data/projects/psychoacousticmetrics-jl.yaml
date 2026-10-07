@@ -45,28 +45,54 @@ implements:
     status: available
     since: 0.2.0
     validation: standard-data
-    note: >-
-      Tested against all 41 reference signals of DIN 45692:2009 chapter 6 (21 narrowband, 20 broadband) within the
-      standard's tolerance of ±max(5 %, 0.05 acum), and cross-checked against MoSQITo for all four weightings.
+    compared_with: [mosqito]
+    validation_details:
+      - >-
+        Tested against all 41 reference signals of DIN 45692:2009 chapter 6 (21 narrowband, 20 broadband) within the
+        standard's tolerance of ±max(5 %, 0.05 acum).
+      - Cross-checked against MoSQITo for all four weightings.
+      - >-
+        Total loudness N is computed as the Riemann sum over the 240-bin specific loudness (`0.1 * sum`), not taken
+        from `ZwickerResult.loudness` (see the `sharpness` docstring).
   - method: roughness-daniel-weber
     reference: daniel-weber-1997
     functions: [roughness_dw]
     status: available
     since: 0.2.0
     validation: standard-data
-    note: >-
-      Tested against the Zwicker & Fastl reference curves on MoSQITo's validation grid (±0.1 asper) and
-      cross-checked against MoSQITo's `roughness_dw`. Five points at a 2 kHz carrier miss the ±0.1 asper gate, as
-      MoSQITo does, and are checked against MoSQITo instead.
+    compared_with: [mosqito]
+    validation_details:
+      - >-
+        Tested against the Zwicker & Fastl reference curves on MoSQITo's validation grid (7 carrier × 11 modulation
+        frequencies) within ±0.1 asper, and cross-checked against MoSQITo's `roughness_dw` on identical signals.
+      - >-
+        Five points at a 2 kHz carrier miss the ±0.1 asper gate. MoSQITo misses them by the same amount (and
+        overshoots Daniel & Weber's own curve there by 15–31 %), so these five are checked for agreement with MoSQITo
+        to 5e-3 asper instead.
+      - >-
+        Against the Daniel & Weber curves themselves, 63 of the 77 grid points are within 30 % of the reference
+        (reported, not gated).
   - method: fluctuation-strength-osses
     reference: osses-2016
     functions: [fluctuation_strength_osses]
     status: available
     since: 0.3.0
     validation: reference-code
-    note: >-
-      Cross-checked against SQAT's `FluctuationStrength_Osses2016` (run under Octave) on 26 cases, including the
-      18 points of Fastl and Zwicker's reference grid, to a relative tolerance of 1e-6.
+    compared_with: [sqat]
+    validation_details:
+      - >-
+        Cross-checked against SQAT's `FluctuationStrength_Osses2016`, run under Octave, on identical signals: 26
+        cases, including all 18 points of Fastl & Zwicker's AM/FM reference grid (Osses 2018 thesis, Table B.1), each
+        reproduced to a relative tolerance of 1e-6 (measured 3e-9).
+      - >-
+        The grid stimuli are synthesised following the Osses et al. (2016) validation files that SQAT's own validation
+        reads; the tests also check that each synthetic stimulus gives the value SQAT gives on the real file (tones to
+        5e-3, noise to 25 % across random draws).
+      - >-
+        Against the published curves, 11 of the 18 points are within 30 %, and exactly those 11 are gated. The other
+        seven are misses of the reference model itself (FM tones with a modulation frequency above 4 Hz overestimated
+        three- to fourfold, thesis §B.4.1; the shoulder and tail points of AM tones and noise), which SQAT's own
+        validation figures also show.
   - method: psychoacoustic-annoyance
     reference: widmann-1992
     functions: [psychoacoustic_annoyance_widmann]
@@ -74,16 +100,23 @@ implements:
     status: available
     since: 0.4.0
     validation: cross-implementation
-    note: >-
-      Cross-checked against SQAT's `PsychoacousticAnnoyance_Widmann1992` (an 840-case formula grid reproduced
-      exactly, and six signal-level cases) and checked at the 1 au anchor (1 kHz tone at 40 dB SPL).
+    compared_with: [sqat]
+    validation_details:
+      - >-
+        Cross-checked against SQAT's `PsychoacousticAnnoyance_Widmann1992`: an 840-case formula grid, reproduced
+        bit-exactly, and six signal-level cases with SQAT's own N5, S5, R5 and FS5 vendored, so that every deviation
+        is attributed to a component.
+      - >-
+        Checked at the published 1 au anchor (a 1 kHz tone at 40 dB SPL): on the 4 s cross-check case, the percentile
+        convention lands 0.1 % from it and the stationary approximation 0.8 %; on the README's 5 s examples, 0.3 % and
+        1.4 %.
 manual:
   last_commit: 2026-09-02
   latest_release: {version: 0.5.0, date: 2026-09-02}
   archived: false
 sources:
   - https://github.com/slink/PsychoacousticMetrics.jl
-  - https://github.com/slink/PsychoacousticMetrics.jl/blob/main/README.md
+  - https://github.com/slink/PsychoacousticMetrics.jl/blob/main/README.md#conformance
   - https://github.com/slink/PsychoacousticMetrics.jl/blob/main/test/data/NOTICE
   - https://github.com/slink/PsychoacousticMetrics.jl/blob/main/Project.toml
   - https://github.com/JuliaRegistries/General/tree/master/P/PsychoacousticMetrics

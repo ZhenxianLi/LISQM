@@ -33,10 +33,11 @@ implements:
     scope: tonal audibility and tonal adjustment
     status: available
     validation: self-tests
+    validation_details:
+      - A test of the examples in the standard, using DELTA tone files, is commented out.
     note: >-
       Module `acoustics.standards.iso_1996_2_2007`. The `Tonality` docstring uses the title of Annex C ("Objective
-      method for assessing the audibility of tones in noise"), though the code does not name the annex. A test of
-      the examples in the standard, using DELTA tone files, is commented out.
+      method for assessing the audibility of tones in noise"), though the code does not name the annex.
 manual:
   last_commit: 2023-08-20
   latest_release: {version: 0.2.6, date: 2022-07-08}

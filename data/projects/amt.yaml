@@ -52,28 +52,38 @@ implements:
     functions: [moore1997]
     status: available
     validation: standard-data
-    note: >-
-      Listed as "MOORE1997 - Loudness model for stationary signals" in models/Contents.m. AMT's experiment
-      scripts (`exp_…`) reproduce published results; this model has `exp_moore1997`.
+    validation_details:
+      - AMT's experiment scripts (`exp_…`) reproduce published results; this model has `exp_moore1997`.
+    note: Listed as "MOORE1997 - Loudness model for stationary signals" in models/Contents.m.
   - method: loudness-moore-glasberg
     reference: chen-2011
     functions: [chen2011]
     status: available
     validation: standard-data
-    note: Listed as "CHEN2011 - Fast excitation pattern estimation"; experiment script `exp_chen2011`.
+    validation_details:
+      - >-
+        Has the experiment script `exp_chen2011`; AMT's experiment scripts reproduce the results of the publication
+        they are named after.
+    note: Listed as "CHEN2011 - Fast excitation pattern estimation".
   - method: loudness-moore-glasberg-time-varying
     reference: glasberg-moore-2002
     functions: [glasberg2002]
     status: available
     validation: standard-data
-    note: Listed as "GLASBERG2002 - Loudness model for time-variant signals"; experiment script `exp_glasberg2002`.
+    validation_details:
+      - >-
+        Has the experiment script `exp_glasberg2002`; AMT's experiment scripts reproduce the results of the
+        publication they are named after.
+    note: Listed as "GLASBERG2002 - Loudness model for time-variant signals".
   - method: loudness-moore-glasberg-time-varying
     reference: moore-2016
     functions: [moore2016]
     scope: binaural
     status: available
     validation: not-stated
-    note: Listed as "MOORE2016 - Binaural loudness model"; there is no `exp_moore2016` experiment script on the develop branch.
+    validation_details:
+      - There is no `exp_moore2016` experiment script on the develop branch.
+    note: Listed as "MOORE2016 - Binaural loudness model".
 manual:
   last_commit: 2026-06-14
   latest_release: {version: 1.6.0, date: 2024-10-01}
