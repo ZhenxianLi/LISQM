@@ -682,7 +682,7 @@ def home(index: Index) -> str:
     site = index.site
     langs = index.languages()
     parts = [
-        "<h1>Open-Source Implementations of Psychoacoustic and Sound Quality Metrics</h1>",
+        f"<h1>{esc(site['tagline'])}</h1>",
         f'<p class="byline">Updated {esc(long_date(index.as_of()))} · {plural(len(index.methods), "method")} · '
         f'{plural(len(index.projects), "project")} · {plural(len(langs), "language")} · '
         f'{plural(len(index.references), "standard or paper", "standards and papers")}</p>',

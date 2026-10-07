@@ -383,7 +383,7 @@ def timeline_md(index: Index) -> list[str]:
 
 def home(index: Index) -> str:
     site = index.site
-    lines = ["# Open-Source Implementations of Psychoacoustic and Sound Quality Metrics", "", _header(index, HOME), "",
+    lines = [f"# {site['tagline']}", "", _header(index, HOME), "",
              site["description"].strip(), "",
              f"{plural(len(index.methods), 'method')} · {plural(len(index.projects), 'project')} · "
              f"languages: {', '.join(index.languages())}", ""]
