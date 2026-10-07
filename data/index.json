@@ -19,7 +19,7 @@
     "projects": 39,
     "references": 55
   },
-  "ordering": "Implementations and projects are listed by group: established, newly released, developing, legacy, others, status unknown. Newly released projects were first released less than about a year ago and are not yet widely used in the community. Legacy projects are archived or have had no commit for three years or more; reference programs are never legacy. Within each group the order is the one used on the website. Projects in the others group do not compute the metrics themselves; they call another listed project (listed in calls), and their rows appear under also_through instead of implementations. Projects in the unknown group could not be opened (access); they list a claim and no implementations.",
+  "ordering": "Implementations and projects are listed by group: established, newly released, developing, legacy, others, status unknown. Newly released projects were first released less than about a year ago and are not yet widely used in the community. Legacy projects are archived or have had no commit for three years or more; widely used projects (widely_used: true) and reference programs are never legacy. Within each group widely used projects come first, then ranked and active ones. Projects in the others group do not compute the metrics themselves; they call another listed project (listed in calls), and their rows appear under also_through instead of implementations. Projects in the unknown group could not be opened (access); they list a claim and no implementations.",
   "definitions": {
     "standing": {
       "established": "Described in a publication, used by others, or written by the authors of the model, with more than a year of history.",
@@ -4618,7 +4618,8 @@
       "activity": "active",
       "archived": false,
       "stars": 100,
-      "group": "established"
+      "group": "established",
+      "widely_used": true
     },
     {
       "id": "amt",
@@ -4731,7 +4732,8 @@
       "activity": "active",
       "archived": false,
       "stars": null,
-      "group": "established"
+      "group": "established",
+      "widely_used": true
     },
     {
       "id": "mosqito",
@@ -4754,7 +4756,7 @@
       "maintainers": [
         "Eomys / Green Forge Coop"
       ],
-      "summary": "Python library for sound quality metrics: ISO 532-1 loudness, DIN 45692 sharpness, Daniel & Weber roughness, ECMA-418-2 hearing-model loudness (Clause 5) and roughness (2nd edition), tone-to-noise and prominence ratios, and the speech intelligibility index. No release or commit since April 2024.",
+      "summary": "Python library for sound quality metrics: ISO 532-1 loudness, DIN 45692 sharpness, Daniel & Weber roughness, ECMA-418-2 hearing-model loudness (Clause 5) and roughness (2nd edition), tone-to-noise and prominence ratios, and the speech intelligibility index. Widely used, but without a release or a commit since April 2024.",
       "ai_assistance": "not-stated",
       "paper": {
         "citation": "San Millán-Castillo, R., Latorre-Iglesias, E., Glesser, M., Wanty, S., Jiménez-Caminero, D., & Álvarez-Jimeno, J. M. (2021). MOSQITO: an open-source and free toolbox for sound quality metrics in the industry and education. *INTER-NOISE 2021*, INCE Conference Proceedings 263(5), 1164–1175.",
@@ -4934,7 +4936,8 @@
       "activity": "inactive",
       "archived": false,
       "stars": 178,
-      "group": "established"
+      "group": "established",
+      "widely_used": true
     },
     {
       "id": "sottek-hearing-model",
@@ -5079,7 +5082,8 @@
       "activity": "active",
       "archived": false,
       "stars": 23,
-      "group": "established"
+      "group": "established",
+      "widely_used": true
     },
     {
       "id": "ita-toolbox",
@@ -5191,7 +5195,8 @@
       "activity": "inactive",
       "archived": false,
       "stars": null,
-      "group": "established"
+      "group": "established",
+      "widely_used": true
     },
     {
       "id": "acoustic-toolbox",
@@ -5259,7 +5264,8 @@
       "activity": "active",
       "archived": false,
       "stars": 30,
-      "group": "established"
+      "group": "established",
+      "widely_used": false
     },
     {
       "id": "pd-psycho",
@@ -5324,7 +5330,8 @@
       "activity": "active",
       "archived": false,
       "stars": 22,
-      "group": "established"
+      "group": "established",
+      "widely_used": false
     },
     {
       "id": "refmap-psychoacoustics",
@@ -5505,7 +5512,8 @@
       "activity": "active",
       "archived": false,
       "stars": 23,
-      "group": "established"
+      "group": "established",
+      "widely_used": false
     },
     {
       "id": "aarae",
@@ -5630,7 +5638,8 @@
       "activity": "inactive",
       "archived": false,
       "stars": 36,
-      "group": "established"
+      "group": "established",
+      "widely_used": false
     },
     {
       "id": "js2251-iso532-3",
@@ -5689,7 +5698,8 @@
       "activity": "inactive",
       "archived": false,
       "stars": 2,
-      "group": "established"
+      "group": "established",
+      "widely_used": false
     },
     {
       "id": "pydsm",
@@ -5755,7 +5765,8 @@
       "activity": "inactive",
       "archived": false,
       "stars": 22,
-      "group": "established"
+      "group": "established",
+      "widely_used": false
     },
     {
       "id": "metasona",
@@ -5951,7 +5962,8 @@
       "activity": "active",
       "archived": false,
       "stars": 1,
-      "group": "newly-released"
+      "group": "newly-released",
+      "widely_used": false
     },
     {
       "id": "iso532-1-rs",
@@ -6027,7 +6039,8 @@
       "activity": "active",
       "archived": false,
       "stars": 1,
-      "group": "newly-released"
+      "group": "newly-released",
+      "widely_used": false
     },
     {
       "id": "kirin-hypha",
@@ -6117,7 +6130,8 @@
       "activity": "active",
       "archived": false,
       "stars": null,
-      "group": "newly-released"
+      "group": "newly-released",
+      "widely_used": false
     },
     {
       "id": "mosqito-net",
@@ -6284,7 +6298,8 @@
       "activity": "active",
       "archived": false,
       "stars": null,
-      "group": "newly-released"
+      "group": "newly-released",
+      "widely_used": false
     },
     {
       "id": "numpylib-psychoacoustic",
@@ -6355,7 +6370,8 @@
       "activity": "active",
       "archived": false,
       "stars": 0,
-      "group": "newly-released"
+      "group": "newly-released",
+      "widely_used": false
     },
     {
       "id": "phonometry",
@@ -6702,7 +6718,8 @@
       "activity": "active",
       "archived": false,
       "stars": 119,
-      "group": "newly-released"
+      "group": "newly-released",
+      "widely_used": false
     },
     {
       "id": "psychoacousticmetrics-jl",
@@ -6840,7 +6857,8 @@
       "activity": "active",
       "archived": false,
       "stars": null,
-      "group": "newly-released"
+      "group": "newly-released",
+      "widely_used": false
     },
     {
       "id": "soundpalette",
@@ -6943,7 +6961,8 @@
       "activity": "active",
       "archived": false,
       "stars": 0,
-      "group": "newly-released"
+      "group": "newly-released",
+      "widely_used": false
     },
     {
       "id": "torch-amt",
@@ -7035,7 +7054,8 @@
       "activity": "active",
       "archived": false,
       "stars": 3,
-      "group": "newly-released"
+      "group": "newly-released",
+      "widely_used": false
     },
     {
       "id": "zwickerloudness-jl",
@@ -7130,7 +7150,8 @@
       "activity": "active",
       "archived": false,
       "stars": 4,
-      "group": "newly-released"
+      "group": "newly-released",
+      "widely_used": false
     },
     {
       "id": "pysqat",
@@ -7359,7 +7380,8 @@
       "activity": "active",
       "archived": false,
       "stars": 5,
-      "group": "developing"
+      "group": "developing",
+      "widely_used": false
     },
     {
       "id": "loudnessmodel",
@@ -7420,7 +7442,8 @@
       "activity": "inactive",
       "archived": false,
       "stars": 17,
-      "group": "developing"
+      "group": "developing",
+      "widely_used": false
     },
     {
       "id": "rapid-loudness-sharpness",
@@ -7511,7 +7534,8 @@
       "activity": "inactive",
       "archived": false,
       "stars": null,
-      "group": "legacy"
+      "group": "legacy",
+      "widely_used": false
     },
     {
       "id": "zhen-ni-epnl",
@@ -7565,7 +7589,8 @@
       "activity": "inactive",
       "archived": false,
       "stars": 0,
-      "group": "legacy"
+      "group": "legacy",
+      "widely_used": false
     },
     {
       "id": "fluctuation-strength-tue",
@@ -7628,7 +7653,8 @@
       "activity": "inactive",
       "archived": false,
       "stars": 1,
-      "group": "legacy"
+      "group": "legacy",
+      "widely_used": false
     },
     {
       "id": "iosr-matlab-toolbox",
@@ -7682,7 +7708,8 @@
       "activity": "inactive",
       "archived": false,
       "stars": 133,
-      "group": "legacy"
+      "group": "legacy",
+      "widely_used": false
     },
     {
       "id": "deeuu-loudness",
@@ -7783,7 +7810,8 @@
       "activity": "inactive",
       "archived": false,
       "stars": 40,
-      "group": "legacy"
+      "group": "legacy",
+      "widely_used": false
     },
     {
       "id": "mosqito-fdp",
@@ -7853,7 +7881,8 @@
       "activity": "archived",
       "archived": true,
       "stars": 2,
-      "group": "legacy"
+      "group": "legacy",
+      "widely_used": false
     },
     {
       "id": "psychoacoustic-parameters-measurer",
@@ -7940,7 +7969,8 @@
       "activity": "inactive",
       "archived": false,
       "stars": 13,
-      "group": "legacy"
+      "group": "legacy",
+      "widely_used": false
     },
     {
       "id": "psysound3",
@@ -8035,7 +8065,8 @@
       "activity": "inactive",
       "archived": false,
       "stars": 17,
-      "group": "legacy"
+      "group": "legacy",
+      "widely_used": false
     },
     {
       "id": "python-acoustics",
@@ -8103,7 +8134,8 @@
       "activity": "archived",
       "archived": true,
       "stars": 563,
-      "group": "legacy"
+      "group": "legacy",
+      "widely_used": false
     },
     {
       "id": "haw-specific-loudness",
@@ -8177,7 +8209,8 @@
       "activity": "inactive",
       "archived": false,
       "stars": null,
-      "group": "legacy"
+      "group": "legacy",
+      "widely_used": false
     },
     {
       "id": "suave",
@@ -8233,7 +8266,8 @@
       "activity": "inactive",
       "archived": false,
       "stars": 530,
-      "group": "legacy"
+      "group": "legacy",
+      "widely_used": false
     },
     {
       "id": "zwickerloudness-sourceforge",
@@ -8290,7 +8324,8 @@
       "activity": "inactive",
       "archived": false,
       "stars": null,
-      "group": "legacy"
+      "group": "legacy",
+      "widely_used": false
     },
     {
       "id": "psychobox",
@@ -8388,6 +8423,7 @@
       "archived": false,
       "stars": 10,
       "group": "others",
+      "widely_used": false,
       "calls": [
         "mosqito"
       ]
@@ -8490,6 +8526,7 @@
       "archived": false,
       "stars": 59,
       "group": "others",
+      "widely_used": false,
       "calls": [
         "mosqito"
       ]
@@ -8592,6 +8629,7 @@
       "archived": false,
       "stars": 2,
       "group": "others",
+      "widely_used": false,
       "calls": [
         "zwickerloudness-jl"
       ]
@@ -8632,7 +8670,8 @@
       "activity": "unknown",
       "archived": false,
       "stars": null,
-      "group": "unknown"
+      "group": "unknown",
+      "widely_used": false
     }
   ],
   "gaps": [
@@ -8675,7 +8714,7 @@
     {
       "date": "2026-10-07",
       "title": "Who ported code from whom, how to cite it, and five more projects",
-      "body": "Method pages now show who ported code from whom, as the projects state it. A comparison with related code is\nmarked \"(its source)\", \"(a port of it)\" or \"(also ported from …)\", and its tag is grey when nothing independent\nis stated: agreement with the code an implementation was ported from shows a faithful port, not that either\nfollows the standard. A new section, *Before you compare numbers*, lists the choices that make correct\nimplementations give different numbers: sound field, calibration, sample rate, percentile definition,\nsharpness weighting and the start of the signal.\n\nAlso in this update:\n\n- Every project page has a *How to cite* line, and all standards, model papers and software papers are\n  available as BibTeX in references.bib.\n- New projects: the ITA-Toolbox (RWTH Aachen, MATLAB), Mosqito.NET (a C# port of MoSQITo, newly released), and\n  two legacy MATLAB tools, the Swift & Gee loudness and sharpness codes and the HAW Hamburg loudness tool.\n  PsyTools (TU Graz) is listed in a new group, *Status unknown*, because its repository cannot be opened\n  without a login.\n- In personal use, the maintainer of the list found sottek-hearing-model in very good agreement with HEAD\n  acoustics ArtemiS SUITE.\n- Validation details were added for MoSQITo's ECMA-418-2 roughness and for phonometry's tone-to-noise and\n  prominence ratios, psychoacoustic annoyance and ISO 226:2023 contours. phonometry's annoyance is now listed\n  under its own tests only, as no published value is checked.\n- RefMap's Python functions use the sottek-hearing-model package and are listed under it.\n- The twice-monthly refresh now checks every external link and reports broken ones in its review issue.\n"
+      "body": "Method pages now show who ported code from whom, as the projects state it. A comparison with related code is\nmarked \"(its source)\", \"(a port of it)\" or \"(also ported from …)\", and its tag is grey when nothing independent\nis stated: agreement with the code an implementation was ported from shows a faithful port, not that either\nfollows the standard. A new section, *Before you compare numbers*, lists the choices that make correct\nimplementations give different numbers: sound field, calibration, sample rate, percentile definition,\nsharpness weighting and the start of the signal.\n\nAlso in this update:\n\n- Every project page has a *How to cite* line, and all standards, model papers and software papers are\n  available as BibTeX in references.bib.\n- New projects: the ITA-Toolbox (RWTH Aachen, MATLAB), Mosqito.NET (a C# port of MoSQITo, newly released), and\n  two legacy MATLAB tools, the Swift & Gee loudness and sharpness codes and the HAW Hamburg loudness tool.\n  PsyTools (TU Graz) is listed in a new group, *Status unknown*, because its repository cannot be opened\n  without a login.\n- sottek-hearing-model and the ITA-Toolbox join SQAT, the Auditory Modeling Toolbox and MoSQITo as widely\n  used projects, in bold and first in every list. In personal use, the maintainer of the list found\n  sottek-hearing-model in very good agreement with HEAD acoustics ArtemiS SUITE.\n- Validation details were added for MoSQITo's ECMA-418-2 roughness and for phonometry's tone-to-noise and\n  prominence ratios, psychoacoustic annoyance and ISO 226:2023 contours. phonometry's annoyance is now listed\n  under its own tests only, as no published value is checked.\n- RefMap's Python functions use the sottek-hearing-model package and are listed under it.\n- The twice-monthly refresh now checks every external link and reports broken ones in its review issue.\n"
     },
     {
       "date": "2026-10-07",

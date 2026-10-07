@@ -15,7 +15,7 @@ maintainers: [Eomys / Green Forge Coop]
 summary: >-
   Python library for sound quality metrics: ISO 532-1 loudness, DIN 45692 sharpness, Daniel & Weber roughness,
   ECMA-418-2 hearing-model loudness (Clause 5) and roughness (2nd edition), tone-to-noise and prominence ratios,
-  and the speech intelligibility index. No release or commit since April 2024.
+  and the speech intelligibility index. Widely used, but without a release or a commit since April 2024.
 ai_assistance: not-stated
 paper:
   citation: >-

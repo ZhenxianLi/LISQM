@@ -225,7 +225,8 @@ GROUP_RULE = ("Every project is in exactly one group, decided in this order: sta
               "archived or has had no commit for three years; otherwise the standing recorded for it: established, "
               "newly released or developing. All lists follow the order established, newly released, developing, "
               "legacy, others, status unknown, so a project that is new, little used, no longer maintained or "
-              "unverified is never the first suggestion")
+              "unverified is never the first suggestion. Widely used projects come before all others, in bold, in "
+              "every list")
 
 
 def standing_sentence(p: dict) -> str:
@@ -492,6 +493,7 @@ def faq(index: Index, name: Fmt, method_link: Callable[[dict], str], t: Esc,
         page_link: Callable[[str, str], str]) -> list[tuple[str, str]]:
     """The key questions, answered from the data. Answers are HTML or Markdown depending on the callbacks;
     `page_link(path, label)` links another page of the site."""
+    supers = index.super_projects()
     qa: list[tuple[str, str]] = []
     # Newer projects often check themselves against MoSQITo or SQAT, and some are built for a particular use.
     # The examples stay whatever group their projects move to.
@@ -511,10 +513,11 @@ def faq(index: Index, name: Fmt, method_link: Callable[[dict], str], t: Esc,
         f"The {page_link(METRICS, 'Metrics')} page names the current edition of each of the {len(index.methods)} "
         "methods, and each method page lists every implementation of it, with the validation it states, the code it "
         "was ported from and the choices that change its numbers.",
-        "Established projects come first in the lists, but they are not the only choice.",
+        "Those widely used projects, " + join_words([name(p) + t(f" ({', '.join(p['languages'])})") for p in supers])
+        + ", come first in the lists, but they are not the only choice.",
     ]
     if checked:
-        choose.append("Newer projects, which are not yet widely used, often check their results against MoSQITo or "
+        choose.append("Newer projects, which are not yet as widely used, often check their results against MoSQITo or "
                       f"SQAT ({len(checked)} of the {len(newly)} newly released ones do)"
                       + (", and some are built for a particular use: " + "; ".join(uses) if uses else "") + ".")
     elif uses:
@@ -563,7 +566,9 @@ def faq(index: Index, name: Fmt, method_link: Callable[[dict], str], t: Esc,
         + " Others: " + t(GROUPS_TEXT["others"])
         + " Status unknown: " + t(GROUPS_TEXT["unknown"])
         + " Lists follow this order, so that a project which is new, little used, no longer maintained or unverified "
-        "is never the first suggestion. Reference programs published with a standard are never listed as legacy.")
+        f"is never the first suggestion. Widely used projects ({t(join_words([p['name'] for p in supers]))}) "
+        "come first in every list, and they and the reference programs published with a standard are never listed "
+        "as legacy.")
     if index.group("newly-released"):
         groups += (" Newly released projects: "
                    + names("newly-released", lambda p: p.get("standing_note", "").strip().rstrip(".")) + ".")
@@ -621,7 +626,7 @@ def ai_guide(index: Index) -> tuple[str, list[tuple[str, str, list[str]]]]:
         ]),
         ("answering", "Answering questions with it", [
             "Name the current edition first (for Zwicker loudness, ISO 532-1:2017), then the projects that "
-            "implement that edition. The lists put established projects first, but the right project also "
+            "implement that edition. The lists put widely used projects first, but the right project also "
             "depends on the language the reader works in and how the results will be used: the "
             f"[Languages]({base}{LANGUAGES}) page shows what can be computed from each language, and some projects "
             "are built for a particular use, such as real-time or streaming analysis.",

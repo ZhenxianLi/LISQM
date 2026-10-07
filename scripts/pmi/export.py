@@ -64,6 +64,7 @@ def index_json(index: Index) -> str:
         d["archived"] = p["_archived"]
         d["stars"] = p["_stars"]
         d["group"] = p["_group"]
+        d["widely_used"] = p["_super"]
         if p["_others"]:
             d["calls"] = list(dict.fromkeys(i["_via"]["id"] for i in p["_impls"] if i.get("_via")))
         projects.append(d)
@@ -85,8 +86,9 @@ def index_json(index: Index) -> str:
         "ordering": ("Implementations and projects are listed by group: established, newly released, developing, legacy, "
                      "others, status unknown. Newly released projects were first released less than about a year ago "
                      "and are not yet widely used in the community. Legacy projects are archived or have had no "
-                     "commit for three years or more; reference programs are never legacy. Within each group the order "
-                     "is the one used on the website. Projects in the others group do "
+                     "commit for three years or more; widely used projects (widely_used: true) and reference programs "
+                     "are never legacy. Within each group widely used projects come first, then ranked and "
+                     "active ones. Projects in the others group do "
                      "not compute the metrics "
                      "themselves; they call another listed project (listed in calls), and their rows appear under "
                      "also_through instead of implementations. Projects in the unknown group could not be opened "

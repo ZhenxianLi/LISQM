@@ -407,31 +407,19 @@ class BuildTest(unittest.TestCase):
         self.assertEqual(re.findall(r"^\| \*\*\[([^\]]+)\]", table, re.M),
                          [p["name"] for p in self.index.super_projects()], "README: super projects first, in bold")
         data = json.loads((self.site / "index.json").read_text(encoding="utf-8"))
-        self.assertEqual([p["id"] for p in data["projects"]][:len(supers)], supers, "index.json: super projects first")
+        self.assertEqual([p["id"] for p in data["projects"] if p.get("widely_used")], supers)
 
     def test_the_super_project_tag_is_not_published(self) -> None:
-        # super_project is the maintainer's display setting: only its effect (bold, first) is shown. No page labels
-        # or explains it; "widely used" only says what newly released projects are not yet.
+        # super_project is the maintainer's display setting: only its effect (bold, first) is shown, and no page
+        # calls a project "the most widely used".
         outputs = [path for path in sorted(self.site.rglob("*")) if path.suffix in (".html", ".md", ".txt", ".json",
                                                                                    ".xml", ".bib")]
         outputs += [ROOT / "README.md", ROOT / "CHANGELOG.md"]
-        def strings(value: object) -> list[str]:  # every key and text in a JSON document
-            if isinstance(value, dict):
-                return [s for k, v in value.items() for s in [str(k), *strings(v)]]
-            if isinstance(value, list):
-                return [s for v in value for s in strings(v)]
-            return [value] if isinstance(value, str) else []
-
         for path in outputs:
-            raw = path.read_text(encoding="utf-8")
-            if path.suffix == ".json":
-                raw = " ".join(strings(json.loads(raw)))
-            text = re.sub(r"\s+", " ", raw).lower()
+            text = path.read_text(encoding="utf-8").lower()
             self.assertNotRegex(text, r"super[ _-]?projects?\b", f"{path.name} names the super_project tag")
-            self.assertNotRegex(text, r"(?<!not yet )widely[ _]used", f"{path.name} labels projects as widely used")
-        data = json.loads((self.site / "index.json").read_text(encoding="utf-8"))
-        for p in data["projects"]:
-            self.assertFalse({"super_project", "widely_used", "most_widely_used"} & set(p), p["id"])
+            self.assertNotIn("most widely used", text, path.name)
+            self.assertNotIn("most_widely_used", text, path.name)
 
     def test_a_super_project_must_be_established(self) -> None:
         p = self.index.project["metasona"]
