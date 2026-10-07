@@ -3,64 +3,26 @@
 # Move an entry to data/projects/ once its README or code has been read, or to data/ignored.yaml if it does
 # not qualify.
 
-- name: PsyTools (TU Graz)
-  url: https://gitlab.tugraz.at/11F34386B3DC1474/psytools
-  languages: [Python]
-  claim: >-
-    Search results describe a Python toolbox with ISO 532-1 loudness, DIN 45692 sharpness, ECMA-418 tonality
-    and hearing model, fluctuation strength, roughness and psychoacoustic annoyance (paper from May 2026).
-  why: The GitLab host could not be reached from the checking environment.
-  checked: 2026-10-06
-
-- name: ITA-Toolbox (RWTH Aachen)
-  url: https://git.rwth-aachen.de/ita/toolbox
-  languages: [MATLAB]
-  claim: Contains `ita_loudness` and `ita_loudness_timevariant` (associated with ISO 532 in search results).
-  why: The GitLab host could not be reached from the checking environment.
-  checked: 2026-10-06
-
 - name: Genesis Loudness Toolbox
   url: http://www.genesis-acoustics.com/index.php?page=32
   languages: [MATLAB]
   claim: >-
-    Free MATLAB toolbox (about 2010) said to cover ISO 532B, ANSI S3.4-2007, Glasberg & Moore (2002), Zwicker's
-    time-varying model and a loudness model for impulsive sounds.
-  why: The download page could not be reached; licence and availability are unknown.
-  checked: 2026-10-06
-
-- name: Codes for the rapid calculation of loudness and sharpness (MATLAB File Exchange 73808)
-  url: https://www.mathworks.com/matlabcentral/fileexchange/73808-codes-for-the-rapid-calculation-of-loudness-and-sharpness
-  languages: [MATLAB]
-  claim: Sharpness computed from Moore–Glasberg (ANSI S3.4) specific loudness after Swift & Gee (2017), plus several loudness methods.
-  why: MATLAB File Exchange could not be reached from the checking environment.
-  checked: 2026-10-06
+    Free MATLAB toolbox (2010) said to cover ISO 532B / DIN 45631, ANSI S3.4-2007, Zwicker's time-varying model,
+    Glasberg & Moore (2002) and Boullet's (2006) loudness model for impulsive sounds.
+  why: >-
+    An [archived copy](https://web.archive.org/web/20150306205824/http://genesis-acoustics.com/index.php?page=32) of
+    the page (2015) says the ZIP file contains MATLAB source files, validation WAV files and a Readme with the terms
+    of use, but the download page was not archived and the website could not be reached, so the code and its
+    licence could not be checked.
+  checked: 2026-10-07
 
 - name: Salford sound quality MATLAB codes
   url: https://acoustics.salford.ac.uk/psychoacoustics/sound-quality-making-products-sound-better/an-introduction-to-sound-quality-testing/matlab-codes/
   languages: [MATLAB]
-  claim: Functions named `loudness_1991`, `sharpness_Fastl` and `roughness4`.
-  why: The page could not be reached; models and licence are unknown.
-  checked: 2026-10-06
-
-- name: Time-varying specific loudness GUI (HAW Hamburg)
-  url: https://zenodo.org/records/7361480
-  languages: [MATLAB]
-  claim: MATLAB interface for Chalupper & Fastl (2002), Baumgarte (2000) and Glasberg & Moore specific loudness.
-  why: Zenodo could not be reached from the checking environment.
-  checked: 2026-10-06
-
-- name: Mosqito.NET
-  url: https://github.com/onur-akaydin/Mosqito.NET
-  languages: [C#]
-  claim: C# / .NET port of MoSQITo (Apache-2.0), announced in MoSQITo issue #98.
-  why: Not checked yet.
-  checked: 2026-10-06
-
-- name: Cambridge Hearing Group loudness programs
-  url: https://www.psychol.cam.ac.uk/hearing#programs
-  languages: [MATLAB]
   claim: >-
-    Programs for the Moore–Glasberg loudness models from the models' authors; LoudnessModel names this page as
-    the source of the MATLAB code it translated.
-  why: The page could not be reached; licence terms are unknown.
-  checked: 2026-10-06
+    Functions named `loudness_1991` (Zwicker loudness, free or diffuse field), `sharpness_Fastl` and `roughness4`.
+  why: >-
+    The page describes the functions, but its "Download the MATLAB codes" item has no link, also in an
+    [archived copy](https://web.archive.org/web/20250709072252/https://acoustics.salford.ac.uk/psychoacoustics/sound-quality-making-products-sound-better/an-introduction-to-sound-quality-testing/matlab-codes/)
+    of July 2025, so the code could not be obtained.
+  checked: 2026-10-07

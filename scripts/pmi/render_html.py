@@ -13,15 +13,16 @@ import json
 import re
 from pathlib import Path
 
-from .data import (GROUP_NAMES, GROUPS, IMPL_STATUS_LONG, VERIFICATION_META, PROJECT_KINDS, REGISTRIES, VALIDATION, VALIDATION_LONG,
-                   Index, only_new)
-from .describe import (COVERAGE_COLUMNS, GROUP_RULE, ONLY_NEW, activity_text, ai_guide, by_language, coverage, current_statement,
-                       dedupe, edition_state, faq, impl_phrase, introduce, language_order, name_note, ref_status, release_text,
-                       silent_line, standing_sentence, time_bins, timeline, validation_also, validation_groups,
-                       validation_label)
-from .paths import (ABOUT, AI, FAQ, HOME, LANGUAGES, METRICS, PROJECTS, STANDARDS, UPDATES, absolute, md_twin,
-                    method_path, project_path, relative)
-from .text import blocks, esc, inline, join_words, long_date, month, plain, plural
+from .data import (ACCESS, GROUP_NAMES, GROUPS, IMPL_STATUS_LONG, PROJECT_KINDS, REGISTRIES, VALIDATION,
+                   VALIDATION_LONG, VERIFICATION_META, Index, only_new)
+from .describe import (COVERAGE_COLUMNS, GROUP_RULE, ONLY_NEW, activity_text, ai_guide, by_language, coverage,
+                       current_statement, dedupe, dependence_note, derived_names, edition_state, faq, how_to_cite,
+                       impl_phrase, introduce, language_order, lineage, name_note, only_related, ref_status,
+                       release_text, silent_line, standing_sentence, stated_conventions, time_bins, timeline,
+                       validation_also, validation_groups, validation_label)
+from .paths import (ABOUT, AI, BIBTEX, FAQ, HOME, LANGUAGES, METRICS, PROJECTS, STANDARDS, UPDATES, absolute,
+                    md_twin, method_path, project_path, relative)
+from .text import blocks, esc, first_sentence, inline, join_words, long_date, month, plain, plural
 
 NAV = [("Home", HOME), ("Metrics", METRICS), ("Projects", PROJECTS), ("Languages", LANGUAGES), ("Standards", STANDARDS),
        ("FAQ", FAQ), ("Updates", UPDATES), ("For AI", AI), ("About", ABOUT)]
@@ -51,11 +52,12 @@ VALIDATION_KIND = {"standard-data": "ok", "reference-code": "ok", "cross-impleme
 REF_KIND = {"current": "ok", "superseded": "neutral", "withdrawn": "neutral", "in-development": "warn",
             "published": "info"}
 GROUP_KIND = {"established": "ok", "newly-released": "new", "developing": "dev", "legacy": "legacy",
-              "others": "neutral"}
+              "others": "neutral", "unknown": "neutral"}
 ACTIVITY_KIND = {"active": "ok", "inactive": "warn", "archived": "neutral", "unknown": "neutral"}
 # Sections of the Languages page: anchor, heading, the languages it covers.
 LANGUAGE_SECTIONS = [("python", "Python", {"Python"}), ("matlab", "MATLAB and Octave", {"MATLAB", "Octave"}),
-                     ("c", "C and C++", {"C", "C++"}), ("rust", "Rust", {"Rust"}), ("julia", "Julia", {"Julia"}),
+                     ("c", "C and C++", {"C", "C++"}), ("csharp", "C#", {"C#"}), ("rust", "Rust", {"Rust"}),
+                     ("julia", "Julia", {"Julia"}),
                      ("pure-data", "Pure Data", {"Pure Data"})]
 ABOUT_SECTIONS = [("scope", "What is included"), ("method", "How entries are checked"), ("status", "Status"),
                   ("validation", "Validation"), ("standing", "Groups of projects"), ("leads", "Leads"),
@@ -63,7 +65,8 @@ ABOUT_SECTIONS = [("scope", "What is included"), ("method", "How entries are che
                   ("licence", "Licence")]
 # In the order of the projects page.
 GROUP_HEADINGS = [("established", "Established projects"), ("newly-released", "Newly released projects"),
-                  ("developing", "Developing projects"), ("legacy", "Legacy projects"), ("others", "Others")]
+                  ("developing", "Developing projects"), ("legacy", "Legacy projects"), ("others", "Others"),
+                  ("unknown", "Status unknown")]
 
 
 # ---------------------------------------------------------------------------------------------- layout
@@ -181,8 +184,8 @@ def _sidebar(index: Index, path: str, section: str) -> str:
             if projects:
                 label = title.replace(" projects", "")
                 blocks_.append(_side(f"{label} ({len(projects)})", [
-                    (rel(project_path(p)), _breakable(p.get("short_name") or p["name"]), project_path(p) == path)
-                    for p in projects], href=f"{rel(PROJECTS)}#{key}", sub=True))
+                    (rel(project_path(p)), _strong(p, _breakable(p.get("short_name") or p["name"])),
+                     project_path(p) == path) for p in projects], href=f"{rel(PROJECTS)}#{key}", sub=True))
     elif section == "Languages":
         blocks_.append(_side("On this page", [(f"{rel(LANGUAGES)}#{a}", t, False) for a, t in
                                               [("coverage", "Coverage by language")]
@@ -236,12 +239,28 @@ def _validation(i: dict, href: str = "") -> str:
     """Table cell: the stated evidence as a tag that names what the implementation was compared with, linked to the
     details further down the page."""
     v = i["validation"]
-    cell = _tag(validation_label(i), VALIDATION_KIND[v], VALIDATION_LONG[v] + (" Details below." if href else ""),
+    cell = _tag(validation_label(i), _validation_kind(i), VALIDATION_LONG[v] + (" Details below." if href else ""),
                 href=href)
     also = validation_also(i)
     if also:
         cell += f'<br><span class="small muted">{esc(also)}</span>'
     return cell
+
+
+def _validation_kind(i: dict) -> str:
+    """The colour of an evidence tag. Comparisons only with related code (the code it was ported from, a port of it,
+    or another port of the same code) are grey: they show a faithful port, not an independent check."""
+    if i["validation"] in ("cross-implementation", "reference-code") and only_related(i):
+        return "neutral"
+    return VALIDATION_KIND[i["validation"]]
+
+
+def _maintainer_check(index: Index, p: dict) -> str:
+    """The list maintainer's own observation about a project, clearly set apart from what the project states."""
+    if not p.get("maintainer_check"):
+        return ""
+    return (f'<p class="maintainer-check"><strong>Checked by the maintainer of {esc(index.site["name"])}:</strong> '
+            f"{inline(p['maintainer_check'])}</p>")
 
 
 def _validation_ids(impls: list[dict], first) -> dict[int, str]:
@@ -276,26 +295,40 @@ def _validation_section(index: Index, path: str, impls: list[dict], ids: dict[in
         return head
 
     entries = []
+    checked_by_maintainer: set[str] = set()
     for group in groups:
         i = group[0]
         v = i["validation"]
         names = "".join(f'<dt id="{ids[id(j)]}">{title(j)}</dt>' for j in group)
-        evidence = (f'<span class="tag tag-{VALIDATION_KIND[v]}" title="{esc(VALIDATION_LONG[v])}">'
+        evidence = (f'<span class="tag tag-{_validation_kind(i)}" title="{esc(VALIDATION_LONG[v])}">'
                     f"{validation_label(i, linked, esc)}</span>")
         also = validation_also(i, linked, esc)
         if also:
             evidence += f" {also}"
+        origin = []
+        if i.get("_derived"):
+            origin.append(f"Ported or adapted from {join_words(derived_names(i, linked, esc))}.")
+        if dependence_note(i):
+            origin.append(esc(dependence_note(i)))
+        source = f'<p class="derived">{" ".join(origin)}</p>' if origin else ""
         details = i.get("validation_details") or []
         body = ("<ul>" + "".join(f"<li>{inline(d)}</li>" for d in details) + "</ul>" if details
-                else '<p class="muted">No further details are recorded here.</p>')
-        entries.append(f'{names}\n<dd><p class="evidence">{evidence}</p>{body}</dd>')
+                else ("" if source else '<p class="muted">No further details are recorded here.</p>'))
+        # On a method page, the maintainer's own check goes under the project's first entry.
+        check = ""
+        if on_method and i["_project"]["id"] not in checked_by_maintainer:
+            check = _maintainer_check(index, i["_project"])
+            checked_by_maintainer.add(i["_project"]["id"])
+        entries.append(f'{names}\n<dd><p class="evidence">{evidence}</p>{source}{body}{check}</dd>')
     who = "each project" if on_method else "the project"
     parts = [f'<h2 id="validation">How {"they were" if on_method else "it was"} validated</h2>',
              f'<p class="small muted">As stated by {who}; {esc(index.site["name"])} has not run the code. Agreement '
              "with another implementation shows that both compute the same values, not that either follows the "
              f'standard. <a href="{relative(path, ABOUT)}#validation">Kinds of evidence</a>.</p>']
+    if not on_method and impls:
+        parts.append(_maintainer_check(index, impls[0]["_project"]))
     if entries:
-        parts.append('<dl class="validation">\n' + "\n".join(entries) + "\n</dl>")
+        parts.append(f'<dl class="validation{" on-method" if on_method else ""}">\n' + "\n".join(entries) + "\n</dl>")
     if silent:
         if not entries:
             parts.append("<p>" + ("None of these projects says how its code was validated." if on_method
@@ -305,13 +338,65 @@ def _validation_section(index: Index, path: str, impls: list[dict], ids: dict[in
     return "\n".join(parts)
 
 
+def _lineage_section(index: Index, path: str, m: dict) -> str:
+    """Who ported or adapted code from whom among a method's implementations, drawn as a tree."""
+    # Every row, also a second row of one project for one edition (another scope may port other code).
+    forest = lineage(m["_all_impls"])
+    if not forest:
+        return ""
+
+    def node(n: tuple) -> str:
+        kind, value = n
+        if kind == "code":
+            return f'<span class="code-node">{esc(value)}</span>'
+        tag = f" {GROUP_TAGS[value['_group']]}" if value["_group"] in GROUP_TAGS else ""
+        return f'{_lang_badge(value["languages"][0])}{_project_link(path, value)}{tag}'
+
+    def tree(items: list[tuple]) -> str:
+        return "<ul>" + "".join(f"<li>{node(n)}{tree(kids) if kids else ''}</li>" for n, kids in items) + "</ul>"
+
+    return "\n".join([
+        '<h2 id="lineage">Who ported code from whom</h2>',
+        '<p class="small muted">As the projects state. Each branch shows code ported, translated or adapted from '
+        "the code above it, so agreement between them is a check of the port, not an independent validation.</p>",
+        f'<div class="lineage">{tree(forest)}</div>',
+    ])
+
+
+def _conventions_section(index: Index, path: str, impls: list[dict], general: list[str], *, on_method: bool) -> str:
+    """"Before you compare numbers": choices that make correct implementations give different numbers. A method
+    page lists the method's general points, then what each project states; a project page lists the project's
+    general points, then those of single metrics."""
+    stated = stated_conventions(impls, on_method)
+    if not general and not stated:
+        return ""
+    parts = ['<h2 id="conventions">Before you compare numbers</h2>',
+             "<p>Implementations of the same method can give different numbers without either being wrong. Check "
+             "these choices first.</p>"]
+    if general:
+        parts.append('<ul class="conventions">' + "".join(f"<li>{inline(c)}</li>" for c in general) + "</ul>")
+    if stated:
+        parts.append("<p>What the projects state:</p>" if on_method else
+                     ("<p>For single metrics:</p>" if general else ""))
+        rows = []
+        for i, items in stated:
+            if on_method:
+                p = i["_project"]
+                who = _project_link(path, p) + (f" {GROUP_TAGS[p['_group']]}" if p["_group"] in GROUP_TAGS else "")
+            else:
+                who = _method_link(path, i["_method"]) + f' <span class="muted">({esc(i["_ref"]["label"])})</span>'
+            rows.append(f"<dt>{who}</dt><dd><ul>" + "".join(f"<li>{inline(c)}</li>" for c in items) + "</ul></dd>")
+        parts.append('<dl class="conventions">' + "".join(rows) + "</dl>")
+    return "\n".join(part for part in parts if part)
+
+
 def _ref_tag(r: dict) -> str:
     return _tag(ref_status(r), REF_KIND[r["status"]])
 
 
 def _group_tag(p: dict) -> str:
     group = p["_group"]
-    label = {"newly-released": "newly released", "others": "other"}.get(group, group)
+    label = {"newly-released": "newly released", "others": "other", "unknown": "status unknown"}.get(group, group)
     return _tag(label, GROUP_KIND[group], GROUPS[group])
 
 
@@ -330,8 +415,15 @@ LEGACY_TAG = _tag("legacy", "legacy", "Legacy. " + GROUPS["legacy"])
 GROUP_TAGS = {"newly-released": NEW_TAG, "developing": DEV_TAG, "legacy": LEGACY_TAG}
 
 
+def _strong(p: dict, html: str) -> str:
+    """A project's name as given, in bold for a super project."""
+    return f"<strong>{html}</strong>" if p["_super"] else html
+
+
 def _project_link(path: str, p: dict) -> str:
-    return f'<a href="{relative(path, project_path(p))}">{esc(p["name"])}</a>'
+    """A link to a project's page; the name of a super project is in bold, wherever it appears."""
+    name = f"<strong>{esc(p['name'])}</strong>" if p["_super"] else esc(p["name"])
+    return f'<a href="{relative(path, project_path(p))}">{name}</a>'
 
 
 def _method_link(path: str, m: dict, label: str | None = None) -> str:
@@ -407,7 +499,7 @@ def _software_ld(index: Index, p: dict) -> dict:
     d = {"@type": "SoftwareSourceCode", "name": p["name"], "codeRepository": p["repository"],
          "programmingLanguage": p["languages"], "description": plain(p["summary"]),
          "url": absolute(index, project_path(p))}
-    if p["license"] not in ("none", "proprietary-free"):
+    if p["license"] not in ("none", "proprietary-free", "unknown"):
         d["license"] = p["license"]
     if p.get("_last_commit"):
         d["dateModified"] = p["_last_commit"]
@@ -437,7 +529,7 @@ def _impl_tip(i: dict) -> str:
            activity_text(p)]
     if i.get("_via"):
         tip.append(f"computed by {i['_via']['name']}")
-    if p["_mainstream"]:
+    if p["_super"]:
         tip.append("one of the most widely used projects")
     if standing_sentence(p):
         tip.append(standing_sentence(p))
@@ -459,9 +551,7 @@ def _timeline_impl(path: str, i: dict) -> str:
     a marker if the code is not released, and a small "new" or "dev" after newly released and developing projects;
     legacy projects are grey. Version, languages and activity are in the tooltip."""
     p = i["_project"]
-    name = _breakable(p.get("short_name") or p["name"])
-    if p["_mainstream"]:
-        name = f"<strong>{name}</strong>"
+    name = _strong(p, _breakable(p.get("short_name") or p["name"]))
     bits = [f'<a href="{relative(path, project_path(p))}">{name}</a>']
     if i["status"] == "proposed":
         bits.append(_tag("PR", "neutral", IMPL_STATUS_LONG["proposed"], href=i.get("link", "")))
@@ -580,7 +670,7 @@ def home(index: Index) -> str:
     site = index.site
     langs = index.languages()
     parts = [
-        "<h1>Open-source implementations of psychoacoustic metrics</h1>",
+        "<h1>Open-Source Implementations of Psychoacoustic and Sound Quality Metrics</h1>",
         f'<p class="byline">Updated {esc(long_date(index.as_of()))} · {plural(len(index.methods), "method")} · '
         f'{plural(len(index.projects), "project")} · {plural(len(langs), "language")} · '
         f'{plural(len(index.references), "standard or paper", "standards and papers")}</p>',
@@ -703,7 +793,7 @@ def method_page(index: Index, m: dict) -> str:
     parts.append(_table("editions", ["Date", "Edition", "Status", "What changed", "Implemented by"], rows))
 
     parts.append('<h2 id="implementations">Implementations</h2>')
-    checked = m["_impls"] + dedupe(m["_via_impls"])
+    checked = m["_all_impls"]  # every row, also those computed by another project
     ids = _validation_ids(checked, lambda i: i["_project"]["id"])
     stated = {id(i) for group in validation_groups(checked, lambda i: i["_project"]["id"])[0] for i in group}
     if m["_impls"]:
@@ -728,6 +818,8 @@ def method_page(index: Index, m: dict) -> str:
                                                   for s in m["see_also"]) + ".</p>")
     if checked:
         parts.append(_validation_section(index, path, checked, ids, on_method=True))
+    parts.append(_lineage_section(index, path, m))
+    parts.append(_conventions_section(index, path, checked, m.get("conventions") or [], on_method=True))
     parts.append('<h2 id="references">References</h2>')
     parts.append(_ref_list([index.ref[r] for r in m["references"]]))
 
@@ -760,7 +852,7 @@ def project_page(index: Index, p: dict) -> str:
     facts.append(("Language", _langs(p["languages"])))
     facts.append(("Kind", esc(PROJECT_KINDS[p["kind"]])))
     group = f'{_group_tag(p)} <span class="muted">{esc(GROUPS[p["_group"]])}'
-    if p["_mainstream"]:
+    if p["_super"]:
         group += " One of the most widely used projects in the list."
     facts.append(("Group", group + "</span>"))
     lic = esc(p["license"]) if p["license"] != "none" else "none stated (no licence file)"
@@ -794,6 +886,7 @@ def project_page(index: Index, p: dict) -> str:
         if link:
             paper += f' <a href="{esc(link)}">{esc(link)}</a>'
         facts.append(("Paper", paper))
+    facts.append(("How to cite", inline(how_to_cite(p))))
     facts.append(("Entry checked", esc(long_date(p["checked"]))))
 
     parts = [
@@ -804,11 +897,15 @@ def project_page(index: Index, p: dict) -> str:
         f'<p class="byline">{_langs(p["languages"])} · {esc(PROJECT_KINDS[p["kind"]].lower())} · '
         f"{_group_tag(p)} {_activity_tag(p)}</p>",
     ]
+    if p.get("access"):
+        parts.append(f'<p class="notice notice-info"><strong>Status unknown.</strong> {esc(ACCESS[p["access"]])} '
+                     f'{inline(p["access_note"])} What it implements has not been verified, so it is not listed '
+                     "under the metrics.</p>")
     if p["_others"]:
         callee = join_words([_project_link(path, q) for q in {i["_via"]["id"]: i["_via"] for i in p["_impls"]}.values()])
         parts.append(f'<p class="notice notice-info"><strong>Listed under Others.</strong> It does not compute the '
                      f"metrics itself; its results come from {callee}.</p>")
-    if p["standing"] == "newly-released":
+    if p["standing"] == "newly-released" and not p.get("access"):
         parts.append(f'<p class="notice"><strong>Newly released project.</strong> {esc(standing_sentence(p))} '
                      "Check its validation before relying on it.</p>")
     elif p["_group"] == "legacy":
@@ -817,13 +914,20 @@ def project_page(index: Index, p: dict) -> str:
     parts.append(blocks(p["summary"]))
     parts.append('<table class="facts"><tbody>' + "".join(f'<tr><th scope="row">{k}</th><td>{v}</td></tr>'
                                                          for k, v in facts) + "</tbody></table>")
-    parts.append('<h2 id="implements">What it implements</h2>')
-    ids = _validation_ids(p["_impls"], lambda i: i["method"])
-    stated = {id(i) for group in validation_groups(p["_impls"], lambda i: "")[0] for i in group}
-    rows = [[_method_link(path, i["_method"]), _edition_cell(path, i), _functions(i),
-             _validation(i, f"#{ids[id(i)]}" if id(i) in stated else ""), _status_note(i)] for i in p["_impls"]]
-    parts.append(_table("impls", ["Metric", "Edition", "Functions", "Validation (as stated)", "Notes"], rows))
-    parts.append(_validation_section(index, path, p["_impls"], ids, on_method=False))
+    if p.get("access"):
+        parts.append('<h2 id="claim">What it is said to implement</h2>')
+        parts.append(f"<p>{inline(p['claim'])}</p>")
+        parts.append('<p class="small muted">As described in the sources below; the code itself could not be '
+                     "checked.</p>")
+    else:
+        parts.append('<h2 id="implements">What it implements</h2>')
+        ids = _validation_ids(p["_impls"], lambda i: i["method"])
+        stated = {id(i) for group in validation_groups(p["_impls"], lambda i: "")[0] for i in group}
+        rows = [[_method_link(path, i["_method"]), _edition_cell(path, i), _functions(i),
+                 _validation(i, f"#{ids[id(i)]}" if id(i) in stated else ""), _status_note(i)] for i in p["_impls"]]
+        parts.append(_table("impls", ["Metric", "Edition", "Functions", "Validation (as stated)", "Notes"], rows))
+        parts.append(_validation_section(index, path, p["_impls"], ids, on_method=False))
+        parts.append(_conventions_section(index, path, p["_impls"], p.get("conventions") or [], on_method=False))
     if p.get("notes"):
         parts.append('<h2 id="notes">Notes</h2>')
         parts.append("<ul>" + "".join(f"<li>{inline(n)}</li>" for n in p["notes"]) + "</ul>")
@@ -834,7 +938,8 @@ def project_page(index: Index, p: dict) -> str:
     parts.append('<ol class="refs">' + "".join(f'<li><a href="{esc(s)}">{esc(s)}</a></li>' for s in p["sources"])
                  + "</ol>")
     methods = join_words(list(dict.fromkeys(i["_method"]["name"] for i in p["_impls"])))
-    description = f"{p['name']} ({', '.join(p['languages'])}): {plain(p['summary'])} Implements: {methods}."
+    description = f"{p['name']} ({', '.join(p['languages'])}): {plain(p['summary'])}" + (
+        f" Implements: {methods}." if methods else "")
     ld = [_software_ld(index, p)]
     return layout(index, path, title=f"{p['name']}: {', '.join(p['languages'])} implementation of psychoacoustic metrics",
                   description=description[:300], body="\n".join(parts), section="Projects", jsonld=ld,
@@ -852,8 +957,7 @@ def _project_names(path: str, impls: list[dict]) -> str:
     out = []
     for i in best.values():
         p = i["_project"]
-        name = f"<strong>{esc(p['name'])}</strong>" if p["_mainstream"] else esc(p["name"])
-        bit = _lang_badge(p["languages"][0]) + f'<a href="{relative(path, project_path(p))}">{name}</a>'
+        bit = _lang_badge(p["languages"][0]) + _project_link(path, p)
         if i["status"] != "available":
             bit += " " + _tag("main" if i["status"] == "unreleased" else "PR",
                               "warn" if i["status"] == "unreleased" else "neutral", IMPL_STATUS_LONG[i["status"]])
@@ -920,7 +1024,7 @@ def languages_page(index: Index) -> str:
     def mark(state: str) -> str:
         return (f'<span class="mark mark-{state or "none"}" role="img" aria-label="{esc(marks[state])}" '
                 f'title="{esc(marks[state])}"></span>')
-    listed = [p for p in index.projects_by_group() if p["_group"] != "others"]
+    listed = [p for p in index.projects_by_group() if p["_group"] not in ("others", "unknown")]
     parts = [
         "<h1>Languages</h1>",
         f'<p class="byline">{plural(len(index.languages()), "language")} · '
@@ -946,7 +1050,7 @@ def languages_page(index: Index) -> str:
         parts.append(f'<h2 id="{anchor}">{esc(title)} <span class="count">{len(projects)}</span></h2>')
         rows = []
         for p in projects:
-            name = f"<strong>{_project_link(path, p)}</strong>" if p["_mainstream"] else _project_link(path, p)
+            name = _project_link(path, p)
             if p["_group"] in GROUP_TAGS:
                 name += " " + GROUP_TAGS[p["_group"]]
             methods = list(dict.fromkeys(i["_method"]["id"] for i in p["_impls"]
@@ -992,8 +1096,7 @@ PROJECT_COLUMNS = ["Project", "Language", "Licence", "Latest release", "Last com
 def _project_row(path: str, p: dict, last: str) -> list[str]:
     """A row of the projects tables: the kind of project goes under its name, and its activity under the date of
     its last commit."""
-    link = f"<strong>{_project_link(path, p)}</strong>" if p["_mainstream"] else _project_link(path, p)
-    return [f'{link}<br><span class="muted">{esc(PROJECT_KINDS[p["kind"]])}</span>',
+    return [f'{_project_link(path, p)}<br><span class="muted">{esc(PROJECT_KINDS[p["kind"]])}</span>',
             _langs(p["languages"]), esc(p["license"]), esc(release_text(p)),
             f'{esc(p["_last_commit"] or "unknown")}<br>{_activity_tag(p, short=True)}', last]
 
@@ -1004,15 +1107,17 @@ def projects_page(index: Index) -> str:
     parts = [
         "<h1>Projects</h1>",
         f'<p class="byline">{plural(len(index.projects), "project")} · {plural(len(langs), "language")}</p>',
-        "<p>Established projects come first, with the most widely used ones at the top and in bold "
-        f"({join_words([esc(p['name']) for p in index.mainstream()])}); then newly released, developing and legacy "
-        "projects. Tools that only call another project are listed under Others. “Last commit” is the last commit "
+        "<p>The most widely used projects come first in every list and are in bold "
+        f"({join_words([esc(p['name']) for p in index.super_projects()])}); then the other established projects, "
+        "then newly released, developing and legacy ones. Tools that only call another project are listed under "
+        "Others, and projects whose code could not "
+        "be opened under Status unknown. “Last commit” is the last commit "
         f"on the default branch; a project is shown as inactive after {index.site.get('inactive_after_days', 365)} "
         "days without one, and listed as legacy after three years.</p>",
     ]
-    for key, title in GROUP_HEADINGS[:-1]:
+    for key, title in GROUP_HEADINGS:
         projects = index.group(key)
-        if not projects:
+        if not projects or key in ("others", "unknown"):
             continue
         parts.append(f'<h2 id="{key}">{esc(title)} <span class="count">{len(projects)}</span></h2>')
         parts.append(f'<p class="muted">{esc(GROUPS[key])}</p>')
@@ -1026,6 +1131,12 @@ def projects_page(index: Index) -> str:
         rows = [_project_row(path, p, join_words([_project_link(path, q) for q in {
                     i["_via"]["id"]: i["_via"] for i in p["_impls"]}.values()])) for p in others]
         parts.append(_table("projects", PROJECT_COLUMNS + ["Calls"], rows))
+    unknown = index.group("unknown")
+    if unknown:
+        parts.append(f'<h2 id="unknown">Status unknown <span class="count">{len(unknown)}</span></h2>')
+        parts.append(f'<p class="muted">{esc(GROUPS["unknown"])}</p>')
+        rows = [_project_row(path, p, inline(first_sentence(p["claim"]))) for p in unknown]
+        parts.append(_table("projects", PROJECT_COLUMNS + ["Claims"], rows))
     ld = [{"@type": "CollectionPage", "name": "Projects", "url": absolute(index, path),
            "mainEntity": {"@type": "ItemList", "numberOfItems": len(index.projects), "itemListElement": [
                {"@type": "ListItem", "position": n, "item": _software_ld(index, p)}
@@ -1045,6 +1156,8 @@ def standards_page(index: Index) -> str:
         f'<p class="byline">{plural(len(docs), "standard document")} · {plural(len(papers), "model reference")}</p>',
         "<p>Every document the list refers to, newest first. Each implementation in the list is tied to one of "
         "these editions, so this is also a timeline of how the definitions have changed.</p>",
+        f'<p class="small">All of them as BibTeX, with the papers that describe the listed software: '
+        f'<a href="{relative(path, BIBTEX)}">{BIBTEX}</a>.</p>',
     ]
     for title, anchor, refs in (("Standards and regulations", "standards", docs),
                                 ("Model papers, books and theses", "models", papers)):
@@ -1122,9 +1235,10 @@ def about_page(index: Index) -> str:
                                               for k, v in VALIDATION_LONG.items()]),
         '<h2 id="standing">Groups of projects</h2>',
         "<p>" + GROUP_RULE + ": "
-        f"{join_words([esc(p['name']) for p in index.mainstream()])}. They are never listed as legacy, and neither "
+        f"{join_words([esc(p['name']) for p in index.super_projects()])}. They are never listed as legacy, and neither "
         "are reference programs published with a standard, which are not expected to change.</p>",
-        _table("defs", ["Group", "Meaning"], [[_tag(k, GROUP_KIND[k]), esc(v)] for k, v in GROUPS.items()]),
+        _table("defs", ["Group", "Meaning"], [[_tag(GROUP_NAMES[k], GROUP_KIND[k]), esc(v)]
+                                              for k, v in GROUPS.items()]),
         '<h2 id="leads">Leads not yet verified</h2>',
         "<p>Candidates that may belong in the list but could not be checked yet. They are listed so that nobody "
         "has to rediscover them; nothing here has been confirmed.</p>",
@@ -1142,6 +1256,8 @@ def about_page(index: Index) -> str:
         f'<a href="{relative(path, "llms-full.txt")}">llms-full.txt</a>: summaries for language models, following '
         'the <a href="https://llmstxt.org/">llms.txt</a> proposal. Every page also has a Markdown version.</li>',
         f'<li><a href="{relative(path, "feed.xml")}">feed.xml</a>: Atom feed of updates.</li>',
+        f'<li><a href="{relative(path, BIBTEX)}">{BIBTEX}</a>: every standard, model paper and software paper in '
+        "the list, as BibTeX.</li>",
         f'<li><a href="{repo}/tree/main/data">Source data</a> and its '
         f'<a href="{repo}/blob/main/data/SCHEMA.md">schema</a>.</li>',
         "</ul>",
@@ -1152,7 +1268,8 @@ def about_page(index: Index) -> str:
         "Project authors are encouraged to check their own entry.</p>",
         '<h2 id="citing">Citing</h2>',
         f'<p>Please cite the list with the <a href="{repo}/blob/main/CITATION.cff">CITATION.cff</a> file and the date '
-        "you accessed it, and cite the implementations you actually used.</p>",
+        "you accessed it, and cite the implementations you actually used: each project page says how, under "
+        f'<em>How to cite</em>. The standards and papers are in <a href="{relative(path, BIBTEX)}">{BIBTEX}</a>.</p>',
         '<h2 id="licence">Licence</h2>',
         f"<p>Data, text and code are released under the {esc(site['license'])} licence.</p>",
         f"<p>{credit(index)}</p>",
@@ -1216,8 +1333,8 @@ def ai_page(index: Index) -> str:
     base = index.site["base_url"]
     side = ('<aside class="sidebar" aria-label="For AI">'
             + _side("On this page", [(f"#{a}", esc(h), False) for a, h, _ in sections])
-            + _side("Files", [(base + f, f, False) for f in ("llms.txt", "llms-full.txt", "index.json", "sitemap.xml",
-                                                              "feed.xml")])
+            + _side("Files", [(base + f, f, False) for f in ("llms.txt", "llms-full.txt", "index.json", BIBTEX,
+                                                              "sitemap.xml", "feed.xml")])
             + "</aside>")
     ld = [{"@type": "WebPage", "name": "For AI agents and language models", "url": absolute(index, path),
            "description": intro}]

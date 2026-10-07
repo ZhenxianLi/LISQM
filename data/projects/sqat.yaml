@@ -8,7 +8,7 @@ language_note: >-
   MATLAB only; SQAT has no Python interface of its own. pySQAT is a Python port of it, and MetaSona ports
   parts of it to C.
 standing: established
-rank: 1
+super_project: 1  # bold and first in every list (see data/SCHEMA.md)
 license: GPL-3.0-or-later (main) / CC-BY-NC-4.0 (releases)
 license_note: >-
   The default branch has been GPL-3.0-or-later since 2026-09-15, with BSD-3-Clause (ISO 532-1 loudness),
@@ -32,13 +32,22 @@ paper:
     quantitative sound quality analysis. *Proceedings of INTER-NOISE 2023*, Chiba, Japan.
   doi: 10.3397/IN_2023_1075
 notes:
-  - The README lists 61 studies and theses that use SQAT. Software DOI (all versions) [10.5281/zenodo.7934709](https://doi.org/10.5281/zenodo.7934709).
+  - The README lists 61 studies and theses that use SQAT.
   - >-
     The latest release is v1.3 (2025-04-04); about 200 commits have been made on `main` since. Most of the
     metric-correctness work of August–September 2026 came from an external contributor through about 20 pull
     requests.
-  - The ECMA-418-2 functions come from the RefMap MATLAB code by Lotinga and Torjussen (University of Salford).
+  - >-
+    The ECMA-418-2 functions come from the RefMap MATLAB code by Lotinga and Torjussen (University of Salford); the
+    ISO 532-1 loudness was adapted in 2023 from Ella Manor's 2015 MATLAB code for AARAE.
   - "Open pull requests: [#78](https://github.com/ggrecow/SQAT/pull/78) (ECMA-418-2 fluctuation strength) and [#84](https://github.com/ggrecow/SQAT/pull/84) (graphical interface)."
+conventions:
+  - >-
+    Percentile values (N5 and the others) take the nearest rank of the sorted time series, without interpolation
+    (`get_exceeded_value`).
+  - >-
+    Statistics leave out the first `time_skip` seconds of the signal; for the ECMA-418-2 metrics at least 304 ms,
+    which the code enforces.
 caveats:
   - The latest release (v1.3) is licensed for non-commercial use only; the GPL licence applies to the unreleased `main` branch.
   - >-
@@ -57,6 +66,7 @@ implements:
     status: available
     since: v1.0
     validation: standard-data
+    derived_from: [aarae]
     validation_details:
       - Checked with the 25 test signals of Annex B.2–B.5 against the standard's tolerances.
     note: >-
@@ -152,6 +162,7 @@ implements:
     status: available
     since: v1.3
     validation: cross-implementation
+    derived_from: [refmap-psychoacoustics]
     compared_with: ["commercial software"]
     validation_details:
       - >-
@@ -162,6 +173,7 @@ implements:
     functions: [Loudness_ECMA418_2, LoudnessFromComp_ECMA418_2]
     status: unreleased
     validation: cross-implementation
+    derived_from: [refmap-psychoacoustics]
     compared_with: ["commercial software"]
     validation_details:
       - >-
@@ -176,6 +188,7 @@ implements:
     status: available
     since: v1.3
     validation: cross-implementation
+    derived_from: [refmap-psychoacoustics]
     compared_with: ["commercial software"]
     validation_details:
       - >-
@@ -186,6 +199,7 @@ implements:
     functions: [Roughness_ECMA418_2]
     status: unreleased
     validation: cross-implementation
+    derived_from: [refmap-psychoacoustics]
     compared_with: ["commercial software"]
     validation_details:
       - >-
@@ -199,6 +213,7 @@ implements:
     status: available
     since: v1.3
     validation: cross-implementation
+    derived_from: [refmap-psychoacoustics]
     compared_with: ["commercial software"]
     validation_details:
       - Checked against reference results from commercial software for a binaural recording of a train station.
@@ -207,6 +222,7 @@ implements:
     functions: [Tonality_ECMA418_2]
     status: unreleased
     validation: cross-implementation
+    derived_from: [refmap-psychoacoustics]
     compared_with: ["commercial software"]
     validation_details:
       - >-
@@ -222,6 +238,14 @@ implements:
     link: https://github.com/ggrecow/SQAT/pull/78
     validation: not-stated
     note: Open pull request since 2026-09-17.
+cite:
+  text: >-
+    The README asks for the toolbox itself: Felix Greco, G., Merino-Martínez, R., Osses, A., & Lotinga, M. J. B.
+    (2025). *SQAT: a sound quality analysis toolbox for MATLAB*. Zenodo. It recommends citing the specific version
+    used, since results differ between releases; each release has its own DOI. The paper above describes the
+    first release.
+  doi: 10.5281/zenodo.7934709
+  cff: https://github.com/ggrecow/SQAT/blob/main/citation.cff
 manual:
   last_commit: 2026-10-02
   latest_release: {version: v1.3, date: 2025-04-04}

@@ -1,0 +1,117 @@
+id: mosqito-net
+name: Mosqito.NET
+repository: https://github.com/onur-akaydin/Mosqito.NET
+languages: [C#]
+kind: library
+based_on: mosqito
+language_note: >-
+  Native C# for .NET 8 (it does not call Python), with MathNet.Numerics and NAudio. The project file has NuGet
+  metadata, but no package was found on nuget.org (checked 2026-10-07); build it from the repository.
+standing: newly-released
+standing_note: First published on GitHub in April 2026.
+license: Apache-2.0
+license_note: NOTICE.md states that it is derived from MoSQITo 1.2.1 (Apache-2.0).
+maintainers: [onur-akaydin]
+summary: >-
+  C# (.NET 8) port of MoSQITo 1.2.1 with the same metrics: ISO 532-1 loudness, ECMA-418-2 (2nd edition) loudness
+  and roughness, DIN 45692 sharpness, Daniel & Weber roughness, and ECMA-74 tone-to-noise and prominence ratios.
+ai_assistance: disclosed
+ai_note: >-
+  The README says the port "was produced largely with AI assistance (Claude)"; most commits of 16 and 17 April 2026
+  have Claude as co-author.
+notes:
+  - First commit on 2026-04-16; 16 commits, the latest on 2026-06-07. There is no GitHub release.
+  - Also ports MoSQITo's speech intelligibility index (ANSI S3.5), which is outside the scope of this list.
+caveats:
+  - >-
+    Very new and not yet widely used in the community; the README asks users to validate results against their own
+    reference data before relying on them.
+  - Its ECMA-418-2 functions follow the 2nd edition (2022), two editions behind the current one, as in MoSQITo.
+conventions:
+  - >-
+    Time-varying loudness and ECMA-418-2 roughness resample input at any other rate to 48 kHz, and stationary
+    loudness resamples rates below 48 kHz; MoSQITo rejects rates above 48 kHz for time-varying loudness.
+implements:
+  - method: loudness-zwicker
+    reference: iso-532-1-2017
+    functions: [Sq.LoudnessZwst, Sq.LoudnessZwstFreq, Sq.LoudnessZwstPerSeg, Sq.LoudnessZwtv]
+    scope: stationary (also per segment and from a spectrum) and time-varying
+    status: available
+    validation: standard-data
+    compared_with: [mosqito]
+    validation_details:
+      - Unit tests ported from MoSQITo compare stationary loudness with ISO 532-1 Annex B values.
+      - >-
+        Every public function is compared with the output of Python MoSQITo for seven WAV files (three of them ISO
+        532-1 test signals), within 1 % (0.5 dB for levels).
+  - method: loudness-ecma-418-2
+    reference: ecma-418-2-ed2
+    functions: [Sq.LoudnessEcma]
+    scope: Clause 5 hearing-model loudness only, as in MoSQITo
+    status: available
+    validation: cross-implementation
+    compared_with: [mosqito]
+    validation_details:
+      - >-
+        Every public function is compared with the output of Python MoSQITo for seven WAV files (three of them ISO
+        532-1 test signals), within 1 % (0.5 dB for levels); MoSQITo's unit tests are ported too.
+  - method: sharpness
+    reference: din-45692-2009
+    functions: [Sq.SharpnessDinSt, Sq.SharpnessDinTv, Sq.SharpnessDinPerSeg, Sq.SharpnessDinFreq]
+    scope: "weightings: DIN 45692, Aures, von Bismarck, Fastl"
+    status: available
+    validation: cross-implementation
+    compared_with: [mosqito]
+    validation_details:
+      - >-
+        Every public function is compared with the output of Python MoSQITo for seven WAV files (three of them ISO
+        532-1 test signals), within 1 % (0.5 dB for levels); MoSQITo's unit tests are ported too.
+  - method: roughness-daniel-weber
+    reference: daniel-weber-1997
+    functions: [Sq.RoughnessDw, Sq.RoughnessDwFreq]
+    status: available
+    validation: cross-implementation
+    compared_with: [mosqito]
+    validation_details:
+      - >-
+        Every public function is compared with the output of Python MoSQITo for seven WAV files (three of them ISO
+        532-1 test signals), within 1 % (0.5 dB for levels); MoSQITo's unit tests are ported too.
+  - method: roughness-ecma-418-2
+    reference: ecma-418-2-ed2
+    functions: [Sq.RoughnessEcma]
+    status: available
+    validation: cross-implementation
+    compared_with: [mosqito]
+    validation_details:
+      - >-
+        Every public function is compared with the output of Python MoSQITo for seven WAV files (three of them ISO
+        532-1 test signals), within 1 % (0.5 dB for levels); MoSQITo's unit tests are ported too.
+  - method: tone-to-noise-prominence-ratio
+    reference: ecma-74-ed17
+    functions: [Sq.TnrEcmaSt, Sq.TnrEcmaFreq, Sq.TnrEcmaPerSeg, Sq.PrEcmaSt, Sq.PrEcmaFreq, Sq.PrEcmaPerSeg]
+    status: available
+    validation: cross-implementation
+    compared_with: [mosqito]
+    validation_details:
+      - >-
+        Every public function is compared with the output of Python MoSQITo for seven WAV files (three of them ISO
+        532-1 test signals), within 1 % (0.5 dB for levels); MoSQITo's unit tests are ported too.
+    note: The README cites ECMA-74 Annex D.
+  - method: equal-loudness-contours
+    reference: iso-226-2003
+    functions: [Sq.EqualLoudnessContours]
+    status: available
+    validation: not-stated
+    note: >-
+      Code comments say ISO 226:1987, but the tables are ported from MoSQITo, whose code follows Jeff Tackett's ISO
+      226:2003 implementation.
+manual:
+  last_commit: 2026-06-07
+  archived: false
+sources:
+  - https://github.com/onur-akaydin/Mosqito.NET
+  - https://github.com/onur-akaydin/Mosqito.NET/blob/master/README.md
+  - https://github.com/onur-akaydin/Mosqito.NET/blob/master/NOTICE.md
+  - https://github.com/onur-akaydin/Mosqito.NET/commits/master/
+  - https://github.com/Eomys/MoSQITo/issues/98
+checked: 2026-10-07

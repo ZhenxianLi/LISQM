@@ -63,6 +63,7 @@ implements:
     status: available
     validation: cross-implementation
     compared_with: ["GENESIS ACOUSTICS code (Python port)"]
+    derived_from: ["BASIC program of DIN 45631 (Zwicker et al., 1991)"]
     validation_details:
       - Tested against "a quick and dirty Python port of the Matlab code private by GENESIS ACOUSTICS".
     note: >-

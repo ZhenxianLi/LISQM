@@ -24,6 +24,10 @@ notes:
     (GPL-3.0, two commits on 2019-07-09), also exists.
 caveats:
   - ISO 226:2003 was withdrawn in 2023 and replaced by ISO 226:2023; the module follows the 2003 edition.
+cite:
+  text: >-
+    The README asks users to cite two papers by Callegari and Bizzarri on the design of ΔΣ modulators (the journal
+    versions).
 implements:
   - method: equal-loudness-contours
     reference: iso-226-2003

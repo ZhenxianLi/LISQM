@@ -1,11 +1,12 @@
 # Website built by scripts/build.py (published by the Pages workflow, not committed)
 site/
 
-# Reports from local runs of refresh.py, discover.py and watch_standards.py with --report
+# Reports from local runs of refresh.py, discover.py, watch_standards.py and check_links.py with --report
 # (the Refresh workflow puts them in its run summary and the review issue instead)
 refresh.md
 discover.md
 standards.md
+links.md
 
 # Python
 __pycache__/

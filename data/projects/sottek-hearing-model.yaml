@@ -7,6 +7,7 @@ based_on: refmap-psychoacoustics
 language_note: >-
   Needs Python 3.11 or newer. Translated from the MATLAB code used in SQAT and RefMap.
 standing: established
+super_project: 4  # bold and first in every list (see data/SCHEMA.md)
 license: GPL-3.0-only
 license_note: >-
   The LICENSE file has always been GPL-3.0 and the project metadata was changed to GPL-3.0-only on 2026-08-31;
@@ -31,6 +32,15 @@ notes:
   - The paper verifies the MATLAB implementations of the 3rd edition, from which this package was translated; it does not cover the Python package itself.
   - Maintained by one person at the University of Salford (RefMap project). Requires Python 3.11 or newer.
   - pySQAT calls this package for its ECMA-418-2 metrics.
+maintainer_check: >-
+  In personal use, Zhenxian LI found its results in very good agreement with those of HEAD acoustics ArtemiS SUITE.
+  This is a personal check, not a published comparison.
+conventions:
+  - Input at other sample rates is resampled to 48 kHz.
+  - >-
+    Overall roughness and fluctuation strength are 90th percentiles computed with NumPy (linear interpolation,
+    Hyndman–Fan type 7). The MATLAB code it was translated from uses `prctile`, which interpolates differently, so
+    single values can differ slightly from RefMap and SQAT.
 caveats:
   - Fluctuation strength is only on the main branch (not on PyPI yet) and its verification report is marked as a draft.
   - Versions up to 0.1.13 are affected by an empty-array bug fixed in 0.1.14 ([#9](https://github.com/mlotinga/sottek-hearing-model/issues/9)).
@@ -42,17 +52,22 @@ implements:
     status: available
     since: 0.1.9
     validation: standard-data
+    compared_with: ["ArtemiS SUITE (HEAD acoustics)"]
     validation_details:
       - Unit tests check the standard's calibration signals (1 kHz, 40 dB gives 1 sone_HMS).
-      - The MATLAB code it was translated from was compared with commercial reference software in the paper.
+      - >-
+        RefMap's verification compared the Python code, before it became this package, and the MATLAB original with
+        HEAD acoustics ArtemiS v17.1 for the two calibration signals and a 30 s binaural street recording.
   - method: tonality-ecma-418-2
     reference: ecma-418-2-ed4
     functions: [shm_tonality_ecma]
     status: available
     since: 0.1.9
     validation: standard-data
+    compared_with: ["ArtemiS SUITE (HEAD acoustics)"]
     validation_details:
       - Unit tests check the standard's reference signal, which should give 1 tu_HMS, at 48 and 44.1 kHz.
+      - RefMap's verification against ArtemiS v17.1, as for loudness.
     note: Optional experimental tonal-annoyance weighting (Sottek & Becker, 2019) since 0.1.14.
   - method: roughness-ecma-418-2
     reference: ecma-418-2-ed4
@@ -61,15 +76,17 @@ implements:
     status: available
     since: 0.1.9
     validation: standard-data
+    compared_with: ["ArtemiS SUITE (HEAD acoustics)"]
     validation_details:
       - Unit tests check the standard's reference signal, which should give 1 asper_HMS, at 48 and 44.1 kHz.
+      - RefMap's verification against ArtemiS v17.1, as for loudness.
   - method: fluctuation-strength-ecma-418-2
     reference: ecma-418-2-ed4
     functions: [shm_fluctuation_ecma]
     scope: needs at least 1.37 s of signal; binaural option
     status: unreleased
     validation: cross-implementation
-    compared_with: ["its MATLAB original", "ArtemiS SUITE (HEAD acoustics)"]
+    compared_with: [refmap-psychoacoustics, "ArtemiS SUITE (HEAD acoustics)"]
     validation_details:
       - >-
         A draft report (18 September 2026) compares it with `acousticSHMFluctuation.m`, the MATLAB code it was
@@ -82,6 +99,10 @@ implements:
     note: >-
       Merged on 2026-09-18. Five departures from the printed text are documented (four equations and one
       interpretation of Section 9.1.8).
+cite:
+  text: >-
+    The README asks for the paper above, which published the MATLAB code the package was translated from, and gives
+    a BibTeX entry for it.
 manual:
   last_commit: 2026-09-18
   latest_release: {version: 0.1.14, date: 2026-03-13}
@@ -93,4 +114,5 @@ sources:
   - https://pypi.org/project/sottek-hearing-model/
   - https://github.com/mlotinga/sottek-hearing-model/issues/9
   - https://github.com/mlotinga/sottek-hearing-model/tree/main/tests
+  - https://github.com/acoustics-code-salford/refmap-psychoacoustics/blob/main/validation/ECMA-418-2/README.md
 checked: 2026-10-07

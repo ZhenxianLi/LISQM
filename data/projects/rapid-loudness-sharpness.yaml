@@ -1,0 +1,65 @@
+id: rapid-loudness-sharpness
+name: Codes for the rapid calculation of loudness and sharpness
+short_name: Swift & Gee codes
+repository: https://www.mathworks.com/matlabcentral/fileexchange/73808-codes-for-the-rapid-calculation-of-loudness-and-sharpness
+languages: [MATLAB]
+kind: research-code
+standing: established
+license: BSD-3-Clause
+license_note: "`license.txt`: Copyright (c) 2019, Stephen Hales Swift."
+packages:
+  - registry: file-exchange
+    name: "73808"
+    url: https://www.mathworks.com/matlabcentral/fileexchange/73808-codes-for-the-rapid-calculation-of-loudness-and-sharpness
+maintainers: [Stephen Hales Swift]
+summary: >-
+  MATLAB code by S. Hales Swift (Brigham Young University) on MATLAB File Exchange for fast Moore–Glasberg loudness:
+  ANSI S3.4-2007 stationary loudness and Glasberg & Moore (2002) time-varying loudness, each with the sharpness of
+  Swift & Gee (2017), which is computed from Moore–Glasberg specific loudness.
+ai_assistance: not-stated
+paper:
+  citation: >-
+    Swift, S. H., & Gee, K. L. (2019). Techniques for the rapid calculation of the excitation pattern in the time
+    varying extensions to ANSI S3.4-2007. *Proceedings of Meetings on Acoustics*, 36, 040002.
+notes:
+  - >-
+    Version 1.0.0 (2020-01-24) is the only update after the first upload (2019-12-31). There is no public commit
+    history; the files can be read online on File Exchange without logging in.
+  - The sharpness code is by the authors of the sharpness model.
+caveats:
+  - No validation is described.
+  - >-
+    Without the Signal Processing Toolbox, the File Exchange page says a file from the Cambridge Hearing Group's
+    website is needed; that page now needs a University of Cambridge login.
+conventions:
+  - The code works at 32 kHz; other rates are resampled with the Signal Processing Toolbox's `resample`.
+cite:
+  text: >-
+    The File Exchange page asks for the paper above for the loudness code and for Swift & Gee (2017) for the
+    sharpness code.
+implements:
+  - method: loudness-moore-glasberg
+    reference: ansi-s3-4-2007
+    functions: [stationaryLoudness]
+    status: available
+    validation: not-stated
+  - method: loudness-moore-glasberg-time-varying
+    reference: glasberg-moore-2002
+    functions: [Glasberg_loudness]
+    status: available
+    validation: not-stated
+  - method: sharpness
+    reference: swift-gee-2017
+    functions: [stationaryLoudness, Glasberg_loudness]
+    scope: from Moore–Glasberg specific loudness, stationary and time-varying
+    status: available
+    validation: not-stated
+manual:
+  last_commit: 2020-01-24
+  latest_release: {version: 1.0.0, date: 2020-01-24, source: MATLAB File Exchange}
+  archived: false
+sources:
+  - https://www.mathworks.com/matlabcentral/fileexchange/73808-codes-for-the-rapid-calculation-of-loudness-and-sharpness
+  - https://viewer.mathworks.com/addons/73808/latest
+  - https://doi.org/10.1121/1.5016193
+checked: 2026-10-07

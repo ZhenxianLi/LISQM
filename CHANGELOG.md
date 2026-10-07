@@ -2,6 +2,32 @@
 
 Notable changes to the list. This file is generated from `data/updates.yaml`; the same notes are on the website (https://zhenxianli.github.io/LISQM/updates.html) and in its Atom feed.
 
+## 2026-10-07: Who ported code from whom, how to cite it, and five more projects
+
+Method pages now show who ported code from whom, as the projects state it. A comparison with related code is
+marked "(its source)", "(a port of it)" or "(also ported from …)", and its tag is grey when nothing independent
+is stated: agreement with the code an implementation was ported from shows a faithful port, not that either
+follows the standard. A new section, *Before you compare numbers*, lists the choices that make correct
+implementations give different numbers: sound field, calibration, sample rate, percentile definition,
+sharpness weighting and the start of the signal.
+
+Also in this update:
+
+- Every project page has a *How to cite* line, and all standards, model papers and software papers are
+  available as BibTeX in references.bib.
+- New projects: the ITA-Toolbox (RWTH Aachen, MATLAB), Mosqito.NET (a C# port of MoSQITo, newly released), and
+  two legacy MATLAB tools, the Swift & Gee loudness and sharpness codes and the HAW Hamburg loudness tool.
+  PsyTools (TU Graz) is listed in a new group, *Status unknown*, because its repository cannot be opened
+  without a login.
+- sottek-hearing-model and the ITA-Toolbox join SQAT, the Auditory Modeling Toolbox and MoSQITo as the most
+  widely used projects, in bold and first in every list. In personal use, the maintainer of the list found
+  sottek-hearing-model in very good agreement with HEAD acoustics ArtemiS SUITE.
+- Validation details were added for MoSQITo's ECMA-418-2 roughness and for phonometry's tone-to-noise and
+  prominence ratios, psychoacoustic annoyance and ISO 226:2023 contours. phonometry's annoyance is now listed
+  under its own tests only, as no published value is checked.
+- RefMap's Python functions use the sottek-hearing-model package and are listed under it.
+- The twice-monthly refresh now checks every external link and reports broken ones in its review issue.
+
 ## 2026-10-07: Version 0.2: how each implementation was validated
 
 Project and method pages have a new section, *How it was validated*: what each project says it checked, and

@@ -1,0 +1,65 @@
+id: haw-specific-loudness
+name: Specific loudness of time-varying sounds (MATLAB tool)
+short_name: HAW loudness tool
+repository: https://zenodo.org/records/7361480
+homepage: https://reposit.haw-hamburg.de/handle/20.500.12738/14892
+languages: [MATLAB]
+kind: application
+standing: established
+license: CC-BY-4.0
+license_note: Licence of the HAW Hamburg repository record; the archive itself has no licence file.
+maintainers: [Christian Sabrautzky, Robert Mores]
+summary: >-
+  MATLAB tool with a graphical interface, from HAW Hamburg, that shows the specific loudness of time-varying sounds:
+  a Moore–Glasberg front end on ERB bands with temporal processing after Glasberg & Moore (2002), Chalupper & Fastl
+  (2002) or Baumgarte (2000). Written in 2007 for a diploma thesis and published on Zenodo in 2022.
+ai_assistance: not-stated
+paper:
+  citation: >-
+    Sabrautzky, C. (2007). *Erweiterung eines Lautheitsmodells von Moore und Glasberg zur Berechnung der
+    spezifischen Lautheit dynamischer Audiosignale* [Diploma thesis, HAW Hamburg].
+notes:
+  - >-
+    Code by Christian Sabrautzky (2007, revision 0.7), with changes by Robert Mores (2013) and a playback toolbar by
+    Nico Schäfer. The Zenodo record (2022-12-16) includes an English overview of the models and the German thesis.
+  - >-
+    Offers free-field and diffuse-field outer-ear filters and three spectral analyses: FFT with a Blackman–Harris or
+    Hann window, and a Fourier-time transform.
+caveats:
+  - >-
+    Not an implementation of ANSI S3.4-2007 or ISO 532-2/-3. It follows Glasberg & Moore (2002) with the constants
+    A, α and E_THRQ read from published graphs and interpolated, and its Chalupper–Fastl and Baumgarte options apply
+    those models' temporal processing to Moore–Glasberg specific loudness.
+conventions:
+  - >-
+    Input must be sampled at 32 kHz; the reference level is entered as the sound pressure level of a full-scale
+    sine.
+cite:
+  doi: 10.5281/zenodo.7361480
+implements:
+  - method: loudness-moore-glasberg-time-varying
+    reference: glasberg-moore-2002
+    functions: [loud_gui, matlab_loud]
+    scope: specific loudness over time on ERB bands; three temporal models
+    status: available
+    validation: reference-code
+    compared_with: ["LOUDAES and TVL (Glasberg & Moore's programs)"]
+    validation_details:
+      - >-
+        The thesis compares the total loudness of pure tones (30–100 dB) with LOUDAES, Glasberg & Moore's program for
+        stationary sounds: mostly within 5 %, with larger deviations at low levels near 50 Hz and above 5 kHz (−9.3 %
+        for 5 kHz at 30 dB).
+      - >-
+        For two equal-level tones at 1 and 2 kHz, the deviation from LOUDAES ranges from −4.4 % to +3.8 % with the
+        Hann-window FFT and reaches +6.7 % with the Fourier-time transform.
+      - >-
+        For the stationary part of signals the thesis reports good agreement with TVL, Glasberg & Moore's program for
+        time-varying sounds, without figures.
+manual:
+  last_commit: 2022-12-16
+  latest_release: {version: "1", date: 2022-12-16, source: Zenodo}
+  archived: false
+sources:
+  - https://zenodo.org/records/7361480
+  - https://reposit.haw-hamburg.de/handle/20.500.12738/14892
+checked: 2026-10-07

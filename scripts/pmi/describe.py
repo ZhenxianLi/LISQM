@@ -9,8 +9,9 @@ from __future__ import annotations
 import re
 from typing import Callable
 
-from .data import GROUPS as GROUPS_TEXT, REF_STATUS, STATUS_ORDER, VALIDATION, Index, impl_rank, only_new
-from .paths import LANGUAGES, METRICS, PROJECTS
+from .data import (GROUPS as GROUPS_TEXT, REF_STATUS, STATUS_ORDER, VALIDATION, Index, impl_rank, only_new,
+                   super_order)
+from .paths import BIBTEX, LANGUAGES, METRICS, PROJECTS
 from .text import join_words, long_date, month, plural
 
 Fmt = Callable[[dict], str]
@@ -33,9 +34,87 @@ ONLY_NEW = ("So far only newly released projects, which are not yet widely used 
                  "implementation of it; check their validation before relying on them.")
 
 
+def _relation(i: dict, cid: str, name: Fmt | None, t: Esc) -> str:
+    """" (its source)", " (a port of it)" or " (also ported from …)" after a comparison that is not an independent
+    check, else ''."""
+    kind, origin = (i.get("_relation") or {}).get(cid, (None, None))
+    if kind == "source":
+        return t(" (its source)")
+    if kind == "port":
+        return t(" (a port of it)")
+    if kind == "shared":
+        return t(" (also ported from ") + (name(origin) if name else t(origin["name"])) + t(")")
+    return ""
+
+
 def compared_names(i: dict, name: Fmt | None = None, t: Esc = str) -> list[str]:
-    """What an implementation was compared with: listed projects through `name`, anything else through `t`."""
-    return [name(p) if p and name else t(n) for n, p in i.get("_compared") or []]
+    """What an implementation was compared with: listed projects through `name`, anything else through `t`.
+    Comparisons with related code are marked: the code it was ported from "(its source)", a port of it "(a port of
+    it)", and another port of the same code "(also ported from …)"."""
+    return [(name(p) if p and name else t(n)) + _relation(i, cid, name, t)
+            for (n, p), cid in zip(i.get("_compared") or [], i.get("compared_with") or [])]
+
+
+def only_related(i: dict) -> bool:
+    """True when every comparison an implementation states is with related code, so none is independent."""
+    related, compared = i.get("_relation") or {}, i.get("compared_with") or []
+    return bool(compared) and all(c in related for c in compared)
+
+
+def dependence_note(i: dict) -> str:
+    """Why comparisons with related code are not independent checks (plain text), or ''."""
+    kinds = {kind for kind, _ in (i.get("_relation") or {}).values()}
+    notes = []
+    if "source" in kinds:
+        notes.append("Agreement with the code it was ported from shows that the port is faithful, not that either "
+                     "follows the standard.")
+    if "port" in kinds:
+        notes.append("Agreement with a port of its own code shows that the port is faithful, not that either "
+                     "follows the standard.")
+    if "shared" in kinds:
+        notes.append("Code ported from the same source is expected to agree, so that comparison is not an "
+                     "independent check.")
+    return " ".join(notes)
+
+
+def derived_names(i: dict, name: Fmt | None = None, t: Esc = str) -> list[str]:
+    """The code an implementation was ported or adapted from: listed projects through `name`, anything else
+    through `t`."""
+    return [name(p) if p and name else t(n) for n, p in i.get("_derived") or []]
+
+
+def lineage(impls: list[dict]) -> list[tuple]:
+    """Who ported or adapted code from whom among these implementations, as a forest of (node, children) pairs. A
+    node is ("project", project) or ("code", name) for code that is not a listed project; roots are the sources
+    that were not themselves ported from another source here. A project ported from two sources appears under
+    both."""
+    parents: dict[str, list[tuple]] = {}
+    nodes: dict[str, tuple] = {}
+    for i in impls:
+        child = ("project", i["_project"])
+        key = i["_project"]["id"]
+        nodes[key] = child
+        for n, proj in i.get("_derived") or []:
+            pkey = proj["id"] if proj else f"code:{n}"
+            nodes.setdefault(pkey, ("project", proj) if proj else ("code", n))
+            if pkey not in parents.setdefault(key, []):
+                parents[key].append(pkey)
+    children: dict[str, list[str]] = {}
+    for key, ps in parents.items():
+        for pkey in ps:
+            if key not in children.setdefault(pkey, []):
+                children[pkey].append(key)
+
+    def first(keys: list[str]) -> list[str]:
+        """Super projects first, the others in the order of the implementations."""
+        return sorted(keys, key=lambda k: super_order(nodes[k][1]) if nodes[k][0] == "project" else (1, 0))
+
+    def tree(key: str, seen: frozenset) -> tuple:
+        kids = [tree(k, seen | {key}) for k in first(children.get(key, [])) if k not in seen]
+        return nodes[key], kids
+
+    roots = [k for k in children if not parents.get(k)]
+    return [tree(k, frozenset()) for k in first(roots)]
 
 
 def validation_label(i: dict, name: Fmt | None = None, t: Esc = str) -> str:
@@ -58,16 +137,18 @@ def validation_also(i: dict, name: Fmt | None = None, t: Esc = str) -> str:
 
 def validation_groups(impls: list[dict], key: Callable[[dict], str]) -> tuple[list[list[dict]], list[dict]]:
     """Implementations for a "How it was validated" section, in order: groups of rows with the same key (the
-    project, on a method page), evidence, comparisons and details, shown once; and the rows with nothing stated."""
+    project, on a method page), evidence, comparisons, origin and details, shown once; and the rows with nothing
+    stated (a row that names the code it was ported from states something)."""
     groups: dict[tuple, list[dict]] = {}
     silent = []
     for i in impls:
         details = tuple(i.get("validation_details") or ())
         compared = tuple(n for n, _ in i.get("_compared") or ())
-        if i["validation"] == "not-stated" and not details and not compared:
+        derived = tuple(n for n, _ in i.get("_derived") or ())
+        if i["validation"] == "not-stated" and not details and not compared and not i.get("derived_from"):
             silent.append(i)
         else:
-            groups.setdefault((key(i), i["validation"], compared, details), []).append(i)
+            groups.setdefault((key(i), i["validation"], compared, derived, details), []).append(i)
     return list(groups.values()), silent
 
 
@@ -91,6 +172,41 @@ def silent_line(impls: list[dict], groups: list[list[dict]], silent: list[dict],
     return f"Not stated by {joined}."
 
 
+def how_to_cite(p: dict) -> str:
+    """How to cite a project, in inline Markdown: what the project asks for (or its paper), its software DOI and
+    CITATION.cff file; without any of these, the repository. Always with the version used, since results change
+    between versions."""
+    cite = p.get("cite") or {}
+    bits = []
+    if cite.get("text"):
+        bits.append(" ".join(cite["text"].split()))
+    elif p.get("paper"):
+        bits.append("Cite the paper above.")
+    if cite.get("doi"):
+        bits.append(f"Software DOI: [{cite['doi']}](https://doi.org/{cite['doi']}).")
+    if cite.get("cff"):
+        bits.append(f"The repository has a [CITATION.cff]({cite['cff']}) file.")
+    if not bits:
+        return "The project does not say how to cite it: cite the repository with the version or commit you used."
+    return " ".join(bits) + " Name the version or commit you used."
+
+
+def stated_conventions(impls: list[dict], on_method: bool) -> list[tuple[dict, list[str]]]:
+    """What implementations state about their conventions: on a method page one entry per project (its general
+    points and those of its rows for the method); on a project page one entry per row that has its own."""
+    if not on_method:
+        return [(i, i["conventions"]) for i in impls if i.get("conventions")]
+    by_project: dict[str, list[dict]] = {}
+    for i in impls:
+        by_project.setdefault(i["_project"]["id"], []).append(i)
+    out = []
+    for rows in by_project.values():
+        items = list(dict.fromkeys(c for i in rows for c in i["_conventions"]))
+        if items:
+            out.append((rows[0], items))
+    return out
+
+
 def introduce(site: dict) -> str:
     """What the name stands for, then the site description: "LISQM stands for … It is a list …"."""
     text = site["description"].strip()
@@ -104,12 +220,13 @@ def name_note(site: dict) -> str:
             "implementations follow are not free.")
 
 
-GROUP_RULE = ("Every project is in exactly one group, decided in this order: others if it computes nothing itself "
-              "and calls another listed project; legacy if it is archived or has had no commit for three years; "
-              "otherwise the standing recorded for it: established, newly released or developing. All lists follow "
-              "the order established, newly released, developing, legacy, others, so a project that is new, little "
-              "used or no longer maintained is never the first suggestion. Within each group the most widely used and "
-              "recognised projects come first")
+GROUP_RULE = ("Every project is in exactly one group, decided in this order: status unknown if its code could not "
+              "be opened; others if it computes nothing itself and calls another listed project; legacy if it is "
+              "archived or has had no commit for three years; otherwise the standing recorded for it: established, "
+              "newly released or developing. All lists follow the order established, newly released, developing, "
+              "legacy, others, status unknown, so a project that is new, little used, no longer maintained or "
+              "unverified is never the first suggestion. The most widely used projects come before all others, in "
+              "bold, in every list")
 
 
 def standing_sentence(p: dict) -> str:
@@ -241,7 +358,7 @@ def by_language(impls: list[dict], name: Fmt,
     return sorted(groups.items(), key=lambda kv: language_order(kv[0]))
 
 
-LANGUAGE_ORDER = ["Python", "MATLAB", "Octave", "C", "C++", "Rust", "Julia"]
+LANGUAGE_ORDER = ["Python", "MATLAB", "Octave", "C", "C++", "C#", "Rust", "Julia"]
 COVERAGE_COLUMNS = [("Python", {"Python"}), ("MATLAB/Octave", {"MATLAB", "Octave"}), ("C/C++", {"C", "C++"}),
                     ("Rust", {"Rust"}), ("Julia", {"Julia"})]
 
@@ -276,7 +393,7 @@ def coverage(m: dict) -> dict[str, str]:
 def release_text(p: dict) -> str:
     r = p.get("_release")
     if not r:
-        return "no release"
+        return "unknown" if p.get("access") else "no release"
     return f"{r['version']} ({month(r['date'])})" if r.get("date") else str(r["version"])
 
 
@@ -376,13 +493,14 @@ def faq(index: Index, name: Fmt, method_link: Callable[[dict], str], t: Esc,
         page_link: Callable[[str, str], str]) -> list[tuple[str, str]]:
     """The key questions, answered from the data. Answers are HTML or Markdown depending on the callbacks;
     `page_link(path, label)` links another page of the site."""
-    mainstream = index.mainstream()
+    supers = index.super_projects()
     qa: list[tuple[str, str]] = []
     qa.append(("Which code should I use for a psychoacoustic metric?",
                f"Start from the edition that is current for the metric: the {page_link(METRICS, 'Metrics')} page names "
                f"it for each of the {len(index.methods)} methods, and each method page lists the projects that "
-               "implement it, the most widely used and established ones first. The most widely used projects are "
-               + join_words([name(p) + t(f" ({', '.join(p['languages'])})") for p in mainstream])
+               "implement it, the most widely used ones first and then the other established ones. The most widely "
+               "used projects, shown in bold and first in every list, are "
+               + join_words([name(p) + t(f" ({', '.join(p['languages'])})") for p in supers])
                + ". Before relying on a result, check the validation each project states and whether the fix you "
                "need is in a release or only on its main branch."))
     counts = []
@@ -421,9 +539,11 @@ def faq(index: Index, name: Fmt, method_link: Callable[[dict], str], t: Esc,
         + " Developing: " + t(GROUPS_TEXT["developing"])
         + " Legacy: " + t(GROUPS_TEXT["legacy"])
         + " Others: " + t(GROUPS_TEXT["others"])
-        + " Lists follow this order, so that a project which is new, little used or no longer maintained is never "
-        f"the first suggestion. The most widely used projects ({t(join_words([p['name'] for p in mainstream]))}) "
-        "and reference programs published with a standard are never listed as legacy.")
+        + " Status unknown: " + t(GROUPS_TEXT["unknown"])
+        + " Lists follow this order, so that a project which is new, little used, no longer maintained or unverified "
+        f"is never the first suggestion. The most widely used projects ({t(join_words([p['name'] for p in supers]))}) "
+        "come first in every list, and they and the reference programs published with a standard are never listed "
+        "as legacy.")
     if index.group("newly-released"):
         groups += (" Newly released projects: "
                    + names("newly-released", lambda p: p.get("standing_note", "").strip().rstrip(".")) + ".")
@@ -444,10 +564,10 @@ def ai_guide(index: Index) -> tuple[str, list[tuple[str, str, list[str]]]]:
     an introduction and (anchor, heading, items) sections."""
     site = index.site
     base, repo = site["base_url"], site["repository"]
-    mainstream = join_words([p["name"] for p in index.mainstream()])
+    supers = join_words([p["name"] for p in index.super_projects()])
     langs = join_words(index.languages())
-    intro = ("This page is for AI agents, crawlers and language models that read the list on someone's behalf. "
-             "People are welcome too: it lists the same data in forms that are easy to retrieve, parse and quote.")
+    intro = ("This page is for AI agents, crawlers and LLMs that read the list on someone's behalf. "
+             "Humans are welcome too: it lists the same data in forms that are easy to retrieve, parse and quote.")
     sections = [
         ("start", "Where to start", [
             f"[llms.txt]({base}llms.txt): a short summary with a link to the Markdown version of every page, "
@@ -455,6 +575,7 @@ def ai_guide(index: Index) -> tuple[str, list[tuple[str, str, list[str]]]]:
             f"[llms-full.txt]({base}llms-full.txt): every page in one Markdown file.",
             f"[index.json]({base}index.json): the whole index as JSON (methods, editions, projects, implementations, "
             f"groups and coverage). Field definitions: [data/SCHEMA.md]({repo}/blob/main/data/SCHEMA.md).",
+            f"[{BIBTEX}]({base}{BIBTEX}): every standard, model paper and software paper in the list, as BibTeX.",
             "A Markdown version of every page: replace `.html` with `.md`, for example "
             f"[metrics/loudness-zwicker.md]({base}metrics/loudness-zwicker.md) or "
             f"[projects/sqat.md]({base}projects/sqat.md).",
@@ -471,8 +592,13 @@ def ai_guide(index: Index) -> tuple[str, list[tuple[str, str, list[str]]]]:
             "it is released, merged but unreleased, or only proposed, and its validation evidence as stated by the "
             "project.",
             "Every project belongs to a group: established, newly released (first released less than about a year "
-            "ago and not yet widely used), developing, legacy (archived, or no commit for three years or more) or "
-            f"other (it calls another listed project). The most widely used projects are {mainstream}.",
+            "ago and not yet widely used), developing, legacy (archived, or no commit for three years or more), "
+            "other (it calls another listed project) or status unknown (its code could not be opened, so only what "
+            f"it claims is listed). The most widely used projects, {supers}, come first in every list and are shown "
+            "in bold (`super_project` in index.json).",
+            "Every implementation that was ported from other code names that code, and comparisons with it are "
+            "marked as not independent. Method pages show who ported code from whom, and the conventions to check "
+            "before comparing numbers between implementations.",
             "Every entry links the documentation its facts were taken from.",
         ]),
         ("answering", "Answering questions with it", [
@@ -496,6 +622,8 @@ def ai_guide(index: Index) -> tuple[str, list[tuple[str, str, list[str]]]]:
         ("citing", "Citing it", [
             f"{site['maintainer']['name']}. *{site['name']}: {site['title']}*. {base} (accessed on the date of use). "
             f"Citation metadata: [CITATION.cff]({repo}/blob/main/CITATION.cff).",
+            "Cite the implementations themselves as each project asks: every project page has a *How to cite* line. "
+            f"The standards, model papers and software papers are in [{BIBTEX}]({base}{BIBTEX}).",
             "In one sentence: a list of open-source implementations of psychoacoustic metrics, organised by the "
             "standard edition each one follows, with a source for every entry.",
             site["credit"],

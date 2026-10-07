@@ -388,6 +388,20 @@
   checked: 2026-10-06
 
 
+- id: swift-gee-2017
+  label: Swift & Gee (2017)
+  kind: paper
+  body: paper
+  title: Extending sharpness calculation for an alternative loudness metric input
+  date: 2017
+  status: published
+  doi: 10.1121/1.5016193
+  citation: >-
+    Swift, S. H., & Gee, K. L. (2017). Extending sharpness calculation for an alternative loudness metric input.
+    *The Journal of the Acoustical Society of America*, 142(6), EL549.
+  note: Sharpness computed from Moore–Glasberg specific loudness instead of Zwicker's.
+  checked: 2026-10-07
+
 - id: din-38455-2024
   label: DIN 38455:2024
   kind: standard
@@ -440,6 +454,22 @@
     Terhardt, E., Stoll, G., & Seewann, M. (1982). Algorithm for extraction of pitch and pitch salience from
     complex tonal signals. *The Journal of the Acoustical Society of America*, 71(3), 679–688.
   checked: 2026-10-06
+
+- id: din-45681-2002-draft
+  label: E DIN 45681:2002-11
+  kind: draft
+  body: DIN
+  title: >-
+    Akustik — Bestimmung der Tonhaltigkeit von Geräuschen und Ermittlung eines Tonzuschlages für die
+    Beurteilung von Geräuschimmissionen (draft)
+  date: 2002-11
+  status: superseded
+  superseded_by: din-45681-2005
+  citation: >-
+    DIN (2002). *E DIN 45681:2002-11 (draft): Akustik — Bestimmung der Tonhaltigkeit von Geräuschen und Ermittlung
+    eines Tonzuschlages für die Beurteilung von Geräuschimmissionen*. Beuth, Berlin.
+  note: The draft of DIN 45681:2005.
+  checked: 2026-10-07
 
 - id: din-45681-2005
   label: DIN 45681:2005

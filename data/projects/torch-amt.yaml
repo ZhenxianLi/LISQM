@@ -51,6 +51,8 @@ implements:
     validation_details:
       - Agreement with AMT is claimed in the documentation, without stored reference data.
     note: Described as a "1:1 port" of AMT `moore2016`, with outer and middle ear per ANSI S3.4-2007 (docstring).
+cite:
+  cff: https://github.com/StefanoGiacomelli/torch_amt/blob/main/CITATION.cff
 manual:
   last_commit: 2026-03-19
   latest_release: {version: 0.2.0, date: 2026-02-10}

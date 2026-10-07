@@ -32,6 +32,7 @@ implements:
     validation: self-tests
     validation_details:
       - As in python-acoustics, the test of the examples in the standard is commented out.
+    derived_from: [python-acoustics]
     note: Module `acoustic_toolbox.standards.iso_1996_2_2007`, the same code lineage as python-acoustics.
 manual:
   last_commit: 2026-02-12

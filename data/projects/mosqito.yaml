@@ -5,7 +5,7 @@ docs: https://mosqito.readthedocs.io/en/latest/
 languages: [Python]
 kind: library
 standing: established
-rank: 3
+super_project: 3  # bold and first in every list (see data/SCHEMA.md)
 license: Apache-2.0
 packages:
   - registry: pypi
@@ -28,7 +28,7 @@ notes:
   - The documentation lists Soundscapy as a user; several other projects (PsychoBox, Sonemeter and others) wrap it.
   - Also computes the ANSI S3.5 speech intelligibility index (`sii_ansi`), which is outside the scope of this list.
   - "Open, unanswered pull requests add Aures tonality ([#97](https://github.com/Eomys/MoSQITo/pull/97), 2026), ECMA-418-2 roughness fixes ([#95](https://github.com/Eomys/MoSQITo/pull/95), 2026) and an ISO 1996-2 Annex K tone detector ([#52](https://github.com/Eomys/MoSQITo/pull/52), 2022)."
-  - A C#/.NET port, Mosqito.NET, was announced in issue [#98](https://github.com/Eomys/MoSQITo/issues/98) (not checked).
+  - A C#/.NET port, Mosqito.NET, is listed separately; it was announced in issue [#98](https://github.com/Eomys/MoSQITo/issues/98).
   - The documentation lists hearing-model tonality (citing ECMA-74) as under development; there is no function for it.
 caveats:
   - No maintainer has answered issues or pull requests opened since 2024, including bug reports on TNR/PR (#80, #81, #99) and on the ECMA-418-2 roughness low-pass filter (#92, #95).
@@ -44,6 +44,10 @@ implements:
     validation: standard-data
     validation_details:
       - Validation scripts use the ISO 532-1 Annex B test signals; the documentation marks it as validated.
+    conventions:
+      - >-
+        Signals sampled below 48 kHz are resampled to 48 kHz (FFT method) with a warning; time-varying loudness
+        rejects rates above 48 kHz.
   - method: loudness-ecma-418-2
     reference: ecma-418-2-ed2
     functions: [loudness_ecma]
@@ -79,6 +83,14 @@ implements:
     status: available
     since: 1.2.0
     validation: standard-data
+    compared_with: ["ArtemiS SUITE (HEAD acoustics)"]
+    validation_details:
+      - >-
+        A unit test checks the standard's reference signal (1 kHz tone, 100 % amplitude-modulated at 70 Hz, 60 dB),
+        which should give 1 asper, within ±0.1 asper.
+      - >-
+        A validation script compares the specific roughness of amplitude-modulated tones (carriers from 125 Hz to
+        4 kHz, 65 dB) with values computed in HEAD acoustics ArtemiS SUITE, within ±10 %.
     note: >-
       The documentation still lists it as under development. An open pull request (#95) fixes the low-pass
       filter range, which caused discrepancies with SQAT for time-varying signals.
@@ -113,6 +125,9 @@ implements:
     link: https://github.com/Eomys/MoSQITo/pull/52
     validation: not-stated
     note: Pull request from May 2022; no maintainer reply.
+cite:
+  doi: 10.5281/zenodo.11026796
+  cff: https://github.com/Eomys/MoSQITo/blob/master/CITATION.cff
 manual:
   last_commit: 2024-04-22
   latest_release: {version: 1.2.1, date: 2024-04-22}
@@ -121,8 +136,10 @@ sources:
   - https://github.com/Eomys/MoSQITo/blob/master/README.md
   - https://github.com/Eomys/MoSQITo/blob/master/docs/source/user_guide/scope.rst
   - https://github.com/Eomys/MoSQITo/tree/master/validations
+  - https://github.com/Eomys/MoSQITo/blob/master/tests/sq_metrics/roughness/test_roughness_ecma.py
+  - https://github.com/Eomys/MoSQITo/blob/master/CITATION.cff
   - https://pypi.org/project/mosqito/
   - https://github.com/Eomys/MoSQITo/issues/100
   - https://github.com/Eomys/MoSQITo/pull/95
   - https://github.com/Eomys/MoSQITo/pull/97
-checked: 2026-10-06
+checked: 2026-10-07

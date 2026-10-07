@@ -21,8 +21,6 @@ notes:
     Depends on ZwickerLoudness.jl (compat 0.3), which does the loudness calculation from band levels; this package
     computes the band levels.
   - First registered in the Julia General registry as version 0.2.0 (2026-06-01).
-caveats:
-  - Time-varying loudness accepts 48 kHz input only.
 implements:
   - method: loudness-zwicker
     reference: iso-532-1-2017
@@ -36,6 +34,8 @@ implements:
       - >-
         ISO 532-1 Annex B signals 2–5, synthesised in-process, are within the standard's ±5 % (+2.9 %, +3.6 %, +0.5 %
         and +2.6 % per the README).
+    conventions:
+      - Stationary loudness resamples input below 48 kHz to 48 kHz (polyphase), with a warning.
     note: >-
       Computes the third-octave levels itself (per-band Butterworth filters of order 3 by default, as in MoSQITo) and
       passes them to ZwickerLoudness.jl for the loudness.
@@ -48,12 +48,17 @@ implements:
     via: zwickerloudness-jl
     validation: standard-data
     compared_with: [mosqito]
+    derived_from: [mosqito]
     validation_details:
       - >-
         Cross-checked end to end with MoSQITo `loudness_zwtv` (N(t) about 3e-16 relative, N5/N10 about 2e-15
         absolute).
       - An Annex B.4 test is skipped when the ISO recording is not available locally.
+    conventions:
+      - Time-varying loudness accepts 48 kHz input only (an error otherwise).
     note: The Annex A filter cascade is transcribed from MoSQITo (`_third_octave_levels`, `_square_and_smooth`).
+cite:
+  text: The README links a [Zenodo DOI](https://zenodo.org/badge/latestdoi/1253784080) for the latest version.
 manual:
   last_commit: 2026-09-02
   latest_release: {version: 0.3.0, date: 2026-07-13}

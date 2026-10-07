@@ -9,7 +9,7 @@ language_note: >-
   Runs in MATLAB and in GNU Octave. torch_amt and NumpyLibforPsychoAcoustic port some of its loudness models
   to Python.
 standing: established
-rank: 2
+super_project: 2  # bold and first in every list (see data/SCHEMA.md)
 license: GPL-3.0
 license_note: >-
   SourceForge lists the licence as GPLv3 without saying whether later versions are allowed; the torch_amt README,

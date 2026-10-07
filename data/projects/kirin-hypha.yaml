@@ -38,6 +38,7 @@ implements:
     since: 1.0.0
     validation: cross-implementation
     compared_with: [mosqito]
+    derived_from: [mosqito]
     validation_details:
       - Tests assert specific loudness within a relative 1e-3 of MoSQITo.
     note: Ported from MoSQITo v1.2.1.
@@ -49,6 +50,7 @@ implements:
     since: 1.0.0
     validation: cross-implementation
     compared_with: [mosqito]
+    derived_from: [mosqito]
     validation_details:
       - Tests assert agreement with MoSQITo within 0.05 acum.
 manual:

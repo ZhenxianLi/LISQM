@@ -50,6 +50,8 @@ implements:
     note: >-
       Python uses the same names (`iso532.loudness_zwst` …); the C API has `iso532_loudness_zwst`,
       `iso532_loudness_zwtv` and `iso532_stream_*`.
+cite:
+  cff: https://github.com/cclin99/iso532-1-rs/blob/main/CITATION.cff
 manual:
   last_commit: 2026-07-21
   latest_release: {version: 0.1.0, date: 2026-07-19}

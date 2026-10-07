@@ -15,6 +15,7 @@ directory. Edit these files, never the generated output.
 | `snapshot.json` | `scripts/refresh.py` | Repository and package metadata fetched from GitHub, PyPI, crates.io and npm |
 | `standards-watch.yaml` | people | Standards sources checked twice a month (ISO Open Data patterns, Ecma pages) |
 | `standards-watch.json` | `scripts/watch_standards.py` | Last seen state of those sources (format described in `scripts/watch_standards.py`) |
+| `link-check.json` | `scripts/check_links.py` | External links that failed in the last check, with the date each first failed |
 | `index.json` | `scripts/build.py` | The whole index as one JSON document (generated, do not edit) |
 
 Identifiers (`id`) are lowercase kebab-case and never change once published, because they are part of page URLs.
@@ -92,7 +93,9 @@ language_note: optional markdown              # how the project is built and cal
 standing: newly-released                      # established | developing | newly-released (see below)
 standing_note: First released in September 2026.   # required for newly-released: when it was first released
 rank: 1                                       # optional: place within its group, 1 first (see below)
-license: GPL-3.0-only                         # SPDX expression, or "none" (no licence file) or "proprietary-free"
+# super_project: 1                            # maintainer only: a super project, bold and first everywhere (below)
+license: GPL-3.0-only                         # SPDX expression, or "none" (no licence file), "proprietary-free",
+                                              # or "unknown" (only when the code cannot be opened)
 license_note: optional markdown
 packages:                                     # optional
   - registry: pypi                            # pypi | crates | npm | julia | cran | conda-forge | file-exchange | other
@@ -109,6 +112,16 @@ paper:                                        # optional: a publication describi
   url: optional
 notes: [optional markdown strings]            # neutral facts worth knowing
 caveats: [optional markdown strings]          # known problems a user should check before relying on it
+conventions: [optional markdown strings]      # choices that change its numbers for every metric (sample rate,
+                                              # calibration, percentiles …); shown under "Before you compare numbers"
+cite:                                         # optional: how the project asks to be cited (shown as "How to cite";
+  doi: 10.5281/zenodo.0000000                 #   without it the page says to cite the paper, or the repository)
+  cff: https://github.com/…/CITATION.cff      # URL of its CITATION.cff file
+  text: optional markdown, what the README asks for
+maintainer_check: optional markdown           # the list maintainer's own observation, shown as such (sparingly)
+# access: restricted                          # only when the repository cannot be opened: the project is listed
+# access_note: optional markdown              #   under "status unknown" with access_note and claim (what it is
+# claim: markdown                             #   said to implement) instead of implements
 implements:
   - method: loudness-zwicker                  # a method id
     reference: iso-532-1-2017                 # a reference id listed in that method's references
@@ -123,7 +136,10 @@ implements:
                                               # | self-tests | not-stated
     compared_with: [mosqito]                  # optional: what it was compared with, as listed project ids (linked)
                                               # or names ("ArtemiS SUITE (HEAD acoustics)")
+    derived_from: [mosqito]                   # optional: the code it was ported or adapted from, as project ids or
+                                              # names ("ISO 532-1 Annex A reference program"); default: based_on
     validation_details: [markdown strings]    # optional: what was checked, against what, tolerance and result
+    conventions: [markdown strings]           # optional: choices of this row that change its numbers
     note: optional markdown (other facts; validation goes in validation_details)
 manual:                                       # optional fallback when the refresher cannot reach the host
   last_commit: 2026-09-25
@@ -141,20 +157,26 @@ checked: 2026-10-06                           # last time a person checked this 
 | `newly-released` | First released less than about a year ago, and not yet widely used in the community |
 | `developing` | Public for more than a year, but without a publication or documented use by others: research, teaching or personal code |
 
-Two more groups follow from the data rather than from the project file:
+Three more groups follow from the data rather than from the project file:
 
-- **legacy**: archived, or no commit for `legacy_after_days` (three years, see `site.yaml`). The most widely used
-  projects and reference programs (`kind: reference-program`) are never legacy.
+- **legacy**: archived, or no commit for `legacy_after_days` (three years, see `site.yaml`). Super projects and
+  reference programs (`kind: reference-program`) are never legacy.
 - **others**: every implementation row has `via`, so the tool does not compute the metrics itself.
+- **status unknown**: the project has `access` (its repository cannot be opened), so it lists a `claim` and no
+  implementations; it is not shown under the metrics.
 
-Every project is in exactly one group, decided in this order: others, legacy, then its standing. All lists follow
-the order established, newly released, developing, legacy, others, so a project that is new, little used or no
-longer maintained is never the first suggestion. Review the standing of `newly-released` projects once they are a
-year old: they become `established` or `developing`.
+Every project is in exactly one group, decided in this order: status unknown, others, legacy, then its standing.
+Every list follows the order of the groups, always established, newly released, developing, legacy, then
+others and status unknown, so a project that is new, little used, no longer maintained or unverified is never
+the first suggestion. Review the standing of `newly-released` projects once they are a year old: they become
+`established` or `developing`.
 
-Within a group, projects with a `rank` come first, in rank order. Established projects with a rank are the most
-widely used ones, at present SQAT (1), the Auditory Modeling Toolbox (2) and MoSQITo (3): they are shown in bold
-and never listed as legacy. MetaSona has rank 1 among the newly released projects.
+**Super projects.** `super_project: n` marks the most widely used projects, at present SQAT (1), the Auditory
+Modeling Toolbox (2), MoSQITo (3), sottek-hearing-model (4) and the ITA-Toolbox (5). The attribute is not shown as
+a label; it makes the project's name bold wherever it appears and puts the project first in its group in every
+list, in the order of `n`. A super project must be established, so it heads every list, and it is never legacy.
+Only the maintainer sets it. Within a group, other projects with a `rank` come next, in rank order; MetaSona has
+rank 1 among the newly released projects.
 
 ### Status of an implementation
 
@@ -179,6 +201,12 @@ implementation was compared with: the tag then reads "compared with MoSQITo" (cr
 code: SQAT" (reference-code) or adds "also compared with …" to another kind of evidence. `validation_details` are
 shown, one bullet each, under *How it was validated* on the project and method pages. Agreement with another
 implementation shows that both compute the same values, not that either follows the standard.
+
+A comparison with related code is not an independent check, and is marked so: with the code the row was ported
+from, following `derived_from` (or the project's `based_on`) through further ports of the same method, it reads
+"(its source)"; with a port of the row's own code, "(a port of it)"; with another port of the same code, "(also
+ported from …)". When every comparison of a row is of this kind, its evidence tag is grey. In `index.json`, such
+rows carry `comparison_relations` (`source`, `port` or `shared:<project id>`).
 
 ## `snapshot.json` (machine-written)
 

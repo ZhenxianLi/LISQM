@@ -5,12 +5,14 @@ Links point to absolute URLs of the HTML pages, so the text stays useful when it
 
 from __future__ import annotations
 
-from .data import (GROUP_NAMES, GROUPS, IMPL_STATUS_LONG, PROJECT_KINDS, REGISTRIES, VALIDATION, VALIDATION_LONG,
-                   Index)
-from .describe import (COVERAGE_COLUMNS, GROUP_RULE, NEW_LABEL, activity_text, ai_guide, by_language, coverage, dedupe, edition_state,
-                       faq, in_short, introduce, legacy_label, name_note, ref_status, release_text, silent_line,
-                       standing_sentence, timeline, validation_also, validation_groups, validation_label, version_label)
-from .paths import (ABOUT, AI, FAQ, HOME, LANGUAGES, METRICS, PROJECTS, STANDARDS, UPDATES, absolute, md_twin,
+from .data import (ACCESS, GROUP_NAMES, GROUPS, IMPL_STATUS_LONG, PROJECT_KINDS, REGISTRIES, VALIDATION,
+                   VALIDATION_LONG, Index)
+from .describe import (COVERAGE_COLUMNS, GROUP_RULE, NEW_LABEL, activity_text, ai_guide, by_language, coverage, dedupe,
+                       dependence_note, derived_names, edition_state, faq, how_to_cite, in_short, introduce,
+                       legacy_label, lineage, name_note, ref_status, release_text, silent_line, standing_sentence,
+                       stated_conventions, timeline, validation_also, validation_groups, validation_label,
+                       version_label)
+from .paths import (ABOUT, AI, BIBTEX, FAQ, HOME, LANGUAGES, METRICS, PROJECTS, STANDARDS, UPDATES, absolute, md_twin,
                     method_path, project_path)
 from .text import first_sentence, join_words, long_date, month, oneline, plain, plural
 
@@ -18,8 +20,14 @@ def _plain(text: str) -> str:
     return text
 
 
-def _namer(index: Index):
-    return lambda p: f"[{p['name']}]({absolute(index, project_path(p))})"
+def _bold(p: dict, text: str) -> str:
+    """A project's name or link, in bold for a super project."""
+    return f"**{text}**" if p["_super"] else text
+
+
+def _namer(index: Index, target=None):
+    """Project names as links (to the web page, or to `target(p)`), in bold for super projects."""
+    return lambda p: _bold(p, f"[{p['name']}]({target(p) if target else absolute(index, project_path(p))})")
 
 
 def _method_link(index: Index, m: dict, label: str | None = None) -> str:
@@ -95,14 +103,26 @@ def _validation_section(index: Index, impls: list[dict], on_method: bool) -> lis
     lines = [f"## How {'they were' if on_method else 'it was'} validated", "",
              f"As stated by {who}; {index.site['name']} has not run the code. Agreement with another implementation "
              "shows that both compute the same values, not that either follows the standard.", ""]
+    if not on_method and impls and impls[0]["_project"].get("maintainer_check"):
+        lines += [maintainer_check(index, impls[0]["_project"]), ""]
+    checked_by_maintainer: set[str] = set()
     for group in groups:
         i = group[0]
         evidence = validation_label(i, name)
         also = validation_also(i, name)
         # On a method page a group is one project: name it once, then the editions.
         heads = [title(group[0])] + [title(j, named=not on_method) for j in group[1:]]
-        lines.append(f"- **{'; '.join(heads)}**: {evidence}" + (f"; {also}" if also else ""))
+        # Names stay as they are (super projects in bold), so the entry is not wrapped in bold.
+        lines.append(f"- {'; '.join(heads)}: {evidence}" + (f"; {also}" if also else ""))
+        origin = ([f"Ported or adapted from {join_words(derived_names(i, name))}."] if i.get("_derived") else [])
+        origin += [dependence_note(i)] if dependence_note(i) else []
+        if origin:
+            lines.append(f"  - {' '.join(origin)}")
         lines += [f"  - {oneline(d)}" for d in i.get("validation_details") or []]
+        p = i["_project"]
+        if on_method and p.get("maintainer_check") and p["id"] not in checked_by_maintainer:
+            lines.append(f"  - {maintainer_check(index, p)}")
+            checked_by_maintainer.add(p["id"])
     if groups:
         lines.append("")
     if silent:
@@ -113,6 +133,50 @@ def _validation_section(index: Index, impls: list[dict], on_method: bool) -> lis
             lines.append(silent_line(impls, groups, silent, on_method))
         lines.append("")
     return lines
+
+
+def maintainer_check(index: Index, p: dict) -> str:
+    """The list maintainer's own observation about a project, set apart from what the project states."""
+    return f"**Checked by the maintainer of {index.site['name']}:** {oneline(p['maintainer_check'])}"
+
+
+def _lineage(index: Index, m: dict) -> list[str]:
+    """Markdown twin of the method page's tree of who ported code from whom."""
+    # Every row, also a second row of one project for one edition (another scope may port other code).
+    forest = lineage(m["_all_impls"])
+    if not forest:
+        return []
+    name = _namer(index)
+    lines = ["## Who ported code from whom", "",
+             "As the projects state. Each item lists code ported, translated or adapted from the code above it, so "
+             "agreement between them is a check of the port, not an independent validation.", ""]
+
+    def walk(items: list[tuple], depth: int) -> None:
+        for (kind, value), kids in items:
+            lines.append("  " * depth + "- " + (value if kind == "code" else name(value)))
+            walk(kids, depth + 1)
+    walk(forest, 0)
+    return lines + [""]
+
+
+def _conventions(index: Index, impls: list[dict], general: list[str], on_method: bool) -> list[str]:
+    """Markdown twin of "Before you compare numbers"."""
+    stated = stated_conventions(impls, on_method)
+    if not general and not stated:
+        return []
+    name = _namer(index)
+    lines = ["## Before you compare numbers", "",
+             "Implementations of the same method can give different numbers without either being wrong. Check these "
+             "choices first.", ""]
+    lines += [f"- {oneline(c)}" for c in general]
+    if general:
+        lines.append("")
+    if stated and (on_method or general):
+        lines += ["What the projects state:" if on_method else "For single metrics:", ""]
+    for i, items in stated:
+        who = name(i["_project"]) if on_method else f"{_method_link(index, i['_method'])} ({i['_ref']['label']})"
+        lines.append(f"- {who}: " + " ".join(oneline(c) for c in items))
+    return lines + [""]
 
 
 def _functions(i: dict) -> str:
@@ -170,16 +234,21 @@ def method_page(index: Index, m: dict) -> str:
     if m.get("see_also"):
         lines += ["**See also:** " + ", ".join(_method_link(index, index.method[s], index.method[s]["title"])
                                               for s in m["see_also"]), ""]
-    checked = m["_impls"] + dedupe(m["_via_impls"])
+    checked = m["_all_impls"]  # every row, also those computed by another project
     if checked:
         lines += _validation_section(index, checked, on_method=True)
+    lines += _lineage(index, m)
+    lines += _conventions(index, checked, m.get("conventions") or [], on_method=True)
     lines += ["## References", ""] + _reference_list([index.ref[r] for r in m["references"]]) + [""]
     return "\n".join(lines)
 
 
 def project_page(index: Index, p: dict) -> str:
     lines = [f"# {p['name']}", "", _header(index, project_path(p)), ""]
-    if p["standing"] == "newly-released":
+    if p.get("access"):
+        lines += [f"**Status unknown.** {ACCESS[p['access']]} {oneline(p['access_note'])} What it implements has not "
+                  "been verified, so it is not listed under the metrics.", ""]
+    if p["standing"] == "newly-released" and not p.get("access"):
         lines += [f"**Newly released project.** {standing_sentence(p)} Check its validation before relying on it.", ""]
     elif p["_group"] == "legacy":
         lines += [f"**Legacy project.** {standing_sentence(p)} Its code may follow an older edition and may not run "
@@ -191,7 +260,7 @@ def project_page(index: Index, p: dict) -> str:
             facts.append((label, p[key]))
     facts += [("Language", ", ".join(p["languages"])), ("Kind", PROJECT_KINDS[p["kind"]]),
               ("Group", f"{GROUP_NAMES[p['_group']]} ({GROUPS[p['_group']]}"
-                        + (" One of the most widely used projects in the list." if p["_mainstream"] else "")
+                        + (" One of the most widely used projects in the list." if p["_super"] else "")
                         + ")")]
     facts += [
               ("Licence", p["license"] + (f" — {plain(p['license_note'])}" if p.get("license_note") else ""))]
@@ -214,16 +283,22 @@ def project_page(index: Index, p: dict) -> str:
     facts.append(("AI assistance", "disclosed" + (f" — {p['ai_note']}" if p.get("ai_note") else "")
                   if p["ai_assistance"] == "disclosed" else "not stated"))
     if p.get("paper"):
-        facts.append(("Paper", p["paper"]["citation"] + (f" https://doi.org/{p['paper']['doi']}"
-                                                         if p["paper"].get("doi") else "")))
+        link = p["paper"].get("url") or (f"https://doi.org/{p['paper']['doi']}" if p["paper"].get("doi") else "")
+        facts.append(("Paper", oneline(p["paper"]["citation"]) + (f" {link}" if link else "")))
+    facts.append(("How to cite", how_to_cite(p)))
     facts.append(("Entry checked", str(p["checked"])))
     lines += [f"- **{k}:** {v}" for k, v in facts] + [""]
 
-    lines += ["## What it implements", ""]
-    rows = [[_method_link(index, i["_method"]), _edition(index, i), _functions(i), i["status"], _validation(i),
-             (i.get("note") or "").strip()] for i in p["_impls"]]
-    lines += _table(["Metric", "Edition", "Functions", "Status", "Validation (as stated)", "Notes"], rows) + [""]
-    lines += _validation_section(index, p["_impls"], on_method=False)
+    if p.get("access"):
+        lines += ["## What it is said to implement", "", oneline(p["claim"]), "",
+                  "As described in the sources below; the code itself could not be checked.", ""]
+    else:
+        lines += ["## What it implements", ""]
+        rows = [[_method_link(index, i["_method"]), _edition(index, i), _functions(i), i["status"], _validation(i),
+                 (i.get("note") or "").strip()] for i in p["_impls"]]
+        lines += _table(["Metric", "Edition", "Functions", "Status", "Validation (as stated)", "Notes"], rows) + [""]
+        lines += _validation_section(index, p["_impls"], on_method=False)
+        lines += _conventions(index, p["_impls"], p.get("conventions") or [], on_method=False)
     if p.get("notes"):
         lines += ["## Notes", ""] + [f"- {oneline(n)}" for n in p["notes"]] + [""]
     if p.get("caveats"):
@@ -305,7 +380,7 @@ def timeline_md(index: Index) -> list[str]:
 
 def home(index: Index) -> str:
     site = index.site
-    lines = ["# Open-source implementations of psychoacoustic metrics", "", _header(index, HOME), "",
+    lines = ["# Open-Source Implementations of Psychoacoustic and Sound Quality Metrics", "", _header(index, HOME), "",
              site["description"].strip(), "",
              f"{plural(len(index.methods), 'method')} · {plural(len(index.projects), 'project')} · "
              f"languages: {', '.join(index.languages())}", ""]
@@ -356,12 +431,12 @@ def metrics_page(index: Index) -> str:
 
 
 LANGUAGE_SECTIONS = [("Python", {"Python"}), ("MATLAB and Octave", {"MATLAB", "Octave"}), ("C and C++", {"C", "C++"}),
-                     ("Rust", {"Rust"}), ("Julia", {"Julia"}), ("Pure Data", {"Pure Data"})]
+                     ("C#", {"C#"}), ("Rust", {"Rust"}), ("Julia", {"Julia"}), ("Pure Data", {"Pure Data"})]
 
 
 def languages_page(index: Index) -> str:
     name = _namer(index)
-    listed = [p for p in index.projects_by_group() if p["_group"] != "others"]
+    listed = [p for p in index.projects_by_group() if p["_group"] not in ("others", "unknown")]
     lines = ["# Languages", "", _header(index, LANGUAGES), "",
              "Which metrics can be computed from each programming language, and how each project is used from it: "
              "code written in that language, a compiled core with an interface for it, or a port of another project.",
@@ -426,16 +501,18 @@ def _calls(p: dict) -> list[str]:
 
 
 def projects_page(index: Index) -> str:
+    name = _namer(index)
     lines = ["# Projects", "", _header(index, PROJECTS), "",
              f"{plural(len(index.projects), 'project')}: established projects first, with the most widely used "
-             f"({join_words([p['name'] for p in index.mainstream()])}) at the top; then newly released, developing and "
-             "legacy projects. Tools that only call another project's implementation are listed under Others.", ""]
+             f"({join_words([p['name'] for p in index.super_projects()])}) at the top and in bold; then newly "
+             "released, developing and legacy projects. Tools that only call another project's implementation are "
+             "listed under Others, and projects whose code could not be opened under Status unknown.", ""]
     for key, title in GROUP_HEADINGS:
         projects = index.group(key)
         if not projects:
             continue
         lines += [f"## {title}", "", GROUPS[key], ""]
-        rows = [[f"[{p['name']}]({absolute(index, project_path(p))})", ", ".join(p["languages"]),
+        rows = [[name(p), ", ".join(p["languages"]),
                  PROJECT_KINDS[p["kind"]], p["license"], release_text(p), p["_last_commit"] or "unknown",
                  activity_text(p), ", ".join(sorted({i["_method"]["name"] for i in p["_impls"]}))]
                 for p in projects]
@@ -444,18 +521,26 @@ def projects_page(index: Index) -> str:
     others = index.others()
     if others:
         lines += ["## Others", "", OTHERS, ""]
-        rows = [[f"[{p['name']}]({absolute(index, project_path(p))})", ", ".join(p["languages"]),
+        rows = [[name(p), ", ".join(p["languages"]),
                  PROJECT_KINDS[p["kind"]], p["license"], release_text(p), p["_last_commit"] or "unknown",
                  activity_text(p), join_words(_calls(p))] for p in others]
         lines += _table(["Project", "Language", "Kind", "Licence", "Latest release", "Last commit", "Activity",
                          "Calls"], rows) + [""]
+    unknown = index.group("unknown")
+    if unknown:
+        lines += ["## Status unknown", "", GROUPS["unknown"], ""]
+        rows = [[name(p), ", ".join(p["languages"]),
+                 PROJECT_KINDS[p["kind"]], p["license"], ACCESS[p["access"]], first_sentence(p["claim"])]
+                for p in unknown]
+        lines += _table(["Project", "Language", "Kind", "Licence", "Why unknown", "Claims"], rows) + [""]
     return "\n".join(lines)
 
 
 def standards_page(index: Index) -> str:
     lines = ["# Standards and models", "", _header(index, STANDARDS), "",
              "Every document the list refers to, newest first. Each implementation in the list is tied to "
-             "one of these editions.", ""]
+             f"one of these editions. All of them as BibTeX, with the papers that describe the listed software: "
+             f"{index.site['base_url']}{BIBTEX}", ""]
     docs = [r for r in index.references if r["kind"] not in ("paper", "book", "thesis")]
     papers = [r for r in index.references if r["kind"] in ("paper", "book", "thesis")]
     for title, refs in (("Standards and regulations", docs), ("Model papers, books and theses", papers)):
@@ -502,9 +587,9 @@ def about_page(index: Index) -> str:
     lines += _table(["Value", "Meaning"], [[VALIDATION[k], v] for k, v in VALIDATION_LONG.items()]) + [""]
     lines += ["## Standing of a project", "",
               GROUP_RULE + " "
-              f"({join_words([p['name'] for p in index.mainstream()])}); they are never listed as legacy, and neither "
+              f"({join_words([p['name'] for p in index.super_projects()])}); they are never listed as legacy, and neither "
               "are reference programs published with a standard.", ""]
-    lines += _table(["Group", "Meaning"], [[k, v] for k, v in GROUPS.items()]) + [""]
+    lines += _table(["Group", "Meaning"], [[GROUP_NAMES[k], v] for k, v in GROUPS.items()]) + [""]
     lines += ["## Leads not yet verified", "",
               "Candidates that may belong in the list but could not be checked yet; nothing here has been confirmed.", ""]
     lines += [f"- [{l['name']}]({l['url']}) ({', '.join(l.get('languages') or [])}): {oneline(l['claim'])} {oneline(l['why'])}"
@@ -516,10 +601,13 @@ def about_page(index: Index) -> str:
               f"- [llms.txt]({site['base_url']}llms.txt) and [llms-full.txt]({site['base_url']}llms-full.txt): "
               "summaries for language models",
               f"- [feed.xml]({site['base_url']}feed.xml): Atom feed of updates",
+              f"- [{BIBTEX}]({site['base_url']}{BIBTEX}): every standard, model paper and software paper, as BibTeX",
               f"- Source data and schema: {site['repository']}/tree/main/data", ""]
     lines += ["## Contributing and citing", "",
               f"Corrections and new projects are welcome through issues or pull requests: {site['repository']}. "
-              f"To cite the list, use the CITATION.cff file in the repository. Licence: {site['license']}.", "",
+              "To cite the list, use the CITATION.cff file in the repository, and cite the implementations you "
+              "used as each project page says under *How to cite*. The standards and papers are in "
+              f"{site['base_url']}{BIBTEX}. Licence: {site['license']}.", "",
               site["credit"], ""]
     return "\n".join(lines)
 
@@ -538,13 +626,15 @@ def faq_page(index: Index) -> str:
 
 def llms_txt(index: Index) -> str:
     site = index.site
+    twin = _namer(index, lambda p: f"{site['base_url']}{md_twin(project_path(p))}")
     lines = [f"# {site['name']}: {site['title']}", "", f"> {plain(site['description'])}", "",
              f"Data as of {index.as_of()}. {plural(len(index.methods), 'method')}, "
              f"{plural(len(index.projects), 'project')}, languages: {', '.join(index.languages())}. Each "
              "implementation is tied to the standard edition or model paper it follows, with its validation "
              "evidence as stated by the project. Repository and package metadata are refreshed twice a month. "
              "Implementations are listed with established projects first, the most widely used "
-             f"({join_words([p['name'] for p in index.mainstream()])}) at the top. Projects marked (newly released) were "
+             f"({join_words([p['name'] for p in index.super_projects()])}) at the top and in bold. Projects marked "
+             "(newly released) were "
              "first released less than about a year ago and are not yet widely used in the community; projects "
              "marked (legacy) are archived or have had no commit for three years or more.", "",
              site["credit"], ""]
@@ -562,22 +652,28 @@ def llms_txt(index: Index) -> str:
         lines.append("")
     lines += ["## Projects", ""]
     for p in index.projects_by_group():
-        if p["_others"]:
+        if p["_group"] in ("others", "unknown"):
             continue
         group = {"newly-released": "newly released (not yet widely used)", "legacy": legacy_label(p)}.get(p["_group"], p["_group"])
-        if p["_mainstream"]:
+        if p["_super"]:
             group += ", one of the most widely used"
-        lines.append(f"- [{p['name']}]({site['base_url']}{md_twin(project_path(p))}): "
-                     f"{', '.join(p['languages'])}; {group}; {first_sentence(p['summary'])}")
+        lines.append(f"- {twin(p)}: {', '.join(p['languages'])}; {group}; {first_sentence(p['summary'])}")
     if index.others():
         lines += ["", "## Others", "", OTHERS, ""]
         for p in index.others():
-            lines.append(f"- [{p['name']}]({site['base_url']}{md_twin(project_path(p))}): "
+            lines.append(f"- {twin(p)}: "
                          f"{', '.join(p['languages'])}; calls {join_words(_calls(p))}"
                          + ("; newly released (not yet widely used)" if p["standing"] == "newly-released" else "")
                          + f"; {first_sentence(p['summary'])}")
+    if index.group("unknown"):
+        lines += ["", "## Status unknown", "", GROUPS["unknown"], ""]
+        for p in index.group("unknown"):
+            lines.append(f"- {twin(p)}: "
+                         f"{', '.join(p['languages'])}; {ACCESS[p['access']].rstrip('.').lower()}; claims: "
+                         f"{first_sentence(p['claim'])}")
     lines += ["", "## Data", "",
               f"- [index.json]({site['base_url']}index.json): the complete index as JSON",
+              f"- [{BIBTEX}]({site['base_url']}{BIBTEX}): every standard, model paper and software paper as BibTeX",
               f"- [llms-full.txt]({site['base_url']}llms-full.txt): all pages in one Markdown file",
               f"- [Data schema]({site['repository']}/blob/main/data/SCHEMA.md)", "",
               "## Optional", "",
@@ -616,13 +712,15 @@ def readme_projects(index: Index) -> str:
         group = p["_group"]
         if group == "others":
             return f"other: calls {join_words(_calls(p))}"
+        if group == "unknown":
+            return "status unknown: code not public"
         if group == "legacy":
             return legacy_label(p)
         if group == "newly-released":
             return "newly released, not yet widely used"
-        return group + (", most widely used" if p["_mainstream"] else "")
+        return group + (", most widely used" if p["_super"] else "")
 
-    rows = [[f"[{p['name']}]({p['repository']})", standing(p),
+    rows = [[_bold(p, f"[{p['name']}]({p['repository']})"), standing(p),
              ", ".join(p["languages"]), p["license"], release_text(p), p["_last_commit"] or "unknown",
              activity_text(p)]
             for p in index.projects_by_group()]

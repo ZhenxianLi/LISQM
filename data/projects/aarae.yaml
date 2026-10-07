@@ -44,6 +44,7 @@ implements:
     scope: stationary and time-varying
     status: available
     validation: standard-data
+    derived_from: ["ISO 532-1 Annex A reference program"]
     validation_details:
       - >-
         A commit of 2017-12-11 says the code was verified with the time-varying test signals of Annex B.5; no check of
@@ -88,6 +89,7 @@ implements:
     functions: [RoughnessDW]
     status: available
     validation: not-stated
+    derived_from: [psysound3]
     note: Ported from PsySound3's `@RoughnessDW` by Ella Manor and Densil Cabrera (2015).
 manual:
   last_commit: 2024-08-09

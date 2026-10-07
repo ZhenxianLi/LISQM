@@ -139,17 +139,19 @@ class BuildTest(unittest.TestCase):
                         self.assertEqual(ranks(impls), sorted(ranks(impls)), f"{row['method']['id']} {ref['id']}")
         ordered = self.index.projects_by_group()
         self.assertEqual([p["_group"] for p in ordered], sorted((p["_group"] for p in ordered), key=GROUP_ORDER.get))
-        self.assertEqual(ordered[-len(self.index.others()):], self.index.others(), "tools under Others come last")
-        self.assertEqual([p["id"] for p in ordered[:3]], ["sqat", "amt", "mosqito"])
+        tail = self.index.others() + self.index.group("unknown")
+        self.assertEqual(ordered[-len(tail):], tail, "Others, then Status unknown, come last")
+        supers = ["sqat", "amt", "mosqito", "sottek-hearing-model", "ita-toolbox"]
+        self.assertEqual([p["id"] for p in ordered[:5]], supers)
         self.assertEqual(self.index.group("newly-released")[0]["id"], "metasona")
-        self.assertEqual([p["id"] for p in self.index.mainstream()], ["sqat", "amt", "mosqito"])
+        self.assertEqual([p["id"] for p in self.index.super_projects()], supers)
 
     def test_legacy_projects(self) -> None:
         legacy = {p["id"] for p in self.index.group("legacy")}
         self.assertIn("psychoacoustic-parameters-measurer", legacy)
         self.assertIn("python-acoustics", legacy, "archived projects are legacy")
         for p in self.index.projects:
-            if p["_mainstream"] or p["kind"] == "reference-program" or p["standing"] == "newly-released":
+            if p["_super"] or p["kind"] == "reference-program" or p["standing"] == "newly-released":
                 self.assertNotIn(p["id"], legacy, "the most widely used projects and reference programs stay")
         self.assertEqual(self.index.project["mosqito"]["_group"], "established")
         html = (self.site / "projects" / "psychoacoustic-parameters-measurer.html").read_text(encoding="utf-8")
@@ -200,7 +202,7 @@ class BuildTest(unittest.TestCase):
 
     def test_newly_released_projects_are_marked(self) -> None:
         for p in self.index.projects:
-            if p["standing"] != "newly-released":
+            if p["standing"] != "newly-released" or p.get("access"):  # status unknown has its own notice
                 continue
             text = (self.site / "projects" / f"{p['id']}.html").read_text(encoding="utf-8")
             self.assertIn("not yet widely used", text.lower(), p["id"])
@@ -291,9 +293,9 @@ class BuildTest(unittest.TestCase):
         html = (self.site / "projects/psychoacousticmetrics-jl.html").read_text(encoding="utf-8")
         section = html[html.index('<h2 id="validation">How it was validated</h2>'):]
         section = section[:section.index("<h2", 4)]
-        self.assertIn('also compared with <a href="../projects/mosqito.html">MoSQITo</a>', section)
-        self.assertIn('reference code: <a href="../projects/sqat.html">SQAT</a>', section)
-        self.assertIn('compared with <a href="../projects/sqat.html">SQAT</a></span>', section)
+        self.assertIn('also compared with <a href="../projects/mosqito.html"><strong>MoSQITo</strong></a>', section)
+        self.assertIn('reference code: <a href="../projects/sqat.html"><strong>SQAT</strong></a>', section)
+        self.assertIn('compared with <a href="../projects/sqat.html"><strong>SQAT</strong></a></span>', section)
         self.assertIn("41 reference signals of DIN 45692:2009", section)
         self.assertIn("840-case formula grid", section)
         table = html[html.index('<h2 id="implements">'):html.index('<h2 id="validation">')]
@@ -353,6 +355,122 @@ class BuildTest(unittest.TestCase):
         python = html[html.index('id="python"'):html.index('id="matlab"')]
         self.assertIn("Written in C, with a Python interface", python, "MetaSona's C core")
         self.assertIn("MATLAB Engine API for Python", html)
+
+    def test_super_projects_are_bold_and_first_everywhere(self) -> None:
+        supers = [p["id"] for p in self.index.super_projects()]
+        self.assertEqual(supers, ["sqat", "amt", "mosqito", "sottek-hearing-model", "ita-toolbox"])
+        link = re.compile(r'<a href="(?:\.\./)*projects/([a-z0-9-]+)\.html"[^>]*>(<strong>)?')
+
+        def ids(html: str) -> list[str]:
+            return list(dict.fromkeys(pid for pid, _ in link.findall(html)))
+
+        def first(found: list[str], where: str) -> None:
+            flags = [pid in supers for pid in found]
+            self.assertEqual(flags, sorted(flags, reverse=True), f"{where}: super projects first in {found}")
+
+        def rows(html: str) -> list[str]:  # the first project of each table row
+            return [found[0] for row in re.findall(r"<tr>(.*?)</tr>", html, re.S) if (found := ids(row))]
+
+        for page in self.pages:
+            html = page.read_text(encoding="utf-8")
+            where = str(page.relative_to(self.site))
+            for pid, strong in link.findall(html):
+                self.assertEqual(bool(strong), pid in supers, f"{where}: {pid} bold only if a super project")
+            for table in re.findall(r'<table class="grid ([a-z]+)"[^>]*>(.*?)</table>', html, re.S):
+                for cell in re.findall(r"<td[^>]*>(.*?)</td>", table[1], re.S):
+                    first(ids(cell), f"{where} {table[0]} cell")
+                if table[0] in ("projects", "impls", "langs"):  # one project per row
+                    first(rows(table[1]), f"{where} {table[0]} table")
+            for block in re.findall(r'<div class="edition[^"]*">(.*?)</div>', html, re.S):
+                first(ids(block), f"{where} timeline")
+            for block in re.findall(r'<ul class="by-lang">(.*?)</ul>', html, re.S):
+                for item in re.findall(r"<li>(.*?)</li>", block, re.S):
+                    first(ids(item), f"{where} in short")
+            for block in re.findall(r'<p class="older">(.*?)</p>', html, re.S):
+                first(ids(block), f"{where} older editions")
+            for block in re.findall(r'<dl class="(?:validation on-method|conventions)">(.*?)</dl>', html, re.S):
+                first([found[0] for dt in re.findall(r"<dt[^>]*>(.*?)</dt>", block, re.S) if (found := ids(dt))],
+                      f"{where} details")
+            for side in re.findall(r'<aside class="sidebar"[^>]*>(.*?)</aside>', html, re.S):
+                for block in re.findall(r"<ul>(.*?)</ul>", side, re.S):
+                    first(ids(block), f"{where} sidebar")
+        # The Markdown versions, llms.txt and the README use bold for the same projects.
+        md_link = re.compile(r"(\*\*)?\[([^\]]+)\]\([^)]*?projects/([a-z0-9-]+)\.(?:html|md)\)")
+        texts = [page.with_suffix(".md") for page in self.pages if page.name != "404.html"]
+        texts += [self.site / "llms.txt", self.site / "llms-full.txt", ROOT / "README.md"]
+        for path in texts:
+            for stars, text, pid in md_link.findall(path.read_text(encoding="utf-8")):
+                if text == self.index.project[pid]["name"]:  # not file names given as examples ("projects/sqat.md")
+                    self.assertEqual(bool(stars), pid in supers, f"{path.name}: {pid} bold only if a super project")
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        table = readme[readme.index("BEGIN GENERATED: projects"):readme.index("END GENERATED: projects")]
+        self.assertEqual(re.findall(r"^\| \*\*\[([^\]]+)\]", table, re.M),
+                         [p["name"] for p in self.index.super_projects()], "README: super projects first, in bold")
+        data = json.loads((self.site / "index.json").read_text(encoding="utf-8"))
+        self.assertEqual([p["id"] for p in data["projects"] if p.get("super_project")], supers)
+
+    def test_a_super_project_must_be_established(self) -> None:
+        p = self.index.project["metasona"]
+        p["super_project"] = 9
+        try:
+            problems = "\n".join(self.index.validate())
+        finally:
+            p.pop("super_project")
+        self.assertIn("a super project must be established", problems)
+        self.assertIn("a super project is ordered by super_project; remove rank", problems)
+
+    def test_ports_and_related_comparisons(self) -> None:
+        kirin = (self.site / "projects/kirin-hypha.html").read_text(encoding="utf-8")
+        self.assertIn('compared with <a href="../projects/mosqito.html"><strong>MoSQITo</strong></a> (its source)',
+                      kirin)
+        self.assertIn('class="tag tag-neutral"', kirin, "a comparison only with its source is grey")
+        self.assertIn("Ported or adapted from", kirin)
+        pysqat = (self.site / "projects/pysqat.html").read_text(encoding="utf-8")
+        self.assertIn("(also ported from ", pysqat, "pySQAT's ECMA-418-2 rows and SQAT share RefMap's code")
+        zwicker = (self.site / "metrics/loudness-zwicker.html").read_text(encoding="utf-8")
+        tree = zwicker[zwicker.index('<div class="lineage">'):]
+        tree = tree[:tree.index("</div>")]
+        self.assertLess(tree.index("projects/mosqito.html"), tree.index("projects/kirin-hypha.html"))
+        self.assertLess(tree.index("projects/aarae.html"), tree.index("projects/sqat.html"))
+        self.assertIn("BASIC program of DIN 45631", tree)
+        data = json.loads((self.site / "index.json").read_text(encoding="utf-8"))
+        rows = [i for m in data["methods"] for i in m["implementations"] if i["project"] == "kirin-hypha"]
+        self.assertEqual(rows[0]["comparison_relations"], {"mosqito": "source"})
+        refmap = self.index.project["refmap-psychoacoustics"]
+        self.assertFalse(any(f.startswith("shm_") for i in refmap["implements"] for f in i.get("functions") or []),
+                         "RefMap's Python functions use sottek-hearing-model and are listed there")
+
+    def test_conventions_citation_and_bibtex(self) -> None:
+        zwicker = (self.site / "metrics/loudness-zwicker.html").read_text(encoding="utf-8")
+        section = zwicker[zwicker.index('<h2 id="conventions">'):zwicker.index('<h2 id="references">')]
+        self.assertIn("Sample rate.", section)
+        self.assertIn("What the projects state:", section)
+        self.assertIn("projects/metasona.html", section)
+        sqat = (self.site / "projects/sqat.html").read_text(encoding="utf-8")
+        self.assertIn('<th scope="row">How to cite</th>', sqat)
+        self.assertIn("https://doi.org/10.5281/zenodo.7934709", sqat)
+        net = (self.site / "projects/mosqito-net.html").read_text(encoding="utf-8")
+        self.assertIn("The project does not say how to cite it", net)
+        bib = (self.site / "references.bib").read_text(encoding="utf-8")
+        self.assertEqual(bib.count("{"), bib.count("}"))
+        for key in ("@techreport{iso-532-1-2017,", "@article{moore-1997,", "@book{zwicker-fastl-1999,",
+                    "@phdthesis{widmann-1992,", "@inproceedings{sqat-paper,"):
+            self.assertIn(key, bib)
+        self.assertEqual(len(re.findall(r"^@\w+\{", bib, re.M)),
+                         len(self.index.references) + len(re.findall(r"^% The paper describing", bib, re.M)))
+        standards = (self.site / "standards.html").read_text(encoding="utf-8")
+        self.assertIn('href="references.bib"', standards)
+
+    def test_status_unknown(self) -> None:
+        self.assertEqual([p["id"] for p in self.index.group("unknown")], ["psytools"])
+        page = (self.site / "projects/psytools.html").read_text(encoding="utf-8")
+        self.assertIn("<strong>Status unknown.</strong>", page)
+        self.assertNotIn("Newly released project.", page)
+        projects = (self.site / "projects/index.html").read_text(encoding="utf-8")
+        self.assertLess(projects.index('id="others"'), projects.index('id="unknown"'))
+        for m in self.index.methods:
+            html = (self.site / "metrics" / f"{m['id']}.html").read_text(encoding="utf-8")
+            self.assertNotIn("projects/psytools.html", html, m["id"])
 
     def test_message_box_and_ai_page(self) -> None:
         faq = (self.site / "faq.html").read_text(encoding="utf-8")

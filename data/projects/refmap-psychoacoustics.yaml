@@ -26,8 +26,10 @@ paper:
   doi: 10.61782/fa.2025.0951
 notes:
   - >-
-    The README says versions of the ECMA-418-2 code are also incorporated in SQAT. The Python port is also
-    published separately as the PyPI package sottek-hearing-model (repository mlotinga/sottek-hearing-model).
+    Its MATLAB ECMA-418-2 code is the origin of SQAT's ECMA-418-2 functions, of the Python package
+    sottek-hearing-model, and through SQAT of MetaSona's ECMA-418-2 kernels. The Python functions
+    `shm_loudness_ecma`, `shm_tonality_ecma` and `shm_roughness_ecma` in this repository import parts of the
+    sottek-hearing-model package, so they are listed under that package rather than here.
   - The Python package defined in pyproject.toml (refmap-psychoacoustics 0.1.0) is not on PyPI.
   - >-
     Tonality has an optional tonal annoyance weighting after Sottek & Becker (2019), which is not part of
@@ -41,6 +43,9 @@ notes:
     The Python code also has annoyance models after Willemsen et al. (2010), Torija et al. (2022) and Boucher et
     al. (2024), which have no reference entry in this list.
   - Also contains listening-test apps and analysis notebooks.
+  - >-
+    sottek-hearing-model's fluctuation strength was translated from `acousticSHMFluctuation.m`, which its
+    verification report places in this repository; the file is not on the `main` branch (checked 2026-10-07).
 caveats:
   - >-
     The README calls it "'work in progress' code for a research project. It is not a completed package or code
@@ -49,8 +54,8 @@ caveats:
 implements:
   - method: loudness-ecma-418-2
     reference: ecma-418-2-ed4
-    functions: [acousticSHMLoudness, acousticSHMLoudnessFromComponent, shm_loudness_ecma, shm_loudness_ecma_from_comp]
-    scope: MATLAB and Python; binaural and specific loudness
+    functions: [acousticSHMLoudness, acousticSHMLoudnessFromComponent]
+    scope: binaural and specific loudness
     status: available
     validation: cross-implementation
     compared_with: ["ArtemiS SUITE (HEAD acoustics)"]
@@ -61,8 +66,7 @@ implements:
       - The audio and reference results are on Zenodo (doi:10.5281/zenodo.18849587).
   - method: tonality-ecma-418-2
     reference: ecma-418-2-ed4
-    functions: [acousticSHMTonality, shm_tonality_ecma]
-    scope: MATLAB and Python
+    functions: [acousticSHMTonality]
     status: available
     validation: cross-implementation
     compared_with: ["ArtemiS SUITE (HEAD acoustics)"]
@@ -70,8 +74,7 @@ implements:
       - Verified against HEAD acoustics ArtemiS v17.1 with the same three signals as loudness.
   - method: roughness-ecma-418-2
     reference: ecma-418-2-ed4
-    functions: [acousticSHMRoughness, shm_roughness_ecma]
-    scope: MATLAB and Python
+    functions: [acousticSHMRoughness]
     status: available
     validation: cross-implementation
     compared_with: ["ArtemiS SUITE (HEAD acoustics)"]
@@ -128,6 +131,11 @@ implements:
     status: available
     validation: not-stated
     note: The same functions; the README cites this paper for the NASA development of the model.
+cite:
+  text: >-
+    The README asks for "Lotinga, M.J.B. (2026). refmap-psychoacoustics. GitHub." with the repository URL; the
+    ECMA-418-2 code is described in the paper above.
+  cff: https://github.com/acoustics-code-salford/refmap-psychoacoustics/blob/main/citation.cff
 manual:
   last_commit: 2026-10-02
   archived: false

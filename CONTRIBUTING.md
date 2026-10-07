@@ -110,13 +110,25 @@ writes the entry.
        status: available                 # available | unreleased | proposed
        validation: standard-data         # as the project states it; not-stated if it says nothing
        compared_with: [mosqito]          # optional: what it was compared with (listed project ids or names)
+       derived_from: [mosqito]           # optional: the code it was ported or adapted from
        validation_details:               # optional: what was checked, against what, with which tolerance
          - Tested against the Annex B test signals within the standard's tolerance.
+       conventions:                      # optional: choices that change its numbers (sample rate, percentiles …)
+         - Resamples input to 48 kHz.
    ```
 
    `compared_with` and `validation_details` appear on the project and method pages under *How it was
    validated*. Write them from the project's own words: what was compared, with which reference or
-   implementation, the tolerance and the result. Keep other facts in `note`.
+   implementation, the tolerance and the result. Keep other facts in `note`. When the code was ported or
+   adapted from other code, say so in `derived_from` (or, for the whole project, `based_on`): a comparison with
+   that code is then marked as not independent, and the method page draws who ported code from whom.
+   `conventions` go under *Before you compare numbers*; points that hold for every metric of the project go in
+   a project-level `conventions` list instead.
+
+   A project may also have a `cite` block (`doi`, `cff` and `text`: what the project asks to be cited); the
+   project page shows it under *How to cite*. A project whose repository cannot be opened gets `access`,
+   `access_note` and `claim` instead of `implements` and is listed under *Status unknown*. See
+   [`data/SCHEMA.md`](data/SCHEMA.md) for these and the maintainer-only fields.
 
 4. Do not add stars, versions or commit dates. The refresh fetches them from GitHub, PyPI, crates.io
    and npm. For a repository hosted elsewhere, fill in `manual` (last commit, latest release, archived).
@@ -166,7 +178,8 @@ To have the scheduled job watch a standard that it does not cover yet, add a pat
 - **Claims, not tests.** `validation` records the evidence the project describes: `standard-data`,
   `reference-code`, `cross-implementation`, `self-tests` or `not-stated`. The list does not run the code.
   Name what it was compared with in `compared_with` whenever the project says so, so that readers see
-  "compared with MoSQITo" rather than "another implementation".
+  "compared with MoSQITo" rather than "another implementation". Record ports in `derived_from` or `based_on`
+  only when the project or its code says so.
 - **AI assistance** is `disclosed` only when the project itself says so; `ai_note` says where. Otherwise it
   is `not-stated`.
 - **Caveats** are limitations the project states or documents, such as a known deviation or an open issue,

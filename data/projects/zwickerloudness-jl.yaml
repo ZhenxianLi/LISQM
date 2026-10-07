@@ -58,6 +58,8 @@ implements:
         An Annex B.4 "Test signal 6" test regenerates band levels from a local MoSQITo checkout and is skipped when
         none is present; CI clones MoSQITo for it.
       - The ISO WAV files are not included.
+cite:
+  text: The README links a [Zenodo DOI](https://zenodo.org/badge/latestdoi/1152458596) for the latest version.
 manual:
   last_commit: 2026-09-02
   latest_release: {version: 0.3.0, date: 2026-07-13}

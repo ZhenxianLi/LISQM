@@ -5,7 +5,8 @@
     python scripts/build.py --check    # validate only (exit code 1 on problems)
 
 Inputs:  data/*.yaml, data/projects/*.yaml, data/snapshot.json, site-src/ (stylesheet, icon), assets/
-Outputs: site/ (HTML pages with Markdown twins, index.json, llms.txt, llms-full.txt, feed.xml, sitemap.xml)
+Outputs: site/ (HTML pages with Markdown twins, index.json, references.bib, llms.txt, llms-full.txt, feed.xml,
+         sitemap.xml)
          README.md (between GENERATED markers), CHANGELOG.md, llms.txt, llms-full.txt,
          data/index.json
 """
@@ -22,8 +23,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from pmi import export, render_html, render_md  # noqa: E402
 from pmi.data import ROOT, DataError, load  # noqa: E402
-from pmi.paths import (ABOUT, AI, FAQ, HOME, LANGUAGES, METRICS, PROJECTS, STANDARDS, UPDATES, md_twin,  # noqa: E402
-                       method_path, project_path)
+from pmi.paths import (ABOUT, AI, BIBTEX, FAQ, HOME, LANGUAGES, METRICS, PROJECTS, STANDARDS, UPDATES,  # noqa: E402
+                       md_twin, method_path, project_path)
 
 
 def write(path: Path, text: str) -> bool:
@@ -81,6 +82,7 @@ def build_site(index, out: Path) -> int:
     write(out / "llms.txt", render_md.llms_txt(index))
     write(out / "llms-full.txt", render_md.llms_full(index))
     write(out / "index.json", export.index_json(index))
+    write(out / BIBTEX, export.bibtex(index))
     write(out / "feed.xml", export.atom_feed(index))
     write(out / "sitemap.xml", export.sitemap(index))
     write(out / "robots.txt", export.robots(index))

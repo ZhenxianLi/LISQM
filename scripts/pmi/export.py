@@ -1,11 +1,12 @@
-"""Machine-readable output: index.json, the Atom feed, sitemap.xml and robots.txt."""
+"""Machine-readable output: index.json, references.bib, the Atom feed, sitemap.xml and robots.txt."""
 
 from __future__ import annotations
 
 import json
+import re
 from xml.sax.saxutils import escape as xml_escape
 
-from .data import GROUPS, IMPL_STATUS_LONG, STANDING, VALIDATION_LONG, Index
+from .data import ACCESS, GROUPS, IMPL_STATUS_LONG, STANDING, VALIDATION_LONG, Index
 from .describe import coverage
 from .paths import (ABOUT, AI, FAQ, HOME, LANGUAGES, METRICS, PROJECTS, STANDARDS, UPDATES, absolute, method_path,
                     project_path)
@@ -28,6 +29,18 @@ def _clean(d: dict) -> dict:
     return out
 
 
+def _implementation(i: dict) -> dict:
+    """An implementation row as exported: its fields, the code it was ported from (also when that comes from the
+    project's `based_on`), and how each comparison with related code relates to it."""
+    d = {"project": i["_project"]["id"], **_clean({k: v for k, v in i.items() if k != "method"})}
+    if i["_derived_ids"]:
+        d["derived_from"] = list(i["_derived_ids"])
+    relations = {cid: kind + (f":{origin['id']}" if origin else "") for cid, (kind, origin) in i["_relation"].items()}
+    if relations:
+        d["comparison_relations"] = relations
+    return d
+
+
 def index_json(index: Index) -> str:
     site = index.site
     methods = []
@@ -35,13 +48,9 @@ def index_json(index: Index) -> str:
         d = _clean(m)
         d["url"] = absolute(index, method_path(m))
         d["coverage"] = coverage(m)
-        d["implementations"] = [
-            {"project": i["_project"]["id"], **_clean({k: v for k, v in i.items() if k != "method"})}
-            for i in m["_impls"]]
+        d["implementations"] = [_implementation(i) for i in m["_impls"]]
         if m["_via_impls"]:  # tools that call one of the implementations above
-            d["also_through"] = [
-                {"project": i["_project"]["id"], **_clean({k: v for k, v in i.items() if k != "method"})}
-                for i in m["_via_impls"]]
+            d["also_through"] = [_implementation(i) for i in m["_via_impls"]]
         methods.append(d)
     projects = []
     for p in index.projects_by_group():
@@ -54,7 +63,7 @@ def index_json(index: Index) -> str:
         d["archived"] = p["_archived"]
         d["stars"] = p["_stars"]
         d["group"] = p["_group"]
-        d["most_widely_used"] = p["_mainstream"]
+        d["most_widely_used"] = p["_super"]  # a super project: super_project gives its place among them
         if p["_others"]:
             d["calls"] = list(dict.fromkeys(i["_via"]["id"] for i in p["_impls"] if i.get("_via")))
         projects.append(d)
@@ -74,15 +83,22 @@ def index_json(index: Index) -> str:
         "counts": {"methods": len(index.methods), "projects": len(index.projects),
                    "references": len(index.references)},
         "ordering": ("Implementations and projects are listed by group: established, newly released, developing, legacy, "
-                     "others. Newly released projects were first released less than about a year ago and are not yet "
-                     "widely used in the community. Legacy projects are archived or have had no commit for three "
-                     "years or more; the most widely used projects (most_widely_used: true) and reference programs "
-                     "are never legacy. Within each group, projects that are still active and widely recognised "
-                     "come first. Projects in the others group do not compute the metrics themselves; they call "
-                     "another listed project (listed in calls), and their rows appear under also_through instead "
-                     "of implementations."),
+                     "others, status unknown. Newly released projects were first released less than about a year ago "
+                     "and are not yet widely used in the community. Legacy projects are archived or have had no "
+                     "commit for three years or more; the most widely used projects (most_widely_used: true, in the "
+                     "order of super_project) and reference programs are never legacy. Within each group the most "
+                     "widely used projects come first, then ranked and active ones. Projects in the others group do "
+                     "not compute the metrics "
+                     "themselves; they call another listed project (listed in calls), and their rows appear under "
+                     "also_through instead of implementations. Projects in the unknown group could not be opened "
+                     "(access); they list a claim and no implementations."),
         "definitions": {"standing": STANDING, "group": GROUPS, "status": IMPL_STATUS_LONG,
-                        "validation": VALIDATION_LONG,
+                        "validation": VALIDATION_LONG, "access": ACCESS,
+                        "comparison_relations": {
+                            "source": "the compared project is the code this implementation was ported from (or "
+                                      "that code's own source)",
+                            "port": "the compared project was ported from this implementation",
+                            "shared:<id>": "both were ported from the same code, the project <id>"},
                         "coverage": {"current": "an available implementation of the current edition",
                                      "new": "an available implementation of the current edition, but only from "
                                             "newly released projects",
@@ -98,6 +114,159 @@ def index_json(index: Index) -> str:
         "updates": [_clean(u) for u in index.updates],
     }
     return json.dumps(doc, ensure_ascii=False, indent=2) + "\n"
+
+
+# ---------------------------------------------------------------------------------------------- BibTeX
+
+BODY_NAMES = {"ISO": "International Organization for Standardization", "DIN": "Deutsches Institut für Normung",
+              "Ecma": "Ecma International", "ANSI/ASA": "Acoustical Society of America",
+              "IEC": "International Electrotechnical Commission", "ICAO": "International Civil Aviation Organization",
+              "FAA": "Federal Aviation Administration", "Nordtest": "Nordtest"}
+DOCUMENT_TYPES = {"standard": "Standard", "amendment": "Amendment", "draft": "Draft standard",
+                  "technical-specification": "Technical Specification",
+                  "publicly-available-specification": "Publicly Available Specification",
+                  "regulation": "Regulation", "method": "Method"}
+MONTHS = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"]
+_BIB_SPECIAL = {"\\": r"\textbackslash{}", "{": r"\{", "}": r"\}", "&": r"\&", "%": r"\%", "$": r"\$", "#": r"\#",
+                "_": r"\_", "~": r"\textasciitilde{}", "^": r"\textasciicircum{}"}
+# "Moore, B. C. J., Glasberg, B. R., & Baer, T. (1997). Rest" -> authors, year, rest
+_CITATION = re.compile(r"^(?P<authors>.+?) \((?P<year>\d{4})[a-z]?\)\. (?P<rest>.+)$")
+_INITIALS = re.compile(r"^(?:[A-ZÀ-Ý][a-z]?\.(?:-[A-ZÀ-Ý]\.)?\s?)+$")
+_CONFERENCE = re.compile(r"Proceedings of (?!Meetings)|INTER-NOISE|Inter-Noise|Forum Acusticum|DAGA|Euronoise|"
+                         r"Convention|Conference|Congress|Jahrestagung", re.IGNORECASE)
+
+
+def _bib(text: str) -> str:
+    """Plain text for a BibTeX field: Markdown emphasis removed, special characters escaped, dashes as TeX."""
+    text = " ".join(str(text).replace("*", "").split())
+    text = re.sub(r"[\\{}&%$#_~^]", lambda m: _BIB_SPECIAL[m.group(0)], text)
+    return text.replace("—", "---").replace("–", "--")
+
+
+def _bib_title(text: str) -> str:
+    """A title with its capitalised words in braces, so that bibliography styles keep them (German nouns,
+    acronyms, names); punctuation around a word stays outside. The first word is protected only when it has more
+    than one capital."""
+    def protect(word: str, first: bool) -> str:
+        lead, core, trail = re.fullmatch(r"([(\[\"'“‘]*)(.*?)([)\]\"'”’.,;:!?]*)", word).groups()
+        if not core or not re.search(r"[A-ZÀ-Ý]", core) or (first and len(re.findall(r"[A-ZÀ-Ý]", core)) < 2):
+            return word
+        return f"{lead}{{{core}}}{trail}"
+    words = _bib(text).split(" ")
+    return " ".join(protect(w, n == 0) for n, w in enumerate(words))
+
+
+def _bib_authors(text: str) -> str | None:
+    """'Moore, B. C. J., Glasberg, B. R., & Baer, T.' -> 'Moore, B. C. J. and Glasberg, B. R. and Baer, T.', or
+    None when the text is not a list of 'Surname, Initials'."""
+    parts = [x.strip() for x in text.replace(", &", ",").replace(" & ", ", ").split(", ")]
+    if len(parts) % 2 or not all(_INITIALS.match(parts[n + 1]) for n in range(0, len(parts), 2)):
+        return None
+    return " and ".join(_bib(f"{parts[n]}, {parts[n + 1]}") for n in range(0, len(parts), 2))
+
+
+def _entry(kind: str, key: str, fields: list[tuple[str, str | None]]) -> str:
+    body = ",\n".join(f"  {name} = {{{value}}}" if name != "month" else f"  {name} = {value}"
+                      for name, value in fields if value)
+    return f"@{kind}{{{key},\n{body}\n}}"
+
+
+def _date_fields(date: object) -> list[tuple[str, str | None]]:
+    text = date_str(date) if date else ""
+    year = text[:4] if re.match(r"\d{4}", text) else None
+    month = MONTHS[int(text[5:7]) - 1] if re.match(r"\d{4}-\d{2}", text) else None
+    return [("year", year), ("month", month)]
+
+
+def _from_citation(key: str, citation: str, doi: str | None, url: str | None, fallback_title: str,
+                   date: object = None) -> str:
+    """A BibTeX entry parsed from an APA-style citation: article, conference paper, book or thesis. What cannot
+    be parsed becomes @misc with the full citation as a note."""
+    links = [("doi", doi), ("url", url if url and not doi else None)]  # verbatim fields: not escaped
+    found = _CITATION.match(" ".join(citation.split()))
+    authors = _bib_authors(found.group("authors")) if found else None
+    if found and not authors:  # no author list: "Title (2008). Where it appeared."
+        return _entry("misc", key, [("title", _bib_title(found.group("authors"))), ("year", found.group("year")),
+                                    ("note", _bib(found.group("rest")).rstrip(".")), *links])
+    if found and authors:
+        year, rest = found.group("year"), found.group("rest")
+        book = re.match(r"^\*(?P<title>[^*]+)\*(?: \((?P<edition>[^)]+?) ed\.\))?\. (?P<publisher>[^.]+)\.$", rest)
+        thesis = re.match(r"^\*(?P<title>[^*]+)\* \[(?P<type>[^,\]]+), (?P<school>[^\]]+)\]\.?(?P<note>.*)$", rest)
+        paper = re.match(r"^(?P<title>.+?[.?!]) \*(?P<container>[^*]+)\*(?P<tail>.*)$", rest)
+        if thesis:
+            doctoral = thesis.group("type").lower().startswith("doctoral")
+            return _entry("phdthesis" if doctoral else "mastersthesis", key, [
+                ("author", authors), ("title", _bib_title(thesis.group("title"))),
+                ("school", _bib(thesis.group("school"))), ("type", None if doctoral else _bib(thesis.group("type"))),
+                ("year", year), ("note", _bib(thesis.group("note").strip(" .")) or None), *links])
+        if book:
+            return _entry("book", key, [
+                ("author", authors), ("title", _bib_title(book.group("title"))),
+                ("edition", _bib(book.group("edition")) if book.group("edition") else None),
+                ("publisher", _bib(book.group("publisher"))), ("year", year), *links])
+        if paper:
+            title = paper.group("title").rstrip(".")
+            container, tail = paper.group("container").strip(), paper.group("tail").strip(" ,.")
+            pieces = [x.strip() for x in re.split(r",\s+|\.\s+", tail)] if tail else []
+            volume = number = pages = None
+            if pieces and (vol := re.fullmatch(r"(\d+)(?:\(([^)]+)\))?", pieces[0])):
+                volume, number = vol.group(1), _bib(vol.group(2)) if vol.group(2) else None
+                pieces = pieces[1:]
+                if pieces and re.fullmatch(r"[A-Z]*\d+(?:[–-][A-Z]*\d+)?", pieces[0]):
+                    pages, pieces = pieces[0], pieces[1:]
+            note = _bib(", ".join(pieces)) or None
+            if _CONFERENCE.search(container) or not volume:
+                return _entry("inproceedings", key, [
+                    ("author", authors), ("title", _bib_title(title)), ("booktitle", _bib(container)),
+                    ("volume", volume), ("number", number), ("pages", _bib(pages) if pages else None),
+                    ("year", year), ("note", note), *links])
+            return _entry("article", key, [
+                ("author", authors), ("title", _bib_title(title)), ("journal", _bib(container)),
+                ("volume", volume), ("number", number), ("pages", _bib(pages) if pages else None),
+                ("year", year), ("note", note), *links])
+    return _entry("misc", key, [("title", _bib_title(fallback_title)), *_date_fields(date)[:1],
+                                ("note", _bib(citation)), *links])
+
+
+def _standard(r: dict) -> str:
+    """A standard, draft, specification, regulation or method as @techreport: the body as institution, the label
+    as number."""
+    fields = [("title", _bib_title(r["title"])), ("institution", _bib(BODY_NAMES.get(r["body"], r["body"]))),
+              ("type", DOCUMENT_TYPES.get(r["kind"], "Standard")), ("number", _bib(r["label"])),
+              *_date_fields(r.get("date")), ("edition", _bib(r["edition"]) if r.get("edition") else None),
+              ("note", _bib(r["status"].replace("-", " ").capitalize()) if r["status"] != "current" else None),
+              ("doi", r.get("doi")), ("url", r.get("url"))]
+    return _entry("techreport", r["id"], fields)
+
+
+def bibtex(index: Index) -> str:
+    """Every standard and model reference of the list, then the papers that describe listed software (once each,
+    and not when the paper is already a reference)."""
+    site = index.site
+    out = [f"% {site['name']}: {site['title']}. Standards, model papers and software papers, as BibTeX.",
+           f"% Generated from {site['repository']}/tree/main/data on {index.as_of()}. Encoding: UTF-8.",
+           "% Keys of references are their ids in the list; keys of software papers end in -paper.", ""]
+    for r in index.references:
+        if r["kind"] in ("paper", "book", "thesis") and r.get("citation"):
+            out.append(_from_citation(r["id"], r["citation"], r.get("doi"), r.get("url"), r["title"], r.get("date")))
+        else:
+            out.append(_standard(r))
+        out.append("")
+    seen = {r["doi"].lower() for r in index.references if r.get("doi")}
+    seen |= {" ".join(r["citation"].split()) for r in index.references if r.get("citation")}
+    for p in index.projects_by_group():
+        paper = p.get("paper")
+        if not paper:
+            continue
+        marks = {" ".join(paper["citation"].split())} | ({paper["doi"].lower()} if paper.get("doi") else set())
+        if marks & seen:
+            continue
+        seen |= marks
+        out.append(f"% The paper describing {p['name']}")
+        out.append(_from_citation(f"{p['id']}-paper", paper["citation"], paper.get("doi"), paper.get("url"),
+                                  p["name"]))
+        out.append("")
+    return "\n".join(out)
 
 
 def atom_feed(index: Index) -> str:

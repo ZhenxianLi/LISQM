@@ -20,7 +20,10 @@ ai_assistance: not-stated
 notes:
   - >-
     The README credits Brian C. J. Moore, Brian R. Glasberg and Josef Schlittenlacher for the MATLAB model and
-    links the original MATLAB code (the first download on https://www.psychol.cam.ac.uk/hearing#programs).
+    links the original MATLAB code (the first download on https://www.psychol.cam.ac.uk/hearing#programs). That
+    page now needs a University of Cambridge login; an
+    [archived copy](https://web.archive.org/web/20251123130736/https://www.psychol.cam.ac.uk/hearing) from November
+    2025 still links the code, an earlier version of the code in [iso532-3](https://github.com/js2251/iso532-3).
   - >-
     The Python function names largely mirror the MATLAB files of tv2018 (see
     [iso532-3](https://github.com/js2251/iso532-3)), e.g. `agc_next_frame` for `AGCNextFrame.m`. ISO 532-3 is

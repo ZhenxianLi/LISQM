@@ -43,9 +43,9 @@ implements:
     status: available
     since: 3.1.0
     validation: standard-data
+    derived_from: ["ISO 532-1 Annex A reference program"]
     validation_details:
       - Annex B test signals are used in the tests.
-    note: Written from the Annex A reference program.
   - method: loudness-moore-glasberg
     reference: iso-532-2-2017
     functions: [loudness_moore_glasberg, loudness_moore_glasberg_from_spectrum, loudness_moore_glasberg_from_third_octave]
@@ -64,8 +64,8 @@ implements:
     validation_details:
       - >-
         A documented deviation: the Annex B WAV-file cases are not reproduced, and Annex C values are used instead.
-    note: >-
-      Documented deviation: it runs at the native sample rate instead of resampling to 32 kHz.
+    conventions:
+      - "Documented deviation: it runs at the native sample rate instead of resampling to 32 kHz."
   - method: loudness-ecma-418-2
     reference: ecma-418-2-ed4
     functions: [loudness_ecma]
@@ -136,7 +136,12 @@ implements:
     functions: [psychoacoustic_annoyance, psychoacoustic_annoyance_from_signal]
     status: available
     since: 3.1.0
-    validation: standard-data
+    validation: self-tests
+    validation_details:
+      - >-
+        Tests compare one set of inputs (N5 = 30 sone, S = 2.0 acum, F = 0.5 vacil, R = 0.3 asper) with the value
+        worked out by hand from Eqs. 16.2–16.4 (37.0478, within 0.001) and check the terms of the formula; no
+        published example is used.
     note: Follows Eqs. 16.2–16.4 of Fastl & Zwicker (2007), the textbook form of Widmann's model.
   - method: tone-to-noise-prominence-ratio
     reference: ecma-418-1-ed3
@@ -144,6 +149,14 @@ implements:
     status: available
     since: 3.1.0
     validation: standard-data
+    validation_details:
+      - >-
+        Tests check worked examples printed in ECMA-418-1:2024: the critical band at 500 Hz and 1 kHz (Clause 10,
+        Formula 2), its band edges at 1 kHz (Clause 12.2) and the proximity spacing at 150 and 850 Hz (Clause 11.6,
+        Formula 14).
+      - >-
+        TNR and PR of a 1 kHz tone in white noise are compared with the values expected from the standard's formulas
+        (within 0.4 dB for TNR and 0.1 dB for PR); no TNR or PR value published in the standard is checked.
     note: The "prominent" flag applies the numeric criterion only.
   - method: tonal-audibility-iso-20065
     reference: iso-pas-20065-2016
@@ -164,6 +177,10 @@ implements:
     status: available
     since: 3.1.0
     validation: standard-data
+    validation_details:
+      - >-
+        Tests compare 17 points of Table B.1 (20 to 90 phon, 20 Hz to 12.5 kHz) and 6 points of Table B.2 with the
+        computed contours and loudness levels, within 0.05 dB or phon, and the hearing threshold with Table 1.
   - method: tonal-audibility-iso-1996-2
     reference: iso-1996-2-2007
     scope: Annex C; in the `phonometry.environment` namespace
@@ -196,6 +213,9 @@ implements:
     validation: standard-data
     validation_details:
       - Tested with the EPNL example of ICAO Doc 9501 (Environmental Technical Manual).
+cite:
+  doi: 10.5281/zenodo.21215280
+  cff: https://github.com/jmrplens/phonometry/blob/main/CITATION.cff
 manual:
   last_commit: 2026-10-01
   latest_release: {version: 3.3.0, date: 2026-07-26}
@@ -205,7 +225,11 @@ sources:
   - https://github.com/jmrplens/phonometry/blob/main/CHANGELOG.md
   - https://github.com/jmrplens/phonometry/blob/main/docs/CONFORMANCE.md
   - https://github.com/jmrplens/phonometry/blob/main/docs/ERRATA.md
+  - https://github.com/jmrplens/phonometry/blob/main/tests/psychoacoustics/quality/test_tonality.py
+  - https://github.com/jmrplens/phonometry/blob/main/tests/psychoacoustics/quality/test_annoyance.py
+  - https://github.com/jmrplens/phonometry/blob/main/tests/psychoacoustics/loudness/test_contours.py
+  - https://github.com/jmrplens/phonometry/blob/main/CITATION.cff
   - https://github.com/jmrplens/phonometry/blob/main/paper/paper.md
   - https://jmrplens.github.io/phonometry/
   - https://pypi.org/project/phonometry/
-checked: 2026-10-06
+checked: 2026-10-07

@@ -1,0 +1,111 @@
+id: ita-toolbox
+name: ITA-Toolbox
+repository: https://git.rwth-aachen.de/ita/toolbox
+homepage: https://www.ita-toolbox.org/
+languages: [MATLAB]
+kind: toolbox
+language_note: >-
+  MATLAB toolbox. The loudness functions call C code compiled as MEX files; the C sources and precompiled binaries
+  for Windows, Linux and macOS are included.
+standing: established
+super_project: 5  # bold and first in every list (see data/SCHEMA.md)
+license: BSD-4-Clause
+license_note: >-
+  The root `license.txt` (2011) is the four-clause BSD licence: advertising material that mentions the software
+  must acknowledge the Institute of Technical Acoustics (RWTH Aachen University). The psychoacoustics files refer to
+  a licence in their own folder, which contains none.
+maintainers: [Institute of Technical Acoustics (ITA), RWTH Aachen University]
+summary: >-
+  MATLAB toolbox for acoustic measurements and signal processing from the Institute of Technical Acoustics, RWTH
+  Aachen University, open source since 2010. Its psychoacoustics application computes stationary loudness after
+  DIN 45631 / ISO 532 B, time-varying loudness after DIN 45631/A1, Daniel & Weber roughness and DIN 45681 tonality
+  (2002 draft).
+ai_assistance: not-stated
+paper:
+  citation: >-
+    Berzborn, M., Bomhardt, R., Klein, J., Richter, J.-G., & Vorländer, M. (2017). The ITA-Toolbox: An open source
+    MATLAB toolbox for acoustic measurements and signal processing. *Fortschritte der Akustik – DAGA 2017*, Kiel,
+    222–225.
+  url: https://publications.rwth-aachen.de/record/687308
+notes:
+  - >-
+    The psychoacoustic functions were written in 2010 (Martin Guski: loudness; Daniel Cragg: roughness, tonality
+    and sharpness) and are in `applications/Psychoacoustics`, last changed in September 2022.
+  - >-
+    `ita_sharpness` names no method; its weighting has the form of the DIN 45692 weighting, but as the code does not
+    say which standard it follows, it is not listed as an implementation of DIN 45692.
+  - >-
+    The repository is on RWTH Aachen University's GitLab, which announces a move to gitlab.git.nrw, so its address
+    may change.
+caveats:
+  - >-
+    `ita_roughness_daniel` and `ita_sharpness` print that a newer version exists (`ita_psychoacoustic_roughness`,
+    `ita_psychoacoustic_sharpness`). Those functions, like `ita_psychoacoustic_loudness` and
+    `ita_psychoacoustic_fluctuationStrength` (2021), call the MATLAB Audio Toolbox, which is closed source, so they
+    are not listed here.
+  - There are no releases; use the default branch.
+implements:
+  - method: loudness-zwicker
+    reference: din-45631-1991
+    functions: [ita_loudness]
+    scope: stationary; free or diffuse field
+    status: available
+    validation: standard-data
+    derived_from: ["BASIC program of DIN 45631 (Zwicker et al., 1991)"]
+    validation_details:
+      - >-
+        A test compares the loudness of a generated pink noise with 95.09 sone (GF), a value the test attributes to
+        DIN 45631, within 5 %, with third-octave levels computed both by FFT and by filter bank.
+    conventions:
+      - Third-octave levels come from an FFT by default, or from a filter bank (`'mode', 'filter'`).
+    note: >-
+      The header says "DIN 45631 / ISO 532 B". The C core (`private/DIN45631.c`) is Aaron Hastings' version (2000) of
+      the BASIC program published by Zwicker, Fastl, Widmann, Kurakata, Kuwano and Namba in J. Acoust. Soc. Jpn (E)
+      12(1), 1991.
+  - method: loudness-zwicker
+    reference: din-45631-a1-2010
+    functions: [ita_loudness_timevariant]
+    scope: time-varying, with N5
+    status: available
+    validation: standard-data
+    validation_details:
+      - >-
+        A test script plots the results for the amendment's test signals A to D (1 kHz tone pulses of 10 ms to 500 ms)
+        against its tolerance bands; it does not check them automatically.
+    conventions:
+      - >-
+        N5 is MATLAB's `prctile(N, 95)`. Blocks are 2 ms long without overlap by default, and the signal is processed
+        at its own sample rate.
+    note: >-
+      The header says "DIN 45631/A1" without a year; the function was written in August 2010, after the amendment was
+      published. A code comment says the C code of the nonlinearity block was copied from the DIN document, "without
+      its errors".
+  - method: roughness-daniel-weber
+    reference: daniel-weber-1997
+    functions: [ita_roughness_daniel]
+    status: available
+    validation: standard-data
+    validation_details:
+      - >-
+        A code comment says that after major bug fixes the values "more or less match those of the paper by Daniel";
+        no test or comparison script is included.
+    note: Uses sub-functions written by Martin Klemenz in 2000 (`external_packages/roughness_daniel`).
+  - method: tonality-din-45681
+    reference: din-45681-2002-draft
+    functions: [ita_tonality]
+    scope: maximum tonal audibility and its frequency
+    status: available
+    validation: not-stated
+    note: >-
+      The header cites "DIN 45681 (2002)", the draft that preceded DIN 45681:2005. A code comment says that no
+      A-weighting is applied.
+manual:
+  last_commit: 2025-09-22
+  archived: false
+sources:
+  - https://git.rwth-aachen.de/ita/toolbox
+  - https://git.rwth-aachen.de/ita/toolbox/-/blob/master/license.txt
+  - https://git.rwth-aachen.de/ita/toolbox/-/tree/master/applications/Psychoacoustics
+  - https://www.ita-toolbox.org/
+  - https://publications.rwth-aachen.de/record/687308
+checked: 2026-10-07

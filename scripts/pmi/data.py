@@ -85,9 +85,10 @@ STANDING = {
     "developing": "Public for more than a year, but without a publication or documented use by others: research, "
                   "teaching or personal code.",
 }
-# Every project is in exactly one group, decided in this order: others (it computes nothing itself), legacy (archived,
-# or no commit for `legacy_after_days`, except the most widely used projects and reference programs, which are not
-# expected to change), then the standing recorded in the project file. Every list uses the order of GROUPS.
+# Every project is in exactly one group, decided in this order: status unknown (its code cannot be opened), others
+# (it computes nothing itself), legacy (archived, or no commit for `legacy_after_days`, except the most widely used
+# projects and reference programs, which are not expected to change), then the standing recorded in the project file.
+# Every list uses the order of GROUPS.
 GROUPS = {
     "established": STANDING["established"],
     "newly-released": STANDING["newly-released"],
@@ -96,6 +97,8 @@ GROUPS = {
               "edition and may not run with current software.",
     "others": "Tools that do not compute the metrics themselves: interfaces, front ends and wrappers that call one "
               "of the listed projects.",
+    "unknown": "Projects whose code could not be opened, for example because the repository needs a login. What "
+               "they implement is unverified, so they are listed with what they claim and not under the metrics.",
 }
 GROUP_ORDER = {key: n for n, key in enumerate(GROUPS)}
 # The meta tag each search engine's webmaster tools look for on the home page to verify the site.
@@ -103,19 +106,27 @@ VERIFICATION_META = {"google": "google-site-verification", "bing": "msvalidate.0
                      "baidu": "baidu-site-verification", "yandex": "yandex-verification"}
 
 GROUP_NAMES = {"established": "established", "developing": "developing", "newly-released": "newly released",
-               "legacy": "legacy", "others": "other"}
+               "legacy": "legacy", "others": "other", "unknown": "status unknown"}
+# Why a project's code cannot be checked (`access` in its file); such a project is in the group "unknown".
+ACCESS = {"restricted": "The repository cannot be opened without a login."}
 ACTIVITY_ORDER = {"active": 0, "unknown": 1, "inactive": 2, "archived": 3}
 
 
+def super_order(p: dict) -> tuple[int, int]:
+    """(0, n) for the n-th super project, (1, 0) for every other project. Super projects (`super_project` in the
+    project file) are the most widely used ones: they are shown in bold and come first in their group, which is
+    always established, so they head every list."""
+    return (0, int(p["super_project"])) if p.get("super_project") else (1, 0)
+
+
 def project_rank(p: dict) -> int:
-    """A project's place within its group, set by the maintainer (1 first); unranked projects follow. Established
-    projects with a rank are the most widely used ones."""
+    """A project's place within its group, set by the maintainer (1 first); unranked projects follow."""
     return int(p.get("rank") or 999)
 
 
 def project_tier(p: dict) -> int:
-    """Within a group: projects that are still active and widely recognised first, then recognised but inactive
-    ones, then other active projects, then the rest."""
+    """Within a group, after the super projects: ranked projects that are still active first, then ranked but
+    inactive ones, then other active projects, then the rest."""
     active = p.get("_activity") == "active"
     if p.get("rank"):
         return 0 if active else 1
@@ -123,12 +134,12 @@ def project_tier(p: dict) -> int:
 
 
 def impl_rank(impl: dict) -> tuple:
-    """The order of implementations everywhere: by group (established first, then newly released, developing and
-    legacy); then released code before unreleased before proposed; then active, recognised projects first (see
-    `project_tier`)."""
+    """The order of implementations everywhere: always by group first (established, newly released, developing,
+    legacy); within a group the super projects first, then released code before unreleased before proposed, then
+    active, ranked projects (see `project_tier`)."""
     p = impl["_project"]
-    return (GROUP_ORDER[p["_group"]], STATUS_ORDER[impl["status"]], project_tier(p), project_rank(p),
-            1 if impl.get("_via") else 0, p["name"].lower())
+    return (GROUP_ORDER[p["_group"]], *super_order(p), STATUS_ORDER[impl["status"]], project_tier(p),
+            project_rank(p), 1 if impl.get("_via") else 0, p["name"].lower())
 
 
 def only_new(m: dict) -> bool:
@@ -247,6 +258,10 @@ class Index:
                     add(f"{w}: missing '{key}'")
             if m.get("family") and m["family"] not in self.family:
                 add(f"{w}: unknown family '{m['family']}'")
+            conventions = m.get("conventions")
+            if conventions is not None and not (isinstance(conventions, list) and conventions
+                                                and all(isinstance(c, str) and c.strip() for c in conventions)):
+                add(f"{w}: conventions must be a non-empty list of strings")
             for rid in m.get("references") or []:
                 if rid not in self.ref:
                     add(f"{w}: unknown reference '{rid}'")
@@ -275,6 +290,7 @@ class Index:
                 add(f"{w}: not used by any method")
 
         repos: dict[str, str] = {}
+        super_places: dict[int, str] = {}
         check_ids(self.projects, "data/projects")
         for p in self.projects:
             pid = p.get("id")
@@ -282,10 +298,34 @@ class Index:
             w = f"data/projects/{path.name if path else pid}"
             if path and path.stem != pid:
                 add(f"{w}: id '{pid}' must match the file name")
-            for key in ("name", "repository", "languages", "kind", "license", "summary", "ai_assistance",
-                        "standing", "implements", "sources", "checked"):
+            required = ["name", "repository", "languages", "kind", "license", "summary", "ai_assistance",
+                        "standing", "sources", "checked"]
+            if p.get("access"):  # code that cannot be opened: what it claims instead of what it implements
+                if p["access"] not in ACCESS:
+                    add(f"{w}: access must be one of {sorted(ACCESS)}")
+                required += ["access_note", "claim"]
+                if p.get("implements"):
+                    add(f"{w}: a project whose code cannot be opened lists a claim, not implements")
+            else:
+                required.append("implements")
+            for key in required:
                 if not p.get(key):
                     add(f"{w}: missing '{key}'")
+            conventions = p.get("conventions")
+            if conventions is not None and not (isinstance(conventions, list) and conventions
+                                                and all(isinstance(c, str) and c.strip() for c in conventions)):
+                add(f"{w}: conventions must be a non-empty list of strings")
+            if p.get("maintainer_check") is not None and not (isinstance(p["maintainer_check"], str)
+                                                              and p["maintainer_check"].strip()):
+                add(f"{w}: maintainer_check must be a non-empty string")
+            cite = p.get("cite")
+            if cite is not None:
+                if not isinstance(cite, dict) or not set(cite) <= {"doi", "cff", "text"}:
+                    add(f"{w}: cite takes doi, cff and text")
+                elif cite.get("doi") and not re.fullmatch(r"10\.\d{4,9}/\S+", str(cite["doi"])):
+                    add(f"{w}: cite.doi must look like 10.xxxx/…")
+                elif cite.get("cff") and not str(cite["cff"]).startswith("https://"):
+                    add(f"{w}: cite.cff must be the https URL of the CITATION.cff file")
             if p.get("kind") and p["kind"] not in PROJECT_KINDS:
                 add(f"{w}: kind '{p['kind']}' not one of {sorted(PROJECT_KINDS)}")
             if p.get("standing") and p["standing"] not in STANDING:
@@ -296,6 +336,18 @@ class Index:
                 add(f"{w}: a project described in a publication (paper) is established, not developing")
             if p.get("rank") is not None and (not isinstance(p["rank"], int) or p["rank"] < 1):
                 add(f"{w}: rank must be a positive whole number")
+            place = p.get("super_project")
+            if place is not None:
+                if not isinstance(place, int) or isinstance(place, bool) or place < 1:
+                    add(f"{w}: super_project must be a positive whole number (its place among the super projects)")
+                elif place in super_places:
+                    add(f"{w}: super_project {place} is also given to {super_places[place]}")
+                else:
+                    super_places[place] = pid
+                if p.get("rank"):
+                    add(f"{w}: a super project is ordered by super_project; remove rank")
+                if p.get("standing") != "established" or p.get("access"):
+                    add(f"{w}: a super project must be established, so that it heads every list")
             if p.get("based_on") and p["based_on"] not in self.project:
                 add(f"{w}: based_on '{p['based_on']}' is not a project id")
             if p.get("core") and p["core"] not in (p.get("languages") or []):
@@ -340,13 +392,15 @@ class Index:
                     add(f"{wi}: via '{impl['via']}' is not a listed project")
                 if impl.get("via") == pid:
                     add(f"{wi}: via must name another project")
-                for key in ("compared_with", "validation_details"):
+                for key in ("compared_with", "validation_details", "derived_from", "conventions"):
                     value = impl.get(key)
                     if value is not None and not (isinstance(value, list) and value
                                                   and all(isinstance(v, str) and v.strip() for v in value)):
                         add(f"{wi}: {key} must be a non-empty list of strings")
                 if pid in (impl.get("compared_with") or []):
                     add(f"{wi}: compared_with must name other implementations")
+                if pid in (impl.get("derived_from") or []):
+                    add(f"{wi}: derived_from must name another project or code")
                 pair = (mid, rid, impl.get("status"), impl.get("scope"))
                 if pair in seen_pairs:
                     add(f"{wi}: duplicate of an earlier entry")
@@ -433,8 +487,8 @@ class Index:
                 p["_activity"] = "active" if age <= inactive_after else "inactive"
             else:
                 p["_activity"] = "unknown"
-            p["_mainstream"] = p["standing"] == "established" and bool(p.get("rank"))
-            p["_legacy"] = (p["standing"] != "newly-released" and not p["_mainstream"] and p["kind"] != "reference-program"
+            p["_super"] = bool(p.get("super_project"))  # bold and first everywhere; see super_order()
+            p["_legacy"] = (p["standing"] != "newly-released" and not p["_super"] and p["kind"] != "reference-program"
                             and (p["_archived"] or (age is not None and age >= legacy_after)))
 
             p["_impls"] = []
@@ -444,9 +498,17 @@ class Index:
                 impl["_method"] = self.method[impl["method"]]
                 impl["_ref"] = self.ref[impl["reference"]]
                 impl["_via"] = self.project.get(impl.get("via"))
-                # What it was compared with: listed projects by id, anything else by name.
-                impl["_compared"] = [(self.project[c]["name"], self.project[c]) if c in self.project else (c, None)
-                                     for c in impl.get("compared_with") or []]
+                # What it was compared with, and the code it was ported or adapted from (the row's
+                # `derived_from`, else the project's `based_on`; a row computed by another project ports nothing):
+                # listed projects by id, anything else by name.
+                named = lambda ids: [(self.project[c]["name"], self.project[c]) if c in self.project else (c, None)
+                                     for c in ids]  # noqa: E731
+                impl["_compared"] = named(impl.get("compared_with") or [])
+                impl["_derived_ids"] = impl.get("derived_from") or (
+                    [p["based_on"]] if p.get("based_on") and not impl.get("via") else [])
+                impl["_derived"] = named(impl["_derived_ids"])
+                # What to check before comparing its numbers: the project's general points, then the row's own.
+                impl["_conventions"] = list(dict.fromkeys((p.get("conventions") or []) + (impl.get("conventions") or [])))
                 p["_impls"].append(impl)
                 if impl["_via"]:  # the computation is done by another listed project
                     self.method[impl["method"]]["_via_impls"].append(impl)
@@ -455,14 +517,23 @@ class Index:
                 self.ref[impl["reference"]]["_impls"].append(impl)
             # Tools whose results all come from other listed projects are listed under "Others".
             p["_others"] = bool(p["_impls"]) and all(i["_via"] for i in p["_impls"])
-            p["_group"] = "others" if p["_others"] else "legacy" if p["_legacy"] else p["standing"]
+            p["_group"] = ("unknown" if p.get("access") else "others" if p["_others"] else
+                           "legacy" if p["_legacy"] else p["standing"])
+
+        self._relate_comparisons()
 
         for m in self.methods:
             order = {rid: i for i, rid in enumerate(m.get("references") or [])}
-            # The group comes before the edition, so a newly released or legacy project never heads a list.
-            m["_impls"].sort(key=lambda i: (GROUP_ORDER[i["_project"]["_group"]], -order[i["reference"]],
-                                            *impl_rank(i)[1:]))
+
+            # The group comes before everything, so a newly released or legacy project never heads a list; within
+            # a group the super projects come first, then the newest editions.
+            def method_rank(i: dict, order: dict = order) -> tuple:
+                return (GROUP_ORDER[i["_project"]["_group"]], *super_order(i["_project"]), -order[i["reference"]],
+                        *impl_rank(i)[3:])
+            m["_impls"].sort(key=method_rank)
             m["_via_impls"].sort(key=impl_rank)
+            # Every row, including those computed by another project, in the same order (validation, ports).
+            m["_all_impls"] = sorted(m["_impls"] + m["_via_impls"], key=method_rank)
             current = set(m.get("current") or [])
             m["_current_impls"] = [i for i in m["_impls"] if i["reference"] in current]
             m["_older_impls"] = [i for i in m["_impls"] if i["reference"] not in current]
@@ -472,16 +543,58 @@ class Index:
             p["_impls"].sort(key=lambda i: (self.methods.index(i["_method"]),
                                             -(i["_method"]["references"].index(i["reference"]))))
 
+    def _relate_comparisons(self) -> None:
+        """Mark the comparisons that are not independent checks: with the code a row was ported from ("source"),
+        with a port of it ("port"), or with another port of the same code ("shared", naming that code). Ports are
+        followed through the rows of the same method, so that a port of a port still counts."""
+        rows: dict[tuple[str, str], list[dict]] = {}
+        for p in self.projects:
+            for impl in p["_impls"]:
+                rows.setdefault((p["id"], impl["method"]), []).append(impl)
+
+        def sources(pid: str, mid: str, seen: frozenset) -> list[str]:
+            """Listed projects whose code for this method the project's code comes from, nearest first."""
+            out: list[str] = []
+            for impl in rows.get((pid, mid), []):
+                for c in impl["_derived_ids"]:
+                    if c in self.project and c not in seen and c not in out:
+                        out.append(c)
+                        out += [a for a in sources(c, mid, seen | {c}) if a not in out]
+            return out
+
+        for p in self.projects:
+            for impl in p["_impls"]:
+                mid, own = impl["method"], []
+                for c in impl["_derived_ids"]:
+                    if c in self.project and c not in own:
+                        own += [c] + [a for a in sources(c, mid, frozenset({p["id"], c})) if a not in own]
+                if impl.get("via"):  # computed by another listed project: what it is compared with is that code
+                    own += [impl["via"]] + [a for a in sources(impl["via"], mid, frozenset({p["id"]}))
+                                            if a not in own]
+                me = {p["id"], impl.get("via")} - {None}
+                relation: dict[str, tuple[str, dict | None]] = {}
+                for c in impl.get("compared_with") or []:
+                    if c not in self.project:
+                        continue
+                    theirs = sources(c, mid, frozenset({c}))
+                    if c in own:
+                        relation[c] = ("source", None)
+                    elif me & set(theirs):
+                        relation[c] = ("port", None)
+                    elif shared := [a for a in theirs if a in own]:
+                        relation[c] = ("shared", self.project[shared[0]])
+                impl["_relation"] = relation
+
     # ------------------------------------------------------------------ queries used by renderers
 
     def families_with_methods(self) -> list[tuple[dict, list[dict]]]:
         return [(f, [m for m in self.methods if m.get("family") == f["id"]]) for f in self.families]
 
     def projects_by_group(self) -> list[dict]:
-        """All projects by group: established, newly released, developing, legacy, others; within each group, ranked
-        and active projects first."""
-        return sorted(self.projects, key=lambda p: (GROUP_ORDER[p["_group"]], project_tier(p), project_rank(p),
-                                                    p["name"].lower()))
+        """All projects by group (established, newly released, developing, legacy, others, status unknown); within
+        each group the super projects first, then ranked and active projects."""
+        return sorted(self.projects, key=lambda p: (GROUP_ORDER[p["_group"]], *super_order(p), project_tier(p),
+                                                    project_rank(p), p["name"].lower()))
 
     def group(self, key: str) -> list[dict]:
         return [p for p in self.projects_by_group() if p["_group"] == key]
@@ -490,9 +603,9 @@ class Index:
         """Tools that do not compute the metrics themselves but call another listed project."""
         return self.group("others")
 
-    def mainstream(self) -> list[dict]:
-        """The most widely used, recognised projects, in rank order (SQAT, AMT, MoSQITo)."""
-        return sorted((p for p in self.projects if p["_mainstream"]), key=project_rank)
+    def super_projects(self) -> list[dict]:
+        """The super projects, the most widely used ones, in their order (`super_project` in the project file)."""
+        return sorted((p for p in self.projects if p["_super"]), key=super_order)
 
     def languages(self) -> list[str]:
         return sorted({lang for p in self.projects for lang in p.get("languages") or []}, key=str.lower)

@@ -29,14 +29,8 @@ notes:
     Roughness follows MoSQITo's `roughness_dw` ("as implemented by MoSQITo"), not Daniel and Weber's original
     code.
   - >-
-    Fluctuation strength needs audio at 44.1 or 48 kHz; the time-varying (percentile) annoyance needs 48 kHz.
-  - >-
     Annoyance comes in two forms: the canonical percentile convention (N5, S5, R5 and FS5 from time-varying
     tracks, since 0.5.0) and a documented stationary approximation from whole-signal values (since 0.4.0).
-caveats:
-  - >-
-    Percentiles are Hyndman–Fan type 7 quantiles; SQAT uses nearest-rank selection, which the README says differs
-    by a full order-statistic step on the coarse fluctuation-strength track.
 implements:
   - method: sharpness
     reference: din-45692-2009
@@ -61,6 +55,7 @@ implements:
     since: 0.2.0
     validation: standard-data
     compared_with: [mosqito]
+    derived_from: [mosqito]
     validation_details:
       - >-
         Tested against the Zwicker & Fastl reference curves on MoSQITo's validation grid (7 carrier × 11 modulation
@@ -93,6 +88,8 @@ implements:
         seven are misses of the reference model itself (FM tones with a modulation frequency above 4 Hz overestimated
         three- to fourfold, thesis §B.4.1; the shoulder and tail points of AM tones and noise), which SQAT's own
         validation figures also show.
+    conventions:
+      - Needs audio at 44.1 or 48 kHz (an error otherwise); SQAT resamples other rates itself.
   - method: psychoacoustic-annoyance
     reference: widmann-1992
     functions: [psychoacoustic_annoyance_widmann]
@@ -110,6 +107,13 @@ implements:
         Checked at the published 1 au anchor (a 1 kHz tone at 40 dB SPL): on the 4 s cross-check case, the percentile
         convention lands 0.1 % from it and the stationary approximation 0.8 %; on the README's 5 s examples, 0.3 % and
         1.4 %.
+    conventions:
+      - The percentile form needs 48 kHz input.
+      - >-
+        Percentiles are Hyndman–Fan type 7 quantiles (linear interpolation); SQAT takes the nearest rank, which the
+        README says differs by a full order-statistic step on the coarse fluctuation-strength track.
+cite:
+  text: The README links a [Zenodo DOI](https://zenodo.org/badge/latestdoi/1292553110) for the latest version.
 manual:
   last_commit: 2026-09-02
   latest_release: {version: 0.5.0, date: 2026-09-02}

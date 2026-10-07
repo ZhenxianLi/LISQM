@@ -68,14 +68,18 @@ jobs:
       - name: Watch standards
         run: python scripts/watch_standards.py --report "$RUNNER_TEMP/standards.md"
 
-      - name: Commit standards watch state
+      - name: Check links
+        # Broken links (404, 410, unknown host) are reported at once; other failures only when they repeat.
+        run: python scripts/check_links.py --report "$RUNNER_TEMP/links.md"
+
+      - name: Commit standards watch and link check state
         run: |
-          git add data/standards-watch.json
+          git add data/standards-watch.json data/link-check.json
           if git diff --cached --quiet; then
             echo "Nothing to commit."
             exit 0
           fi
-          git commit -m "Standards watch: $(date -u +%F)"
+          git commit -m "Standards watch and link check: $(date -u +%F)"
           git push || { git pull --rebase origin main && git push; }
 
       - name: Make sure the issue labels exist
@@ -112,12 +116,16 @@ jobs:
             echo "## Standards"
             echo
             cat "$RUNNER_TEMP/standards.md"
+            echo
+            echo "## Links"
+            echo
+            cat "$RUNNER_TEMP/links.md"
           } > "$body"
           cat "$body" >> "$GITHUB_STEP_SUMMARY"
 
           # Each report is a single line when there is nothing for a person to do.
           findings=false
-          for report in refresh discover standards; do
+          for report in refresh discover standards links; do
             if [ "$(grep -c . "$RUNNER_TEMP/$report.md")" -gt 1 ]; then
               findings=true
             fi

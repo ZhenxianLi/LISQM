@@ -643,6 +643,77 @@ dl.validation .evidence .tag {
   text-underline-offset: .12em;
 }
 
+/* On a method page the entries are named after projects: normal weight, so that the super projects stand out in
+   bold as everywhere else. */
+dl.validation.on-method dt {
+  font-weight: 400;
+}
+
+dl.validation .derived {
+  color: var(--muted);
+  font-size: .94em;
+}
+
+/* The list maintainer's own observation, set apart from what the project states. */
+.maintainer-check {
+  margin: .5rem 0;
+  padding: .4rem .7rem;
+  border-left: 3px solid var(--ok);
+  background: var(--ok-bg);
+}
+
+dl.validation dd .maintainer-check {
+  margin-top: .45rem;
+}
+
+/* Who ported code from whom: an indented tree with connecting lines. */
+.lineage ul {
+  list-style: none;
+  margin: .4rem 0 1rem;
+  padding-left: 0;
+}
+
+.lineage ul ul {
+  margin: .15rem 0 .15rem .6rem;
+  padding-left: 1.2rem;
+  border-left: 1px solid var(--rule);
+}
+
+.lineage li {
+  position: relative;
+  margin: .25rem 0;
+}
+
+.lineage ul ul > li::before {
+  content: "";
+  position: absolute;
+  top: .8em;
+  left: -1.2rem;
+  width: .9rem;
+  border-top: 1px solid var(--rule);
+}
+
+.lineage .code-node {
+  color: var(--muted);
+  font-style: italic;
+}
+
+/* Before you compare numbers. */
+dl.conventions dt {
+  margin-top: .8rem;
+}
+
+dl.conventions dd {
+  margin: .2rem 0 0;
+  padding-left: .9rem;
+  border-left: 2px solid var(--hairline);
+}
+
+dl.conventions dd ul {
+  margin: .2rem 0;
+  padding-left: 1.1rem;
+}
+
 ul.updates {
   padding-left: 1.1rem;
 }

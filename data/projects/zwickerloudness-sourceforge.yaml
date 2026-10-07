@@ -37,6 +37,7 @@ implements:
     scope: stationary, from one-third-octave band levels
     status: available
     validation: not-stated
+    derived_from: ["BASIC program of DIN 45631 (Zwicker et al., 1991)"]
     note: >-
       Port of the 1991 BASIC program "according to DIN 45631 (ISO 532B)", the program that accompanies
       DIN 45631:1991; the same program is the basis of deeuu/loudness.

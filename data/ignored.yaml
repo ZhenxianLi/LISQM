@@ -188,3 +188,13 @@
 - url: https://github.com/AhmadHassan-BTed/NaSuno
   reason: Audio watermark removal that uses ISO 226 for masking; it does not compute the metrics.
   checked: 2026-10-07
+
+# --- Leads checked in October 2026
+- url: https://www.psychol.cam.ac.uk/hearing
+  reason: >-
+    The Cambridge Hearing Group's programs page, now visible only with a University of Cambridge login. An archived
+    copy (November 2025) links the TVL 2018 MATLAB code, an earlier version of the code listed as iso532-3 (23 of
+    its 28 MATLAB files are identical), and `binloud`, a C program for binaural stationary loudness after Glasberg &
+    Moore (2006) and Moore & Glasberg (2007) without terms of use, which bundles Numerical Recipes code. Neither is
+    listed separately.
+  checked: 2026-10-07

@@ -61,6 +61,8 @@ implements:
     via: mosqito
     validation: not-stated
     note: Calls `roughness_dw`.
+cite:
+  cff: https://github.com/MitchellAcoustics/Soundscapy/blob/main/CITATION.cff
 manual:
   last_commit: 2026-05-14
   latest_release: {version: 0.8.5, date: 2026-05-12}

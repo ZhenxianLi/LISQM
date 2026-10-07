@@ -13,6 +13,7 @@ STANDARDS = "standards.html"
 UPDATES = "updates.html"
 ABOUT = "about.html"
 FAQ = "faq.html"
+BIBTEX = "references.bib"  # every standard, model paper and software paper, as BibTeX
 
 
 def method_path(m: dict) -> str:

@@ -37,8 +37,16 @@ notes:
     tonality fixes (#66–#73) but not PR #77 (2026-09-17), a fix to the Terhardt filter bank that Daniel & Weber
     roughness uses. Model data come from MoSQITo; differences to both are listed in
     [THIRD_PARTY.md](https://github.com/huaaudio/metasona/blob/main/THIRD_PARTY.md).
-  - Expects calibrated pressure in pascals. The Python interface resamples to 48 kHz; the C functions require 48 kHz.
   - The README reports speed-ups over MoSQITo 1.2.1 (e.g. 73× for time-varying loudness on its benchmark signal).
+conventions:
+  - Expects calibrated sound pressure in pascals.
+  - >-
+    The C functions require 48 kHz input; the Python interface resamples other rates to 48 kHz (SciPy
+    `resample_poly`).
+  - >-
+    `time_skip_s` (default 0 s) leaves out the start of the signal from the reported frames; the computation still
+    runs over the whole signal. Time-varying results include every complete frame, labelled at frame centres, which
+    differs from SQAT's handling of the last frame and of time stamps.
 caveats:
   - Very new (first released in September 2026) and not yet widely used in the community; no independent verification has been published.
   - The README calls the current version experimental, particularly roughness and tonality, and says standards conformance has not been established.
@@ -54,6 +62,7 @@ implements:
     since: 0.1.0
     validation: cross-implementation
     compared_with: [mosqito]
+    derived_from: [mosqito, sqat]
     validation_details:
       - >-
         Model tables taken from MoSQITo were checked element by element; one upper-slope value (0.22) follows the ISO

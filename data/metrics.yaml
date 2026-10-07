@@ -63,6 +63,24 @@ methods:
       limits and gives Zwicker's calculation in an informative annex.
     references: [iso-532-1975, din-45631-1991, chalupper-fastl-2002, din-45631-a1-2010, iso-532-1-2017, iso-532-1-ed2-draft]
     current: [iso-532-1-2017]
+    conventions:
+      - >-
+        **Sound field.** ISO 532-1 has a free-field and a diffuse-field version, which give different values for the
+        same signal. Most implementations use free field unless told otherwise.
+      - >-
+        **Calibration.** The input is sound pressure in pascals. Audio read from a file has to be scaled first, and
+        tools ask for this in different ways: a calibration factor, a reference level or a full-scale level.
+      - >-
+        **Sample rate.** The time-varying method is specified at 48 kHz. Some implementations reject other rates,
+        others resample them, and the resampler changes the result slightly.
+      - >-
+        **Percentiles.** N5, the loudness exceeded 5 % of the time, depends on how the percentile is taken: SQAT
+        picks the nearest rank, while MATLAB's `prctile` and the NumPy and Julia quantile functions interpolate,
+        each in its own way.
+      - >-
+        **Start of the signal.** Time-varying loudness starts from silence and needs time to settle. Whether the
+        start is left out of N5 and other statistics (`time_skip` in SQAT, `time_skip_s` in MetaSona) matters for
+        short signals.
     edition_notes:
       iso-532-1975: Method B (Zwicker) for stationary sounds, from third-octave levels.
       din-45631-1991: Stationary sounds.
@@ -107,6 +125,13 @@ methods:
       method for stationary and time-varying sounds.
     references: [glasberg-moore-2002, moore-2016, moore-2018, iso-532-3-2023, iso-532-3-ed2-draft]
     current: [iso-532-3-2023]
+    conventions:
+      - >-
+        **Sample rate.** The Cambridge programs and ISO 532-3 work at 32 kHz. Most implementations resample to it;
+        phonometry runs at the native rate (a documented deviation), and the Swift & Gee code and the HAW tool expect
+        32 kHz input.
+      - >-
+        **Which output.** The models give instantaneous, short-term and long-term loudness; compare like with like.
     edition_notes:
       glasberg-moore-2002: Time-varying loudness model (short-term and long-term loudness).
       moore-2016: Adds binaural inhibition.
@@ -128,6 +153,22 @@ methods:
       editions can disagree.
     references: [ecma-418-2-ed1, ecma-418-2-ed2, ecma-418-2-ed3, ecma-418-2-ed4]
     current: [ecma-418-2-ed4]
+    conventions:
+      - >-
+        **Edition.** The four editions give different results; compare implementations of the same edition (see the
+        table of editions).
+      - >-
+        **Which loudness.** Clause 5 gives the hearing model's basic loudness; from the 2nd edition on, Clause 8
+        defines the loudness to report. MoSQITo and Mosqito.NET compute only the Clause 5 value, while the RefMap
+        code and its ports (SQAT, sottek-hearing-model, MetaSona) compute the Clause 8 loudness.
+      - >-
+        **Start of the signal.** The filters need time to settle, so overall values leave out the first 304 ms
+        (Section 8.1.4 of the 2025 edition, as cited by SQAT, which enforces it).
+      - >-
+        **Sample rate.** The model is defined at 48 kHz; other rates are resampled, and resamplers differ slightly.
+      - >-
+        **Sound field and channels.** The outer- and middle-ear filter can be free frontal or, from the 3rd edition,
+        diffuse, and two channels can be combined into one binaural value. Check both settings.
     edition_notes:
       ecma-418-2-ed1: Hearing model (Clause 5) with specific loudness.
       ecma-418-2-ed2: New Clause 8, loudness of sounds with subcritical or wider bandwidth.
@@ -147,8 +188,17 @@ methods:
       weighting that emphasises high frequencies. DIN 45692:2009 standardises the weighting and a test
       procedure, using Zwicker specific loudness (ISO 532-1 / DIN 45631). Most implementations also offer the
       weightings of von Bismarck (1974) and Aures (1985).
-    references: [von-bismarck-1974, aures-1985-euphony, fastl-zwicker-2007, din-45692-2009]
+    references: [von-bismarck-1974, aures-1985-euphony, fastl-zwicker-2007, din-45692-2009, swift-gee-2017]
     current: [din-45692-2009]
+    conventions:
+      - >-
+        **Weighting.** The DIN 45692, Aures and von Bismarck weightings give different values for the same sound,
+        and Aures' weighting depends on loudness. Many tools offer several; check which one is used (RefMap's
+        default is Aures).
+      - >-
+        **Loudness input.** Sharpness is computed from Zwicker specific loudness, so the loudness choices (sound
+        field, calibration, sample rate) carry over. Sharpness from another loudness model, such as ECMA-418-2
+        (RefMap) or Moore–Glasberg (Swift & Gee), is a different quantity.
     edition_notes:
       von-bismarck-1974: Original sharpness weighting.
       aures-1985-euphony: Weighting that depends on total loudness.
@@ -173,6 +223,17 @@ methods:
       v1.3 and earlier.
     references: [aures-1985-roughness, daniel-weber-1997]
     current: [daniel-weber-1997]
+    conventions:
+      - >-
+        **Frames.** The model works on 200 ms frames. Implementations differ in the hop between frames and in
+        whether the last complete frame is reported, which changes time series and their percentiles.
+      - >-
+        **Code lineage.** SQAT's code (after Dik Hermes) and MoSQITo's differ in details, and ports follow one or
+        the other; PsychoacousticMetrics.jl, which follows MoSQITo, says the two place the weighting g(z_i)
+        differently.
+      - >-
+        **Version.** SQAT rewrote its roughness on `main` in September 2026, so SQAT v1.3, `main` and code ported
+        from either give different values.
     edition_notes:
       aures-1985-roughness: Earlier model that Daniel & Weber optimised.
       daniel-weber-1997: Reference model.
@@ -190,6 +251,19 @@ methods:
       zero-padding and segmentation, and its refinements were mainly to roughness.
     references: [ecma-418-2-ed1, ecma-418-2-ed2, ecma-418-2-ed3, ecma-418-2-ed4]
     current: [ecma-418-2-ed4]
+    conventions:
+      - >-
+        **Edition.** Compare implementations of the same edition: MoSQITo, Mosqito.NET and tools that call MoSQITo
+        follow the 2nd edition, the others the 3rd or 4th.
+      - >-
+        **Overall value.** The single value is the 90th percentile of the time-dependent roughness after the first
+        320 ms. NumPy's percentile (sottek-hearing-model) and MATLAB's `prctile` (RefMap, SQAT) interpolate
+        differently, so single values can differ slightly.
+      - >-
+        **Calibration and time grid.** SQAT uses a slightly adjusted calibration factor and a time grid that ends at
+        the signal duration; MetaSona uses the standard's nominal factor (0.0180685) and its 20 ms grid.
+      - >-
+        **Binaural.** Two channels can be combined into one binaural value; per-channel and combined values differ.
     edition_notes:
       ecma-418-2-ed1: Clause 7 roughness.
       ecma-418-2-ed2: Refined calculation; optional entropy-weighted roughness.
@@ -226,6 +300,13 @@ methods:
       Neither is standardised. ECMA-418-2:2025 added a hearing-model method, listed on its own page.
     references: [fastl-zwicker-2007, osses-2016]
     current: [osses-2016]
+    conventions:
+      - >-
+        **Sample rate.** The model's envelope filters exist for 44.1 and 48 kHz: SQAT resamples other rates,
+        PsychoacousticMetrics.jl rejects them.
+      - >-
+        **Steady sounds.** The model is meant for modulated sounds; a steady tone does not give exactly zero
+        (phonometry reports about 0.09 vacil for a 1 kHz tone).
     edition_notes:
       fastl-zwicker-2007: Closed-form expression for amplitude- and frequency-modulated sounds.
       osses-2016: Signal-based model.
@@ -242,6 +323,15 @@ methods:
       Clause 9). It uses high-resolution spectral analysis for modulation rates of about 0.25 to 20 Hz.
     references: [ecma-418-2-ed4]
     current: [ecma-418-2-ed4]
+    conventions:
+      - >-
+        **Overall value.** The single value is a 90th percentile of the time-dependent values after the filters have
+        settled. NumPy (sottek-hearing-model) and MATLAB's `prctile` interpolate differently, by at most 0.0005
+        vacil_HMS on sottek-hearing-model's test signals.
+      - >-
+        **Interpretation.** Implementers report misprints and open questions in Clause 9 of the 2025 edition
+        (phonometry's errata, sottek-hearing-model's documented departures), so implementations can differ until
+        they are resolved.
     edition_notes:
       ecma-418-2-ed4: New Clause 9.
     see_also: [fluctuation-strength-osses, loudness-ecma-418-2]
@@ -279,6 +369,13 @@ methods:
       first published in 2020.
     references: [ecma-74-ed17, ecma-418-2-ed1, ecma-418-2-ed2, ecma-418-2-ed3, ecma-418-2-ed4]
     current: [ecma-418-2-ed4]
+    conventions:
+      - >-
+        **Edition and start.** Compare implementations of the same edition; overall values leave out the first
+        304 ms, where the filters settle.
+      - >-
+        **Tonal annoyance weighting.** RefMap and sottek-hearing-model offer an optional weighting after Sottek &
+        Becker (2019), which is not part of ECMA-418-2; leave it off when comparing with other implementations.
     edition_notes:
       ecma-74-ed17: Hearing model and tonality before ECMA-418-2 existed.
       ecma-418-2-ed1: Clause 6 tonality.
@@ -317,7 +414,7 @@ methods:
       German method that detects tonal components in noise from narrow-band spectra and derives a tone
       adjustment for the assessment of noise immissions. DIN 45681:2005, corrected by Berichtigung 2:2006-08
       (which replaced Berichtigung 1:2005-08), is current.
-    references: [din-45681-2005]
+    references: [din-45681-2002-draft, din-45681-2005]
     current: [din-45681-2005]
     edition_notes:
       din-45681-2005: Current; Berichtigung 2:2006-08 replaced Berichtigung 1:2005-08.
@@ -404,6 +501,15 @@ methods:
       assessment of annoyance through listening tests, including prediction models.
     references: [widmann-1992, zwicker-fastl-1999, more-2010, di-2016, iso-26573-draft]
     current: [widmann-1992, zwicker-fastl-1999, more-2010, di-2016]
+    conventions:
+      - >-
+        **Inputs.** The models combine percentile values of loudness, sharpness, roughness and fluctuation strength
+        (N5, S5, R5 and F5 in SQAT and PsychoacousticMetrics.jl). The percentile definition and the sharpness,
+        roughness and fluctuation-strength models used change the result, and so does using whole-signal values
+        instead (a stationary approximation).
+      - >-
+        **Same model, two names.** Zwicker & Fastl (1999) give Widmann's (1992) model; SQAT lists it under both
+        names. More (2010) and Di et al. (2016) are different models.
     edition_notes:
       widmann-1992: Original model.
       zwicker-fastl-1999: Book version of the model.
