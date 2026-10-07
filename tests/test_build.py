@@ -3,6 +3,7 @@ Markdown twin, structured data parses, and the README markers are intact."""
 
 from __future__ import annotations
 
+import html
 import json
 import re
 import sys
@@ -15,7 +16,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "scripts"))
 
 import build  # noqa: E402
-from pmi.data import GROUP_ORDER, load  # noqa: E402
+from pmi.data import GROUP_ORDER, KINDS, load  # noqa: E402
 from pmi.describe import timeline  # noqa: E402
 
 
@@ -141,8 +142,8 @@ class BuildTest(unittest.TestCase):
         self.assertEqual([p["_group"] for p in ordered], sorted((p["_group"] for p in ordered), key=GROUP_ORDER.get))
         tail = self.index.others() + self.index.group("unknown")
         self.assertEqual(ordered[-len(tail):], tail, "Others, then Status unknown, come last")
-        supers = ["sqat", "amt", "mosqito", "sottek-hearing-model", "ita-toolbox"]
-        self.assertEqual([p["id"] for p in ordered[:5]], supers)
+        supers = ["sqat", "mosqito", "sottek-hearing-model"]
+        self.assertEqual([p["id"] for p in ordered[:len(supers)]], supers)
         self.assertEqual(self.index.group("newly-released")[0]["id"], "metasona")
         self.assertEqual([p["id"] for p in self.index.super_projects()], supers)
 
@@ -205,7 +206,7 @@ class BuildTest(unittest.TestCase):
             if p["standing"] != "newly-released" or p.get("access"):  # status unknown has its own notice
                 continue
             text = (self.site / "projects" / f"{p['id']}.html").read_text(encoding="utf-8")
-            self.assertIn("not yet widely used", text.lower(), p["id"])
+            self.assertIn("not yet seen to be widely used", text.lower(), p["id"])
 
     def test_home_page_opens_with_the_timeline(self) -> None:
         html = (self.site / "index.html").read_text(encoding="utf-8")
@@ -358,7 +359,7 @@ class BuildTest(unittest.TestCase):
 
     def test_super_projects_are_bold_and_first_everywhere(self) -> None:
         supers = [p["id"] for p in self.index.super_projects()]
-        self.assertEqual(supers, ["sqat", "amt", "mosqito", "sottek-hearing-model", "ita-toolbox"])
+        self.assertEqual(supers, ["sqat", "mosqito", "sottek-hearing-model"])
         link = re.compile(r'<a href="(?:\.\./)*projects/([a-z0-9-]+)\.html"[^>]*>(<strong>)?')
 
         def ids(html: str) -> list[str]:
@@ -407,7 +408,27 @@ class BuildTest(unittest.TestCase):
         self.assertEqual(re.findall(r"^\| \*\*\[([^\]]+)\]", table, re.M),
                          [p["name"] for p in self.index.super_projects()], "README: super projects first, in bold")
         data = json.loads((self.site / "index.json").read_text(encoding="utf-8"))
-        self.assertEqual([p["id"] for p in data["projects"] if p.get("widely_used")], supers)
+        self.assertEqual([p["id"] for p in data["projects"] if p.get("highlight")], supers)
+
+    def test_highlights_and_kinds(self) -> None:
+        def page(pid: str) -> str:
+            return re.sub(r"\s+", " ", (self.site / "projects" / f"{pid}.html").read_text(encoding="utf-8"))
+        self.assertIn("A widely used project.", page("sqat"))
+        self.assertIn("A widely used project.", page("mosqito"))
+        self.assertIn("A very good implementation.", page("sottek-hearing-model"))
+        for pid in ("amt", "ita-toolbox"):  # widely used toolboxes, not in bold
+            self.assertFalse(self.index.project[pid]["_super"], pid)
+            self.assertRegex(page(pid), r"A widely used toolbox for [^<]* that also includes some psychoacoustic "
+                                        r"functions\.", pid)
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        self.assertIn("| established, widely used |", readme)
+        self.assertIn("| established, a very good implementation |", readme)
+        about = (self.site / "about.html").read_text(encoding="utf-8")
+        self.assertIn("SQAT and MoSQITo (widely used), and sottek-hearing-model (a very good implementation)", about)
+        for kind, meaning in KINDS.items():  # every kind is used and explained
+            self.assertIn(html.escape(meaning, quote=False), about, kind)
+            self.assertTrue(any(p["kind"] == kind for p in self.index.projects), f"kind {kind} is not used")
+        self.assertIn(html.escape(KINDS["library"], quote=False), page("sqat"))
 
     def test_the_super_project_tag_is_not_published(self) -> None:
         # super_project is the maintainer's display setting: only its effect (bold, first) is shown, and no page
@@ -429,6 +450,7 @@ class BuildTest(unittest.TestCase):
         finally:
             p.pop("super_project")
         self.assertIn("a super project must be established", problems)
+        self.assertIn("a super project needs a highlight", problems)
         self.assertIn("a super project is ordered by super_project; remove rank", problems)
 
     def test_ports_and_related_comparisons(self) -> None:

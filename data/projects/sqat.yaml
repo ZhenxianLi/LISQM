@@ -3,12 +3,13 @@ name: SQAT
 repository: https://github.com/ggrecow/SQAT
 docs: https://github.com/ggrecow/SQAT#readme
 languages: [MATLAB]
-kind: toolbox
+kind: library
 language_note: >-
   MATLAB only; SQAT has no Python interface of its own. pySQAT is a Python port of it, and MetaSona ports
   parts of it to C.
 standing: established
 super_project: 1  # bold and first in every list (see data/SCHEMA.md)
+highlight: widely used
 license: GPL-3.0-or-later (main) / CC-BY-NC-4.0 (releases)
 license_note: >-
   The default branch has been GPL-3.0-or-later since 2026-09-15, with BSD-3-Clause (ISO 532-1 loudness),

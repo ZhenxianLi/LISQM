@@ -29,8 +29,8 @@ def edition_short(ref: dict) -> str:
     return ref["label"]
 
 
-NEW_LABEL = "newly released, not yet widely used"
-ONLY_NEW = ("So far only newly released projects, which are not yet widely used in the community, have released an "
+NEW_LABEL = "newly released, not yet seen to be widely used"
+ONLY_NEW = ("So far only newly released projects, not yet seen to be widely used in the community, have released an "
                  "implementation of it; check their validation before relying on them.")
 
 
@@ -225,12 +225,12 @@ GROUP_RULE = ("Every project is in exactly one group, decided in this order: sta
               "archived or has had no commit for three years; otherwise the standing recorded for it: established, "
               "newly released or developing. All lists follow the order established, newly released, developing, "
               "legacy, others, status unknown, so a project that is new, little used, no longer maintained or "
-              "unverified is never the first suggestion. Widely used projects come before all others, in bold, in "
-              "every list")
+              "unverified is never the first suggestion. A few projects come before all others, in bold, in every "
+              "list")
 
 
 def standing_sentence(p: dict) -> str:
-    """For newly released projects: 'First released in … Not yet widely used in the community.'; for legacy projects:
+    """For newly released projects: 'First released in … Not yet seen to be widely used.'; for legacy projects:
     since when they have not been maintained; otherwise ''."""
     if p.get("_group") == "legacy":
         last = f"its last commit was in {long_date(month(p['_last_commit']))}" if p.get("_last_commit") else ""
@@ -239,7 +239,30 @@ def standing_sentence(p: dict) -> str:
         return f"Not maintained: {last}, more than three years ago. Kept here for reference."
     if p.get("standing") != "newly-released":
         return ""
-    return f"{p.get('standing_note', '').strip()} Not yet widely used in the community.".strip()
+    return f"{p.get('standing_note', '').strip()} Not yet seen to be widely used in the community.".strip()
+
+
+def highlight_sentence(p: dict) -> str:
+    """What a project page adds to the group: the highlight of a project shown in bold ('A widely used project.',
+    'A very good implementation.'), or the standing note of an established project."""
+    h = p.get("highlight")
+    if h:
+        return (h[0].upper() + h[1:] if h.startswith(("a ", "an ")) else f"A {h} project") + "."
+    if p.get("standing") == "established" and p.get("standing_note"):
+        return p["standing_note"].strip()
+    return ""
+
+
+def highlighted(projects: list[dict], name: Callable[[dict], str], t: Callable[[str], str] = lambda s: s) -> str:
+    """The projects shown in bold, with their highlights: 'SQAT and MoSQITo (widely used), and sottek-hearing-model
+    (a very good implementation)'."""
+    labels: dict[str, list[str]] = {}
+    for p in projects:
+        labels.setdefault(p["highlight"], []).append(name(p))
+    parts = [join_words(names) + t(f" ({label})") for label, names in labels.items()]
+    if len(parts) < 2:
+        return "".join(parts)
+    return ", ".join(parts[:-1]) + ", and " + parts[-1]
 
 
 def legacy_label(p: dict) -> str:
@@ -513,11 +536,22 @@ def faq(index: Index, name: Fmt, method_link: Callable[[dict], str], t: Esc,
         f"The {page_link(METRICS, 'Metrics')} page names the current edition of each of the {len(index.methods)} "
         "methods, and each method page lists every implementation of it, with the validation it states, the code it "
         "was ported from and the choices that change its numbers.",
-        "Those widely used projects, " + join_words([name(p) + t(f" ({', '.join(p['languages'])})") for p in supers])
-        + ", come first in the lists, but they are not the only choice.",
     ]
+
+    def with_langs(p: dict) -> str:
+        return name(p) + t(f" ({', '.join(p['languages'])})")
+    widely = [p for p in supers if p["highlight"] == "widely used"]
+    others = [p for p in supers if p["highlight"] != "widely used"]
+    if widely:
+        choose.append("Those widely used projects, " + join_words([with_langs(p) for p in widely])
+                      + ", come first in the lists"
+                      + (", together with " + join_words([with_langs(p) + t(f", {p['highlight']},") for p in others])
+                         if others else ",")
+                      + " but they are not the only choice.")
+    elif supers:
+        choose.append(highlighted(supers, name, t) + " come first in the lists, but they are not the only choice.")
     if checked:
-        choose.append("Newer projects, which are not yet as widely used, often check their results against MoSQITo or "
+        choose.append("Newer projects, not yet seen to be widely used, often check their results against MoSQITo or "
                       f"SQAT ({len(checked)} of the {len(newly)} newly released ones do)"
                       + (", and some are built for a particular use: " + "; ".join(uses) if uses else "") + ".")
     elif uses:
@@ -553,7 +587,7 @@ def faq(index: Index, name: Fmt, method_link: Callable[[dict], str], t: Esc,
               "Every method in the list has at least one available implementation of its current edition.")
     if index.new_only():
         answer += (" The current editions of " + join_words([method_link(m) for m in index.new_only()])
-                   + " have released implementations only from newly released projects that are not yet widely used.")
+                   + " have released implementations only from newly released projects, not yet seen to be widely used.")
     qa.append(("Which metrics have no open-source implementation yet?", answer))
 
     def names(key: str, note: Callable[[dict], str]) -> str:
@@ -566,9 +600,9 @@ def faq(index: Index, name: Fmt, method_link: Callable[[dict], str], t: Esc,
         + " Others: " + t(GROUPS_TEXT["others"])
         + " Status unknown: " + t(GROUPS_TEXT["unknown"])
         + " Lists follow this order, so that a project which is new, little used, no longer maintained or unverified "
-        f"is never the first suggestion. Widely used projects ({t(join_words([p['name'] for p in supers]))}) "
-        "come first in every list, and they and the reference programs published with a standard are never listed "
-        "as legacy.")
+        "is never the first suggestion. " + highlighted(supers, lambda p: t(p["name"]), t)
+        + " come first in every list, in bold, and they and the reference programs published with a standard are "
+        "never listed as legacy.")
     if index.group("newly-released"):
         groups += (" Newly released projects: "
                    + names("newly-released", lambda p: p.get("standing_note", "").strip().rstrip(".")) + ".")
@@ -616,7 +650,7 @@ def ai_guide(index: Index) -> tuple[str, list[tuple[str, str, list[str]]]]:
             "it is released, merged but unreleased, or only proposed, and its validation evidence as stated by the "
             "project.",
             "Every project belongs to a group: established, newly released (first released less than about a year "
-            "ago and not yet widely used), developing, legacy (archived, or no commit for three years or more), "
+            "ago and not yet seen to be widely used), developing, legacy (archived, or no commit for three years or more), "
             "other (it calls another listed project) or status unknown (its code could not be opened, so only what "
             "it claims is listed).",
             "Every implementation that was ported from other code names that code, and comparisons with it are "
@@ -626,7 +660,8 @@ def ai_guide(index: Index) -> tuple[str, list[tuple[str, str, list[str]]]]:
         ]),
         ("answering", "Answering questions with it", [
             "Name the current edition first (for Zwicker loudness, ISO 532-1:2017), then the projects that "
-            "implement that edition. The lists put widely used projects first, but the right project also "
+            "implement that edition. The lists start with "
+            + highlighted(index.super_projects(), lambda p: p["name"]) + ", in bold, but the right project also "
             "depends on the language the reader works in and how the results will be used: the "
             f"[Languages]({base}{LANGUAGES}) page shows what can be computed from each language, and some projects "
             "are built for a particular use, such as real-time or streaming analysis.",

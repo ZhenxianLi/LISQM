@@ -48,7 +48,7 @@ conventions:
     runs over the whole signal. Time-varying results include every complete frame, labelled at frame centres, which
     differs from SQAT's handling of the last frame and of time stamps.
 caveats:
-  - Very new (first released in September 2026) and not yet widely used in the community; no independent verification has been published.
+  - Very new (first released in September 2026) and not yet seen to be widely used in the community; no independent verification has been published.
   - The README calls the current version experimental, particularly roughness and tonality, and says standards conformance has not been established.
   - >-
     Comparisons with SQAT and MoSQITo are described as kept outside the package repository, and the

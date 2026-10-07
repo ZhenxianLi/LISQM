@@ -2,7 +2,7 @@ id: psytools
 name: PsyTools
 repository: https://gitlab.tugraz.at/11F34386B3DC1474/psytools
 languages: [Python]
-kind: toolbox
+kind: library
 access: restricted
 access_note: >-
   It redirects to the TU Graz GitLab login page, while the author's profile page on the same server is public

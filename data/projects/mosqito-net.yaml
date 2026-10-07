@@ -24,7 +24,7 @@ notes:
   - Also ports MoSQITo's speech intelligibility index (ANSI S3.5), which is outside the scope of this list.
 caveats:
   - >-
-    Very new and not yet widely used in the community; the README asks users to validate results against their own
+    Very new and not yet seen to be widely used in the community; the README asks users to validate results against their own
     reference data before relying on them.
   - Its ECMA-418-2 functions follow the 2nd edition (2022), two editions behind the current one, as in MoSQITo.
 conventions:

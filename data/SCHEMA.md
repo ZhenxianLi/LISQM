@@ -84,16 +84,18 @@ homepage: optional URL
 docs: optional URL
 languages: [C, Python]                        # programming languages a user calls it from, the main one first
                                               # (the home page shows the first)
-kind: library                                 # library | toolbox | research-code | reference-program | wrapper
+kind: library                                 # library | research-code | application | plugin | reference-program (below)
                                               # | application | plugin | teaching
 # core: C                                     # optional: the language the computation is written in, when it is
                                               # not the first of `languages` (Pure Data objects written in C)
 based_on: sqat                                # optional: id of the listed project this one ports
 language_note: optional markdown              # how the project is built and called (shown on the Languages page)
 standing: newly-released                      # established | developing | newly-released (see below)
-standing_note: First released in September 2026.   # required for newly-released: when it was first released
+standing_note: First released in September 2026.   # required for newly-released: when it was first released;
+                                              # optional for established: a sentence shown with its group
 rank: 1                                       # optional: place within its group, 1 first (see below)
 # super_project: 1                            # maintainer only: a super project, bold and first everywhere (below)
+# highlight: widely used                      # required with super_project: the short label shown with it
 license: GPL-3.0-only                         # SPDX expression, or "none" (no licence file), "proprietary-free",
                                               # or "unknown" (only when the code cannot be opened)
 license_note: optional markdown
@@ -154,7 +156,7 @@ checked: 2026-10-06                           # last time a person checked this 
 | Standing | Meaning |
 |---|---|
 | `established` | Described in a publication, used by others, or written by the authors of the model, with more than a year of history |
-| `newly-released` | First released less than about a year ago, and not yet widely used in the community |
+| `newly-released` | First released less than about a year ago, and not yet seen to be widely used in the community |
 | `developing` | Public for more than a year, but without a publication or documented use by others: research, teaching or personal code |
 
 Three more groups follow from the data rather than from the project file:
@@ -171,13 +173,28 @@ others and status unknown, so a project that is new, little used, no longer main
 the first suggestion. Review the standing of `newly-released` projects once they are a year old: they become
 `established` or `developing`.
 
-**Super projects.** `super_project: n` is the maintainer's display setting for widely used projects, at present
-SQAT (1), the Auditory Modeling Toolbox (2), MoSQITo (3), sottek-hearing-model (4) and the ITA-Toolbox (5). It is
-not published as such: it makes the project's name bold wherever it appears and puts the project first in its group
-in every list, in the order of `n` (`index.json` only has `widely_used: true`). A super project must be
-established, so it heads every list, and it is never legacy.
-Only the maintainer sets it. Within a group, other projects with a `rank` come next, in rank order; MetaSona has
+**Super projects.** `super_project: n` is the maintainer's display setting, at present for SQAT (1), MoSQITo (2)
+and sottek-hearing-model (3). It is not published as such: it makes the project's name bold wherever it appears and
+puts the project first in its group in every list, in the order of `n`. Its `highlight` is the short label shown with
+it in the README, in llms.txt, in `index.json` and on its page: "widely used" for SQAT and MoSQITo, "a very good
+implementation" for sottek-hearing-model. A super project must be established, so it heads every list, and it is
+never legacy. Only the maintainer sets it. An established project that is not in bold can still say why it matters
+in its `standing_note`, shown with its group on its page (the Auditory Modeling Toolbox and the ITA-Toolbox: widely
+used toolboxes that also include some psychoacoustic functions). Within a group, other projects with a `rank` come next, in rank order; MetaSona has
 rank 1 among the newly released projects.
+
+### Kind of a project
+
+What a project is, for someone who wants to use it. Each project page shows the kind with its meaning, and the
+About page lists them all.
+
+| Kind | Meaning |
+|---|---|
+| `library` | Functions to call from your own code: a Python package, a MATLAB toolbox, or a C, C++, C#, Rust or Julia library |
+| `research-code` | Code published with a study, a thesis or a student project, to run or adapt; not packaged as a library |
+| `application` | A program to run, with a graphical or command-line interface; no programming needed |
+| `plugin` | Runs inside other software: a plug-in for an audio workstation, or a Pure Data external |
+| `reference-program` | Code published with a standard or by the authors of the model, as the reference for it |
 
 ### Status of an implementation
 

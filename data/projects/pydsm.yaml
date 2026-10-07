@@ -3,7 +3,7 @@ name: PyDSM
 repository: https://github.com/sergiocallegari/PyDSM
 docs: https://pythonhosted.org/pydsm/pydsm.iso226.html
 languages: [Python]
-kind: toolbox
+kind: library
 standing: established
 license: GPL-3.0-or-later
 packages:

@@ -19,20 +19,27 @@
     "projects": 39,
     "references": 55
   },
-  "ordering": "Implementations and projects are listed by group: established, newly released, developing, legacy, others, status unknown. Newly released projects were first released less than about a year ago and are not yet widely used in the community. Legacy projects are archived or have had no commit for three years or more; widely used projects (widely_used: true) and reference programs are never legacy. Within each group widely used projects come first, then ranked and active ones. Projects in the others group do not compute the metrics themselves; they call another listed project (listed in calls), and their rows appear under also_through instead of implementations. Projects in the unknown group could not be opened (access); they list a claim and no implementations.",
+  "ordering": "Implementations and projects are listed by group: established, newly released, developing, legacy, others, status unknown. Newly released projects were first released less than about a year ago and are not yet seen to be widely used in the community. Legacy projects are archived or have had no commit for three years or more; the projects with a highlight (shown in bold on the website) and reference programs are never legacy. Within each group the projects with a highlight come first, then ranked and active ones. Projects in the others group do not compute the metrics themselves; they call another listed project (listed in calls), and their rows appear under also_through instead of implementations. Projects in the unknown group could not be opened (access); they list a claim and no implementations.",
   "definitions": {
     "standing": {
       "established": "Described in a publication, used by others, or written by the authors of the model, with more than a year of history.",
-      "newly-released": "First released less than about a year ago, and not yet widely used in the community.",
+      "newly-released": "First released less than about a year ago, and not yet seen to be widely used in the community.",
       "developing": "Public for more than a year, but without a publication or documented use by others: research, teaching or personal code."
     },
     "group": {
       "established": "Described in a publication, used by others, or written by the authors of the model, with more than a year of history.",
-      "newly-released": "First released less than about a year ago, and not yet widely used in the community.",
+      "newly-released": "First released less than about a year ago, and not yet seen to be widely used in the community.",
       "developing": "Public for more than a year, but without a publication or documented use by others: research, teaching or personal code.",
       "legacy": "Archived, or no commit for three years or more. Kept for reference: the code may follow an older edition and may not run with current software.",
       "others": "Tools that do not compute the metrics themselves: interfaces, front ends and wrappers that call one of the listed projects.",
       "unknown": "Projects whose code could not be opened, for example because the repository needs a login. What they implement is unverified, so they are listed with what they claim and not under the metrics."
+    },
+    "kind": {
+      "library": "Functions to call from your own code: a Python package, a MATLAB toolbox, or a C, C++, C#, Rust or Julia library.",
+      "research-code": "Code published with a study, a thesis or a student project, to run or adapt; not packaged as a library.",
+      "application": "A program to run, with a graphical or command-line interface; no programming needed.",
+      "plugin": "Runs inside other software: a plug-in for an audio workstation, or a Pure Data external.",
+      "reference-program": "Code published with a standard or by the authors of the model, as the reference for it."
     },
     "status": {
       "available": "In the latest release, or on the default branch of a project without releases.",
@@ -202,6 +209,23 @@
           ]
         },
         {
+          "project": "aarae",
+          "reference": "iso-532-1-2017",
+          "functions": [
+            "Loudness_ISO532_1"
+          ],
+          "scope": "stationary and time-varying",
+          "status": "available",
+          "validation": "standard-data",
+          "derived_from": [
+            "ISO 532-1 Annex A reference program"
+          ],
+          "validation_details": [
+            "A commit of 2017-12-11 says the code was verified with the time-varying test signals of Annex B.5; no check of the stationary method is stated."
+          ],
+          "note": "The header cites a 2014 draft of ISO 532-1 and describes the code as Ella Manor's 2015 MATLAB port, with adjustments, of the Annex A C code."
+        },
+        {
           "project": "ita-toolbox",
           "reference": "din-45631-a1-2010",
           "functions": [
@@ -217,6 +241,17 @@
             "N5 is MATLAB's `prctile(N, 95)`. Blocks are 2 ms long without overlap by default, and the signal is processed at its own sample rate."
           ],
           "note": "The header says \"DIN 45631/A1\" without a year; the function was written in August 2010, after the amendment was published. A code comment says the C code of the nonlinearity block was copied from the DIN document, \"without its errors\"."
+        },
+        {
+          "project": "aarae",
+          "reference": "chalupper-fastl-2002",
+          "functions": [
+            "LoudnessCF"
+          ],
+          "scope": "time-varying",
+          "status": "available",
+          "validation": "not-stated",
+          "note": "Also outputs loudness fluctuation and time-varying sharpness."
         },
         {
           "project": "ita-toolbox",
@@ -237,34 +272,6 @@
             "Third-octave levels come from an FFT by default, or from a filter bank (`'mode', 'filter'`)."
           ],
           "note": "The header says \"DIN 45631 / ISO 532 B\". The C core (`private/DIN45631.c`) is Aaron Hastings' version (2000) of the BASIC program published by Zwicker, Fastl, Widmann, Kurakata, Kuwano and Namba in J. Acoust. Soc. Jpn (E) 12(1), 1991."
-        },
-        {
-          "project": "aarae",
-          "reference": "iso-532-1-2017",
-          "functions": [
-            "Loudness_ISO532_1"
-          ],
-          "scope": "stationary and time-varying",
-          "status": "available",
-          "validation": "standard-data",
-          "derived_from": [
-            "ISO 532-1 Annex A reference program"
-          ],
-          "validation_details": [
-            "A commit of 2017-12-11 says the code was verified with the time-varying test signals of Annex B.5; no check of the stationary method is stated."
-          ],
-          "note": "The header cites a 2014 draft of ISO 532-1 and describes the code as Ella Manor's 2015 MATLAB port, with adjustments, of the Annex A C code."
-        },
-        {
-          "project": "aarae",
-          "reference": "chalupper-fastl-2002",
-          "functions": [
-            "LoudnessCF"
-          ],
-          "scope": "time-varying",
-          "status": "available",
-          "validation": "not-stated",
-          "note": "Also outputs loudness fluctuation and time-varying sharpness."
         },
         {
           "project": "metasona",
@@ -805,6 +812,20 @@
       },
       "implementations": [
         {
+          "project": "js2251-iso532-3",
+          "reference": "iso-532-3-2023",
+          "functions": [
+            "tv2018"
+          ],
+          "scope": "reference MATLAB code referred to in ISO 532-3, per its readme",
+          "status": "available",
+          "validation": "not-stated",
+          "validation_details": [
+            "The folder \"code for tables\" has scripts that compute Table 5 (sone to phon) and the values of Annexes B and C (AnnexC.m is headed \"Signals numbered as in ISO 532-2 Annex B\"); the scripts do not name ISO 532-3."
+          ],
+          "note": "Written by the model's authors (per the readme PDF)."
+        },
+        {
           "project": "amt",
           "reference": "moore-2016",
           "functions": [
@@ -830,20 +851,6 @@
             "Has the experiment script `exp_glasberg2002`; AMT's experiment scripts reproduce the results of the publication they are named after."
           ],
           "note": "Listed as \"GLASBERG2002 - Loudness model for time-variant signals\"."
-        },
-        {
-          "project": "js2251-iso532-3",
-          "reference": "iso-532-3-2023",
-          "functions": [
-            "tv2018"
-          ],
-          "scope": "reference MATLAB code referred to in ISO 532-3, per its readme",
-          "status": "available",
-          "validation": "not-stated",
-          "validation_details": [
-            "The folder \"code for tables\" has scripts that compute Table 5 (sone to phon) and the values of Annexes B and C (AnnexC.m is headed \"Signals numbered as in ISO 532-2 Annex B\"); the scripts do not name ISO 532-3."
-          ],
-          "note": "Written by the model's authors (per the readme PDF)."
         },
         {
           "project": "aarae",
@@ -1618,19 +1625,6 @@
           ]
         },
         {
-          "project": "ita-toolbox",
-          "reference": "daniel-weber-1997",
-          "functions": [
-            "ita_roughness_daniel"
-          ],
-          "status": "available",
-          "validation": "standard-data",
-          "validation_details": [
-            "A code comment says that after major bug fixes the values \"more or less match those of the paper by Daniel\"; no test or comparison script is included."
-          ],
-          "note": "Uses sub-functions written by Martin Klemenz in 2000 (`external_packages/roughness_daniel`)."
-        },
-        {
           "project": "aarae",
           "reference": "daniel-weber-1997",
           "functions": [
@@ -1642,6 +1636,19 @@
             "psysound3"
           ],
           "note": "Ported from PsySound3's `@RoughnessDW` by Ella Manor and Densil Cabrera (2015)."
+        },
+        {
+          "project": "ita-toolbox",
+          "reference": "daniel-weber-1997",
+          "functions": [
+            "ita_roughness_daniel"
+          ],
+          "status": "available",
+          "validation": "standard-data",
+          "validation_details": [
+            "A code comment says that after major bug fixes the values \"more or less match those of the paper by Daniel\"; no test or comparison script is included."
+          ],
+          "note": "Uses sub-functions written by Martin Klemenz in 2000 (`external_packages/roughness_daniel`)."
         },
         {
           "project": "metasona",
@@ -4271,9 +4278,10 @@
       "languages": [
         "MATLAB"
       ],
-      "kind": "toolbox",
+      "kind": "library",
       "language_note": "MATLAB only; SQAT has no Python interface of its own. pySQAT is a Python port of it, and MetaSona ports parts of it to C.",
       "standing": "established",
+      "highlight": "widely used",
       "license": "GPL-3.0-or-later (main) / CC-BY-NC-4.0 (releases)",
       "license_note": "The default branch has been GPL-3.0-or-later since 2026-09-15, with BSD-3-Clause (ISO 532-1 loudness), MIT (Daniel & Weber roughness and nine utilities) and CC0-1.0 (colour maps) exceptions. Every release up to and including v1.3 is CC-BY-NC-4.0 (non-commercial) at repository level, while 21 metric files in v1.3 carry BSD-style notices and the ECMA-418-2 files say GPL-3.0.",
       "maintainers": [
@@ -4618,122 +4626,7 @@
       "activity": "active",
       "archived": false,
       "stars": 100,
-      "group": "established",
-      "widely_used": true
-    },
-    {
-      "id": "amt",
-      "name": "Auditory Modeling Toolbox (AMT)",
-      "short_name": "AMT",
-      "repository": "https://sourceforge.net/p/amtoolbox/code/",
-      "homepage": "https://amtoolbox.org",
-      "languages": [
-        "MATLAB",
-        "Octave"
-      ],
-      "kind": "toolbox",
-      "language_note": "Runs in MATLAB and in GNU Octave. torch_amt and NumpyLibforPsychoAcoustic port some of its loudness models to Python.",
-      "standing": "established",
-      "license": "GPL-3.0",
-      "license_note": "SourceForge lists the licence as GPLv3 without saying whether later versions are allowed; the torch_amt README, which follows the AMT licence, gives it as GPL v3.0 or later.",
-      "packages": [
-        {
-          "registry": "other",
-          "name": "amtoolbox",
-          "url": "https://sourceforge.net/projects/amtoolbox/files/"
-        }
-      ],
-      "summary": "MATLAB/Octave toolbox of auditory models for reproducible research. Its loudness models include the Moore–Glasberg models for stationary sounds (`moore1997`, `chen2011`), time-varying sounds (`glasberg2002`) and binaural loudness (`moore2016`).",
-      "ai_assistance": "not-stated",
-      "paper": {
-        "citation": "Majdak, P., Hollomey, C., & Baumgartner, R. (2022). AMT 1.x: A toolbox for reproducible research in auditory modeling. *Acta Acustica*, 6, 19.",
-        "doi": "10.1051/aacus/2022011"
-      },
-      "notes": [
-        "Releases are published as downloads on SourceForge (`amtoolbox` and `amtoolbox-full`); the git repository's default branch is `develop`. The SourceForge project page mentions no GitHub or GitLab mirror.",
-        "Also contains `bramslow2004`, a loudness model considering hearing loss (AUDMOD), with the experiment script `exp_bramslow2004`; it has no reference entry in this list.",
-        "Neither the develop branch nor release 1.6.0 has a roughness, fluctuation strength, sharpness, tonality or annoyance model (`osses2021` is a monaural perceptual-similarity model).",
-        "Python ports of some of its loudness models exist: [torch_amt](https://github.com/StefanoGiacomelli/torch_amt) (`glasberg2002`, `moore2016`) and [NumpyLibforPsychoAcoustic](https://github.com/Ryrybros/NumpyLibforPsychoAcoustic) (`moore1997`, `glasberg2002`). There is no official Python package (amtoolbox and pyamtoolbox are not on PyPI).",
-        "The validation entries rest on AMT's design: each `exp_…` script is meant to reproduce figures of the model paper. The scripts' output was not checked for this list."
-      ],
-      "implements": [
-        {
-          "method": "loudness-moore-glasberg",
-          "reference": "moore-1997",
-          "functions": [
-            "moore1997"
-          ],
-          "status": "available",
-          "validation": "standard-data",
-          "validation_details": [
-            "AMT's experiment scripts (`exp_…`) reproduce published results; this model has `exp_moore1997`."
-          ],
-          "note": "Listed as \"MOORE1997 - Loudness model for stationary signals\" in models/Contents.m."
-        },
-        {
-          "method": "loudness-moore-glasberg",
-          "reference": "chen-2011",
-          "functions": [
-            "chen2011"
-          ],
-          "status": "available",
-          "validation": "standard-data",
-          "validation_details": [
-            "Has the experiment script `exp_chen2011`; AMT's experiment scripts reproduce the results of the publication they are named after."
-          ],
-          "note": "Listed as \"CHEN2011 - Fast excitation pattern estimation\"."
-        },
-        {
-          "method": "loudness-moore-glasberg-time-varying",
-          "reference": "glasberg-moore-2002",
-          "functions": [
-            "glasberg2002"
-          ],
-          "status": "available",
-          "validation": "standard-data",
-          "validation_details": [
-            "Has the experiment script `exp_glasberg2002`; AMT's experiment scripts reproduce the results of the publication they are named after."
-          ],
-          "note": "Listed as \"GLASBERG2002 - Loudness model for time-variant signals\"."
-        },
-        {
-          "method": "loudness-moore-glasberg-time-varying",
-          "reference": "moore-2016",
-          "functions": [
-            "moore2016"
-          ],
-          "scope": "binaural",
-          "status": "available",
-          "validation": "not-stated",
-          "validation_details": [
-            "There is no `exp_moore2016` experiment script on the develop branch."
-          ],
-          "note": "Listed as \"MOORE2016 - Binaural loudness model\"."
-        }
-      ],
-      "sources": [
-        "https://sourceforge.net/projects/amtoolbox/",
-        "https://sourceforge.net/projects/amtoolbox/files/",
-        "https://sourceforge.net/p/amtoolbox/code/ci/develop/tree/models/",
-        "https://sourceforge.net/p/amtoolbox/code/ci/1.6.0/tree/models/",
-        "https://sourceforge.net/p/amtoolbox/code/ci/develop/tree/experiments/",
-        "https://sourceforge.net/p/amtoolbox/code/ci/develop/log/",
-        "https://github.com/StefanoGiacomelli/torch_amt/blob/main/README.md"
-      ],
-      "checked": "2026-10-06",
-      "url": "https://zhenxianli.github.io/LISQM/projects/amt.html",
-      "last_commit": "2026-06-14",
-      "latest_release": {
-        "version": "1.6.0",
-        "date": "2024-10-01",
-        "source": ""
-      },
-      "prerelease": null,
-      "activity": "active",
-      "archived": false,
-      "stars": null,
-      "group": "established",
-      "widely_used": true
+      "group": "established"
     },
     {
       "id": "mosqito",
@@ -4745,6 +4638,7 @@
       ],
       "kind": "library",
       "standing": "established",
+      "highlight": "widely used",
       "license": "Apache-2.0",
       "packages": [
         {
@@ -4936,8 +4830,7 @@
       "activity": "inactive",
       "archived": false,
       "stars": 178,
-      "group": "established",
-      "widely_used": true
+      "group": "established"
     },
     {
       "id": "sottek-hearing-model",
@@ -4950,6 +4843,7 @@
       "based_on": "refmap-psychoacoustics",
       "language_note": "Needs Python 3.11 or newer. Translated from the MATLAB code used in SQAT and RefMap.",
       "standing": "established",
+      "highlight": "a very good implementation",
       "license": "GPL-3.0-only",
       "license_note": "The LICENSE file has always been GPL-3.0 and the project metadata was changed to GPL-3.0-only on 2026-08-31; the metadata of the current PyPI release (0.1.14) still says AGPL-3.0-only.",
       "packages": [
@@ -5082,121 +4976,7 @@
       "activity": "active",
       "archived": false,
       "stars": 23,
-      "group": "established",
-      "widely_used": true
-    },
-    {
-      "id": "ita-toolbox",
-      "name": "ITA-Toolbox",
-      "repository": "https://git.rwth-aachen.de/ita/toolbox",
-      "homepage": "https://www.ita-toolbox.org/",
-      "languages": [
-        "MATLAB"
-      ],
-      "kind": "toolbox",
-      "language_note": "MATLAB toolbox. The loudness functions call C code compiled as MEX files; the C sources and precompiled binaries for Windows, Linux and macOS are included.",
-      "standing": "established",
-      "license": "BSD-4-Clause",
-      "license_note": "The root `license.txt` (2011) is the four-clause BSD licence: advertising material that mentions the software must acknowledge the Institute of Technical Acoustics (RWTH Aachen University). The psychoacoustics files refer to a licence in their own folder, which contains none.",
-      "maintainers": [
-        "Institute of Technical Acoustics (ITA)",
-        "RWTH Aachen University"
-      ],
-      "summary": "MATLAB toolbox for acoustic measurements and signal processing from the Institute of Technical Acoustics, RWTH Aachen University, open source since 2010. Its psychoacoustics application computes stationary loudness after DIN 45631 / ISO 532 B, time-varying loudness after DIN 45631/A1, Daniel & Weber roughness and DIN 45681 tonality (2002 draft).",
-      "ai_assistance": "not-stated",
-      "paper": {
-        "citation": "Berzborn, M., Bomhardt, R., Klein, J., Richter, J.-G., & Vorländer, M. (2017). The ITA-Toolbox: An open source MATLAB toolbox for acoustic measurements and signal processing. *Fortschritte der Akustik – DAGA 2017*, Kiel, 222–225.",
-        "url": "https://publications.rwth-aachen.de/record/687308"
-      },
-      "notes": [
-        "The psychoacoustic functions were written in 2010 (Martin Guski: loudness; Daniel Cragg: roughness, tonality and sharpness) and are in `applications/Psychoacoustics`, last changed in September 2022.",
-        "`ita_sharpness` names no method; its weighting has the form of the DIN 45692 weighting, but as the code does not say which standard it follows, it is not listed as an implementation of DIN 45692.",
-        "The repository is on RWTH Aachen University's GitLab, which announces a move to gitlab.git.nrw, so its address may change."
-      ],
-      "caveats": [
-        "`ita_roughness_daniel` and `ita_sharpness` print that a newer version exists (`ita_psychoacoustic_roughness`, `ita_psychoacoustic_sharpness`). Those functions, like `ita_psychoacoustic_loudness` and `ita_psychoacoustic_fluctuationStrength` (2021), call the MATLAB Audio Toolbox, which is closed source, so they are not listed here.",
-        "There are no releases; use the default branch."
-      ],
-      "implements": [
-        {
-          "method": "loudness-zwicker",
-          "reference": "din-45631-1991",
-          "functions": [
-            "ita_loudness"
-          ],
-          "scope": "stationary; free or diffuse field",
-          "status": "available",
-          "validation": "standard-data",
-          "derived_from": [
-            "BASIC program of DIN 45631 (Zwicker et al., 1991)"
-          ],
-          "validation_details": [
-            "A test compares the loudness of a generated pink noise with 95.09 sone (GF), a value the test attributes to DIN 45631, within 5 %, with third-octave levels computed both by FFT and by filter bank."
-          ],
-          "conventions": [
-            "Third-octave levels come from an FFT by default, or from a filter bank (`'mode', 'filter'`)."
-          ],
-          "note": "The header says \"DIN 45631 / ISO 532 B\". The C core (`private/DIN45631.c`) is Aaron Hastings' version (2000) of the BASIC program published by Zwicker, Fastl, Widmann, Kurakata, Kuwano and Namba in J. Acoust. Soc. Jpn (E) 12(1), 1991."
-        },
-        {
-          "method": "loudness-zwicker",
-          "reference": "din-45631-a1-2010",
-          "functions": [
-            "ita_loudness_timevariant"
-          ],
-          "scope": "time-varying, with N5",
-          "status": "available",
-          "validation": "standard-data",
-          "validation_details": [
-            "A test script plots the results for the amendment's test signals A to D (1 kHz tone pulses of 10 ms to 500 ms) against its tolerance bands; it does not check them automatically."
-          ],
-          "conventions": [
-            "N5 is MATLAB's `prctile(N, 95)`. Blocks are 2 ms long without overlap by default, and the signal is processed at its own sample rate."
-          ],
-          "note": "The header says \"DIN 45631/A1\" without a year; the function was written in August 2010, after the amendment was published. A code comment says the C code of the nonlinearity block was copied from the DIN document, \"without its errors\"."
-        },
-        {
-          "method": "roughness-daniel-weber",
-          "reference": "daniel-weber-1997",
-          "functions": [
-            "ita_roughness_daniel"
-          ],
-          "status": "available",
-          "validation": "standard-data",
-          "validation_details": [
-            "A code comment says that after major bug fixes the values \"more or less match those of the paper by Daniel\"; no test or comparison script is included."
-          ],
-          "note": "Uses sub-functions written by Martin Klemenz in 2000 (`external_packages/roughness_daniel`)."
-        },
-        {
-          "method": "tonality-din-45681",
-          "reference": "din-45681-2002-draft",
-          "functions": [
-            "ita_tonality"
-          ],
-          "scope": "maximum tonal audibility and its frequency",
-          "status": "available",
-          "validation": "not-stated",
-          "note": "The header cites \"DIN 45681 (2002)\", the draft that preceded DIN 45681:2005. A code comment says that no A-weighting is applied."
-        }
-      ],
-      "sources": [
-        "https://git.rwth-aachen.de/ita/toolbox",
-        "https://git.rwth-aachen.de/ita/toolbox/-/blob/master/license.txt",
-        "https://git.rwth-aachen.de/ita/toolbox/-/tree/master/applications/Psychoacoustics",
-        "https://www.ita-toolbox.org/",
-        "https://publications.rwth-aachen.de/record/687308"
-      ],
-      "checked": "2026-10-07",
-      "url": "https://zhenxianli.github.io/LISQM/projects/ita-toolbox.html",
-      "last_commit": "2025-09-22",
-      "latest_release": null,
-      "prerelease": null,
-      "activity": "inactive",
-      "archived": false,
-      "stars": null,
-      "group": "established",
-      "widely_used": true
+      "group": "established"
     },
     {
       "id": "acoustic-toolbox",
@@ -5264,8 +5044,121 @@
       "activity": "active",
       "archived": false,
       "stars": 30,
-      "group": "established",
-      "widely_used": false
+      "group": "established"
+    },
+    {
+      "id": "amt",
+      "name": "Auditory Modeling Toolbox (AMT)",
+      "short_name": "AMT",
+      "repository": "https://sourceforge.net/p/amtoolbox/code/",
+      "homepage": "https://amtoolbox.org",
+      "languages": [
+        "MATLAB",
+        "Octave"
+      ],
+      "kind": "library",
+      "language_note": "Runs in MATLAB and in GNU Octave. torch_amt and NumpyLibforPsychoAcoustic port some of its loudness models to Python.",
+      "standing": "established",
+      "standing_note": "A widely used toolbox for auditory modelling that also includes some psychoacoustic functions.",
+      "license": "GPL-3.0",
+      "license_note": "SourceForge lists the licence as GPLv3 without saying whether later versions are allowed; the torch_amt README, which follows the AMT licence, gives it as GPL v3.0 or later.",
+      "packages": [
+        {
+          "registry": "other",
+          "name": "amtoolbox",
+          "url": "https://sourceforge.net/projects/amtoolbox/files/"
+        }
+      ],
+      "summary": "MATLAB/Octave toolbox of auditory models for reproducible research. Its loudness models include the Moore–Glasberg models for stationary sounds (`moore1997`, `chen2011`), time-varying sounds (`glasberg2002`) and binaural loudness (`moore2016`).",
+      "ai_assistance": "not-stated",
+      "paper": {
+        "citation": "Majdak, P., Hollomey, C., & Baumgartner, R. (2022). AMT 1.x: A toolbox for reproducible research in auditory modeling. *Acta Acustica*, 6, 19.",
+        "doi": "10.1051/aacus/2022011"
+      },
+      "notes": [
+        "Releases are published as downloads on SourceForge (`amtoolbox` and `amtoolbox-full`); the git repository's default branch is `develop`. The SourceForge project page mentions no GitHub or GitLab mirror.",
+        "Also contains `bramslow2004`, a loudness model considering hearing loss (AUDMOD), with the experiment script `exp_bramslow2004`; it has no reference entry in this list.",
+        "Neither the develop branch nor release 1.6.0 has a roughness, fluctuation strength, sharpness, tonality or annoyance model (`osses2021` is a monaural perceptual-similarity model).",
+        "Python ports of some of its loudness models exist: [torch_amt](https://github.com/StefanoGiacomelli/torch_amt) (`glasberg2002`, `moore2016`) and [NumpyLibforPsychoAcoustic](https://github.com/Ryrybros/NumpyLibforPsychoAcoustic) (`moore1997`, `glasberg2002`). There is no official Python package (amtoolbox and pyamtoolbox are not on PyPI).",
+        "The validation entries rest on AMT's design: each `exp_…` script is meant to reproduce figures of the model paper. The scripts' output was not checked for this list."
+      ],
+      "implements": [
+        {
+          "method": "loudness-moore-glasberg",
+          "reference": "moore-1997",
+          "functions": [
+            "moore1997"
+          ],
+          "status": "available",
+          "validation": "standard-data",
+          "validation_details": [
+            "AMT's experiment scripts (`exp_…`) reproduce published results; this model has `exp_moore1997`."
+          ],
+          "note": "Listed as \"MOORE1997 - Loudness model for stationary signals\" in models/Contents.m."
+        },
+        {
+          "method": "loudness-moore-glasberg",
+          "reference": "chen-2011",
+          "functions": [
+            "chen2011"
+          ],
+          "status": "available",
+          "validation": "standard-data",
+          "validation_details": [
+            "Has the experiment script `exp_chen2011`; AMT's experiment scripts reproduce the results of the publication they are named after."
+          ],
+          "note": "Listed as \"CHEN2011 - Fast excitation pattern estimation\"."
+        },
+        {
+          "method": "loudness-moore-glasberg-time-varying",
+          "reference": "glasberg-moore-2002",
+          "functions": [
+            "glasberg2002"
+          ],
+          "status": "available",
+          "validation": "standard-data",
+          "validation_details": [
+            "Has the experiment script `exp_glasberg2002`; AMT's experiment scripts reproduce the results of the publication they are named after."
+          ],
+          "note": "Listed as \"GLASBERG2002 - Loudness model for time-variant signals\"."
+        },
+        {
+          "method": "loudness-moore-glasberg-time-varying",
+          "reference": "moore-2016",
+          "functions": [
+            "moore2016"
+          ],
+          "scope": "binaural",
+          "status": "available",
+          "validation": "not-stated",
+          "validation_details": [
+            "There is no `exp_moore2016` experiment script on the develop branch."
+          ],
+          "note": "Listed as \"MOORE2016 - Binaural loudness model\"."
+        }
+      ],
+      "sources": [
+        "https://sourceforge.net/projects/amtoolbox/",
+        "https://sourceforge.net/projects/amtoolbox/files/",
+        "https://sourceforge.net/p/amtoolbox/code/ci/develop/tree/models/",
+        "https://sourceforge.net/p/amtoolbox/code/ci/1.6.0/tree/models/",
+        "https://sourceforge.net/p/amtoolbox/code/ci/develop/tree/experiments/",
+        "https://sourceforge.net/p/amtoolbox/code/ci/develop/log/",
+        "https://github.com/StefanoGiacomelli/torch_amt/blob/main/README.md"
+      ],
+      "checked": "2026-10-06",
+      "url": "https://zhenxianli.github.io/LISQM/projects/amt.html",
+      "last_commit": "2026-06-14",
+      "latest_release": {
+        "version": "1.6.0",
+        "date": "2024-10-01",
+        "source": ""
+      },
+      "prerelease": null,
+      "activity": "active",
+      "archived": false,
+      "stars": null,
+      "group": "established"
     },
     {
       "id": "pd-psycho",
@@ -5330,8 +5223,7 @@
       "activity": "active",
       "archived": false,
       "stars": 22,
-      "group": "established",
-      "widely_used": false
+      "group": "established"
     },
     {
       "id": "refmap-psychoacoustics",
@@ -5512,8 +5404,7 @@
       "activity": "active",
       "archived": false,
       "stars": 23,
-      "group": "established",
-      "widely_used": false
+      "group": "established"
     },
     {
       "id": "aarae",
@@ -5638,8 +5529,7 @@
       "activity": "inactive",
       "archived": false,
       "stars": 36,
-      "group": "established",
-      "widely_used": false
+      "group": "established"
     },
     {
       "id": "js2251-iso532-3",
@@ -5698,8 +5588,120 @@
       "activity": "inactive",
       "archived": false,
       "stars": 2,
-      "group": "established",
-      "widely_used": false
+      "group": "established"
+    },
+    {
+      "id": "ita-toolbox",
+      "name": "ITA-Toolbox",
+      "repository": "https://git.rwth-aachen.de/ita/toolbox",
+      "homepage": "https://www.ita-toolbox.org/",
+      "languages": [
+        "MATLAB"
+      ],
+      "kind": "library",
+      "language_note": "MATLAB toolbox. The loudness functions call C code compiled as MEX files; the C sources and precompiled binaries for Windows, Linux and macOS are included.",
+      "standing": "established",
+      "standing_note": "A widely used toolbox for acoustic measurements and signal processing that also includes some psychoacoustic functions.",
+      "license": "BSD-4-Clause",
+      "license_note": "The root `license.txt` (2011) is the four-clause BSD licence: advertising material that mentions the software must acknowledge the Institute of Technical Acoustics (RWTH Aachen University). The psychoacoustics files refer to a licence in their own folder, which contains none.",
+      "maintainers": [
+        "Institute of Technical Acoustics (ITA)",
+        "RWTH Aachen University"
+      ],
+      "summary": "MATLAB toolbox for acoustic measurements and signal processing from the Institute of Technical Acoustics, RWTH Aachen University, open source since 2010. Its psychoacoustics application computes stationary loudness after DIN 45631 / ISO 532 B, time-varying loudness after DIN 45631/A1, Daniel & Weber roughness and DIN 45681 tonality (2002 draft).",
+      "ai_assistance": "not-stated",
+      "paper": {
+        "citation": "Berzborn, M., Bomhardt, R., Klein, J., Richter, J.-G., & Vorländer, M. (2017). The ITA-Toolbox: An open source MATLAB toolbox for acoustic measurements and signal processing. *Fortschritte der Akustik – DAGA 2017*, Kiel, 222–225.",
+        "url": "https://publications.rwth-aachen.de/record/687308"
+      },
+      "notes": [
+        "The psychoacoustic functions were written in 2010 (Martin Guski: loudness; Daniel Cragg: roughness, tonality and sharpness) and are in `applications/Psychoacoustics`, last changed in September 2022.",
+        "`ita_sharpness` names no method; its weighting has the form of the DIN 45692 weighting, but as the code does not say which standard it follows, it is not listed as an implementation of DIN 45692.",
+        "The repository is on RWTH Aachen University's GitLab, which announces a move to gitlab.git.nrw, so its address may change."
+      ],
+      "caveats": [
+        "`ita_roughness_daniel` and `ita_sharpness` print that a newer version exists (`ita_psychoacoustic_roughness`, `ita_psychoacoustic_sharpness`). Those functions, like `ita_psychoacoustic_loudness` and `ita_psychoacoustic_fluctuationStrength` (2021), call the MATLAB Audio Toolbox, which is closed source, so they are not listed here.",
+        "There are no releases; use the default branch."
+      ],
+      "implements": [
+        {
+          "method": "loudness-zwicker",
+          "reference": "din-45631-1991",
+          "functions": [
+            "ita_loudness"
+          ],
+          "scope": "stationary; free or diffuse field",
+          "status": "available",
+          "validation": "standard-data",
+          "derived_from": [
+            "BASIC program of DIN 45631 (Zwicker et al., 1991)"
+          ],
+          "validation_details": [
+            "A test compares the loudness of a generated pink noise with 95.09 sone (GF), a value the test attributes to DIN 45631, within 5 %, with third-octave levels computed both by FFT and by filter bank."
+          ],
+          "conventions": [
+            "Third-octave levels come from an FFT by default, or from a filter bank (`'mode', 'filter'`)."
+          ],
+          "note": "The header says \"DIN 45631 / ISO 532 B\". The C core (`private/DIN45631.c`) is Aaron Hastings' version (2000) of the BASIC program published by Zwicker, Fastl, Widmann, Kurakata, Kuwano and Namba in J. Acoust. Soc. Jpn (E) 12(1), 1991."
+        },
+        {
+          "method": "loudness-zwicker",
+          "reference": "din-45631-a1-2010",
+          "functions": [
+            "ita_loudness_timevariant"
+          ],
+          "scope": "time-varying, with N5",
+          "status": "available",
+          "validation": "standard-data",
+          "validation_details": [
+            "A test script plots the results for the amendment's test signals A to D (1 kHz tone pulses of 10 ms to 500 ms) against its tolerance bands; it does not check them automatically."
+          ],
+          "conventions": [
+            "N5 is MATLAB's `prctile(N, 95)`. Blocks are 2 ms long without overlap by default, and the signal is processed at its own sample rate."
+          ],
+          "note": "The header says \"DIN 45631/A1\" without a year; the function was written in August 2010, after the amendment was published. A code comment says the C code of the nonlinearity block was copied from the DIN document, \"without its errors\"."
+        },
+        {
+          "method": "roughness-daniel-weber",
+          "reference": "daniel-weber-1997",
+          "functions": [
+            "ita_roughness_daniel"
+          ],
+          "status": "available",
+          "validation": "standard-data",
+          "validation_details": [
+            "A code comment says that after major bug fixes the values \"more or less match those of the paper by Daniel\"; no test or comparison script is included."
+          ],
+          "note": "Uses sub-functions written by Martin Klemenz in 2000 (`external_packages/roughness_daniel`)."
+        },
+        {
+          "method": "tonality-din-45681",
+          "reference": "din-45681-2002-draft",
+          "functions": [
+            "ita_tonality"
+          ],
+          "scope": "maximum tonal audibility and its frequency",
+          "status": "available",
+          "validation": "not-stated",
+          "note": "The header cites \"DIN 45681 (2002)\", the draft that preceded DIN 45681:2005. A code comment says that no A-weighting is applied."
+        }
+      ],
+      "sources": [
+        "https://git.rwth-aachen.de/ita/toolbox",
+        "https://git.rwth-aachen.de/ita/toolbox/-/blob/master/license.txt",
+        "https://git.rwth-aachen.de/ita/toolbox/-/tree/master/applications/Psychoacoustics",
+        "https://www.ita-toolbox.org/",
+        "https://publications.rwth-aachen.de/record/687308"
+      ],
+      "checked": "2026-10-07",
+      "url": "https://zhenxianli.github.io/LISQM/projects/ita-toolbox.html",
+      "last_commit": "2025-09-22",
+      "latest_release": null,
+      "prerelease": null,
+      "activity": "inactive",
+      "archived": false,
+      "stars": null,
+      "group": "established"
     },
     {
       "id": "pydsm",
@@ -5709,7 +5711,7 @@
       "languages": [
         "Python"
       ],
-      "kind": "toolbox",
+      "kind": "library",
       "standing": "established",
       "license": "GPL-3.0-or-later",
       "packages": [
@@ -5765,8 +5767,7 @@
       "activity": "inactive",
       "archived": false,
       "stars": 22,
-      "group": "established",
-      "widely_used": false
+      "group": "established"
     },
     {
       "id": "metasona",
@@ -5809,7 +5810,7 @@
         "`time_skip_s` (default 0 s) leaves out the start of the signal from the reported frames; the computation still runs over the whole signal. Time-varying results include every complete frame, labelled at frame centres, which differs from SQAT's handling of the last frame and of time stamps."
       ],
       "caveats": [
-        "Very new (first released in September 2026) and not yet widely used in the community; no independent verification has been published.",
+        "Very new (first released in September 2026) and not yet seen to be widely used in the community; no independent verification has been published.",
         "The README calls the current version experimental, particularly roughness and tonality, and says standards conformance has not been established.",
         "Comparisons with SQAT and MoSQITo are described as kept outside the package repository, and the third-party notes say exact agreement with the MATLAB code is not established."
       ],
@@ -5962,8 +5963,7 @@
       "activity": "active",
       "archived": false,
       "stars": 1,
-      "group": "newly-released",
-      "widely_used": false
+      "group": "newly-released"
     },
     {
       "id": "iso532-1-rs",
@@ -6039,8 +6039,7 @@
       "activity": "active",
       "archived": false,
       "stars": 1,
-      "group": "newly-released",
-      "widely_used": false
+      "group": "newly-released"
     },
     {
       "id": "kirin-hypha",
@@ -6130,8 +6129,7 @@
       "activity": "active",
       "archived": false,
       "stars": null,
-      "group": "newly-released",
-      "widely_used": false
+      "group": "newly-released"
     },
     {
       "id": "mosqito-net",
@@ -6158,7 +6156,7 @@
         "Also ports MoSQITo's speech intelligibility index (ANSI S3.5), which is outside the scope of this list."
       ],
       "caveats": [
-        "Very new and not yet widely used in the community; the README asks users to validate results against their own reference data before relying on them.",
+        "Very new and not yet seen to be widely used in the community; the README asks users to validate results against their own reference data before relying on them.",
         "Its ECMA-418-2 functions follow the 2nd edition (2022), two editions behind the current one, as in MoSQITo."
       ],
       "conventions": [
@@ -6298,8 +6296,7 @@
       "activity": "active",
       "archived": false,
       "stars": null,
-      "group": "newly-released",
-      "widely_used": false
+      "group": "newly-released"
     },
     {
       "id": "numpylib-psychoacoustic",
@@ -6370,8 +6367,7 @@
       "activity": "active",
       "archived": false,
       "stars": 0,
-      "group": "newly-released",
-      "widely_used": false
+      "group": "newly-released"
     },
     {
       "id": "phonometry",
@@ -6409,7 +6405,7 @@
         }
       ],
       "caveats": [
-        "Very new (psychoacoustics module first released in July 2026) and not yet widely used in the community; no independent verification has been published.",
+        "Very new (psychoacoustics module first released in July 2026) and not yet seen to be widely used in the community; no independent verification has been published.",
         "Single maintainer; all validation comes from the project's own tests.",
         "The ECMA-418-2 checks only use the calibration signals, and no comparison with another implementation is reported. Its loudness reads 0.984 sone_HMS at the calibration point, which its own documentation says is outside the adjustment the standard allows.",
         "Requires Python 3.13 or newer."
@@ -6718,8 +6714,7 @@
       "activity": "active",
       "archived": false,
       "stars": 119,
-      "group": "newly-released",
-      "widely_used": false
+      "group": "newly-released"
     },
     {
       "id": "psychoacousticmetrics-jl",
@@ -6857,8 +6852,7 @@
       "activity": "active",
       "archived": false,
       "stars": null,
-      "group": "newly-released",
-      "widely_used": false
+      "group": "newly-released"
     },
     {
       "id": "soundpalette",
@@ -6961,8 +6955,7 @@
       "activity": "active",
       "archived": false,
       "stars": 0,
-      "group": "newly-released",
-      "widely_used": false
+      "group": "newly-released"
     },
     {
       "id": "torch-amt",
@@ -7054,8 +7047,7 @@
       "activity": "active",
       "archived": false,
       "stars": 3,
-      "group": "newly-released",
-      "widely_used": false
+      "group": "newly-released"
     },
     {
       "id": "zwickerloudness-jl",
@@ -7150,8 +7142,7 @@
       "activity": "active",
       "archived": false,
       "stars": 4,
-      "group": "newly-released",
-      "widely_used": false
+      "group": "newly-released"
     },
     {
       "id": "pysqat",
@@ -7380,8 +7371,7 @@
       "activity": "active",
       "archived": false,
       "stars": 5,
-      "group": "developing",
-      "widely_used": false
+      "group": "developing"
     },
     {
       "id": "loudnessmodel",
@@ -7442,8 +7432,7 @@
       "activity": "inactive",
       "archived": false,
       "stars": 17,
-      "group": "developing",
-      "widely_used": false
+      "group": "developing"
     },
     {
       "id": "rapid-loudness-sharpness",
@@ -7534,8 +7523,7 @@
       "activity": "inactive",
       "archived": false,
       "stars": null,
-      "group": "legacy",
-      "widely_used": false
+      "group": "legacy"
     },
     {
       "id": "zhen-ni-epnl",
@@ -7589,8 +7577,7 @@
       "activity": "inactive",
       "archived": false,
       "stars": 0,
-      "group": "legacy",
-      "widely_used": false
+      "group": "legacy"
     },
     {
       "id": "fluctuation-strength-tue",
@@ -7653,8 +7640,7 @@
       "activity": "inactive",
       "archived": false,
       "stars": 1,
-      "group": "legacy",
-      "widely_used": false
+      "group": "legacy"
     },
     {
       "id": "iosr-matlab-toolbox",
@@ -7663,7 +7649,7 @@
       "languages": [
         "MATLAB"
       ],
-      "kind": "toolbox",
+      "kind": "library",
       "standing": "established",
       "license": "MIT",
       "maintainers": [
@@ -7708,8 +7694,7 @@
       "activity": "inactive",
       "archived": false,
       "stars": 133,
-      "group": "legacy",
-      "widely_used": false
+      "group": "legacy"
     },
     {
       "id": "deeuu-loudness",
@@ -7810,8 +7795,7 @@
       "activity": "inactive",
       "archived": false,
       "stars": 40,
-      "group": "legacy",
-      "widely_used": false
+      "group": "legacy"
     },
     {
       "id": "mosqito-fdp",
@@ -7881,8 +7865,7 @@
       "activity": "archived",
       "archived": true,
       "stars": 2,
-      "group": "legacy",
-      "widely_used": false
+      "group": "legacy"
     },
     {
       "id": "psychoacoustic-parameters-measurer",
@@ -7969,8 +7952,7 @@
       "activity": "inactive",
       "archived": false,
       "stars": 13,
-      "group": "legacy",
-      "widely_used": false
+      "group": "legacy"
     },
     {
       "id": "psysound3",
@@ -8065,8 +8047,7 @@
       "activity": "inactive",
       "archived": false,
       "stars": 17,
-      "group": "legacy",
-      "widely_used": false
+      "group": "legacy"
     },
     {
       "id": "python-acoustics",
@@ -8134,8 +8115,7 @@
       "activity": "archived",
       "archived": true,
       "stars": 563,
-      "group": "legacy",
-      "widely_used": false
+      "group": "legacy"
     },
     {
       "id": "haw-specific-loudness",
@@ -8209,8 +8189,7 @@
       "activity": "inactive",
       "archived": false,
       "stars": null,
-      "group": "legacy",
-      "widely_used": false
+      "group": "legacy"
     },
     {
       "id": "suave",
@@ -8266,8 +8245,7 @@
       "activity": "inactive",
       "archived": false,
       "stars": 530,
-      "group": "legacy",
-      "widely_used": false
+      "group": "legacy"
     },
     {
       "id": "zwickerloudness-sourceforge",
@@ -8324,8 +8302,7 @@
       "activity": "inactive",
       "archived": false,
       "stars": null,
-      "group": "legacy",
-      "widely_used": false
+      "group": "legacy"
     },
     {
       "id": "psychobox",
@@ -8423,7 +8400,6 @@
       "archived": false,
       "stars": 10,
       "group": "others",
-      "widely_used": false,
       "calls": [
         "mosqito"
       ]
@@ -8436,7 +8412,7 @@
       "languages": [
         "Python"
       ],
-      "kind": "wrapper",
+      "kind": "library",
       "standing": "established",
       "license": "BSD-3-Clause",
       "packages": [
@@ -8526,7 +8502,6 @@
       "archived": false,
       "stars": 59,
       "group": "others",
-      "widely_used": false,
       "calls": [
         "mosqito"
       ]
@@ -8629,7 +8604,6 @@
       "archived": false,
       "stars": 2,
       "group": "others",
-      "widely_used": false,
       "calls": [
         "zwickerloudness-jl"
       ]
@@ -8641,7 +8615,7 @@
       "languages": [
         "Python"
       ],
-      "kind": "toolbox",
+      "kind": "library",
       "access": "restricted",
       "access_note": "It redirects to the TU Graz GitLab login page, while the author's profile page on the same server is public (checked 2026-10-07).",
       "claim": "A conference paper describes an open-source Python toolbox for standardised psychoacoustic analysis: loudness, sharpness, fluctuation strength, roughness, tonality, psychoacoustic annoyance, LAeq and LAmax, following ISO 532-1, DIN 45692 and ECMA-418, with the Zwicker model and the Sottek Hearing Model.",
@@ -8670,8 +8644,7 @@
       "activity": "unknown",
       "archived": false,
       "stars": null,
-      "group": "unknown",
-      "widely_used": false
+      "group": "unknown"
     }
   ],
   "gaps": [
@@ -8714,7 +8687,7 @@
     {
       "date": "2026-10-07",
       "title": "Who ported code from whom, how to cite it, and five more projects",
-      "body": "Method pages now show who ported code from whom, as the projects state it. A comparison with related code is\nmarked \"(its source)\", \"(a port of it)\" or \"(also ported from …)\", and its tag is grey when nothing independent\nis stated: agreement with the code an implementation was ported from shows a faithful port, not that either\nfollows the standard. A new section, *Before you compare numbers*, lists the choices that make correct\nimplementations give different numbers: sound field, calibration, sample rate, percentile definition,\nsharpness weighting and the start of the signal.\n\nAlso in this update:\n\n- Every project page has a *How to cite* line, and all standards, model papers and software papers are\n  available as BibTeX in references.bib.\n- New projects: the ITA-Toolbox (RWTH Aachen, MATLAB), Mosqito.NET (a C# port of MoSQITo, newly released), and\n  two legacy MATLAB tools, the Swift & Gee loudness and sharpness codes and the HAW Hamburg loudness tool.\n  PsyTools (TU Graz) is listed in a new group, *Status unknown*, because its repository cannot be opened\n  without a login.\n- sottek-hearing-model and the ITA-Toolbox join SQAT, the Auditory Modeling Toolbox and MoSQITo as widely\n  used projects, in bold and first in every list. In personal use, the maintainer of the list found\n  sottek-hearing-model in very good agreement with HEAD acoustics ArtemiS SUITE.\n- Validation details were added for MoSQITo's ECMA-418-2 roughness and for phonometry's tone-to-noise and\n  prominence ratios, psychoacoustic annoyance and ISO 226:2023 contours. phonometry's annoyance is now listed\n  under its own tests only, as no published value is checked.\n- RefMap's Python functions use the sottek-hearing-model package and are listed under it.\n- The twice-monthly refresh now checks every external link and reports broken ones in its review issue.\n"
+      "body": "Method pages now show who ported code from whom, as the projects state it. A comparison with related code is\nmarked \"(its source)\", \"(a port of it)\" or \"(also ported from …)\", and its tag is grey when nothing independent\nis stated: agreement with the code an implementation was ported from shows a faithful port, not that either\nfollows the standard. A new section, *Before you compare numbers*, lists the choices that make correct\nimplementations give different numbers: sound field, calibration, sample rate, percentile definition,\nsharpness weighting and the start of the signal.\n\nAlso in this update:\n\n- Every project page has a *How to cite* line, and all standards, model papers and software papers are\n  available as BibTeX in references.bib.\n- New projects: the ITA-Toolbox (RWTH Aachen, MATLAB), Mosqito.NET (a C# port of MoSQITo, newly released), and\n  two legacy MATLAB tools, the Swift & Gee loudness and sharpness codes and the HAW Hamburg loudness tool.\n  PsyTools (TU Graz) is listed in a new group, *Status unknown*, because its repository cannot be opened\n  without a login.\n- SQAT and MoSQITo, which are widely used, and sottek-hearing-model, a very good implementation, are shown in\n  bold and first in every list. In personal use, the maintainer of the list found sottek-hearing-model in very\n  good agreement with HEAD acoustics ArtemiS SUITE. The Auditory Modeling Toolbox and the ITA-Toolbox, widely\n  used toolboxes that also include some psychoacoustic functions, are listed with the other established\n  projects.\n- Each project page explains its kind: library, research code, application, plug-in or reference program.\n  MATLAB toolboxes are listed as libraries, like Python packages, since both are used the same way.\n- Newly released projects are described as not yet seen to be widely used.\n- The FAQ answer on which code to use starts from the reader's language and use, and names projects built for\n  a particular use.\n- Validation details were added for MoSQITo's ECMA-418-2 roughness and for phonometry's tone-to-noise and\n  prominence ratios, psychoacoustic annoyance and ISO 226:2023 contours. phonometry's annoyance is now listed\n  under its own tests only, as no published value is checked.\n- RefMap's Python functions use the sottek-hearing-model package and are listed under it.\n- The twice-monthly refresh now checks every external link and reports broken ones in its review issue.\n"
     },
     {
       "date": "2026-10-07",
@@ -8724,12 +8697,12 @@
     {
       "date": "2026-10-07",
       "title": "Two newly released projects",
-      "body": "PsychoacousticMetrics.jl (Julia) adds DIN 45692 sharpness, Daniel & Weber roughness, Osses et al. (2016)\nfluctuation strength and Widmann (1992) psychoacoustic annoyance on top of ZwickerLoudness.jl, by the same\nauthor. Kirin Hypha, a measurement plug-in for audio workstations, computes ISO 532-1 time-varying loudness and\nDIN 45692 sharpness in Rust, ported from MoSQITo. Both were found by the first scheduled search for new\nprojects; like the other newly released projects, they are not yet widely used.\n"
+      "body": "PsychoacousticMetrics.jl (Julia) adds DIN 45692 sharpness, Daniel & Weber roughness, Osses et al. (2016)\nfluctuation strength and Widmann (1992) psychoacoustic annoyance on top of ZwickerLoudness.jl, by the same\nauthor. Kirin Hypha, a measurement plug-in for audio workstations, computes ISO 532-1 time-varying loudness and\nDIN 45692 sharpness in Rust, ported from MoSQITo. Both were found by the first scheduled search for new\nprojects; like the other newly released projects, they are not yet seen to be widely used.\n"
     },
     {
       "date": "2026-10-06",
       "title": "Version 0.1, the first public version of LISQM",
-      "body": "LISQM (List of Implementations of Sound Quality Metrics) starts with 32 projects in Python, MATLAB, Octave, C,\nC++, Rust, Julia and Pure Data, and 22 methods from Zwicker loudness to aural detectability. Every implementation is\ntied to the standard edition or model paper it follows, with links to the documentation the facts were taken\nfrom. Repository dates, releases and package versions are refreshed twice a month.\n\nWorth knowing as of today:\n\n- ECMA-418-2 is at its 4th edition (June 2025), which added fluctuation strength. sottek-hearing-model and\n  refmap-psychoacoustics follow it, as do phonometry and MetaSona, two newly released projects that are not yet\n  widely used. SQAT has it on its main branch only, and MoSQITo still follows the 2nd edition (2022).\n- SQAT's latest release (v1.3) is licensed for non-commercial use only. Its main branch is GPL-3.0 and\n  carries unreleased fixes to ISO 532-1 time-varying loudness, Aures tonality and Daniel & Weber roughness\n  that change results.\n- All three parts of ISO 532 are being revised; committee drafts have existed since November 2024.\n- No open implementation was found for DIN 38455:2024 (the first German roughness standard), DIN 45681 or\n  ISO/TS 20065:2022.\n- Six projects disclose that AI tools assisted their development; each project page says where.\n- Every project is in one group: established, newly released (first released less than about a year ago and\n  not yet widely used), developing, legacy (archived, or no commit for three years) or others (calls another\n  listed project). Lists follow this order, so a new, little-used or unmaintained project is never the first\n  suggestion.\n- Candidates that could not be checked yet, such as PsyTools (TU Graz) and the ITA-Toolbox, are listed on\n  the About page as leads.\n"
+      "body": "LISQM (List of Implementations of Sound Quality Metrics) starts with 32 projects in Python, MATLAB, Octave, C,\nC++, Rust, Julia and Pure Data, and 22 methods from Zwicker loudness to aural detectability. Every implementation is\ntied to the standard edition or model paper it follows, with links to the documentation the facts were taken\nfrom. Repository dates, releases and package versions are refreshed twice a month.\n\nWorth knowing as of today:\n\n- ECMA-418-2 is at its 4th edition (June 2025), which added fluctuation strength. sottek-hearing-model and\n  refmap-psychoacoustics follow it, as do phonometry and MetaSona, two newly released projects that are not yet\n  seen to be widely used. SQAT has it on its main branch only, and MoSQITo still follows the 2nd edition (2022).\n- SQAT's latest release (v1.3) is licensed for non-commercial use only. Its main branch is GPL-3.0 and\n  carries unreleased fixes to ISO 532-1 time-varying loudness, Aures tonality and Daniel & Weber roughness\n  that change results.\n- All three parts of ISO 532 are being revised; committee drafts have existed since November 2024.\n- No open implementation was found for DIN 38455:2024 (the first German roughness standard), DIN 45681 or\n  ISO/TS 20065:2022.\n- Six projects disclose that AI tools assisted their development; each project page says where.\n- Every project is in one group: established, newly released (first released less than about a year ago and\n  not yet seen to be widely used), developing, legacy (archived, or no commit for three years) or others\n  (calls another listed project). Lists follow this order, so a new, little-used or unmaintained project is\n  never the first suggestion.\n- Candidates that could not be checked yet, such as PsyTools (TU Graz) and the ITA-Toolbox, are listed on\n  the About page as leads.\n"
     }
   ]
 }

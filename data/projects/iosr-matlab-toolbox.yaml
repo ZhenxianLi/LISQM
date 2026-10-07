@@ -2,7 +2,7 @@ id: iosr-matlab-toolbox
 name: IoSR Matlab Toolbox
 repository: https://github.com/IoSR-Surrey/MatlabToolbox
 languages: [MATLAB]
-kind: toolbox
+kind: library
 standing: established
 license: MIT
 maintainers: [Christopher Hummersone]

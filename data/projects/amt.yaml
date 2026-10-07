@@ -4,12 +4,12 @@ short_name: AMT
 repository: https://sourceforge.net/p/amtoolbox/code/
 homepage: https://amtoolbox.org
 languages: [MATLAB, Octave]
-kind: toolbox
+kind: library
 language_note: >-
   Runs in MATLAB and in GNU Octave. torch_amt and NumpyLibforPsychoAcoustic port some of its loudness models
   to Python.
 standing: established
-super_project: 2  # bold and first in every list (see data/SCHEMA.md)
+standing_note: A widely used toolbox for auditory modelling that also includes some psychoacoustic functions.
 license: GPL-3.0
 license_note: >-
   SourceForge lists the licence as GPLv3 without saying whether later versions are allowed; the torch_amt README,

@@ -19,9 +19,16 @@ Also in this update:
   two legacy MATLAB tools, the Swift & Gee loudness and sharpness codes and the HAW Hamburg loudness tool.
   PsyTools (TU Graz) is listed in a new group, *Status unknown*, because its repository cannot be opened
   without a login.
-- sottek-hearing-model and the ITA-Toolbox join SQAT, the Auditory Modeling Toolbox and MoSQITo as widely
-  used projects, in bold and first in every list. In personal use, the maintainer of the list found
-  sottek-hearing-model in very good agreement with HEAD acoustics ArtemiS SUITE.
+- SQAT and MoSQITo, which are widely used, and sottek-hearing-model, a very good implementation, are shown in
+  bold and first in every list. In personal use, the maintainer of the list found sottek-hearing-model in very
+  good agreement with HEAD acoustics ArtemiS SUITE. The Auditory Modeling Toolbox and the ITA-Toolbox, widely
+  used toolboxes that also include some psychoacoustic functions, are listed with the other established
+  projects.
+- Each project page explains its kind: library, research code, application, plug-in or reference program.
+  MATLAB toolboxes are listed as libraries, like Python packages, since both are used the same way.
+- Newly released projects are described as not yet seen to be widely used.
+- The FAQ answer on which code to use starts from the reader's language and use, and names projects built for
+  a particular use.
 - Validation details were added for MoSQITo's ECMA-418-2 roughness and for phonometry's tone-to-noise and
   prominence ratios, psychoacoustic annoyance and ISO 226:2023 contours. phonometry's annoyance is now listed
   under its own tests only, as no published value is checked.
@@ -51,7 +58,7 @@ PsychoacousticMetrics.jl (Julia) adds DIN 45692 sharpness, Daniel & Weber roughn
 fluctuation strength and Widmann (1992) psychoacoustic annoyance on top of ZwickerLoudness.jl, by the same
 author. Kirin Hypha, a measurement plug-in for audio workstations, computes ISO 532-1 time-varying loudness and
 DIN 45692 sharpness in Rust, ported from MoSQITo. Both were found by the first scheduled search for new
-projects; like the other newly released projects, they are not yet widely used.
+projects; like the other newly released projects, they are not yet seen to be widely used.
 
 ## 2026-10-06: Version 0.1, the first public version of LISQM
 
@@ -64,7 +71,7 @@ Worth knowing as of today:
 
 - ECMA-418-2 is at its 4th edition (June 2025), which added fluctuation strength. sottek-hearing-model and
   refmap-psychoacoustics follow it, as do phonometry and MetaSona, two newly released projects that are not yet
-  widely used. SQAT has it on its main branch only, and MoSQITo still follows the 2nd edition (2022).
+  seen to be widely used. SQAT has it on its main branch only, and MoSQITo still follows the 2nd edition (2022).
 - SQAT's latest release (v1.3) is licensed for non-commercial use only. Its main branch is GPL-3.0 and
   carries unreleased fixes to ISO 532-1 time-varying loudness, Aures tonality and Daniel & Weber roughness
   that change results.
@@ -73,8 +80,8 @@ Worth knowing as of today:
   ISO/TS 20065:2022.
 - Six projects disclose that AI tools assisted their development; each project page says where.
 - Every project is in one group: established, newly released (first released less than about a year ago and
-  not yet widely used), developing, legacy (archived, or no commit for three years) or others (calls another
-  listed project). Lists follow this order, so a new, little-used or unmaintained project is never the first
-  suggestion.
+  not yet seen to be widely used), developing, legacy (archived, or no commit for three years) or others
+  (calls another listed project). Lists follow this order, so a new, little-used or unmaintained project is
+  never the first suggestion.
 - Candidates that could not be checked yet, such as PsyTools (TU Graz) and the ITA-Toolbox, are listed on
   the About page as leads.

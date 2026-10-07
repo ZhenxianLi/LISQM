@@ -20,15 +20,22 @@ from .text import date_str
 ROOT = Path(__file__).resolve().parents[2]
 DATA = ROOT / "data"
 
+# What a project is, for someone who wants to use it: its name and what it means.
 PROJECT_KINDS = {
     "library": "Library",
-    "toolbox": "Toolbox",
     "research-code": "Research code",
-    "reference-program": "Reference program",
-    "wrapper": "Wrapper",
     "application": "Application",
-    "plugin": "Plugin or external",
-    "teaching": "Teaching material",
+    "plugin": "Plug-in",
+    "reference-program": "Reference program",
+}
+KINDS = {
+    "library": "Functions to call from your own code: a Python package, a MATLAB toolbox, or a C, C++, C#, Rust or "
+               "Julia library.",
+    "research-code": "Code published with a study, a thesis or a student project, to run or adapt; not packaged as a "
+                     "library.",
+    "application": "A program to run, with a graphical or command-line interface; no programming needed.",
+    "plugin": "Runs inside other software: a plug-in for an audio workstation, or a Pure Data external.",
+    "reference-program": "Code published with a standard or by the authors of the model, as the reference for it.",
 }
 IMPL_STATUS = {
     "available": "available",
@@ -81,12 +88,12 @@ STATUS_ORDER = {"available": 0, "unreleased": 1, "proposed": 2}
 STANDING = {
     "established": "Described in a publication, used by others, or written by the authors of the model, with more "
                    "than a year of history.",
-    "newly-released": "First released less than about a year ago, and not yet widely used in the community.",
+    "newly-released": "First released less than about a year ago, and not yet seen to be widely used in the community.",
     "developing": "Public for more than a year, but without a publication or documented use by others: research, "
                   "teaching or personal code.",
 }
 # Every project is in exactly one group, decided in this order: status unknown (its code cannot be opened), others
-# (it computes nothing itself), legacy (archived, or no commit for `legacy_after_days`, except widely used
+# (it computes nothing itself), legacy (archived, or no commit for `legacy_after_days`, except super
 # projects and reference programs, which are not expected to change), then the standing recorded in the project file.
 # Every list uses the order of GROUPS.
 GROUPS = {
@@ -114,7 +121,7 @@ ACTIVITY_ORDER = {"active": 0, "unknown": 1, "inactive": 2, "archived": 3}
 
 def super_order(p: dict) -> tuple[int, int]:
     """(0, n) for the n-th super project, (1, 0) for every other project. Super projects (`super_project` in the
-    project file) are widely used ones: they are shown in bold and come first in their group, which is
+    project file) are the maintainer's display setting: shown in bold, with their `highlight`, and first in their group, which is
     always established, so they head every list."""
     return (0, int(p["super_project"])) if p.get("super_project") else (1, 0)
 
@@ -348,6 +355,10 @@ class Index:
                     add(f"{w}: a super project is ordered by super_project; remove rank")
                 if p.get("standing") != "established" or p.get("access"):
                     add(f"{w}: a super project must be established, so that it heads every list")
+                if not p.get("highlight"):
+                    add(f"{w}: a super project needs a highlight, the short label shown with it (e.g. widely used)")
+            elif p.get("highlight"):
+                add(f"{w}: highlight is only for a super project")
             if p.get("based_on") and p["based_on"] not in self.project:
                 add(f"{w}: based_on '{p['based_on']}' is not a project id")
             if p.get("core") and p["core"] not in (p.get("languages") or []):
@@ -604,7 +615,7 @@ class Index:
         return self.group("others")
 
     def super_projects(self) -> list[dict]:
-        """The super projects, widely used ones, in their order (`super_project` in the project file)."""
+        """The super projects (bold and first everywhere), in their order (`super_project` in the project file)."""
         return sorted((p for p in self.projects if p["_super"]), key=super_order)
 
     def languages(self) -> list[str]:

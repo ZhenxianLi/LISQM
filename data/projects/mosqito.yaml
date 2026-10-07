@@ -5,7 +5,8 @@ docs: https://mosqito.readthedocs.io/en/latest/
 languages: [Python]
 kind: library
 standing: established
-super_project: 3  # bold and first in every list (see data/SCHEMA.md)
+super_project: 2  # bold and first in every list (see data/SCHEMA.md)
+highlight: widely used
 license: Apache-2.0
 packages:
   - registry: pypi

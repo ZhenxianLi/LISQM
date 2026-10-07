@@ -13,9 +13,10 @@ import json
 import re
 from pathlib import Path
 
-from .data import (ACCESS, GROUP_NAMES, GROUPS, IMPL_STATUS_LONG, PROJECT_KINDS, REGISTRIES, VALIDATION,
+from .data import (ACCESS, GROUP_NAMES, GROUPS, IMPL_STATUS_LONG, KINDS, PROJECT_KINDS, REGISTRIES, VALIDATION,
                    VALIDATION_LONG, VERIFICATION_META, Index, only_new)
 from .describe import (COVERAGE_COLUMNS, GROUP_RULE, ONLY_NEW, activity_text, ai_guide, by_language, coverage,
+                       highlight_sentence, highlighted,
                        current_statement, dedupe, dependence_note, derived_names, edition_state, faq, how_to_cite,
                        impl_phrase, introduce, language_order, lineage, name_note, only_related, ref_status,
                        release_text, silent_line, standing_sentence, stated_conventions, time_bins, timeline,
@@ -529,8 +530,8 @@ def _impl_tip(i: dict) -> str:
            activity_text(p)]
     if i.get("_via"):
         tip.append(f"computed by {i['_via']['name']}")
-    if p["_super"]:
-        tip.append("widely used")
+    if p.get("highlight"):
+        tip.append(p["highlight"])
     if standing_sentence(p):
         tip.append(standing_sentence(p))
     return p["name"] + ": " + "; ".join(tip)
@@ -547,7 +548,7 @@ TIMELINE_MARKS = {"newly-released": ("new", "new"), "developing": ("dev", "dev")
 
 
 def _timeline_impl(path: str, i: dict) -> str:
-    """One line per project: its language as a short code, the name (in bold for widely used projects),
+    """One line per project: its language as a short code, the name (in bold for super projects),
     a marker if the code is not released, and a small "new" or "dev" after newly released and developing projects;
     legacy projects are grey. Version, languages and activity are in the tooltip."""
     p = i["_project"]
@@ -627,9 +628,10 @@ def _timeline(index: Index, path: str) -> str:
         f'{_tag("in development", "warn")} draft or new work item '
         '<span class="key key-life"></span> years since the method’s first edition</p>'
         f'<p class="key-langs">Language: {key_langs}</p>'
-        "<p><strong>Bold name</strong>: widely used · no marker: established · "
+        f"<p><strong>Bold name</strong>: {esc(' or '.join(dict.fromkeys(p['highlight'] for p in index.super_projects())))} "
+        "· no marker: established · "
         '<span class="mk mk-new">new</span> newly released, first released less than about a year ago and not yet '
-        'widely used · <span class="mk mk-dev">dev</span> developing: public for more than a year, without a '
+        'seen to be widely used · <span class="mk mk-dev">dev</span> developing: public for more than a year, without a '
         'publication or documented use by others · <span class="key-quiet">grey name</span>: legacy, archived or '
         f"no commit for three years or more · each edition shows at most {TIMELINE_SHOWN} projects, the most "
         "established first; <em>+ more</em> shows the rest</p>"
@@ -640,7 +642,7 @@ def _timeline(index: Index, path: str) -> str:
         '<section class="timeline-section" aria-labelledby="timeline">',
         '<h2 id="timeline">Editions and implementations</h2>',
         "<p>Each standard edition or model paper sits in the column of the year it appeared. Under it are the "
-        "projects that implement it: widely used and established projects first, then newly released, "
+        "projects that implement it: the projects in bold and the other established projects first, then newly released, "
         "developing and legacy ones. Hover over a name for details; each method links to a page with function names "
         "and validation.</p>",
         legend,
@@ -691,7 +693,7 @@ def home(index: Index) -> str:
                      "current edition.</p>")
     if index.new_only():
         parts.append("<p>Released implementations of the current edition come only from newly released projects "
-                     f"{NEW_TAG}, which are not yet widely used, for:</p>")
+                     f"{NEW_TAG}, not yet seen to be widely used, for:</p>")
         parts.append("<ul>" + "".join(f"<li>{_method_link(path, m, m['title'])}</li>"
                                       for m in index.new_only()) + "</ul>")
     parts.append(f'<p>Which of them can be computed in Python, MATLAB, C or another language is shown on the '
@@ -801,10 +803,10 @@ def method_page(index: Index, m: dict) -> str:
                  _functions(i), _validation(i, f"#{ids[id(i)]}" if id(i) in stated else ""), _status_note(i)]
                 for i in m["_impls"]]
         parts.append(_table("impls", ["Project", "Edition", "Functions", "Validation (as stated)", "Notes"], rows))
-        parts.append(f'<p class="small muted">Listed with widely used and established projects first and new projects '
-                     f'last. Validation is what each project states about its own testing: the details are '
-                     f'<a href="#validation">below</a>, the kinds of evidence on <a href="{relative(path, ABOUT)}'
-                     f'#validation">the About page</a>.</p>')
+        parts.append(f'<p class="small muted">Listed with the projects in bold and the other established projects '
+                     f'first, then newly released, developing and legacy ones. Validation is what each project states '
+                     f'about its own testing: the details are <a href="#validation">below</a>, the kinds of evidence '
+                     f'on <a href="{relative(path, ABOUT)}#validation">the About page</a>.</p>')
     else:
         parts.append("<p>No open-source implementation has been found yet. If you know one, please "
                      f'<a href="{esc(index.site["repository"])}/issues/new/choose">open an issue</a>.</p>')
@@ -850,10 +852,10 @@ def project_page(index: Index, p: dict) -> str:
     if p.get("docs"):
         facts.append(("Documentation", f'<a href="{esc(p["docs"])}">{esc(p["docs"])}</a>'))
     facts.append(("Language", _langs(p["languages"])))
-    facts.append(("Kind", esc(PROJECT_KINDS[p["kind"]])))
+    facts.append(("Kind", f'{esc(PROJECT_KINDS[p["kind"]])}<br><span class="muted">{esc(KINDS[p["kind"]])}</span>'))
     group = f'{_group_tag(p)} <span class="muted">{esc(GROUPS[p["_group"]])}'
-    if p["_super"]:
-        group += " A widely used project."
+    if highlight_sentence(p):
+        group += " " + esc(highlight_sentence(p))
     facts.append(("Group", group + "</span>"))
     lic = esc(p["license"]) if p["license"] != "none" else "none stated (no licence file)"
     if p.get("license_note"):
@@ -947,7 +949,7 @@ def project_page(index: Index, p: dict) -> str:
 
 
 def _project_names(path: str, impls: list[dict]) -> str:
-    """Projects as a compact inline list: language code, name (bold for widely used projects), and markers for
+    """Projects as a compact inline list: language code, name (bold for super projects), and markers for
     unreleased code and newly released projects; legacy projects are grey."""
     best: dict[str, dict] = {}
     for i in impls:
@@ -1034,7 +1036,7 @@ def languages_page(index: Index) -> str:
         "another project.</p>",
         '<h2 id="coverage">Coverage by language</h2>',
         f'<p class="small mark-key">{mark("current")} an available implementation of the current edition '
-        f'· {mark("new")} the same, but only from newly released projects that are not yet widely used · '
+        f'· {mark("new")} the same, but only from newly released projects not yet seen to be widely used · '
         f'{mark("partial")} only unreleased, proposed or older-edition implementations · {mark("")} none '
         "found. A library with bindings counts for each language it can be called from.</p>",
     ]
@@ -1107,8 +1109,8 @@ def projects_page(index: Index) -> str:
     parts = [
         "<h1>Projects</h1>",
         f'<p class="byline">{plural(len(index.projects), "project")} · {plural(len(langs), "language")}</p>',
-        "<p>Widely used projects come first in every list and are in bold "
-        f"({join_words([esc(p['name']) for p in index.super_projects()])}); then the other established projects, "
+        "<p>" + highlighted(index.super_projects(), lambda p: esc(p["name"]), esc)
+        + " come first in every list and are in bold; then the other established projects, "
         "then newly released, developing and legacy ones. Tools that only call another project are listed under "
         "Others, and projects whose code could not "
         "be opened under Status unknown. “Last commit” is the last commit "
@@ -1234,11 +1236,14 @@ def about_page(index: Index) -> str:
         _table("defs", ["Value", "Meaning"], [[_tag(VALIDATION[k], VALIDATION_KIND[k]), esc(v)]
                                               for k, v in VALIDATION_LONG.items()]),
         '<h2 id="standing">Groups of projects</h2>',
-        "<p>" + GROUP_RULE + ": "
-        f"{join_words([esc(p['name']) for p in index.super_projects()])}. They are never listed as legacy, and neither "
-        "are reference programs published with a standard, which are not expected to change.</p>",
+        "<p>" + GROUP_RULE + ": " + highlighted(index.super_projects(), lambda p: esc(p["name"]), esc)
+        + ". They are never listed as legacy, and neither are reference programs published with a standard, which "
+        "are not expected to change.</p>",
         _table("defs", ["Group", "Meaning"], [[_tag(GROUP_NAMES[k], GROUP_KIND[k]), esc(v)]
                                               for k, v in GROUPS.items()]),
+        '<h2 id="kinds">Kinds of project</h2>',
+        "<p>What a project is, for someone who wants to use it. Each project page names its kind.</p>",
+        _table("defs", ["Kind", "Meaning"], [[esc(PROJECT_KINDS[k]), esc(v)] for k, v in KINDS.items()]),
         '<h2 id="leads">Leads not yet verified</h2>',
         "<p>Candidates that may belong in the list but could not be checked yet. They are listed so that nobody "
         "has to rediscover them; nothing here has been confirmed.</p>",

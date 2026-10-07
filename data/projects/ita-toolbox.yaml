@@ -3,12 +3,13 @@ name: ITA-Toolbox
 repository: https://git.rwth-aachen.de/ita/toolbox
 homepage: https://www.ita-toolbox.org/
 languages: [MATLAB]
-kind: toolbox
+kind: library
 language_note: >-
   MATLAB toolbox. The loudness functions call C code compiled as MEX files; the C sources and precompiled binaries
   for Windows, Linux and macOS are included.
 standing: established
-super_project: 5  # bold and first in every list (see data/SCHEMA.md)
+standing_note: >-
+  A widely used toolbox for acoustic measurements and signal processing that also includes some psychoacoustic functions.
 license: BSD-4-Clause
 license_note: >-
   The root `license.txt` (2011) is the four-clause BSD licence: advertising material that mentions the software

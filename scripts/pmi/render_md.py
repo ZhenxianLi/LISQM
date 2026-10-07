@@ -5,9 +5,10 @@ Links point to absolute URLs of the HTML pages, so the text stays useful when it
 
 from __future__ import annotations
 
-from .data import (ACCESS, GROUP_NAMES, GROUPS, IMPL_STATUS_LONG, PROJECT_KINDS, REGISTRIES, VALIDATION,
+from .data import (ACCESS, GROUP_NAMES, GROUPS, IMPL_STATUS_LONG, KINDS, PROJECT_KINDS, REGISTRIES, VALIDATION,
                    VALIDATION_LONG, Index)
 from .describe import (COVERAGE_COLUMNS, GROUP_RULE, NEW_LABEL, activity_text, ai_guide, by_language, coverage, dedupe,
+                       highlight_sentence, highlighted,
                        dependence_note, derived_names, edition_state, faq, how_to_cite, in_short, introduce,
                        legacy_label, lineage, name_note, ref_status, release_text, silent_line, standing_sentence,
                        stated_conventions, timeline, validation_also, validation_groups, validation_label,
@@ -52,7 +53,7 @@ def _table(head: list[str], rows: list[list[str]]) -> list[str]:
 
 
 def _impl_note(i: dict) -> str:
-    bits = {"newly-released": ["Newly released project, not yet widely used."],
+    bits = {"newly-released": ["Newly released project, not yet seen to be widely used."],
             "developing": ["Developing project: no publication or documented use by others."],
             "legacy": ["Legacy project, no longer maintained."]}.get(i["_project"]["_group"], [])
     if i["status"] != "available":
@@ -258,9 +259,9 @@ def project_page(index: Index, p: dict) -> str:
     for key, label in (("homepage", "Homepage"), ("docs", "Documentation")):
         if p.get(key):
             facts.append((label, p[key]))
-    facts += [("Language", ", ".join(p["languages"])), ("Kind", PROJECT_KINDS[p["kind"]]),
+    facts += [("Language", ", ".join(p["languages"])), ("Kind", f"{PROJECT_KINDS[p['kind']]} ({KINDS[p['kind']]})"),
               ("Group", f"{GROUP_NAMES[p['_group']]} ({GROUPS[p['_group']]}"
-                        + (" A widely used project." if p["_super"] else "")
+                        + (" " + highlight_sentence(p) if highlight_sentence(p) else "")
                         + ")")]
     facts += [
               ("Licence", p["license"] + (f" — {plain(p['license_note'])}" if p.get("license_note") else ""))]
@@ -334,7 +335,7 @@ def coverage_table(index: Index) -> str:
         cov = coverage(m)
         rows.append([_method_link(index, m, m["name"])] + [COVERAGE_MARK[cov[c]] for c in cols])
     legend = ("● an available implementation of the current edition; ◐ the same, but only from newly released projects "
-              "that are not yet widely used; ○ only unreleased, proposed or older-edition implementations; — none "
+              "not yet seen to be widely used; ○ only unreleased, proposed or older-edition implementations; — none "
               "found. Bindings count: a C library with a Python interface counts for Python.")
     return "\n".join(_table(head, rows)) + "\n\n" + legend
 
@@ -397,8 +398,8 @@ def home(index: Index) -> str:
         lines += ["## Gaps", "", "No available open-source implementation of the current edition was found for:", ""]
         lines += [f"- {_method_link(index, m, m['title'])}" for m in gaps] + [""]
     if index.new_only():
-        lines += ["Released implementations of the current edition come only from newly released projects, which are not "
-                  "yet widely used, for:", ""]
+        lines += ["Released implementations of the current edition come only from newly released projects, "
+                  "not yet seen to be widely used, for:", ""]
         lines += [f"- {_method_link(index, m, m['title'])}" for m in index.new_only()] + [""]
     if index.updates:
         lines += ["## Recent updates", ""]
@@ -503,8 +504,8 @@ def _calls(p: dict) -> list[str]:
 def projects_page(index: Index) -> str:
     name = _namer(index)
     lines = ["# Projects", "", _header(index, PROJECTS), "",
-             f"{plural(len(index.projects), 'project')}: established projects first, with widely used projects "
-             f"({join_words([p['name'] for p in index.super_projects()])}) at the top and in bold; then newly "
+             f"{plural(len(index.projects), 'project')}: established projects first, with "
+             + highlighted(index.super_projects(), lambda p: p["name"]) + " at the top and in bold; then newly "
              "released, developing and legacy projects. Tools that only call another project's implementation are "
              "listed under Others, and projects whose code could not be opened under Status unknown.", ""]
     for key, title in GROUP_HEADINGS:
@@ -586,10 +587,12 @@ def about_page(index: Index) -> str:
               "the same values, not that either follows the standard: an error they share goes unnoticed.", ""]
     lines += _table(["Value", "Meaning"], [[VALIDATION[k], v] for k, v in VALIDATION_LONG.items()]) + [""]
     lines += ["## Standing of a project", "",
-              GROUP_RULE + " "
-              f"({join_words([p['name'] for p in index.super_projects()])}); they are never listed as legacy, and neither "
-              "are reference programs published with a standard.", ""]
+              GROUP_RULE + ": " + highlighted(index.super_projects(), lambda p: p["name"])
+              + ". They are never listed as legacy, and neither are reference programs published with a standard.", ""]
     lines += _table(["Group", "Meaning"], [[GROUP_NAMES[k], v] for k, v in GROUPS.items()]) + [""]
+    lines += ["## Kinds of project", "", "What a project is, for someone who wants to use it. Each project page names "
+              "its kind.", ""]
+    lines += _table(["Kind", "Meaning"], [[PROJECT_KINDS[k], v] for k, v in KINDS.items()]) + [""]
     lines += ["## Leads not yet verified", "",
               "Candidates that may belong in the list but could not be checked yet; nothing here has been confirmed.", ""]
     lines += [f"- [{l['name']}]({l['url']}) ({', '.join(l.get('languages') or [])}): {oneline(l['claim'])} {oneline(l['why'])}"
@@ -632,10 +635,10 @@ def llms_txt(index: Index) -> str:
              f"{plural(len(index.projects), 'project')}, languages: {', '.join(index.languages())}. Each "
              "implementation is tied to the standard edition or model paper it follows, with its validation "
              "evidence as stated by the project. Repository and package metadata are refreshed twice a month. "
-             "Implementations are listed with established projects first, widely used projects "
-             f"({join_words([p['name'] for p in index.super_projects()])}) at the top and in bold. Projects marked "
+             "Implementations are listed with established projects first, "
+             + highlighted(index.super_projects(), lambda p: p["name"]) + " at the top and in bold. Projects marked "
              "(newly released) were "
-             "first released less than about a year ago and are not yet widely used in the community; projects "
+             "first released less than about a year ago and are not yet seen to be widely used in the community; projects "
              "marked (legacy) are archived or have had no commit for three years or more.", "",
              site["credit"], ""]
     for fam, methods in index.families_with_methods():
@@ -654,16 +657,16 @@ def llms_txt(index: Index) -> str:
     for p in index.projects_by_group():
         if p["_group"] in ("others", "unknown"):
             continue
-        group = {"newly-released": "newly released (not yet widely used)", "legacy": legacy_label(p)}.get(p["_group"], p["_group"])
-        if p["_super"]:
-            group += ", widely used"
+        group = {"newly-released": "newly released (not yet seen to be widely used)", "legacy": legacy_label(p)}.get(p["_group"], p["_group"])
+        if p.get("highlight"):
+            group += ", " + p["highlight"]
         lines.append(f"- {twin(p)}: {', '.join(p['languages'])}; {group}; {first_sentence(p['summary'])}")
     if index.others():
         lines += ["", "## Others", "", OTHERS, ""]
         for p in index.others():
             lines.append(f"- {twin(p)}: "
                          f"{', '.join(p['languages'])}; calls {join_words(_calls(p))}"
-                         + ("; newly released (not yet widely used)" if p["standing"] == "newly-released" else "")
+                         + ("; newly released (not yet seen to be widely used)" if p["standing"] == "newly-released" else "")
                          + f"; {first_sentence(p['summary'])}")
     if index.group("unknown"):
         lines += ["", "## Status unknown", "", GROUPS["unknown"], ""]
@@ -717,8 +720,8 @@ def readme_projects(index: Index) -> str:
         if group == "legacy":
             return legacy_label(p)
         if group == "newly-released":
-            return "newly released, not yet widely used"
-        return group + (", widely used" if p["_super"] else "")
+            return NEW_LABEL
+        return group + (", " + p["highlight"] if p.get("highlight") else "")
 
     rows = [[_bold(p, f"[{p['name']}]({p['repository']})"), standing(p),
              ", ".join(p["languages"]), p["license"], release_text(p), p["_last_commit"] or "unknown",
@@ -734,8 +737,8 @@ def readme_gaps(index: Index) -> str:
     gaps = index.gaps()
     lines = [item(m) for m in gaps] or ["None at the moment."]
     if index.new_only():
-        lines += ["", "Released implementations of the current edition come only from newly released projects, which are not "
-                  "yet widely used, for:", ""]
+        lines += ["", "Released implementations of the current edition come only from newly released projects, "
+                  "not yet seen to be widely used, for:", ""]
         lines += [item(m) for m in index.new_only()]
     return "\n".join(lines)
 

@@ -7,7 +7,8 @@ based_on: refmap-psychoacoustics
 language_note: >-
   Needs Python 3.11 or newer. Translated from the MATLAB code used in SQAT and RefMap.
 standing: established
-super_project: 4  # bold and first in every list (see data/SCHEMA.md)
+super_project: 3  # bold and first in every list (see data/SCHEMA.md)
+highlight: a very good implementation
 license: GPL-3.0-only
 license_note: >-
   The LICENSE file has always been GPL-3.0 and the project metadata was changed to GPL-3.0-only on 2026-08-31;
