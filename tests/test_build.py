@@ -448,8 +448,9 @@ class BuildTest(unittest.TestCase):
         self.assertEqual(_analytics({}), "")
         token = "0123456789abcdef0123456789abcdef"
         snippet = _analytics({"cloudflare_analytics_token": token})
-        self.assertIn('src="https://static.cloudflareinsights.com/beacon.min.js"', snippet)
-        self.assertIn(token, snippet)
+        self.assertEqual(snippet, '<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" '
+                                  f'data-cf-beacon=\'{{"token": "{token}"}}\'></script>\n')
+        self.assertEqual(_analytics({"cloudflare_analytics_token": "x\" onload=\"alert(1)"}), "")
         configured = bool(self.index.site.get("cloudflare_analytics_token"))
         for page in self.pages:  # on every page, or on none
             self.assertEqual("cloudflareinsights" in page.read_text(encoding="utf-8"), configured, page.name)

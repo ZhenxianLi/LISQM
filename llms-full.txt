@@ -203,6 +203,8 @@ Not listed because they are closed source: MATLAB Audio Toolbox, HEAD acoustics 
 - [references.bib](https://zhenxianli.github.io/LISQM/references.bib): every standard, model paper and software paper, as BibTeX
 - Source data and schema: https://github.com/ZhenxianLi/LISQM/tree/main/data
 
+Visits to the website are counted with Cloudflare Web Analytics, which sets no cookies.
+
 ## Contributing and citing
 
 Corrections and new projects are welcome through issues or pull requests: https://github.com/ZhenxianLi/LISQM. To cite the list, use the CITATION.cff file in the repository, and cite the implementations you used as each project page says under *How to cite*. The standards and papers are in https://zhenxianli.github.io/LISQM/references.bib. Licence: MIT.

@@ -214,10 +214,10 @@ def _analytics(site: dict) -> str:
     """The Cloudflare Web Analytics beacon, on every page once data/site.yaml has the site's token. It sets no
     cookies."""
     token = str(site.get("cloudflare_analytics_token") or "").strip()
-    if not token:
+    if not re.fullmatch(r"[A-Za-z0-9]{16,64}", token):  # validated in data.py; letters and digits need no escaping
         return ""
-    beacon = esc(json.dumps({"token": token}))
-    return f"<script defer src=\"https://static.cloudflareinsights.com/beacon.min.js\" data-cf-beacon='{beacon}'></script>\n"
+    return ("<script type=\"module\" src=\"https://static.cloudflareinsights.com/beacon.min.js\" "
+            f"data-cf-beacon='{{\"token\": \"{token}\"}}'></script>\n")
 
 
 def credit(index: Index) -> str:
