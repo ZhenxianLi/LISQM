@@ -513,7 +513,7 @@ def faq(index: Index, name: Fmt, method_link: Callable[[dict], str], t: Esc,
         f"The {page_link(METRICS, 'Metrics')} page names the current edition of each of the {len(index.methods)} "
         "methods, and each method page lists every implementation of it, with the validation it states, the code it "
         "was ported from and the choices that change its numbers.",
-        "The most widely used projects, " + join_words([name(p) + t(f" ({', '.join(p['languages'])})") for p in supers])
+        "Those widely used projects, " + join_words([name(p) + t(f" ({', '.join(p['languages'])})") for p in supers])
         + ", come first in the lists, but they are not the only choice.",
     ]
     if checked:
