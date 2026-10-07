@@ -2,6 +2,14 @@
 
 Notable changes to the list. This file is generated from `data/updates.yaml`; the same notes are on the website (https://zhenxianli.github.io/LISQM/updates.html) and in its Atom feed.
 
+## 2026-10-07: Two newly released projects
+
+PsychoacousticMetrics.jl (Julia) adds DIN 45692 sharpness, Daniel & Weber roughness, Osses et al. (2016)
+fluctuation strength and Widmann (1992) psychoacoustic annoyance on top of ZwickerLoudness.jl, by the same
+author. Kirin Hypha, a measurement plug-in for audio workstations, computes ISO 532-1 time-varying loudness and
+DIN 45692 sharpness in Rust, ported from MoSQITo. Both were found by the first scheduled search for new
+projects; like the other newly released projects, they are not yet widely used.
+
 ## 2026-10-06: Version 0.1, the first public version of LISQM
 
 LISQM (List of Implementations of Sound Quality Metrics) starts with 32 projects in Python, MATLAB, Octave, C,

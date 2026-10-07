@@ -62,8 +62,26 @@
     }
    },
    "searchScore": 18.518465
+  },
+  {
+   "package": {
+    "name": "@acoustics-lab/sqm",
+    "version": "0.4.0",
+    "description": "Psychoacoustic sound quality metrics for Node: Zwicker loudness and DIN 45692 sharpness",
+    "keywords": [
+     "psychoacoustics",
+     "loudness",
+     "sharpness"
+    ],
+    "date": "2026-09-20T10:00:00.000Z",
+    "links": {
+     "repository": "git+https://github.com/acoustics-lab/sqm-toolbox.git",
+     "npm": "https://www.npmjs.com/package/@acoustics-lab/sqm"
+    }
+   },
+   "searchScore": 120.5
   }
  ],
- "total": 3,
+ "total": 4,
  "time": "2026-10-06T00:49:34.548Z"
 }

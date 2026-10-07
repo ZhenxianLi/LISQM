@@ -1,0 +1,59 @@
+id: kirin-hypha
+name: Kirin Hypha
+repository: https://github.com/heyalohaloha/kirin_hypha
+languages: [Rust]
+kind: plugin
+language_note: >-
+  A measurement plug-in for digital audio workstations (AU and VST3 on macOS, VST3 on Windows); the
+  psychoacoustic engine is the Rust crate `kirin_measure` in the repository.
+standing: newly-released
+standing_note: First public commit in April 2026; v1.0.0 was released in May 2026.
+license: GPL-3.0
+maintainers: [Daisuke Nishio]
+summary: >-
+  Free PRE/POST measurement plug-in for mixing and mastering. Besides programme loudness (LUFS, ITU-R BS.1770),
+  true peak and spectrum, it computes ISO 532-1 time-varying Zwicker loudness and DIN 45692 sharpness, ported from
+  MoSQITo to Rust.
+ai_assistance: disclosed
+ai_note: >-
+  The repository contains `CLAUDE.md` and `AGENTS.md` files (instructions for AI coding agents), and its design
+  notes refer to Claude Code and Codex work branches.
+notes:
+  - >-
+    The loudness and sharpness code is a port of MoSQITo v1.2.1 (`loudness_zwtv` and its stages); the sources and
+    changes are listed in `THIRD_PARTY_NOTICES.md`.
+  - >-
+    Zwicker loudness N is computed and stored in the recorded data but is not one of the plug-in's display cells;
+    sharpness is shown. For several channels, both are computed per channel and averaged.
+  - Programme loudness (LUFS) and true peak follow ITU-R BS.1770, which is outside the scope of this list.
+caveats:
+  - >-
+    The loudness engine works on mono audio at 48 kHz; the plug-in measures each input channel separately.
+implements:
+  - method: loudness-zwicker
+    reference: iso-532-1-2017
+    functions: [kirin_measure::phase_d]
+    scope: time-varying, per channel at 48 kHz; stored in the recorded data
+    status: available
+    since: 1.0.0
+    validation: cross-implementation
+    note: Ported from MoSQITo v1.2.1; tests assert specific loudness within a relative 1e-3 of MoSQITo.
+  - method: sharpness
+    reference: din-45692-2009
+    functions: [kirin_measure::phase_d::sharpness]
+    scope: from the time-varying specific loudness; shown in the plug-in
+    status: available
+    since: 1.0.0
+    validation: cross-implementation
+    note: Tests assert agreement with MoSQITo within 0.05 acum.
+manual:
+  last_commit: 2026-10-07
+  latest_release: {version: v1.1.50, date: 2026-09-21}
+  archived: false
+sources:
+  - https://github.com/heyalohaloha/kirin_hypha
+  - https://github.com/heyalohaloha/kirin_hypha/blob/main/README.md
+  - https://github.com/heyalohaloha/kirin_hypha/blob/main/THIRD_PARTY_NOTICES.md
+  - https://github.com/heyalohaloha/kirin_hypha/tree/main/crates/kirin_measure/src/phase_d
+  - https://github.com/heyalohaloha/kirin_hypha/releases
+checked: 2026-10-07

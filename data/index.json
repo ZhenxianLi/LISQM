@@ -12,11 +12,11 @@
     "github": "ZhenxianLi"
   },
   "credit": "Developed by Zhenxian LI with assistance from Claude Code.",
-  "as_of": "2026-10-06",
+  "as_of": "2026-10-07",
   "schema": "https://github.com/ZhenxianLi/LISQM/blob/main/data/SCHEMA.md",
   "counts": {
     "methods": 22,
-    "projects": 32,
+    "projects": 34,
     "references": 53
   },
   "ordering": "Implementations and projects are listed by group: established, newly released, developing, legacy, others. Newly released projects were first released less than about a year ago and are not yet widely used in the community. Legacy projects are archived or have had no commit for three years or more; the most widely used projects (most_widely_used: true) and reference programs are never legacy. Within each group, projects that are still active and widely recognised come first. Projects in the others group do not compute the metrics themselves; they call another listed project (listed in calls), and their rows appear under also_through instead of implementations.",
@@ -223,6 +223,18 @@
           "since": "0.1.0",
           "validation": "standard-data",
           "note": "Parity tests with MoSQITo 1.2.1 on nine synthetic and Annex B signals (worst reported difference 1.3e-9). Checked separately against ISO 532-1 Annex B: the README reports stationary offsets of about +0.82 % and −0.76 % for signals 3 and 5, inside the standard's tolerance, and details signals 3, 5 and 10 in docs/ISO-ANNEXB-NUMERICAL-ERROR-2026-07-04.md. Python uses the same names (`iso532.loudness_zwst` …); the C API has `iso532_loudness_zwst`, `iso532_loudness_zwtv` and `iso532_stream_*`."
+        },
+        {
+          "project": "kirin-hypha",
+          "reference": "iso-532-1-2017",
+          "functions": [
+            "kirin_measure::phase_d"
+          ],
+          "scope": "time-varying, per channel at 48 kHz; stored in the recorded data",
+          "status": "available",
+          "since": "1.0.0",
+          "validation": "cross-implementation",
+          "note": "Ported from MoSQITo v1.2.1; tests assert specific loudness within a relative 1e-3 of MoSQITo."
         },
         {
           "project": "phonometry",
@@ -888,8 +900,8 @@
         "Python": "current",
         "MATLAB/Octave": "current",
         "C/C++": "new",
-        "Rust": "",
-        "Julia": "",
+        "Rust": "new",
+        "Julia": "new",
         "Other": ""
       },
       "implementations": [
@@ -958,6 +970,18 @@
           "validation": "not-stated"
         },
         {
+          "project": "kirin-hypha",
+          "reference": "din-45692-2009",
+          "functions": [
+            "kirin_measure::phase_d::sharpness"
+          ],
+          "scope": "from the time-varying specific loudness; shown in the plug-in",
+          "status": "available",
+          "since": "1.0.0",
+          "validation": "cross-implementation",
+          "note": "Tests assert agreement with MoSQITo within 0.05 acum."
+        },
+        {
           "project": "phonometry",
           "reference": "din-45692-2009",
           "functions": [
@@ -969,6 +993,18 @@
           "since": "3.1.0",
           "validation": "standard-data",
           "note": "Checked with the DIN 45692 reference signal and Tables A.2 and A.3."
+        },
+        {
+          "project": "psychoacousticmetrics-jl",
+          "reference": "din-45692-2009",
+          "functions": [
+            "sharpness"
+          ],
+          "scope": "weightings: DIN 45692 (default), Aures, von Bismarck, Fastl; from a ZwickerLoudness.jl result",
+          "status": "available",
+          "since": "0.2.0",
+          "validation": "standard-data",
+          "note": "Tested against all 41 reference signals of DIN 45692:2009 chapter 6 (21 narrowband, 20 broadband) within the standard's tolerance of ±max(5 %, 0.05 acum), and cross-checked against MoSQITo for all four weightings."
         },
         {
           "project": "soundpalette",
@@ -1064,7 +1100,7 @@
         "MATLAB/Octave": "current",
         "C/C++": "new",
         "Rust": "",
-        "Julia": "",
+        "Julia": "new",
         "Other": ""
       },
       "implementations": [
@@ -1112,6 +1148,17 @@
           "since": "0.1.0",
           "validation": "cross-implementation",
           "note": "Follows SQAT revision `e6228b78`, which includes SQAT's September 2026 rewrite but not its later fix to the Terhardt filter bank (PR #77). Comparison results are not published."
+        },
+        {
+          "project": "psychoacousticmetrics-jl",
+          "reference": "daniel-weber-1997",
+          "functions": [
+            "roughness_dw"
+          ],
+          "status": "available",
+          "since": "0.2.0",
+          "validation": "standard-data",
+          "note": "Tested against the Zwicker & Fastl reference curves on MoSQITo's validation grid (±0.1 asper) and cross-checked against MoSQITo's `roughness_dw`. Five points at a 2 kHz carrier miss the ±0.1 asper gate, as MoSQITo does, and are checked against MoSQITo instead."
         },
         {
           "project": "soundpalette",
@@ -1387,7 +1434,7 @@
         "MATLAB/Octave": "current",
         "C/C++": "",
         "Rust": "",
-        "Julia": "",
+        "Julia": "new",
         "Other": ""
       },
       "implementations": [
@@ -1413,6 +1460,17 @@
           "since": "3.1.0",
           "validation": "standard-data",
           "note": "Compared with Table 1 of Osses et al. (2016) and with SQAT (correlation 0.98). Validated for amplitude modulation only; a steady 1 kHz tone reads about 0.09 vacil."
+        },
+        {
+          "project": "psychoacousticmetrics-jl",
+          "reference": "osses-2016",
+          "functions": [
+            "fluctuation_strength_osses"
+          ],
+          "status": "available",
+          "since": "0.3.0",
+          "validation": "reference-code",
+          "note": "Cross-checked against SQAT's `FluctuationStrength_Osses2016` (run under Octave) on 26 cases, including the 18 points of Fastl and Zwicker's reference grid, to a relative tolerance of 1e-6."
         },
         {
           "project": "phonometry",
@@ -2150,7 +2208,7 @@
         "MATLAB/Octave": "current",
         "C/C++": "",
         "Rust": "",
-        "Julia": "",
+        "Julia": "new",
         "Other": ""
       },
       "implementations": [
@@ -2242,6 +2300,18 @@
           "since": "3.1.0",
           "validation": "standard-data",
           "note": "Follows Eqs. 16.2–16.4 of Fastl & Zwicker (2007), the textbook form of Widmann's model."
+        },
+        {
+          "project": "psychoacousticmetrics-jl",
+          "reference": "widmann-1992",
+          "functions": [
+            "psychoacoustic_annoyance_widmann"
+          ],
+          "scope": "percentile convention (N5, S5, R5, FS5) and a stationary approximation",
+          "status": "available",
+          "since": "0.4.0",
+          "validation": "cross-implementation",
+          "note": "Cross-checked against SQAT's `PsychoacousticAnnoyance_Widmann1992` (an 840-case formula grid reproduced exactly, and six signal-level cases) and checked at the 1 au anchor (1 kHz tone at 40 dB SPL)."
         },
         {
           "project": "pysqat",
@@ -4599,6 +4669,80 @@
       "most_widely_used": false
     },
     {
+      "id": "kirin-hypha",
+      "name": "Kirin Hypha",
+      "repository": "https://github.com/heyalohaloha/kirin_hypha",
+      "languages": [
+        "Rust"
+      ],
+      "kind": "plugin",
+      "language_note": "A measurement plug-in for digital audio workstations (AU and VST3 on macOS, VST3 on Windows); the psychoacoustic engine is the Rust crate `kirin_measure` in the repository.",
+      "standing": "newly-released",
+      "standing_note": "First public commit in April 2026; v1.0.0 was released in May 2026.",
+      "license": "GPL-3.0",
+      "maintainers": [
+        "Daisuke Nishio"
+      ],
+      "summary": "Free PRE/POST measurement plug-in for mixing and mastering. Besides programme loudness (LUFS, ITU-R BS.1770), true peak and spectrum, it computes ISO 532-1 time-varying Zwicker loudness and DIN 45692 sharpness, ported from MoSQITo to Rust.",
+      "ai_assistance": "disclosed",
+      "ai_note": "The repository contains `CLAUDE.md` and `AGENTS.md` files (instructions for AI coding agents), and its design notes refer to Claude Code and Codex work branches.",
+      "notes": [
+        "The loudness and sharpness code is a port of MoSQITo v1.2.1 (`loudness_zwtv` and its stages); the sources and changes are listed in `THIRD_PARTY_NOTICES.md`.",
+        "Zwicker loudness N is computed and stored in the recorded data but is not one of the plug-in's display cells; sharpness is shown. For several channels, both are computed per channel and averaged.",
+        "Programme loudness (LUFS) and true peak follow ITU-R BS.1770, which is outside the scope of this list."
+      ],
+      "caveats": [
+        "The loudness engine works on mono audio at 48 kHz; the plug-in measures each input channel separately."
+      ],
+      "implements": [
+        {
+          "method": "loudness-zwicker",
+          "reference": "iso-532-1-2017",
+          "functions": [
+            "kirin_measure::phase_d"
+          ],
+          "scope": "time-varying, per channel at 48 kHz; stored in the recorded data",
+          "status": "available",
+          "since": "1.0.0",
+          "validation": "cross-implementation",
+          "note": "Ported from MoSQITo v1.2.1; tests assert specific loudness within a relative 1e-3 of MoSQITo."
+        },
+        {
+          "method": "sharpness",
+          "reference": "din-45692-2009",
+          "functions": [
+            "kirin_measure::phase_d::sharpness"
+          ],
+          "scope": "from the time-varying specific loudness; shown in the plug-in",
+          "status": "available",
+          "since": "1.0.0",
+          "validation": "cross-implementation",
+          "note": "Tests assert agreement with MoSQITo within 0.05 acum."
+        }
+      ],
+      "sources": [
+        "https://github.com/heyalohaloha/kirin_hypha",
+        "https://github.com/heyalohaloha/kirin_hypha/blob/main/README.md",
+        "https://github.com/heyalohaloha/kirin_hypha/blob/main/THIRD_PARTY_NOTICES.md",
+        "https://github.com/heyalohaloha/kirin_hypha/tree/main/crates/kirin_measure/src/phase_d",
+        "https://github.com/heyalohaloha/kirin_hypha/releases"
+      ],
+      "checked": "2026-10-07",
+      "url": "https://zhenxianli.github.io/LISQM/projects/kirin-hypha.html",
+      "last_commit": "2026-10-07",
+      "latest_release": {
+        "version": "v1.1.50",
+        "date": "2026-09-21",
+        "source": ""
+      },
+      "prerelease": null,
+      "activity": "active",
+      "archived": false,
+      "stars": null,
+      "group": "newly-released",
+      "most_widely_used": false
+    },
+    {
       "id": "numpylib-psychoacoustic",
       "name": "NumpyLibforPsychoAcoustic",
       "repository": "https://github.com/Ryrybros/NumpyLibforPsychoAcoustic",
@@ -4951,6 +5095,109 @@
       "activity": "active",
       "archived": false,
       "stars": 119,
+      "group": "newly-released",
+      "most_widely_used": false
+    },
+    {
+      "id": "psychoacousticmetrics-jl",
+      "name": "PsychoacousticMetrics.jl",
+      "repository": "https://github.com/slink/PsychoacousticMetrics.jl",
+      "languages": [
+        "Julia"
+      ],
+      "kind": "library",
+      "language_note": "Builds on ZwickerLoudness.jl by the same author: sharpness takes its loudness result, and the time-varying annoyance takes the output of ZwickerLoudnessAudio.jl's `loudness_zwtv`. Roughness and fluctuation strength take audio.",
+      "standing": "newly-released",
+      "standing_note": "First registered in July 2026.",
+      "license": "MIT",
+      "license_note": "Test data, the roughness implementation and several weighting tables are derived from MoSQITo (Apache-2.0); fluctuation-strength tables and annoyance constants reference SQAT (CC BY-NC 4.0) as factual data, without reusing its code (README, `test/data/NOTICE`).",
+      "packages": [
+        {
+          "registry": "julia",
+          "name": "PsychoacousticMetrics"
+        }
+      ],
+      "install": "using Pkg; Pkg.add(\"PsychoacousticMetrics\")",
+      "maintainers": [
+        "slink"
+      ],
+      "summary": "Julia package for the Zwicker family of sound-quality metrics on top of ZwickerLoudness.jl: DIN 45692:2009 sharpness (with Aures, von Bismarck and Fastl weightings), Daniel & Weber roughness, Osses et al. (2016) fluctuation strength and Widmann (1992) psychoacoustic annoyance.",
+      "ai_assistance": "not-stated",
+      "notes": [
+        "Roughness follows MoSQITo's `roughness_dw` (\"as implemented by MoSQITo\"), not Daniel and Weber's original code.",
+        "Fluctuation strength needs audio at 44.1 or 48 kHz; the time-varying (percentile) annoyance needs 48 kHz.",
+        "Annoyance comes in two forms: the canonical percentile convention (N5, S5, R5 and FS5 from time-varying tracks, since 0.5.0) and a documented stationary approximation from whole-signal values (since 0.4.0)."
+      ],
+      "caveats": [
+        "Percentiles are Hyndman–Fan type 7 quantiles; SQAT uses nearest-rank selection, which the README says differs by a full order-statistic step on the coarse fluctuation-strength track."
+      ],
+      "implements": [
+        {
+          "method": "sharpness",
+          "reference": "din-45692-2009",
+          "functions": [
+            "sharpness"
+          ],
+          "scope": "weightings: DIN 45692 (default), Aures, von Bismarck, Fastl; from a ZwickerLoudness.jl result",
+          "status": "available",
+          "since": "0.2.0",
+          "validation": "standard-data",
+          "note": "Tested against all 41 reference signals of DIN 45692:2009 chapter 6 (21 narrowband, 20 broadband) within the standard's tolerance of ±max(5 %, 0.05 acum), and cross-checked against MoSQITo for all four weightings."
+        },
+        {
+          "method": "roughness-daniel-weber",
+          "reference": "daniel-weber-1997",
+          "functions": [
+            "roughness_dw"
+          ],
+          "status": "available",
+          "since": "0.2.0",
+          "validation": "standard-data",
+          "note": "Tested against the Zwicker & Fastl reference curves on MoSQITo's validation grid (±0.1 asper) and cross-checked against MoSQITo's `roughness_dw`. Five points at a 2 kHz carrier miss the ±0.1 asper gate, as MoSQITo does, and are checked against MoSQITo instead."
+        },
+        {
+          "method": "fluctuation-strength-osses",
+          "reference": "osses-2016",
+          "functions": [
+            "fluctuation_strength_osses"
+          ],
+          "status": "available",
+          "since": "0.3.0",
+          "validation": "reference-code",
+          "note": "Cross-checked against SQAT's `FluctuationStrength_Osses2016` (run under Octave) on 26 cases, including the 18 points of Fastl and Zwicker's reference grid, to a relative tolerance of 1e-6."
+        },
+        {
+          "method": "psychoacoustic-annoyance",
+          "reference": "widmann-1992",
+          "functions": [
+            "psychoacoustic_annoyance_widmann"
+          ],
+          "scope": "percentile convention (N5, S5, R5, FS5) and a stationary approximation",
+          "status": "available",
+          "since": "0.4.0",
+          "validation": "cross-implementation",
+          "note": "Cross-checked against SQAT's `PsychoacousticAnnoyance_Widmann1992` (an 840-case formula grid reproduced exactly, and six signal-level cases) and checked at the 1 au anchor (1 kHz tone at 40 dB SPL)."
+        }
+      ],
+      "sources": [
+        "https://github.com/slink/PsychoacousticMetrics.jl",
+        "https://github.com/slink/PsychoacousticMetrics.jl/blob/main/README.md",
+        "https://github.com/slink/PsychoacousticMetrics.jl/blob/main/test/data/NOTICE",
+        "https://github.com/slink/PsychoacousticMetrics.jl/blob/main/Project.toml",
+        "https://github.com/JuliaRegistries/General/tree/master/P/PsychoacousticMetrics"
+      ],
+      "checked": "2026-10-07",
+      "url": "https://zhenxianli.github.io/LISQM/projects/psychoacousticmetrics-jl.html",
+      "last_commit": "2026-09-02",
+      "latest_release": {
+        "version": "0.5.0",
+        "date": "2026-09-02",
+        "source": ""
+      },
+      "prerelease": null,
+      "activity": "active",
+      "archived": false,
+      "stars": null,
       "group": "newly-released",
       "most_widely_used": false
     },
@@ -6495,6 +6742,11 @@
     }
   ],
   "updates": [
+    {
+      "date": "2026-10-07",
+      "title": "Two newly released projects",
+      "body": "PsychoacousticMetrics.jl (Julia) adds DIN 45692 sharpness, Daniel & Weber roughness, Osses et al. (2016)\nfluctuation strength and Widmann (1992) psychoacoustic annoyance on top of ZwickerLoudness.jl, by the same\nauthor. Kirin Hypha, a measurement plug-in for audio workstations, computes ISO 532-1 time-varying loudness and\nDIN 45692 sharpness in Rust, ported from MoSQITo. Both were found by the first scheduled search for new\nprojects; like the other newly released projects, they are not yet widely used.\n"
+    },
     {
       "date": "2026-10-06",
       "title": "Version 0.1, the first public version of LISQM",

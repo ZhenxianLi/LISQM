@@ -167,3 +167,24 @@
 - url: https://github.com/soundspotter/consonance
   reason: Music course notebooks on dissonance, not a library.
   checked: 2026-10-06
+
+# --- First scheduled review (October 2026, issue #2)
+- url: https://github.com/MoguraMode/Psychoacoustic-Sound-Level-Meter
+  reason: >-
+    Sound level meter web app with simplified Zwicker loudness and Aures sharpness; the author states that it does
+    not comply with ISO 532-1 and is not meant for precise measurement.
+  checked: 2026-10-07
+- url: https://github.com/neurobionics/uesl-protocol
+  reason: >-
+    Measurement protocol for wearable robots without code; it recommends MATLAB Audio Toolbox or MoSQITo for
+    loudness and sharpness.
+  checked: 2026-10-07
+- url: https://github.com/hqrrr/PerceptoMap
+  reason: Spectrogram plug-in; its brightness and sharpness indicators are spectral descriptors, not a named model.
+  checked: 2026-10-07
+- url: https://github.com/LuisMRaimundo/Spectral_Analyser
+  reason: Musicology toolkit; its roughness and dissonance measures concern musical sensory dissonance (out of scope).
+  checked: 2026-10-07
+- url: https://github.com/AhmadHassan-BTed/NaSuno
+  reason: Audio watermark removal that uses ISO 226 for masking; it does not compute the metrics.
+  checked: 2026-10-07

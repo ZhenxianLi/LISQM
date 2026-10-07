@@ -1,6 +1,15 @@
 # Dated notes shown on the Updates page, in the Atom feed and in CHANGELOG.md. Newest first.
 # Body: Markdown paragraphs and "- " bullet lists. See data/SCHEMA.md.
 
+- date: 2026-10-07
+  title: Two newly released projects
+  body: |
+    PsychoacousticMetrics.jl (Julia) adds DIN 45692 sharpness, Daniel & Weber roughness, Osses et al. (2016)
+    fluctuation strength and Widmann (1992) psychoacoustic annoyance on top of ZwickerLoudness.jl, by the same
+    author. Kirin Hypha, a measurement plug-in for audio workstations, computes ISO 532-1 time-varying loudness and
+    DIN 45692 sharpness in Rust, ported from MoSQITo. Both were found by the first scheduled search for new
+    projects; like the other newly released projects, they are not yet widely used.
+
 - date: 2026-10-06
   title: Version 0.1, the first public version of LISQM
   body: |

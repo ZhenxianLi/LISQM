@@ -3,7 +3,8 @@
 
 Searches GitHub repositories (needs GITHUB_TOKEN or GH_TOKEN), crates.io and npm with the queries below and
 leaves out everything that is already listed (data/projects/*.yaml), was reviewed and rejected
-(data/ignored.yaml), forks, and anything without a push or release in the last three years. The rest is
+(data/ignored.yaml), the list's own repository, forks, anything without a push or release in the last three
+years, and results that mention none of the tracked metrics, models or standards (RELEVANT_TERMS). The rest is
 written as a Markdown report, grouped by where it was found and ordered by relevance: number of matching
 queries, then most recent activity. PyPI has no search API and is not searched.
 
@@ -29,10 +30,15 @@ from _common import (DATA_DIR, FETCH_ERRORS, GITHUB_API, Http, describe_error, g
 # What to search for. GitHub queries use GitHub's search syntax (quotes for phrases, qualifiers such as
 # topic:) and match repository names, descriptions and topics.
 GITHUB_QUERIES = [
-    "psychoacoustic",
-    "psychoacoustics",
     '"psychoacoustic metrics"',
+    '"psychoacoustic parameters"',
     '"sound quality metrics"',
+    "psychoacoustic loudness",
+    "psychoacoustics loudness",
+    "psychoacoustic sharpness",
+    "psychoacoustic roughness",
+    "topic:psychoacoustics loudness",
+    "topic:sound-quality",
     '"ISO 532"',
     '"ISO 532-1"',
     '"ECMA-418"',
@@ -48,15 +54,13 @@ GITHUB_QUERIES = [
     '"prominence ratio"',
     '"tonality aures"',
     '"psychoacoustic annoyance"',
-    "EPNL",
     '"perceived noise level"',
+    "EPNL aircraft",
     '"aural detectability"',
     '"ISO/TS 20065"',
     '"DIN 45681"',
     '"time-varying loudness"',
     '"Moore Glasberg loudness"',
-    "topic:psychoacoustics",
-    "topic:psychoacoustic",
 ]
 
 # crates.io and npm search is fuzzy, so a result only counts when every word of the query occurs in its
@@ -69,6 +73,19 @@ REGISTRY_QUERIES = [
     "iso 532",
     "sound quality metrics",
 ]
+
+# A result is reported only when its name, description, topics or keywords mention a metric, model or standard that
+# the list tracks; a search for "psychoacoustic" alone also brings up bass enhancers, codecs and listening tests.
+# Terms match at the start of a word, after CamelCase and punctuation are split ("PsychoacousticMetrics.jl").
+RELEVANT_TERMS = (
+    "loudness", "sharpness", "roughness", "fluctuation strength", "tonality", "tonal audibility", "tone to noise",
+    "prominence ratio", "annoyance", "impulsiveness", "perceived noise", "aircraft noise", "aural detectability",
+    "sound quality", "psychoacoustic metric", "psychoacoustic parameter", "psychoacoustic indicator",
+    "zwicker", "sottek", "aures", "glasberg", "iso 532", "iso532", "ecma 418", "ecma418", "din 45692", "din 45631",
+    "din 45681", "iso 226", "equal loudness", "iso 1996", "20065", "61400",
+)
+# Programme loudness is out of scope: "loudness" alone does not count next to these.
+PROGRAMME_LOUDNESS = ("lufs", "1770", "r128", "replaygain", "normaliz", "normalis")
 
 MAX_ENTRIES = 60  # candidates listed in the report
 ACTIVE_WITHIN = timedelta(days=3 * 365)  # older candidates are left out
@@ -110,8 +127,10 @@ class Exclusions:
     packages: set[str]  # package_key() of listed packages
 
     @classmethod
-    def from_data(cls, projects: list[dict[str, Any]], ignored: list[dict[str, Any]]) -> Exclusions:
-        urls, packages = set(), set()
+    def from_data(cls, projects: list[dict[str, Any]], ignored: list[dict[str, Any]],
+                  own: str | None = None) -> Exclusions:
+        """`own` is the list's own repository, which matches several queries."""
+        urls, packages = ({normalize_url(own)} if own else set()), set()
         for project in projects:
             urls.update(normalize_url(str(project[key])) for key in ("repository", "homepage") if project.get(key))
             for package in project.get("packages") or []:
@@ -151,6 +170,19 @@ def mentions(query: str, *texts: Any) -> bool:
     return all(word in haystack for word in query.lower().split())
 
 
+def relevant(*texts: Any) -> bool:
+    """True when the texts (strings or lists of strings) mention one of RELEVANT_TERMS."""
+    parts = []
+    for text in texts:
+        parts += [str(item) for item in text] if isinstance(text, list) else [str(text or "")]
+    text = re.sub(r"([a-z])([A-Z])", r"\1 \2", " ".join(parts)).lower()
+    text = " " + re.sub(r"[^a-z0-9]+", " ", text) + " "
+    terms = {term for term in RELEVANT_TERMS if f" {term}" in text}
+    if terms == {"loudness"} and any(word in text for word in PROGRAMME_LOUDNESS):
+        return False
+    return bool(terms)
+
+
 class Search:
     """Runs the searches and collects candidates, merged by repository."""
 
@@ -161,6 +193,7 @@ class Search:
         self.found: dict[str, Candidate] = {}  # by normalised repository or package URL
         self.errors: list[str] = []
         self.searched: dict[str, int] = {}  # number of queries run per source
+        self.irrelevant: set[str] = set()  # normalised URLs of results that mention no tracked metric
 
     def github(self, queries: list[str]) -> None:
         for item, query in self._run("GitHub", queries, github_search_url, lambda data: data["items"],
@@ -168,6 +201,9 @@ class Search:
             pushed = parse_time(item.get("pushed_at"))
             url = item.get("html_url")
             if not url or item.get("fork") or pushed is None or pushed < self.cutoff or self.exclusions.excludes(url):
+                continue
+            if not relevant(item.get("full_name"), item.get("description"), item.get("topics") or []):
+                self.irrelevant.add(normalize_url(url))
                 continue
             self._add(Candidate(source="GitHub", name=item.get("full_name") or url, url=url,
                                 description=item.get("description"), language=item.get("language"),
@@ -213,6 +249,9 @@ class Search:
         page = page_template.format(name=name)
         repository = repository if isinstance(repository, str) and repository else None
         if self.exclusions.excludes(page, repository, package=package_key(registry, name)):
+            return
+        if not relevant(name, description, keywords or []):
+            self.irrelevant.add(normalize_url(page))
             return
         self._add(Candidate(source=label, name=name, url=page, description=description, language=language,
                             updated=updated, repository=repository, packages=[(label, name, page)]), (label, query))
@@ -274,16 +313,21 @@ def render_report(search: Search, cutoff: datetime, github_skipped: bool) -> str
     if github_skipped:
         searched += "; GitHub was not searched because neither GITHUB_TOKEN nor GH_TOKEN is set"
     candidates = ranked(search.found.values())
+    hidden = (f"{plural(len(search.irrelevant), 'other result')} mentioned none of the metrics, models or standards "
+              "in the list and are not shown" if search.irrelevant else "")
     if not candidates and not search.errors:
-        return f"No new candidates (searched {searched}).\n"
+        return f"No new candidates (searched {searched}{'; ' + hidden if hidden else ''}).\n"
 
     shown = candidates[:MAX_ENTRIES]
     found = f"Found {plural(len(candidates), 'new candidate')}" if candidates else "No new candidates found"
     if len(candidates) > len(shown):
         found += f"; the {len(shown)} most relevant are listed"
-    lines = [f"{found}. Searched {searched}. Not listed: listed projects, entries of `data/ignored.yaml`, forks, "
+    intro = (f"{found}. Searched {searched}. Not listed: listed projects, entries of `data/ignored.yaml`, forks, "
              f"and anything without activity since {cutoff.date().isoformat()}. Add reviewed candidates that do "
-             f"not belong in the list to `data/ignored.yaml`.", ""]
+             "not belong in the list to `data/ignored.yaml`.")
+    if hidden:
+        intro += f" {hidden[:1].upper()}{hidden[1:]}."
+    lines = [intro, ""]
     for group in GROUPS:
         members = [candidate for candidate in shown if candidate.source == group]
         if members:
@@ -309,7 +353,8 @@ def main(argv: list[str] | None = None) -> int:
     ignored = (load_yaml(ignored_path) or []) if ignored_path.exists() else []
     token = github_token()
     cutoff = utc_now() - ACTIVE_WITHIN
-    search = Search(Http(token), Exclusions.from_data(projects, ignored), cutoff)
+    own = (load_yaml(DATA_DIR / "site.yaml") or {}).get("repository") if (DATA_DIR / "site.yaml").exists() else None
+    search = Search(Http(token), Exclusions.from_data(projects, ignored, own), cutoff)
 
     limit = args.max_queries
     if token:

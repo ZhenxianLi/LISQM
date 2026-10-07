@@ -82,22 +82,45 @@ class SearchTest(DiscoverCase):
     def test_github_results_are_filtered_and_merged_by_repository(self) -> None:
         search = self.search_all()
         # Left out: huaaudio/metasona (listed), someone/mosqito (fork), old/zwicker-2019 (no push for 5 years),
-        # Example/Ignored-Meter (in ignored.yaml), oxideav-mp2 (query word only in keywords), stale npm/crates.
+        # Example/Ignored-Meter (in ignored.yaml), oxideav-mp2 (query word only in keywords), stale npm/crates,
+        # and results that mention no tracked metric (audiojs/effect, oxideav-vorbis, zimtohrli-sys).
         # Packages are keyed by their source repository.
         self.assertEqual(sorted(search.found), [
             "https://github.com/acoustics-lab/sqm-toolbox",
-            "https://github.com/audiojs/effect",
             "https://github.com/newcomer/loudness-rs",
-            "https://github.com/oxideav/oxideav-vorbis",
-            "https://github.com/xnorpx/rust-zimtohrli",
         ])
-        effect = search.found["https://github.com/audiojs/effect"]
-        self.assertEqual(effect.source, "GitHub")
-        self.assertEqual([name for _, name, _ in effect.packages], ["@audio/effect-exciter", "@audio/effect-subbass"])
-        self.assertEqual(effect.queries, [("GitHub", "psychoacoustic"), ("npm", "psychoacoustic")])
+        sqm = search.found["https://github.com/acoustics-lab/sqm-toolbox"]
+        self.assertEqual(sqm.source, "GitHub")
+        self.assertEqual([name for _, name, _ in sqm.packages], ["@acoustics-lab/sqm"])
+        self.assertEqual(sqm.queries, [("GitHub", "psychoacoustic"), ("GitHub", ZWICKER), ("npm", "psychoacoustic")])
+        self.assertEqual(sorted(search.irrelevant), [
+            "https://crates.io/crates/oxideav-vorbis",
+            "https://crates.io/crates/zimtohrli-sys",
+            "https://github.com/audiojs/effect",
+            "https://npmjs.com/package/@audio/effect-exciter",
+            "https://npmjs.com/package/@audio/effect-subbass",
+        ])
         self.assertEqual(search.errors, [])
         # GitHub searches are spaced to stay under 30 per minute.
         self.sleep.assert_any_call(discover.GITHUB_SEARCH_INTERVAL)
+
+    def test_relevance(self) -> None:
+        for texts, expected in (
+            (("slink/PsychoacousticMetrics.jl", None), True),  # CamelCase is split
+            (("iso532-1-rs", "Loudness in Rust"), True),
+            (("someone/sqm", "Tools", ["iso-532", "sound-quality"]), True),  # topics count
+            (("amber-willow8/epnl", "content"), False),  # EPNL alone is not enough
+            (("chadmed/bankstown", "A psychoacoustic bass enhancement plugin"), False),
+            (("lufs-meter", "Loudness meter: LUFS, ITU-R BS.1770"), False),  # programme loudness
+            (("lufs-and-zwicker", "LUFS and Zwicker loudness"), True),
+        ):
+            self.assertEqual(discover.relevant(*texts), expected, texts)
+
+    def test_own_listed_and_ignored_are_left_out(self) -> None:
+        exclusions = discover.Exclusions.from_data(PROJECTS, IGNORED, own="https://github.com/Example/List")
+        self.assertTrue(exclusions.excludes("https://github.com/example/list"))
+        self.assertTrue(exclusions.excludes("https://github.com/huaaudio/metasona"))
+        self.assertTrue(exclusions.excludes("https://github.com/example/ignored-meter"))
 
     def test_indexed_and_ignored_packages_are_left_out(self) -> None:
         self.serve(routes())
@@ -107,6 +130,7 @@ class SearchTest(DiscoverCase):
         search = discover.Search(_common.Http(), discover.Exclusions.from_data(projects, ignored), CUTOFF)
         search.crates(["psychoacoustic"])
         self.assertEqual(search.found, {})
+        self.assertEqual(search.irrelevant, set(), "listed and ignored packages are not even counted")
 
     def test_failed_search_is_reported(self) -> None:
         self.serve({discover.npm_search_url("psychoacoustic"): Reply(500)})
@@ -119,28 +143,25 @@ class SearchTest(DiscoverCase):
 class ReportTest(DiscoverCase):
     def test_report_lists_most_relevant_first_grouped_by_source(self) -> None:
         report = discover.render_report(self.search_all(), CUTOFF, github_skipped=False)
-        self.assertTrue(report.startswith("Found 5 new candidates. Searched 2 GitHub, 1 crates.io and 1 npm queries."))
-        github = report.split("### GitHub (3)\n\n")[1].split("\n\n")[0].splitlines()
+        self.assertTrue(report.startswith("Found 2 new candidates. Searched 2 GitHub, 1 crates.io and 1 npm queries."))
+        self.assertIn(" 5 other results mentioned none of the metrics, models or standards in the list and are not "
+                      "shown.\n", report)
+        github = report.split("### GitHub (2)\n\n")[1].split("\n\n")[0].splitlines()
         self.assertEqual(github[0],
                          "- [acoustics-lab/sqm-toolbox](https://github.com/acoustics-lab/sqm-toolbox) (Python, ★ 12, "
-                         "last push 2026-09-30): Sound quality metrics: Zwicker loudness, sharpness, roughness "
-                         "@\u200bmaintainer see #\u200b12. Matched `psychoacoustic`, `\"zwicker loudness\"`.")
-        self.assertTrue(github[1].startswith("- [audiojs/effect](https://github.com/audiojs/effect) (JavaScript, ★ 40, "
-                                             "last push 2026-09-29, packages: [npm @\u200baudio/effect-exciter]"
-                                             "(https://www.npmjs.com/package/@audio/effect-exciter), "))
-        self.assertTrue(github[1].endswith("Matched `psychoacoustic`, `psychoacoustic` (npm)."))
-        self.assertIn("(Rust, ★ 1, last push 2026-05-01): No description. Matched `\"zwicker loudness\"`.", github[2])
-        crates = report.split("### crates.io (2)\n\n")[1].splitlines()
-        self.assertTrue(crates[0].startswith("- [oxideav-vorbis](https://crates.io/crates/oxideav-vorbis) (Rust, "
-                                             "updated 2026-09-01, [repository](https://github.com/OxideAV/oxideav-vorbis))"))
-        self.assertTrue(crates[1].startswith("- [zimtohrli-sys](https://crates.io/crates/zimtohrli-sys)"))
+                         "last push 2026-09-30, packages: [npm @\u200bacoustics-lab/sqm]"
+                         "(https://www.npmjs.com/package/@acoustics-lab/sqm)): Sound quality metrics: Zwicker "
+                         "loudness, sharpness, roughness @\u200bmaintainer see #\u200b12. Matched `psychoacoustic`, "
+                         "`\"zwicker loudness\"`, `psychoacoustic` (npm).")
+        self.assertIn("(Rust, ★ 1, last push 2026-05-01): No description. Matched `\"zwicker loudness\"`.", github[1])
+        self.assertNotIn("### crates.io", report)
         self.assertNotIn("### npm", report)
 
     def test_report_is_capped(self) -> None:
-        with mock.patch.object(discover, "MAX_ENTRIES", 2):
+        with mock.patch.object(discover, "MAX_ENTRIES", 1):
             report = discover.render_report(self.search_all(), CUTOFF, github_skipped=False)
-        self.assertTrue(report.startswith("Found 5 new candidates; the 2 most relevant are listed."))
-        self.assertEqual(report.count("\n- "), 2)
+        self.assertTrue(report.startswith("Found 2 new candidates; the 1 most relevant are listed."))
+        self.assertEqual(report.count("\n- "), 1)
 
     def test_nothing_found_is_a_single_line(self) -> None:
         empty = json_reply({"items": [], "crates": [], "objects": []})
@@ -150,6 +171,15 @@ class ReportTest(DiscoverCase):
         search.crates(["zwicker"])
         self.assertEqual(discover.render_report(search, CUTOFF, github_skipped=False),
                          "No new candidates (searched 1 GitHub and 1 crates.io queries).\n")
+
+    def test_only_irrelevant_results_are_a_single_line(self) -> None:
+        self.serve({discover.npm_search_url("psychoacoustic"): routes()[discover.npm_search_url("psychoacoustic")]})
+        search = discover.Search(_common.Http(), discover.Exclusions.from_data(
+            [], [{"url": "https://www.npmjs.com/package/@acoustics-lab/sqm"}]), CUTOFF)
+        search.npm(["psychoacoustic"])
+        self.assertEqual(discover.render_report(search, CUTOFF, github_skipped=False),
+                         "No new candidates (searched 1 npm query; 2 other results mentioned none of the metrics, "
+                         "models or standards in the list and are not shown).\n")
 
 
 class MainTest(DiscoverCase):
@@ -167,7 +197,7 @@ class MainTest(DiscoverCase):
                 os.environ.pop("GITHUB_TOKEN", None)
                 os.environ.pop("GH_TOKEN", None)
                 self.assertEqual(discover.main(["--max-queries", "1", "--report", str(report_path)]), 0)
-            self.assertEqual(output.getvalue(), "2 new candidates\n")
+            self.assertEqual(output.getvalue(), "1 new candidate\n")
             self.assertFalse(any("api.github.com" in url for url in web.urls))
             report = report_path.read_text(encoding="utf-8")
             self.assertIn("GitHub was not searched because neither GITHUB_TOKEN nor GH_TOKEN is set", report)

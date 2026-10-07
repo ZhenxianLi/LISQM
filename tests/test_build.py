@@ -226,7 +226,8 @@ class BuildTest(unittest.TestCase):
             self.assertLessEqual(edition.count("<li"), TIMELINE_SHOWN, edition[:80])
             order = [GROUP_ORDER[group[pid]] for pid in re.findall(r'href="projects/([^"#]+)\.html"', edition)]
             self.assertEqual(order, sorted(order), "the most established projects come first")
-            found = re.search(r'<li class="more"><a href="(metrics/[a-z0-9-]+\.html)#editions"[^>]*>\+(\d+) more', edition)
+            found = re.search(r'<li class="more"><a href="(metrics/[a-z0-9-]+\.html)#editions"[^>]*>\+(\d+) more',
+                              edition)
             if found:
                 more += 1
                 self.assertGreaterEqual(int(found.group(2)), 2, "never just one more")
@@ -234,7 +235,10 @@ class BuildTest(unittest.TestCase):
         self.assertGreater(more, 0)
         iso = table[table.index("ISO 532-1:2017"):]
         iso = iso[:iso.index("</div>")]
-        self.assertIn(">+7 more →<", iso)
+        zwicker = next(row for _, rows in timeline(self.index) for row in rows
+                       if row["method"]["id"] == "loudness-zwicker")
+        current = next(impls for cell in zwicker["cells"] for ref, impls in cell if ref["id"] == "iso-532-1-2017")
+        self.assertIn(f">+{len(current) - (TIMELINE_SHOWN - 1)} more →<", iso)
         self.assertIn('class="mk mk-new"', table)
 
     def test_search_engine_key_and_verification_tags(self) -> None:
