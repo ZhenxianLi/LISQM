@@ -150,7 +150,7 @@ are welcome on <a href="{esc(site['repository'])}">GitHub</a>. Version {esc(str(
 <p><a href="{rel('index.json')}">JSON</a> · <a href="{rel('llms.txt')}">llms.txt</a> · {md_foot}<a href="{rel('feed.xml')}">Atom feed</a></p>
 </div>
 </footer>
-</body>
+{_analytics(site)}</body>
 </html>
 """
 
@@ -208,6 +208,16 @@ def _sidebar(index: Index, path: str, section: str) -> str:
     if not blocks_:
         return ""
     return f'<aside class="sidebar" aria-label="{esc(section or "Site")} contents">' + "\n".join(blocks_) + "</aside>"
+
+
+def _analytics(site: dict) -> str:
+    """The Cloudflare Web Analytics beacon, on every page once data/site.yaml has the site's token. It sets no
+    cookies."""
+    token = str(site.get("cloudflare_analytics_token") or "").strip()
+    if not token:
+        return ""
+    beacon = esc(json.dumps({"token": token}))
+    return f"<script defer src=\"https://static.cloudflareinsights.com/beacon.min.js\" data-cf-beacon='{beacon}'></script>\n"
 
 
 def credit(index: Index) -> str:
@@ -1266,6 +1276,8 @@ def about_page(index: Index) -> str:
         f'<li><a href="{repo}/tree/main/data">Source data</a> and its '
         f'<a href="{repo}/blob/main/data/SCHEMA.md">schema</a>.</li>',
         "</ul>",
+        ('<p>Visits to the website are counted with <a href="https://www.cloudflare.com/web-analytics/">Cloudflare '
+         "Web Analytics</a>, which sets no cookies.</p>" if _analytics(site) else ""),
         '<h2 id="contributing">Contributing</h2>',
         f'<p>Corrections and new projects are welcome. Open an <a href="{repo}/issues/new/choose">issue</a>, or send a '
         f'pull request that adds or edits a file in <code>data/projects/</code>; '

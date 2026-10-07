@@ -606,6 +606,8 @@ def about_page(index: Index) -> str:
               f"- [feed.xml]({site['base_url']}feed.xml): Atom feed of updates",
               f"- [{BIBTEX}]({site['base_url']}{BIBTEX}): every standard, model paper and software paper, as BibTeX",
               f"- Source data and schema: {site['repository']}/tree/main/data", ""]
+    if site.get("cloudflare_analytics_token"):
+        lines += ["Visits to the website are counted with Cloudflare Web Analytics, which sets no cookies.", ""]
     lines += ["## Contributing and citing", "",
               f"Corrections and new projects are welcome through issues or pull requests: {site['repository']}. "
               "To cite the list, use the CITATION.cff file in the repository, and cite the implementations you "

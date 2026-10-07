@@ -18,6 +18,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 import build  # noqa: E402
 from pmi.data import GROUP_ORDER, KINDS, load  # noqa: E402
 from pmi.describe import timeline  # noqa: E402
+from pmi.render_html import _analytics  # noqa: E402
 
 
 class _Links(HTMLParser):
@@ -442,6 +443,16 @@ class BuildTest(unittest.TestCase):
             self.assertNotRegex(text, r"super[ _-]?projects?\b", f"{path.name} names the super_project tag")
             self.assertNotIn("most widely used", text, path.name)
             self.assertNotIn("most_widely_used", text, path.name)
+
+    def test_analytics_only_with_a_token(self) -> None:
+        self.assertEqual(_analytics({}), "")
+        token = "0123456789abcdef0123456789abcdef"
+        snippet = _analytics({"cloudflare_analytics_token": token})
+        self.assertIn('src="https://static.cloudflareinsights.com/beacon.min.js"', snippet)
+        self.assertIn(token, snippet)
+        configured = bool(self.index.site.get("cloudflare_analytics_token"))
+        for page in self.pages:  # on every page, or on none
+            self.assertEqual("cloudflareinsights" in page.read_text(encoding="utf-8"), configured, page.name)
 
     def test_a_super_project_must_be_established(self) -> None:
         p = self.index.project["metasona"]

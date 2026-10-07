@@ -227,6 +227,9 @@ class Index:
         key = self.site.get("indexnow_key")
         if key is not None and not re.fullmatch(r"[A-Za-z0-9-]{8,128}", str(key)):
             add("data/site.yaml: indexnow_key must be 8 to 128 letters, digits or hyphens")
+        token = str(self.site.get("cloudflare_analytics_token") or "")
+        if token and not re.fullmatch(r"[A-Za-z0-9]{16,64}", token):
+            add("data/site.yaml: cloudflare_analytics_token must be the token of the snippet (letters and digits)")
         unknown = set(self.site.get("verification") or {}) - set(VERIFICATION_META)
         if unknown:
             add(f"data/site.yaml: verification: unknown search engine {', '.join(sorted(unknown))} "
