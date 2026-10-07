@@ -2,7 +2,7 @@
 # Body: Markdown paragraphs and "- " bullet lists. See data/SCHEMA.md.
 
 - date: 2026-10-07
-  title: Who ported code from whom, how to cite it, and five more projects
+  title: "Version 0.3: who ported code from whom, how to cite it, and five more projects"
   body: |
     Method pages now show who ported code from whom, as the projects state it. A comparison with related code is
     marked "(its source)", "(a port of it)" or "(also ported from …)", and its tag is grey when nothing independent
@@ -11,7 +11,7 @@
     implementations give different numbers: sound field, calibration, sample rate, percentile definition,
     sharpness weighting and the start of the signal.
 
-    Also in this update:
+    Also in this version:
 
     - Every project page has a *How to cite* line, and all standards, model papers and software papers are
       available as BibTeX in references.bib.

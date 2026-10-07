@@ -2,7 +2,7 @@
 
 Notable changes to the list. This file is generated from `data/updates.yaml`; the same notes are on the website (https://zhenxianli.github.io/LISQM/updates.html) and in its Atom feed.
 
-## 2026-10-07: Who ported code from whom, how to cite it, and five more projects
+## 2026-10-07: Version 0.3: who ported code from whom, how to cite it, and five more projects
 
 Method pages now show who ported code from whom, as the projects state it. A comparison with related code is
 marked "(its source)", "(a port of it)" or "(also ported from …)", and its tag is grey when nothing independent
@@ -11,7 +11,7 @@ follows the standard. A new section, *Before you compare numbers*, lists the cho
 implementations give different numbers: sound field, calibration, sample rate, percentile definition,
 sharpness weighting and the start of the signal.
 
-Also in this update:
+Also in this version:
 
 - Every project page has a *How to cite* line, and all standards, model papers and software papers are
   available as BibTeX in references.bib.
