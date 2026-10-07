@@ -2,7 +2,7 @@
 name: LISQM
 title: List of Implementations of Sound Quality Metrics
 # The version of the list (semantic versioning; also in CITATION.cff).
-version: 0.1.0
+version: 0.2.0
 tagline: A List of Open-Source Implementations of Psychoacoustic and Sound Quality Metrics
 description: >-
   A list of open-source implementations of psychoacoustic metrics, also called sound quality (SQ) metrics:

@@ -2,14 +2,22 @@
 # Body: Markdown paragraphs and "- " bullet lists. See data/SCHEMA.md.
 
 - date: 2026-10-07
-  title: How each implementation was validated
+  title: "Version 0.2: how each implementation was validated"
   body: |
     Project and method pages have a new section, *How it was validated*: what each project says it checked, and
     against what (test signals of the standard, the model authors' code, MoSQITo, SQAT or commercial software),
     with the tolerances and results it reports. Validation tags now name what an implementation was compared with,
     for example "compared with MoSQITo", instead of "another implementation". Agreement with another implementation
-    shows that both compute the same values, not that either follows the standard. MetaSona is now listed as a C
-    library with a Python interface.
+    shows that both compute the same values, not that either follows the standard.
+
+    Also in this version:
+
+    - On the home page, "+ more" shows the remaining projects of an edition in place.
+    - Edition labels in the implementation tables link to the standard or paper. Zwicker & Fastl (1999) now has its
+      DOI, and five model papers and theses link to their publisher or library pages; the rest link to their full
+      reference on the Standards page.
+    - MetaSona is listed as a C library with a Python interface.
+    - PsychoacousticMetrics.jl and Kirin Hypha, two newly released projects, were added the same day.
 
 - date: 2026-10-07
   title: Two newly released projects

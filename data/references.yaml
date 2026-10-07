@@ -80,7 +80,8 @@
   citation: >-
     Moore, B. C. J., Glasberg, B. R., & Baer, T. (1997). A model for the prediction of thresholds, loudness,
     and partial loudness. *Journal of the Audio Engineering Society*, 45(4), 224–240.
-  checked: 2026-10-06
+  url: https://aes2.org/publications/elibrary-page/?id=10272
+  checked: 2026-10-07
 
 - id: chen-2011
   label: Chen et al. (2011)
@@ -145,7 +146,8 @@
   citation: >-
     Glasberg, B. R., & Moore, B. C. J. (2002). A model of loudness applicable to time-varying sounds.
     *Journal of the Audio Engineering Society*, 50(5), 331–342.
-  checked: 2026-10-06
+  url: https://aes2.org/publications/elibrary-page/?id=11081
+  checked: 2026-10-07
 
 
 - id: chalupper-fastl-2002
@@ -158,7 +160,8 @@
   citation: >-
     Chalupper, J., & Fastl, H. (2002). Dynamic loudness model (DLM) for normal and hearing-impaired
     listeners. *Acta Acustica united with Acustica*, 88(3), 378–386.
-  checked: 2026-10-06
+  url: https://www.ingentaconnect.com/contentone/dav/aaua/2002/00000088/00000003/art00009
+  checked: 2026-10-07
 
 - id: moore-2016
   label: Moore et al. (2016)
@@ -332,7 +335,8 @@
   citation: >-
     von Bismarck, G. (1974). Sharpness as an attribute of the timbre of steady sounds. *Acustica*, 30(3),
     159–172.
-  checked: 2026-10-06
+  url: https://www.ingentaconnect.com/contentone/dav/aaua/1974/00000030/00000003/art00006
+  checked: 2026-10-07
 
 - id: aures-1985-euphony
   label: Aures (1985b)
@@ -584,7 +588,8 @@
   date: 1999
   status: published
   citation: "Zwicker, E., & Fastl, H. (1999). *Psychoacoustics: Facts and models* (2nd ed.). Springer."
-  checked: 2026-10-06
+  doi: 10.1007/978-3-662-09562-1
+  checked: 2026-10-07
 
 - id: more-2010
   label: More (2010)
@@ -596,7 +601,8 @@
   citation: >-
     More, S. R. (2010). *Aircraft noise characteristics and metrics* [Doctoral dissertation, Purdue
     University]. PARTNER report PARTNER-COE-2011-004.
-  checked: 2026-10-06
+  url: https://docs.lib.purdue.edu/dissertations/AAI3453255
+  checked: 2026-10-07
 
 - id: di-2016
   label: Di et al. (2016)

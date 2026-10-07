@@ -2,7 +2,7 @@
   "name": "LISQM",
   "full_name": "List of Implementations of Sound Quality Metrics",
   "tagline": "A List of Open-Source Implementations of Psychoacoustic and Sound Quality Metrics",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A list of open-source implementations of psychoacoustic metrics, also called sound quality (SQ) metrics: loudness, sharpness, roughness, fluctuation strength, tonality, impulsiveness and psychoacoustic annoyance. Each implementation is listed under the standard edition or model it follows. All programming languages.",
   "url": "https://zhenxianli.github.io/LISQM/",
   "repository": "https://github.com/ZhenxianLi/LISQM",
@@ -3072,7 +3072,8 @@
       "date": 1997,
       "status": "published",
       "citation": "Moore, B. C. J., Glasberg, B. R., & Baer, T. (1997). A model for the prediction of thresholds, loudness, and partial loudness. *Journal of the Audio Engineering Society*, 45(4), 224–240.",
-      "checked": "2026-10-06"
+      "url": "https://aes2.org/publications/elibrary-page/?id=10272",
+      "checked": "2026-10-07"
     },
     {
       "id": "chen-2011",
@@ -3135,7 +3136,8 @@
       "date": 2002,
       "status": "published",
       "citation": "Glasberg, B. R., & Moore, B. C. J. (2002). A model of loudness applicable to time-varying sounds. *Journal of the Audio Engineering Society*, 50(5), 331–342.",
-      "checked": "2026-10-06"
+      "url": "https://aes2.org/publications/elibrary-page/?id=11081",
+      "checked": "2026-10-07"
     },
     {
       "id": "chalupper-fastl-2002",
@@ -3146,7 +3148,8 @@
       "date": 2002,
       "status": "published",
       "citation": "Chalupper, J., & Fastl, H. (2002). Dynamic loudness model (DLM) for normal and hearing-impaired listeners. *Acta Acustica united with Acustica*, 88(3), 378–386.",
-      "checked": "2026-10-06"
+      "url": "https://www.ingentaconnect.com/contentone/dav/aaua/2002/00000088/00000003/art00009",
+      "checked": "2026-10-07"
     },
     {
       "id": "moore-2016",
@@ -3313,7 +3316,8 @@
       "date": 1974,
       "status": "published",
       "citation": "von Bismarck, G. (1974). Sharpness as an attribute of the timbre of steady sounds. *Acustica*, 30(3), 159–172.",
-      "checked": "2026-10-06"
+      "url": "https://www.ingentaconnect.com/contentone/dav/aaua/1974/00000030/00000003/art00006",
+      "checked": "2026-10-07"
     },
     {
       "id": "aures-1985-euphony",
@@ -3544,7 +3548,8 @@
       "date": 1999,
       "status": "published",
       "citation": "Zwicker, E., & Fastl, H. (1999). *Psychoacoustics: Facts and models* (2nd ed.). Springer.",
-      "checked": "2026-10-06"
+      "doi": "10.1007/978-3-662-09562-1",
+      "checked": "2026-10-07"
     },
     {
       "id": "more-2010",
@@ -3555,7 +3560,8 @@
       "date": 2010,
       "status": "published",
       "citation": "More, S. R. (2010). *Aircraft noise characteristics and metrics* [Doctoral dissertation, Purdue University]. PARTNER report PARTNER-COE-2011-004.",
-      "checked": "2026-10-06"
+      "url": "https://docs.lib.purdue.edu/dissertations/AAI3453255",
+      "checked": "2026-10-07"
     },
     {
       "id": "di-2016",
@@ -7537,8 +7543,8 @@
   "updates": [
     {
       "date": "2026-10-07",
-      "title": "How each implementation was validated",
-      "body": "Project and method pages have a new section, *How it was validated*: what each project says it checked, and\nagainst what (test signals of the standard, the model authors' code, MoSQITo, SQAT or commercial software),\nwith the tolerances and results it reports. Validation tags now name what an implementation was compared with,\nfor example \"compared with MoSQITo\", instead of \"another implementation\". Agreement with another implementation\nshows that both compute the same values, not that either follows the standard. MetaSona is now listed as a C\nlibrary with a Python interface.\n"
+      "title": "Version 0.2: how each implementation was validated",
+      "body": "Project and method pages have a new section, *How it was validated*: what each project says it checked, and\nagainst what (test signals of the standard, the model authors' code, MoSQITo, SQAT or commercial software),\nwith the tolerances and results it reports. Validation tags now name what an implementation was compared with,\nfor example \"compared with MoSQITo\", instead of \"another implementation\". Agreement with another implementation\nshows that both compute the same values, not that either follows the standard.\n\nAlso in this version:\n\n- On the home page, \"+ more\" shows the remaining projects of an edition in place.\n- Edition labels in the implementation tables link to the standard or paper. Zwicker & Fastl (1999) now has its\n  DOI, and five model papers and theses link to their publisher or library pages; the rest link to their full\n  reference on the Standards page.\n- MetaSona is listed as a C library with a Python interface.\n- PsychoacousticMetrics.jl and Kirin Hypha, two newly released projects, were added the same day.\n"
     },
     {
       "date": "2026-10-07",
