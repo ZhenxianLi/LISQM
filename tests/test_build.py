@@ -214,32 +214,28 @@ class BuildTest(unittest.TestCase):
         for f in self.index.families:
             self.assertIn(f'id="{f["id"]}"', html, f["id"])
 
-    def test_long_timeline_cells_fold_three_groups_together(self) -> None:
-        from pmi.render_html import LONG_CELL
+    def test_timeline_editions_show_at_most_four_projects(self) -> None:
+        from pmi.render_html import TIMELINE_SHOWN
         html = (self.site / "index.html").read_text(encoding="utf-8")
         table = html[html.index('<table class="timeline">'):html.index("</table>")]
+        self.assertNotIn("<details", table)
         group = {p["id"]: p["_group"] for p in self.index.projects}
-        folds = 0
-        for cell in re.findall(r'<td class="bin[^"]*">(.*?)</td>', table):
-            if "<details" not in cell:
-                continue
-            self.assertGreaterEqual(cell.count("<li"), LONG_CELL, "only long cells fold")
-            for edition in cell.split('<div class="edition')[1:]:
-                self.assertLessEqual(edition.count("<details"), 1, "one fold per edition")
-                if "<details" not in edition:
-                    continue
-                folds += 1
-                inside = edition[edition.index("<details"):edition.index("</details>")]
-                outside = edition.replace(inside, "")
-                folded = {group[pid] for pid in re.findall(r'href="projects/([^"#]+)\.html"', inside)}
-                self.assertLessEqual(folded, {"newly-released", "developing", "legacy"}, "established stay visible")
-                visible = {group[pid] for pid in re.findall(r'href="projects/([^"#]+)\.html"', outside)}
-                self.assertFalse(visible & folded, "a kind is either folded or shown, not split")
-        self.assertGreater(folds, 0)
+        more = 0
+        for edition in table.split('<div class="edition')[1:]:
+            edition = edition[:edition.index("</div>")]
+            self.assertLessEqual(edition.count("<li"), TIMELINE_SHOWN, edition[:80])
+            order = [GROUP_ORDER[group[pid]] for pid in re.findall(r'href="projects/([^"#]+)\.html"', edition)]
+            self.assertEqual(order, sorted(order), "the most established projects come first")
+            found = re.search(r'<li class="more"><a href="(metrics/[a-z0-9-]+\.html)#editions"[^>]*>\+(\d+) more', edition)
+            if found:
+                more += 1
+                self.assertGreaterEqual(int(found.group(2)), 2, "never just one more")
+                self.assertTrue((self.site / found.group(1)).exists())
+        self.assertGreater(more, 0)
         iso = table[table.index("ISO 532-1:2017"):]
-        summary = iso[iso.index("<summary>"):iso.index("</summary>")]
-        for kind in ("tag-new", "tag-dev", "tag-legacy"):
-            self.assertIn(kind, summary, "the three groups share one fold")
+        iso = iso[:iso.index("</div>")]
+        self.assertIn(">+7 more →<", iso)
+        self.assertIn('class="mk mk-new"', table)
 
     def test_every_tab_has_its_own_sidebar(self) -> None:
         pages = {"index.html": "Home", "metrics/index.html": "Metrics", "metrics/sharpness.html": "Metrics",

@@ -11,7 +11,7 @@ from __future__ import annotations
 import json
 import re
 
-from .data import (GROUPS, IMPL_STATUS_LONG, PROJECT_KINDS, REGISTRIES, VALIDATION, VALIDATION_LONG,
+from .data import (GROUP_NAMES, GROUPS, IMPL_STATUS_LONG, PROJECT_KINDS, REGISTRIES, VALIDATION, VALIDATION_LONG,
                    Index, only_new)
 from .describe import (COVERAGE_COLUMNS, GROUP_RULE, ONLY_NEW, activity_text, ai_guide, by_language, coverage, current_statement,
                        dedupe, edition_state, faq, impl_phrase, introduce, language_order, name_note, ref_status, release_text,
@@ -362,9 +362,13 @@ def _lang_badge(lang: str) -> str:
     return f'<span class="lb lang-{cls}" title="{esc(lang)}">{esc(code)}</span>'
 
 
-def _timeline_impl(path: str, i: dict, mark: bool = True) -> str:
+# Light markers for the dense timeline: a word after the name instead of a boxed tag. Legacy projects are grey.
+TIMELINE_MARKS = {"newly-released": ("new", "new"), "developing": ("dev", "dev")}
+
+
+def _timeline_impl(path: str, i: dict) -> str:
     """One line per project: its language as a short code, the name (in bold for the most widely used projects),
-    a marker if the code is not released, and the marker of its group unless it sits in a fold of that group only;
+    a marker if the code is not released, and a small "new" or "dev" after newly released and developing projects;
     legacy projects are grey. Version, languages and activity are in the tooltip."""
     p = i["_project"]
     name = _breakable(p.get("short_name") or p["name"])
@@ -375,38 +379,37 @@ def _timeline_impl(path: str, i: dict, mark: bool = True) -> str:
         bits.append(_tag("PR", "neutral", IMPL_STATUS_LONG["proposed"], href=i.get("link", "")))
     elif i["status"] == "unreleased":
         bits.append(_tag("main", "warn", IMPL_STATUS_LONG["unreleased"]))
-    if mark and p["_group"] in GROUP_TAGS:
-        bits.append(GROUP_TAGS[p["_group"]])
+    if p["_group"] in TIMELINE_MARKS:
+        word, kind = TIMELINE_MARKS[p["_group"]]
+        bits.append(f'<span class="mk mk-{kind}" title="{esc(GROUP_NAMES[p["_group"]].capitalize())}. '
+                    f'{esc(GROUPS[p["_group"]])}">{word}</span>')
     quiet = ' class="quiet"' if p["_group"] == "legacy" else ""
     return (f'<li{quiet} title="{esc(_impl_tip(i))}">{_lang_badge(p["languages"][0])}'
             f'<span class="nm">{" ".join(bits)}</span></li>')
 
 
-# A timeline cell is long when it lists this many projects or more. There, the newly released, developing and legacy
-# projects of each edition fold together into one line.
-LONG_CELL = 5
+# An edition lists at most this many projects, the most established first. When there are more, the last line
+# counts the rest and links to the method page, which lists all of them.
+TIMELINE_SHOWN = 4
 
 
-def _timeline_edition(path: str, m: dict, ref: dict, impls: list[dict], fold: bool = False) -> str:
+def _timeline_edition(path: str, m: dict, ref: dict, impls: list[dict]) -> str:
     state = edition_state(m, ref)
     tip = f'{ref["title"]}. {ref_status(ref).capitalize()}.'
     label = f'<span class="ed-label" title="{esc(tip)}">{_breakable(ref["label"])}</span>'
     if state == "dev":
         label += " " + _tag("in development", "warn")
-    # Established projects first, then newly released, developing and legacy ones, each with its marker (`impls` is
-    # in this order). With `fold`, two or more of the last three go together under one line that counts each kind.
-    rest = [i for i in impls if i["_project"]["_group"] in GROUP_TAGS] if fold else []
-    if len(rest) < 2:
-        rest = []
-    shown = [i for i in impls if not rest or i["_project"]["_group"] not in GROUP_TAGS]
-    body = f'<ul>{"".join(_timeline_impl(path, i) for i in shown)}</ul>' if shown else ""
+    # `impls` is in the order established, newly released, developing, legacy.
+    shown, rest = (impls, []) if len(impls) <= TIMELINE_SHOWN else (impls[:TIMELINE_SHOWN - 1], impls[TIMELINE_SHOWN - 1:])
+    lines = [_timeline_impl(path, i) for i in shown]
     if rest:
-        kinds = [g for g in GROUP_TAGS if any(i["_project"]["_group"] == g for i in rest)]
-        counts = " ".join(f'<span class="fold-n">{sum(i["_project"]["_group"] == g for i in rest)} '
-                          f'{GROUP_TAGS[g]}</span>' for g in kinds)
-        # The markers stay on the names when the fold holds more than one kind.
-        body += (f'<details class="fold"><summary>{counts}</summary>'
-                 f'<ul>{"".join(_timeline_impl(path, i, mark=len(kinds) > 1) for i in rest)}</ul></details>')
+        kinds = {}
+        for i in rest:
+            kinds.setdefault(GROUP_NAMES[i["_project"]["_group"]], []).append(i["_project"]["name"])
+        also = "; ".join(f"{', '.join(names)} ({kind})" for kind, names in kinds.items())
+        href = relative(path, method_path(m)) + "#editions"
+        lines.append(f'<li class="more"><a href="{esc(href)}" title="Also: {esc(also)}">+{len(rest)} more →</a></li>')
+    body = f'<ul>{"".join(lines)}</ul>' if lines else ""
     cls = f"edition ed-{state}" if state else "edition"
     return f'<div class="{cls}">{label}{body}</div>'
 
@@ -427,8 +430,7 @@ def _timeline(index: Index, path: str) -> str:
             cells = []
             for n, cell in enumerate(row["cells"]):
                 cls = "bin life" if n >= row["first"] else "bin"
-                fold = sum(len(impls) for _, impls in cell) >= LONG_CELL
-                editions = "".join(_timeline_edition(path, m, ref, impls, fold) for ref, impls in cell)
+                editions = "".join(_timeline_edition(path, m, ref, impls) for ref, impls in cell)
                 cells.append(f'<td class="{cls}">{editions}</td>')
             lines.append(f'<tr><th scope="row" class="rowhead">{_method_link(path, m)}'
                          f'<span class="unit">{esc(m["unit"])}</span></th>' + "".join(cells) + "</tr>")
@@ -445,11 +447,12 @@ def _timeline(index: Index, path: str) -> str:
         f'{_tag("in development", "warn")} draft or new work item '
         '<span class="key key-life"></span> years since the method’s first edition</p>'
         f'<p class="key-langs">Language: {key_langs}</p>'
-        "<p>No marker: established · <strong>bold name</strong>: one of the most widely used projects · "
-        f"{NEW_TAG} newly released, first released less than about a year ago and not yet widely used · {DEV_TAG} "
-        "public for more than a year, without a publication or documented use by others · "
-        f"{LEGACY_TAG} archived, or no commit for three years or more · in long cells, the newly released, "
-        "developing and legacy projects are folded together into one line (click to open)</p>"
+        "<p><strong>Bold name</strong>: one of the most widely used projects · no marker: established · "
+        '<span class="mk mk-new">new</span> newly released, first released less than about a year ago and not yet '
+        'widely used · <span class="mk mk-dev">dev</span> developing: public for more than a year, without a '
+        'publication or documented use by others · <span class="key-quiet">grey name</span>: legacy, archived or '
+        f"no commit for three years or more · each edition shows at most {TIMELINE_SHOWN} projects, the most "
+        "established first; <em>+ more</em> leads to the method page, which lists them all</p>"
         f'<p>{_tag("main", "warn")} merged, not in a release yet · {_tag("PR", "neutral")} open pull request · '
         "hover over a name for its languages, version and status</p>"
         "</div>")

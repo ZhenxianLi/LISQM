@@ -1073,32 +1073,31 @@ table.timeline li .tag {
   margin-left: .1em;
 }
 
-/* Group markers in the dense timeline are a little smaller, so that most fit beside the name. */
-table.timeline .tag-new,
-table.timeline .tag-dev,
-table.timeline .tag-legacy {
-  font-size: .64em;
-  letter-spacing: .03em;
-}
-
-details.fold {
-  margin-top: .3rem;
-}
-
-details.fold summary {
-  cursor: pointer;
-  color: var(--muted);
-  list-style-position: inside;
-}
-
-/* The count and its marker stay together; the line breaks between kinds. */
-details.fold .fold-n {
+/* Light group markers in the dense timeline: a small word after the name, no box. */
+table.timeline .mk,
+.legend .mk {
+  font-size: .74em;
+  font-weight: 700;
+  letter-spacing: .02em;
   white-space: nowrap;
-  margin-right: .3em;
 }
 
-details.fold[open] summary {
-  margin-bottom: .1rem;
+table.timeline .mk {
+  margin-left: .15em;
+}
+
+.mk-new { color: var(--new); }
+.mk-dev { color: var(--info); }
+.key-quiet { color: var(--muted); }
+
+/* "+3 more": the rest of an edition's projects are on the method page. */
+table.timeline li.more {
+  margin-top: .15rem;
+  font-size: .85em;
+}
+
+table.timeline li.more a {
+  color: var(--muted);
 }
 
 .others-note {
