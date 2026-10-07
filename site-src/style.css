@@ -10,6 +10,7 @@
   --text: #1f2328;
   --muted: #5a636e;
   --faint: #8b949e;
+  --timeline: #8b949e;     /* the life line of a method on the home page */
   --rule: #d4dbe2;
   --rule-strong: #2b3137;
   --hairline: #edf0f3;
@@ -65,6 +66,7 @@
     --text: #e3e7ec;
     --muted: #a2abb6;
     --faint: #7c8692;
+    --timeline: #7c8692;
     --rule: #363d46;
     --rule-strong: #c9d0d8;
     --hairline: #252a31;
@@ -106,6 +108,7 @@
   --text: #e3e7ec;
   --muted: #a2abb6;
   --faint: #7c8692;
+  --timeline: #7c8692;
   --rule: #363d46;
   --rule-strong: #c9d0d8;
   --hairline: #252a31;
@@ -1032,7 +1035,7 @@ table.facts td {
   display: inline-block;
   width: 2.2em;
   height: 0;
-  border-top: 1px solid var(--rule-strong);
+  border-top: 2px solid var(--timeline);
   vertical-align: .3em;
 }
 
@@ -1126,7 +1129,8 @@ table.timeline tr.family + tr > * {
   border-top: 0;
 }
 
-/* The line runs from a method's first edition to the present, through the first line of each edition label. */
+/* The line runs from a method's first edition to the present, through the first line of each edition label. It is
+   heavier and darker than the table rules, so that it reads as the time axis of each method. */
 table.timeline td.bin {
   position: relative;
 }
@@ -1136,8 +1140,8 @@ table.timeline td.life::before {
   position: absolute;
   left: 0;
   right: 0;
-  top: calc(.5rem + .72em + .15rem);
-  border-top: 1px solid var(--rule);
+  top: calc(.5rem + .72em + .15rem - 1px);
+  border-top: 2px solid var(--timeline);
 }
 
 table.timeline .edition {
