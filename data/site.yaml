@@ -31,3 +31,6 @@ verification:
 # Cloudflare Web Analytics (https://www.cloudflare.com/web-analytics/): the token in the site's JS snippet,
 # data-cf-beacon='{"token": "…"}'. Public by design, as it is in every page. Empty: no analytics script.
 cloudflare_analytics_token: "5339f87baef5430da26a743cfd31c97f"
+# The dark version of the style sheet (site-src/style.css) is kept but switched off: every page carries
+# data-theme="light". true: follow the visitor's device setting again.
+dark_mode: false

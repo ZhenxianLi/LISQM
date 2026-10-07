@@ -105,7 +105,7 @@ def layout(index: Index, path: str, *, title: str, description: str, body: str, 
                      for engine, code in (site.get("verification") or {}).items() if code) if path == HOME else ""
     as_of = esc(long_date(index.as_of()))
     return f"""<!doctype html>
-<html lang="en">
+<html lang="en"{'' if site.get('dark_mode') else ' data-theme="light"'}>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">

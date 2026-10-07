@@ -444,6 +444,12 @@ class BuildTest(unittest.TestCase):
             self.assertNotIn("most widely used", text, path.name)
             self.assertNotIn("most_widely_used", text, path.name)
 
+    def test_dark_mode_switch(self) -> None:
+        light = not self.index.site.get("dark_mode")
+        for page in self.pages:  # dark_mode: false puts every page in the light version
+            self.assertEqual('<html lang="en" data-theme="light">' in page.read_text(encoding="utf-8"), light,
+                             page.name)
+
     def test_analytics_only_with_a_token(self) -> None:
         self.assertEqual(_analytics({}), "")
         token = "0123456789abcdef0123456789abcdef"
