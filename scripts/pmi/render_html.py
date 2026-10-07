@@ -687,9 +687,9 @@ def home(index: Index) -> str:
         f'{plural(len(index.projects), "project")} · {plural(len(langs), "language")} · '
         f'{plural(len(index.references), "standard or paper", "standards and papers")}</p>',
         '<p class="lead">Find an open-source method to calculate psychoacoustic metrics such as loudness, sharpness, '
-        "roughness and tonality, one that you can trust and that best fits your coding environment, in Python, "
-        "MATLAB, C/C++, Rust, Julia and more. Each implementation is listed under the edition of the standard or model it follows, with "
-        "the validation it reports, because results change between editions. The chart below shows which projects "
+        "roughness and tonality, one that you can trust and that best fits your coding environment, whether "
+        "Python, MATLAB, C/C++, Rust, Julia or another language. Each implementation is listed under the edition of "
+        "the standard or model it follows, with the validation it reports, because results change between editions. The chart below shows which projects "
         "implement which edition.</p>",
         _timeline(index, path),
         '<div class="columns">',
