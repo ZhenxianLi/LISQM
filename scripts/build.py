@@ -92,7 +92,7 @@ def make_preview(out: Path) -> None:
     """Adapt a built site for hosts that only allow inline styles and wrap the main page themselves
     (used for private previews): inline the stylesheet everywhere and strip the document shell of index.html."""
     css = (out / "style.css").read_text(encoding="utf-8")
-    link = re.compile(r'<link rel="stylesheet" href="[^"]*style\.css">')
+    link = re.compile(r'<link rel="stylesheet" href="[^"]*style\.css(\?v=\w+)?">')
     for page in out.rglob("*.html"):
         text = link.sub(lambda _: f"<style>\n{css}</style>", page.read_text(encoding="utf-8"))
         if page == out / "index.html":

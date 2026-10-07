@@ -79,6 +79,7 @@ class BuildTest(unittest.TestCase):
                 if not link or re.match(r"^(https?:|mailto:)", link):
                     continue
                 target, _, fragment = link.partition("#")
+                target = target.partition("?")[0]  # style.css?v=…
                 path = (page.parent / target).resolve() if target else page
                 if path.is_dir():
                     path = path / "index.html"
@@ -234,6 +235,7 @@ class BuildTest(unittest.TestCase):
                 self.assertGreaterEqual(int(found.group(1)), 2, "never just one more")
                 self.assertEqual(hidden.count("<li"), int(found.group(1)), "the rest open in place")
                 self.assertNotIn("#editions", edition, "+ more no longer leads away")
+                self.assertIn('<span class="opened" hidden>show fewer</span>', edition, "hidden without the stylesheet")
         self.assertGreater(more, 0)
         iso = table[table.index("ISO 532-1:2017"):]
         iso = iso[:iso.index("</div>")]
@@ -273,6 +275,17 @@ class BuildTest(unittest.TestCase):
         side = side[side.index('<aside class="sidebar"'):]
         self.assertIn('projects/pysqat.html" aria-current="page"', side)
         self.assertIn('projects/metasona.html"', side)
+
+    def test_version_matches_citation(self) -> None:
+        cff = (ROOT / "CITATION.cff").read_text(encoding="utf-8")
+        self.assertIn(f'version: "{self.index.site["version"]}"', cff, "data/site.yaml and CITATION.cff disagree")
+
+    def test_stylesheet_is_versioned(self) -> None:
+        import hashlib
+        version = hashlib.sha256((self.site / "style.css").read_bytes()).hexdigest()[:10]
+        for page in self.pages:
+            text = page.read_text(encoding="utf-8")
+            self.assertIn(f'style.css?v={version}">', text, page.name)
 
     def test_validation_details(self) -> None:
         html = (self.site / "projects/psychoacousticmetrics-jl.html").read_text(encoding="utf-8")

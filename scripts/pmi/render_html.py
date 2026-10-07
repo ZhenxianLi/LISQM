@@ -8,8 +8,10 @@ project, release state, validation, language) are marked in colour.
 
 from __future__ import annotations
 
+import hashlib
 import json
 import re
+from pathlib import Path
 
 from .data import (GROUP_NAMES, GROUPS, IMPL_STATUS_LONG, VERIFICATION_META, PROJECT_KINDS, REGISTRIES, VALIDATION, VALIDATION_LONG,
                    Index, only_new)
@@ -66,6 +68,11 @@ GROUP_HEADINGS = [("established", "Established projects"), ("newly-released", "N
 
 # ---------------------------------------------------------------------------------------------- layout
 
+# Pages ask for style.css?v=<hash of its content>, so that after a deployment no browser pairs new pages with a
+# stylesheet it cached before.
+STYLE_VERSION = hashlib.sha256((Path(__file__).resolve().parents[2] / "site-src" / "style.css").read_bytes()
+                               ).hexdigest()[:10]
+
 def layout(index: Index, path: str, *, title: str, description: str, body: str, section: str,
            jsonld: list[dict] | None = None, og_type: str = "website", markdown: bool = True,
            side: str | None = None) -> str:
@@ -103,7 +110,7 @@ def layout(index: Index, path: str, *, title: str, description: str, body: str, 
 <link rel="canonical" href="{esc(canonical)}">
 {md_head}<link rel="alternate" type="application/atom+xml" href="{esc(rel('feed.xml'))}" title="{esc(site['name'])}: updates">
 <link rel="icon" href="{esc(rel('favicon.svg'))}" type="image/svg+xml">
-<link rel="stylesheet" href="{esc(rel('style.css'))}">
+<link rel="stylesheet" href="{esc(rel('style.css'))}?v={STYLE_VERSION}">
 {verify}<meta name="theme-color" content="#25c59b">
 <meta property="og:type" content="{og_type}">
 <meta property="og:site_name" content="{esc(site['name'])}">
@@ -490,7 +497,7 @@ def _timeline_edition(path: str, m: dict, ref: dict, impls: list[dict]) -> str:
         also = "; ".join(f"{', '.join(names)} ({kind})" for kind, names in kinds.items())
         hidden = "".join(_timeline_impl(path, i) for i in rest)
         lines.append(f'<li class="more"><details><summary title="Also: {esc(also)}"><span class="closed">'
-                     f'+{len(rest)} more</span><span class="opened">show fewer</span></summary>'
+                     f'+{len(rest)} more</span><span class="opened" hidden>show fewer</span></summary>'
                      f"<ul>{hidden}</ul></details></li>")
     body = f'<ul>{"".join(lines)}</ul>' if lines else ""
     cls = f"edition ed-{state}" if state else "edition"
