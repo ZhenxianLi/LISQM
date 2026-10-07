@@ -1138,7 +1138,7 @@ table.timeline td.bin {
 table.timeline td.life::before {
   content: "";
   position: absolute;
-  left: 0;
+  left: -1px;              /* over the column rule, so that the rules do not break the line */
   right: 0;
   top: calc(.5rem + .72em + .15rem - 1px);
   border-top: 2px solid var(--timeline);
