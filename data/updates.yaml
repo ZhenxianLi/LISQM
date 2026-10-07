@@ -24,8 +24,9 @@
       good agreement with HEAD acoustics ArtemiS SUITE. The Auditory Modeling Toolbox and the ITA-Toolbox, widely
       used toolboxes that also include some psychoacoustic functions, are listed with the other established
       projects.
-    - Each project page explains its kind: library, research code, application, plug-in or reference program.
-      MATLAB toolboxes are listed as libraries, like Python packages, since both are used the same way.
+    - Each project page explains its kind: library/toolbox, research code, application, plug-in or reference
+      program. MATLAB toolboxes and Python packages share the kind library/toolbox, since both are used the same
+      way.
     - Newly released projects are described as not yet seen to be widely used.
     - The FAQ answer on which code to use starts from the reader's language and use, and names projects built for
       a particular use.

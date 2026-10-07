@@ -429,6 +429,7 @@ class BuildTest(unittest.TestCase):
             self.assertIn(html.escape(meaning, quote=False), about, kind)
             self.assertTrue(any(p["kind"] == kind for p in self.index.projects), f"kind {kind} is not used")
         self.assertIn(html.escape(KINDS["library"], quote=False), page("sqat"))
+        self.assertIn("<td>Library/Toolbox<br>", page("sqat"), "MATLAB toolboxes and Python packages share a kind")
 
     def test_the_super_project_tag_is_not_published(self) -> None:
         # super_project is the maintainer's display setting: only its effect (bold, first) is shown, and no page

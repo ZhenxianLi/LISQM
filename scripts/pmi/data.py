@@ -22,7 +22,7 @@ DATA = ROOT / "data"
 
 # What a project is, for someone who wants to use it: its name and what it means.
 PROJECT_KINDS = {
-    "library": "Library",
+    "library": "Library/Toolbox",
     "research-code": "Research code",
     "application": "Application",
     "plugin": "Plug-in",

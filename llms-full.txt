@@ -180,7 +180,7 @@ What a project is, for someone who wants to use it. Each project page names its 
 
 | Kind | Meaning |
 |---|---|
-| Library | Functions to call from your own code: a Python package, a MATLAB toolbox, or a C, C++, C#, Rust or Julia library. |
+| Library/Toolbox | Functions to call from your own code: a Python package, a MATLAB toolbox, or a C, C++, C#, Rust or Julia library. |
 | Research code | Code published with a study, a thesis or a student project, to run or adapt; not packaged as a library. |
 | Application | A program to run, with a graphical or command-line interface; no programming needed. |
 | Plug-in | Runs inside other software: a plug-in for an audio workstation, or a Pure Data external. |
@@ -1906,7 +1906,7 @@ MATLAB toolbox for sound quality analysis that bundles most psychoacoustic metri
 - **Repository:** https://github.com/ggrecow/SQAT
 - **Documentation:** https://github.com/ggrecow/SQAT#readme
 - **Language:** MATLAB
-- **Kind:** Library (Functions to call from your own code: a Python package, a MATLAB toolbox, or a C, C++, C#, Rust or Julia library.)
+- **Kind:** Library/Toolbox (Functions to call from your own code: a Python package, a MATLAB toolbox, or a C, C++, C#, Rust or Julia library.)
 - **Group:** established (Described in a publication, used by others, or written by the authors of the model, with more than a year of history. A widely used project.)
 - **Licence:** GPL-3.0-or-later (main) / CC-BY-NC-4.0 (releases) — The default branch has been GPL-3.0-or-later since 2026-09-15, with BSD-3-Clause (ISO 532-1 loudness), MIT (Daniel & Weber roughness and nine utilities) and CC0-1.0 (colour maps) exceptions. Every release up to and including v1.3 is CC-BY-NC-4.0 (non-commercial) at repository level, while 21 metric files in v1.3 carry BSD-style notices and the ECMA-418-2 files say GPL-3.0.
 - **Latest release:** v1.3 (2025-04)
@@ -2030,7 +2030,7 @@ Python library for sound quality metrics: ISO 532-1 loudness, DIN 45692 sharpnes
 - **Repository:** https://github.com/Eomys/MoSQITo
 - **Documentation:** https://mosqito.readthedocs.io/en/latest/
 - **Language:** Python
-- **Kind:** Library (Functions to call from your own code: a Python package, a MATLAB toolbox, or a C, C++, C#, Rust or Julia library.)
+- **Kind:** Library/Toolbox (Functions to call from your own code: a Python package, a MATLAB toolbox, or a C, C++, C#, Rust or Julia library.)
 - **Group:** established (Described in a publication, used by others, or written by the authors of the model, with more than a year of history. A widely used project.)
 - **Licence:** Apache-2.0
 - **Package:** PyPI `mosqito` (https://pypi.org/project/mosqito/)
@@ -2122,7 +2122,7 @@ Python implementation of the ECMA-418-2:2025 (4th edition) Sottek Hearing Model 
 
 - **Repository:** https://github.com/mlotinga/sottek-hearing-model
 - **Language:** Python
-- **Kind:** Library (Functions to call from your own code: a Python package, a MATLAB toolbox, or a C, C++, C#, Rust or Julia library.)
+- **Kind:** Library/Toolbox (Functions to call from your own code: a Python package, a MATLAB toolbox, or a C, C++, C#, Rust or Julia library.)
 - **Group:** established (Described in a publication, used by others, or written by the authors of the model, with more than a year of history. A very good implementation.)
 - **Licence:** GPL-3.0-only — The LICENSE file has always been GPL-3.0 and the project metadata was changed to GPL-3.0-only on 2026-08-31; the metadata of the current PyPI release (0.1.14) still says AGPL-3.0-only.
 - **Package:** PyPI `sottek-hearing-model` (https://pypi.org/project/sottek-hearing-model/)
@@ -2209,7 +2209,7 @@ Python acoustics library under the Université Gustave Eiffel GitHub organisatio
 - **Repository:** https://github.com/Universite-Gustave-Eiffel/acoustic-toolbox
 - **Documentation:** https://acoustic-toolbox.readthedocs.io/
 - **Language:** Python
-- **Kind:** Library (Functions to call from your own code: a Python package, a MATLAB toolbox, or a C, C++, C#, Rust or Julia library.)
+- **Kind:** Library/Toolbox (Functions to call from your own code: a Python package, a MATLAB toolbox, or a C, C++, C#, Rust or Julia library.)
 - **Group:** established (Described in a publication, used by others, or written by the authors of the model, with more than a year of history.)
 - **Licence:** BSD-3-Clause
 - **Package:** PyPI `acoustic-toolbox` (https://pypi.org/project/acoustic-toolbox/)
@@ -2263,7 +2263,7 @@ MATLAB/Octave toolbox of auditory models for reproducible research. Its loudness
 - **Repository:** https://sourceforge.net/p/amtoolbox/code/
 - **Homepage:** https://amtoolbox.org
 - **Language:** MATLAB, Octave
-- **Kind:** Library (Functions to call from your own code: a Python package, a MATLAB toolbox, or a C, C++, C#, Rust or Julia library.)
+- **Kind:** Library/Toolbox (Functions to call from your own code: a Python package, a MATLAB toolbox, or a C, C++, C#, Rust or Julia library.)
 - **Group:** established (Described in a publication, used by others, or written by the authors of the model, with more than a year of history. A widely used toolbox for auditory modelling that also includes some psychoacoustic functions.)
 - **Licence:** GPL-3.0 — SourceForge lists the licence as GPLv3 without saying whether later versions are allowed; the torch_amt README, which follows the AMT licence, gives it as GPL v3.0 or later.
 - **Package:** package `amtoolbox` (https://sourceforge.net/projects/amtoolbox/files/)
@@ -2578,7 +2578,7 @@ MATLAB toolbox for acoustic measurements and signal processing from the Institut
 - **Repository:** https://git.rwth-aachen.de/ita/toolbox
 - **Homepage:** https://www.ita-toolbox.org/
 - **Language:** MATLAB
-- **Kind:** Library (Functions to call from your own code: a Python package, a MATLAB toolbox, or a C, C++, C#, Rust or Julia library.)
+- **Kind:** Library/Toolbox (Functions to call from your own code: a Python package, a MATLAB toolbox, or a C, C++, C#, Rust or Julia library.)
 - **Group:** established (Described in a publication, used by others, or written by the authors of the model, with more than a year of history. A widely used toolbox for acoustic measurements and signal processing that also includes some psychoacoustic functions.)
 - **Licence:** BSD-4-Clause — The root license.txt (2011) is the four-clause BSD licence: advertising material that mentions the software must acknowledge the Institute of Technical Acoustics (RWTH Aachen University). The psychoacoustics files refer to a licence in their own folder, which contains none.
 - **Latest release:** no release
@@ -2650,7 +2650,7 @@ Python toolbox for the design and simulation of delta-sigma modulators. It conta
 - **Repository:** https://github.com/sergiocallegari/PyDSM
 - **Documentation:** https://pythonhosted.org/pydsm/pydsm.iso226.html
 - **Language:** Python
-- **Kind:** Library (Functions to call from your own code: a Python package, a MATLAB toolbox, or a C, C++, C#, Rust or Julia library.)
+- **Kind:** Library/Toolbox (Functions to call from your own code: a Python package, a MATLAB toolbox, or a C, C++, C#, Rust or Julia library.)
 - **Group:** established (Described in a publication, used by others, or written by the authors of the model, with more than a year of history.)
 - **Licence:** GPL-3.0-or-later
 - **Package:** PyPI `pydsm` (https://pypi.org/project/pydsm/)
@@ -2706,7 +2706,7 @@ C library with a typed Python interface and prebuilt wheels, written to make rep
 - **Repository:** https://github.com/huaaudio/metasona
 - **Documentation:** https://github.com/huaaudio/metasona/tree/main/docs
 - **Language:** C, Python
-- **Kind:** Library (Functions to call from your own code: a Python package, a MATLAB toolbox, or a C, C++, C#, Rust or Julia library.)
+- **Kind:** Library/Toolbox (Functions to call from your own code: a Python package, a MATLAB toolbox, or a C, C++, C#, Rust or Julia library.)
 - **Group:** newly released (First released less than about a year ago, and not yet seen to be widely used in the community.)
 - **Licence:** GPL-3.0-only AND Apache-2.0 AND BSD-3-Clause AND MIT — The combined distribution is GPL-3.0. MetaSona's own code is Apache-2.0; the ECMA-418-2 kernels (from SQAT/RefMap) and the current Aures tonality port are GPL-3.0; SQAT's ISO 532-1 filtering (BSD-3-Clause), SQAT's Daniel & Weber roughness (MIT), MoSQITo data (Apache-2.0) and PocketFFT (BSD-3-Clause) keep their notices.
 - **Package:** PyPI `metasona` (https://pypi.org/project/metasona/)
@@ -2797,7 +2797,7 @@ Rust engine (README title "ISO532") for ISO 532-1:2017 Zwicker loudness: station
 
 - **Repository:** https://github.com/cclin99/iso532-1-rs
 - **Language:** Rust, C, Python
-- **Kind:** Library (Functions to call from your own code: a Python package, a MATLAB toolbox, or a C, C++, C#, Rust or Julia library.)
+- **Kind:** Library/Toolbox (Functions to call from your own code: a Python package, a MATLAB toolbox, or a C, C++, C#, Rust or Julia library.)
 - **Group:** newly released (First released less than about a year ago, and not yet seen to be widely used in the community.)
 - **Licence:** Apache-2.0
 - **Latest release:** 0.1.0 (2026-07)
@@ -2912,7 +2912,7 @@ C# (.NET 8) port of MoSQITo 1.2.1 with the same metrics: ISO 532-1 loudness, ECM
 
 - **Repository:** https://github.com/onur-akaydin/Mosqito.NET
 - **Language:** C#
-- **Kind:** Library (Functions to call from your own code: a Python package, a MATLAB toolbox, or a C, C++, C#, Rust or Julia library.)
+- **Kind:** Library/Toolbox (Functions to call from your own code: a Python package, a MATLAB toolbox, or a C, C++, C#, Rust or Julia library.)
 - **Group:** newly released (First released less than about a year ago, and not yet seen to be widely used in the community.)
 - **Licence:** Apache-2.0 — NOTICE.md states that it is derived from MoSQITo 1.2.1 (Apache-2.0).
 - **Latest release:** no release
@@ -3046,7 +3046,7 @@ Python acoustics library (formerly PyOctaveBand) that added a large psychoacoust
 - **Repository:** https://github.com/jmrplens/phonometry
 - **Documentation:** https://jmrplens.github.io/phonometry/
 - **Language:** Python
-- **Kind:** Library (Functions to call from your own code: a Python package, a MATLAB toolbox, or a C, C++, C#, Rust or Julia library.)
+- **Kind:** Library/Toolbox (Functions to call from your own code: a Python package, a MATLAB toolbox, or a C, C++, C#, Rust or Julia library.)
 - **Group:** newly released (First released less than about a year ago, and not yet seen to be widely used in the community.)
 - **Licence:** MIT
 - **Package:** PyPI `phonometry` (https://pypi.org/project/phonometry/)
@@ -3171,7 +3171,7 @@ Julia package for the Zwicker family of sound-quality metrics on top of ZwickerL
 
 - **Repository:** https://github.com/slink/PsychoacousticMetrics.jl
 - **Language:** Julia
-- **Kind:** Library (Functions to call from your own code: a Python package, a MATLAB toolbox, or a C, C++, C#, Rust or Julia library.)
+- **Kind:** Library/Toolbox (Functions to call from your own code: a Python package, a MATLAB toolbox, or a C, C++, C#, Rust or Julia library.)
 - **Group:** newly released (First released less than about a year ago, and not yet seen to be widely used in the community.)
 - **Licence:** MIT — Test data, the roughness implementation and several weighting tables are derived from MoSQITo (Apache-2.0); fluctuation-strength tables and annoyance constants reference SQAT (CC BY-NC 4.0) as factual data, without reusing its code (README, test/data/NOTICE).
 - **Package:** Julia General `PsychoacousticMetrics` (https://juliahub.com/ui/Packages/General/PsychoacousticMetrics)
@@ -3310,7 +3310,7 @@ PyTorch implementations of models from the MATLAB Auditory Modeling Toolbox (AMT
 - **Repository:** https://github.com/StefanoGiacomelli/torch_amt
 - **Documentation:** https://torch-amt.readthedocs.io/
 - **Language:** Python
-- **Kind:** Library (Functions to call from your own code: a Python package, a MATLAB toolbox, or a C, C++, C#, Rust or Julia library.)
+- **Kind:** Library/Toolbox (Functions to call from your own code: a Python package, a MATLAB toolbox, or a C, C++, C#, Rust or Julia library.)
 - **Group:** newly released (First released less than about a year ago, and not yet seen to be widely used in the community.)
 - **Licence:** GPL-3.0-or-later
 - **Package:** PyPI `torch-amt` (https://pypi.org/project/torch-amt/)
@@ -3367,7 +3367,7 @@ Julia package that computes ISO 532-1:2017 Zwicker loudness from one-third-octav
 
 - **Repository:** https://github.com/slink/ZwickerLoudness.jl
 - **Language:** Julia
-- **Kind:** Library (Functions to call from your own code: a Python package, a MATLAB toolbox, or a C, C++, C#, Rust or Julia library.)
+- **Kind:** Library/Toolbox (Functions to call from your own code: a Python package, a MATLAB toolbox, or a C, C++, C#, Rust or Julia library.)
 - **Group:** newly released (First released less than about a year ago, and not yet seen to be widely used in the community.)
 - **Licence:** MIT
 - **Package:** Julia General `ZwickerLoudness` (https://juliahub.com/ui/Packages/General/ZwickerLoudness)
@@ -3428,7 +3428,7 @@ Python port of the MATLAB toolbox SQAT (README title "SQAT4PY") with a PySide6 g
 
 - **Repository:** https://github.com/PALILA-TUDelft/pySQAT
 - **Language:** Python
-- **Kind:** Library (Functions to call from your own code: a Python package, a MATLAB toolbox, or a C, C++, C#, Rust or Julia library.)
+- **Kind:** Library/Toolbox (Functions to call from your own code: a Python package, a MATLAB toolbox, or a C, C++, C#, Rust or Julia library.)
 - **Group:** developing (Public for more than a year, but without a publication or documented use by others: research, teaching or personal code.)
 - **Licence:** none — No licence file at the repository root. The bundled copy of SQAT v1.3 (MATLAB, used as the validation reference) carries SQAT's CC-BY-NC-4.0 licence.
 - **Latest release:** no release
@@ -3613,7 +3613,7 @@ Small Rust crate that computes perceived noisiness (noy), perceived noise level 
 
 - **Repository:** https://github.com/Zhen-Ni/epnl
 - **Language:** Rust
-- **Kind:** Library (Functions to call from your own code: a Python package, a MATLAB toolbox, or a C, C++, C#, Rust or Julia library.)
+- **Kind:** Library/Toolbox (Functions to call from your own code: a Python package, a MATLAB toolbox, or a C, C++, C#, Rust or Julia library.)
 - **Group:** legacy (Archived, or no commit for three years or more. Kept for reference: the code may follow an older edition and may not run with current software.)
 - **Licence:** none
 - **Latest release:** no release
@@ -3720,7 +3720,7 @@ General-purpose MATLAB toolbox from the Institute of Sound Recording (University
 
 - **Repository:** https://github.com/IoSR-Surrey/MatlabToolbox
 - **Language:** MATLAB
-- **Kind:** Library (Functions to call from your own code: a Python package, a MATLAB toolbox, or a C, C++, C#, Rust or Julia library.)
+- **Kind:** Library/Toolbox (Functions to call from your own code: a Python package, a MATLAB toolbox, or a C, C++, C#, Rust or Julia library.)
 - **Group:** legacy (Archived, or no commit for three years or more. Kept for reference: the code may follow an older edition and may not run with current software.)
 - **Licence:** MIT
 - **Latest release:** v2.8 (2017-06)
@@ -3773,7 +3773,7 @@ C++ library with SWIG Python bindings for building loudness models from cascaded
 
 - **Repository:** https://github.com/deeuu/loudness
 - **Language:** C++, Python
-- **Kind:** Library (Functions to call from your own code: a Python package, a MATLAB toolbox, or a C, C++, C#, Rust or Julia library.)
+- **Kind:** Library/Toolbox (Functions to call from your own code: a Python package, a MATLAB toolbox, or a C, C++, C#, Rust or Julia library.)
 - **Group:** legacy (Archived, or no commit for three years or more. Kept for reference: the code may follow an older edition and may not run with current software.)
 - **Licence:** GPL-3.0-or-later
 - **Latest release:** no release
@@ -4018,7 +4018,7 @@ General Python library for acousticians, published on PyPI as `acoustics`. For t
 - **Repository:** https://github.com/python-acoustics/python-acoustics
 - **Documentation:** https://python-acoustics.github.io/python-acoustics/
 - **Language:** Python
-- **Kind:** Library (Functions to call from your own code: a Python package, a MATLAB toolbox, or a C, C++, C#, Rust or Julia library.)
+- **Kind:** Library/Toolbox (Functions to call from your own code: a Python package, a MATLAB toolbox, or a C, C++, C#, Rust or Julia library.)
 - **Group:** legacy (Archived, or no commit for three years or more. Kept for reference: the code may follow an older edition and may not run with current software.)
 - **Licence:** BSD-3-Clause
 - **Package:** PyPI `acoustics` (https://pypi.org/project/acoustics/)
@@ -4136,7 +4136,7 @@ Python environment for the multi-fidelity conceptual design of aircraft ("An Aer
 
 - **Repository:** https://github.com/suavecode/SUAVE
 - **Language:** Python
-- **Kind:** Library (Functions to call from your own code: a Python package, a MATLAB toolbox, or a C, C++, C#, Rust or Julia library.)
+- **Kind:** Library/Toolbox (Functions to call from your own code: a Python package, a MATLAB toolbox, or a C, C++, C#, Rust or Julia library.)
 - **Group:** legacy (Archived, or no commit for three years or more. Kept for reference: the code may follow an older edition and may not run with current software.)
 - **Licence:** LGPL-2.1
 - **Latest release:** 2.5.2 (2022-03)
@@ -4293,7 +4293,7 @@ Python library for soundscape assessment. Its optional audio module computes psy
 - **Repository:** https://github.com/MitchellAcoustics/Soundscapy
 - **Documentation:** https://soundscapy.readthedocs.io/en/latest/
 - **Language:** Python
-- **Kind:** Library (Functions to call from your own code: a Python package, a MATLAB toolbox, or a C, C++, C#, Rust or Julia library.)
+- **Kind:** Library/Toolbox (Functions to call from your own code: a Python package, a MATLAB toolbox, or a C, C++, C#, Rust or Julia library.)
 - **Group:** other (Tools that do not compute the metrics themselves: interfaces, front ends and wrappers that call one of the listed projects.)
 - **Licence:** BSD-3-Clause
 - **Package:** PyPI `soundscapy` (https://pypi.org/project/soundscapy/)
@@ -4352,7 +4352,7 @@ Julia front end to ZwickerLoudness.jl that computes ISO 532-1:2017 Zwicker loudn
 
 - **Repository:** https://github.com/slink/ZwickerLoudnessAudio.jl
 - **Language:** Julia
-- **Kind:** Library (Functions to call from your own code: a Python package, a MATLAB toolbox, or a C, C++, C#, Rust or Julia library.)
+- **Kind:** Library/Toolbox (Functions to call from your own code: a Python package, a MATLAB toolbox, or a C, C++, C#, Rust or Julia library.)
 - **Group:** other (Tools that do not compute the metrics themselves: interfaces, front ends and wrappers that call one of the listed projects.)
 - **Licence:** MIT — The README credits MoSQITo (Apache-2.0) for the transcribed time-varying filter tables.
 - **Package:** Julia General `ZwickerLoudnessAudio` (https://juliahub.com/ui/Packages/General/ZwickerLoudnessAudio)
@@ -4415,7 +4415,7 @@ Python toolbox for psychoacoustic analysis from TU Graz, described in a 2026 stu
 
 - **Repository:** https://gitlab.tugraz.at/11F34386B3DC1474/psytools
 - **Language:** Python
-- **Kind:** Library (Functions to call from your own code: a Python package, a MATLAB toolbox, or a C, C++, C#, Rust or Julia library.)
+- **Kind:** Library/Toolbox (Functions to call from your own code: a Python package, a MATLAB toolbox, or a C, C++, C#, Rust or Julia library.)
 - **Group:** status unknown (Projects whose code could not be opened, for example because the repository needs a login. What they implement is unverified, so they are listed with what they claim and not under the metrics.)
 - **Licence:** unknown
 - **Latest release:** unknown

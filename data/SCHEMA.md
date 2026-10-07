@@ -190,7 +190,7 @@ About page lists them all.
 
 | Kind | Meaning |
 |---|---|
-| `library` | Functions to call from your own code: a Python package, a MATLAB toolbox, or a C, C++, C#, Rust or Julia library |
+| `library` (shown as Library/Toolbox) | Functions to call from your own code: a Python package, a MATLAB toolbox, or a C, C++, C#, Rust or Julia library |
 | `research-code` | Code published with a study, a thesis or a student project, to run or adapt; not packaged as a library |
 | `application` | A program to run, with a graphical or command-line interface; no programming needed |
 | `plugin` | Runs inside other software: a plug-in for an audio workstation, or a Pure Data external |
