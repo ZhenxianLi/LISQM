@@ -686,9 +686,11 @@ def home(index: Index) -> str:
         f'<p class="byline">Updated {esc(long_date(index.as_of()))} · {plural(len(index.methods), "method")} · '
         f'{plural(len(index.projects), "project")} · {plural(len(langs), "language")} · '
         f'{plural(len(index.references), "standard or paper", "standards and papers")}</p>',
-        '<p class="lead">Which open-source code implements which edition of each psychoacoustic standard or model, '
-        "in any programming language. Standards such as ECMA-418-2 and ISO 532 change between editions, so two "
-        "tools that both say they implement a standard can give different results.</p>",
+        '<p class="lead">Find open-source code that you can trust and that best fits your working environment, for '
+        "loudness, sharpness, roughness, tonality and other psychoacoustic metrics, in Python, MATLAB, C/C++, Rust, "
+        "Julia and more. Each implementation is listed under the edition of the standard or model it follows, with "
+        "the validation it reports, because results change between editions. The chart below shows which projects "
+        "implement which edition.</p>",
         _timeline(index, path),
         '<div class="columns">',
         '<section class="col-main" aria-labelledby="gaps">',
@@ -737,9 +739,9 @@ def home(index: Index) -> str:
              {"@type": "DataDownload", "encodingFormat": "application/json", "contentUrl": site["base_url"] + "index.json"},
              {"@type": "DataDownload", "encodingFormat": "text/markdown", "contentUrl": site["base_url"] + "llms-full.txt"}]},
     ]
-    description = (f"Which open-source code implements which edition of ISO 532, ECMA-418-1/-2, DIN 45692 and other "
-                   f"psychoacoustic metrics: {len(index.projects)} projects in "
-                   f"{join_words(langs)}. Updated {index.as_of()}.")
+    description = (f"Find open-source code you can trust for loudness, sharpness, roughness, tonality and other "
+                   f"psychoacoustic metrics: {len(index.projects)} projects in {join_words(langs)}, each listed under "
+                   f"the edition of the standard or model it follows. Updated {index.as_of()}.")
     return layout(index, path, title=f"{site['name']}: {site['tagline']}", description=description, body="\n".join(parts),
                   section="Home", jsonld=ld)
 
