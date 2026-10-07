@@ -139,3 +139,7 @@ jobs:
   pages:
     needs: refresh
     uses: ./.github/workflows/pages.yml
+
+  search-engines:
+    needs: pages
+    uses: ./.github/workflows/indexnow.yml

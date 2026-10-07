@@ -193,7 +193,8 @@ commit).
   (last commit, releases, PyPI and crates.io versions) and commits it directly. It also searches GitHub and
   package registries for new candidate projects and checks ISO and Ecma for new editions. Only what needs a
   person (a candidate, a new edition, a moved repository, a changed licence, a release that may contain
-  unreleased work, a fetch that keeps failing) goes into one issue labelled `review`.
+  unreleased work, a fetch that keeps failing) goes into one issue labelled `review`. The pages are then
+  submitted to search engines through IndexNow.
 
 ## Using the data
 

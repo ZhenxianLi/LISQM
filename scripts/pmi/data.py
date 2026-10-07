@@ -97,6 +97,10 @@ GROUPS = {
               "of the listed projects.",
 }
 GROUP_ORDER = {key: n for n, key in enumerate(GROUPS)}
+# The meta tag each search engine's webmaster tools look for on the home page to verify the site.
+VERIFICATION_META = {"google": "google-site-verification", "bing": "msvalidate.01",
+                     "baidu": "baidu-site-verification", "yandex": "yandex-verification"}
+
 GROUP_NAMES = {"established": "established", "developing": "developing", "newly-released": "newly released",
                "legacy": "legacy", "others": "other"}
 ACTIVITY_ORDER = {"active": 0, "unknown": 1, "inactive": 2, "archived": 3}
@@ -201,6 +205,13 @@ class Index:
                 add(f"data/site.yaml: missing '{key}'")
         if self.site.get("base_url") and not str(self.site["base_url"]).endswith("/"):
             add("data/site.yaml: base_url must end with '/'")
+        key = self.site.get("indexnow_key")
+        if key is not None and not re.fullmatch(r"[A-Za-z0-9-]{8,128}", str(key)):
+            add("data/site.yaml: indexnow_key must be 8 to 128 letters, digits or hyphens")
+        unknown = set(self.site.get("verification") or {}) - set(VERIFICATION_META)
+        if unknown:
+            add(f"data/site.yaml: verification: unknown search engine {', '.join(sorted(unknown))} "
+                f"(known: {', '.join(VERIFICATION_META)})")
 
         def check_ids(items: list[dict], where: str) -> None:
             seen: set[str] = set()

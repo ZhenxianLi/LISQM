@@ -237,6 +237,21 @@ class BuildTest(unittest.TestCase):
         self.assertIn(">+7 more →<", iso)
         self.assertIn('class="mk mk-new"', table)
 
+    def test_search_engine_key_and_verification_tags(self) -> None:
+        from pmi import render_html
+        key = self.index.site["indexnow_key"]
+        self.assertEqual((self.site / f"{key}.txt").read_text(encoding="utf-8").strip(), key)
+        saved = self.index.site.get("verification")
+        self.index.site["verification"] = {"google": "g-code", "baidu": "codeva-b"}
+        try:
+            home = render_html.home(self.index)
+            about = render_html.about_page(self.index)
+        finally:
+            self.index.site["verification"] = saved
+        self.assertIn('<meta name="google-site-verification" content="g-code">', home)
+        self.assertIn('<meta name="baidu-site-verification" content="codeva-b">', home)
+        self.assertNotIn("site-verification", about)
+
     def test_every_tab_has_its_own_sidebar(self) -> None:
         pages = {"index.html": "Home", "metrics/index.html": "Metrics", "metrics/sharpness.html": "Metrics",
                  "projects/index.html": "Projects", "projects/sqat.html": "Projects", "languages.html": "Languages",

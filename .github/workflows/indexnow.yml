@@ -1,0 +1,29 @@
+name: Search engines
+
+# Submits the pages of the website to IndexNow (Bing, Yandex, Naver, Seznam, Yep). Runs after each scheduled
+# refresh (called from refresh.yml) and can be started by hand. Google and Baidu are reached through their
+# webmaster tools instead; see CONTRIBUTING.md.
+
+on:
+  workflow_dispatch:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  indexnow:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Submit the pages to IndexNow
+        run: python scripts/indexnow.py

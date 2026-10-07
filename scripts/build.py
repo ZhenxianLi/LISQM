@@ -54,6 +54,9 @@ def build_site(index, out: Path) -> int:
     preview = ROOT / "assets" / "social-preview.png"
     if preview.exists():
         shutil.copy2(preview, out / "social-preview.png")
+    key = index.site.get("indexnow_key")
+    if key:  # see scripts/indexnow.py
+        (out / f"{key}.txt").write_text(f"{key}\n", encoding="utf-8")
 
     pages = {
         HOME: (render_html.home(index), render_md.home(index)),

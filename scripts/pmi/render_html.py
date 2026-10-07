@@ -11,7 +11,7 @@ from __future__ import annotations
 import json
 import re
 
-from .data import (GROUP_NAMES, GROUPS, IMPL_STATUS_LONG, PROJECT_KINDS, REGISTRIES, VALIDATION, VALIDATION_LONG,
+from .data import (GROUP_NAMES, GROUPS, IMPL_STATUS_LONG, VERIFICATION_META, PROJECT_KINDS, REGISTRIES, VALIDATION, VALIDATION_LONG,
                    Index, only_new)
 from .describe import (COVERAGE_COLUMNS, GROUP_RULE, ONLY_NEW, activity_text, ai_guide, by_language, coverage, current_statement,
                        dedupe, edition_state, faq, impl_phrase, introduce, language_order, name_note, ref_status, release_text,
@@ -88,6 +88,9 @@ def layout(index: Index, path: str, *, title: str, description: str, body: str, 
     md_foot = f'<a href="{rel(md_twin(path))}">This page as Markdown</a> · ' if markdown else ""
     side = _sidebar(index, path, section) if side is None else side
     page_class = ("page with-sidebar" + (" narrow-side" if path == HOME else "")) if side else "page"
+    # Search engines look for their verification tag on the home page only.
+    verify = "".join(f'<meta name="{VERIFICATION_META[engine]}" content="{esc(str(code))}">\n'
+                     for engine, code in (site.get("verification") or {}).items() if code) if path == HOME else ""
     as_of = esc(long_date(index.as_of()))
     return f"""<!doctype html>
 <html lang="en">
@@ -100,7 +103,7 @@ def layout(index: Index, path: str, *, title: str, description: str, body: str, 
 {md_head}<link rel="alternate" type="application/atom+xml" href="{esc(rel('feed.xml'))}" title="{esc(site['name'])}: updates">
 <link rel="icon" href="{esc(rel('favicon.svg'))}" type="image/svg+xml">
 <link rel="stylesheet" href="{esc(rel('style.css'))}">
-<meta name="theme-color" content="#25c59b">
+{verify}<meta name="theme-color" content="#25c59b">
 <meta property="og:type" content="{og_type}">
 <meta property="og:site_name" content="{esc(site['name'])}">
 <meta property="og:title" content="{esc(title)}">

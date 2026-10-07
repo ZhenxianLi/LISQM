@@ -211,6 +211,15 @@ The Refresh workflow ([`.github/workflows/refresh.yml`](.github/workflows/refres
    through the issue, adding or rejecting candidates, recording new editions, confirming status changes and
    updating `checked` dates, and closes it when done.
 5. **Publish.** The website is rebuilt and deployed to GitHub Pages.
+6. **Search engines.** [`scripts/indexnow.py`](scripts/indexnow.py) submits the pages listed in the sitemap to
+   IndexNow, which reaches Bing (and through it DuckDuckGo, Yahoo, ChatGPT search and Copilot), Yandex, Naver,
+   Seznam and Yep. It can also be run by hand (Actions → Search engines → Run workflow).
+
+Google and Baidu do not take IndexNow submissions. They are reached through their webmaster tools: add
+`https://zhenxianli.github.io/LISQM/` as a URL-prefix property in Google Search Console (or a site in Baidu's
+search resource platform), choose verification by HTML tag, put the tag's `content` value under `verification`
+in [`data/site.yaml`](data/site.yaml) (keys `google`, `bing`, `baidu`, `yandex`), push, verify, and submit
+`sitemap.xml`. The tags appear on the home page only.
 
 The automation writes only machine-written files (`data/snapshot.json`, `data/standards-watch.json`) and
 generated output. Everything that describes a project, a method or an edition is changed by a person.
