@@ -19,7 +19,7 @@
     "projects": 39,
     "references": 55
   },
-  "ordering": "Implementations and projects are listed by group: established, newly released, developing, legacy, others, status unknown. Newly released projects were first released less than about a year ago and are not yet widely used in the community. Legacy projects are archived or have had no commit for three years or more; the most widely used projects (most_widely_used: true, in the order of super_project) and reference programs are never legacy. Within each group the most widely used projects come first, then ranked and active ones. Projects in the others group do not compute the metrics themselves; they call another listed project (listed in calls), and their rows appear under also_through instead of implementations. Projects in the unknown group could not be opened (access); they list a claim and no implementations.",
+  "ordering": "Implementations and projects are listed by group: established, newly released, developing, legacy, others, status unknown. Newly released projects were first released less than about a year ago and are not yet widely used in the community. Legacy projects are archived or have had no commit for three years or more; widely used projects (widely_used: true) and reference programs are never legacy. Within each group widely used projects come first, then ranked and active ones. Projects in the others group do not compute the metrics themselves; they call another listed project (listed in calls), and their rows appear under also_through instead of implementations. Projects in the unknown group could not be opened (access); they list a claim and no implementations.",
   "definitions": {
     "standing": {
       "established": "Described in a publication, used by others, or written by the authors of the model, with more than a year of history.",
@@ -4274,7 +4274,6 @@
       "kind": "toolbox",
       "language_note": "MATLAB only; SQAT has no Python interface of its own. pySQAT is a Python port of it, and MetaSona ports parts of it to C.",
       "standing": "established",
-      "super_project": 1,
       "license": "GPL-3.0-or-later (main) / CC-BY-NC-4.0 (releases)",
       "license_note": "The default branch has been GPL-3.0-or-later since 2026-09-15, with BSD-3-Clause (ISO 532-1 loudness), MIT (Daniel & Weber roughness and nine utilities) and CC0-1.0 (colour maps) exceptions. Every release up to and including v1.3 is CC-BY-NC-4.0 (non-commercial) at repository level, while 21 metric files in v1.3 carry BSD-style notices and the ECMA-418-2 files say GPL-3.0.",
       "maintainers": [
@@ -4620,7 +4619,7 @@
       "archived": false,
       "stars": 100,
       "group": "established",
-      "most_widely_used": true
+      "widely_used": true
     },
     {
       "id": "amt",
@@ -4635,7 +4634,6 @@
       "kind": "toolbox",
       "language_note": "Runs in MATLAB and in GNU Octave. torch_amt and NumpyLibforPsychoAcoustic port some of its loudness models to Python.",
       "standing": "established",
-      "super_project": 2,
       "license": "GPL-3.0",
       "license_note": "SourceForge lists the licence as GPLv3 without saying whether later versions are allowed; the torch_amt README, which follows the AMT licence, gives it as GPL v3.0 or later.",
       "packages": [
@@ -4735,7 +4733,7 @@
       "archived": false,
       "stars": null,
       "group": "established",
-      "most_widely_used": true
+      "widely_used": true
     },
     {
       "id": "mosqito",
@@ -4747,7 +4745,6 @@
       ],
       "kind": "library",
       "standing": "established",
-      "super_project": 3,
       "license": "Apache-2.0",
       "packages": [
         {
@@ -4940,7 +4937,7 @@
       "archived": false,
       "stars": 178,
       "group": "established",
-      "most_widely_used": true
+      "widely_used": true
     },
     {
       "id": "sottek-hearing-model",
@@ -4953,7 +4950,6 @@
       "based_on": "refmap-psychoacoustics",
       "language_note": "Needs Python 3.11 or newer. Translated from the MATLAB code used in SQAT and RefMap.",
       "standing": "established",
-      "super_project": 4,
       "license": "GPL-3.0-only",
       "license_note": "The LICENSE file has always been GPL-3.0 and the project metadata was changed to GPL-3.0-only on 2026-08-31; the metadata of the current PyPI release (0.1.14) still says AGPL-3.0-only.",
       "packages": [
@@ -5087,7 +5083,7 @@
       "archived": false,
       "stars": 23,
       "group": "established",
-      "most_widely_used": true
+      "widely_used": true
     },
     {
       "id": "ita-toolbox",
@@ -5100,7 +5096,6 @@
       "kind": "toolbox",
       "language_note": "MATLAB toolbox. The loudness functions call C code compiled as MEX files; the C sources and precompiled binaries for Windows, Linux and macOS are included.",
       "standing": "established",
-      "super_project": 5,
       "license": "BSD-4-Clause",
       "license_note": "The root `license.txt` (2011) is the four-clause BSD licence: advertising material that mentions the software must acknowledge the Institute of Technical Acoustics (RWTH Aachen University). The psychoacoustics files refer to a licence in their own folder, which contains none.",
       "maintainers": [
@@ -5201,7 +5196,7 @@
       "archived": false,
       "stars": null,
       "group": "established",
-      "most_widely_used": true
+      "widely_used": true
     },
     {
       "id": "acoustic-toolbox",
@@ -5270,7 +5265,7 @@
       "archived": false,
       "stars": 30,
       "group": "established",
-      "most_widely_used": false
+      "widely_used": false
     },
     {
       "id": "pd-psycho",
@@ -5336,7 +5331,7 @@
       "archived": false,
       "stars": 22,
       "group": "established",
-      "most_widely_used": false
+      "widely_used": false
     },
     {
       "id": "refmap-psychoacoustics",
@@ -5518,7 +5513,7 @@
       "archived": false,
       "stars": 23,
       "group": "established",
-      "most_widely_used": false
+      "widely_used": false
     },
     {
       "id": "aarae",
@@ -5644,7 +5639,7 @@
       "archived": false,
       "stars": 36,
       "group": "established",
-      "most_widely_used": false
+      "widely_used": false
     },
     {
       "id": "js2251-iso532-3",
@@ -5704,7 +5699,7 @@
       "archived": false,
       "stars": 2,
       "group": "established",
-      "most_widely_used": false
+      "widely_used": false
     },
     {
       "id": "pydsm",
@@ -5771,7 +5766,7 @@
       "archived": false,
       "stars": 22,
       "group": "established",
-      "most_widely_used": false
+      "widely_used": false
     },
     {
       "id": "metasona",
@@ -5968,7 +5963,7 @@
       "archived": false,
       "stars": 1,
       "group": "newly-released",
-      "most_widely_used": false
+      "widely_used": false
     },
     {
       "id": "iso532-1-rs",
@@ -6045,7 +6040,7 @@
       "archived": false,
       "stars": 1,
       "group": "newly-released",
-      "most_widely_used": false
+      "widely_used": false
     },
     {
       "id": "kirin-hypha",
@@ -6136,7 +6131,7 @@
       "archived": false,
       "stars": null,
       "group": "newly-released",
-      "most_widely_used": false
+      "widely_used": false
     },
     {
       "id": "mosqito-net",
@@ -6304,7 +6299,7 @@
       "archived": false,
       "stars": null,
       "group": "newly-released",
-      "most_widely_used": false
+      "widely_used": false
     },
     {
       "id": "numpylib-psychoacoustic",
@@ -6376,7 +6371,7 @@
       "archived": false,
       "stars": 0,
       "group": "newly-released",
-      "most_widely_used": false
+      "widely_used": false
     },
     {
       "id": "phonometry",
@@ -6724,7 +6719,7 @@
       "archived": false,
       "stars": 119,
       "group": "newly-released",
-      "most_widely_used": false
+      "widely_used": false
     },
     {
       "id": "psychoacousticmetrics-jl",
@@ -6863,7 +6858,7 @@
       "archived": false,
       "stars": null,
       "group": "newly-released",
-      "most_widely_used": false
+      "widely_used": false
     },
     {
       "id": "soundpalette",
@@ -6967,7 +6962,7 @@
       "archived": false,
       "stars": 0,
       "group": "newly-released",
-      "most_widely_used": false
+      "widely_used": false
     },
     {
       "id": "torch-amt",
@@ -7060,7 +7055,7 @@
       "archived": false,
       "stars": 3,
       "group": "newly-released",
-      "most_widely_used": false
+      "widely_used": false
     },
     {
       "id": "zwickerloudness-jl",
@@ -7156,7 +7151,7 @@
       "archived": false,
       "stars": 4,
       "group": "newly-released",
-      "most_widely_used": false
+      "widely_used": false
     },
     {
       "id": "pysqat",
@@ -7386,7 +7381,7 @@
       "archived": false,
       "stars": 5,
       "group": "developing",
-      "most_widely_used": false
+      "widely_used": false
     },
     {
       "id": "loudnessmodel",
@@ -7448,7 +7443,7 @@
       "archived": false,
       "stars": 17,
       "group": "developing",
-      "most_widely_used": false
+      "widely_used": false
     },
     {
       "id": "rapid-loudness-sharpness",
@@ -7540,7 +7535,7 @@
       "archived": false,
       "stars": null,
       "group": "legacy",
-      "most_widely_used": false
+      "widely_used": false
     },
     {
       "id": "zhen-ni-epnl",
@@ -7595,7 +7590,7 @@
       "archived": false,
       "stars": 0,
       "group": "legacy",
-      "most_widely_used": false
+      "widely_used": false
     },
     {
       "id": "fluctuation-strength-tue",
@@ -7659,7 +7654,7 @@
       "archived": false,
       "stars": 1,
       "group": "legacy",
-      "most_widely_used": false
+      "widely_used": false
     },
     {
       "id": "iosr-matlab-toolbox",
@@ -7714,7 +7709,7 @@
       "archived": false,
       "stars": 133,
       "group": "legacy",
-      "most_widely_used": false
+      "widely_used": false
     },
     {
       "id": "deeuu-loudness",
@@ -7816,7 +7811,7 @@
       "archived": false,
       "stars": 40,
       "group": "legacy",
-      "most_widely_used": false
+      "widely_used": false
     },
     {
       "id": "mosqito-fdp",
@@ -7887,7 +7882,7 @@
       "archived": true,
       "stars": 2,
       "group": "legacy",
-      "most_widely_used": false
+      "widely_used": false
     },
     {
       "id": "psychoacoustic-parameters-measurer",
@@ -7975,7 +7970,7 @@
       "archived": false,
       "stars": 13,
       "group": "legacy",
-      "most_widely_used": false
+      "widely_used": false
     },
     {
       "id": "psysound3",
@@ -8071,7 +8066,7 @@
       "archived": false,
       "stars": 17,
       "group": "legacy",
-      "most_widely_used": false
+      "widely_used": false
     },
     {
       "id": "python-acoustics",
@@ -8140,7 +8135,7 @@
       "archived": true,
       "stars": 563,
       "group": "legacy",
-      "most_widely_used": false
+      "widely_used": false
     },
     {
       "id": "haw-specific-loudness",
@@ -8215,7 +8210,7 @@
       "archived": false,
       "stars": null,
       "group": "legacy",
-      "most_widely_used": false
+      "widely_used": false
     },
     {
       "id": "suave",
@@ -8272,7 +8267,7 @@
       "archived": false,
       "stars": 530,
       "group": "legacy",
-      "most_widely_used": false
+      "widely_used": false
     },
     {
       "id": "zwickerloudness-sourceforge",
@@ -8330,7 +8325,7 @@
       "archived": false,
       "stars": null,
       "group": "legacy",
-      "most_widely_used": false
+      "widely_used": false
     },
     {
       "id": "psychobox",
@@ -8428,7 +8423,7 @@
       "archived": false,
       "stars": 10,
       "group": "others",
-      "most_widely_used": false,
+      "widely_used": false,
       "calls": [
         "mosqito"
       ]
@@ -8531,7 +8526,7 @@
       "archived": false,
       "stars": 59,
       "group": "others",
-      "most_widely_used": false,
+      "widely_used": false,
       "calls": [
         "mosqito"
       ]
@@ -8634,7 +8629,7 @@
       "archived": false,
       "stars": 2,
       "group": "others",
-      "most_widely_used": false,
+      "widely_used": false,
       "calls": [
         "zwickerloudness-jl"
       ]
@@ -8676,7 +8671,7 @@
       "archived": false,
       "stars": null,
       "group": "unknown",
-      "most_widely_used": false
+      "widely_used": false
     }
   ],
   "gaps": [
@@ -8719,7 +8714,7 @@
     {
       "date": "2026-10-07",
       "title": "Who ported code from whom, how to cite it, and five more projects",
-      "body": "Method pages now show who ported code from whom, as the projects state it. A comparison with related code is\nmarked \"(its source)\", \"(a port of it)\" or \"(also ported from …)\", and its tag is grey when nothing independent\nis stated: agreement with the code an implementation was ported from shows a faithful port, not that either\nfollows the standard. A new section, *Before you compare numbers*, lists the choices that make correct\nimplementations give different numbers: sound field, calibration, sample rate, percentile definition,\nsharpness weighting and the start of the signal.\n\nAlso in this update:\n\n- Every project page has a *How to cite* line, and all standards, model papers and software papers are\n  available as BibTeX in references.bib.\n- New projects: the ITA-Toolbox (RWTH Aachen, MATLAB), Mosqito.NET (a C# port of MoSQITo, newly released), and\n  two legacy MATLAB tools, the Swift & Gee loudness and sharpness codes and the HAW Hamburg loudness tool.\n  PsyTools (TU Graz) is listed in a new group, *Status unknown*, because its repository cannot be opened\n  without a login.\n- sottek-hearing-model and the ITA-Toolbox join SQAT, the Auditory Modeling Toolbox and MoSQITo as the most\n  widely used projects, in bold and first in every list. In personal use, the maintainer of the list found\n  sottek-hearing-model in very good agreement with HEAD acoustics ArtemiS SUITE.\n- Validation details were added for MoSQITo's ECMA-418-2 roughness and for phonometry's tone-to-noise and\n  prominence ratios, psychoacoustic annoyance and ISO 226:2023 contours. phonometry's annoyance is now listed\n  under its own tests only, as no published value is checked.\n- RefMap's Python functions use the sottek-hearing-model package and are listed under it.\n- The twice-monthly refresh now checks every external link and reports broken ones in its review issue.\n"
+      "body": "Method pages now show who ported code from whom, as the projects state it. A comparison with related code is\nmarked \"(its source)\", \"(a port of it)\" or \"(also ported from …)\", and its tag is grey when nothing independent\nis stated: agreement with the code an implementation was ported from shows a faithful port, not that either\nfollows the standard. A new section, *Before you compare numbers*, lists the choices that make correct\nimplementations give different numbers: sound field, calibration, sample rate, percentile definition,\nsharpness weighting and the start of the signal.\n\nAlso in this update:\n\n- Every project page has a *How to cite* line, and all standards, model papers and software papers are\n  available as BibTeX in references.bib.\n- New projects: the ITA-Toolbox (RWTH Aachen, MATLAB), Mosqito.NET (a C# port of MoSQITo, newly released), and\n  two legacy MATLAB tools, the Swift & Gee loudness and sharpness codes and the HAW Hamburg loudness tool.\n  PsyTools (TU Graz) is listed in a new group, *Status unknown*, because its repository cannot be opened\n  without a login.\n- sottek-hearing-model and the ITA-Toolbox join SQAT, the Auditory Modeling Toolbox and MoSQITo as widely\n  used projects, in bold and first in every list. In personal use, the maintainer of the list found\n  sottek-hearing-model in very good agreement with HEAD acoustics ArtemiS SUITE.\n- Validation details were added for MoSQITo's ECMA-418-2 roughness and for phonometry's tone-to-noise and\n  prominence ratios, psychoacoustic annoyance and ISO 226:2023 contours. phonometry's annoyance is now listed\n  under its own tests only, as no published value is checked.\n- RefMap's Python functions use the sottek-hearing-model package and are listed under it.\n- The twice-monthly refresh now checks every external link and reports broken ones in its review issue.\n"
     },
     {
       "date": "2026-10-07",

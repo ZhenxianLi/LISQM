@@ -171,10 +171,11 @@ others and status unknown, so a project that is new, little used, no longer main
 the first suggestion. Review the standing of `newly-released` projects once they are a year old: they become
 `established` or `developing`.
 
-**Super projects.** `super_project: n` marks the most widely used projects, at present SQAT (1), the Auditory
-Modeling Toolbox (2), MoSQITo (3), sottek-hearing-model (4) and the ITA-Toolbox (5). The attribute is not shown as
-a label; it makes the project's name bold wherever it appears and puts the project first in its group in every
-list, in the order of `n`. A super project must be established, so it heads every list, and it is never legacy.
+**Super projects.** `super_project: n` is the maintainer's display setting for widely used projects, at present
+SQAT (1), the Auditory Modeling Toolbox (2), MoSQITo (3), sottek-hearing-model (4) and the ITA-Toolbox (5). It is
+not published as such: it makes the project's name bold wherever it appears and puts the project first in its group
+in every list, in the order of `n` (`index.json` only has `widely_used: true`). A super project must be
+established, so it heads every list, and it is never legacy.
 Only the maintainer sets it. Within a group, other projects with a `rank` come next, in rank order; MetaSona has
 rank 1 among the newly released projects.
 

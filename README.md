@@ -137,11 +137,11 @@ Which languages have an implementation of each method.
 <!-- BEGIN GENERATED: projects -->
 | Project | Standing | Language | Licence | Latest release | Last commit | Activity |
 |---|---|---|---|---|---|---|
-| **[SQAT](https://github.com/ggrecow/SQAT)** | established, most widely used | MATLAB | GPL-3.0-or-later (main) / CC-BY-NC-4.0 (releases) | v1.3 (2025-04) | 2026-10-02 | active |
-| **[Auditory Modeling Toolbox (AMT)](https://sourceforge.net/p/amtoolbox/code/)** | established, most widely used | MATLAB, Octave | GPL-3.0 | 1.6.0 (2024-10) | 2026-06-14 | active |
-| **[MoSQITo](https://github.com/Eomys/MoSQITo)** | established, most widely used | Python | Apache-2.0 | v1.2.1 (2024-04) | 2024-04-22 | inactive since 2024-04 |
-| **[sottek-hearing-model](https://github.com/mlotinga/sottek-hearing-model)** | established, most widely used | Python | GPL-3.0-only | v0.1.14 (2026-03) | 2026-09-18 | active |
-| **[ITA-Toolbox](https://git.rwth-aachen.de/ita/toolbox)** | established, most widely used | MATLAB | BSD-4-Clause | no release | 2025-09-22 | inactive since 2025-09 |
+| **[SQAT](https://github.com/ggrecow/SQAT)** | established, widely used | MATLAB | GPL-3.0-or-later (main) / CC-BY-NC-4.0 (releases) | v1.3 (2025-04) | 2026-10-02 | active |
+| **[Auditory Modeling Toolbox (AMT)](https://sourceforge.net/p/amtoolbox/code/)** | established, widely used | MATLAB, Octave | GPL-3.0 | 1.6.0 (2024-10) | 2026-06-14 | active |
+| **[MoSQITo](https://github.com/Eomys/MoSQITo)** | established, widely used | Python | Apache-2.0 | v1.2.1 (2024-04) | 2024-04-22 | inactive since 2024-04 |
+| **[sottek-hearing-model](https://github.com/mlotinga/sottek-hearing-model)** | established, widely used | Python | GPL-3.0-only | v0.1.14 (2026-03) | 2026-09-18 | active |
+| **[ITA-Toolbox](https://git.rwth-aachen.de/ita/toolbox)** | established, widely used | MATLAB | BSD-4-Clause | no release | 2025-09-22 | inactive since 2025-09 |
 | [acoustic-toolbox](https://github.com/Universite-Gustave-Eiffel/acoustic-toolbox) | established | Python | BSD-3-Clause | v0.2.2 (2026-01) | 2026-02-12 | active |
 | [PSYCHO (pd-psycho)](https://github.com/porres/pd-psycho) | established | Pure Data, C | GPL-3.0-or-later | 1.1 (2025-10) | 2025-10-14 | active |
 | [refmap-psychoacoustics](https://github.com/acoustics-code-salford/refmap-psychoacoustics) | established | MATLAB, Python | GPL-3.0 | no release | 2026-10-06 | active |
@@ -182,12 +182,14 @@ Every project is in exactly one group: *established* (described in a publication
 the authors of the model, with more than a year of history), *newly released* (first released less than about a
 year ago and not yet widely used in the community), *developing* (public for more than a year, but without a
 publication or documented use by others: research, teaching or personal code), *legacy* (archived, or no commit
-for three years or more) or *other* (a tool that does not compute the metrics itself but calls another listed
+for three years or more), *other* (a tool that does not compute the metrics itself but calls another listed
 project, such as an interface or a wrapper; it is listed with the project it calls and not counted under the
-metrics). All lists follow this order. The most widely used projects (SQAT, the Auditory Modeling Toolbox and
-MoSQITo) come first and are never listed as legacy, and neither are reference programs published with a
-standard. "Activity" is computed from the last commit on the default branch (inactive after 365 days without a
-commit).
+metrics), or *status unknown* (its code could not be opened, so only what it is said to implement is listed).
+All lists follow this order. Widely used projects (SQAT, the Auditory Modeling Toolbox, MoSQITo,
+sottek-hearing-model and the ITA-Toolbox) come first and are never listed as legacy, and neither are reference
+programs published with a standard. "Activity" comes from the last commit on the default branch: *active* if it
+is at most 365 days old on the date of the data, otherwise *inactive since* the month of that commit; an archived
+repository is shown as *archived*.
 
 ## How it is maintained
 

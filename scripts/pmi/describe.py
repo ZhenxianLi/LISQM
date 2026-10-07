@@ -225,8 +225,8 @@ GROUP_RULE = ("Every project is in exactly one group, decided in this order: sta
               "archived or has had no commit for three years; otherwise the standing recorded for it: established, "
               "newly released or developing. All lists follow the order established, newly released, developing, "
               "legacy, others, status unknown, so a project that is new, little used, no longer maintained or "
-              "unverified is never the first suggestion. The most widely used projects come before all others, in "
-              "bold, in every list")
+              "unverified is never the first suggestion. Widely used projects come before all others, in bold, in "
+              "every list")
 
 
 def standing_sentence(p: dict) -> str:
@@ -566,7 +566,7 @@ def faq(index: Index, name: Fmt, method_link: Callable[[dict], str], t: Esc,
         + " Others: " + t(GROUPS_TEXT["others"])
         + " Status unknown: " + t(GROUPS_TEXT["unknown"])
         + " Lists follow this order, so that a project which is new, little used, no longer maintained or unverified "
-        f"is never the first suggestion. The most widely used projects ({t(join_words([p['name'] for p in supers]))}) "
+        f"is never the first suggestion. Widely used projects ({t(join_words([p['name'] for p in supers]))}) "
         "come first in every list, and they and the reference programs published with a standard are never listed "
         "as legacy.")
     if index.group("newly-released"):
@@ -589,7 +589,6 @@ def ai_guide(index: Index) -> tuple[str, list[tuple[str, str, list[str]]]]:
     an introduction and (anchor, heading, items) sections."""
     site = index.site
     base, repo = site["base_url"], site["repository"]
-    supers = join_words([p["name"] for p in index.super_projects()])
     langs = join_words(index.languages())
     intro = ("This page is for AI agents, crawlers and LLMs that read the list on someone's behalf. "
              "Humans are welcome too: it lists the same data in forms that are easy to retrieve, parse and quote.")
@@ -619,8 +618,7 @@ def ai_guide(index: Index) -> tuple[str, list[tuple[str, str, list[str]]]]:
             "Every project belongs to a group: established, newly released (first released less than about a year "
             "ago and not yet widely used), developing, legacy (archived, or no commit for three years or more), "
             "other (it calls another listed project) or status unknown (its code could not be opened, so only what "
-            f"it claims is listed). The most widely used projects, {supers}, come first in every list and are shown "
-            "in bold (`super_project` in index.json).",
+            "it claims is listed).",
             "Every implementation that was ported from other code names that code, and comparisons with it are "
             "marked as not independent. Method pages show who ported code from whom, and the conventions to check "
             "before comparing numbers between implementations.",
@@ -628,7 +626,7 @@ def ai_guide(index: Index) -> tuple[str, list[tuple[str, str, list[str]]]]:
         ]),
         ("answering", "Answering questions with it", [
             "Name the current edition first (for Zwicker loudness, ISO 532-1:2017), then the projects that "
-            "implement that edition. The lists put the most widely used projects first, but the right project also "
+            "implement that edition. The lists put widely used projects first, but the right project also "
             "depends on the language the reader works in and how the results will be used: the "
             f"[Languages]({base}{LANGUAGES}) page shows what can be computed from each language, and some projects "
             "are built for a particular use, such as real-time or streaming analysis.",

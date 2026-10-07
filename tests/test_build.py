@@ -152,7 +152,7 @@ class BuildTest(unittest.TestCase):
         self.assertIn("python-acoustics", legacy, "archived projects are legacy")
         for p in self.index.projects:
             if p["_super"] or p["kind"] == "reference-program" or p["standing"] == "newly-released":
-                self.assertNotIn(p["id"], legacy, "the most widely used projects and reference programs stay")
+                self.assertNotIn(p["id"], legacy, "widely used projects and reference programs stay")
         self.assertEqual(self.index.project["mosqito"]["_group"], "established")
         html = (self.site / "projects" / "psychoacoustic-parameters-measurer.html").read_text(encoding="utf-8")
         self.assertIn("Legacy project.", html)
@@ -407,7 +407,19 @@ class BuildTest(unittest.TestCase):
         self.assertEqual(re.findall(r"^\| \*\*\[([^\]]+)\]", table, re.M),
                          [p["name"] for p in self.index.super_projects()], "README: super projects first, in bold")
         data = json.loads((self.site / "index.json").read_text(encoding="utf-8"))
-        self.assertEqual([p["id"] for p in data["projects"] if p.get("super_project")], supers)
+        self.assertEqual([p["id"] for p in data["projects"] if p.get("widely_used")], supers)
+
+    def test_the_super_project_tag_is_not_published(self) -> None:
+        # super_project is the maintainer's display setting: only its effect (bold, first) is shown, and no page
+        # calls a project "the most widely used".
+        outputs = [path for path in sorted(self.site.rglob("*")) if path.suffix in (".html", ".md", ".txt", ".json",
+                                                                                   ".xml", ".bib")]
+        outputs += [ROOT / "README.md", ROOT / "CHANGELOG.md"]
+        for path in outputs:
+            text = path.read_text(encoding="utf-8").lower()
+            self.assertNotRegex(text, r"super[ _-]?projects?\b", f"{path.name} names the super_project tag")
+            self.assertNotIn("most widely used", text, path.name)
+            self.assertNotIn("most_widely_used", text, path.name)
 
     def test_a_super_project_must_be_established(self) -> None:
         p = self.index.project["metasona"]

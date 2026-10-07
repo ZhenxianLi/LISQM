@@ -643,8 +643,8 @@ dl.validation .evidence .tag {
   text-underline-offset: .12em;
 }
 
-/* On a method page the entries are named after projects: normal weight, so that the super projects stand out in
-   bold as everywhere else. */
+/* On a method page the entries are named after projects: normal weight, so that the names shown in
+   bold everywhere else still stand out. */
 dl.validation.on-method dt {
   font-weight: 400;
 }

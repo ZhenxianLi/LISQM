@@ -54,7 +54,8 @@ def index_json(index: Index) -> str:
         methods.append(d)
     projects = []
     for p in index.projects_by_group():
-        d = _clean({k: v for k, v in p.items() if k != "manual"})
+        # super_project is the maintainer's display setting (bold and first); only its effect is published.
+        d = _clean({k: v for k, v in p.items() if k not in ("manual", "super_project")})
         d["url"] = absolute(index, project_path(p))
         d["last_commit"] = p["_last_commit"]
         d["latest_release"] = p["_release"]
@@ -63,7 +64,7 @@ def index_json(index: Index) -> str:
         d["archived"] = p["_archived"]
         d["stars"] = p["_stars"]
         d["group"] = p["_group"]
-        d["most_widely_used"] = p["_super"]  # a super project: super_project gives its place among them
+        d["widely_used"] = p["_super"]
         if p["_others"]:
             d["calls"] = list(dict.fromkeys(i["_via"]["id"] for i in p["_impls"] if i.get("_via")))
         projects.append(d)
@@ -85,9 +86,9 @@ def index_json(index: Index) -> str:
         "ordering": ("Implementations and projects are listed by group: established, newly released, developing, legacy, "
                      "others, status unknown. Newly released projects were first released less than about a year ago "
                      "and are not yet widely used in the community. Legacy projects are archived or have had no "
-                     "commit for three years or more; the most widely used projects (most_widely_used: true, in the "
-                     "order of super_project) and reference programs are never legacy. Within each group the most "
-                     "widely used projects come first, then ranked and active ones. Projects in the others group do "
+                     "commit for three years or more; widely used projects (widely_used: true) and reference programs "
+                     "are never legacy. Within each group widely used projects come first, then ranked and "
+                     "active ones. Projects in the others group do "
                      "not compute the metrics "
                      "themselves; they call another listed project (listed in calls), and their rows appear under "
                      "also_through instead of implementations. Projects in the unknown group could not be opened "

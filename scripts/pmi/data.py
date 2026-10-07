@@ -86,7 +86,7 @@ STANDING = {
                   "teaching or personal code.",
 }
 # Every project is in exactly one group, decided in this order: status unknown (its code cannot be opened), others
-# (it computes nothing itself), legacy (archived, or no commit for `legacy_after_days`, except the most widely used
+# (it computes nothing itself), legacy (archived, or no commit for `legacy_after_days`, except widely used
 # projects and reference programs, which are not expected to change), then the standing recorded in the project file.
 # Every list uses the order of GROUPS.
 GROUPS = {
@@ -114,7 +114,7 @@ ACTIVITY_ORDER = {"active": 0, "unknown": 1, "inactive": 2, "archived": 3}
 
 def super_order(p: dict) -> tuple[int, int]:
     """(0, n) for the n-th super project, (1, 0) for every other project. Super projects (`super_project` in the
-    project file) are the most widely used ones: they are shown in bold and come first in their group, which is
+    project file) are widely used ones: they are shown in bold and come first in their group, which is
     always established, so they head every list."""
     return (0, int(p["super_project"])) if p.get("super_project") else (1, 0)
 
@@ -604,7 +604,7 @@ class Index:
         return self.group("others")
 
     def super_projects(self) -> list[dict]:
-        """The super projects, the most widely used ones, in their order (`super_project` in the project file)."""
+        """The super projects, widely used ones, in their order (`super_project` in the project file)."""
         return sorted((p for p in self.projects if p["_super"]), key=super_order)
 
     def languages(self) -> list[str]:

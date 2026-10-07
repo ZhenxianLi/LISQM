@@ -19,7 +19,7 @@ credit: Developed by Zhenxian LI with assistance from Claude Code.
 # A project is shown as inactive when its last commit is older than this many days.
 inactive_after_days: 365
 # A project is listed as legacy when it is archived or its last commit is at least this many days old, unless it
-# is one of the most widely used projects (it has a rank) or a reference program.
+# is a super project (super_project in its file), newly released or a reference program.
 legacy_after_days: 1095
 # IndexNow (https://www.indexnow.org): published as <key>.txt on the website, so that Bing, Yandex and the other
 # participating search engines accept the pages that scripts/indexnow.py submits. Public by design.

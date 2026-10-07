@@ -530,7 +530,7 @@ def _impl_tip(i: dict) -> str:
     if i.get("_via"):
         tip.append(f"computed by {i['_via']['name']}")
     if p["_super"]:
-        tip.append("one of the most widely used projects")
+        tip.append("widely used")
     if standing_sentence(p):
         tip.append(standing_sentence(p))
     return p["name"] + ": " + "; ".join(tip)
@@ -547,7 +547,7 @@ TIMELINE_MARKS = {"newly-released": ("new", "new"), "developing": ("dev", "dev")
 
 
 def _timeline_impl(path: str, i: dict) -> str:
-    """One line per project: its language as a short code, the name (in bold for the most widely used projects),
+    """One line per project: its language as a short code, the name (in bold for widely used projects),
     a marker if the code is not released, and a small "new" or "dev" after newly released and developing projects;
     legacy projects are grey. Version, languages and activity are in the tooltip."""
     p = i["_project"]
@@ -627,7 +627,7 @@ def _timeline(index: Index, path: str) -> str:
         f'{_tag("in development", "warn")} draft or new work item '
         '<span class="key key-life"></span> years since the method’s first edition</p>'
         f'<p class="key-langs">Language: {key_langs}</p>'
-        "<p><strong>Bold name</strong>: one of the most widely used projects · no marker: established · "
+        "<p><strong>Bold name</strong>: widely used · no marker: established · "
         '<span class="mk mk-new">new</span> newly released, first released less than about a year ago and not yet '
         'widely used · <span class="mk mk-dev">dev</span> developing: public for more than a year, without a '
         'publication or documented use by others · <span class="key-quiet">grey name</span>: legacy, archived or '
@@ -640,7 +640,7 @@ def _timeline(index: Index, path: str) -> str:
         '<section class="timeline-section" aria-labelledby="timeline">',
         '<h2 id="timeline">Editions and implementations</h2>',
         "<p>Each standard edition or model paper sits in the column of the year it appeared. Under it are the "
-        "projects that implement it: the most widely used and established projects first, then newly released, "
+        "projects that implement it: widely used and established projects first, then newly released, "
         "developing and legacy ones. Hover over a name for details; each method links to a page with function names "
         "and validation.</p>",
         legend,
@@ -853,7 +853,7 @@ def project_page(index: Index, p: dict) -> str:
     facts.append(("Kind", esc(PROJECT_KINDS[p["kind"]])))
     group = f'{_group_tag(p)} <span class="muted">{esc(GROUPS[p["_group"]])}'
     if p["_super"]:
-        group += " One of the most widely used projects in the list."
+        group += " A widely used project."
     facts.append(("Group", group + "</span>"))
     lic = esc(p["license"]) if p["license"] != "none" else "none stated (no licence file)"
     if p.get("license_note"):
@@ -947,7 +947,7 @@ def project_page(index: Index, p: dict) -> str:
 
 
 def _project_names(path: str, impls: list[dict]) -> str:
-    """Projects as a compact inline list: language code, name (bold for the most widely used), and markers for
+    """Projects as a compact inline list: language code, name (bold for widely used projects), and markers for
     unreleased code and newly released projects; legacy projects are grey."""
     best: dict[str, dict] = {}
     for i in impls:
@@ -1107,7 +1107,7 @@ def projects_page(index: Index) -> str:
     parts = [
         "<h1>Projects</h1>",
         f'<p class="byline">{plural(len(index.projects), "project")} · {plural(len(langs), "language")}</p>',
-        "<p>The most widely used projects come first in every list and are in bold "
+        "<p>Widely used projects come first in every list and are in bold "
         f"({join_words([esc(p['name']) for p in index.super_projects()])}); then the other established projects, "
         "then newly released, developing and legacy ones. Tools that only call another project are listed under "
         "Others, and projects whose code could not "

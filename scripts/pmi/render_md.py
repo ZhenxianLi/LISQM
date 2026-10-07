@@ -260,7 +260,7 @@ def project_page(index: Index, p: dict) -> str:
             facts.append((label, p[key]))
     facts += [("Language", ", ".join(p["languages"])), ("Kind", PROJECT_KINDS[p["kind"]]),
               ("Group", f"{GROUP_NAMES[p['_group']]} ({GROUPS[p['_group']]}"
-                        + (" One of the most widely used projects in the list." if p["_super"] else "")
+                        + (" A widely used project." if p["_super"] else "")
                         + ")")]
     facts += [
               ("Licence", p["license"] + (f" — {plain(p['license_note'])}" if p.get("license_note") else ""))]
@@ -503,7 +503,7 @@ def _calls(p: dict) -> list[str]:
 def projects_page(index: Index) -> str:
     name = _namer(index)
     lines = ["# Projects", "", _header(index, PROJECTS), "",
-             f"{plural(len(index.projects), 'project')}: established projects first, with the most widely used "
+             f"{plural(len(index.projects), 'project')}: established projects first, with widely used projects "
              f"({join_words([p['name'] for p in index.super_projects()])}) at the top and in bold; then newly "
              "released, developing and legacy projects. Tools that only call another project's implementation are "
              "listed under Others, and projects whose code could not be opened under Status unknown.", ""]
@@ -632,7 +632,7 @@ def llms_txt(index: Index) -> str:
              f"{plural(len(index.projects), 'project')}, languages: {', '.join(index.languages())}. Each "
              "implementation is tied to the standard edition or model paper it follows, with its validation "
              "evidence as stated by the project. Repository and package metadata are refreshed twice a month. "
-             "Implementations are listed with established projects first, the most widely used "
+             "Implementations are listed with established projects first, widely used projects "
              f"({join_words([p['name'] for p in index.super_projects()])}) at the top and in bold. Projects marked "
              "(newly released) were "
              "first released less than about a year ago and are not yet widely used in the community; projects "
@@ -656,7 +656,7 @@ def llms_txt(index: Index) -> str:
             continue
         group = {"newly-released": "newly released (not yet widely used)", "legacy": legacy_label(p)}.get(p["_group"], p["_group"])
         if p["_super"]:
-            group += ", one of the most widely used"
+            group += ", widely used"
         lines.append(f"- {twin(p)}: {', '.join(p['languages'])}; {group}; {first_sentence(p['summary'])}")
     if index.others():
         lines += ["", "## Others", "", OTHERS, ""]
@@ -718,7 +718,7 @@ def readme_projects(index: Index) -> str:
             return legacy_label(p)
         if group == "newly-released":
             return "newly released, not yet widely used"
-        return group + (", most widely used" if p["_super"] else "")
+        return group + (", widely used" if p["_super"] else "")
 
     rows = [[_bold(p, f"[{p['name']}]({p['repository']})"), standing(p),
              ", ".join(p["languages"]), p["license"], release_text(p), p["_last_commit"] or "unknown",

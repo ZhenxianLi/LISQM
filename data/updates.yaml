@@ -19,8 +19,8 @@
       two legacy MATLAB tools, the Swift & Gee loudness and sharpness codes and the HAW Hamburg loudness tool.
       PsyTools (TU Graz) is listed in a new group, *Status unknown*, because its repository cannot be opened
       without a login.
-    - sottek-hearing-model and the ITA-Toolbox join SQAT, the Auditory Modeling Toolbox and MoSQITo as the most
-      widely used projects, in bold and first in every list. In personal use, the maintainer of the list found
+    - sottek-hearing-model and the ITA-Toolbox join SQAT, the Auditory Modeling Toolbox and MoSQITo as widely
+      used projects, in bold and first in every list. In personal use, the maintainer of the list found
       sottek-hearing-model in very good agreement with HEAD acoustics ArtemiS SUITE.
     - Validation details were added for MoSQITo's ECMA-418-2 roughness and for phonometry's tone-to-noise and
       prominence ratios, psychoacoustic annoyance and ISO 226:2023 contours. phonometry's annoyance is now listed
