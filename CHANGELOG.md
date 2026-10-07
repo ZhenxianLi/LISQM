@@ -2,87 +2,35 @@
 
 Notable changes to the list. This file is generated from `data/updates.yaml`; the same notes are on the website (https://zhenxianli.github.io/LISQM/updates.html) and in its Atom feed.
 
-## 2026-10-07: Version 0.3: who ported code from whom, how to cite it, and five more projects
+## 2026-10-07: Version 0.3: ported code, citations and new projects
 
-Method pages now show who ported code from whom, as the projects state it. A comparison with related code is
-marked "(its source)", "(a port of it)" or "(also ported from …)", and its tag is grey when nothing independent
-is stated: agreement with the code an implementation was ported from shows a faithful port, not that either
-follows the standard. A new section, *Before you compare numbers*, lists the choices that make correct
-implementations give different numbers: sound field, calibration, sample rate, percentile definition,
-sharpness weighting and the start of the signal.
+Method pages show which implementations were ported from which; a comparison with an implementation's own
+source is marked as such. A new section, *Before you compare numbers*, lists the settings that make correct
+implementations give different results.
 
-Also in this version:
-
-- Every project page has a *How to cite* line, and all standards, model papers and software papers are
-  available as BibTeX in references.bib.
-- New projects: the ITA-Toolbox (RWTH Aachen, MATLAB), Mosqito.NET (a C# port of MoSQITo, newly released), and
-  two legacy MATLAB tools, the Swift & Gee loudness and sharpness codes and the HAW Hamburg loudness tool.
-  PsyTools (TU Graz) is listed in a new group, *Status unknown*, because its repository cannot be opened
-  without a login.
-- SQAT and MoSQITo, which are widely used, and sottek-hearing-model, a very good implementation, are shown in
-  bold and first in every list. In personal use, the maintainer of the list found sottek-hearing-model in very
-  good agreement with HEAD acoustics ArtemiS SUITE. The Auditory Modeling Toolbox and the ITA-Toolbox, widely
-  used toolboxes that also include some psychoacoustic functions, are listed with the other established
-  projects.
+- Every project page says how to cite the project, and all references are available as BibTeX.
+- New projects: ITA-Toolbox, Mosqito.NET, two legacy MATLAB tools, and PsyTools in a new group,
+  *Status unknown*.
+- SQAT and MoSQITo (widely used) and sottek-hearing-model (a very good implementation) come first, in bold.
 - Each project page explains its kind: library/toolbox, research code, application, plug-in or reference
-  program. MATLAB toolboxes and Python packages share the kind library/toolbox, since both are used the same
-  way.
-- Newly released projects are described as not yet seen to be widely used.
-- The FAQ answer on which code to use starts from the reader's language and use, and names projects built for
-  a particular use.
-- Validation details were added for MoSQITo's ECMA-418-2 roughness and for phonometry's tone-to-noise and
-  prominence ratios, psychoacoustic annoyance and ISO 226:2023 contours. phonometry's annoyance is now listed
-  under its own tests only, as no published value is checked.
-- RefMap's Python functions use the sottek-hearing-model package and are listed under it.
-- The twice-monthly refresh now checks every external link and reports broken ones in its review issue.
+  program.
+- The twice-monthly refresh also reports broken links.
 
 ## 2026-10-07: Version 0.2: how each implementation was validated
 
-Project and method pages have a new section, *How it was validated*: what each project says it checked, and
-against what (test signals of the standard, the model authors' code, MoSQITo, SQAT or commercial software),
-with the tolerances and results it reports. Validation tags now name what an implementation was compared with,
-for example "compared with MoSQITo", instead of "another implementation". Agreement with another implementation
-shows that both compute the same values, not that either follows the standard.
+A new section, *How it was validated*, says what each project checked, against what, and with what result.
+Validation tags name the reference, for example "compared with MoSQITo".
 
-Also in this version:
-
-- On the home page, "+ more" shows the remaining projects of an edition in place.
-- Edition labels in the implementation tables link to the standard or paper. Zwicker & Fastl (1999) now has its
-  DOI, and five model papers and theses link to their publisher or library pages; the rest link to their full
-  reference on the Standards page.
-- MetaSona is listed as a C library with a Python interface.
-- PsychoacousticMetrics.jl and Kirin Hypha, two newly released projects, were added the same day.
+- On the home page, "+ more" opens the remaining projects in place.
+- Edition labels link to the standard or paper.
 
 ## 2026-10-07: Two newly released projects
 
-PsychoacousticMetrics.jl (Julia) adds DIN 45692 sharpness, Daniel & Weber roughness, Osses et al. (2016)
-fluctuation strength and Widmann (1992) psychoacoustic annoyance on top of ZwickerLoudness.jl, by the same
-author. Kirin Hypha, a measurement plug-in for audio workstations, computes ISO 532-1 time-varying loudness and
-DIN 45692 sharpness in Rust, ported from MoSQITo. Both were found by the first scheduled search for new
-projects; like the other newly released projects, they are not yet seen to be widely used.
+Added PsychoacousticMetrics.jl, a Julia library, and Kirin Hypha, a measurement plug-in for audio workstations
+written in Rust. Both were found by the first scheduled search for new projects.
 
-## 2026-10-06: Version 0.1, the first public version of LISQM
+## 2026-10-06: Version 0.1: the first public version
 
-LISQM (List of Implementations of Sound Quality Metrics) starts with 32 projects in Python, MATLAB, Octave, C,
-C++, Rust, Julia and Pure Data, and 22 methods from Zwicker loudness to aural detectability. Every implementation is
-tied to the standard edition or model paper it follows, with links to the documentation the facts were taken
-from. Repository dates, releases and package versions are refreshed twice a month.
-
-Worth knowing as of today:
-
-- ECMA-418-2 is at its 4th edition (June 2025), which added fluctuation strength. sottek-hearing-model and
-  refmap-psychoacoustics follow it, as do phonometry and MetaSona, two newly released projects that are not yet
-  seen to be widely used. SQAT has it on its main branch only, and MoSQITo still follows the 2nd edition (2022).
-- SQAT's latest release (v1.3) is licensed for non-commercial use only. Its main branch is GPL-3.0 and
-  carries unreleased fixes to ISO 532-1 time-varying loudness, Aures tonality and Daniel & Weber roughness
-  that change results.
-- All three parts of ISO 532 are being revised; committee drafts have existed since November 2024.
-- No open implementation was found for DIN 38455:2024 (the first German roughness standard), DIN 45681 or
-  ISO/TS 20065:2022.
-- Six projects disclose that AI tools assisted their development; each project page says where.
-- Every project is in one group: established, newly released (first released less than about a year ago and
-  not yet seen to be widely used), developing, legacy (archived, or no commit for three years) or others
-  (calls another listed project). Lists follow this order, so a new, little-used or unmaintained project is
-  never the first suggestion.
-- Candidates that could not be checked yet, such as PsyTools (TU Graz) and the ITA-Toolbox, are listed on
-  the About page as leads.
+LISQM starts with 32 projects in eight languages and 22 methods, from Zwicker loudness to aural detectability.
+Every implementation is tied to the standard edition or model paper it follows, with links to its sources.
+Repository and package data are refreshed twice a month.
