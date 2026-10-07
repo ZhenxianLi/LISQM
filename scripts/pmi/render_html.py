@@ -689,8 +689,8 @@ def home(index: Index) -> str:
         '<p class="lead">Find an open-source method to calculate psychoacoustic metrics such as loudness, sharpness, '
         "roughness and tonality, one that you can trust and that best fits your coding environment, whether "
         "Python, MATLAB, C/C++, Rust, Julia or another language. Each implementation is listed under the edition of "
-        "the standard or model it follows, with the validation it reports, because results change between editions. The chart below shows which projects "
-        "implement which edition.</p>",
+        "the standard or model it follows, with the validation it reports, so that you can judge whether its "
+        "results are credible. The chart below shows which projects implement which edition.</p>",
         _timeline(index, path),
         '<div class="columns">',
         '<section class="col-main" aria-labelledby="gaps">',
