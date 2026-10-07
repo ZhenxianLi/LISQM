@@ -26,4 +26,5 @@ legacy_after_days: 1095
 indexnow_key: 61959dcd223165c278f718cac5915ca9
 # Site verification codes from the search engines' webmaster tools: the content of the meta tag that each one asks
 # for (google: Google Search Console, bing: Bing Webmaster Tools, baidu: Baidu, yandex: Yandex Webmaster).
-verification: {}
+verification:
+  google: Wuqw4OB0ikLh7EVjRGVOYEloGiU8lWAg2kGhjvU1oXM
