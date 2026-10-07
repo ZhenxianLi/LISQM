@@ -14,7 +14,7 @@ implementations give different results.
 - SQAT and MoSQITo (widely used) and sottek-hearing-model (a very good implementation) come first, in bold.
 - Each project page explains its kind: library/toolbox, research code, application, plug-in or reference
   program.
-- The twice-monthly refresh also reports broken links.
+- The monthly refresh also reports broken links.
 
 ## 2026-10-07: Version 0.2: how each implementation was validated
 
@@ -33,4 +33,4 @@ written in Rust. Both were found by the first scheduled search for new projects.
 
 LISQM starts with 32 projects in eight languages and 22 methods, from Zwicker loudness to aural detectability.
 Every implementation is tied to the standard edition or model paper it follows, with links to its sources.
-Repository and package data are refreshed twice a month.
+Repository and package data are refreshed monthly.

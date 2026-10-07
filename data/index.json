@@ -8687,7 +8687,7 @@
     {
       "date": "2026-10-07",
       "title": "Version 0.3: ported code, citations and new projects",
-      "body": "Method pages show which implementations were ported from which; a comparison with an implementation's own\nsource is marked as such. A new section, *Before you compare numbers*, lists the settings that make correct\nimplementations give different results.\n\n- Every project page says how to cite the project, and all references are available as BibTeX.\n- New projects: ITA-Toolbox, Mosqito.NET, two legacy MATLAB tools, and PsyTools in a new group,\n  *Status unknown*.\n- SQAT and MoSQITo (widely used) and sottek-hearing-model (a very good implementation) come first, in bold.\n- Each project page explains its kind: library/toolbox, research code, application, plug-in or reference\n  program.\n- The twice-monthly refresh also reports broken links.\n"
+      "body": "Method pages show which implementations were ported from which; a comparison with an implementation's own\nsource is marked as such. A new section, *Before you compare numbers*, lists the settings that make correct\nimplementations give different results.\n\n- Every project page says how to cite the project, and all references are available as BibTeX.\n- New projects: ITA-Toolbox, Mosqito.NET, two legacy MATLAB tools, and PsyTools in a new group,\n  *Status unknown*.\n- SQAT and MoSQITo (widely used) and sottek-hearing-model (a very good implementation) come first, in bold.\n- Each project page explains its kind: library/toolbox, research code, application, plug-in or reference\n  program.\n- The monthly refresh also reports broken links.\n"
     },
     {
       "date": "2026-10-07",
@@ -8702,7 +8702,7 @@
     {
       "date": "2026-10-06",
       "title": "Version 0.1: the first public version",
-      "body": "LISQM starts with 32 projects in eight languages and 22 methods, from Zwicker loudness to aural detectability.\nEvery implementation is tied to the standard edition or model paper it follows, with links to its sources.\nRepository and package data are refreshed twice a month.\n"
+      "body": "LISQM starts with 32 projects in eight languages and 22 methods, from Zwicker loudness to aural detectability.\nEvery implementation is tied to the standard edition or model paper it follows, with links to its sources.\nRepository and package data are refreshed monthly.\n"
     }
   ]
 }

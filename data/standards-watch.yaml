@@ -1,4 +1,4 @@
-# Sources that scripts/watch_standards.py checks twice a month (from .github/workflows/refresh.yml) for new
+# Sources that scripts/watch_standards.py checks on every scheduled refresh (.github/workflows/refresh.yml) for new
 # editions and stage changes of the standards the list relies on. The last seen state is kept in
 # standards-watch.json (machine-written); what changed is reported in the review issue.
 #
