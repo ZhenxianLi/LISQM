@@ -9,6 +9,28 @@ description: >-
   loudness, sharpness, roughness, fluctuation strength, tonality, impulsiveness and psychoacoustic annoyance.
   Each implementation is listed under the standard edition or model it follows. All programming languages.
 base_url: https://zhenxianli.github.io/LISQM/
+# The About page opens with the maintainer's note: about_lead, then "Why I built LISQM" (about_story). Markdown;
+# links are relative to the website root.
+about_lead: >-
+  Are you looking for an open-source way to calculate psychoacoustic metrics such as loudness, sharpness, roughness
+  and tonality? One you can trust, and that fits your coding environment, whether Python, MATLAB, C/C++, Rust, Julia
+  or another language? LISQM lists the open-source implementations of each metric under the standard it follows,
+  together with the validation each one reports.
+about_story: |
+  I built LISQM out of my own frustration. I work in Python and used [MoSQITo](projects/mosqito.html).
+  Unfortunately, it hasn't been updated since 2024, and some metrics I needed, like Aures tonality, were missing. I
+  ended up calling the [SQAT](projects/sqat.html) toolbox from Python through the
+  [MATLAB Engine API](languages.html#across). Only much later did I come across [pySQAT](projects/pysqat.html), a
+  newer Python port of SQAT.
+
+  So I started a living list of open-source implementations of psychoacoustic and sound quality metrics, hoping to
+  save others with the same need some time.
+
+  LISQM is built from each project's own documentation and the related publications, and is renewed monthly. The
+  judgements on the site currently rest mainly on my own experience as a user, so I would really value the
+  community's input. Whether you use these tools, contribute to them, maintain a project, or want to share a new
+  one you've built, I'd love to [hear from you](faq.html#message). Corrections, missing projects and suggestions are
+  all welcome. I hope LISQM becomes a useful place for all of us.
 repository: https://github.com/ZhenxianLi/LISQM
 maintainer:
   name: Zhenxian LI

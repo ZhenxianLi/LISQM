@@ -60,7 +60,7 @@ LANGUAGE_SECTIONS = [("python", "Python", {"Python"}), ("matlab", "MATLAB and Oc
                      ("c", "C and C++", {"C", "C++"}), ("csharp", "C#", {"C#"}), ("rust", "Rust", {"Rust"}),
                      ("julia", "Julia", {"Julia"}),
                      ("pure-data", "Pure Data", {"Pure Data"})]
-ABOUT_SECTIONS = [("scope", "What is included"), ("method", "How entries are checked"), ("status", "Status"),
+ABOUT_SECTIONS = [("why", "Why I built LISQM"), ("scope", "What is included"), ("method", "How entries are checked"), ("status", "Status"),
                   ("validation", "Validation"), ("standing", "Groups of projects"), ("leads", "Leads"),
                   ("data", "Machine-readable data"), ("contributing", "Contributing"), ("citing", "Citing"),
                   ("licence", "Licence")]
@@ -1208,6 +1208,16 @@ def updates_page(index: Index) -> str:
                   body="\n".join(parts), section="Updates")
 
 
+def _bold_super_links(index: Index, html: str) -> str:
+    """Links to a super project's page in free text, with the name in bold as everywhere else."""
+    def bold(m: re.Match[str]) -> str:
+        p = index.project.get(m.group(2))
+        if not (p and p["_super"]) or m.group(3).startswith("<strong>"):
+            return m.group(0)
+        return f"{m.group(1)}<strong>{m.group(3)}</strong></a>"
+    return re.sub(r'(<a href="(?:\.\./)*projects/([a-z0-9-]+)\.html"[^>]*>)(.*?)</a>', bold, html)
+
+
 def about_page(index: Index) -> str:
     path = ABOUT
     site = index.site
@@ -1216,8 +1226,11 @@ def about_page(index: Index) -> str:
     status_kind = {"available": "ok", "unreleased": "warn", "proposed": "neutral"}
     parts = [
         f"<h1>About {esc(site['name'])}</h1>",
-        f'<p class="lead">{esc(introduce(site))}</p>',
-        f"<p>{esc(name_note(site))}</p>",
+        *([f'<p class="lead">{inline(site["about_lead"])}</p>',
+           f"<p>{esc(site['name'])} stands for {esc(site['title'])}. {esc(name_note(site))}</p>",
+           f'<h2 id="why">Why I built {esc(site["name"])}</h2>', _bold_super_links(index, blocks(site["about_story"])),
+           f'<p class="muted">— {esc(site["maintainer"]["name"])}</p>'] if site.get("about_story") else
+          [f'<p class="lead">{esc(introduce(site))}</p>', f"<p>{esc(name_note(site))}</p>"]),
 
         '<h2 id="scope">What is included</h2>',
         f"<p>Open-source code that computes a psychoacoustic metric and says which model or standard edition it "

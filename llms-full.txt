@@ -129,9 +129,28 @@ Projects whose code could not be opened, for example because the repository need
 
 > Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-07. Web page: https://zhenxianli.github.io/LISQM/about.html
 
-LISQM stands for List of Implementations of Sound Quality Metrics. It is a list of open-source implementations of psychoacoustic metrics, also called sound quality (SQ) metrics: loudness, sharpness, roughness, fluctuation strength, tonality, impulsiveness and psychoacoustic annoyance. Each implementation is listed under the standard edition or model it follows. All programming languages.
+Are you looking for an open-source way to calculate psychoacoustic metrics such as loudness, sharpness, roughness and tonality? One you can trust, and that fits your coding environment, whether Python, MATLAB, C/C++, Rust, Julia or another language? LISQM lists the open-source implementations of each metric under the standard it follows, together with the validation each one reports.
 
-LISQM computes nothing itself; it lists and compares the implementations. Every listed implementation is open source and LISQM itself is open data, but many of the standards the implementations follow are not free.
+LISQM stands for List of Implementations of Sound Quality Metrics. LISQM computes nothing itself; it lists and compares the implementations. Every listed implementation is open source and LISQM itself is open data, but many of the standards the implementations follow are not free.
+
+## Why I built LISQM
+
+I built LISQM out of my own frustration. I work in Python and used **[MoSQITo](https://zhenxianli.github.io/LISQM/projects/mosqito.html)**.
+Unfortunately, it hasn't been updated since 2024, and some metrics I needed, like Aures tonality, were missing. I
+ended up calling the **[SQAT](https://zhenxianli.github.io/LISQM/projects/sqat.html)** toolbox from Python through the
+[MATLAB Engine API](https://zhenxianli.github.io/LISQM/languages.html#across). Only much later did I come across [pySQAT](https://zhenxianli.github.io/LISQM/projects/pysqat.html), a
+newer Python port of SQAT.
+
+So I started a living list of open-source implementations of psychoacoustic and sound quality metrics, hoping to
+save others with the same need some time.
+
+LISQM is built from each project's own documentation and the related publications, and is renewed monthly. The
+judgements on the site currently rest mainly on my own experience as a user, so I would really value the
+community's input. Whether you use these tools, contribute to them, maintain a project, or want to share a new
+one you've built, I'd love to [hear from you](https://zhenxianli.github.io/LISQM/faq.html#message). Corrections, missing projects and suggestions are
+all welcome. I hope LISQM becomes a useful place for all of us.
+
+— Zhenxian LI
 
 ## What is included
 

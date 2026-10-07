@@ -5,6 +5,8 @@ Links point to absolute URLs of the HTML pages, so the text stays useful when it
 
 from __future__ import annotations
 
+import re
+
 from .data import (ACCESS, GROUP_NAMES, GROUPS, IMPL_STATUS_LONG, KINDS, PROJECT_KINDS, REGISTRIES, VALIDATION,
                    VALIDATION_LONG, Index)
 from .describe import (COVERAGE_COLUMNS, GROUP_RULE, NEW_LABEL, activity_text, ai_guide, by_language, coverage, dedupe,
@@ -563,7 +565,21 @@ def updates_page(index: Index) -> str:
 
 def about_page(index: Index) -> str:
     site = index.site
-    lines = [f"# About {site['name']}", "", _header(index, ABOUT), "", introduce(site), "", name_note(site), ""]
+    lines = [f"# About {site['name']}", "", _header(index, ABOUT), ""]
+    if site.get("about_story"):
+        def absolute_links(text: str) -> str:  # and super projects in bold, as everywhere
+            text = re.sub(r"\]\((?!https?://)([^)\s]+)\)", lambda m: f"]({site['base_url']}{m.group(1)})", text)
+
+            def bold(m: re.Match[str]) -> str:
+                p = index.project.get(m.group(2))
+                return f"**{m.group(0)}**" if p and p["_super"] else m.group(0)
+            return re.sub(r"(?<!\*\*)\[([^\]]+)\]\([^)\s]*projects/([a-z0-9-]+)\.(?:html|md)\)", bold, text)
+        lines += [absolute_links(" ".join(site["about_lead"].split())), "",
+                  f"{site['name']} stands for {site['title']}. {name_note(site)}", "",
+                  f"## Why I built {site['name']}", "", absolute_links(site["about_story"].strip()), "",
+                  f"— {site['maintainer']['name']}", ""]
+    else:
+        lines += [introduce(site), "", name_note(site), ""]
     lines += ["## What is included", "",
               "Open-source code that computes a psychoacoustic metric and says which model or standard edition "
               "it follows. Quantities: " + join_words([f["name"].lower() for f in index.families]) + ". "

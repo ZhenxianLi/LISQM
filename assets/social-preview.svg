@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640" role="img" aria-labelledby="title desc">
   <title id="title">LISQM: List of Implementations of Sound Quality Metrics</title>
-  <desc id="desc">A List of Open-Source Implementations of Psychoacoustic and Sound Quality Metrics: loudness, sharpness, roughness, fluctuation strength, tonality, impulsiveness and annoyance, each listed under the standard edition it follows.</desc>
+  <desc id="desc">Open-Source Implementations of Psychoacoustic and Sound Quality Metrics. Find an open-source method to calculate loudness, sharpness, roughness, tonality and more, one that you can trust and that fits your coding environment: Python, MATLAB, C/C++, Rust, Julia or another language.</desc>
   <!-- Social preview for GitHub (Settings > General > Social preview), in the style of the website: its green and
        its mark. social-preview.png is rendered from this file with headless Chromium at 1280 x 640. -->
   <rect width="1280" height="640" fill="#ffffff"/>
@@ -18,14 +18,14 @@
       <rect x="21" y="34" width="4" height="22" rx="2"/>
     </g>
   </g>
-  <g font-family="Charter, 'Bitstream Charter', Georgia, 'DejaVu Serif', serif" fill="#1f2328">
+  <g font-family="Charter, 'Charter Render', 'Bitstream Charter', Georgia, 'DejaVu Serif', serif" fill="#1f2328">
     <text x="108" y="250" font-size="150" font-weight="700" letter-spacing="-2">LISQM</text>
-    <text x="112" y="320" font-size="25" font-weight="700" fill="#0f7d60">A List of Open-Source Implementations of Psychoacoustic and Sound Quality Metrics</text>
-    <text x="112" y="368" font-size="22" font-style="italic" fill="#5a636e">List of Implementations of Sound Quality Metrics · each listed under the standard edition it follows</text>
+    <text x="112" y="320" font-size="27" font-weight="700" fill="#0f7d60">Open-Source Implementations of Psychoacoustic and Sound Quality Metrics</text>
+    <text x="112" y="368" font-size="23" font-style="italic" fill="#5a636e">Find an open-source method you can trust, one that fits your coding environment</text>
     <rect x="112" y="430" width="1056" height="1.5" fill="#2b3137"/>
-    <text x="112" y="482" font-size="21">Loudness · Sharpness · Roughness · Fluctuation strength · Tonality · Impulsiveness · Annoyance</text>
+    <text x="112" y="482" font-size="21">Loudness · Sharpness · Roughness · Tonality · and more</text>
     <text x="112" y="534" font-size="22" font-weight="700" letter-spacing="1.5">
-      <tspan fill="#2463ad">PYTHON</tspan><tspan fill="#8b949e">  ·  </tspan><tspan fill="#bd5512">MATLAB / OCTAVE</tspan><tspan fill="#8b949e">  ·  </tspan><tspan fill="#6b46a6">C / C++</tspan><tspan fill="#8b949e">  ·  </tspan><tspan fill="#94471c">RUST</tspan><tspan fill="#8b949e">  ·  </tspan><tspan fill="#8b3aa9">JULIA</tspan><tspan fill="#8b949e">  ·  </tspan><tspan fill="#36606e">PURE DATA</tspan>
+      <tspan fill="#2463ad">PYTHON</tspan><tspan fill="#8b949e">  ·  </tspan><tspan fill="#bd5512">MATLAB</tspan><tspan fill="#8b949e">  ·  </tspan><tspan fill="#6b46a6">C / C++</tspan><tspan fill="#8b949e">  ·  </tspan><tspan fill="#94471c">RUST</tspan><tspan fill="#8b949e">  ·  </tspan><tspan fill="#8b3aa9">JULIA</tspan><tspan fill="#8b949e" font-weight="400" font-style="italic" letter-spacing="0">   or another language</tspan>
     </text>
   </g>
 </svg>
