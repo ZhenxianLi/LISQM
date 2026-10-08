@@ -129,7 +129,7 @@ def layout(index: Index, path: str, *, title: str, description: str, body: str, 
 <a class="skip" href="#content">Skip to content</a>
 <header class="masthead" id="top">
 <div class="container masthead-row">
-<a class="brand" href="{rel(HOME)}">{LOGO}<span class="brand-text"><span class="brand-name">{esc(site['name'])}</span><span class="brand-tagline">{esc(site['tagline'])}</span></span></a>
+<a class="brand" href="{rel(HOME)}">{LOGO}<span class="brand-text"><span class="brand-name">{esc(site['name'])}</span> <span class="brand-tagline">{esc(site['tagline'])}</span></span></a>
 <p class="masthead-meta">Version {esc(str(site.get('version', '')))} · data as of {as_of}<br><a href="{esc(site['repository'])}">Source on GitHub</a></p>
 </div>
 <nav class="tabs" aria-label="Site"><div class="container">
