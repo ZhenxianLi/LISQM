@@ -121,7 +121,7 @@ writes the entry.
    validated*. Write them from the project's own words: what was compared, with which reference or
    implementation, the tolerance and the result. Keep other facts in `note`. When the code was ported or
    adapted from other code, say so in `derived_from` (or, for the whole project, `based_on`): a comparison with
-   that code is then marked as not independent, and the metric page draws who ported code from whom.
+   that code is then marked as not independent, and the project map shows who took code from whom.
    `conventions` go under *Before you compare numbers*; points that hold for every metric of the project go in
    a project-level `conventions` list instead.
 

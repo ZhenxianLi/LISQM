@@ -13,6 +13,7 @@ packages:
     name: mosqito
 install: pip install mosqito
 maintainers: [Eomys / Green Forge Coop]
+contributors: [Daniel Jiménez-Caminero Costa]   # the hearing model (22 commits, 2021)
 summary: >-
   Python library for sound quality metrics: ISO 532-1 loudness, DIN 45692 sharpness, Daniel & Weber roughness,
   ECMA-418-2 hearing-model loudness (Clause 5) and roughness (2nd edition), tone-to-noise and prominence ratios,

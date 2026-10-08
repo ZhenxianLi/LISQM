@@ -24,7 +24,6 @@ import build  # noqa: E402
 from pmi.data import GROUP_ORDER, KINDS, load  # noqa: E402
 from pmi.describe import timeline  # noqa: E402
 from pmi import relations as RL, render_html  # noqa: E402
-from pmi.describe import lineage  # noqa: E402
 from pmi.text import blocks  # noqa: E402
 from pmi.render_html import LANG_CODES, _analytics  # noqa: E402
 
@@ -490,12 +489,14 @@ class BuildTest(unittest.TestCase):
         pysqat = (self.site / "projects/pysqat.html").read_text(encoding="utf-8")
         self.assertIn("(also ported from ", pysqat, "pySQAT's ECMA-418-2 rows and SQAT share RefMap's code")
         zwicker = (self.site / "metrics/loudness-zwicker.html").read_text(encoding="utf-8")
-        tree = zwicker[zwicker.index('<div class="lineage">'):]
-        tree = tree[:tree.index("</div>")]
-        self.assertLess(tree.index("projects/mosqito.html"), tree.index("projects/kirin-hypha.html"))
-        self.assertLess(tree.index("projects/aarae.html"), tree.index("projects/sqat.html"))
-        self.assertIn("BASIC program of DIN 45631", tree)
-        self.assertIn('Code ported from another project is shown under <a href="#lineage">', zwicker)
+        self.assertIn('<h2 id="map">Project map</h2>', zwicker)
+        self.assertIn('The <a href="#map">project map</a> below shows which project took code from which.', zwicker)
+        if shutil.which("dot"):
+            picture = zwicker[zwicker.index('<svg class="map-graph"'):]
+            picture = picture[:picture.index("</svg>")]
+            self.assertIn("<title>Project map for Zwicker loudness</title>", picture)
+            self.assertIn("Code taken: MoSQITo to Kirin Hypha, for ISO 532&#45;1:2017", picture)  # Graphviz escapes -
+            self.assertIn("BASIC program (DIN 45631, 1991)", picture)
         data = json.loads((self.site / "index.json").read_text(encoding="utf-8"))
         rows = [i for m in data["metrics"] for i in m["implementations"] if i["project"] == "kirin-hypha"]
         self.assertEqual(rows[0]["comparison_relations"], {"mosqito": "source"})
@@ -574,21 +575,27 @@ class BuildTest(unittest.TestCase):
         self.assertEqual(kinds[("psysound3", "aarae")], "own")
         self.assertEqual(kinds[("aarae", "sqat")], "port")
         self.assertEqual(kinds[("BASIC program of DIN 45631 (Zwicker et al., 1991)", "mosqito")], "port")
-        # Every arrow runs from the source to the project that uses it, also for run-time use and comparisons.
+        # Sources stand on the left of every line, also for run-time use and comparisons.
         self.assertEqual(kinds[("mosqito", "psychobox")], "uses")
         self.assertEqual(kinds[("zwickerloudness-jl", "psychoacousticmetrics-jl")], "uses")
         self.assertEqual(kinds[("mosqito", "iso532-1-rs")], "compare")
-        self.assertNotIn("dir=back", RL.dot_source(self.index, rel, "projects/map.html", LANG_CODES))
+        # A check points from the project to the one it checked its results against (A's results checked against B).
+        edges = [e for e in RL.dot_source(self.index, rel, "projects/map.html", LANG_CODES).splitlines() if " -> " in e]
+        self.assertTrue(edges)
+        for edge in edges:
+            self.assertEqual("dir=back" in edge, "style=dashed" in edge, edge)
         # One line per pair: code taken is not drawn again as a comparison or a shared maintainer.
         self.assertEqual(kinds[("mosqito", "zwickerloudness-jl")], "port")
         pairs = [frozenset(pair) for pair in kinds]
         self.assertEqual(len(pairs), len(set(pairs)))
         self.assertEqual(kinds[("acoustic-toolbox", "soundscapy")], "people")
         self.assertNotIn(frozenset(("sqat", "sottek-hearing-model")), pairs, "both took Mike Lotinga's own code")
-        # A shared maintainer with code between the two projects is recorded on the rows, not guessed.
+        # A person on both sides of a code line is recorded on the rows, not guessed: at least one row of the pair
+        # says derived_by_author (MoSQITo-FDP took its author's hearing model from MoSQITo, and others' TNR/PR code).
         for e in rel["taken"]:
             if e["shared"]:
-                self.assertTrue(e["own"], f"{e['key']} -> {e['project']['id']}: derived_by_author?")
+                self.assertTrue(any(i.get("derived_by_author") for i in e["rows"]),
+                                f"{e['key']} -> {e['project']['id']}: derived_by_author?")
 
     def test_project_map_page(self) -> None:
         page = (self.site / "projects/map.html").read_text(encoding="utf-8")
@@ -611,8 +618,9 @@ class BuildTest(unittest.TestCase):
         self.assertIn('<a href="../projects/index.html">All projects</a></p><ul><li><a href="../projects/map.html" '
                       'aria-current="page">Project map</a></li></ul>', page)
         # The example of ported code on a metric page points to a page that has that section.
-        example = re.search(r'href="\.\./(metrics/[a-z0-9-]+\.html)#lineage"', page).group(1)
-        self.assertIn('<h2 id="lineage">', (self.site / example).read_text(encoding="utf-8"))
+        example = re.search(r'href="\.\./(metrics/[a-z0-9-]+\.html)#map"', page).group(1)
+        self.assertIn('<h2 id="map">', (self.site / example).read_text(encoding="utf-8"))
+        self.assertIn("<h3>Same contributor</h3>", page)
 
     def test_project_map_without_graphviz(self) -> None:
         with mock.patch.object(RL.shutil, "which", return_value=None), mock.patch.dict(os.environ):
@@ -645,6 +653,9 @@ class BuildTest(unittest.TestCase):
             self.assertIn("uses must be a non-empty list of listed project ids", problems)
             impl.clear()
             impl.update(saved)
+            p["contributors"] = list(p["maintainers"])
+            self.assertIn("contributors repeats a name from maintainers", "\n".join(self.index.validate()))
+            del p["contributors"]
             p["id"] = "map"
             self.assertIn("the id 'map' is reserved", "\n".join(self.index.validate()))
         finally:
@@ -653,13 +664,26 @@ class BuildTest(unittest.TestCase):
             impl.update(saved)
         self.assertEqual(self.index.validate(), [])
 
-    def test_port_tree_follows_editions(self) -> None:
-        forest = lineage(self.index.metric["loudness-zwicker"]["_all_impls"])
-        roots = {(node[1] if node[0] == "code" else node[1]["id"]): kids for node, kids in forest}
-        # AARAE took its Chalupper & Fastl code from PsySound3, and SQAT took AARAE's ISO 532-1 code, not that one.
-        self.assertEqual([(node[1]["id"], kids) for node, kids in roots["psysound3"]], [("aarae", [])])
-        aarae = next(kids for node, kids in roots["ISO 532-1 Annex A reference program"] if node[1]["id"] == "aarae")
-        self.assertIn("sqat", [node[1]["id"] for node, _ in aarae])
+    def test_metric_maps(self) -> None:
+        def lines(mid: str) -> dict:
+            rel = RL.relations(self.index, self.index.metric[mid])
+            return {(line["source"], line["user"]): line for line in RL.lines(self.index, rel)}
+        # A metric page draws only the lines of its own rows, each naming the edition it is about: SQAT took AARAE's
+        # ISO 532-1 code, while AARAE's code from PsySound3 is for Chalupper & Fastl (2002).
+        zwicker = lines("loudness-zwicker")
+        self.assertTrue(zwicker[("aarae", "sqat")]["tip"].endswith("for ISO 532-1:2017"))
+        self.assertTrue(zwicker[("psysound3", "aarae")]["tip"].endswith("for Chalupper & Fastl (2002)"))
+        # MoSQITo-FDP took its author's own hearing model from MoSQITo, but someone else's TNR/PR code.
+        self.assertEqual(lines("loudness-ecma-418-2")[("mosqito", "mosqito-fdp")]["kind"], "own")
+        self.assertEqual(lines("tone-to-noise-prominence-ratio")[("mosqito", "mosqito-fdp")]["kind"], "port")
+        # A metric without any recorded relation has no map; the Markdown twin lists the lines in words.
+        aural = (self.site / "metrics/aural-detectability.html").read_text(encoding="utf-8")
+        self.assertNotIn('<h2 id="map">', aural)
+        self.assertNotIn("Who ported code from whom", aural)
+        md = (self.site / "metrics/loudness-zwicker.md").read_text(encoding="utf-8")
+        self.assertIn("## Project map", md)
+        self.assertIn("- From [AARAE](https://zhenxianli.github.io/LISQM/projects/aarae.html): "
+                      "**[SQAT](https://zhenxianli.github.io/LISQM/projects/sqat.html)** (ISO 532-1:2017)", md)
 
     def test_bullets_may_wrap(self) -> None:
         self.assertEqual(blocks("Intro.\n\n- One item\n  that wraps.\n- Two."),

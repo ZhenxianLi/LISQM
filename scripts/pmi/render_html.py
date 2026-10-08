@@ -18,7 +18,7 @@ from .data import (ACCESS, GROUP_NAMES, GROUPS, IMPL_STATUS_LONG, KINDS, PROJECT
 from .describe import (COVERAGE_COLUMNS, GROUP_RULE, ONLY_NEW, activity_text, ai_guide, by_language, coverage,
                        highlight_sentence, highlighted,
                        current_statement, dedupe, dependence_note, derived_names, edition_state, faq, how_to_cite,
-                       impl_phrase, introduce, language_order, licence_names, licence_terms, lineage, name_note,
+                       impl_phrase, in_sentence, introduce, language_order, licence_names, licence_terms, name_note,
                        only_related, ref_status, release_text, silent_line, standing_sentence, stated_conventions,
                        time_bins, timeline, validation_also, validation_groups, validation_label)
 from . import relations as RL
@@ -358,29 +358,22 @@ def _validation_section(index: Index, path: str, impls: list[dict], ids: dict[in
     return "\n".join(parts)
 
 
-def _lineage_section(index: Index, path: str, m: dict) -> str:
-    """Who ported or adapted code from whom among a metric's implementations, drawn as a tree."""
-    # Every row, also a second row of one project for one edition (another scope may port other code).
-    forest = lineage(m["_all_impls"])
-    if not forest:
+def _metric_map_section(index: Index, path: str, m: dict, rel: dict) -> str:
+    """The project map with the lines of one metric only."""
+    if not RL.count_lines(rel):
         return ""
-
-    def node(n: tuple) -> str:
-        kind, value = n
-        if kind == "code":
-            return f'<span class="code-node">{esc(value)}</span>'
-        tag = f" {GROUP_TAGS[value['_group']]}" if value["_group"] in GROUP_TAGS else ""
-        return f'{_lang_badge(value["languages"][0])}{_project_link(path, value)}{tag}'
-
-    def tree(items: list[tuple]) -> str:
-        return "<ul>" + "".join(f"<li>{node(n)}{tree(kids) if kids else ''}</li>" for n, kids in items) + "</ul>"
-
+    to_map = relative(path, MAP)
+    picture = _map_picture(index, path, rel, None, f"Project map for {m['name']}")
+    if not picture:
+        return ("\n".join(['<h2 id="map">Project map</h2>',
+                           f'<p>The <a href="{to_map}">project map</a> shows how the projects for this metric are '
+                           "connected.</p>"]))
     return "\n".join([
-        '<h2 id="lineage">Who ported code from whom</h2>',
-        '<p class="small muted">As stated by the projects. Each project took code from the one above it (ported, '
-        "translated or adapted), so agreement between them only checks the port. The "
-        f'<a href="{relative(path, MAP)}">project map</a> shows the same for all metrics.</p>',
-        f'<div class="lineage">{tree(forest)}</div>',
+        '<h2 id="map">Project map</h2>',
+        f'<p>The <a href="{to_map}">project map</a>, with only the lines for {esc(in_sentence(m["name"]))}.'
+        + (" Agreement between a project and the code it was taken from only checks the port." if rel["taken"] else "")
+        + "</p>",
+        picture,
     ])
 
 
@@ -430,7 +423,7 @@ def _activity_tag(p: dict, short: bool = False) -> str:
 
 
 # Markers for the groups that need one; established projects have none.
-NEW_TAG = _tag("newly", "new", "Newly released. " + GROUPS["newly-released"])
+NEW_TAG = _tag("new", "new", "Newly released. " + GROUPS["newly-released"])
 DEV_TAG = _tag("developing", "dev", "Developing. " + GROUPS["developing"])
 LEGACY_TAG = _tag("legacy", "legacy", "Legacy. " + GROUPS["legacy"])
 GROUP_TAGS = {"newly-released": NEW_TAG, "developing": DEV_TAG, "legacy": LEGACY_TAG}
@@ -790,6 +783,7 @@ def _in_short_block(index: Index, m: dict, path: str) -> str:
 
 def metric_page(index: Index, m: dict) -> str:
     path = metric_path(m)
+    rel = RL.relations(index, m)  # the project map, for this metric only
     name = lambda p: _project_link(path, p)  # noqa: E731
     fam = m["_family"]
     meta = [f"Unit: {esc(m['unit'])}"]
@@ -837,8 +831,8 @@ def metric_page(index: Index, m: dict) -> str:
                  _functions(i), _validation(i, f"#{ids[id(i)]}" if id(i) in stated else ""), _status_note(i)]
                 for i in m["_impls"]]
         parts.append(_table("impls", ["Project", "Edition", "Functions", "Validation (as stated)", "Notes"], rows))
-        ported = (' Code ported from another project is shown under <a href="#lineage">Who ported code from '
-                  'whom</a>.' if lineage(m["_all_impls"]) else "")
+        ported = (' The <a href="#map">project map</a> below shows which project took code from which.'
+                  if rel["taken"] else "")
         parts.append(f'<p class="small muted">Projects in bold and other established projects come first, then '
                      f"newly released, developing and legacy ones. Validation is what each project says about its own "
                      f'testing. The details are <a href="#validation">below</a>, and the kinds of evidence are '
@@ -856,7 +850,7 @@ def metric_page(index: Index, m: dict) -> str:
                                                   for s in m["see_also"]) + ".</p>")
     if checked:
         parts.append(_validation_section(index, path, checked, ids, on_metric=True))
-    parts.append(_lineage_section(index, path, m))
+    parts.append(_metric_map_section(index, path, m, rel))
     parts.append(_conventions_section(index, path, checked, m.get("conventions") or [], on_metric=True))
     parts.append('<h2 id="references">References</h2>')
     parts.append(_ref_list([index.ref[r] for r in m["references"]]))
@@ -1144,7 +1138,8 @@ def projects_page(index: Index) -> str:
     langs = index.languages()
     to_map = relative(path, MAP)
     # The project map comes first; its own page explains the kinds of line and lists the relations in words.
-    picture = _map_picture(index, path, RL.relations(index), (f"{to_map}#words", "on the map page"))
+    picture = _map_picture(index, path, RL.relations(index), (f"{to_map}#words", "on the map page"),
+                           "Project map: the same relations are listed in words on the map page.")
     parts = [
         "<h1>Projects</h1>",
         f'<p class="byline">{plural(len(index.projects), "project")} · {plural(len(langs), "language")}</p>',
@@ -1243,7 +1238,7 @@ def _map_words(index: Index, path: str, rel: dict) -> str:
              "<h3>The author's own code</h3>", f'<ul class="map-words">{by_source(True)}</ul>',
              "<h3>Used at run time</h3>", f'<ul class="map-words">{"".join(uses)}</ul>',
              "<h3>Results checked against another project</h3>", f'<ul class="map-words">{compares}</ul>',
-             "<h3>Same maintainer</h3>", f'<ul class="map-words">{people}</ul>']
+             "<h3>Same contributor</h3>", f'<ul class="map-words">{people}</ul>']
     alone = RL.alone(index, rel)
     if alone:
         parts.append("<p>Not on the map, as no relation is recorded for them: "
@@ -1251,25 +1246,35 @@ def _map_words(index: Index, path: str, rel: dict) -> str:
     return "\n".join(parts)
 
 
-def _map_picture(index: Index, path: str, rel: dict, words: tuple[str, str]) -> str:
-    """The legend and the picture of the project map (on the map page and at the top of the Projects page), or ""
-    when Graphviz is missing. On phones a hint points to the same relations in words: `words` is the link to
-    them and where they are."""
-    picture = RL.svg(index, rel, path, LANG_CODES)
+def _map_picture(index: Index, path: str, rel: dict, words: tuple[str, str] | None,
+                 title: str = "Project map: the same relations are listed in words below the picture.") -> str:
+    """The legend and the picture of a project map (the map page, the top of the Projects page, a metric page), or ""
+    when Graphviz is missing. The legend names only what the picture shows. On phones a hint says that a wide
+    picture scrolls sideways, and `words` (a link and where it leads) points to the same relations in words."""
+    picture = RL.svg(index, rel, path, LANG_CODES, title)
     if not picture:
         return ""
-    legend = [f"<li>{_line_sample(kind)} {esc(text)}</li>" for kind, text in RL.LEGEND]
-    legend += ['<li><span class="key-box super">SQAT</span> ' + esc(join_words([p["name"] for p in
-                                                                                  index.super_projects()])) + "</li>",
-               '<li><span class="key-box legacy">legacy</span> legacy project</li>',
-               '<li><span class="key-box code">ISO 532-1</span> program published with a standard or a paper</li>']
-    href, where = words
-    return "\n".join([
+    shown = RL.shown(index, rel)
+    legend = [f"<li>{_line_sample(kind)} {esc(text)}</li>" for kind, text in RL.LEGEND if kind in shown]
+    if "super" in shown:
+        legend.append('<li><span class="key-box super">SQAT</span> '
+                      + esc(join_words([p["name"] for p in index.super_projects()])) + "</li>")
+    if "legacy" in shown:
+        legend.append('<li><span class="key-box legacy">legacy</span> legacy project</li>')
+    if "code" in shown:
+        legend.append('<li><span class="key-box code">ISO 532-1</span> program published with a standard or a paper</li>')
+    wide = re.search(r"min-width:(\d+)px", picture)
+    hint = ""
+    if words:
+        hint = (f'<p class="small muted phone-only">Scroll the picture sideways, or read the same relations '
+                f'<a href="{words[0]}">in words</a> {words[1]}.</p>')
+    elif wide and int(wide.group(1)) > 340:
+        hint = '<p class="small muted phone-only">Scroll the picture sideways.</p>'
+    return "\n".join(part for part in [
         '<ul class="map-legend">' + "".join(legend) + "</ul>",
-        f'<p class="small muted phone-only">Scroll the picture sideways, or read the same relations <a href="{href}">'
-        f"in words</a> {where}.</p>",
+        hint,
         f'<div class="map-wrap">{picture}</div>',
-    ])
+    ] if part)
 
 
 def map_page(index: Index) -> str:
@@ -1279,22 +1284,23 @@ def map_page(index: Index) -> str:
     shown = len({e["project"]["id"] for e in rel["taken"]} | {e["key"] for e in rel["taken"] if e["source"]}
                 | {k for pair in list(rel["uses"]) + list(rel["compares"]) + list(rel["people"]) for k in pair})
     kinds = "".join(f"<dt>{_line_sample(kind)} {esc(name)}</dt><dd>{esc(text)}</dd>" for kind, name, text in RL.KINDS)
-    # The tree of ported code on a metric page, for one metric that has it.
-    example = next((m for m in index.metrics if lineage(m["_all_impls"])), None)
+    # A metric page shows the lines of its own metric; one that has code taken from another project as the example.
+    example = next((m for m in index.metrics if RL.relations(index, m)["taken"]), None)
     body = "\n".join([
         _crumbs(f'<a href="{relative(path, PROJECTS)}">Projects</a>'),
         "<h1>Project map</h1>",
         f'<p class="byline">{plural(shown, "project")} · {plural(RL.count_lines(rel), "line")}</p>',
         '<p class="lead">Each line joins two projects: code taken from another project, the author\'s own code '
         "moved between projects, a project that uses another one at run time, results checked against another "
-        "project, or a shared maintainer. The lines come from the implementation rows on the project pages.</p>",
-        "<p>Arrows point from the source to the project that uses it, so sources stand on the left. Click a box to "
-        "open the project, or hover over a line to see the metrics behind it.</p>",
+        "project, or a shared contributor. The lines come from the implementation rows on the project pages.</p>",
+        "<p>Arrows point from the source to the project that uses it, so sources stand on the left. A check points "
+        "the other way: from the project to the one it checked its results against. Click a box to open the "
+        "project, or hover over a line to see the metrics behind it.</p>",
         picture or ('<p class="notice notice-info">The picture could not be drawn where this page was built '
                     "(Graphviz is missing). The same relations are listed below.</p>"),
-        ('<p class="small muted">Where code for a metric was taken from another project, the metric\'s page shows '
-         f'it under <em>Who ported code from whom</em>, for example <a href="{relative(path, metric_path(example))}'
-         f'#lineage">{esc(example["name"])}</a>.</p>' if example else ""),
+        ('<p class="small muted">Each metric page has the same map with only the lines for that metric, for '
+         f'example <a href="{relative(path, metric_path(example))}#map">{esc(example["name"])}</a>.</p>'
+         if example else ""),
         '<h2 id="kinds">Kinds of line</h2>',
         f'<dl class="map-kinds">{kinds}</dl>',
         _map_words(index, path, rel),
@@ -1302,7 +1308,7 @@ def map_page(index: Index) -> str:
     html = layout(index, path, title="Project map",
                   description="How the open-source projects that implement psychoacoustic metrics are connected: "
                               "code taken from another project, the author's own code, use at run time, results "
-                              "checked against another project, and shared maintainers.",
+                              "checked against another project, and shared contributors.",
                   body=body, section="Projects")
     return html
 

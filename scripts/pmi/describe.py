@@ -9,8 +9,7 @@ from __future__ import annotations
 import re
 from typing import Callable
 
-from .data import (GROUPS as GROUPS_TEXT, REF_STATUS, STATUS_ORDER, VALIDATION, Index, impl_rank, only_new,
-                   super_order)
+from .data import GROUPS as GROUPS_TEXT, REF_STATUS, STATUS_ORDER, VALIDATION, Index, impl_rank, only_new
 from .paths import BIBTEX, LANGUAGES, MAP, METRICS, PROJECTS, md_twin
 from .text import join_words, long_date, month, plural
 
@@ -96,50 +95,6 @@ def derived_names(i: dict, name: Fmt | None = None, t: Esc = str) -> list[str]:
     """The code an implementation was ported or adapted from: listed projects through `name`, anything else
     through `t`."""
     return [name(p) if p and name else t(n) for n, p in i.get("_derived") or []]
-
-
-def lineage(impls: list[dict]) -> list[tuple]:
-    """Who ported or adapted code from whom among these implementations, as a forest of (node, children) pairs. A
-    node is ("project", project) or ("code", name) for code that is not a listed project; roots are the sources
-    that were not themselves ported from another source here. A project ported from two sources appears under
-    both. Editions are followed: below a project reached through the code of one edition, only the projects that
-    took that edition's code from it appear (a project whose code for another edition is its own starts a tree of
-    its own for that edition)."""
-    parents: dict[str, list[str]] = {}
-    nodes: dict[str, tuple] = {}
-    edge_refs: dict[tuple[str, str], set[str]] = {}  # (parent, child) -> editions of the child's rows taken from it
-    own_refs: dict[str, set[str]] = {}               # project -> editions of its rows here
-    for i in impls:
-        key = i["_project"]["id"]
-        nodes[key] = ("project", i["_project"])
-        own_refs.setdefault(key, set()).add(i["reference"])
-        for n, proj in i.get("_derived") or []:
-            pkey = proj["id"] if proj else f"code:{n}"
-            nodes.setdefault(pkey, ("project", proj) if proj else ("code", n))
-            if pkey not in parents.setdefault(key, []):
-                parents[key].append(pkey)
-            edge_refs.setdefault((pkey, key), set()).add(i["reference"])
-    children: dict[str, list[str]] = {}
-    for key, ps in parents.items():
-        for pkey in ps:
-            if key not in children.setdefault(pkey, []):
-                children[pkey].append(key)
-
-    def first(keys: list[str]) -> list[str]:
-        """Super projects first, the others in the order of the implementations."""
-        return sorted(keys, key=lambda k: super_order(nodes[k][1]) if nodes[k][0] == "project" else (1, 0))
-
-    def tree(key: str, seen: frozenset, editions: set[str] | None) -> tuple:
-        kids = [tree(k, seen | {key}, edge_refs[(key, k)]) for k in first(children.get(key, []))
-                if k not in seen and (editions is None or edge_refs[(key, k)] & editions)]
-        return nodes[key], kids
-
-    roots: list[tuple[str, set[str] | None]] = [(k, None) for k in first(list(children)) if not parents.get(k)]
-    for k in first(list(children)):
-        free = own_refs.get(k, set()) - set().union(*(edge_refs[(p, k)] for p in parents.get(k, [])))
-        if parents.get(k) and any(edge_refs[(k, c)] & free for c in children[k]):
-            roots.append((k, free))
-    return [tree(k, frozenset(), editions) for k, editions in roots]
 
 
 def validation_label(i: dict, name: Fmt | None = None, t: Esc = str) -> str:
@@ -679,11 +634,11 @@ def ai_guide(index: Index) -> tuple[str, list[tuple[str, str, list[str]]]]:
             "other (it calls another listed project) or status unknown (its code could not be opened, so only what "
             "it claims is listed).",
             "Every implementation that was ported from other code names that code, and comparisons with it are "
-            "marked as not independent. Metric pages show who ported code from whom, and the conventions to check "
-            "before comparing numbers between implementations.",
+            "marked as not independent. Each metric page has a project map with the lines for that metric, and the "
+            "conventions to check before comparing numbers between implementations.",
             f"The [project map]({base}{MAP}) ([Markdown]({base}{md_twin(MAP)})) shows how the projects are "
             "connected: code taken from another project, the author's own code, use at run time, results checked "
-            "against another project, and shared maintainers.",
+            "against another project, and shared contributors.",
             "Every entry links the documentation its facts were taken from.",
         ]),
         ("answering", "Answering questions with it", [

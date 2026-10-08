@@ -4722,6 +4722,9 @@
       "maintainers": [
         "Eomys / Green Forge Coop"
       ],
+      "contributors": [
+        "Daniel Jiménez-Caminero Costa"
+      ],
       "summary": "Python library for sound quality metrics: ISO 532-1 loudness, DIN 45692 sharpness, Daniel & Weber roughness, ECMA-418-2 hearing-model loudness (Clause 5) and roughness (2nd edition), tone-to-noise and prominence ratios, and the speech intelligibility index. Widely used, but without a release or a commit since April 2024.",
       "ai_assistance": "not-stated",
       "paper": {
@@ -8826,7 +8829,7 @@
     {
       "date": "2026-10-08",
       "title": "Version 0.4: the project map",
-      "body": "A new page, the [project map](https://zhenxianli.github.io/LISQM/projects/map.html), shows how the listed\nprojects are connected: code taken from another project, the author's own code, use at run time, results\nchecked against another project, and shared maintainers.\n"
+      "body": "A new page, the [project map](https://zhenxianli.github.io/LISQM/projects/map.html), shows how the listed\nprojects are connected: code taken from another project, the author's own code, use at run time, results\nchecked against another project, and shared contributors.\n"
     },
     {
       "date": "2026-10-08",

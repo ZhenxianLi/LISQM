@@ -105,6 +105,9 @@ packages:                                     # optional
     url: optional URL
 install: pip install metasona                 # optional one-liner
 maintainers: [Jiahua Zhang]
+# contributors: [Name]                        # optional: others who wrote code of their own for the project and
+                                              #   also work on another listed project (from the git history; not
+                                              #   one-line fixes); with maintainers, they draw "same contributor"
 summary: >-                                   # markdown, 1–3 sentences: what it is, who it is for
 ai_assistance: disclosed                      # disclosed | not-stated
 ai_note: optional markdown (where and how the project discloses AI assistance)
@@ -235,7 +238,9 @@ rows carry `comparison_relations` (`source`, `port` or `shared:<project id>`).
 ### The project map
 
 `projects/map.html` draws every relation between projects that the rows record, as a picture made by Graphviz when
-the site is built, and lists the same relations in words. Arrows point from the source to the project that uses it:
+the site is built, and lists the same relations in words; the Projects page opens with the same picture, and each
+metric page draws the lines of its own rows only. Arrows point from the source to the project that uses it, and a
+check points from the project to the one it checked its results against (placed like a source, on the left):
 
 | Line | From the rows |
 |---|---|
@@ -243,10 +248,10 @@ the site is built, and lists the same relations in words. Arrows point from the 
 | the author's own code | the same, when every row of the pair has `derived_by_author` |
 | used at run time | `via` (the source does the computation) and `uses` (the row needs the source) |
 | results checked against | `compared_with`, without comparisons with related code and pairs already joined |
-| same maintainer | a name in `maintainers` of both projects, when no other line joins them; no arrow |
+| same contributor | a name in `maintainers` or `contributors` of both projects, when no other line joins them; no arrow |
 
-A test fails when two projects with a maintainer in common share code without `derived_by_author`, so that this
-is checked on the rows rather than guessed from the names.
+A test fails when two projects with a person in common share code and no row of the pair has `derived_by_author`,
+so that this is checked on the rows rather than guessed from the names.
 
 ## `snapshot.json` (machine-written)
 

@@ -6,7 +6,7 @@ Notable changes to the list. This file is generated from `data/updates.yaml`; th
 
 A new page, the [project map](https://zhenxianli.github.io/LISQM/projects/map.html), shows how the listed
 projects are connected: code taken from another project, the author's own code, use at run time, results
-checked against another project, and shared maintainers.
+checked against another project, and shared contributors.
 
 ## 2026-10-08: Licence: CC BY 4.0 for the data and the text
 

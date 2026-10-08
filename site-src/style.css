@@ -673,38 +673,6 @@ dl.validation dd .maintainer-check {
   margin-top: .45rem;
 }
 
-/* Who ported code from whom: an indented tree with connecting lines. */
-.lineage ul {
-  list-style: none;
-  margin: .4rem 0 1rem;
-  padding-left: 0;
-}
-
-.lineage ul ul {
-  margin: .15rem 0 .15rem .6rem;
-  padding-left: 1.2rem;
-  border-left: 1px solid var(--rule);
-}
-
-.lineage li {
-  position: relative;
-  margin: .25rem 0;
-}
-
-.lineage ul ul > li::before {
-  content: "";
-  position: absolute;
-  top: .8em;
-  left: -1.2rem;
-  width: .9rem;
-  border-top: 1px solid var(--rule);
-}
-
-.lineage .code-node {
-  color: var(--muted);
-  font-style: italic;
-}
-
 /* The project map: a legend, the picture drawn by Graphviz (scrolls sideways when the screen is narrow), the kinds
    of line and the same relations in words. */
 .map-legend {

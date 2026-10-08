@@ -11,8 +11,8 @@ from .data import (ACCESS, GROUP_NAMES, GROUPS, IMPL_STATUS_LONG, KINDS, PROJECT
                    VALIDATION_LONG, Index)
 from .describe import (COVERAGE_COLUMNS, GROUP_RULE, NEW_LABEL, activity_text, ai_guide, by_language, coverage, dedupe,
                        highlight_sentence, highlighted,
-                       dependence_note, derived_names, edition_state, faq, how_to_cite, in_short, introduce,
-                       legacy_label, licence_names, licence_terms, lineage, name_note, ref_status, release_text,
+                       dependence_note, derived_names, edition_state, faq, how_to_cite, in_sentence, in_short, introduce,
+                       legacy_label, licence_names, licence_terms, name_note, ref_status, release_text,
                        silent_line, standing_sentence, stated_conventions, timeline, validation_also,
                        validation_groups, validation_label, version_label)
 from . import relations as RL
@@ -147,24 +147,59 @@ def maintainer_check(index: Index, p: dict) -> str:
     return f"**Checked by the maintainer of {index.site['name']}:** {oneline(p['maintainer_check'])}"
 
 
-def _lineage(index: Index, m: dict) -> list[str]:
-    """Markdown twin of the metric page's tree of who ported code from whom."""
-    # Every row, also a second row of one project for one edition (another scope may port other code).
-    forest = lineage(m["_all_impls"])
-    if not forest:
-        return []
+def _relation_lines(index: Index, rel: dict, level: str) -> list[str]:
+    """The relations of a project map in words, one heading per kind of line (`level`: "##" or "###"), each with
+    the metrics it is about; a map of one metric names the editions instead and leaves out kinds it has no line of."""
     name = _namer(index)
-    lines = ["## Who ported code from whom", "",
-             "As stated by the projects. Each item took code from the one above it (ported, translated or "
-             "adapted), so agreement between them only checks the port. The project map shows the same for all "
-             f"metrics: {absolute(index, MAP)}", ""]
 
-    def walk(items: list[tuple], depth: int) -> None:
-        for (kind, value), kids in items:
-            lines.append("  " * depth + "- " + (value if kind == "code" else name(value)))
-            walk(kids, depth + 1)
-    walk(forest, 0)
-    return lines + [""]
+    def source(e: dict) -> str:
+        return name(e["source"]) if e["source"] else e["name"]
+
+    def what(names: list[str]) -> str:
+        return f" ({join_words(names)})"
+
+    sections: list[tuple[str, list[str]]] = []
+    for own, heading in ((False, "Code taken from another project"), (True, "The author's own code")):
+        groups: dict[str, list[dict]] = {}
+        for e in rel["taken"]:
+            if e["own"] == own:
+                groups.setdefault(e["key"], []).append(e)
+        items = []
+        for es in groups.values():
+            people = list(dict.fromkeys(m for e in es for m in e["shared"]))
+            who = f" ({join_words(people)})" if own and people else ""
+            items.append(f"- From {source(es[0])}{who}: " + "; ".join(name(e["project"]) + what(e["metrics"])
+                                                                       for e in es))
+        sections.append((heading, items))
+    uses = []
+    for (a, b), d in rel["uses"].items():
+        bits = ([f"calls {name(index.project[b])}{what(d['calls'])}"] if d["calls"] else []) + \
+               ([f"needs {name(index.project[b])}{what(d['needs'])}"] if d["needs"] else [])
+        uses.append(f"- {name(index.project[a])} {' and '.join(bits)}")
+    sections.append(("Used at run time", uses))
+    sections.append(("Results checked against another project",
+                     [f"- {name(index.project[a])} against {name(index.project[b])}{what(ms)}"
+                      for (a, b), ms in rel["compares"].items()]))
+    sections.append(("Same contributor", [f"- {name(index.project[a])} and {name(index.project[b])} "
+                                          f"({join_words(names)})" for (a, b), names in rel["people"].items()]))
+    lines: list[str] = []
+    for heading, items in sections:
+        if items or not rel.get("metric"):
+            lines += [f"{level} {heading}", ""] + items + [""]
+    return lines
+
+
+def _metric_map(index: Index, m: dict) -> list[str]:
+    """Markdown twin of a metric page's project map: the lines of that metric, in words."""
+    rel = RL.relations(index, m)
+    if not RL.count_lines(rel):
+        return []
+    lines = ["## Project map", "",
+             f"The lines of the project map for {in_sentence(m['name'])} only (the whole map: "
+             f"{index.site['base_url']}{md_twin(MAP)})."
+             + (" Agreement between a project and the code it was taken from only checks the port." if rel["taken"]
+                else ""), ""]
+    return lines + _relation_lines(index, rel, "###")
 
 
 def _conventions(index: Index, impls: list[dict], general: list[str], on_metric: bool) -> list[str]:
@@ -245,7 +280,7 @@ def metric_page(index: Index, m: dict) -> str:
     checked = m["_all_impls"]  # every row, also those computed by another project
     if checked:
         lines += _validation_section(index, checked, on_metric=True)
-    lines += _lineage(index, m)
+    lines += _metric_map(index, m)
     lines += _conventions(index, checked, m.get("conventions") or [], on_metric=True)
     lines += ["## References", ""] + _reference_list([index.ref[r] for r in m["references"]]) + [""]
     return "\n".join(lines)
@@ -552,48 +587,19 @@ def map_page(index: Index) -> str:
     """Markdown twin of the project map: the same relations, in words."""
     rel = RL.relations(index)
     name = _namer(index)
-
-    def source(e: dict) -> str:
-        return name(e["source"]) if e["source"] else e["name"]
-
-    def what(names: list[str]) -> str:
-        return f" ({join_words(names)})"
-
     lines = ["# Project map", "", _header(index, MAP), "",
              "Each line of the map joins two projects: code taken from another project, the author's own code moved "
              "between projects, a project that uses another one at run time, results checked against another "
-             "project, or a shared maintainer. The lines come from the implementation rows on the project pages. On "
-             "the web page, arrows point from the source to the project that uses it.", "",
+             "project, or a shared contributor. The lines come from the implementation rows on the project pages. On "
+             "the web page, arrows point from the source to the project that uses it, and a check points from the "
+             "project to the one it checked its results against.", "",
              "## Kinds of line", ""]
     lines += [f"- **{kind_name}.** {text}" for _, kind_name, text in RL.KINDS] + [""]
-    for own, heading in ((False, "Code taken from another project"), (True, "The author's own code")):
-        lines += [f"## {heading}", ""]
-        groups: dict[str, list[dict]] = {}
-        for e in rel["taken"]:
-            if e["own"] == own:
-                groups.setdefault(e["key"], []).append(e)
-        for es in groups.values():
-            people = list(dict.fromkeys(m for e in es for m in e["shared"]))
-            who = f" ({join_words(people)})" if own and people else ""
-            lines.append(f"- From {source(es[0])}{who}: " + "; ".join(name(e["project"]) + what(e["metrics"])
-                                                                      for e in es))
-        lines.append("")
-    lines += ["## Used at run time", ""]
-    for (a, b), d in rel["uses"].items():
-        bits = ([f"calls {name(index.project[b])}{what(d['calls'])}"] if d["calls"] else []) + \
-               ([f"needs {name(index.project[b])}{what(d['needs'])}"] if d["needs"] else [])
-        lines.append(f"- {name(index.project[a])} {' and '.join(bits)}")
-    lines += ["", "## Results checked against another project", ""]
-    lines += [f"- {name(index.project[a])} against {name(index.project[b])}{what(ms)}"
-              for (a, b), ms in rel["compares"].items()]
-    lines += ["", "## Same maintainer", ""]
-    lines += [f"- {name(index.project[a])} and {name(index.project[b])} ({join_words(names)})"
-              for (a, b), names in rel["people"].items()]
+    lines += _relation_lines(index, rel, "##")
     alone = RL.alone(index, rel)
     if alone:
-        lines += ["", "Not on the map, as no relation is recorded for them: "
-                  + join_words([name(p) for p in alone]) + "."]
-    return "\n".join(lines) + "\n"
+        lines += ["Not on the map, as no relation is recorded for them: " + join_words([name(p) for p in alone]) + "."]
+    return "\n".join(lines).rstrip("\n") + "\n"
 
 
 def standards_page(index: Index) -> str:
@@ -766,7 +772,7 @@ def llms_txt(index: Index) -> str:
               f"- [Metrics]({site['base_url']}{md_twin(METRICS)}): every metric with its current edition",
               f"- [Languages]({site['base_url']}{md_twin(LANGUAGES)}): coverage and calling details by language",
               f"- [Project map]({site['base_url']}{md_twin(MAP)}): code taken from another project, use at run time, "
-              "results checked against another project, and shared maintainers",
+              "results checked against another project, and shared contributors",
               f"- [Frequently asked questions]({site['base_url']}{md_twin(FAQ)})",
               f"- [About]({site['base_url']}{md_twin(ABOUT)}): scope, how entries are checked, definitions and data access",
               f"- [Standards timeline]({site['base_url']}{md_twin(STANDARDS)})",

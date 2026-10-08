@@ -392,6 +392,13 @@ class Index:
             check_date(manual.get("last_commit"), f"{w}: manual.last_commit", required=False)
             if manual.get("latest_release"):
                 check_date(manual["latest_release"].get("date"), f"{w}: manual.latest_release.date", required=False)
+            for key in ("maintainers", "contributors"):
+                names = p.get(key)
+                if names is not None and not (isinstance(names, list) and names
+                                              and all(isinstance(n, str) and n.strip() for n in names)):
+                    add(f"{w}: {key} must be a non-empty list of names")
+            if set(p.get("contributors") or []) & set(p.get("maintainers") or []):
+                add(f"{w}: contributors repeats a name from maintainers")
             seen_pairs: set[tuple] = set()
             for j, impl in enumerate(p.get("implements") or []):
                 wi = f"{w}: implements[{j}]"
