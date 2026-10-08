@@ -1100,6 +1100,11 @@ table.facts td {
   overflow-wrap: anywhere;
 }
 
+/* Shown on phones only (see the narrow-screen rules at the end). */
+.phone-only {
+  display: none;
+}
+
 /* ---------------------------------------------------------------- timeline (home page) */
 
 .timeline-section h2 {
@@ -1573,28 +1578,155 @@ table.langs td:nth-child(2) { width: 50%; }
     font-size: 1.6rem;
   }
 
+  /* All nine tabs in two rows. */
   .tabs a {
-    padding: .5rem .7rem .4rem;
+    padding: .45rem .42rem .35rem;
+    font-size: .8rem;
   }
 
+  /* The timeline scrolls sideways; its method column stays in view, and long names hyphenate instead of
+     breaking at any letter. */
   table.timeline {
-    min-width: 54rem;
+    min-width: 60rem;
   }
 
   table.timeline .rowhead {
     width: 8rem;
+    box-shadow: 1px 0 0 var(--hairline);
+  }
+
+  table.timeline tbody th.rowhead {
+    font-size: .86rem;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+  }
+
+  table.timeline li {
+    overflow-wrap: normal;
   }
 
   ol.faq-toc {
     columns: 1;
   }
 
-  table.facts th {
-    width: 7rem;
+  /* Facts of a project: each name above its value. */
+  table.facts tr {
+    display: block;
+    padding: .4rem 0;
   }
 
-  table.facts {
-    table-layout: fixed;
+  table.facts th,
+  table.facts td {
+    display: block;
+    width: auto;
+    padding: 0;
+    border: 0;
+  }
+
+  table.facts th {
+    font-size: .8rem;
+  }
+
+  table.facts tbody tr + tr {
+    border-top: 1px solid var(--hairline);
+  }
+
+  /* Lists of projects, implementations, editions, metrics and documents: one block per row, each value under the
+     name of its column, instead of narrow columns. */
+  :is(table.projects, table.impls, table.editions, table.metrics, table.langs, table.standards, table.defs) {
+    min-width: 0;
+    table-layout: auto;
+  }
+
+  :is(table.projects, table.impls, table.editions, table.metrics, table.langs, table.standards, table.defs) thead {
+    display: none;
+  }
+
+  :is(table.projects, table.impls, table.editions, table.metrics, table.langs, table.standards, table.defs) :is(tr, td) {
+    display: block;
+    width: auto !important;
+  }
+
+  :is(table.projects, table.impls, table.editions, table.metrics, table.langs, table.standards, table.defs) tr {
+    padding: .6rem 0 .7rem;
+  }
+
+  :is(table.projects, table.impls, table.editions, table.metrics, table.langs, table.standards, table.defs) td {
+    padding: .1rem 0;
+    border: 0 !important;
+    white-space: normal;
+  }
+
+  :is(table.projects, table.impls, table.editions, table.metrics, table.langs, table.standards, table.defs) tbody tr + tr {
+    border-top: 1px solid var(--rule);
+  }
+
+  :is(table.projects, table.impls, table.editions, table.metrics, table.langs, table.standards) td + td::before,
+  :is(table.editions, table.standards) td:first-child::before {
+    content: attr(data-label);
+    display: block;
+    margin-top: .3rem;
+    font-family: var(--sans);
+    font-size: .68rem;
+    font-weight: 700;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* An empty value is left out of a block. */
+  :is(table.projects, table.impls, table.editions, table.metrics, table.langs, table.standards) td.empty {
+    display: none;
+  }
+
+  /* Short values side by side. */
+  :is(table.projects, table.impls, table.editions, table.standards) tr {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 1rem;
+  }
+
+  :is(table.projects, table.impls, table.editions, table.standards) td {
+    grid-column: 1 / -1;
+  }
+
+  /* Projects: language, licence, release and last commit; editions: date and edition; implementations: edition
+     and validation; documents: date and status. */
+  table.projects td:nth-child(n+2):nth-child(-n+5),
+  table.editions td:nth-child(-n+2),
+  table.impls td:nth-child(2),
+  table.impls td:nth-child(4),
+  table.standards td:nth-child(1),
+  table.standards td:nth-child(3) {
+    grid-column: auto;
+  }
+
+  table.impls td:nth-child(3),
+  table.standards td:nth-child(2) {
+    order: 1;
+  }
+
+  table.impls td:nth-child(5),
+  table.standards td:nth-child(4) {
+    order: 2;
+  }
+
+  /* The name that opens each block. */
+  :is(table.projects, table.impls, table.metrics, table.langs) td:first-child {
+    font-size: 1rem;
+  }
+
+  /* Coverage by language: the method column stays in view. */
+  table.coverage th:first-child,
+  table.coverage td:first-child {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    background: var(--bg);
+  }
+
+  .phone-only {
+    display: block;
   }
 
   .key-lang {

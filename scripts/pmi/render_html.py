@@ -500,10 +500,14 @@ def _edition_cell(path: str, i: dict) -> str:
 
 
 def _table(cls: str, head: list[str], rows: list[list[str]], caption: str = "") -> str:
-    """A gridded table; on narrow screens it scrolls sideways inside its own box."""
+    """A gridded table; on narrow screens it scrolls sideways inside its own box, or (lists of projects,
+    implementations, editions and documents) shows each row as a block with the column names as labels."""
     cap = f"<caption>{caption}</caption>" if caption else ""
     thead = "".join(f'<th scope="col">{h}</th>' for h in head)
-    body = "\n".join("<tr>" + "".join(f"<td>{c or '—'}</td>" for c in row) + "</tr>" for row in rows)
+    labels = [re.sub(r"<[^>]+>", "", h) for h in head]
+    body = "\n".join("<tr>" + "".join(f'<td data-label="{labels[n] if n < len(labels) else ""}">{c}</td>' if c else
+                                       f'<td class="empty" data-label="{labels[n] if n < len(labels) else ""}">—</td>'
+                                       for n, c in enumerate(row)) + "</tr>" for row in rows)
     return (f'<div class="table-wrap"><table class="grid {cls}">{cap}<thead><tr>{thead}</tr></thead>\n'
             f"<tbody>\n{body}\n</tbody></table></div>")
 
@@ -1263,6 +1267,8 @@ def map_page(index: Index) -> str:
         "<p>Arrows point from the source to the project that uses it, so sources stand on the left. Click a box to "
         "open the project, or hover over a line to see the metrics behind it.</p>",
         '<ul class="map-legend">' + "".join(legend) + "</ul>",
+        '<p class="small muted phone-only">Scroll the picture sideways, or read the same relations '
+        '<a href="#words">in words</a> below.</p>',
         (f'<div class="map-wrap">{picture}</div>' if picture else
          '<p class="notice notice-info">The picture could not be drawn where this page was built (Graphviz is '
          "missing). The same relations are listed below.</p>"),

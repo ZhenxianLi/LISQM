@@ -658,5 +658,17 @@ class BuildTest(unittest.TestCase):
         updates = (self.site / "updates.html").read_text(encoding="utf-8")
         self.assertNotIn("<p>- ", updates, "every bullet list of the updates is a list")
 
+    def test_phone_layout_hooks(self) -> None:
+        # On phones, rows of these tables become blocks labelled with their column names; the labels and the
+        # phone-only hint are invisible on wider screens.
+        projects = (self.site / "projects/index.html").read_text(encoding="utf-8")
+        self.assertIn('<td data-label="Licence">', projects)
+        self.assertIn('class="empty" data-label=', (self.site / "projects/sqat.html").read_text(encoding="utf-8"))
+        self.assertIn('class="small muted phone-only"', (self.site / "projects/map.html").read_text(encoding="utf-8"))
+        css = (self.site / "style.css").read_text(encoding="utf-8")
+        narrow = css[css.index("@media (max-width: 40rem)"):]
+        self.assertIn(".phone-only {\n  display: none;", css[:css.index("@media (max-width: 40rem)")])
+        self.assertIn("content: attr(data-label);", narrow)
+
 if __name__ == "__main__":
     unittest.main()
