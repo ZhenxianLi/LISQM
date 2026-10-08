@@ -604,6 +604,15 @@ class BuildTest(unittest.TestCase):
         self.assertIn("projects/map.md", (self.site / "llms.txt").read_text(encoding="utf-8"))
         for path in ("projects/index.html", "projects/sqat.html", "metrics/loudness-zwicker.html"):
             self.assertIn('href="../projects/map.html"', (self.site / path).read_text(encoding="utf-8"), path)
+        # The map also opens the Projects page, and the sidebar lists the map page under All projects.
+        projects = (self.site / "projects/index.html").read_text(encoding="utf-8")
+        if shutil.which("dot"):
+            self.assertLess(projects.index('<svg class="map-graph"'), projects.index("<h2 id="))
+        self.assertIn('<a href="../projects/index.html">All projects</a></p><ul><li><a href="../projects/map.html" '
+                      'aria-current="page">Project map</a></li></ul>', page)
+        # The example of ported code on a metric page points to a page that has that section.
+        example = re.search(r'href="\.\./(metrics/[a-z0-9-]+\.html)#lineage"', page).group(1)
+        self.assertIn('<h2 id="lineage">', (self.site / example).read_text(encoding="utf-8"))
 
     def test_project_map_without_graphviz(self) -> None:
         with mock.patch.object(RL.shutil, "which", return_value=None), mock.patch.dict(os.environ):
