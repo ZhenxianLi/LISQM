@@ -584,7 +584,10 @@ TIMELINE_SHOWN = 4
 
 def _timeline_edition(path: str, m: dict, ref: dict, impls: list[dict]) -> str:
     state = edition_state(m, ref)
-    tip = f'{ref["title"]}. {ref_status(ref).capitalize()}.'
+    status = ref_status(ref).capitalize()
+    if state != "current" and ref["status"] == "current":
+        status = "In force, but not the current edition for this method"
+    tip = f'{ref["title"]}. {status}.'
     label = f'<span class="ed-label" title="{esc(tip)}">{_breakable(ref["label"])}</span>'
     if state == "dev":
         label += " " + _tag("in development", "warn")
@@ -601,8 +604,9 @@ def _timeline_edition(path: str, m: dict, ref: dict, impls: list[dict]) -> str:
                      f'+{len(rest)} more</span><span class="opened" hidden>show fewer</span></summary>'
                      f"<ul>{hidden}</ul></details></li>")
     body = f'<ul>{"".join(lines)}</ul>' if lines else ""
-    cls = f"edition ed-{state}" if state else "edition"
-    return f'<div class="{cls}">{label}{body}</div>'
+    # Every edition that is neither current nor a draft is grey: superseded standards, older standards still in
+    # force and earlier model papers alike. The tooltip keeps the exact status.
+    return f'<div class="edition ed-{state or "old"}">{label}{body}</div>'
 
 
 def _timeline(index: Index, path: str) -> str:
@@ -634,7 +638,7 @@ def _timeline(index: Index, path: str) -> str:
     legend = (
         '<div class="legend">'
         '<p><span class="key key-current">ISO 532-1:2017</span> current edition '
-        '<span class="key key-old">ISO 226:2003</span> superseded or withdrawn '
+        '<span class="key key-old">ISO 226:2003</span> earlier or other edition '
         f'{_tag("in development", "warn")} draft or new work item '
         '<span class="key key-life"></span> years since the method’s first edition</p>'
         f'<p class="key-langs">Language: {key_langs}</p>'
