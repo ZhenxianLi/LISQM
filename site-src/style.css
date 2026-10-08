@@ -315,8 +315,12 @@ body {
   grid-row: 1;
   position: sticky;
   top: 1rem;
+  /* The height includes the padding, so that the box ends 1rem above the bottom of the window; the extra space
+     under the last link keeps it clear of that edge when a long list is scrolled to its end. */
+  box-sizing: border-box;
   max-height: calc(100vh - 2rem);
   overflow-y: auto;
+  padding-bottom: 2.4rem;
 }
 
 /* Links to a section land with a little space above the heading. */
@@ -1539,6 +1543,7 @@ table.langs td:nth-child(2) { width: 50%; }
     position: static;
     max-height: none;
     overflow: visible;
+    padding-bottom: 1.1rem;
   }
 
   .columns {
