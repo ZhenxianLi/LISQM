@@ -20,6 +20,23 @@ Esc = Callable[[str], str]
 PAPER_KINDS = {"paper", "book", "thesis"}
 
 
+# How the licences of LISQM itself are named to readers.
+LICENCE_NAMES = {"CC-BY-4.0": "CC BY 4.0", "MIT": "MIT"}
+
+
+def licence_names(site: dict) -> tuple[str, str]:
+    """The licence of the data and the text, and that of the code ("CC BY 4.0", "MIT")."""
+    data, code = site["license"], site.get("code_license") or site["license"]
+    return LICENCE_NAMES.get(data, data), LICENCE_NAMES.get(code, code)
+
+
+def licence_terms(site: dict) -> str:
+    """What the licence of the data and the text allows, and on what condition (plain text)."""
+    return ("you may copy, adapt and share them, also commercially, if you credit "
+            f"{site['name']} and its author, {site['maintainer']['name']}, link to the licence and say what you "
+            "changed")
+
+
 def ref_status(ref: dict) -> str:
     return REF_STATUS[ref["status"]]
 

@@ -2,6 +2,11 @@
 
 Notable changes to the list. This file is generated from `data/updates.yaml`; the same notes are on the website (https://zhenxianli.github.io/LISQM/updates.html) and in its Atom feed.
 
+## 2026-10-08: Licence: CC BY 4.0 for the data and the text
+
+The data and the text of LISQM are now released under CC BY 4.0: they may be reused, also commercially, with
+credit. The code that builds the website stays under MIT. Versions up to 0.3.0 remain available under MIT.
+
 ## 2026-10-08: Ported code: credit and licences
 
 Each project that ports code has a new section, *Ported code*: where it credits the original code, with that

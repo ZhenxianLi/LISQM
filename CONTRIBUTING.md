@@ -261,8 +261,8 @@ generated output. Everything that describes a project, a method or an edition is
 - Disagreements about an entry are settled with sources: the list records what projects and standards bodies
   state.
 
-By contributing, you agree that your contribution is published under the [MIT License](LICENSE) of this
-repository.
+By contributing, you agree that your contribution is published under the licences of this repository: data and
+text under [CC BY 4.0](LICENSE-DATA), code under the [MIT License](LICENSE).
 
 [issue-add]: https://github.com/ZhenxianLi/LISQM/issues/new?template=add-project.yml
 [issue-fix]: https://github.com/ZhenxianLi/LISQM/issues/new?template=correction.yml

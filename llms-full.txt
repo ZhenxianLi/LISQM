@@ -226,7 +226,11 @@ Visits to the website are counted with Cloudflare Web Analytics, which sets no c
 
 ## Contributing and citing
 
-Corrections and new projects are welcome through issues or pull requests: https://github.com/ZhenxianLi/LISQM. To cite the list, use the CITATION.cff file in the repository, and cite the implementations you used as each project page says under *How to cite*. The standards and papers are in https://zhenxianli.github.io/LISQM/references.bib. Licence: MIT.
+Corrections and new projects are welcome through issues or pull requests: https://github.com/ZhenxianLi/LISQM. To cite the list, use the CITATION.cff file in the repository, and cite the implementations you used as each project page says under *How to cite*. The standards and papers are in https://zhenxianli.github.io/LISQM/references.bib.
+
+## Licence
+
+The data and the text (the list, the website, the README, llms.txt and index.json) are released under CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/): you may copy, adapt and share them, also commercially, if you credit LISQM and its author, Zhenxian LI, link to the licence and say what you changed. The code that builds the website is released under the MIT licence (https://github.com/ZhenxianLi/LISQM/blob/main/LICENSE). The listed projects have their own licences.
 
 Developed by Zhenxian LI with assistance from Claude Code.
 

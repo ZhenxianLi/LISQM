@@ -610,6 +610,21 @@ class BuildTest(unittest.TestCase):
         self.assertIn("No credit to MoSQITo was found in its files.", zwicker)
         self.assertIn("projects/kirin-hypha.html", zwicker, "still listed")
 
+    def test_licences_of_the_list(self) -> None:
+        cc = "https://creativecommons.org/licenses/by/4.0/"
+        about = (self.site / "about.html").read_text(encoding="utf-8")
+        self.assertIn(f'<a href="{cc}">CC BY 4.0</a>', about)
+        self.assertIn("MIT licence</a>", about)
+        home = (self.site / "index.html").read_text(encoding="utf-8")
+        self.assertIn(f'Data and text: <a href="{cc}">CC BY 4.0</a>; code: ', home)
+        self.assertIn(f'"license": "{cc}"', home, "the Dataset in the structured data")
+        data = json.loads((self.site / "index.json").read_text(encoding="utf-8"))
+        self.assertEqual((data["license"], data["license_url"], data["code_license"]), ("CC-BY-4.0", cc, "MIT"))
+        self.assertIn("CC BY 4.0", (self.site / "about.md").read_text(encoding="utf-8"))
+        self.assertIn("Creative Commons Attribution 4.0 International", (ROOT / "LICENSE-DATA").read_text(encoding="utf-8"))
+        self.assertTrue((ROOT / "LICENSE").read_text(encoding="utf-8").startswith("MIT License"))
+        self.assertIn("license: CC-BY-4.0", (ROOT / "CITATION.cff").read_text(encoding="utf-8"))
+
     def test_licence_terms_rule(self) -> None:
         self.assertFalse(keeps_terms("GPL-3.0-or-later", "MIT"))
         self.assertFalse(keeps_terms("GPL-3.0", "none"))

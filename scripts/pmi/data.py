@@ -246,6 +246,8 @@ class Index:
                     "credit"):
             if not self.site.get(key):
                 add(f"data/site.yaml: missing '{key}'")
+        if self.site.get("license") and not str(self.site.get("license_url") or "").startswith("https://"):
+            add("data/site.yaml: license_url must be the https URL of the licence of the data and the text")
         if self.site.get("base_url") and not str(self.site["base_url"]).endswith("/"):
             add("data/site.yaml: base_url must end with '/'")
         key = self.site.get("indexnow_key")

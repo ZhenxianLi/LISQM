@@ -6,7 +6,9 @@
   "description": "A list of open-source implementations of psychoacoustic metrics, also called sound quality (SQ) metrics: loudness, sharpness, roughness, fluctuation strength, tonality, impulsiveness and psychoacoustic annoyance. Each implementation is listed under the standard edition or model it follows. All programming languages.",
   "url": "https://zhenxianli.github.io/LISQM/",
   "repository": "https://github.com/ZhenxianLi/LISQM",
-  "license": "MIT",
+  "license": "CC-BY-4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "code_license": "MIT",
   "maintainer": {
     "name": "Zhenxian LI",
     "github": "ZhenxianLi"
@@ -8949,6 +8951,11 @@
     }
   ],
   "updates": [
+    {
+      "date": "2026-10-08",
+      "title": "Licence: CC BY 4.0 for the data and the text",
+      "body": "The data and the text of LISQM are now released under CC BY 4.0: they may be reused, also commercially, with\ncredit. The code that builds the website stays under MIT. Versions up to 0.3.0 remain available under MIT.\n"
+    },
     {
       "date": "2026-10-08",
       "title": "Ported code: credit and licences",

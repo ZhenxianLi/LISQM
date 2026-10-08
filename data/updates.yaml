@@ -2,6 +2,12 @@
 # Body: Markdown paragraphs and "- " bullet lists. See data/SCHEMA.md.
 
 - date: 2026-10-08
+  title: "Licence: CC BY 4.0 for the data and the text"
+  body: |
+    The data and the text of LISQM are now released under CC BY 4.0: they may be reused, also commercially, with
+    credit. The code that builds the website stays under MIT. Versions up to 0.3.0 remain available under MIT.
+
+- date: 2026-10-08
   title: "Ported code: credit and licences"
   body: |
     Each project that ports code has a new section, *Ported code*: where it credits the original code, with that

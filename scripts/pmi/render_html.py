@@ -18,7 +18,8 @@ from .data import (ACCESS, GROUP_NAMES, GROUPS, IMPL_STATUS_LONG, KINDS, PROJECT
 from .describe import (COVERAGE_COLUMNS, GROUP_RULE, ONLY_NEW, activity_text, ai_guide, by_language, coverage,
                        highlight_sentence, highlighted,
                        current_statement, dedupe, dependence_note, edition_state, faq, how_to_cite,
-                       impl_phrase, introduce, language_order, licence_label, lineage, name_note, no_credit,
+                       impl_phrase, introduce, language_order, licence_label, licence_names, licence_terms, lineage,
+                       name_note, no_credit,
                        only_related, own_licence, people, ported_names, ref_status, release_text, silent_line,
                        standing_sentence, stated_conventions, terms_note, time_bins, timeline, validation_also,
                        validation_groups, validation_label)
@@ -147,7 +148,7 @@ def layout(index: Index, path: str, *, title: str, description: str, body: str, 
 <div class="container">
 <p class="credit">{credit(index)}</p>
 <p>Facts are taken from each project's own documentation and package metadata and checked by hand; corrections
-are welcome on <a href="{esc(site['repository'])}">GitHub</a>. Version {esc(str(site.get('version', '')))}, data as of {as_of}. {esc(site['license'])} licence.</p>
+are welcome on <a href="{esc(site['repository'])}">GitHub</a>. Version {esc(str(site.get('version', '')))}, data as of {as_of}. {licences(site)}.</p>
 <p><a href="{rel('index.json')}">JSON</a> · <a href="{rel('llms.txt')}">llms.txt</a> · {md_foot}<a href="{rel('feed.xml')}">Atom feed</a></p>
 </div>
 </footer>
@@ -219,6 +220,13 @@ def _analytics(site: dict) -> str:
         return ""
     return ("<script type=\"module\" src=\"https://static.cloudflareinsights.com/beacon.min.js\" "
             f"data-cf-beacon='{{\"token\": \"{token}\"}}'></script>\n")
+
+
+def licences(site: dict) -> str:
+    """The footer's licence line: "Data and text: CC BY 4.0; code: MIT", with links to the licences."""
+    data, code = licence_names(site)
+    return (f'Data and text: <a href="{esc(site["license_url"])}">{esc(data)}</a>; code: '
+            f'<a href="{esc(site["repository"])}/blob/main/LICENSE">{esc(code)}</a>')
 
 
 def credit(index: Index) -> str:
@@ -743,7 +751,7 @@ def home(index: Index) -> str:
         {"@type": "WebSite", "name": site["name"], "alternateName": site["title"], "url": site["base_url"],
          "description": plain(site["description"])},
         {"@type": "Dataset", "name": f"{site['name']}: {site['title']}", "description": plain(site["description"]),
-         "url": site["base_url"], "license": "https://opensource.org/licenses/MIT",
+         "url": site["base_url"], "license": site["license_url"],
          "creator": {"@type": "Person", "name": site["maintainer"]["name"],
                      "url": f"https://github.com/{site['maintainer']['github']}"},
          "creditText": site["credit"],
@@ -1355,7 +1363,10 @@ def about_page(index: Index) -> str:
         "you accessed it, and cite the implementations you actually used: each project page says how, under "
         f'<em>How to cite</em>. The standards and papers are in <a href="{relative(path, BIBTEX)}">{BIBTEX}</a>.</p>',
         '<h2 id="licence">Licence</h2>',
-        f"<p>Data, text and code are released under the {esc(site['license'])} licence.</p>",
+        f'<p>The data and the text (the list, this website, the README, llms.txt and index.json) are released under '
+        f'<a href="{esc(site["license_url"])}">{esc(licence_names(site)[0])}</a>: {esc(licence_terms(site))}. The '
+        f'code that builds the website is released under the <a href="{repo}/blob/main/LICENSE">'
+        f"{esc(licence_names(site)[1])} licence</a>. The listed projects have their own licences.</p>",
         f"<p>{credit(index)}</p>",
     ]
     return layout(index, path, title="About", description=f"Scope, method, definitions and data access of {site['name']}.", body="\n".join(parts), section="About")

@@ -12,7 +12,8 @@ from .data import (ACCESS, GROUP_NAMES, GROUPS, IMPL_STATUS_LONG, KINDS, PROJECT
 from .describe import (COVERAGE_COLUMNS, GROUP_RULE, NEW_LABEL, activity_text, ai_guide, by_language, coverage, dedupe,
                        highlight_sentence, highlighted,
                        dependence_note, edition_state, faq, how_to_cite, in_short, introduce, legacy_label,
-                       licence_label, lineage, name_note, no_credit, own_licence, people, ported_names, ref_status,
+                       licence_label, licence_names, licence_terms, lineage, name_note, no_credit, own_licence, people,
+                       ported_names, ref_status,
                        release_text, silent_line, standing_sentence, stated_conventions, terms_note, timeline,
                        validation_also, validation_groups, validation_label, version_label)
 from .paths import (ABOUT, AI, BIBTEX, FAQ, HOME, LANGUAGES, METRICS, PROJECTS, STANDARDS, UPDATES, absolute, md_twin,
@@ -672,7 +673,12 @@ def about_page(index: Index) -> str:
               f"Corrections and new projects are welcome through issues or pull requests: {site['repository']}. "
               "To cite the list, use the CITATION.cff file in the repository, and cite the implementations you "
               "used as each project page says under *How to cite*. The standards and papers are in "
-              f"{site['base_url']}{BIBTEX}. Licence: {site['license']}.", "",
+              f"{site['base_url']}{BIBTEX}.", "",
+              "## Licence", "",
+              f"The data and the text (the list, the website, the README, llms.txt and index.json) are released under "
+              f"{licence_names(site)[0]} ({site['license_url']}): {licence_terms(site)}. The code that builds the "
+              f"website is released under the {licence_names(site)[1]} licence ({site['repository']}/blob/main/LICENSE). "
+              "The listed projects have their own licences.", "",
               site["credit"], ""]
     return "\n".join(lines)
 

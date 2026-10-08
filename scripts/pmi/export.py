@@ -89,6 +89,8 @@ def index_json(index: Index) -> str:
         "url": site["base_url"],
         "repository": site["repository"],
         "license": site["license"],
+        "license_url": site["license_url"],
+        "code_license": site.get("code_license") or site["license"],
         "maintainer": site["maintainer"],
         "credit": site["credit"],
         "as_of": index.as_of(),

@@ -16,7 +16,8 @@ Developed by Zhenxian LI with assistance from Claude Code.
 
 [![Site](https://github.com/ZhenxianLi/LISQM/actions/workflows/pages.yml/badge.svg)](https://github.com/ZhenxianLi/LISQM/actions/workflows/pages.yml)
 [![Refresh](https://github.com/ZhenxianLi/LISQM/actions/workflows/refresh.yml/badge.svg)](https://github.com/ZhenxianLi/LISQM/actions/workflows/refresh.yml)
-[![Licence: MIT](https://img.shields.io/badge/licence-MIT-blue.svg)](LICENSE)
+[![Data and text: CC BY 4.0](https://img.shields.io/badge/data%20and%20text-CC%20BY%204.0-blue.svg)](LICENSE-DATA)
+[![Code: MIT](https://img.shields.io/badge/code-MIT-blue.svg)](LICENSE)
 
 <!-- BEGIN GENERATED: stats -->
 Data as of 2026-10-08: 22 methods, 39 projects, languages: C, C#, C++, Julia, MATLAB, Octave, Pure Data, Python, Rust.
@@ -237,5 +238,8 @@ repository" button), together with the date you accessed it, and cite the implem
 
 ## Licence
 
-[MIT](LICENSE), for the data, the text and the code. The listed projects have their own licences, listed in
-the tables above.
+The data and the text (the list in `data/`, the website, this README, llms.txt and index.json) are released under
+[CC BY 4.0](LICENSE-DATA): you may copy, adapt and share them, also commercially, if you credit LISQM and its
+author, Zhenxian LI, link to the licence and say what you changed. The code that builds the website (`scripts/`,
+`site-src/`, `tests/`) is released under the [MIT licence](LICENSE). Versions up to 0.3.0 were released under the
+MIT licence as a whole. The listed projects have their own licences, listed in the tables above.
