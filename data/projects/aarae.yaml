@@ -37,23 +37,6 @@ caveats:
     Runs inside MATLAB and needs several commercial toolboxes: Audio, DSP System, Signal Processing, and
     Statistics and Machine Learning; some parts also use others, such as Curve Fitting.
   - Apart from the ISO 532-1 analyser, the project does not state how the analysers were validated.
-ported_from:
-  - source: ISO 532-1 Annex A reference program
-    credit: >-
-      The header of
-      [`Loudness_ISO532_1.m`](https://github.com/densilcabrera/aarae/blob/master/Analysers/Level%20and%20Strength/Loudness_ISO532_1.m)
-      gives its source as the C code of Annex A of ISO 532-1 (2014 draft), translated to MATLAB with adjustments by
-      Ella Manor for AARAE (2015).
-    checked: 2026-10-08
-  - source: psysound3
-    authors: [Dik Hermes, Matt Flax, Farhan Rizwi]
-    credit: >-
-      The header of
-      [`RoughnessDW.m`](https://github.com/densilcabrera/aarae/blob/master/Analysers/Level%20and%20Strength/RoughnessDW.m)
-      says it is a port of PsySound3's RoughnessDW analyser, whose original code was provided by Dik Hermes and
-      adapted for PsySound3 by Matt Flax (2006) and Farhan Rizwi (2007), and that Ella Manor and Densil Cabrera ported
-      it to AARAE (2015). Densil Cabrera maintains both projects.
-    checked: 2026-10-08
 implements:
   - method: loudness-zwicker
     reference: iso-532-1-2017

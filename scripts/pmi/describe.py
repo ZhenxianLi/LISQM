@@ -94,51 +94,10 @@ def dependence_note(i: dict) -> str:
     return " ".join(notes)
 
 
-def people(names: list[str]) -> str:
-    """Authors or maintainers in short: one or two names in full, else the first one "et al."."""
-    if not names:
-        return ""
-    return ", ".join(names) if len(names) <= 2 else f"{names[0]} et al."
-
-
-def licence_label(licence: str | None) -> str:
-    """A licence as shown to readers: "no licence file" for a project without one."""
-    return {"none": "no licence file", "unknown": "licence unknown"}.get(licence or "", licence or "")
-
-
-def own_licence(p: dict) -> str:
-    """"pySQAT has no licence file" or "MoSQITo is released under Apache-2.0"."""
-    if p["license"] in ("none", "unknown"):
-        return f"{p['name']} has no licence file"
-    return f"{p['name']} is released under {p['license']}"
-
-
-def ported_names(i: dict, name: Fmt | None = None, t: Esc = str) -> list[str]:
-    """The code an implementation was ported or adapted from, with the authors and the licence of that code as the
-    port's record gives them: "SQAT (Gil Felix Greco et al.; GPL-3.0-or-later)". Listed projects go through `name`;
-    other code keeps its recorded name, which says whose code it is."""
-    credit = {e["source"]: e for e in i.get("_ported") or []}
-    out = []
-    for cid, (n, p) in zip(i.get("_derived_ids") or [], i.get("_derived") or []):
-        e = credit.get(cid) or {}
-        bits = [b for b in (people(e.get("authors") or []) if p else "", licence_label(e.get("license"))) if b]
-        if p and bits and p["name"].endswith(")") and p.get("short_name"):  # "AMT (…)", not "… (AMT) (…)"
-            p = {**p, "name": p["short_name"]}
-        out.append((name(p) if p and name else t(p["name"] if p else n)) + (t(f" ({'; '.join(bits)})") if bits else ""))
-    return out
-
-
-def no_credit(e: dict) -> str:
-    """What a port's record says when the port names nowhere the code it ports."""
-    return (f"No mention of {e['name']} or its authors was found in the README, the licence and notice files, or "
-            "the headers of the ported files.")
-
-
-def terms_note(p: dict, e: dict, site_name: str) -> str:
-    """The neutral note for a port of copyleft or non-commercial code whose own licence does not carry those terms,
-    or that has none. It states that the conditions apply, not whether they are met."""
-    return (f"The licence of the {e['name']} code ({e['license']}) sets conditions for code derived from it, and "
-            f"{own_licence(p)}; {site_name} has not checked whether those conditions are met.")
+def derived_names(i: dict, name: Fmt | None = None, t: Esc = str) -> list[str]:
+    """The code an implementation was ported or adapted from: listed projects through `name`, anything else
+    through `t`."""
+    return [name(p) if p and name else t(n) for n, p in i.get("_derived") or []]
 
 
 def lineage(impls: list[dict]) -> list[tuple]:

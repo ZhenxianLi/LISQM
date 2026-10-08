@@ -29,13 +29,6 @@ notes:
 caveats:
   - >-
     The loudness engine works on mono audio at 48 kHz; the plug-in measures each input channel separately.
-ported_from:
-  - source: mosqito
-    credit: >-
-      [`THIRD_PARTY_NOTICES.md`](https://github.com/heyalohaloha/kirin_hypha/blob/main/THIRD_PARTY_NOTICES.md) names
-      MoSQITo v1.2.1 (Eomys/MoSQITo, commit `a14daea`), lists the Rust modules ported or adapted from it and keeps
-      MoSQITo's Apache-2.0 licence text in `THIRD_PARTY_LICENSES`.
-    checked: 2026-10-08
 implements:
   - method: loudness-zwicker
     reference: iso-532-1-2017

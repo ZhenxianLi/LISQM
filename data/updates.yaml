@@ -7,16 +7,6 @@
     The data and the text of LISQM are now released under CC BY 4.0: they may be reused, also commercially, with
     credit. The code that builds the website stays under MIT. Versions up to 0.3.0 remain available under MIT.
 
-- date: 2026-10-08
-  title: "Ported code: credit and licences"
-  body: |
-    Each project that ports code has a new section, *Ported code*: where it credits the original code, with that
-    code's authors and licence. Method pages name them too, and the tree of who ported code from whom shows each
-    project's licence.
-
-    - When GPL or non-commercial code is ported to a project without those terms, a note says so; LISQM does not
-      judge whether licence terms are met.
-
 - date: 2026-10-07
   title: "Version 0.3: ported code, citations and new projects"
   body: |

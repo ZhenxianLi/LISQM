@@ -17,12 +17,10 @@ from .data import (ACCESS, GROUP_NAMES, GROUPS, IMPL_STATUS_LONG, KINDS, PROJECT
                    VALIDATION_LONG, VERIFICATION_META, Index, only_new)
 from .describe import (COVERAGE_COLUMNS, GROUP_RULE, ONLY_NEW, activity_text, ai_guide, by_language, coverage,
                        highlight_sentence, highlighted,
-                       current_statement, dedupe, dependence_note, edition_state, faq, how_to_cite,
-                       impl_phrase, introduce, language_order, licence_label, licence_names, licence_terms, lineage,
-                       name_note, no_credit,
-                       only_related, own_licence, people, ported_names, ref_status, release_text, silent_line,
-                       standing_sentence, stated_conventions, terms_note, time_bins, timeline, validation_also,
-                       validation_groups, validation_label)
+                       current_statement, dedupe, dependence_note, derived_names, edition_state, faq, how_to_cite,
+                       impl_phrase, introduce, language_order, licence_names, licence_terms, lineage, name_note,
+                       only_related, ref_status, release_text, silent_line, standing_sentence, stated_conventions,
+                       time_bins, timeline, validation_also, validation_groups, validation_label)
 from .paths import (ABOUT, AI, BIBTEX, FAQ, HOME, LANGUAGES, METRICS, PROJECTS, STANDARDS, UPDATES, absolute,
                     md_twin, method_path, project_path, relative)
 from .text import blocks, esc, first_sentence, inline, join_words, long_date, month, plain, plural
@@ -327,14 +325,7 @@ def _validation_section(index: Index, path: str, impls: list[dict], ids: dict[in
             evidence += f" {also}"
         origin = []
         if i.get("_derived"):
-            line = f"Ported or adapted from {join_words(ported_names(i, linked, esc))}."
-            if any(e["terms_differ"] for e in i["_ported"]):
-                line += f" {esc(own_licence(i['_project']))}."
-            uncredited = [e["name"] for e in i["_ported"] if not e["credit"]]
-            if uncredited:
-                line += f" {esc(f'No credit to {join_words(uncredited)} was found in its files.')}"
-            record = "#ported" if not on_method else f'{relative(path, project_path(i["_project"]))}#ported'
-            origin.append(f'{line} <a href="{record}">How it credits the original code</a>.')
+            origin.append(f"Ported or adapted from {join_words(derived_names(i, linked, esc))}.")
         if dependence_note(i):
             origin.append(esc(dependence_note(i)))
         source = f'<p class="derived">{" ".join(origin)}</p>' if origin else ""
@@ -377,9 +368,7 @@ def _lineage_section(index: Index, path: str, m: dict) -> str:
         if kind == "code":
             return f'<span class="code-node">{esc(value)}</span>'
         tag = f" {GROUP_TAGS[value['_group']]}" if value["_group"] in GROUP_TAGS else ""
-        meta = [b for b in (people(value.get("maintainers") or []), licence_label(value["license"])) if b]
-        meta_html = f' <span class="node-meta">{esc(" · ".join(meta))}</span>' if meta else ""
-        return f'{_lang_badge(value["languages"][0])}{_project_link(path, value)}{tag}{meta_html}'
+        return f'{_lang_badge(value["languages"][0])}{_project_link(path, value)}{tag}'
 
     def tree(items: list[tuple]) -> str:
         return "<ul>" + "".join(f"<li>{node(n)}{tree(kids) if kids else ''}</li>" for n, kids in items) + "</ul>"
@@ -387,9 +376,7 @@ def _lineage_section(index: Index, path: str, m: dict) -> str:
     return "\n".join([
         '<h2 id="lineage">Who ported code from whom</h2>',
         '<p class="small muted">As the projects state. Each branch shows code ported, translated or adapted from '
-        "the code above it, so agreement between them is a check of the port, not an independent validation. Each "
-        "project is shown with its maintainers and its licence; how a port credits the original code is on its page, "
-        "under Ported code.</p>",
+        "the code above it, so agreement between them is a check of the port, not an independent validation.</p>",
         f'<div class="lineage">{tree(forest)}</div>',
     ])
 
@@ -899,10 +886,6 @@ def project_page(index: Index, p: dict) -> str:
     if p.get("license_note"):
         lic += f'<br><span class="muted">{inline(p["license_note"])}</span>'
     facts.append(("Licence", lic))
-    if p["_ported_from"]:
-        origins = [_project_link(path, e["project"]) if e["project"] else esc(e["name"]) for e in p["_ported_from"]]
-        facts.append(("Ported from", join_words(origins) + ' <span class="muted">(<a href="#ported">credit and '
-                      "licences</a>)</span>"))
     for pkg in p.get("packages") or []:
         reg, tmpl = REGISTRIES[pkg["registry"]]
         url = pkg.get("url") or (tmpl.format(name=pkg["name"]) if tmpl else "")
@@ -972,8 +955,6 @@ def project_page(index: Index, p: dict) -> str:
         parts.append(_table("impls", ["Metric", "Edition", "Functions", "Validation (as stated)", "Notes"], rows))
         parts.append(_validation_section(index, path, p["_impls"], ids, on_method=False))
         parts.append(_conventions_section(index, path, p["_impls"], p.get("conventions") or [], on_method=False))
-    if p["_ported_from"]:
-        parts.append(_ported_section(index, path, p))
     if p.get("notes"):
         parts.append('<h2 id="notes">Notes</h2>')
         parts.append("<ul>" + "".join(f"<li>{inline(n)}</li>" for n in p["notes"]) + "</ul>")
@@ -990,34 +971,6 @@ def project_page(index: Index, p: dict) -> str:
     return layout(index, path, title=f"{p['name']}: {', '.join(p['languages'])} implementation of psychoacoustic metrics",
                   description=description[:300], body="\n".join(parts), section="Projects", jsonld=ld,
                   og_type="article")
-
-
-def _ported_section(index: Index, path: str, p: dict) -> str:
-    """"Ported code": for each code a port comes from, the authors and the licence of that code, where the port
-    credits it, and a neutral note when that code is copyleft or non-commercial and the port's licence does not carry
-    those terms."""
-    sep = ' <span class="sep">·</span> '
-    entries = []
-    for e in p["_ported_from"]:
-        head = "From " + (_project_link(path, e["project"]) if e["project"] else esc(e["name"]))
-        facts = []
-        if e["authors"]:
-            facts.append(f'<span class="muted">Original authors:</span> {esc(", ".join(e["authors"]))}')
-        if e["license"]:
-            facts.append(f'<span class="muted">Original licence:</span> {esc(licence_label(e["license"]))}')
-        body = f'<p class="small">{sep.join(facts)}</p>' if facts else ""
-        body += f"<p><strong>Credit:</strong> {inline(e['credit']) if e['credit'] else esc(no_credit(e))}</p>"
-        if e["terms_differ"]:
-            body += f'<p class="terms">{esc(terms_note(p, e, index.site["name"]))}</p>'
-        body += f'<p class="small muted">Checked {esc(long_date(e["checked"]))}.</p>'
-        entries.append(f"<dt>{head}</dt>\n<dd>{body}</dd>")
-    return "\n".join([
-        '<h2 id="ported">Ported code</h2>',
-        f'<p class="small muted">As found in the project\'s own files. {esc(index.site["name"])} records where a port '
-        "names the code it comes from, with the authors and the licence of that code; it does not judge whether "
-        f"licence terms are met. {esc(own_licence(p))}.</p>",
-        '<dl class="ported">\n' + "\n".join(entries) + "\n</dl>",
-    ])
 
 
 def _project_names(path: str, impls: list[dict]) -> str:

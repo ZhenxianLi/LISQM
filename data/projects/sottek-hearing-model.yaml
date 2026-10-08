@@ -45,15 +45,6 @@ conventions:
 caveats:
   - Fluctuation strength is only on the main branch (not on PyPI yet) and its verification report is marked as a draft.
   - Versions up to 0.1.13 are affected by an empty-array bug fixed in 0.1.14 ([#9](https://github.com/mlotinga/sottek-hearing-model/issues/9)).
-ported_from:
-  - source: refmap-psychoacoustics
-    authors: [Matt Torjussen, Mike Lotinga]
-    credit: >-
-      The [README](https://github.com/mlotinga/sottek-hearing-model/blob/main/README.md) says the algorithms were
-      translated to Python from the MATLAB code published with Lotinga, Torjussen & Felix Greco (2025), which began as
-      Matt Torjussen's `SottekTonality.m`, and the file headers name the refmap-psychoacoustics repository and its
-      copyleft licence. The maintainer, Mike Lotinga, is also an author of the RefMap code.
-    checked: 2026-10-08
 implements:
   - method: loudness-ecma-418-2
     reference: ecma-418-2-ed4

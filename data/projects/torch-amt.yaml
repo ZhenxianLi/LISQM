@@ -30,17 +30,6 @@ caveats:
   - >-
     The documentation claims "Matching MATLAB AMT v1.6.0 implementations", but the tests contain no stored AMT or
     MATLAB reference outputs.
-ported_from:
-  - source: amt
-    authors: [Piotr Majdak, Clara Hollomey, Thomas Deppisch, Josef Schlittenlacher, Michael Mihocic]
-    license: GPL-3.0-or-later
-    credit: >-
-      The [README](https://github.com/StefanoGiacomelli/torch_amt/blob/main/README.md) says the work is based on the
-      AMT, names Piotr Majdak, Clara Hollomey and Robert Baumgartner "and many contributors" with the AMT 1.x paper,
-      and gives its GPL-3.0-or-later licence as aligned with AMT's. The docstrings of `glasberg2002.py` and
-      `moore2016.py` say the code is ported from the AMT. The authors named here are those of AMT's `glasberg2002` and
-      `moore2016`, according to the headers of AMT 1.6.0.
-    checked: 2026-10-08
 implements:
   - method: loudness-moore-glasberg-time-varying
     reference: glasberg-moore-2002

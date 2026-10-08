@@ -124,17 +124,6 @@ maintainer_check: optional markdown           # the list maintainer's own observ
 # access: restricted                          # only when the repository cannot be opened: the project is listed
 # access_note: optional markdown              #   under "status unknown" with access_note and claim (what it is
 # claim: markdown                             #   said to implement) instead of implements
-ported_from:                                  # required for a port: one entry for each code in based_on and
-                                              # derived_from, recording how the port credits it (below)
-  - source: sqat                              # a project id, or the name used in derived_from
-    authors: [Mike Lotinga, Matt Torjussen]   # optional: who wrote the code ported, as the source names them
-                                              # (default: the source project's maintainers)
-    license: GPL-3.0-or-later                 # optional: the licence of the code as ported, when it is not the
-                                              # source project's licence (a release, a branch, single files)
-    credit: >-                                # markdown: where and how the port names that code, its authors and
-      [`NOTICE`](https://…) names the SQAT … #   its licence (README, notice or licence files, file headers), with
-                                              #   links; "none" when nothing was found there
-    checked: 2026-10-08
 implements:
   - method: loudness-zwicker                  # a method id
     reference: iso-532-1-2017                 # a reference id listed in that method's references
@@ -236,22 +225,6 @@ from, following `derived_from` (or the project's `based_on`) through further por
 "(its source)"; with a port of the row's own code, "(a port of it)"; with another port of the same code, "(also
 ported from …)". When every comparison of a row is of this kind, its evidence tag is grey. In `index.json`, such
 rows carry `comparison_relations` (`source`, `port` or `shared:<project id>`).
-
-### Ported code and credit
-
-A project that ports code (`based_on`, or `derived_from` in a row) records for each code it ports where it names that
-code, its authors and its licence (`ported_from`); the build refuses a port without such a record. The record says
-what the port's own files say: the README, notice and licence files, and the headers of the ported files. The list
-does not judge whether licence terms are met.
-
-- The project page shows the record under *Ported code*: the original authors and licence, the credit with links,
-  and the date it was checked. A port that names its source nowhere is listed as usual, with "No mention of … was
-  found".
-- When the code ported is copyleft (GPL family) or non-commercial (CC-BY-NC) and the port has no licence, or one
-  without those terms, the record adds a neutral note: that licence sets conditions for code derived from it, and
-  they were not checked. The rule only compares licence names.
-- On a method page, "Ported or adapted from" names the authors and licence of that code, and the tree of who ported
-  code from whom shows each project with its maintainers and licence.
 
 ## `snapshot.json` (machine-written)
 

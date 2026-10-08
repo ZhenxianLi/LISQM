@@ -22,15 +22,6 @@ notes:
 caveats:
   - Without a licence, reuse rights are unclear, and the bundled MATLAB code is licensed for non-commercial use only.
   - The ports follow SQAT v1.3 and do not include SQAT's 2026 fixes to ISO 532-1 time-varying loudness, Daniel & Weber roughness and Aures tonality.
-ported_from:
-  - source: sqat
-    license: CC-BY-NC-4.0, from release v1.3
-    credit: >-
-      The [README](https://github.com/PALILA-TUDelft/pySQAT/blob/main/README.md) calls the code a "Python translation
-      of SQAT", and the repository includes the SQAT v1.3 MATLAB code with its CC-BY-NC-4.0 licence in
-      `original_matlab/` as the validation reference. The README does not name SQAT's authors (they appear in the
-      headers of the included MATLAB files), and the Python files have no headers.
-    checked: 2026-10-08
 implements:
   - method: loudness-zwicker
     reference: iso-532-1-2017

@@ -16,8 +16,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "scripts"))
 
 import build  # noqa: E402
-from pmi import render_html  # noqa: E402
-from pmi.data import GROUP_ORDER, KINDS, derived_sources, keeps_terms, load  # noqa: E402
+from pmi.data import GROUP_ORDER, KINDS, load  # noqa: E402
 from pmi.describe import timeline  # noqa: E402
 from pmi.render_html import _analytics  # noqa: E402
 
@@ -487,6 +486,7 @@ class BuildTest(unittest.TestCase):
         self.assertLess(tree.index("projects/mosqito.html"), tree.index("projects/kirin-hypha.html"))
         self.assertLess(tree.index("projects/aarae.html"), tree.index("projects/sqat.html"))
         self.assertIn("BASIC program of DIN 45631", tree)
+        self.assertIn('Code ported from another project is shown under <a href="#lineage">', zwicker)
         data = json.loads((self.site / "index.json").read_text(encoding="utf-8"))
         rows = [i for m in data["methods"] for i in m["implementations"] if i["project"] == "kirin-hypha"]
         self.assertEqual(rows[0]["comparison_relations"], {"mosqito": "source"})
@@ -541,75 +541,6 @@ class BuildTest(unittest.TestCase):
         llms = (self.site / "llms.txt").read_text(encoding="utf-8")
         self.assertIn(f"{self.index.site['base_url']}ai.md", llms)
 
-    def test_every_port_records_how_it_credits_its_source(self) -> None:
-        ports = [p for p in self.index.projects if derived_sources(p)]
-        self.assertGreaterEqual(len(ports), 17)
-        for p in ports:
-            self.assertEqual({e["source"] for e in p["_ported_from"]}, set(derived_sources(p)), p["id"])
-        page = (self.site / "projects/numpylib-psychoacoustic.html").read_text(encoding="utf-8")
-        self.assertIn('<a href="#ported">credit and licences</a>', page)
-        section = page[page.index('<h2 id="ported">'):]
-        section = section[:section.index("</dl>")]
-        self.assertIn("Original authors:</span> Thomas Deppisch, Piotr Majdak, Clara Hollomey", section)
-        self.assertIn("Original licence:</span> GPL-3.0-or-later", section)
-        self.assertIn('class="terms"', section, "GPL code ported without a licence is noted")
-        self.assertIn("has not checked whether those conditions are met", section)
-        self.assertIn("Checked 8 October 2026.", section)
-        self.assertIn('class="terms"', (self.site / "projects/pysqat.html").read_text(encoding="utf-8"))
-        for pid in ("metasona", "torch-amt", "sottek-hearing-model", "mosqito-net", "sqat"):
-            page = (self.site / f"projects/{pid}.html").read_text(encoding="utf-8")
-            self.assertIn('<h2 id="ported">', page, pid)
-            self.assertNotIn('class="terms"', page, f"{pid} keeps the terms of the code it ports")
-        # Method pages: the authors and licence of the code ported, a link to the record, the tree with licences.
-        zwicker = (self.site / "metrics/loudness-zwicker.html").read_text(encoding="utf-8")
-        self.assertIn("(Gil Felix Greco et al.; CC-BY-NC-4.0, from release v1.3). pySQAT has no licence file.",
-                      zwicker)
-        self.assertIn('href="../projects/pysqat.html#ported">How it credits the original code</a>', zwicker)
-        self.assertIn('href="#lineage"', zwicker, "the implementations point to the tree")
-        tree = zwicker[zwicker.index('<div class="lineage">'):]
-        self.assertIn('<span class="node-meta">Gerard Mendoza Ferrandis · no licence file</span>', tree)
-        tv = (self.site / "metrics/loudness-moore-glasberg-time-varying.html").read_text(encoding="utf-8")
-        self.assertIn(">AMT</a> (Piotr Majdak et al.; GPL-3.0-or-later)", tv, "the short name, not '(AMT) (…)'")
-        # The Markdown twin and index.json carry the same record.
-        md = (self.site / "projects/numpylib-psychoacoustic.md").read_text(encoding="utf-8")
-        self.assertIn("## Ported code", md)
-        self.assertIn("has not checked whether those conditions are met", md)
-        data = json.loads((self.site / "index.json").read_text(encoding="utf-8"))
-        numpy = next(p for p in data["projects"] if p["id"] == "numpylib-psychoacoustic")
-        self.assertEqual(numpy["ported_from"][0]["authors"], ["Thomas Deppisch", "Piotr Majdak", "Clara Hollomey"])
-        self.assertIn("terms_note", numpy["ported_from"][0])
-        self.assertIn("ported_from", data["definitions"])
-
-    def test_ported_from_is_checked(self) -> None:
-        p = self.index.project["kirin-hypha"]
-        saved = p["ported_from"]
-        try:
-            p.pop("ported_from")
-            self.assertIn("ported_from has no entry for 'mosqito'", "\n".join(self.index.validate()))
-            p["ported_from"] = [{"source": "sqat", "credit": "README", "checked": "2026-10-08"},
-                                {"source": "mosqito", "credit": " ", "checked": "2026-10-08", "authors": []}]
-            problems = "\n".join(self.index.validate())
-            self.assertIn("'sqat' is not in based_on or any derived_from", problems)
-            self.assertIn("credit must say where the port names the source", problems)
-            self.assertIn("authors must be a non-empty list of names", problems)
-        finally:
-            p["ported_from"] = saved
-        self.assertEqual(self.index.validate(), [])
-
-    def test_a_port_without_credit_is_listed_and_said_so(self) -> None:
-        p = self.index.project["kirin-hypha"]
-        e = p["_ported_from"][0]
-        saved = e["credit"]
-        e["credit"] = None
-        try:
-            page = render_html.project_page(self.index, p)
-            zwicker = render_html.method_page(self.index, self.index.method["loudness-zwicker"])
-        finally:
-            e["credit"] = saved
-        self.assertIn("No mention of MoSQITo or its authors was found", page)
-        self.assertIn("No credit to MoSQITo was found in its files.", zwicker)
-        self.assertIn("projects/kirin-hypha.html", zwicker, "still listed")
-
     def test_licences_of_the_list(self) -> None:
         cc = "https://creativecommons.org/licenses/by/4.0/"
         about = (self.site / "about.html").read_text(encoding="utf-8")
@@ -624,17 +555,6 @@ class BuildTest(unittest.TestCase):
         self.assertIn("Creative Commons Attribution 4.0 International", (ROOT / "LICENSE-DATA").read_text(encoding="utf-8"))
         self.assertTrue((ROOT / "LICENSE").read_text(encoding="utf-8").startswith("MIT License"))
         self.assertIn("license: CC-BY-4.0", (ROOT / "CITATION.cff").read_text(encoding="utf-8"))
-
-    def test_licence_terms_rule(self) -> None:
-        self.assertFalse(keeps_terms("GPL-3.0-or-later", "MIT"))
-        self.assertFalse(keeps_terms("GPL-3.0", "none"))
-        self.assertFalse(keeps_terms("CC-BY-NC-4.0, from release v1.3", "none"))
-        self.assertFalse(keeps_terms("GPL-3.0-or-later (main) / CC-BY-NC-4.0 (releases)", "GPL-3.0-only"))
-        self.assertTrue(keeps_terms("GPL-3.0", "GPL-3.0-only AND Apache-2.0 AND BSD-3-Clause AND MIT"))
-        self.assertTrue(keeps_terms("Apache-2.0", "MIT"))
-        self.assertTrue(keeps_terms("BSD-3-Clause", "none"))
-        self.assertTrue(keeps_terms(None, "none"))
-
 
 if __name__ == "__main__":
     unittest.main()

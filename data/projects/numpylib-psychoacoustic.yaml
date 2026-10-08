@@ -27,17 +27,6 @@ caveats:
   - >-
     The implementation document describes only the Moore (1997) model as implemented; `glasberg2002` is in the
     code (with data/Glasberg2002.json) but not documented.
-ported_from:
-  - source: amt
-    authors: [Thomas Deppisch, Piotr Majdak, Clara Hollomey]
-    license: GPL-3.0-or-later
-    credit: >-
-      The [README](https://github.com/Ryrybros/NumpyLibforPsychoAcoustic/blob/main/README.md) calls the code "a
-      Python adaptation of models described by the Amt toolBox", and the implementation document says the
-      `moore1997` model "is the same code as the amt-toolbox one"; both link amtoolbox.org. Neither names the authors
-      of AMT's `moore1997` and `glasberg2002` (Thomas Deppisch, Piotr Majdak and Clara Hollomey, according to the
-      headers of AMT 1.6.0) or AMT's licence.
-    checked: 2026-10-08
 implements:
   - method: loudness-moore-glasberg
     reference: moore-1997

@@ -31,13 +31,6 @@ notes:
   - >-
     Annoyance comes in two forms: the canonical percentile convention (N5, S5, R5 and FS5 from time-varying
     tracks, since 0.5.0) and a documented stationary approximation from whole-signal values (since 0.4.0).
-ported_from:
-  - source: mosqito
-    credit: >-
-      [`test/data/NOTICE`](https://github.com/slink/PsychoacousticMetrics.jl/blob/main/test/data/NOTICE) lists the
-      source files and test data derived from MoSQITo (commit `d990c33`) and comes with a copy of its Apache-2.0
-      licence (`LICENSE-MoSQITo`); the README's licence section says the same.
-    checked: 2026-10-08
 implements:
   - method: sharpness
     reference: din-45692-2009

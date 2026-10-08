@@ -7,7 +7,7 @@ import re
 from xml.sax.saxutils import escape as xml_escape
 
 from .data import ACCESS, GROUPS, IMPL_STATUS_LONG, KINDS, STANDING, VALIDATION_LONG, Index
-from .describe import coverage, terms_note
+from .describe import coverage
 from .paths import (ABOUT, AI, FAQ, HOME, LANGUAGES, METRICS, PROJECTS, STANDARDS, UPDATES, absolute, method_path,
                     project_path)
 from .text import blocks, date_str, plain
@@ -41,17 +41,6 @@ def _implementation(i: dict) -> dict:
     return d
 
 
-def _ported(index: Index, p: dict, e: dict) -> dict:
-    """A port's record of one source it ports, with the authors and licence it resolves to; credit is null when the
-    port names that code nowhere, and terms_note is set when the code is copyleft or non-commercial and the port's
-    licence does not carry those terms."""
-    d = {"source": e["source"], "authors": e["authors"], "license": e["license"], "credit": e["credit"],
-         "checked": e["checked"]}
-    if e["terms_differ"]:
-        d["terms_note"] = terms_note(p, e, index.site["name"])
-    return {k: v for k, v in d.items() if k == "credit" or v not in (None, [])}
-
-
 def index_json(index: Index) -> str:
     site = index.site
     methods = []
@@ -75,8 +64,6 @@ def index_json(index: Index) -> str:
         d["archived"] = p["_archived"]
         d["stars"] = p["_stars"]
         d["group"] = p["_group"]
-        if p["_ported_from"]:
-            d["ported_from"] = [_ported(index, p, e) for e in p["_ported_from"]]
         if p["_others"]:
             d["calls"] = list(dict.fromkeys(i["_via"]["id"] for i in p["_impls"] if i.get("_via")))
         projects.append(d)
@@ -109,15 +96,6 @@ def index_json(index: Index) -> str:
                      "(access); they list a claim and no implementations."),
         "definitions": {"standing": STANDING, "group": GROUPS, "kind": KINDS, "status": IMPL_STATUS_LONG,
                         "validation": VALIDATION_LONG, "access": ACCESS,
-                        "ported_from": (
-                            "How a port credits each code it ports, as found in its own files: the source (a project "
-                            "id, or the name of code that is not a listed project), the authors and the licence of "
-                            "that code (the source project's maintainers and licence unless the record names those of "
-                            "the code ported), where the port names it (credit; null when nothing was found in the "
-                            "README, the licence and notice files or the file headers) and the date it was checked. "
-                            "terms_note is set when that code is copyleft (GPL) or non-commercial (CC-BY-NC) and the "
-                            "port's licence does not carry those terms; the list does not judge whether licence terms "
-                            "are met."),
                         "comparison_relations": {
                             "source": "the compared project is the code this implementation was ported from (or "
                                       "that code's own source)",

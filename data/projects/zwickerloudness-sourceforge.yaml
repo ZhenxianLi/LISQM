@@ -29,15 +29,6 @@ notes:
     SourceForge, not a commit date.
 caveats:
   - Stationary sounds only; there is no procedure for time-varying sounds.
-ported_from:
-  - source: BASIC program of DIN 45631 (Zwicker et al., 1991)
-    authors: [E. Zwicker, H. Fastl, U. Widmann, K. Kurakata, S. Kuwano, S. Namba]
-    credit: >-
-      The [README](https://sourceforge.net/projects/zwickerloudness/files/README.TXT/download) and the `readme`,
-      `license` and documentation files of the release archive say the code is "partially ported from" the "Program
-      for calculating loudness according to DIN 45631 (ISO 532B)" of the Journal of the Acoustical Society of Japan
-      (1991), as published on Osaka University's website; they name the program and the journal, not its authors.
-    checked: 2026-10-08
 implements:
   - method: loudness-zwicker
     reference: din-45631-1991

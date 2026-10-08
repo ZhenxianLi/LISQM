@@ -36,14 +36,6 @@ caveats:
   - >-
     The README says the JAX version "does not compile as there are several portions of the implementation that
     are not pure".
-ported_from:
-  - source: js2251-iso532-3
-    credit: >-
-      The [README](https://github.com/MalcolmSlaney/LoudnessModel/blob/main/README.md) says it is based on the MATLAB
-      loudness model provided by Brian C. J. Moore, Brian R. Glasberg and Josef Schlittenlacher, links the original
-      MATLAB code on the Cambridge Hearing Group's page and says, as the original readme does, that the code is
-      "free for any research purposes"; the LICENSE file is BSD-2-Clause.
-    checked: 2026-10-08
 implements:
   - method: loudness-moore-glasberg-time-varying
     reference: moore-2018

@@ -59,24 +59,6 @@ caveats:
     ([#51](https://github.com/ggrecow/SQAT/pull/51)) and a faster annoyance calculation
     ([#42](https://github.com/ggrecow/SQAT/pull/42)). Results from v1.3 and `main` differ.
   - The README warns that `main` may contain changes that are not yet fully verified and recommends using a release.
-ported_from:
-  - source: aarae
-    authors: [Ella Manor]
-    credit: >-
-      The header of
-      [`Loudness_ISO532_1.m`](https://github.com/ggrecow/SQAT/blob/main/psychoacoustic_metrics/Loudness_ISO532_1/Loudness_ISO532_1.m)
-      names Ella Manor's 2015 MATLAB implementation for AARAE as its origin, adapted for SQAT by Gil Felix Greco in
-      2023, and keeps her BSD-3-Clause copyright notice; the README lists this function as BSD-3-Clause.
-    checked: 2026-10-08
-  - source: refmap-psychoacoustics
-    authors: [Mike Lotinga, Matt Torjussen]
-    credit: >-
-      The headers of the ECMA-418-2 files, such as
-      [`Loudness_ECMA418_2.m`](https://github.com/ggrecow/SQAT/blob/main/psychoacoustic_metrics/Loudness_ECMA418_2/Loudness_ECMA418_2.m),
-      name their authors (Mike Lotinga, and Matt Torjussen for tonality; University of Salford) and the RefMap
-      project, link the refmap-psychoacoustics repository and state its GPL-3.0 licence. Mike Lotinga is one of
-      SQAT's maintainers.
-    checked: 2026-10-08
 implements:
   - method: loudness-zwicker
     reference: iso-532-1-2017

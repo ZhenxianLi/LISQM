@@ -11,11 +11,10 @@ from .data import (ACCESS, GROUP_NAMES, GROUPS, IMPL_STATUS_LONG, KINDS, PROJECT
                    VALIDATION_LONG, Index)
 from .describe import (COVERAGE_COLUMNS, GROUP_RULE, NEW_LABEL, activity_text, ai_guide, by_language, coverage, dedupe,
                        highlight_sentence, highlighted,
-                       dependence_note, edition_state, faq, how_to_cite, in_short, introduce, legacy_label,
-                       licence_label, licence_names, licence_terms, lineage, name_note, no_credit, own_licence, people,
-                       ported_names, ref_status,
-                       release_text, silent_line, standing_sentence, stated_conventions, terms_note, timeline,
-                       validation_also, validation_groups, validation_label, version_label)
+                       dependence_note, derived_names, edition_state, faq, how_to_cite, in_short, introduce,
+                       legacy_label, licence_names, licence_terms, lineage, name_note, ref_status, release_text,
+                       silent_line, standing_sentence, stated_conventions, timeline, validation_also,
+                       validation_groups, validation_label, version_label)
 from .paths import (ABOUT, AI, BIBTEX, FAQ, HOME, LANGUAGES, METRICS, PROJECTS, STANDARDS, UPDATES, absolute, md_twin,
                     method_path, project_path)
 from .text import first_sentence, join_words, long_date, month, oneline, plain, plural
@@ -118,16 +117,7 @@ def _validation_section(index: Index, impls: list[dict], on_method: bool) -> lis
         heads = [title(group[0])] + [title(j, named=not on_method) for j in group[1:]]
         # Names stay as they are (super projects in bold), so the entry is not wrapped in bold.
         lines.append(f"- {'; '.join(heads)}: {evidence}" + (f"; {also}" if also else ""))
-        origin = []
-        if i.get("_derived"):
-            line = f"Ported or adapted from {join_words(ported_names(i, name))}."
-            if any(e["terms_differ"] for e in i["_ported"]):
-                line += f" {own_licence(i['_project'])}."
-            uncredited = [e["name"] for e in i["_ported"] if not e["credit"]]
-            if uncredited:
-                line += f" No credit to {join_words(uncredited)} was found in its files."
-            record = absolute(index, project_path(i["_project"])) + "#ported"
-            origin.append(f"{line} [How it credits the original code]({record}).")
+        origin = ([f"Ported or adapted from {join_words(derived_names(i, name))}."] if i.get("_derived") else [])
         origin += [dependence_note(i)] if dependence_note(i) else []
         if origin:
             lines.append(f"  - {' '.join(origin)}")
@@ -162,19 +152,11 @@ def _lineage(index: Index, m: dict) -> list[str]:
     name = _namer(index)
     lines = ["## Who ported code from whom", "",
              "As the projects state. Each item lists code ported, translated or adapted from the code above it, so "
-             "agreement between them is a check of the port, not an independent validation. Each project is shown "
-             "with its maintainers and its licence; how a port credits the original code is on its page, under "
-             "Ported code.", ""]
-
-    def node(kind: str, value) -> str:
-        if kind == "code":
-            return value
-        meta = [b for b in (people(value.get("maintainers") or []), licence_label(value["license"])) if b]
-        return name(value) + (f" — {'; '.join(meta)}" if meta else "")
+             "agreement between them is a check of the port, not an independent validation.", ""]
 
     def walk(items: list[tuple], depth: int) -> None:
         for (kind, value), kids in items:
-            lines.append("  " * depth + "- " + node(kind, value))
+            lines.append("  " * depth + "- " + (value if kind == "code" else name(value)))
             walk(kids, depth + 1)
     walk(forest, 0)
     return lines + [""]
@@ -264,29 +246,7 @@ def method_page(index: Index, m: dict) -> str:
     return "\n".join(lines)
 
 
-def _ported(index: Index, p: dict) -> list[str]:
-    """Markdown twin of the project page's "Ported code" section."""
-    name = _namer(index)
-    lines = ["## Ported code", "",
-             f"As found in the project's own files. {index.site['name']} records where a port names the code it comes "
-             "from, with the authors and the licence of that code; it does not judge whether licence terms are met. "
-             f"{own_licence(p)}.", ""]
-    for e in p["_ported_from"]:
-        # Names stay as they are (super projects in bold), so the entry is not wrapped in bold.
-        lines.append(f"- From {name(e['project']) if e['project'] else e['name']}")
-        if e["authors"]:
-            lines.append(f"  - Original authors: {', '.join(e['authors'])}")
-        if e["license"]:
-            lines.append(f"  - Original licence: {licence_label(e['license'])}")
-        lines.append(f"  - Credit: {oneline(e['credit']) if e['credit'] else no_credit(e)}")
-        if e["terms_differ"]:
-            lines.append(f"  - {terms_note(p, e, index.site['name'])}")
-        lines.append(f"  - Checked {long_date(e['checked'])}.")
-    return lines + [""]
-
-
 def project_page(index: Index, p: dict) -> str:
-    name = _namer(index)
     lines = [f"# {p['name']}", "", _header(index, project_path(p)), ""]
     if p.get("access"):
         lines += [f"**Status unknown.** {ACCESS[p['access']]} {oneline(p['access_note'])} What it implements has not "
@@ -307,9 +267,6 @@ def project_page(index: Index, p: dict) -> str:
                         + ")")]
     facts += [
               ("Licence", p["license"] + (f" — {plain(p['license_note'])}" if p.get("license_note") else ""))]
-    if p["_ported_from"]:
-        facts.append(("Ported from", join_words([name(e["project"]) if e["project"] else e["name"]
-                                                 for e in p["_ported_from"]]) + " (see Ported code below)"))
     for pkg in p.get("packages") or []:
         reg, tmpl = REGISTRIES[pkg["registry"]]
         url = pkg.get("url") or (tmpl.format(name=pkg["name"]) if tmpl else "")
@@ -345,8 +302,6 @@ def project_page(index: Index, p: dict) -> str:
         lines += _table(["Metric", "Edition", "Functions", "Status", "Validation (as stated)", "Notes"], rows) + [""]
         lines += _validation_section(index, p["_impls"], on_method=False)
         lines += _conventions(index, p["_impls"], p.get("conventions") or [], on_method=False)
-    if p["_ported_from"]:
-        lines += _ported(index, p)
     if p.get("notes"):
         lines += ["## Notes", ""] + [f"- {oneline(n)}" for n in p["notes"]] + [""]
     if p.get("caveats"):
