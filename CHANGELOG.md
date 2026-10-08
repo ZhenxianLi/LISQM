@@ -8,11 +8,6 @@ A new page, the [project map](https://zhenxianli.github.io/LISQM/projects/map.ht
 projects are connected: code taken from another project, the author's own code, use at run time, results
 checked against another project, and shared maintainers.
 
-- The relations were checked again against the projects' code. Among the corrections: SQAT's fluctuation
-  strength is Alejandro Osses's own code, MoSQITo's Zwicker loudness follows the 1991 BASIC program, and the
-  time-varying loudness of ZwickerLoudness.jl is transcribed from MoSQITo.
-- Plainer wording across the site.
-
 ## 2026-10-08: Licence: CC BY 4.0 for the data and the text
 
 The data and the text of LISQM are now released under CC BY 4.0: they may be reused, also commercially, with

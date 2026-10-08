@@ -8826,7 +8826,7 @@
     {
       "date": "2026-10-08",
       "title": "Version 0.4: the project map",
-      "body": "A new page, the [project map](https://zhenxianli.github.io/LISQM/projects/map.html), shows how the listed\nprojects are connected: code taken from another project, the author's own code, use at run time, results\nchecked against another project, and shared maintainers.\n\n- The relations were checked again against the projects' code. Among the corrections: SQAT's fluctuation\n  strength is Alejandro Osses's own code, MoSQITo's Zwicker loudness follows the 1991 BASIC program, and the\n  time-varying loudness of ZwickerLoudness.jl is transcribed from MoSQITo.\n- Plainer wording across the site.\n"
+      "body": "A new page, the [project map](https://zhenxianli.github.io/LISQM/projects/map.html), shows how the listed\nprojects are connected: code taken from another project, the author's own code, use at run time, results\nchecked against another project, and shared maintainers.\n"
     },
     {
       "date": "2026-10-08",
