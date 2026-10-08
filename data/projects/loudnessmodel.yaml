@@ -37,7 +37,7 @@ caveats:
     The README says the JAX version "does not compile as there are several portions of the implementation that
     are not pure".
 implements:
-  - method: loudness-moore-glasberg-time-varying
+  - metric: loudness-moore-glasberg-time-varying
     reference: moore-2018
     functions: [tvl2018.compute_loudness, tvl2018_jax.compute_loudness]
     scope: instantaneous, short-term and long-term loudness; binaural

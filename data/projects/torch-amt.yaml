@@ -31,7 +31,7 @@ caveats:
     The documentation claims "Matching MATLAB AMT v1.6.0 implementations", but the tests contain no stored AMT or
     MATLAB reference outputs.
 implements:
-  - method: loudness-moore-glasberg-time-varying
+  - metric: loudness-moore-glasberg-time-varying
     reference: glasberg-moore-2002
     functions: [torch_amt.models.Glasberg2002]
     scope: short-term and long-term loudness
@@ -41,7 +41,7 @@ implements:
     validation_details:
       - Agreement with AMT is claimed in the documentation, without stored reference data.
     note: Ported from AMT `glasberg2002`.
-  - method: loudness-moore-glasberg-time-varying
+  - metric: loudness-moore-glasberg-time-varying
     reference: moore-2016
     functions: [torch_amt.models.Moore2016]
     scope: binaural

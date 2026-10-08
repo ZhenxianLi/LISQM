@@ -36,7 +36,7 @@ caveats:
   - "`import mosqito` fails when matplotlib is not installed, because it is imported but not declared as a dependency ([#100](https://github.com/Eomys/MoSQITo/issues/100)); install matplotlib yourself."
   - Its ECMA-418-2 functions follow the 2nd edition (2022), two editions behind the current one.
 implements:
-  - method: loudness-zwicker
+  - metric: loudness-zwicker
     reference: iso-532-1-2017
     functions: [loudness_zwst, loudness_zwst_perseg, loudness_zwst_freq, loudness_zwtv]
     scope: stationary (also per segment and from a spectrum) and time-varying
@@ -50,7 +50,7 @@ implements:
       - >-
         Signals sampled below 48 kHz are resampled to 48 kHz (FFT method) with a warning; time-varying loudness
         rejects rates above 48 kHz.
-  - method: loudness-ecma-418-2
+  - metric: loudness-ecma-418-2
     reference: ecma-418-2-ed2
     functions: [loudness_ecma]
     scope: >-
@@ -64,7 +64,7 @@ implements:
     note: >-
       Followed the 1st edition (2020) in versions 1.0.0–1.1.1 and the 2nd edition (2022) from 1.2.0. It grew out of
       the hearing model that Daniel Jiménez-Caminero added in May 2021, which is also kept in MoSQITo-FDP.
-  - method: sharpness
+  - metric: sharpness
     reference: din-45692-2009
     functions: [sharpness_din_st, sharpness_din_tv, sharpness_din_perseg, sharpness_din_from_loudness, sharpness_din_freq]
     scope: "weightings: DIN 45692, Aures, von Bismarck, Fastl"
@@ -73,7 +73,7 @@ implements:
     validation: standard-data
     validation_details:
       - Validation scripts use the DIN 45692 test signals; the documentation marks it as validated.
-  - method: roughness-daniel-weber
+  - metric: roughness-daniel-weber
     reference: daniel-weber-1997
     functions: [roughness_dw, roughness_dw_freq]
     status: available
@@ -81,7 +81,7 @@ implements:
     validation: standard-data
     validation_details:
       - The documentation marks it as validated against reference data.
-  - method: roughness-ecma-418-2
+  - metric: roughness-ecma-418-2
     reference: ecma-418-2-ed2
     functions: [roughness_ecma]
     status: available
@@ -98,7 +98,7 @@ implements:
     note: >-
       The documentation still lists it as under development. An open pull request (#95) fixes the low-pass
       filter range, which caused discrepancies with SQAT for time-varying signals.
-  - method: tone-to-noise-prominence-ratio
+  - metric: tone-to-noise-prominence-ratio
     reference: ecma-74-ed17
     functions: [tnr_ecma_st, tnr_ecma_perseg, tnr_ecma_freq, pr_ecma_st, pr_ecma_perseg, pr_ecma_freq]
     status: available
@@ -109,20 +109,20 @@ implements:
     note: >-
       Docstrings say "ECMA 418-1" without an edition; the helper code and the bibliography cite ECMA-74 Annex D (17th
       edition, 2019).
-  - method: equal-loudness-contours
+  - metric: equal-loudness-contours
     reference: iso-226-2003
     functions: [equal_loudness_contours]
     status: available
     since: 0.3.5
     validation: not-stated
     note: The docstring gives no edition; it is based on Jeff Tackett's MATLAB code for ISO 226:2003.
-  - method: tonality-aures
+  - metric: tonality-aures
     reference: aures-1985-euphony
     status: proposed
     link: https://github.com/Eomys/MoSQITo/pull/97
     validation: not-stated
     note: Pull request from April 2026 following the improved Aures metric of Estreder et al. (2023); no maintainer reply.
-  - method: tonal-audibility-iso-1996-2
+  - metric: tonal-audibility-iso-1996-2
     reference: iso-1996-2-2017
     scope: Annex K prominent-tone detection
     status: proposed

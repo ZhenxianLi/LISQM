@@ -36,14 +36,14 @@ caveats:
   - The project states no validation, and there have been no commits since March 2015.
   - With no licence file, the terms for reuse and redistribution are unclear.
 implements:
-  - method: loudness-zwicker
+  - metric: loudness-zwicker
     reference: chalupper-fastl-2002
     functions: ["@LoudnessCF"]
     scope: time-varying
     status: available
     validation: not-stated
     note: The analyser names J. Chalupper and H. Fastl as authors.
-  - method: loudness-moore-glasberg
+  - metric: loudness-moore-glasberg
     reference: moore-1997
     functions: ["@LoudnessMGB"]
     status: available
@@ -51,14 +51,14 @@ implements:
     note: >-
       Also cites Glasberg & Moore (1990) for the auditory filters. The analyser description says it covers
       time-varying and binaural loudness, and it also cites Glasberg & Moore (2002) and Moore & Glasberg (2007).
-  - method: loudness-moore-glasberg-time-varying
+  - metric: loudness-moore-glasberg-time-varying
     reference: glasberg-moore-2002
     functions: ["@LoudnessMGB"]
     scope: time-varying and binaural
     status: available
     validation: not-stated
     note: The same analyser as the stationary entry; its description cites Glasberg & Moore (2002).
-  - method: roughness-daniel-weber
+  - metric: roughness-daniel-weber
     reference: daniel-weber-1997
     functions: ["@RoughnessDW"]
     status: available

@@ -54,7 +54,7 @@ caveats:
     Comparisons with SQAT and MoSQITo are described as kept outside the package repository, and the
     third-party notes say exact agreement with the MATLAB code is not established.
 implements:
-  - method: loudness-zwicker
+  - metric: loudness-zwicker
     reference: iso-532-1-2017
     functions: [stationary_loudness, time_varying_loudness, loudness_from_levels]
     scope: stationary and time-varying; also from 28 third-octave levels
@@ -70,7 +70,7 @@ implements:
       - >-
         The project says that detailed validation and reference comparisons are kept outside the repository; the
         results are not published. The README says standards conformance has not been established.
-  - method: sharpness
+  - metric: sharpness
     reference: din-45692-2009
     functions: [sharpness_din45692]
     scope: from specific loudness
@@ -78,7 +78,7 @@ implements:
     since: 0.1.0
     validation: not-stated
     derived_from: []
-  - method: roughness-daniel-weber
+  - metric: roughness-daniel-weber
     reference: daniel-weber-1997
     functions: [roughness_daniel_weber]
     status: available
@@ -94,7 +94,7 @@ implements:
     note: >-
       Follows SQAT revision `e6228b78`, which includes SQAT's September 2026 rewrite but not its later fix to the
       Terhardt filter bank (PR #77).
-  - method: tonality-aures
+  - metric: tonality-aures
     reference: aures-1985-euphony
     functions: [tonality_aures]
     status: available
@@ -107,7 +107,7 @@ implements:
         validation"; exact agreement with MATLAB is not established.
       - The results are not published.
     note: Follows SQAT's September 2026 revision (250 ms Hann windows, 125 ms hop).
-  - method: loudness-ecma-418-2
+  - metric: loudness-ecma-418-2
     reference: ecma-418-2-ed4
     functions: [loudness_ecma, ecma_tonal_analysis]
     scope: Clause 8 loudness with tonal/noise separation; mono or stereo
@@ -120,7 +120,7 @@ implements:
         The project says that detailed validation and reference comparisons are kept outside the repository; the
         results are not published.
     note: Adapted from the SQAT/RefMap MATLAB code by Lotinga and Torjussen.
-  - method: roughness-ecma-418-2
+  - metric: roughness-ecma-418-2
     reference: ecma-418-2-ed4
     functions: [roughness_ecma]
     scope: mono or stereo; optional entropy weighting not applied
@@ -134,7 +134,7 @@ implements:
         results are not published.
     note: >-
       Uses the standard's 20 ms grid and nominal calibration factor, where SQAT uses a slightly adjusted calibration.
-  - method: tonality-ecma-418-2
+  - metric: tonality-ecma-418-2
     reference: ecma-418-2-ed4
     functions: [tonality_ecma, ecma_tonal_analysis]
     scope: mono or stereo

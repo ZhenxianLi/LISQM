@@ -32,7 +32,7 @@ notes:
     Annoyance comes in two forms: the canonical percentile convention (N5, S5, R5 and FS5 from time-varying
     tracks, since 0.5.0) and a documented stationary approximation from whole-signal values (since 0.4.0).
 implements:
-  - method: sharpness
+  - metric: sharpness
     reference: din-45692-2009
     functions: [sharpness]
     scope: "weightings: DIN 45692 (default), Aures, von Bismarck, Fastl; from a ZwickerLoudness.jl result"
@@ -49,7 +49,7 @@ implements:
       - >-
         Total loudness N is computed as the Riemann sum over the 240-bin specific loudness (`0.1 * sum`), not taken
         from `ZwickerResult.loudness` (see the `sharpness` docstring).
-  - method: roughness-daniel-weber
+  - metric: roughness-daniel-weber
     reference: daniel-weber-1997
     functions: [roughness_dw]
     status: available
@@ -68,7 +68,7 @@ implements:
       - >-
         Against the Daniel & Weber curves themselves, 63 of the 77 grid points are within 30 % of the reference
         (reported, not gated).
-  - method: fluctuation-strength-osses
+  - metric: fluctuation-strength-osses
     reference: osses-2016
     functions: [fluctuation_strength_osses]
     status: available
@@ -91,7 +91,7 @@ implements:
         validation figures also show.
     conventions:
       - Needs audio at 44.1 or 48 kHz (an error otherwise); SQAT resamples other rates itself.
-  - method: psychoacoustic-annoyance
+  - metric: psychoacoustic-annoyance
     reference: widmann-1992
     functions: [psychoacoustic_annoyance_widmann]
     scope: percentile convention (N5, S5, R5, FS5) and a stationary approximation

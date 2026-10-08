@@ -38,17 +38,17 @@ cite:
     The File Exchange page asks for the paper above for the loudness code and for Swift & Gee (2017) for the
     sharpness code.
 implements:
-  - method: loudness-moore-glasberg
+  - metric: loudness-moore-glasberg
     reference: ansi-s3-4-2007
     functions: [stationaryLoudness]
     status: available
     validation: not-stated
-  - method: loudness-moore-glasberg-time-varying
+  - metric: loudness-moore-glasberg-time-varying
     reference: glasberg-moore-2002
     functions: [Glasberg_loudness]
     status: available
     validation: not-stated
-  - method: sharpness
+  - metric: sharpness
     reference: swift-gee-2017
     functions: [stationaryLoudness, Glasberg_loudness]
     scope: from Moore–Glasberg specific loudness, stationary and time-varying

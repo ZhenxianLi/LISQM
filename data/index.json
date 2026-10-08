@@ -17,7 +17,7 @@
   "as_of": "2026-10-08",
   "schema": "https://github.com/ZhenxianLi/LISQM/blob/main/data/SCHEMA.md",
   "counts": {
-    "methods": 22,
+    "metrics": 22,
     "projects": 39,
     "references": 55
   },
@@ -112,7 +112,7 @@
       "summary": "Quantities that psychoacoustic tools often include and that are closely tied to the metrics above."
     }
   ],
-  "methods": [
+  "metrics": [
     {
       "id": "loudness-zwicker",
       "family": "loudness",
@@ -4370,7 +4370,7 @@
       ],
       "implements": [
         {
-          "method": "loudness-zwicker",
+          "metric": "loudness-zwicker",
           "reference": "iso-532-1-2017",
           "functions": [
             "Loudness_ISO532_1",
@@ -4389,7 +4389,7 @@
           "note": "Fixes to the time-varying procedure are on `main` only (PR #48)."
         },
         {
-          "method": "sharpness",
+          "metric": "sharpness",
           "reference": "din-45692-2009",
           "functions": [
             "Sharpness_DIN45692",
@@ -4405,7 +4405,7 @@
           ]
         },
         {
-          "method": "roughness-daniel-weber",
+          "metric": "roughness-daniel-weber",
           "reference": "daniel-weber-1997",
           "functions": [
             "Roughness_Daniel1997",
@@ -4423,7 +4423,7 @@
           "note": "The v1.x code is AARAE's `roughnessDW.m` (Dik Hermes's code), adapted and verified for SQAT in 2023. Rewritten on `main` (PR #65, 2026-09-08) after revised code from Dik Hermes: 63 of 119 validation values go up and 56 down (largest change 0.155 asper)."
         },
         {
-          "method": "fluctuation-strength-osses",
+          "metric": "fluctuation-strength-osses",
           "reference": "osses-2016",
           "functions": [
             "FluctuationStrength_Osses2016",
@@ -4442,7 +4442,7 @@
           "note": "Alejandro Osses's `FluctuationStrength_TUe.m` (TU/e, 2014–2016), taken into SQAT in 2020 and modified there by Osses since 2023."
         },
         {
-          "method": "tonality-aures",
+          "metric": "tonality-aures",
           "reference": "aures-1985-euphony",
           "functions": [
             "Tonality_Aures1985",
@@ -4458,7 +4458,7 @@
           "note": "Eight defects were fixed on `main` in September 2026 (for example, only one tonal component's level excess entered the result, and tones were removed from the wrong spectrum)."
         },
         {
-          "method": "psychoacoustic-annoyance",
+          "metric": "psychoacoustic-annoyance",
           "reference": "zwicker-fastl-1999",
           "functions": [
             "PsychoacousticAnnoyance_Zwicker1999",
@@ -4469,7 +4469,7 @@
           "validation": "not-stated"
         },
         {
-          "method": "psychoacoustic-annoyance",
+          "metric": "psychoacoustic-annoyance",
           "reference": "widmann-1992",
           "functions": [
             "PsychoacousticAnnoyance_Widmann1992",
@@ -4480,7 +4480,7 @@
           "note": "Added on `main` in June 2025; the README describes it as the same model as the Zwicker & Fastl entry under its original attribution."
         },
         {
-          "method": "psychoacoustic-annoyance",
+          "metric": "psychoacoustic-annoyance",
           "reference": "more-2010",
           "functions": [
             "PsychoacousticAnnoyance_More2010",
@@ -4494,7 +4494,7 @@
           ]
         },
         {
-          "method": "psychoacoustic-annoyance",
+          "metric": "psychoacoustic-annoyance",
           "reference": "di-2016",
           "functions": [
             "PsychoacousticAnnoyance_Di2016",
@@ -4508,7 +4508,7 @@
           ]
         },
         {
-          "method": "epnl",
+          "metric": "epnl",
           "reference": "cfr-14-part-36",
           "functions": [
             "EPNL_FAR_Part36",
@@ -4530,7 +4530,7 @@
           "note": "Follows Amendment 36-26 (2005)."
         },
         {
-          "method": "loudness-ecma-418-2",
+          "metric": "loudness-ecma-418-2",
           "reference": "ecma-418-2-ed3",
           "functions": [
             "Loudness_ECMA418_2",
@@ -4552,7 +4552,7 @@
           ]
         },
         {
-          "method": "loudness-ecma-418-2",
+          "metric": "loudness-ecma-418-2",
           "reference": "ecma-418-2-ed4",
           "functions": [
             "Loudness_ECMA418_2",
@@ -4573,7 +4573,7 @@
           "note": "Updated to the 4th edition on `main` in 2025."
         },
         {
-          "method": "roughness-ecma-418-2",
+          "metric": "roughness-ecma-418-2",
           "reference": "ecma-418-2-ed3",
           "functions": [
             "Roughness_ECMA418_2"
@@ -4594,7 +4594,7 @@
           ]
         },
         {
-          "method": "roughness-ecma-418-2",
+          "metric": "roughness-ecma-418-2",
           "reference": "ecma-418-2-ed4",
           "functions": [
             "Roughness_ECMA418_2"
@@ -4614,7 +4614,7 @@
           "note": "Amended to the 4th edition on `main` in November 2025."
         },
         {
-          "method": "tonality-ecma-418-2",
+          "metric": "tonality-ecma-418-2",
           "reference": "ecma-418-2-ed3",
           "functions": [
             "Tonality_ECMA418_2"
@@ -4634,7 +4634,7 @@
           ]
         },
         {
-          "method": "tonality-ecma-418-2",
+          "metric": "tonality-ecma-418-2",
           "reference": "ecma-418-2-ed4",
           "functions": [
             "Tonality_ECMA418_2"
@@ -4654,7 +4654,7 @@
           ]
         },
         {
-          "method": "fluctuation-strength-ecma-418-2",
+          "metric": "fluctuation-strength-ecma-418-2",
           "reference": "ecma-418-2-ed4",
           "functions": [
             "FluctuationStrength_ECMA418_2"
@@ -4743,7 +4743,7 @@
       ],
       "implements": [
         {
-          "method": "loudness-zwicker",
+          "metric": "loudness-zwicker",
           "reference": "iso-532-1-2017",
           "functions": [
             "loudness_zwst",
@@ -4766,7 +4766,7 @@
           ]
         },
         {
-          "method": "loudness-ecma-418-2",
+          "metric": "loudness-ecma-418-2",
           "reference": "ecma-418-2-ed2",
           "functions": [
             "loudness_ecma"
@@ -4781,7 +4781,7 @@
           "note": "Followed the 1st edition (2020) in versions 1.0.0–1.1.1 and the 2nd edition (2022) from 1.2.0. It grew out of the hearing model that Daniel Jiménez-Caminero added in May 2021, which is also kept in MoSQITo-FDP."
         },
         {
-          "method": "sharpness",
+          "metric": "sharpness",
           "reference": "din-45692-2009",
           "functions": [
             "sharpness_din_st",
@@ -4799,7 +4799,7 @@
           ]
         },
         {
-          "method": "roughness-daniel-weber",
+          "metric": "roughness-daniel-weber",
           "reference": "daniel-weber-1997",
           "functions": [
             "roughness_dw",
@@ -4813,7 +4813,7 @@
           ]
         },
         {
-          "method": "roughness-ecma-418-2",
+          "metric": "roughness-ecma-418-2",
           "reference": "ecma-418-2-ed2",
           "functions": [
             "roughness_ecma"
@@ -4831,7 +4831,7 @@
           "note": "The documentation still lists it as under development. An open pull request (#95) fixes the low-pass filter range, which caused discrepancies with SQAT for time-varying signals."
         },
         {
-          "method": "tone-to-noise-prominence-ratio",
+          "metric": "tone-to-noise-prominence-ratio",
           "reference": "ecma-74-ed17",
           "functions": [
             "tnr_ecma_st",
@@ -4850,7 +4850,7 @@
           "note": "Docstrings say \"ECMA 418-1\" without an edition; the helper code and the bibliography cite ECMA-74 Annex D (17th edition, 2019)."
         },
         {
-          "method": "equal-loudness-contours",
+          "metric": "equal-loudness-contours",
           "reference": "iso-226-2003",
           "functions": [
             "equal_loudness_contours"
@@ -4861,7 +4861,7 @@
           "note": "The docstring gives no edition; it is based on Jeff Tackett's MATLAB code for ISO 226:2003."
         },
         {
-          "method": "tonality-aures",
+          "metric": "tonality-aures",
           "reference": "aures-1985-euphony",
           "status": "proposed",
           "link": "https://github.com/Eomys/MoSQITo/pull/97",
@@ -4869,7 +4869,7 @@
           "note": "Pull request from April 2026 following the improved Aures metric of Estreder et al. (2023); no maintainer reply."
         },
         {
-          "method": "tonal-audibility-iso-1996-2",
+          "metric": "tonal-audibility-iso-1996-2",
           "reference": "iso-1996-2-2017",
           "scope": "Annex K prominent-tone detection",
           "status": "proposed",
@@ -4955,7 +4955,7 @@
       ],
       "implements": [
         {
-          "method": "loudness-ecma-418-2",
+          "metric": "loudness-ecma-418-2",
           "reference": "ecma-418-2-ed4",
           "functions": [
             "shm_loudness_ecma",
@@ -4975,7 +4975,7 @@
           ]
         },
         {
-          "method": "tonality-ecma-418-2",
+          "metric": "tonality-ecma-418-2",
           "reference": "ecma-418-2-ed4",
           "functions": [
             "shm_tonality_ecma"
@@ -4994,7 +4994,7 @@
           "note": "Optional experimental tonal-annoyance weighting (Sottek & Becker, 2019) since 0.1.14."
         },
         {
-          "method": "roughness-ecma-418-2",
+          "metric": "roughness-ecma-418-2",
           "reference": "ecma-418-2-ed4",
           "functions": [
             "shm_roughness_ecma"
@@ -5013,7 +5013,7 @@
           ]
         },
         {
-          "method": "fluctuation-strength-ecma-418-2",
+          "metric": "fluctuation-strength-ecma-418-2",
           "reference": "ecma-418-2-ed4",
           "functions": [
             "shm_fluctuation_ecma"
@@ -5093,7 +5093,7 @@
       ],
       "implements": [
         {
-          "method": "tonal-audibility-iso-1996-2",
+          "metric": "tonal-audibility-iso-1996-2",
           "reference": "iso-1996-2-2007",
           "functions": [
             "Tonality",
@@ -5176,7 +5176,7 @@
       ],
       "implements": [
         {
-          "method": "loudness-moore-glasberg",
+          "metric": "loudness-moore-glasberg",
           "reference": "moore-1997",
           "functions": [
             "moore1997"
@@ -5189,7 +5189,7 @@
           "note": "Listed as \"MOORE1997 - Loudness model for stationary signals\" in models/Contents.m."
         },
         {
-          "method": "loudness-moore-glasberg",
+          "metric": "loudness-moore-glasberg",
           "reference": "chen-2011",
           "functions": [
             "chen2011"
@@ -5202,7 +5202,7 @@
           "note": "Listed as \"CHEN2011 - Fast excitation pattern estimation\"."
         },
         {
-          "method": "loudness-moore-glasberg-time-varying",
+          "metric": "loudness-moore-glasberg-time-varying",
           "reference": "glasberg-moore-2002",
           "functions": [
             "glasberg2002"
@@ -5215,7 +5215,7 @@
           "note": "Listed as \"GLASBERG2002 - Loudness model for time-variant signals\"."
         },
         {
-          "method": "loudness-moore-glasberg-time-varying",
+          "metric": "loudness-moore-glasberg-time-varying",
           "reference": "moore-2016",
           "functions": [
             "moore2016"
@@ -5277,7 +5277,7 @@
         "citation": "Porres, A. T. (2011). Dissonance Model Toolbox in Pure Data. *Proceedings of the 4th Pure Data International Convention (PdCon11)*, Berlin."
       },
       "notes": [
-        "The roughness objects (`[roughness]`, `[roughcurve]`) compute the sensory dissonance of a spectrum given as lists of frequencies and amplitudes, with a model \"derived from the work of Parncutt, Sethares, Vassilakis & Barlow\"; this is not one of the signal-based roughness methods in this list.",
+        "The roughness objects (`[roughness]`, `[roughcurve]`) compute the sensory dissonance of a spectrum given as lists of frequencies and amplitudes, with a model \"derived from the work of Parncutt, Sethares, Vassilakis & Barlow\"; this is not one of the signal-based roughness metrics in this list.",
         "`[sharpness~]` is an abstraction built on `[barks~]` (24 Bark bands) and names no sharpness model.",
         "Tonalness, pitch salience and commonality follow Parncutt & Strasburger (1994), after Terhardt; they are not tonality metrics in the sense of this list.",
         "From the author's MSc and PhD work (2005–2012). Version 1.1 was released on 2025-10-14 (git tags 1.0 of 2019 and 1.1; no GitHub releases). It builds with pd-lib-builder."
@@ -5287,7 +5287,7 @@
       ],
       "implements": [
         {
-          "method": "equal-loudness-contours",
+          "metric": "equal-loudness-contours",
           "reference": "iso-226-2003",
           "functions": [
             "[iso226]"
@@ -5356,7 +5356,7 @@
       ],
       "implements": [
         {
-          "method": "loudness-ecma-418-2",
+          "metric": "loudness-ecma-418-2",
           "reference": "ecma-418-2-ed4",
           "functions": [
             "acousticSHMLoudness",
@@ -5374,7 +5374,7 @@
           ]
         },
         {
-          "method": "tonality-ecma-418-2",
+          "metric": "tonality-ecma-418-2",
           "reference": "ecma-418-2-ed4",
           "functions": [
             "acousticSHMTonality"
@@ -5389,7 +5389,7 @@
           ]
         },
         {
-          "method": "roughness-ecma-418-2",
+          "metric": "roughness-ecma-418-2",
           "reference": "ecma-418-2-ed4",
           "functions": [
             "acousticSHMRoughness"
@@ -5404,7 +5404,7 @@
           ]
         },
         {
-          "method": "sharpness",
+          "metric": "sharpness",
           "reference": "din-45692-2009",
           "functions": [
             "acousticSharpnessSHM",
@@ -5416,7 +5416,7 @@
           "note": "The DIN 45692 weighting is the option `widmann`; Aures (the default) and von Bismarck weightings are also offered. DIN 45692 itself is defined on Zwicker specific loudness. A further variant works from a Zwicker-based quasi-loudness (`acousticSharpFromQuasiLoud`). An inaccuracy in the Aures weighting was fixed on 2026-09-18."
         },
         {
-          "method": "psychoacoustic-annoyance",
+          "metric": "psychoacoustic-annoyance",
           "reference": "widmann-1992",
           "functions": [
             "acousticPsychAnnoy",
@@ -5430,7 +5430,7 @@
           "note": "The MATLAB header names the model Widmann (1992), \"commonly misattributed to Zwicker\". The Python `widmannPA` takes precomputed metric values."
         },
         {
-          "method": "psychoacoustic-annoyance",
+          "metric": "psychoacoustic-annoyance",
           "reference": "more-2010",
           "functions": [
             "morePA"
@@ -5440,7 +5440,7 @@
           "validation": "not-stated"
         },
         {
-          "method": "psychoacoustic-annoyance",
+          "metric": "psychoacoustic-annoyance",
           "reference": "di-2016",
           "functions": [
             "diPA"
@@ -5450,7 +5450,7 @@
           "validation": "not-stated"
         },
         {
-          "method": "aural-detectability",
+          "metric": "aural-detectability",
           "reference": "fidell-1974",
           "functions": [
             "auralDetectability",
@@ -5464,7 +5464,7 @@
           "note": "Code headers describe the Fidell, Pearsons & Bennett (1974) model as \"developed further by NASA\" and cite \"Rizzi, SA et al, 2024\"; the README cites Rizzi et al. (2025), *Journal of Aircraft*, doi:10.2514/1.C038188."
         },
         {
-          "method": "aural-detectability",
+          "metric": "aural-detectability",
           "reference": "rizzi-2025",
           "functions": [
             "auralDetectability",
@@ -5533,7 +5533,7 @@
       ],
       "implements": [
         {
-          "method": "loudness-zwicker",
+          "metric": "loudness-zwicker",
           "reference": "iso-532-1-2017",
           "functions": [
             "Loudness_ISO532_1"
@@ -5550,7 +5550,7 @@
           "note": "The header cites a 2014 draft of ISO 532-1 and describes the code as Ella Manor's 2015 MATLAB port, with adjustments, of the Annex A C code."
         },
         {
-          "method": "loudness-zwicker",
+          "metric": "loudness-zwicker",
           "reference": "chalupper-fastl-2002",
           "functions": [
             "LoudnessCF"
@@ -5565,7 +5565,7 @@
           "note": "Also outputs loudness fluctuation and time-varying sharpness. Josef Chalupper's code (2000) in its PsySound3 version (2007), adjusted for AARAE by Ella Manor in 2015."
         },
         {
-          "method": "loudness-moore-glasberg",
+          "metric": "loudness-moore-glasberg",
           "reference": "moore-1997",
           "functions": [
             "Loudness_MGB2b"
@@ -5580,7 +5580,7 @@
           "note": "A port and extension of PsySound3's code by Densil Cabrera and Doheon Lee, version 1.02 (27 October 2015). Two-channel input gives binaural loudness after Moore & Glasberg (2007). The audio is resampled to 32 kHz."
         },
         {
-          "method": "loudness-moore-glasberg-time-varying",
+          "metric": "loudness-moore-glasberg-time-varying",
           "reference": "glasberg-moore-2002",
           "functions": [
             "Loudness_MGB2b"
@@ -5595,7 +5595,7 @@
           "note": "Same function as the stationary model; the binaural extension follows Moore & Glasberg (2007)."
         },
         {
-          "method": "sharpness",
+          "metric": "sharpness",
           "reference": "fastl-zwicker-2007",
           "functions": [
             "sharpness_Fastl"
@@ -5606,7 +5606,7 @@
           "note": "The header describes a weighting fitted to data in Zwicker & Fastl's *Psychoacoustics: Facts and Models* (edition not stated), names the method \"Fastl (1991)\" and credits Claire Churchill (2004)."
         },
         {
-          "method": "roughness-daniel-weber",
+          "metric": "roughness-daniel-weber",
           "reference": "daniel-weber-1997",
           "functions": [
             "RoughnessDW"
@@ -5673,7 +5673,7 @@
       ],
       "implements": [
         {
-          "method": "loudness-moore-glasberg-time-varying",
+          "metric": "loudness-moore-glasberg-time-varying",
           "reference": "iso-532-3-2023",
           "functions": [
             "tv2018"
@@ -5738,7 +5738,7 @@
       ],
       "implements": [
         {
-          "method": "loudness-zwicker",
+          "metric": "loudness-zwicker",
           "reference": "din-45631-1991",
           "functions": [
             "ita_loudness"
@@ -5758,7 +5758,7 @@
           "note": "The header says \"DIN 45631 / ISO 532 B\". The C core (`private/DIN45631.c`) is Aaron Hastings' version (2000) of the BASIC program published by Zwicker, Fastl, Widmann, Kurakata, Kuwano and Namba in J. Acoust. Soc. Jpn (E) 12(1), 1991."
         },
         {
-          "method": "loudness-zwicker",
+          "metric": "loudness-zwicker",
           "reference": "din-45631-a1-2010",
           "functions": [
             "ita_loudness_timevariant"
@@ -5775,7 +5775,7 @@
           "note": "The header says \"DIN 45631/A1\" without a year; the function was written in August 2010, after the amendment was published. A code comment says the C code of the nonlinearity block was copied from the DIN document, \"without its errors\"."
         },
         {
-          "method": "roughness-daniel-weber",
+          "metric": "roughness-daniel-weber",
           "reference": "daniel-weber-1997",
           "functions": [
             "ita_roughness_daniel"
@@ -5788,7 +5788,7 @@
           "note": "Uses sub-functions written by Martin Klemenz in 2000 (`external_packages/roughness_daniel`)."
         },
         {
-          "method": "tonality-din-45681",
+          "metric": "tonality-din-45681",
           "reference": "din-45681-2002-draft",
           "functions": [
             "ita_tonality"
@@ -5851,7 +5851,7 @@
       },
       "implements": [
         {
-          "method": "equal-loudness-contours",
+          "metric": "equal-loudness-contours",
           "reference": "iso-226-2003",
           "functions": [
             "pydsm.iso226"
@@ -5929,7 +5929,7 @@
       ],
       "implements": [
         {
-          "method": "loudness-zwicker",
+          "metric": "loudness-zwicker",
           "reference": "iso-532-1-2017",
           "functions": [
             "stationary_loudness",
@@ -5953,7 +5953,7 @@
           ]
         },
         {
-          "method": "sharpness",
+          "metric": "sharpness",
           "reference": "din-45692-2009",
           "functions": [
             "sharpness_din45692"
@@ -5964,7 +5964,7 @@
           "validation": "not-stated"
         },
         {
-          "method": "roughness-daniel-weber",
+          "metric": "roughness-daniel-weber",
           "reference": "daniel-weber-1997",
           "functions": [
             "roughness_daniel_weber"
@@ -5986,7 +5986,7 @@
           "note": "Follows SQAT revision `e6228b78`, which includes SQAT's September 2026 rewrite but not its later fix to the Terhardt filter bank (PR #77)."
         },
         {
-          "method": "tonality-aures",
+          "metric": "tonality-aures",
           "reference": "aures-1985-euphony",
           "functions": [
             "tonality_aures"
@@ -6004,7 +6004,7 @@
           "note": "Follows SQAT's September 2026 revision (250 ms Hann windows, 125 ms hop)."
         },
         {
-          "method": "loudness-ecma-418-2",
+          "metric": "loudness-ecma-418-2",
           "reference": "ecma-418-2-ed4",
           "functions": [
             "loudness_ecma",
@@ -6023,7 +6023,7 @@
           "note": "Adapted from the SQAT/RefMap MATLAB code by Lotinga and Torjussen."
         },
         {
-          "method": "roughness-ecma-418-2",
+          "metric": "roughness-ecma-418-2",
           "reference": "ecma-418-2-ed4",
           "functions": [
             "roughness_ecma"
@@ -6041,7 +6041,7 @@
           "note": "Uses the standard's 20 ms grid and nominal calibration factor, where SQAT uses a slightly adjusted calibration."
         },
         {
-          "method": "tonality-ecma-418-2",
+          "metric": "tonality-ecma-418-2",
           "reference": "ecma-418-2-ed4",
           "functions": [
             "tonality_ecma",
@@ -6113,7 +6113,7 @@
       ],
       "implements": [
         {
-          "method": "loudness-zwicker",
+          "metric": "loudness-zwicker",
           "reference": "iso-532-1-2017",
           "functions": [
             "loudness_zwst",
@@ -6186,7 +6186,7 @@
       ],
       "implements": [
         {
-          "method": "loudness-zwicker",
+          "metric": "loudness-zwicker",
           "reference": "iso-532-1-2017",
           "functions": [
             "kirin_measure::phase_d"
@@ -6207,7 +6207,7 @@
           "note": "Ported from MoSQITo v1.2.1."
         },
         {
-          "method": "sharpness",
+          "metric": "sharpness",
           "reference": "din-45692-2009",
           "functions": [
             "kirin_measure::phase_d::sharpness"
@@ -6281,7 +6281,7 @@
       ],
       "implements": [
         {
-          "method": "loudness-zwicker",
+          "metric": "loudness-zwicker",
           "reference": "iso-532-1-2017",
           "functions": [
             "Sq.LoudnessZwst",
@@ -6301,7 +6301,7 @@
           ]
         },
         {
-          "method": "loudness-ecma-418-2",
+          "metric": "loudness-ecma-418-2",
           "reference": "ecma-418-2-ed2",
           "functions": [
             "Sq.LoudnessEcma"
@@ -6317,7 +6317,7 @@
           ]
         },
         {
-          "method": "sharpness",
+          "metric": "sharpness",
           "reference": "din-45692-2009",
           "functions": [
             "Sq.SharpnessDinSt",
@@ -6336,7 +6336,7 @@
           ]
         },
         {
-          "method": "roughness-daniel-weber",
+          "metric": "roughness-daniel-weber",
           "reference": "daniel-weber-1997",
           "functions": [
             "Sq.RoughnessDw",
@@ -6352,7 +6352,7 @@
           ]
         },
         {
-          "method": "roughness-ecma-418-2",
+          "metric": "roughness-ecma-418-2",
           "reference": "ecma-418-2-ed2",
           "functions": [
             "Sq.RoughnessEcma"
@@ -6367,7 +6367,7 @@
           ]
         },
         {
-          "method": "tone-to-noise-prominence-ratio",
+          "metric": "tone-to-noise-prominence-ratio",
           "reference": "ecma-74-ed17",
           "functions": [
             "Sq.TnrEcmaSt",
@@ -6388,7 +6388,7 @@
           "note": "The README cites ECMA-74 Annex D."
         },
         {
-          "method": "equal-loudness-contours",
+          "metric": "equal-loudness-contours",
           "reference": "iso-226-2003",
           "functions": [
             "Sq.EqualLoudnessContours"
@@ -6443,7 +6443,7 @@
       ],
       "implements": [
         {
-          "method": "loudness-moore-glasberg",
+          "metric": "loudness-moore-glasberg",
           "reference": "moore-1997",
           "functions": [
             "model.moore1997",
@@ -6460,7 +6460,7 @@
           ]
         },
         {
-          "method": "loudness-moore-glasberg-time-varying",
+          "metric": "loudness-moore-glasberg-time-varying",
           "reference": "glasberg-moore-2002",
           "functions": [
             "model.glasberg2002"
@@ -6529,7 +6529,7 @@
       ],
       "implements": [
         {
-          "method": "loudness-zwicker",
+          "metric": "loudness-zwicker",
           "reference": "iso-532-1-2017",
           "functions": [
             "loudness_zwicker",
@@ -6547,7 +6547,7 @@
           ]
         },
         {
-          "method": "loudness-moore-glasberg",
+          "metric": "loudness-moore-glasberg",
           "reference": "iso-532-2-2017",
           "functions": [
             "loudness_moore_glasberg",
@@ -6563,7 +6563,7 @@
           ]
         },
         {
-          "method": "loudness-moore-glasberg-time-varying",
+          "metric": "loudness-moore-glasberg-time-varying",
           "reference": "iso-532-3-2023",
           "functions": [
             "loudness_moore_glasberg_time"
@@ -6579,7 +6579,7 @@
           ]
         },
         {
-          "method": "loudness-ecma-418-2",
+          "metric": "loudness-ecma-418-2",
           "reference": "ecma-418-2-ed4",
           "functions": [
             "loudness_ecma"
@@ -6593,7 +6593,7 @@
           ]
         },
         {
-          "method": "tonality-ecma-418-2",
+          "metric": "tonality-ecma-418-2",
           "reference": "ecma-418-2-ed4",
           "functions": [
             "tonality_ecma"
@@ -6607,7 +6607,7 @@
           ]
         },
         {
-          "method": "roughness-ecma-418-2",
+          "metric": "roughness-ecma-418-2",
           "reference": "ecma-418-2-ed4",
           "functions": [
             "roughness_ecma"
@@ -6621,7 +6621,7 @@
           ]
         },
         {
-          "method": "fluctuation-strength-ecma-418-2",
+          "metric": "fluctuation-strength-ecma-418-2",
           "reference": "ecma-418-2-ed4",
           "functions": [
             "fluctuation_strength_ecma"
@@ -6636,7 +6636,7 @@
           "note": "Misprints found in Clause 9 are listed in the project's errata."
         },
         {
-          "method": "sharpness",
+          "metric": "sharpness",
           "reference": "din-45692-2009",
           "functions": [
             "sharpness_din",
@@ -6651,7 +6651,7 @@
           ]
         },
         {
-          "method": "fluctuation-strength-osses",
+          "metric": "fluctuation-strength-osses",
           "reference": "osses-2016",
           "functions": [
             "fluctuation_strength"
@@ -6668,7 +6668,7 @@
           ]
         },
         {
-          "method": "fluctuation-strength-osses",
+          "metric": "fluctuation-strength-osses",
           "reference": "fastl-zwicker-2007",
           "functions": [
             "fluctuation_strength_am_noise"
@@ -6682,7 +6682,7 @@
           ]
         },
         {
-          "method": "psychoacoustic-annoyance",
+          "metric": "psychoacoustic-annoyance",
           "reference": "zwicker-fastl-1999",
           "functions": [
             "psychoacoustic_annoyance",
@@ -6697,7 +6697,7 @@
           "note": "Follows Eqs. 16.2–16.4 of Fastl & Zwicker (2007), the textbook form of Widmann's model."
         },
         {
-          "method": "tone-to-noise-prominence-ratio",
+          "metric": "tone-to-noise-prominence-ratio",
           "reference": "ecma-418-1-ed3",
           "functions": [
             "tone_to_noise_ratio",
@@ -6714,7 +6714,7 @@
           "note": "The \"prominent\" flag applies the numeric criterion only."
         },
         {
-          "method": "tonal-audibility-iso-20065",
+          "metric": "tonal-audibility-iso-20065",
           "reference": "iso-pas-20065-2016",
           "functions": [
             "tone_audibility",
@@ -6736,7 +6736,7 @@
           "note": "Follows the 2016 PAS, not the 2022 TS. Does not apply the A-weighting required by clause 5.3.2. DIN 45681 itself is not implemented."
         },
         {
-          "method": "equal-loudness-contours",
+          "metric": "equal-loudness-contours",
           "reference": "iso-226-2023",
           "functions": [
             "equal_loudness_contour",
@@ -6752,21 +6752,21 @@
           ]
         },
         {
-          "method": "tonal-audibility-iso-1996-2",
+          "metric": "tonal-audibility-iso-1996-2",
           "reference": "iso-1996-2-2007",
           "scope": "Annex C; in the `phonometry.environment` namespace",
           "status": "available",
           "validation": "not-stated"
         },
         {
-          "method": "tonal-audibility-iso-1996-2",
+          "metric": "tonal-audibility-iso-1996-2",
           "reference": "iso-1996-2-2017",
           "scope": "Annex K survey method and Table J.1; in the `phonometry.environment` namespace",
           "status": "available",
           "validation": "not-stated"
         },
         {
-          "method": "tonal-audibility-iec-61400-11",
+          "metric": "tonal-audibility-iec-61400-11",
           "reference": "iec-61400-11-2012",
           "functions": [
             "wind_turbine_tonality"
@@ -6775,21 +6775,21 @@
           "validation": "not-stated"
         },
         {
-          "method": "impulsiveness",
+          "metric": "impulsiveness",
           "reference": "nt-acou-112-2002",
           "scope": "in the `phonometry.environment` namespace",
           "status": "available",
           "validation": "not-stated"
         },
         {
-          "method": "impulsiveness",
+          "metric": "impulsiveness",
           "reference": "iso-pas-1996-3-2022",
           "scope": "in the `phonometry.environment` namespace",
           "status": "available",
           "validation": "not-stated"
         },
         {
-          "method": "epnl",
+          "metric": "epnl",
           "reference": "icao-annex-16-vol-1",
           "scope": "PNL, PNLT and EPNL, in the `phonometry.aircraft` namespace",
           "status": "available",
@@ -6865,7 +6865,7 @@
       ],
       "implements": [
         {
-          "method": "sharpness",
+          "metric": "sharpness",
           "reference": "din-45692-2009",
           "functions": [
             "sharpness"
@@ -6887,7 +6887,7 @@
           ]
         },
         {
-          "method": "roughness-daniel-weber",
+          "metric": "roughness-daniel-weber",
           "reference": "daniel-weber-1997",
           "functions": [
             "roughness_dw"
@@ -6908,7 +6908,7 @@
           ]
         },
         {
-          "method": "fluctuation-strength-osses",
+          "metric": "fluctuation-strength-osses",
           "reference": "osses-2016",
           "functions": [
             "fluctuation_strength_osses"
@@ -6929,7 +6929,7 @@
           ]
         },
         {
-          "method": "psychoacoustic-annoyance",
+          "metric": "psychoacoustic-annoyance",
           "reference": "widmann-1992",
           "functions": [
             "psychoacoustic_annoyance_widmann"
@@ -7009,7 +7009,7 @@
       ],
       "implements": [
         {
-          "method": "loudness-zwicker",
+          "metric": "loudness-zwicker",
           "reference": "iso-532-1-2017",
           "functions": [
             "sp::compute_psycho"
@@ -7027,7 +7027,7 @@
           "note": "No MoSQITo code is ported."
         },
         {
-          "method": "sharpness",
+          "metric": "sharpness",
           "reference": "din-45692-2009",
           "functions": [
             "sp::compute_psycho"
@@ -7044,7 +7044,7 @@
           ]
         },
         {
-          "method": "roughness-daniel-weber",
+          "metric": "roughness-daniel-weber",
           "reference": "daniel-weber-1997",
           "functions": [
             "sp::compute_psycho"
@@ -7116,7 +7116,7 @@
       ],
       "implements": [
         {
-          "method": "loudness-moore-glasberg-time-varying",
+          "metric": "loudness-moore-glasberg-time-varying",
           "reference": "glasberg-moore-2002",
           "functions": [
             "torch_amt.models.Glasberg2002"
@@ -7133,7 +7133,7 @@
           "note": "Ported from AMT `glasberg2002`."
         },
         {
-          "method": "loudness-moore-glasberg-time-varying",
+          "metric": "loudness-moore-glasberg-time-varying",
           "reference": "moore-2016",
           "functions": [
             "torch_amt.models.Moore2016"
@@ -7207,7 +7207,7 @@
       ],
       "implements": [
         {
-          "method": "loudness-zwicker",
+          "metric": "loudness-zwicker",
           "reference": "iso-532-1-2017",
           "functions": [
             "zwicker_loudness"
@@ -7225,7 +7225,7 @@
           ]
         },
         {
-          "method": "loudness-zwicker",
+          "metric": "loudness-zwicker",
           "reference": "iso-532-1-2017",
           "functions": [
             "zwicker_loudness_time_varying"
@@ -7299,7 +7299,7 @@
       ],
       "implements": [
         {
-          "method": "loudness-zwicker",
+          "metric": "loudness-zwicker",
           "reference": "iso-532-1-2017",
           "functions": [
             "Loudness_ISO532_1"
@@ -7314,7 +7314,7 @@
           ]
         },
         {
-          "method": "sharpness",
+          "metric": "sharpness",
           "reference": "din-45692-2009",
           "functions": [
             "Sharpness_DIN45692",
@@ -7330,7 +7330,7 @@
           ]
         },
         {
-          "method": "roughness-daniel-weber",
+          "metric": "roughness-daniel-weber",
           "reference": "daniel-weber-1997",
           "functions": [
             "Roughness_Daniel1997"
@@ -7346,7 +7346,7 @@
           "note": "Follows SQAT v1.3, before SQAT's September 2026 rewrite."
         },
         {
-          "method": "fluctuation-strength-osses",
+          "metric": "fluctuation-strength-osses",
           "reference": "osses-2016",
           "functions": [
             "FluctuationStrength_Osses2016"
@@ -7361,7 +7361,7 @@
           ]
         },
         {
-          "method": "tonality-aures",
+          "metric": "tonality-aures",
           "reference": "aures-1985-euphony",
           "functions": [
             "Tonality_Aures1985"
@@ -7377,7 +7377,7 @@
           "note": "A June 2026 commit corrected its calibration; it predates SQAT's September 2026 fixes."
         },
         {
-          "method": "psychoacoustic-annoyance",
+          "metric": "psychoacoustic-annoyance",
           "reference": "zwicker-fastl-1999",
           "functions": [
             "PsychoacousticAnnoyance_Zwicker1999"
@@ -7392,7 +7392,7 @@
           ]
         },
         {
-          "method": "psychoacoustic-annoyance",
+          "metric": "psychoacoustic-annoyance",
           "reference": "more-2010",
           "functions": [
             "PsychoacousticAnnoyance_More2010"
@@ -7407,7 +7407,7 @@
           ]
         },
         {
-          "method": "psychoacoustic-annoyance",
+          "metric": "psychoacoustic-annoyance",
           "reference": "di-2016",
           "functions": [
             "PsychoacousticAnnoyance_Di2016"
@@ -7422,7 +7422,7 @@
           ]
         },
         {
-          "method": "epnl",
+          "metric": "epnl",
           "reference": "cfr-14-part-36",
           "functions": [
             "EPNL_FAR_Part36"
@@ -7437,7 +7437,7 @@
           ]
         },
         {
-          "method": "loudness-ecma-418-2",
+          "metric": "loudness-ecma-418-2",
           "reference": "ecma-418-2-ed4",
           "functions": [
             "Loudness_ECMA418_2"
@@ -7453,7 +7453,7 @@
           ]
         },
         {
-          "method": "roughness-ecma-418-2",
+          "metric": "roughness-ecma-418-2",
           "reference": "ecma-418-2-ed4",
           "functions": [
             "Roughness_ECMA418_2"
@@ -7469,7 +7469,7 @@
           ]
         },
         {
-          "method": "tonality-ecma-418-2",
+          "metric": "tonality-ecma-418-2",
           "reference": "ecma-418-2-ed4",
           "functions": [
             "Tonality_ECMA418_2"
@@ -7531,7 +7531,7 @@
       ],
       "implements": [
         {
-          "method": "loudness-moore-glasberg-time-varying",
+          "metric": "loudness-moore-glasberg-time-varying",
           "reference": "moore-2018",
           "functions": [
             "tvl2018.compute_loudness",
@@ -7605,7 +7605,7 @@
       },
       "implements": [
         {
-          "method": "loudness-moore-glasberg",
+          "metric": "loudness-moore-glasberg",
           "reference": "ansi-s3-4-2007",
           "functions": [
             "stationaryLoudness"
@@ -7614,7 +7614,7 @@
           "validation": "not-stated"
         },
         {
-          "method": "loudness-moore-glasberg-time-varying",
+          "metric": "loudness-moore-glasberg-time-varying",
           "reference": "glasberg-moore-2002",
           "functions": [
             "Glasberg_loudness"
@@ -7623,7 +7623,7 @@
           "validation": "not-stated"
         },
         {
-          "method": "sharpness",
+          "metric": "sharpness",
           "reference": "swift-gee-2017",
           "functions": [
             "stationaryLoudness",
@@ -7678,7 +7678,7 @@
       ],
       "implements": [
         {
-          "method": "epnl",
+          "metric": "epnl",
           "reference": "icao-annex-16-vol-1",
           "functions": [
             "SPL",
@@ -7736,7 +7736,7 @@
       ],
       "implements": [
         {
-          "method": "fluctuation-strength-osses",
+          "metric": "fluctuation-strength-osses",
           "reference": "osses-2016",
           "functions": [
             "FluctuationStrength_TUe"
@@ -7795,7 +7795,7 @@
       ],
       "implements": [
         {
-          "method": "equal-loudness-contours",
+          "metric": "equal-loudness-contours",
           "reference": "iso-226-2003",
           "functions": [
             "iosr.auditory.iso226"
@@ -7855,7 +7855,7 @@
       ],
       "implements": [
         {
-          "method": "loudness-moore-glasberg",
+          "metric": "loudness-moore-glasberg",
           "reference": "ansi-s3-4-2007",
           "functions": [
             "StationaryLoudnessANSIS342007"
@@ -7869,7 +7869,7 @@
           ]
         },
         {
-          "method": "loudness-moore-glasberg",
+          "metric": "loudness-moore-glasberg",
           "reference": "chen-2011",
           "functions": [
             "StationaryLoudnessCHGM2011"
@@ -7878,7 +7878,7 @@
           "validation": "self-tests"
         },
         {
-          "method": "loudness-moore-glasberg-time-varying",
+          "metric": "loudness-moore-glasberg-time-varying",
           "reference": "glasberg-moore-2002",
           "functions": [
             "DynamicLoudnessGM2002"
@@ -7888,7 +7888,7 @@
           "note": "Per the header, excitation patterns follow ANSI S3.4-2007, and parameter sets use the modified long-term time constants of Moore et al. (2003) and the ANSI S3.4-2007 equation for specific loudness at high levels."
         },
         {
-          "method": "loudness-zwicker",
+          "metric": "loudness-zwicker",
           "reference": "din-45631-1991",
           "functions": [
             "StationaryLoudnessDIN456311991"
@@ -7952,7 +7952,7 @@
       ],
       "implements": [
         {
-          "method": "loudness-ecma-418-2",
+          "metric": "loudness-ecma-418-2",
           "reference": "ecma-418-2-ed1",
           "functions": [
             "comp_loudness"
@@ -7967,7 +7967,7 @@
           "note": "Module `mosqito.functions.hearing_model`. Its author committed the same hearing model to MoSQITo on 2021-05-30, two weeks before this snapshot."
         },
         {
-          "method": "tone-to-noise-prominence-ratio",
+          "metric": "tone-to-noise-prominence-ratio",
           "reference": "ecma-74-ed17",
           "functions": [
             "comp_tnr",
@@ -8015,7 +8015,7 @@
       "ai_assistance": "not-stated",
       "notes": [
         "There is no README. The GitHub description calls the project \"the translation to python of the most important parameters in the field of Psychoacoustics based on the book of Zwicker and Fastl\".",
-        "Roughness (`acousticRoughness`) follows the formula in Zwicker & Fastl's book, which is not one of the roughness methods in this list.",
+        "Roughness (`acousticRoughness`) follows the formula in Zwicker & Fastl's book, which is not one of the roughness metrics in this list.",
         "Also contains A-weighting, voice-activity detection and the scripts Main.py and Main_WAV.py for microphone or WAV input."
       ],
       "caveats": [
@@ -8024,7 +8024,7 @@
       ],
       "implements": [
         {
-          "method": "loudness-zwicker",
+          "metric": "loudness-zwicker",
           "reference": "iso-532-1-2017",
           "functions": [
             "loudness_ISO532",
@@ -8036,7 +8036,7 @@
           "note": "The file header says \"Loudness ISO 532-1:2014\" and the filter coefficients are labelled \"ISO 532-1:2014\"; the published edition is ISO 532-1:2017."
         },
         {
-          "method": "sharpness",
+          "metric": "sharpness",
           "reference": "din-45692-2009",
           "functions": [
             "calc_sharpness"
@@ -8046,7 +8046,7 @@
           "note": "The file header says \"Sharpness DIN 45692\"; the function also returns the von Bismarck and Aures variants."
         },
         {
-          "method": "fluctuation-strength-osses",
+          "metric": "fluctuation-strength-osses",
           "reference": "fastl-zwicker-2007",
           "functions": [
             "acousticFluctuation",
@@ -8058,7 +8058,7 @@
           "note": "The header cites Zwicker & Fastl, \"Psychoacoustics: Facts and Models\", without naming an edition."
         },
         {
-          "method": "psychoacoustic-annoyance",
+          "metric": "psychoacoustic-annoyance",
           "reference": "zwicker-fastl-1999",
           "functions": [
             "psychoacousticAnnoyance"
@@ -8118,7 +8118,7 @@
       ],
       "implements": [
         {
-          "method": "loudness-zwicker",
+          "metric": "loudness-zwicker",
           "reference": "chalupper-fastl-2002",
           "functions": [
             "@LoudnessCF"
@@ -8129,7 +8129,7 @@
           "note": "The analyser names J. Chalupper and H. Fastl as authors."
         },
         {
-          "method": "loudness-moore-glasberg",
+          "metric": "loudness-moore-glasberg",
           "reference": "moore-1997",
           "functions": [
             "@LoudnessMGB"
@@ -8139,7 +8139,7 @@
           "note": "Also cites Glasberg & Moore (1990) for the auditory filters. The analyser description says it covers time-varying and binaural loudness, and it also cites Glasberg & Moore (2002) and Moore & Glasberg (2007)."
         },
         {
-          "method": "loudness-moore-glasberg-time-varying",
+          "metric": "loudness-moore-glasberg-time-varying",
           "reference": "glasberg-moore-2002",
           "functions": [
             "@LoudnessMGB"
@@ -8150,7 +8150,7 @@
           "note": "The same analyser as the stationary entry; its description cites Glasberg & Moore (2002)."
         },
         {
-          "method": "roughness-daniel-weber",
+          "metric": "roughness-daniel-weber",
           "reference": "daniel-weber-1997",
           "functions": [
             "@RoughnessDW"
@@ -8214,7 +8214,7 @@
       ],
       "implements": [
         {
-          "method": "tonal-audibility-iso-1996-2",
+          "metric": "tonal-audibility-iso-1996-2",
           "reference": "iso-1996-2-2007",
           "functions": [
             "Tonality",
@@ -8289,7 +8289,7 @@
       },
       "implements": [
         {
-          "method": "loudness-moore-glasberg-time-varying",
+          "metric": "loudness-moore-glasberg-time-varying",
           "reference": "glasberg-moore-2002",
           "functions": [
             "loud_gui",
@@ -8350,7 +8350,7 @@
       ],
       "implements": [
         {
-          "method": "epnl",
+          "metric": "epnl",
           "reference": "icao-annex-16-vol-1",
           "functions": [
             "pnl_noise",
@@ -8409,7 +8409,7 @@
       ],
       "implements": [
         {
-          "method": "loudness-zwicker",
+          "metric": "loudness-zwicker",
           "reference": "din-45631-1991",
           "scope": "stationary, from one-third-octave band levels",
           "status": "available",
@@ -8466,7 +8466,7 @@
       ],
       "implements": [
         {
-          "method": "loudness-zwicker",
+          "metric": "loudness-zwicker",
           "reference": "iso-532-1-2017",
           "functions": [
             "Loudness.loudnessZWK"
@@ -8478,7 +8478,7 @@
           "note": "Calls `loudness_zwst` of MoSQITo 1.2.1."
         },
         {
-          "method": "loudness-ecma-418-2",
+          "metric": "loudness-ecma-418-2",
           "reference": "ecma-418-2-ed2",
           "functions": [
             "Loudness.loudnessECMA"
@@ -8490,7 +8490,7 @@
           "note": "Calls `loudness_ecma` of MoSQITo 1.2.1 (ECMA-418-2:2022, Clause 5 only)."
         },
         {
-          "method": "sharpness",
+          "metric": "sharpness",
           "reference": "din-45692-2009",
           "functions": [
             "Sharpnes_DIN.sharpnessCalculation"
@@ -8501,7 +8501,7 @@
           "note": "Calls `sharpness_din_st` of MoSQITo 1.2.1 with the DIN weighting."
         },
         {
-          "method": "roughness-daniel-weber",
+          "metric": "roughness-daniel-weber",
           "reference": "daniel-weber-1997",
           "functions": [
             "Roughness.roughnessDW"
@@ -8512,7 +8512,7 @@
           "note": "Calls `roughness_dw` of MoSQITo 1.2.1."
         },
         {
-          "method": "roughness-ecma-418-2",
+          "metric": "roughness-ecma-418-2",
           "reference": "ecma-418-2-ed2",
           "functions": [
             "Roughness.roughnessECMA"
@@ -8581,7 +8581,7 @@
       ],
       "implements": [
         {
-          "method": "loudness-zwicker",
+          "metric": "loudness-zwicker",
           "reference": "iso-532-1-2017",
           "functions": [
             "Binaural.mosqito_metric",
@@ -8594,7 +8594,7 @@
           "note": "Calls `loudness_zwtv`."
         },
         {
-          "method": "sharpness",
+          "metric": "sharpness",
           "reference": "din-45692-2009",
           "functions": [
             "Binaural.mosqito_metric",
@@ -8606,7 +8606,7 @@
           "note": "Calls `sharpness_din_from_loudness`, `sharpness_din_perseg` or `sharpness_din_tv`; the weighting can be chosen."
         },
         {
-          "method": "roughness-daniel-weber",
+          "metric": "roughness-daniel-weber",
           "reference": "daniel-weber-1997",
           "functions": [
             "Binaural.mosqito_metric",
@@ -8675,7 +8675,7 @@
       ],
       "implements": [
         {
-          "method": "loudness-zwicker",
+          "metric": "loudness-zwicker",
           "reference": "iso-532-1-2017",
           "functions": [
             "loudness_zwst",
@@ -8695,7 +8695,7 @@
           "note": "Computes the third-octave levels itself (per-band Butterworth filters of order 3 by default, as in MoSQITo) and passes them to ZwickerLoudness.jl for the loudness."
         },
         {
-          "method": "loudness-zwicker",
+          "metric": "loudness-zwicker",
           "reference": "iso-532-1-2017",
           "functions": [
             "loudness_zwtv"

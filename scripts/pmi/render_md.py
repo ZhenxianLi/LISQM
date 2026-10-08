@@ -17,7 +17,7 @@ from .describe import (COVERAGE_COLUMNS, GROUP_RULE, NEW_LABEL, activity_text, a
                        validation_groups, validation_label, version_label)
 from . import relations as RL
 from .paths import (ABOUT, AI, BIBTEX, FAQ, HOME, LANGUAGES, MAP, METRICS, PROJECTS, STANDARDS, UPDATES, absolute,
-                    md_twin, method_path, project_path)
+                    md_twin, metric_path, project_path)
 from .text import first_sentence, join_words, long_date, month, oneline, plain, plural
 
 def _plain(text: str) -> str:
@@ -34,8 +34,8 @@ def _namer(index: Index, target=None):
     return lambda p: _bold(p, f"[{p['name']}]({target(p) if target else absolute(index, project_path(p))})")
 
 
-def _method_link(index: Index, m: dict, label: str | None = None) -> str:
-    return f"[{label or m['name']}]({absolute(index, method_path(m))})"
+def _metric_link(index: Index, m: dict, label: str | None = None) -> str:
+    return f"[{label or m['name']}]({absolute(index, metric_path(m))})"
 
 
 def _ref_link(r: dict) -> str:
@@ -88,36 +88,36 @@ def _validation(i: dict) -> str:
     return validation_label(i) + (f"; {also}" if also else "")
 
 
-def _validation_section(index: Index, impls: list[dict], on_method: bool) -> list[str]:
+def _validation_section(index: Index, impls: list[dict], on_metric: bool) -> list[str]:
     """Markdown twin of the "How it was validated" section of the HTML pages."""
     name = _namer(index)
-    groups, silent = validation_groups(impls, (lambda i: i["_project"]["id"]) if on_method else (lambda i: ""))
-    triples = [(i["_project"]["id"], i["method"], i["reference"]) for i in impls]
+    groups, silent = validation_groups(impls, (lambda i: i["_project"]["id"]) if on_metric else (lambda i: ""))
+    triples = [(i["_project"]["id"], i["metric"], i["reference"]) for i in impls]
 
     def title(i: dict, named: bool = True) -> str:
         edition = i["_ref"]["label"]
-        if i.get("scope") and triples.count((i["_project"]["id"], i["method"], i["reference"])) > 1:
+        if i.get("scope") and triples.count((i["_project"]["id"], i["metric"], i["reference"])) > 1:
             edition += f" ({i['scope']})"
         if not named:
             return edition
-        head = name(i["_project"]) if on_method else _method_link(index, i["_method"])
-        if on_method and i.get("_via"):
+        head = name(i["_project"]) if on_metric else _metric_link(index, i["_metric"])
+        if on_metric and i.get("_via"):
             head += f" (via {i['_via']['name']})"
         return f"{head}, {edition}"
 
-    who = "each project" if on_method else "the project"
-    lines = [f"## How {'they were' if on_method else 'it was'} validated", "",
+    who = "each project" if on_metric else "the project"
+    lines = [f"## How {'they were' if on_metric else 'it was'} validated", "",
              f"As reported by {who}; {index.site['name']} has not run the code. Two implementations that agree can "
              "still share the same error.", ""]
-    if not on_method and impls and impls[0]["_project"].get("maintainer_check"):
+    if not on_metric and impls and impls[0]["_project"].get("maintainer_check"):
         lines += [maintainer_check(index, impls[0]["_project"]), ""]
     checked_by_maintainer: set[str] = set()
     for group in groups:
         i = group[0]
         evidence = validation_label(i, name)
         also = validation_also(i, name)
-        # On a method page a group is one project: name it once, then the editions.
-        heads = [title(group[0])] + [title(j, named=not on_method) for j in group[1:]]
+        # On a metric page a group is one project: name it once, then the editions.
+        heads = [title(group[0])] + [title(j, named=not on_metric) for j in group[1:]]
         # Names stay as they are (super projects in bold), so the entry is not wrapped in bold.
         lines.append(f"- {'; '.join(heads)}: {evidence}" + (f"; {also}" if also else ""))
         own = " (the author's own code)" if i.get("derived_by_author") else ""
@@ -127,17 +127,17 @@ def _validation_section(index: Index, impls: list[dict], on_method: bool) -> lis
             lines.append(f"  - {' '.join(origin)}")
         lines += [f"  - {oneline(d)}" for d in i.get("validation_details") or []]
         p = i["_project"]
-        if on_method and p.get("maintainer_check") and p["id"] not in checked_by_maintainer:
+        if on_metric and p.get("maintainer_check") and p["id"] not in checked_by_maintainer:
             lines.append(f"  - {maintainer_check(index, p)}")
             checked_by_maintainer.add(p["id"])
     if groups:
         lines.append("")
     if silent:
         if not groups:
-            lines.append("None of these projects says how its code was validated." if on_method
+            lines.append("None of these projects says how its code was validated." if on_metric
                          else "The project does not say how any of these were validated.")
         else:
-            lines.append(silent_line(impls, groups, silent, on_method))
+            lines.append(silent_line(impls, groups, silent, on_metric))
         lines.append("")
     return lines
 
@@ -148,7 +148,7 @@ def maintainer_check(index: Index, p: dict) -> str:
 
 
 def _lineage(index: Index, m: dict) -> list[str]:
-    """Markdown twin of the method page's tree of who ported code from whom."""
+    """Markdown twin of the metric page's tree of who ported code from whom."""
     # Every row, also a second row of one project for one edition (another scope may port other code).
     forest = lineage(m["_all_impls"])
     if not forest:
@@ -167,22 +167,22 @@ def _lineage(index: Index, m: dict) -> list[str]:
     return lines + [""]
 
 
-def _conventions(index: Index, impls: list[dict], general: list[str], on_method: bool) -> list[str]:
+def _conventions(index: Index, impls: list[dict], general: list[str], on_metric: bool) -> list[str]:
     """Markdown twin of "Before you compare numbers"."""
-    stated = stated_conventions(impls, on_method)
+    stated = stated_conventions(impls, on_metric)
     if not general and not stated:
         return []
     name = _namer(index)
     lines = ["## Before you compare numbers", "",
-             "Implementations of the same method can give different numbers without either being wrong. Check these "
+             "Implementations of the same metric can give different numbers without either being wrong. Check these "
              "choices first.", ""]
     lines += [f"- {oneline(c)}" for c in general]
     if general:
         lines.append("")
-    if stated and (on_method or general):
-        lines += ["What the projects state:" if on_method else "For single metrics:", ""]
+    if stated and (on_metric or general):
+        lines += ["What the projects state:" if on_metric else "For single metrics:", ""]
     for i, items in stated:
-        who = name(i["_project"]) if on_method else f"{_method_link(index, i['_method'])} ({i['_ref']['label']})"
+        who = name(i["_project"]) if on_metric else f"{_metric_link(index, i['_metric'])} ({i['_ref']['label']})"
         lines.append(f"- {who}: " + " ".join(oneline(c) for c in items))
     return lines + [""]
 
@@ -202,10 +202,10 @@ def _reference_list(refs: list[dict]) -> list[str]:
 
 # ---------------------------------------------------------------------------------------------- pages
 
-def method_page(index: Index, m: dict) -> str:
+def metric_page(index: Index, m: dict) -> str:
     name = _namer(index)
     fam = m["_family"]
-    lines = [f"# {m['title']}", "", _header(index, method_path(m)), ""]
+    lines = [f"# {m['title']}", "", _header(index, metric_path(m)), ""]
     facts = [f"**Quantity:** {fam['name']}", f"**Unit:** {m['unit']}"]
     if m.get("aka"):
         facts.append(f"**Also known as:** {', '.join(m['aka'])}")
@@ -240,13 +240,13 @@ def method_page(index: Index, m: dict) -> str:
             [f"{name(i['_project'])} (via {i['_via']['name']}, {i['_ref']['label']})" for i in dedupe(m["_via_impls"])])
             + ".", ""]
     if m.get("see_also"):
-        lines += ["**See also:** " + ", ".join(_method_link(index, index.method[s], index.method[s]["title"])
+        lines += ["**See also:** " + ", ".join(_metric_link(index, index.metric[s], index.metric[s]["title"])
                                               for s in m["see_also"]), ""]
     checked = m["_all_impls"]  # every row, also those computed by another project
     if checked:
-        lines += _validation_section(index, checked, on_method=True)
+        lines += _validation_section(index, checked, on_metric=True)
     lines += _lineage(index, m)
-    lines += _conventions(index, checked, m.get("conventions") or [], on_method=True)
+    lines += _conventions(index, checked, m.get("conventions") or [], on_metric=True)
     lines += ["## References", ""] + _reference_list([index.ref[r] for r in m["references"]]) + [""]
     return "\n".join(lines)
 
@@ -302,11 +302,11 @@ def project_page(index: Index, p: dict) -> str:
                   "As described in the sources below; the code itself could not be checked.", ""]
     else:
         lines += ["## What it implements", ""]
-        rows = [[_method_link(index, i["_method"]), _edition(index, i), _functions(i), i["status"], _validation(i),
+        rows = [[_metric_link(index, i["_metric"]), _edition(index, i), _functions(i), i["status"], _validation(i),
                  (i.get("note") or "").strip()] for i in p["_impls"]]
         lines += _table(["Metric", "Edition", "Functions", "Status", "Validation (as stated)", "Notes"], rows) + [""]
-        lines += _validation_section(index, p["_impls"], on_method=False)
-        lines += _conventions(index, p["_impls"], p.get("conventions") or [], on_method=False)
+        lines += _validation_section(index, p["_impls"], on_metric=False)
+        lines += _conventions(index, p["_impls"], p.get("conventions") or [], on_metric=False)
     if p.get("notes"):
         lines += ["## Notes", ""] + [f"- {oneline(n)}" for n in p["notes"]] + [""]
     if p.get("caveats"):
@@ -315,18 +315,18 @@ def project_page(index: Index, p: dict) -> str:
     return "\n".join(lines)
 
 
-def overview_rows(index: Index, link_methods: bool = True) -> list[list[str]]:
+def overview_rows(index: Index, link_metrics: bool = True) -> list[list[str]]:
     name = _namer(index)
     rows = []
-    for fam, methods in index.families_with_methods():
-        for m in methods:
+    for fam, metrics in index.families_with_metrics():
+        for m in metrics:
             groups = by_language(m["_current_impls"], name)
             cell = " · ".join(f"{lng}: {', '.join(names)}" for lng, names in groups) or "none found"
             older = [i for i in dedupe(m["_older_impls"]) if i["_ref"]["status"] != "in-development"]
             if older:
                 cell += " · earlier or related: " + ", ".join(
                     f"{name(i['_project'])} ({i['_ref']['label']})" for i in older)
-            rows.append([fam["name"], _method_link(index, m) if link_methods else m["name"],
+            rows.append([fam["name"], _metric_link(index, m) if link_metrics else m["name"],
                          join_words([index.ref[r]["label"] for r in m["current"]]), cell])
     return rows
 
@@ -336,11 +336,11 @@ COVERAGE_MARK = {"current": "●", "new": "◐", "partial": "○", "": "—"}
 
 def coverage_table(index: Index) -> str:
     cols = [c for c, _ in COVERAGE_COLUMNS] + ["Other"]
-    head = ["Method"] + cols
+    head = ["Metric"] + cols
     rows = []
-    for m in index.methods:
+    for m in index.metrics:
         cov = coverage(m)
-        rows.append([_method_link(index, m, m["name"])] + [COVERAGE_MARK[cov[c]] for c in cols])
+        rows.append([_metric_link(index, m, m["name"])] + [COVERAGE_MARK[cov[c]] for c in cols])
     legend = ("● an available implementation of the current edition; ◐ the same, but only from newly released projects "
               "not yet seen to be widely used; ○ only unreleased, proposed or older-edition implementations; — none "
               "found. Bindings count: a C library with a Python interface counts for Python.")
@@ -365,15 +365,15 @@ def _timeline_impl(i: dict, name) -> str:
 
 
 def timeline_md(index: Index) -> list[str]:
-    """The home-page timeline as nested lists: method, then each edition (oldest first) and who implements it."""
+    """The home-page timeline as nested lists: metric, then each edition (oldest first) and who implements it."""
     name = _namer(index)
     states = {"current": "current", "old": "", "dev": "in development", "": ""}
     lines = []
     for fam, rows in timeline(index):
         lines += [f"### {fam['name']}", ""]
         for row in rows:
-            m = row["method"]
-            lines.append(f"- **{_method_link(index, m)}** ({m['unit']})")
+            m = row["metric"]
+            lines.append(f"- **{_metric_link(index, m)}** ({m['unit']})")
             for cell in row["cells"]:
                 for ref, impls in cell:
                     state = edition_state(m, ref)
@@ -390,25 +390,25 @@ def home(index: Index) -> str:
     site = index.site
     lines = [f"# {site['tagline']}", "", _header(index, HOME), "",
              site["description"].strip(), "",
-             f"{plural(len(index.methods), 'method')} · {plural(len(index.projects), 'project')} · "
+             f"{plural(len(index.metrics), 'metric')} · {plural(len(index.projects), 'project')} · "
              f"languages: {', '.join(index.languages())}", ""]
     lines += ["## Editions and implementations", "",
-              "Each method is listed with the standard editions or model papers that define it, oldest first, and "
+              "Each metric is listed with the standard editions or model papers that define it, oldest first, and "
               "the projects that implement each one. The current edition is in bold. Each project is followed by its "
               "language and the first release that included the edition. Established projects come first. Projects "
               f"marked \"{NEW_LABEL}\" were first released less than about a year ago, and projects marked "
               "\"legacy\" are archived or have had no commit for three years or more.", ""]
     lines += timeline_md(index)
-    lines += [f"The Languages page shows which methods can be computed in each programming language: "
+    lines += [f"The Languages page shows which metrics can be computed in each programming language: "
               f"{absolute(index, LANGUAGES)}", ""]
     gaps = index.gaps()
     if gaps:
         lines += ["## Gaps", "", "No available open-source implementation of the current edition was found for:", ""]
-        lines += [f"- {_method_link(index, m, m['title'])}" for m in gaps] + [""]
+        lines += [f"- {_metric_link(index, m, m['title'])}" for m in gaps] + [""]
     if index.new_only():
-        lines += ["For these methods, the only released implementations of the current edition come from newly "
+        lines += ["For these metrics, the only released implementations of the current edition come from newly "
                   "released projects, not yet seen to be widely used:", ""]
-        lines += [f"- {_method_link(index, m, m['title'])}" for m in index.new_only()] + [""]
+        lines += [f"- {_metric_link(index, m, m['title'])}" for m in index.new_only()] + [""]
     if index.updates:
         lines += ["## Recent updates", ""]
         for u in index.updates[:3]:
@@ -421,21 +421,21 @@ def home(index: Index) -> str:
 def metrics_page(index: Index) -> str:
     name = _namer(index)
     lines = ["# Metrics", "", _header(index, METRICS), "",
-             f"{plural(len(index.methods), 'method')} in {plural(len(index.families), 'group')}: for each, the edition "
+             f"{plural(len(index.metrics), 'metric')} in {plural(len(index.families), 'group')}: for each, the edition "
              "that an up-to-date implementation should follow and the projects that implement it.", ""]
-    for fam, methods in index.families_with_methods():
+    for fam, metrics in index.families_with_metrics():
         lines += [f"## {fam['name']}", ""]
         if fam.get("summary"):
             lines += [" ".join(fam["summary"].split()), ""]
         rows = []
-        for m in methods:
+        for m in metrics:
             current = join_words([index.ref[r]["label"] for r in m["current"]])
             who = ", ".join(dict.fromkeys(
                 name(i["_project"]) + (f" ({GROUP_NAMES[i['_project']['_group']]})"
                                        if i["_project"]["_group"] in ("newly-released", "developing", "legacy") else "")
                 for i in m["_current_impls"])) or "none found"
-            rows.append([_method_link(index, m), m["unit"], current, who])
-        lines += _table(["Method", "Unit", "Current edition", "Implementations of it"], rows) + [""]
+            rows.append([_metric_link(index, m), m["unit"], current, who])
+        lines += _table(["Metric", "Unit", "Current edition", "Implementations of it"], rows) + [""]
     return "\n".join(lines)
 
 
@@ -468,12 +468,12 @@ def languages_page(index: Index) -> str:
                 how += f" `{p['install']}`"
             if p.get("language_note"):
                 how += " " + " ".join(p["language_note"].split())
-            methods = list(dict.fromkeys(i["_method"]["name"] for i in p["_impls"]
-                                         if i["reference"] in i["_method"]["current"] and i["status"] == "available"
+            metrics = list(dict.fromkeys(i["_metric"]["name"] for i in p["_impls"]
+                                         if i["reference"] in i["_metric"]["current"] and i["status"] == "available"
                                          and not i.get("_via")))
             group = GROUP_NAMES[p["_group"]]
             rows.append([name(p) + (f" ({group})" if p["_group"] in ("newly-released", "developing", "legacy") else ""), how,
-                         ", ".join(methods) or "older editions or unreleased code only"])
+                         ", ".join(metrics) or "older editions or unreleased code only"])
         lines += _table(["Project", "How it is used", "Current editions it implements"], rows) + [""]
     lines += ["## Calling code across languages", "",
               "- MATLAB code from Python: the MATLAB Engine API for Python "
@@ -526,7 +526,7 @@ def projects_page(index: Index) -> str:
         lines += [f"## {title}", "", GROUPS[key], ""]
         rows = [[name(p), ", ".join(p["languages"]),
                  PROJECT_KINDS[p["kind"]], p["license"], release_text(p), p["_last_commit"] or "unknown",
-                 activity_text(p), ", ".join(sorted({i["_method"]["name"] for i in p["_impls"]}))]
+                 activity_text(p), ", ".join(sorted({i["_metric"]["name"] for i in p["_impls"]}))]
                 for p in projects]
         lines += _table(["Project", "Language", "Kind", "Licence", "Latest release", "Last commit", "Activity",
                          "Covers"], rows) + [""]
@@ -575,7 +575,7 @@ def map_page(index: Index) -> str:
         for es in groups.values():
             people = list(dict.fromkeys(m for e in es for m in e["shared"]))
             who = f" ({join_words(people)})" if own and people else ""
-            lines.append(f"- From {source(es[0])}{who}: " + "; ".join(name(e["project"]) + what(e["methods"])
+            lines.append(f"- From {source(es[0])}{who}: " + "; ".join(name(e["project"]) + what(e["metrics"])
                                                                       for e in es))
         lines.append("")
     lines += ["## Used at run time", ""]
@@ -608,7 +608,7 @@ def standards_page(index: Index) -> str:
         rows = []
         for r in sorted(refs, key=lambda r: (str(r.get("date") or "9999"), r["label"]), reverse=True):
             rows.append([month(r.get("date")) or "—", _ref_link(r), plain(r["title"]), ref_status(r),
-                         ", ".join(_method_link(index, m) for m in r["_methods"])])
+                         ", ".join(_metric_link(index, m) for m in r["_metrics"])])
         lines += _table(["Date", "Document", "Title", "Status", "Used by"], rows) + [""]
     return "\n".join(lines)
 
@@ -701,7 +701,7 @@ def faq_page(index: Index) -> str:
     lines = ["# Frequently asked questions", "", _header(index, FAQ), "",
              "Questions, corrections and suggestions are welcome as GitHub issues: "
              f"{index.site['repository']}/issues/new", ""]
-    for q, a in faq(index, _namer(index), lambda m: _method_link(index, m, m["title"]), _plain,
+    for q, a in faq(index, _namer(index), lambda m: _metric_link(index, m, m["title"]), _plain,
                     lambda target, label: f"[{label}]({absolute(index, target)})"):
         lines += [f"## {q}", "", a, ""]
     return "\n".join(lines)
@@ -713,7 +713,7 @@ def llms_txt(index: Index) -> str:
     site = index.site
     twin = _namer(index, lambda p: f"{site['base_url']}{md_twin(project_path(p))}")
     lines = [f"# {site['name']}: {site['title']}", "", f"> {plain(site['description'])}", "",
-             f"Data as of {index.as_of()}. {plural(len(index.methods), 'method')}, "
+             f"Data as of {index.as_of()}. {plural(len(index.metrics), 'metric')}, "
              f"{plural(len(index.projects), 'project')}, languages: {', '.join(index.languages())}. Each "
              "implementation is tied to the standard edition or model paper it follows, with its validation "
              "evidence as stated by the project. Repository and package metadata are refreshed monthly. "
@@ -723,16 +723,16 @@ def llms_txt(index: Index) -> str:
              "first released less than about a year ago and are not yet seen to be widely used in the community; projects "
              "marked (legacy) are archived or have had no commit for three years or more.", "",
              site["credit"], ""]
-    for fam, methods in index.families_with_methods():
+    for fam, metrics in index.families_with_metrics():
         lines += [f"## {fam['name']}", ""]
-        for m in methods:
+        for m in metrics:
             current = join_words([index.ref[r]["label"] for r in m["current"]])
             projects = ", ".join(dict.fromkeys(
                 i["_project"]["name"] + (f" ({GROUP_NAMES[i['_project']['_group']]})"
                                          if i["_project"]["_group"] in ("newly-released", "developing", "legacy") else "")
                 for i in m["_current_impls"]))
             projects = projects or "none found"
-            lines.append(f"- [{m['title']}]({site['base_url']}{md_twin(method_path(m))}): current edition "
+            lines.append(f"- [{m['title']}]({site['base_url']}{md_twin(metric_path(m))}): current edition "
                          f"{current}; implementations: {projects}")
         lines.append("")
     lines += ["## Projects", ""]
@@ -768,7 +768,7 @@ def llms_txt(index: Index) -> str:
               f"- [Project map]({site['base_url']}{md_twin(MAP)}): code taken from another project, use at run time, "
               "results checked against another project, and shared maintainers",
               f"- [Frequently asked questions]({site['base_url']}{md_twin(FAQ)})",
-              f"- [About and method]({site['base_url']}{md_twin(ABOUT)})",
+              f"- [About]({site['base_url']}{md_twin(ABOUT)}): scope, how entries are checked, definitions and data access",
               f"- [Standards timeline]({site['base_url']}{md_twin(STANDARDS)})",
               f"- [Updates]({site['base_url']}{md_twin(UPDATES)})",
               f"- [Source repository]({site['repository']})", ""]
@@ -777,8 +777,8 @@ def llms_txt(index: Index) -> str:
 
 def llms_full(index: Index) -> str:
     parts = [llms_txt(index), "", "---", "", about_page(index), "", "---", "", faq_page(index)]
-    for m in index.methods:
-        parts += ["", "---", "", method_page(index, m)]
+    for m in index.metrics:
+        parts += ["", "---", "", metric_page(index, m)]
     for p in index.projects_by_group():
         parts += ["", "---", "", project_page(index, p)]
     parts += ["", "---", "", map_page(index), "", "---", "", standards_page(index)]
@@ -788,7 +788,7 @@ def llms_full(index: Index) -> str:
 # ---------------------------------------------------------------------------------------------- README
 
 def readme_overview(index: Index) -> str:
-    head = ["Quantity", "Method", "Current edition", "Open-source implementations (by language)"]
+    head = ["Quantity", "Metric", "Current edition", "Open-source implementations (by language)"]
     return "\n".join(_table(head, overview_rows(index)))
 
 
@@ -816,19 +816,19 @@ def readme_projects(index: Index) -> str:
 
 def readme_gaps(index: Index) -> str:
     def item(m: dict) -> str:
-        return f"- {_method_link(index, m, m['title'])}"
+        return f"- {_metric_link(index, m, m['title'])}"
 
     gaps = index.gaps()
     lines = [item(m) for m in gaps] or ["None at the moment."]
     if index.new_only():
-        lines += ["", "For these methods, the only released implementations of the current edition come from newly "
+        lines += ["", "For these metrics, the only released implementations of the current edition come from newly "
                   "released projects, not yet seen to be widely used:", ""]
         lines += [item(m) for m in index.new_only()]
     return "\n".join(lines)
 
 
 def readme_stats(index: Index) -> str:
-    return (f"Data as of {index.as_of()}: {plural(len(index.methods), 'method')}, "
+    return (f"Data as of {index.as_of()}: {plural(len(index.metrics), 'metric')}, "
             f"{plural(len(index.projects), 'project')}, languages: {', '.join(index.languages())}.")
 
 

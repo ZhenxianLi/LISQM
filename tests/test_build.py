@@ -73,8 +73,8 @@ class BuildTest(unittest.TestCase):
         parser.feed(page.read_text(encoding="utf-8"))
         return parser
 
-    def test_every_method_and_project_has_a_page(self) -> None:
-        for m in self.index.methods:
+    def test_every_metric_and_project_has_a_page(self) -> None:
+        for m in self.index.metrics:
             self.assertTrue((self.site / "metrics" / f"{m['id']}.html").exists(), m["id"])
         for p in self.index.projects:
             self.assertTrue((self.site / "projects" / f"{p['id']}.html").exists(), p["id"])
@@ -113,7 +113,7 @@ class BuildTest(unittest.TestCase):
     def test_machine_readable_files(self) -> None:
         data = json.loads((self.site / "index.json").read_text(encoding="utf-8"))
         self.assertEqual(len(data["projects"]), len(self.index.projects))
-        self.assertEqual(len(data["methods"]), len(self.index.methods))
+        self.assertEqual(len(data["metrics"]), len(self.index.metrics))
         for name in ("llms.txt", "llms-full.txt", "feed.xml", "sitemap.xml", "robots.txt", "style.css"):
             self.assertTrue((self.site / name).exists(), name)
         llms = (self.site / "llms.txt").read_text(encoding="utf-8")
@@ -140,13 +140,13 @@ class BuildTest(unittest.TestCase):
         def ranks(impls: list[dict]) -> list[int]:
             return [GROUP_ORDER[i["_project"]["_group"]] for i in impls]
 
-        for m in self.index.methods:
+        for m in self.index.metrics:
             self.assertEqual(ranks(m["_impls"]), sorted(ranks(m["_impls"])), m["id"])
         for _, rows in timeline(self.index):
             for row in rows:
                 for cell in row["cells"]:
                     for ref, impls in cell:
-                        self.assertEqual(ranks(impls), sorted(ranks(impls)), f"{row['method']['id']} {ref['id']}")
+                        self.assertEqual(ranks(impls), sorted(ranks(impls)), f"{row['metric']['id']} {ref['id']}")
         ordered = self.index.projects_by_group()
         self.assertEqual([p["_group"] for p in ordered], sorted((p["_group"] for p in ordered), key=GROUP_ORDER.get))
         tail = self.index.others() + self.index.group("unknown")
@@ -173,7 +173,7 @@ class BuildTest(unittest.TestCase):
     def test_others_are_not_listed_under_metrics(self) -> None:
         others = {p["id"] for p in self.index.others()}
         self.assertTrue({"psychobox", "soundscapy"} <= others)
-        for m in self.index.methods:
+        for m in self.index.metrics:
             self.assertFalse(any(i.get("_via") for i in m["_impls"]), m["id"])
             self.assertFalse(others & {i["_project"]["id"] for i in m["_impls"]}, m["id"])
         html = (self.site / "index.html").read_text(encoding="utf-8")
@@ -199,7 +199,7 @@ class BuildTest(unittest.TestCase):
         table = table[:table.index("</table>")]
         cells = re.findall(r"<td[^>]*>(.*?)</td>", table)
         marks = [c for c in cells if 'class="mark ' in c]
-        self.assertEqual(len(marks), len(self.index.methods) * 6)
+        self.assertEqual(len(marks), len(self.index.metrics) * 6)
         self.assertFalse(re.search("[●◐○]", table), "coverage marks should be drawn, not typed")
 
     def test_a_project_is_named_once_per_language(self) -> None:
@@ -222,7 +222,7 @@ class BuildTest(unittest.TestCase):
         body = html[html.index("<main"):]
         self.assertTrue(body[body.index("<h2"):].startswith('<h2 id="timeline">'), "the first section is not the timeline")
         self.assertLess(body.index('<table class="timeline">'), body.index('id="gaps"'))
-        for m in self.index.methods:
+        for m in self.index.metrics:
             self.assertIn(f'href="metrics/{m["id"]}.html"', html, m["id"])
         for f in self.index.families:
             self.assertIn(f'id="{f["id"]}"', html, f["id"])
@@ -252,7 +252,7 @@ class BuildTest(unittest.TestCase):
         iso = table[table.index("ISO 532-1:2017"):]
         iso = iso[:iso.index("</div>")]
         zwicker = next(row for _, rows in timeline(self.index) for row in rows
-                       if row["method"]["id"] == "loudness-zwicker")
+                       if row["metric"]["id"] == "loudness-zwicker")
         current = next(impls for cell in zwicker["cells"] for ref, impls in cell if ref["id"] == "iso-532-1-2017")
         self.assertIn(f">+{len(current) - (TIMELINE_SHOWN - 1)} more</span>", iso)
         self.assertIn('class="mk mk-new"', table)
@@ -318,9 +318,9 @@ class BuildTest(unittest.TestCase):
         self.assertEqual(pysqat.count("generated reports are not committed"), 1)
         sqat = (self.site / "projects/sqat.html").read_text(encoding="utf-8")
         self.assertIn("Not stated for Sottek Hearing Model fluctuation strength · ECMA-418-2:2025", sqat)
-        method = (self.site / "metrics/sharpness.html").read_text(encoding="utf-8")
-        self.assertIn('<h2 id="validation">How they were validated</h2>', method)
-        self.assertIn('href="#v-kirin-hypha-din-45692-2009"', method)
+        page = (self.site / "metrics/sharpness.html").read_text(encoding="utf-8")
+        self.assertIn('<h2 id="validation">How they were validated</h2>', page)
+        self.assertIn('href="#v-kirin-hypha-din-45692-2009"', page)
         twin = (self.site / "projects/psychoacousticmetrics-jl.md").read_text(encoding="utf-8")
         self.assertIn("## How it was validated", twin)
         self.assertIn("  - Cross-checked against MoSQITo for all four weightings.", twin)
@@ -398,7 +398,7 @@ class BuildTest(unittest.TestCase):
                     first(ids(item), f"{where} in short")
             for block in re.findall(r'<p class="older">(.*?)</p>', html, re.S):
                 first(ids(block), f"{where} older editions")
-            for block in re.findall(r'<dl class="(?:validation on-method|conventions)">(.*?)</dl>', html, re.S):
+            for block in re.findall(r'<dl class="(?:validation on-metric|conventions)">(.*?)</dl>', html, re.S):
                 first([found[0] for dt in re.findall(r"<dt[^>]*>(.*?)</dt>", block, re.S) if (found := ids(dt))],
                       f"{where} details")
             for side in re.findall(r'<aside class="sidebar"[^>]*>(.*?)</aside>', html, re.S):
@@ -497,7 +497,7 @@ class BuildTest(unittest.TestCase):
         self.assertIn("BASIC program of DIN 45631", tree)
         self.assertIn('Code ported from another project is shown under <a href="#lineage">', zwicker)
         data = json.loads((self.site / "index.json").read_text(encoding="utf-8"))
-        rows = [i for m in data["methods"] for i in m["implementations"] if i["project"] == "kirin-hypha"]
+        rows = [i for m in data["metrics"] for i in m["implementations"] if i["project"] == "kirin-hypha"]
         self.assertEqual(rows[0]["comparison_relations"], {"mosqito": "source"})
         refmap = self.index.project["refmap-psychoacoustics"]
         self.assertFalse(any(f.startswith("shm_") for i in refmap["implements"] for f in i.get("functions") or []),
@@ -531,7 +531,7 @@ class BuildTest(unittest.TestCase):
         self.assertNotIn("Newly released project.", page)
         projects = (self.site / "projects/index.html").read_text(encoding="utf-8")
         self.assertLess(projects.index('id="others"'), projects.index('id="unknown"'))
-        for m in self.index.methods:
+        for m in self.index.metrics:
             html = (self.site / "metrics" / f"{m['id']}.html").read_text(encoding="utf-8")
             self.assertNotIn("projects/psytools.html", html, m["id"])
 
@@ -618,7 +618,7 @@ class BuildTest(unittest.TestCase):
                 render_html.map_page(self.index)
 
     def test_relation_fields_are_checked(self) -> None:
-        sharpness = next(i for i in self.index.project["metasona"]["_impls"] if i["method"] == "sharpness")
+        sharpness = next(i for i in self.index.project["metasona"]["_impls"] if i["metric"] == "sharpness")
         self.assertEqual(sharpness["_derived_ids"], [], "an empty derived_from overrides based_on")
         p = self.index.project["kirin-hypha"]
         impl, saved = p["implements"][0], dict(p["implements"][0])
@@ -645,7 +645,7 @@ class BuildTest(unittest.TestCase):
         self.assertEqual(self.index.validate(), [])
 
     def test_port_tree_follows_editions(self) -> None:
-        forest = lineage(self.index.method["loudness-zwicker"]["_all_impls"])
+        forest = lineage(self.index.metric["loudness-zwicker"]["_all_impls"])
         roots = {(node[1] if node[0] == "code" else node[1]["id"]): kids for node, kids in forest}
         # AARAE took its Chalupper & Fastl code from PsySound3, and SQAT took AARAE's ISO 532-1 code, not that one.
         self.assertEqual([(node[1]["id"], kids) for node, kids in roots["psysound3"]], [("aarae", [])])

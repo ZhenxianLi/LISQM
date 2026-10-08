@@ -42,10 +42,10 @@ A project is included when all three of these hold:
    a web service or a wrapper around a closed library is not enough. A repository without a licence file can
    still be listed, with `license: none`.
 2. **It states which model or standard it implements**, and which edition where there is more than one.
-3. **It computes at least one in-scope quantity.** These are the methods tracked at present; others can be
-   added (see [Adding an edition or a method](#adding-an-edition-or-a-method)).
+3. **It computes at least one in-scope quantity.** These are the metrics tracked at present; others can be
+   added (see [Adding an edition or a metric](#adding-an-edition-or-a-metric)).
 
-| Family | Methods and the documents that define them |
+| Family | Metrics and the documents that define them |
 |---|---|
 | Loudness | Zwicker (ISO 532-1, DIN 45631); Moore–Glasberg (ISO 532-2, ANSI S3.4); Moore–Glasberg–Schlittenlacher time-varying loudness (ISO 532-3); Sottek Hearing Model (ECMA-418-2) |
 | Sharpness | DIN 45692; Aures; von Bismarck |
@@ -99,13 +99,13 @@ writes the entry.
    say), list the environment first, set `core` to the language of the computation, and explain how it is
    called in `language_note`. The optional fields are described in [`data/SCHEMA.md`](data/SCHEMA.md). Leave
    out what you do not know rather than guessing.
-3. Add one `implements` entry per method and edition. A project that implements two editions of the same
-   method gets two entries.
+3. Add one `implements` entry per metric and edition. A project that implements two editions of the same
+   metric gets two entries.
 
    ```yaml
    implements:
-     - method: loudness-zwicker          # a method id from data/metrics.yaml
-       reference: iso-532-1-2017         # a reference id listed under that method
+     - metric: loudness-zwicker          # a metric id from data/metrics.yaml
+       reference: iso-532-1-2017         # a reference id listed under that metric
        functions: [stationary_loudness, time_varying_loudness]
        status: available                 # available | unreleased | proposed
        validation: standard-data         # as the project states it; not-stated if it says nothing
@@ -117,11 +117,11 @@ writes the entry.
          - Resamples input to 48 kHz.
    ```
 
-   `compared_with` and `validation_details` appear on the project and method pages under *How it was
+   `compared_with` and `validation_details` appear on the project and metric pages under *How it was
    validated*. Write them from the project's own words: what was compared, with which reference or
    implementation, the tolerance and the result. Keep other facts in `note`. When the code was ported or
    adapted from other code, say so in `derived_from` (or, for the whole project, `based_on`): a comparison with
-   that code is then marked as not independent, and the method page draws who ported code from whom.
+   that code is then marked as not independent, and the metric page draws who ported code from whom.
    `conventions` go under *Before you compare numbers*; points that hold for every metric of the project go in
    a project-level `conventions` list instead.
 
@@ -134,12 +134,12 @@ writes the entry.
    and npm. For a repository hosted elsewhere, fill in `manual` (last commit, latest release, archived).
 5. Run the [local checks](#local-checks) and open the pull request. One project per pull request is preferred.
 
-### Adding an edition or a method
+### Adding an edition or a metric
 
 If a project follows an edition or a paper that is not in [`data/references.yaml`](data/references.yaml)
 yet, add it there with `id`, `label`, `kind`, `body`, `title`, `date`, `status`, a `url` or `doi`, and
-`checked`. Then add its id to the method's `references` in [`data/metrics.yaml`](data/metrics.yaml), in
-chronological order. A new method needs its own entry in `metrics.yaml` with a short, neutral summary; please
+`checked`. Then add its id to the metric's `references` in [`data/metrics.yaml`](data/metrics.yaml), in
+chronological order. A new metric needs its own entry in `metrics.yaml` with a short, neutral summary; please
 explain in the pull request why it belongs in the list.
 
 ## Correcting an entry
@@ -160,7 +160,7 @@ withdrawal. To make the change yourself in a pull request:
 2. On the edition it will replace, set `superseded_by` to the new id. While the new document is a draft, keep
    `status: current` there and describe the stage in `revision`; once it is published, set
    `status: superseded` (or `withdrawn`).
-3. In `data/metrics.yaml`, add the new id to the method's `references` (in chronological order) and, once it
+3. In `data/metrics.yaml`, add the new id to the metric's `references` (in chronological order) and, once it
    is published, put it in `current` in place of the old edition.
 4. Do not change project entries: a project moves to the new edition only when the project itself says so.
 
@@ -248,7 +248,7 @@ in [`data/site.yaml`](data/site.yaml) (keys `google`, `bing`, `baidu`, `yandex`)
 `sitemap.xml`. The tags appear on the home page only.
 
 The automation writes only machine-written files (`data/snapshot.json`, `data/standards-watch.json`) and
-generated output. Everything that describes a project, a method or an edition is changed by a person.
+generated output. Everything that describes a project, a metric or an edition is changed by a person.
 
 ## Review process
 

@@ -24,7 +24,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from pmi import export, render_html, render_md  # noqa: E402
 from pmi.data import ROOT, DataError, load  # noqa: E402
 from pmi.paths import (ABOUT, AI, BIBTEX, FAQ, HOME, LANGUAGES, MAP, METRICS, PROJECTS, STANDARDS,  # noqa: E402
-                       UPDATES, md_twin, method_path, project_path)
+                       UPDATES, md_twin, metric_path, project_path)
 
 
 def write(path: Path, text: str) -> bool:
@@ -71,8 +71,8 @@ def build_site(index, out: Path) -> int:
         FAQ: (render_html.faq_page(index), render_md.faq_page(index)),
         AI: (render_html.ai_page(index), render_md.ai_page(index)),
     }
-    for m in index.methods:
-        pages[method_path(m)] = (render_html.method_page(index, m), render_md.method_page(index, m))
+    for m in index.metrics:
+        pages[metric_path(m)] = (render_html.metric_page(index, m), render_md.metric_page(index, m))
     for p in index.projects:
         pages[project_path(p)] = (render_html.project_page(index, p), render_md.project_page(index, p))
     for path, (html_text, md_text) in pages.items():
@@ -142,7 +142,7 @@ def main() -> int:
         for problem in err.problems:
             print(f"  - {problem}", file=sys.stderr)
         return 1
-    summary = (f"{len(index.methods)} methods, {len(index.references)} references, "
+    summary = (f"{len(index.metrics)} metrics, {len(index.references)} references, "
                f"{len(index.projects)} projects, data as of {index.as_of()}")
     if args.check:
         print(f"Data OK: {summary}")

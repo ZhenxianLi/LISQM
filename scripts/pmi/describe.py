@@ -162,7 +162,7 @@ def validation_also(i: dict, name: Fmt | None = None, t: Esc = str) -> str:
 
 def validation_groups(impls: list[dict], key: Callable[[dict], str]) -> tuple[list[list[dict]], list[dict]]:
     """Implementations for a "How it was validated" section, in order: groups of rows with the same key (the
-    project, on a method page), evidence, comparisons, origin and details, shown once; and the rows with nothing
+    project, on a metric page), evidence, comparisons, origin and details, shown once; and the rows with nothing
     stated (a row that names the code it was ported from states something)."""
     groups: dict[tuple, list[dict]] = {}
     silent = []
@@ -177,11 +177,11 @@ def validation_groups(impls: list[dict], key: Callable[[dict], str]) -> tuple[li
     return list(groups.values()), silent
 
 
-def silent_line(impls: list[dict], groups: list[list[dict]], silent: list[dict], on_method: bool) -> str:
+def silent_line(impls: list[dict], groups: list[list[dict]], silent: list[dict], on_metric: bool) -> str:
     """The implementations whose projects state nothing about validation, in one sentence. A project page names
-    the metric and edition; a method page names the project, with the editions when the project has others there."""
-    if not on_method:
-        return "Not stated for " + "; ".join(dict.fromkeys(f'{i["_method"]["name"]} · {i["_ref"]["label"]}'
+    the metric and edition; a metric page names the project, with the editions when the project has others there."""
+    if not on_metric:
+        return "Not stated for " + "; ".join(dict.fromkeys(f'{i["_metric"]["name"]} · {i["_ref"]["label"]}'
                                                            for i in silent)) + "."
     stated = {i["_project"]["id"] for group in groups for i in group}
     by_project: dict[str, list[dict]] = {}
@@ -216,10 +216,10 @@ def how_to_cite(p: dict) -> str:
     return " ".join(bits) + " Name the version or commit you used."
 
 
-def stated_conventions(impls: list[dict], on_method: bool) -> list[tuple[dict, list[str]]]:
-    """What implementations state about their conventions: on a method page one entry per project (its general
-    points and those of its rows for the method); on a project page one entry per row that has its own."""
-    if not on_method:
+def stated_conventions(impls: list[dict], on_metric: bool) -> list[tuple[dict, list[str]]]:
+    """What implementations state about their conventions: on a metric page one entry per project (its general
+    points and those of its rows for the metric); on a project page one entry per row that has its own."""
+    if not on_metric:
         return [(i, i["conventions"]) for i in impls if i.get("conventions")]
     by_project: dict[str, list[dict]] = {}
     for i in impls:
@@ -492,16 +492,16 @@ def bin_of(ref: dict, bins: list[tuple[str, int | None, int | None]]) -> int | N
 
 
 def timeline(index: Index) -> list[tuple[dict, list[dict]]]:
-    """Per family, per method: the editions in each column of the timeline and who implements each edition.
+    """Per family, per metric: the editions in each column of the timeline and who implements each edition.
 
-    Each method row is {"method", "cells": [[(ref, impls), …] per column], "first": first column used}.
+    Each metric row is {"metric", "cells": [[(ref, impls), …] per column], "first": first column used}.
     Implementations of one edition are ordered by `impl_rank`, so established projects come first.
     """
     bins = time_bins(index)
     out = []
-    for fam, methods in index.families_with_methods():
+    for fam, metrics in index.families_with_metrics():
         rows = []
-        for m in methods:
+        for m in metrics:
             cells: list[list[tuple[dict, list[dict]]]] = [[] for _ in bins]
             for rid in m["references"]:
                 ref = index.ref[rid]
@@ -511,7 +511,7 @@ def timeline(index: Index) -> list[tuple[dict, list[dict]]]:
                 impls = sorted(dedupe([i for i in m["_impls"] if i["reference"] == rid]), key=impl_rank)
                 cells[n].append((ref, impls))
             used = [n for n, c in enumerate(cells) if c]
-            rows.append({"method": m, "cells": cells, "first": used[0] if used else len(bins)})
+            rows.append({"metric": m, "cells": cells, "first": used[0] if used else len(bins)})
         out.append((fam, rows))
     return out
 
@@ -527,7 +527,7 @@ def version_label(impl: dict) -> str:
 
 
 def edition_state(m: dict, ref: dict) -> str:
-    """'current' for the method's current edition(s), 'old' for superseded or withdrawn ones, 'dev' for drafts."""
+    """'current' for the metric's current edition(s), 'old' for superseded or withdrawn ones, 'dev' for drafts."""
     if ref["id"] in m["current"]:
         return "current"
     if ref["status"] in ("superseded", "withdrawn"):
@@ -537,7 +537,7 @@ def edition_state(m: dict, ref: dict) -> str:
     return ""
 
 
-def faq(index: Index, name: Fmt, method_link: Callable[[dict], str], t: Esc,
+def faq(index: Index, name: Fmt, metric_link: Callable[[dict], str], t: Esc,
         page_link: Callable[[str, str], str]) -> list[tuple[str, str]]:
     """The key questions, answered from the data. Answers are HTML or Markdown depending on the callbacks;
     `page_link(path, label)` links another page of the site."""
@@ -558,8 +558,8 @@ def faq(index: Index, name: Fmt, method_link: Callable[[dict], str], t: Esc,
         "Choose by your own environment first: the language you work in and how the results will be used.",
         f"The {page_link(LANGUAGES, 'Languages')} page shows which metrics can be computed from each language and "
         "how each project can be called, also from another language.",
-        f"The {page_link(METRICS, 'Metrics')} page names the current edition of each of the {len(index.methods)} "
-        "methods, and each method page lists every implementation of it, with the validation it states, the code it "
+        f"The {page_link(METRICS, 'Metrics')} page names the current edition of each of the {len(index.metrics)} "
+        "metrics, and each metric page lists every implementation of it, with the validation it states, the code it "
         "was ported from and the choices that change its numbers.",
     ]
 
@@ -589,13 +589,13 @@ def faq(index: Index, name: Fmt, method_link: Callable[[dict], str], t: Esc,
     qa.append(("Which code should I use for a psychoacoustic metric?", " ".join(choose)))
     counts = []
     for col, _ in COVERAGE_COLUMNS:
-        current = sum(coverage(m)[col] == "current" for m in index.methods)
-        new = sum(coverage(m)[col] == "new" for m in index.methods)
+        current = sum(coverage(m)[col] == "current" for m in index.metrics)
+        new = sum(coverage(m)[col] == "new" for m in index.metrics)
         if current or new:
-            counts.append(t(f"{col}: {current + new} of {len(index.methods)}")
+            counts.append(t(f"{col}: {current + new} of {len(index.metrics)}")
                           + (t(f" ({new} only from newly released projects)") if new else ""))
     qa.append(("Which metrics can I compute in Python, MATLAB or C?",
-               "Methods whose current edition has a released open-source implementation, by language: "
+               "Metrics whose current edition has a released open-source implementation, by language: "
                + "; ".join(counts) + f". The {page_link(LANGUAGES, 'Languages')} page lists them, and explains how "
                "each project can be used from another language, for example a MATLAB toolbox from Python through "
                "the MATLAB Engine API."))
@@ -605,13 +605,13 @@ def faq(index: Index, name: Fmt, method_link: Callable[[dict], str], t: Esc,
                "are being revised. Two tools that both claim to implement a standard can therefore give different "
                "values for the same sound. Liu et al. (2026, Acoustics Australia, doi:10.1007/s40857-026-00393-3) "
                "compared four tools and found differences large enough to change the predictions of sound-quality "
-               "models. Each method page lists the editions and which tool follows which."))
+               "models. Each metric page lists the editions and which tool follows which."))
     gaps = index.gaps()
     answer = (("No available open-source implementation of the current edition was found for "
-               + join_words([method_link(m) for m in gaps]) + ".") if gaps else
-              "Every method in the list has at least one available implementation of its current edition.")
+               + join_words([metric_link(m) for m in gaps]) + ".") if gaps else
+              "Every metric in the list has at least one available implementation of its current edition.")
     if index.new_only():
-        answer += (" The current editions of " + join_words([method_link(m) for m in index.new_only()])
+        answer += (" The current editions of " + join_words([metric_link(m) for m in index.new_only()])
                    + " have released implementations only from newly released projects, not yet seen to be widely used.")
     qa.append(("Which metrics have no open-source implementation yet?", answer))
 
@@ -656,7 +656,7 @@ def ai_guide(index: Index) -> tuple[str, list[tuple[str, str, list[str]]]]:
             f"[llms.txt]({base}llms.txt): a short summary with a link to the Markdown version of every page, "
             "following the [llms.txt proposal](https://llmstxt.org/).",
             f"[llms-full.txt]({base}llms-full.txt): every page in one Markdown file.",
-            f"[index.json]({base}index.json): the whole index as JSON (methods, editions, projects, implementations, "
+            f"[index.json]({base}index.json): the whole index as JSON (metrics, editions, projects, implementations, "
             f"groups and coverage). Field definitions: [data/SCHEMA.md]({repo}/blob/main/data/SCHEMA.md).",
             f"[{BIBTEX}]({base}{BIBTEX}): every standard, model paper and software paper in the list, as BibTeX.",
             "A Markdown version of every page: replace `.html` with `.md`, for example "
@@ -667,7 +667,7 @@ def ai_guide(index: Index) -> tuple[str, list[tuple[str, str, list[str]]]]:
             f"All crawlers, AI crawlers included, may read every page ([robots.txt]({base}robots.txt)).",
         ]),
         ("contents", "What the data contains", [
-            f"{plural(len(index.methods), 'method')} in {plural(len(index.families), 'group')}, "
+            f"{plural(len(index.metrics), 'metric')} in {plural(len(index.families), 'group')}, "
             f"{plural(len(index.projects), 'project')} in {langs}, and "
             f"{plural(len(index.references), 'standard or model paper', 'standards and model papers')}. "
             f"Data as of {index.as_of()}.",
@@ -679,7 +679,7 @@ def ai_guide(index: Index) -> tuple[str, list[tuple[str, str, list[str]]]]:
             "other (it calls another listed project) or status unknown (its code could not be opened, so only what "
             "it claims is listed).",
             "Every implementation that was ported from other code names that code, and comparisons with it are "
-            "marked as not independent. Method pages show who ported code from whom, and the conventions to check "
+            "marked as not independent. Metric pages show who ported code from whom, and the conventions to check "
             "before comparing numbers between implementations.",
             f"The [project map]({base}{MAP}) ([Markdown]({base}{md_twin(MAP)})) shows how the projects are "
             "connected: code taken from another project, the author's own code, use at run time, results checked "
@@ -696,7 +696,7 @@ def ai_guide(index: Index) -> tuple[str, list[tuple[str, str, list[str]]]]:
             "Say when a project is newly released or legacy, and when code is only on a main branch (unreleased) "
             "or in a pull request (proposed).",
             "Validation is as stated by each project; the list does not run the code.",
-            "Give the date of the data and link the method or project page, so that the reader can check it.",
+            "Give the date of the data and link the metric or project page, so that the reader can check it.",
             f"When no open implementation of the current edition exists, say so: see the [gaps]({base}#gaps).",
         ]),
         ("accuracy", "How the data is kept accurate", [

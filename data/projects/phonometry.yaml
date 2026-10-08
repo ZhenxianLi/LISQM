@@ -36,7 +36,7 @@ caveats:
   - The ECMA-418-2 checks only use the calibration signals, and no comparison with another implementation is reported. Its loudness reads 0.984 sone_HMS at the calibration point, which its own documentation says is outside the adjustment the standard allows.
   - Requires Python 3.13 or newer.
 implements:
-  - method: loudness-zwicker
+  - metric: loudness-zwicker
     reference: iso-532-1-2017
     functions: [loudness_zwicker, loudness_zwicker_from_spectrum]
     scope: stationary and time-varying
@@ -46,7 +46,7 @@ implements:
     derived_from: ["ISO 532-1 Annex A reference program"]
     validation_details:
       - Annex B test signals are used in the tests.
-  - method: loudness-moore-glasberg
+  - metric: loudness-moore-glasberg
     reference: iso-532-2-2017
     functions: [loudness_moore_glasberg, loudness_moore_glasberg_from_spectrum, loudness_moore_glasberg_from_third_octave]
     scope: with binaural inhibition
@@ -55,7 +55,7 @@ implements:
     validation: standard-data
     validation_details:
       - The documentation says it reproduces the Annex B tone and broadband cases to within a percent or two.
-  - method: loudness-moore-glasberg-time-varying
+  - metric: loudness-moore-glasberg-time-varying
     reference: iso-532-3-2023
     functions: [loudness_moore_glasberg_time]
     status: available
@@ -66,7 +66,7 @@ implements:
         A documented deviation: the Annex B WAV-file cases are not reproduced, and Annex C values are used instead.
     conventions:
       - "Documented deviation: it runs at the native sample rate instead of resampling to 32 kHz."
-  - method: loudness-ecma-418-2
+  - metric: loudness-ecma-418-2
     reference: ecma-418-2-ed4
     functions: [loudness_ecma]
     scope: mono only
@@ -75,7 +75,7 @@ implements:
     validation: standard-data
     validation_details:
       - Checked at the calibration signal only, where it gives 0.9843 sone_HMS (−1.55 %).
-  - method: tonality-ecma-418-2
+  - metric: tonality-ecma-418-2
     reference: ecma-418-2-ed4
     functions: [tonality_ecma]
     scope: mono only
@@ -84,7 +84,7 @@ implements:
     validation: standard-data
     validation_details:
       - Checked at the calibration signal only.
-  - method: roughness-ecma-418-2
+  - metric: roughness-ecma-418-2
     reference: ecma-418-2-ed4
     functions: [roughness_ecma]
     scope: mono only; no entropy weighting
@@ -93,7 +93,7 @@ implements:
     validation: standard-data
     validation_details:
       - Checked at the calibration signal only.
-  - method: fluctuation-strength-ecma-418-2
+  - metric: fluctuation-strength-ecma-418-2
     reference: ecma-418-2-ed4
     functions: [fluctuation_strength_ecma]
     scope: mono only
@@ -103,7 +103,7 @@ implements:
     validation_details:
       - Checked at the calibration signal only (0.993 vacil_HMS).
     note: Misprints found in Clause 9 are listed in the project's errata.
-  - method: sharpness
+  - metric: sharpness
     reference: din-45692-2009
     functions: [sharpness_din, sharpness_din_from_specific]
     scope: also the informative Aures and von Bismarck variants
@@ -112,7 +112,7 @@ implements:
     validation: standard-data
     validation_details:
       - Checked with the DIN 45692 reference signal and Tables A.2 and A.3.
-  - method: fluctuation-strength-osses
+  - metric: fluctuation-strength-osses
     reference: osses-2016
     functions: [fluctuation_strength]
     status: available
@@ -125,7 +125,7 @@ implements:
         the Pearson correlation is about 0.98, within a factor of about 2.1 at every point. SQAT's
         `FluctuationStrength_Osses2016` was consulted as a numeric reference for the shape of the sweep.
       - Validated for amplitude modulation only; a steady 1 kHz tone reads about 0.09 vacil.
-  - method: fluctuation-strength-osses
+  - metric: fluctuation-strength-osses
     reference: fastl-zwicker-2007
     functions: [fluctuation_strength_am_noise]
     scope: closed-form expression for amplitude-modulated noise
@@ -134,7 +134,7 @@ implements:
     validation: standard-data
     validation_details:
       - A conformance row checks Eq. (10.2) of Fastl & Zwicker for amplitude-modulated broadband noise.
-  - method: psychoacoustic-annoyance
+  - metric: psychoacoustic-annoyance
     reference: zwicker-fastl-1999
     functions: [psychoacoustic_annoyance, psychoacoustic_annoyance_from_signal]
     status: available
@@ -146,7 +146,7 @@ implements:
         worked out by hand from Eqs. 16.2–16.4 (37.0478, within 0.001) and check the terms of the formula; no
         published example is used.
     note: Follows Eqs. 16.2–16.4 of Fastl & Zwicker (2007), the textbook form of Widmann's model.
-  - method: tone-to-noise-prominence-ratio
+  - metric: tone-to-noise-prominence-ratio
     reference: ecma-418-1-ed3
     functions: [tone_to_noise_ratio, prominence_ratio, assess_tones]
     status: available
@@ -161,7 +161,7 @@ implements:
         TNR and PR of a 1 kHz tone in white noise are compared with the values expected from the standard's formulas
         (within 0.4 dB for TNR and 0.1 dB for PR); no TNR or PR value published in the standard is checked.
     note: The "prominent" flag applies the numeric criterion only.
-  - method: tonal-audibility-iso-20065
+  - metric: tonal-audibility-iso-20065
     reference: iso-pas-20065-2016
     functions: [tone_audibility, analyze_spectrum, audibility_from_levels, mean_audibility, audibility_uncertainty]
     status: available
@@ -174,7 +174,7 @@ implements:
     note: >-
       Follows the 2016 PAS, not the 2022 TS. Does not apply the A-weighting required by clause 5.3.2. DIN 45681 itself
       is not implemented.
-  - method: equal-loudness-contours
+  - metric: equal-loudness-contours
     reference: iso-226-2023
     functions: [equal_loudness_contour, equal_loudness_contours, loudness_level, hearing_threshold]
     status: available
@@ -184,32 +184,32 @@ implements:
       - >-
         Tests compare 17 points of Table B.1 (20 to 90 phon, 20 Hz to 12.5 kHz) and 6 points of Table B.2 with the
         computed contours and loudness levels, within 0.05 dB or phon, and the hearing threshold with Table 1.
-  - method: tonal-audibility-iso-1996-2
+  - metric: tonal-audibility-iso-1996-2
     reference: iso-1996-2-2007
     scope: Annex C; in the `phonometry.environment` namespace
     status: available
     validation: not-stated
-  - method: tonal-audibility-iso-1996-2
+  - metric: tonal-audibility-iso-1996-2
     reference: iso-1996-2-2017
     scope: Annex K survey method and Table J.1; in the `phonometry.environment` namespace
     status: available
     validation: not-stated
-  - method: tonal-audibility-iec-61400-11
+  - metric: tonal-audibility-iec-61400-11
     reference: iec-61400-11-2012
     functions: [wind_turbine_tonality]
     status: available
     validation: not-stated
-  - method: impulsiveness
+  - metric: impulsiveness
     reference: nt-acou-112-2002
     scope: in the `phonometry.environment` namespace
     status: available
     validation: not-stated
-  - method: impulsiveness
+  - metric: impulsiveness
     reference: iso-pas-1996-3-2022
     scope: in the `phonometry.environment` namespace
     status: available
     validation: not-stated
-  - method: epnl
+  - metric: epnl
     reference: icao-annex-16-vol-1
     scope: PNL, PNLT and EPNL, in the `phonometry.aircraft` namespace
     status: available

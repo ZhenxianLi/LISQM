@@ -32,7 +32,7 @@ conventions:
     Time-varying loudness and ECMA-418-2 roughness resample input at any other rate to 48 kHz, and stationary
     loudness resamples rates below 48 kHz; MoSQITo rejects rates above 48 kHz for time-varying loudness.
 implements:
-  - method: loudness-zwicker
+  - metric: loudness-zwicker
     reference: iso-532-1-2017
     functions: [Sq.LoudnessZwst, Sq.LoudnessZwstFreq, Sq.LoudnessZwstPerSeg, Sq.LoudnessZwtv]
     scope: stationary (also per segment and from a spectrum) and time-varying
@@ -44,7 +44,7 @@ implements:
       - >-
         Every public function is compared with the output of Python MoSQITo for seven WAV files (three of them ISO
         532-1 test signals), within 1 % (0.5 dB for levels).
-  - method: loudness-ecma-418-2
+  - metric: loudness-ecma-418-2
     reference: ecma-418-2-ed2
     functions: [Sq.LoudnessEcma]
     scope: Clause 5 hearing-model loudness only, as in MoSQITo
@@ -55,7 +55,7 @@ implements:
       - >-
         Every public function is compared with the output of Python MoSQITo for seven WAV files (three of them ISO
         532-1 test signals), within 1 % (0.5 dB for levels); MoSQITo's unit tests are ported too.
-  - method: sharpness
+  - metric: sharpness
     reference: din-45692-2009
     functions: [Sq.SharpnessDinSt, Sq.SharpnessDinTv, Sq.SharpnessDinPerSeg, Sq.SharpnessDinFreq]
     scope: "weightings: DIN 45692, Aures, von Bismarck, Fastl"
@@ -66,7 +66,7 @@ implements:
       - >-
         Every public function is compared with the output of Python MoSQITo for seven WAV files (three of them ISO
         532-1 test signals), within 1 % (0.5 dB for levels); MoSQITo's unit tests are ported too.
-  - method: roughness-daniel-weber
+  - metric: roughness-daniel-weber
     reference: daniel-weber-1997
     functions: [Sq.RoughnessDw, Sq.RoughnessDwFreq]
     status: available
@@ -76,7 +76,7 @@ implements:
       - >-
         Every public function is compared with the output of Python MoSQITo for seven WAV files (three of them ISO
         532-1 test signals), within 1 % (0.5 dB for levels); MoSQITo's unit tests are ported too.
-  - method: roughness-ecma-418-2
+  - metric: roughness-ecma-418-2
     reference: ecma-418-2-ed2
     functions: [Sq.RoughnessEcma]
     status: available
@@ -86,7 +86,7 @@ implements:
       - >-
         Every public function is compared with the output of Python MoSQITo for seven WAV files (three of them ISO
         532-1 test signals), within 1 % (0.5 dB for levels); MoSQITo's unit tests are ported too.
-  - method: tone-to-noise-prominence-ratio
+  - metric: tone-to-noise-prominence-ratio
     reference: ecma-74-ed17
     functions: [Sq.TnrEcmaSt, Sq.TnrEcmaFreq, Sq.TnrEcmaPerSeg, Sq.PrEcmaSt, Sq.PrEcmaFreq, Sq.PrEcmaPerSeg]
     status: available
@@ -97,7 +97,7 @@ implements:
         Every public function is compared with the output of Python MoSQITo for seven WAV files (three of them ISO
         532-1 test signals), within 1 % (0.5 dB for levels); MoSQITo's unit tests are ported too.
     note: The README cites ECMA-74 Annex D.
-  - method: equal-loudness-contours
+  - metric: equal-loudness-contours
     reference: iso-226-2003
     functions: [Sq.EqualLoudnessContours]
     status: available

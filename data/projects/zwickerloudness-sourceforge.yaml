@@ -30,7 +30,7 @@ notes:
 caveats:
   - Stationary sounds only; there is no procedure for time-varying sounds.
 implements:
-  - method: loudness-zwicker
+  - metric: loudness-zwicker
     reference: din-45631-1991
     scope: stationary, from one-third-octave band levels
     status: available

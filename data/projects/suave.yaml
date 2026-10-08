@@ -21,7 +21,7 @@ caveats:
     commit from December 2022.
   - No validation of the noise metrics is stated.
 implements:
-  - method: epnl
+  - metric: epnl
     reference: icao-annex-16-vol-1
     functions: [pnl_noise, noise_tone_correction, epnl_noise]
     scope: PNL, PNLT and EPNL

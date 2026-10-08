@@ -17,7 +17,7 @@ FAQ = "faq.html"
 BIBTEX = "references.bib"  # every standard, model paper and software paper, as BibTeX
 
 
-def method_path(m: dict) -> str:
+def metric_path(m: dict) -> str:
     return f"metrics/{m['id']}.html"
 
 

@@ -22,7 +22,7 @@ caveats:
   - ISO 226:2003 was withdrawn in 2023 and replaced by ISO 226:2023; the function follows the 2003 edition.
   - No commits since August 2017.
 implements:
-  - method: equal-loudness-contours
+  - metric: equal-loudness-contours
     reference: iso-226-2003
     functions: [iosr.auditory.iso226]
     status: available

@@ -52,7 +52,7 @@ caveats:
     library."
   - Some code comments still cite clauses of "ECMA 418-2:2022".
 implements:
-  - method: loudness-ecma-418-2
+  - metric: loudness-ecma-418-2
     reference: ecma-418-2-ed4
     functions: [acousticSHMLoudness, acousticSHMLoudnessFromComponent]
     scope: binaural and specific loudness
@@ -64,7 +64,7 @@ implements:
         MATLAB and Python verified against HEAD acoustics ArtemiS v17.1 for a 1 kHz tone at 40 dB SPL, a 1 kHz tone
         amplitude-modulated at 70 Hz at 60 dB SPL and a 30 s binaural street recording.
       - The audio and reference results are on Zenodo (doi:10.5281/zenodo.18849587).
-  - method: tonality-ecma-418-2
+  - metric: tonality-ecma-418-2
     reference: ecma-418-2-ed4
     functions: [acousticSHMTonality]
     status: available
@@ -72,7 +72,7 @@ implements:
     compared_with: ["ArtemiS SUITE (HEAD acoustics)"]
     validation_details:
       - Verified against HEAD acoustics ArtemiS v17.1 with the same three signals as loudness.
-  - method: roughness-ecma-418-2
+  - metric: roughness-ecma-418-2
     reference: ecma-418-2-ed4
     functions: [acousticSHMRoughness]
     status: available
@@ -80,7 +80,7 @@ implements:
     compared_with: ["ArtemiS SUITE (HEAD acoustics)"]
     validation_details:
       - Verified against HEAD acoustics ArtemiS v17.1 with the same three signals as loudness.
-  - method: sharpness
+  - metric: sharpness
     reference: din-45692-2009
     functions: [acousticSharpnessSHM, acousticSharpFromSHMLoud]
     scope: DIN 45692 weighting applied to ECMA-418-2 loudness
@@ -91,7 +91,7 @@ implements:
       offered. DIN 45692 itself is defined on Zwicker specific loudness. A further variant works from a
       Zwicker-based quasi-loudness (`acousticSharpFromQuasiLoud`). An inaccuracy in the Aures weighting was fixed
       on 2026-09-18.
-  - method: psychoacoustic-annoyance
+  - metric: psychoacoustic-annoyance
     reference: widmann-1992
     functions: [acousticPsychAnnoy, widmannPA]
     status: available
@@ -103,19 +103,19 @@ implements:
     note: >-
       The MATLAB header names the model Widmann (1992), "commonly misattributed to Zwicker". The Python `widmannPA`
       takes precomputed metric values.
-  - method: psychoacoustic-annoyance
+  - metric: psychoacoustic-annoyance
     reference: more-2010
     functions: [morePA]
     scope: Python, from precomputed metric values
     status: available
     validation: not-stated
-  - method: psychoacoustic-annoyance
+  - metric: psychoacoustic-annoyance
     reference: di-2016
     functions: [diPA]
     scope: Python, from precomputed metric values
     status: available
     validation: not-stated
-  - method: aural-detectability
+  - metric: aural-detectability
     reference: fidell-1974
     functions: [auralDetectability, auralDetectFromLeq, aural_detect, aural_detect_from_lzeqt]
     scope: MATLAB and Python
@@ -124,7 +124,7 @@ implements:
     note: >-
       Code headers describe the Fidell, Pearsons & Bennett (1974) model as "developed further by NASA" and cite
       "Rizzi, SA et al, 2024"; the README cites Rizzi et al. (2025), *Journal of Aircraft*, doi:10.2514/1.C038188.
-  - method: aural-detectability
+  - metric: aural-detectability
     reference: rizzi-2025
     functions: [auralDetectability, aural_detect]
     scope: MATLAB and Python

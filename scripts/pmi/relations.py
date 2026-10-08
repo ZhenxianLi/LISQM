@@ -79,8 +79,8 @@ def relations(index: Index) -> dict:
         for i in p["_impls"]:
             for cid, (name, q) in zip(i["_derived_ids"], i["_derived"]):
                 e = taken.setdefault((cid, p["id"]), {"key": cid, "source": q, "name": name, "project": p,
-                                                       "methods": [], "rows": []})
-                _add(e["methods"], i["_method"]["name"])
+                                                       "metrics": [], "rows": []})
+                _add(e["metrics"], i["_metric"]["name"])
                 e["rows"].append(i)
                 if q is None:
                     refs.setdefault(cid, Counter())[i["reference"]] += 1
@@ -95,18 +95,18 @@ def relations(index: Index) -> dict:
         for i in p["_impls"]:
             if i.get("_via"):
                 _add(uses.setdefault((p["id"], i["_via"]["id"]), {"calls": [], "needs": []})["calls"],
-                     i["_method"]["name"])
+                     i["_metric"]["name"])
             for q in i.get("_uses") or []:
-                _add(uses.setdefault((p["id"], q["id"]), {"calls": [], "needs": []})["needs"], i["_method"]["name"])
+                _add(uses.setdefault((p["id"], q["id"]), {"calls": [], "needs": []})["needs"], i["_metric"]["name"])
     joined |= {frozenset(k) for k in uses}
 
-    compares: dict[tuple, list] = {}  # (project id, the project it compared with) -> methods
+    compares: dict[tuple, list] = {}  # (project id, the project it compared with) -> metrics
     for p in index.projects_by_group():
         for i in p["_impls"]:
             for c in i.get("compared_with") or []:
                 if c in index.project and c not in (i.get("_relation") or {}) and not i.get("via") \
                         and frozenset((p["id"], c)) not in joined:
-                    _add(compares.setdefault((p["id"], c), []), i["_method"]["name"])
+                    _add(compares.setdefault((p["id"], c), []), i["_metric"]["name"])
     joined |= {frozenset(k) for k in compares}
 
     # A person who moved their own code from one project into two others already joins those two through it.
@@ -135,7 +135,7 @@ def relations(index: Index) -> dict:
 
 
 def metrics(names: list[str]) -> str:
-    """Method names in a sentence: 'Zwicker loudness and roughness (Daniel & Weber)'; with semicolons when a name
+    """Metric names in a sentence: 'Zwicker loudness and roughness (Daniel & Weber)'; with semicolons when a name
     has an "and" of its own."""
     names = [in_sentence(n) for n in names]
     return "; ".join(names) if any(" and " in n for n in names) else join_words(names)
@@ -148,9 +148,9 @@ def lines(index: Index, rel: dict) -> list[dict]:
     for e in rel["taken"]:
         if e["own"]:
             who = f" ({join_words(e['shared'])})" if e["shared"] else ""
-            tip = f"Author's own code: {e['name']} to {e['project']['name']}{who}, for {metrics(e['methods'])}"
+            tip = f"Author's own code: {e['name']} to {e['project']['name']}{who}, for {metrics(e['metrics'])}"
         else:
-            tip = f"Code taken: {e['name']} to {e['project']['name']}, for {metrics(e['methods'])}"
+            tip = f"Code taken: {e['name']} to {e['project']['name']}, for {metrics(e['metrics'])}"
         out.append({"kind": "own" if e["own"] else "port", "source": e["key"], "user": e["project"]["id"],
                     "tip": tip})
     for (a, b), d in rel["uses"].items():

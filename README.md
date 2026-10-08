@@ -20,7 +20,7 @@ Developed by Zhenxian LI with assistance from Claude Code.
 [![Code: MIT](https://img.shields.io/badge/code-MIT-blue.svg)](LICENSE)
 
 <!-- BEGIN GENERATED: stats -->
-Data as of 2026-10-08: 22 methods, 39 projects, languages: C, C#, C++, Julia, MATLAB, Octave, Pure Data, Python, Rust.
+Data as of 2026-10-08: 22 metrics, 39 projects, languages: C, C#, C++, Julia, MATLAB, Octave, Pure Data, Python, Rust.
 <!-- END GENERATED: stats -->
 
 ## Why this list exists
@@ -47,14 +47,14 @@ project is not an endorsement.
 The website opens with a timeline: every standard edition and model paper in the year it appeared, with the
 projects that implement it. Its tabs list the metrics, the projects, the languages (which metrics can be computed
 in each language, and how each project is called from it), the standards, questions and answers with a message
-box, updates, and a page for AI agents. The table below is the short version: the current edition of each method
+box, updates, and a page for AI agents. The table below is the short version: the current edition of each metric
 and the projects that implement it, by language. Within each language, established projects come first;
 projects marked *newly released* were first released less than about a year ago and are not yet seen to be
-widely used in the community, and *legacy* projects are archived or have had no commit for three years. Each method
+widely used in the community, and *legacy* projects are archived or have had no commit for three years. Each metric
 has its own page on the website with the full edition history, function names and validation notes.
 
 <!-- BEGIN GENERATED: overview -->
-| Quantity | Method | Current edition | Open-source implementations (by language) |
+| Quantity | Metric | Current edition | Open-source implementations (by language) |
 |---|---|---|---|
 | Loudness | [Zwicker loudness](https://zhenxianli.github.io/LISQM/metrics/loudness-zwicker.html) | ISO 532-1:2017 | Python: **[MoSQITo](https://zhenxianli.github.io/LISQM/projects/mosqito.html)**, [phonometry](https://zhenxianli.github.io/LISQM/projects/phonometry.html) (newly released), [pySQAT](https://zhenxianli.github.io/LISQM/projects/pysqat.html) (developing), [PsychoacousticParametersMeasurer](https://zhenxianli.github.io/LISQM/projects/psychoacoustic-parameters-measurer.html) (legacy) · MATLAB: **[SQAT](https://zhenxianli.github.io/LISQM/projects/sqat.html)**, [AARAE](https://zhenxianli.github.io/LISQM/projects/aarae.html) · C: [MetaSona](https://zhenxianli.github.io/LISQM/projects/metasona.html) (newly released; also Python) · C++: [SoundPalette](https://zhenxianli.github.io/LISQM/projects/soundpalette.html) (newly released) · C#: [Mosqito.NET](https://zhenxianli.github.io/LISQM/projects/mosqito-net.html) (newly released) · Rust: [iso532-1-rs](https://zhenxianli.github.io/LISQM/projects/iso532-1-rs.html) (newly released; also C, Python), [Kirin Hypha](https://zhenxianli.github.io/LISQM/projects/kirin-hypha.html) (newly released) · Julia: [ZwickerLoudness.jl](https://zhenxianli.github.io/LISQM/projects/zwickerloudness-jl.html) (newly released) · earlier or related: [ITA-Toolbox](https://zhenxianli.github.io/LISQM/projects/ita-toolbox.html) (DIN 45631/A1:2010), [AARAE](https://zhenxianli.github.io/LISQM/projects/aarae.html) (Chalupper & Fastl (2002)), [ITA-Toolbox](https://zhenxianli.github.io/LISQM/projects/ita-toolbox.html) (DIN 45631:1991), [PsySound3](https://zhenxianli.github.io/LISQM/projects/psysound3.html) (Chalupper & Fastl (2002)), [loudness (deeuu)](https://zhenxianli.github.io/LISQM/projects/deeuu-loudness.html) (DIN 45631:1991), [Zwicker's Loudness Calculation SW + Tool (ISO 532B)](https://zhenxianli.github.io/LISQM/projects/zwickerloudness-sourceforge.html) (DIN 45631:1991) |
 | Loudness | [Moore–Glasberg loudness](https://zhenxianli.github.io/LISQM/metrics/loudness-moore-glasberg.html) | ISO 532-2:2017 | Python: [phonometry](https://zhenxianli.github.io/LISQM/projects/phonometry.html) (newly released) · earlier or related: [Auditory Modeling Toolbox (AMT)](https://zhenxianli.github.io/LISQM/projects/amt.html) (Chen et al. (2011)), [Auditory Modeling Toolbox (AMT)](https://zhenxianli.github.io/LISQM/projects/amt.html) (Moore, Glasberg & Baer (1997)), [AARAE](https://zhenxianli.github.io/LISQM/projects/aarae.html) (Moore, Glasberg & Baer (1997)), [NumpyLibforPsychoAcoustic](https://zhenxianli.github.io/LISQM/projects/numpylib-psychoacoustic.html) (Moore, Glasberg & Baer (1997)), [loudness (deeuu)](https://zhenxianli.github.io/LISQM/projects/deeuu-loudness.html) (Chen et al. (2011)), [Codes for the rapid calculation of loudness and sharpness](https://zhenxianli.github.io/LISQM/projects/rapid-loudness-sharpness.html) (ANSI/ASA S3.4-2007), [loudness (deeuu)](https://zhenxianli.github.io/LISQM/projects/deeuu-loudness.html) (ANSI/ASA S3.4-2007), [PsySound3](https://zhenxianli.github.io/LISQM/projects/psysound3.html) (Moore, Glasberg & Baer (1997)) |
@@ -89,7 +89,7 @@ No available open-source implementation of the current edition has been found fo
 - [Tonal components and tone adjustment (DIN 45681)](https://zhenxianli.github.io/LISQM/metrics/tonality-din-45681.html)
 - [Audibility of tones in noise (ISO/TS 20065)](https://zhenxianli.github.io/LISQM/metrics/tonal-audibility-iso-20065.html)
 
-For these methods, the only released implementations of the current edition come from newly released projects, not yet seen to be widely used:
+For these metrics, the only released implementations of the current edition come from newly released projects, not yet seen to be widely used:
 
 - [Moore–Glasberg loudness of stationary sounds (ISO 532-2, ANSI S3.4)](https://zhenxianli.github.io/LISQM/metrics/loudness-moore-glasberg.html)
 - [Fluctuation strength from the Sottek Hearing Model (ECMA-418-2)](https://zhenxianli.github.io/LISQM/metrics/fluctuation-strength-ecma-418-2.html)
@@ -102,10 +102,10 @@ For these methods, the only released implementations of the current edition come
 
 ### Coverage by language
 
-Which languages have an implementation of each method.
+Which languages have an implementation of each metric.
 
 <!-- BEGIN GENERATED: coverage -->
-| Method | Python | MATLAB/Octave | C/C++ | Rust | Julia | Other |
+| Metric | Python | MATLAB/Octave | C/C++ | Rust | Julia | Other |
 |---|---|---|---|---|---|---|
 | [Zwicker loudness](https://zhenxianli.github.io/LISQM/metrics/loudness-zwicker.html) | ● | ● | ◐ | ◐ | ◐ | ◐ |
 | [Moore–Glasberg loudness](https://zhenxianli.github.io/LISQM/metrics/loudness-moore-glasberg.html) | ◐ | ○ | ○ | — | — | — |
@@ -193,7 +193,7 @@ the data, otherwise *inactive since* the month of that commit; an archived repos
 
 ## How it is maintained
 
-- **Data.** Everything lives in [`data/`](data/): methods in `metrics.yaml`, standard editions and model papers
+- **Data.** Everything lives in [`data/`](data/): metrics in `metrics.yaml`, standard editions and model papers
   in `references.yaml`, one file per project in `projects/`. The format is described in
   [`data/SCHEMA.md`](data/SCHEMA.md).
 - **Build.** [`scripts/build.py`](scripts/build.py) validates the data and generates the website, the tables in
@@ -207,7 +207,7 @@ the data, otherwise *inactive since* the month of that commit; an archived repos
 
 ## Using the data
 
-- [`data/index.json`](data/index.json) contains the whole index (methods, editions, projects,
+- [`data/index.json`](data/index.json) contains the whole index (metrics, editions, projects,
   implementations) in one JSON document; the same file is served at
   <https://zhenxianli.github.io/LISQM/index.json>.
 - [`llms.txt`](llms.txt) and [`llms-full.txt`](llms-full.txt) are plain-text summaries for language models and

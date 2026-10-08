@@ -17,13 +17,13 @@ notes:
     parameters in the field of Psychoacoustics based on the book of Zwicker and Fastl".
   - >-
     Roughness (`acousticRoughness`) follows the formula in Zwicker & Fastl's book, which is not one of the
-    roughness methods in this list.
+    roughness metrics in this list.
   - Also contains A-weighting, voice-activity detection and the scripts Main.py and Main_WAV.py for microphone or WAV input.
 caveats:
   - No licence file, so reuse is not permitted by default.
   - No documentation and no stated validation.
 implements:
-  - method: loudness-zwicker
+  - metric: loudness-zwicker
     reference: iso-532-1-2017
     functions: [loudness_ISO532, loudness_ISO532_time]
     scope: stationary and time-varying, from third-octave levels
@@ -32,13 +32,13 @@ implements:
     note: >-
       The file header says "Loudness ISO 532-1:2014" and the filter coefficients are labelled "ISO 532-1:2014";
       the published edition is ISO 532-1:2017.
-  - method: sharpness
+  - metric: sharpness
     reference: din-45692-2009
     functions: [calc_sharpness]
     status: available
     validation: not-stated
     note: The file header says "Sharpness DIN 45692"; the function also returns the von Bismarck and Aures variants.
-  - method: fluctuation-strength-osses
+  - metric: fluctuation-strength-osses
     reference: fastl-zwicker-2007
     functions: [acousticFluctuation, fmoddetection]
     scope: Zwicker & Fastl formula
@@ -46,7 +46,7 @@ implements:
     validation: not-stated
     note: >-
       The header cites Zwicker & Fastl, "Psychoacoustics: Facts and Models", without naming an edition.
-  - method: psychoacoustic-annoyance
+  - metric: psychoacoustic-annoyance
     reference: zwicker-fastl-1999
     functions: [psychoacousticAnnoyance]
     status: available

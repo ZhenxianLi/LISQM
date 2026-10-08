@@ -1,5 +1,5 @@
-# Metric families and methods. Each method gets its own page; see data/SCHEMA.md.
-# Methods are listed in display order. `references` are chronological; `current` names the edition(s)
+# Metric families and metrics. Each metric gets its own page; see data/SCHEMA.md.
+# Metrics are listed in display order. `references` are chronological; `current` names the edition(s)
 # an up-to-date implementation should follow.
 
 families:
@@ -44,7 +44,7 @@ families:
     summary: >-
       Quantities that psychoacoustic tools often include and that are closely tied to the metrics above.
 
-methods:
+metrics:
   # ------------------------------------------------------------------------------------------- loudness
   - id: loudness-zwicker
     family: loudness

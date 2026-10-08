@@ -38,7 +38,7 @@ caveats:
     Statistics and Machine Learning; some parts also use others, such as Curve Fitting.
   - Apart from the ISO 532-1 analyser, the project does not state how the analysers were validated.
 implements:
-  - method: loudness-zwicker
+  - metric: loudness-zwicker
     reference: iso-532-1-2017
     functions: [Loudness_ISO532_1]
     scope: stationary and time-varying
@@ -52,7 +52,7 @@ implements:
     note: >-
       The header cites a 2014 draft of ISO 532-1 and describes the code as Ella Manor's 2015 MATLAB port, with
       adjustments, of the Annex A C code.
-  - method: loudness-zwicker
+  - metric: loudness-zwicker
     reference: chalupper-fastl-2002
     functions: [LoudnessCF]
     scope: time-varying
@@ -63,7 +63,7 @@ implements:
     note: >-
       Also outputs loudness fluctuation and time-varying sharpness. Josef Chalupper's code (2000) in its PsySound3
       version (2007), adjusted for AARAE by Ella Manor in 2015.
-  - method: loudness-moore-glasberg
+  - metric: loudness-moore-glasberg
     reference: moore-1997
     functions: [Loudness_MGB2b]
     scope: one channel, or two channels for binaural loudness
@@ -74,7 +74,7 @@ implements:
     note: >-
       A port and extension of PsySound3's code by Densil Cabrera and Doheon Lee, version 1.02 (27 October 2015).
       Two-channel input gives binaural loudness after Moore & Glasberg (2007). The audio is resampled to 32 kHz.
-  - method: loudness-moore-glasberg-time-varying
+  - metric: loudness-moore-glasberg-time-varying
     reference: glasberg-moore-2002
     functions: [Loudness_MGB2b]
     scope: time-varying; one channel, or two channels for binaural loudness
@@ -83,7 +83,7 @@ implements:
     derived_from: [psysound3]
     derived_by_author: true
     note: Same function as the stationary model; the binaural extension follows Moore & Glasberg (2007).
-  - method: sharpness
+  - metric: sharpness
     reference: fastl-zwicker-2007
     functions: [sharpness_Fastl]
     scope: from the specific loudness of `LoudnessCF`
@@ -92,7 +92,7 @@ implements:
     note: >-
       The header describes a weighting fitted to data in Zwicker & Fastl's *Psychoacoustics: Facts and Models*
       (edition not stated), names the method "Fastl (1991)" and credits Claire Churchill (2004).
-  - method: roughness-daniel-weber
+  - metric: roughness-daniel-weber
     reference: daniel-weber-1997
     functions: [RoughnessDW]
     status: available

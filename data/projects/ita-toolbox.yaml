@@ -46,7 +46,7 @@ caveats:
     are not listed here.
   - There are no releases; use the default branch.
 implements:
-  - method: loudness-zwicker
+  - metric: loudness-zwicker
     reference: din-45631-1991
     functions: [ita_loudness]
     scope: stationary; free or diffuse field
@@ -63,7 +63,7 @@ implements:
       The header says "DIN 45631 / ISO 532 B". The C core (`private/DIN45631.c`) is Aaron Hastings' version (2000) of
       the BASIC program published by Zwicker, Fastl, Widmann, Kurakata, Kuwano and Namba in J. Acoust. Soc. Jpn (E)
       12(1), 1991.
-  - method: loudness-zwicker
+  - metric: loudness-zwicker
     reference: din-45631-a1-2010
     functions: [ita_loudness_timevariant]
     scope: time-varying, with N5
@@ -81,7 +81,7 @@ implements:
       The header says "DIN 45631/A1" without a year; the function was written in August 2010, after the amendment was
       published. A code comment says the C code of the nonlinearity block was copied from the DIN document, "without
       its errors".
-  - method: roughness-daniel-weber
+  - metric: roughness-daniel-weber
     reference: daniel-weber-1997
     functions: [ita_roughness_daniel]
     status: available
@@ -91,7 +91,7 @@ implements:
         A code comment says that after major bug fixes the values "more or less match those of the paper by Daniel";
         no test or comparison script is included.
     note: Uses sub-functions written by Martin Klemenz in 2000 (`external_packages/roughness_daniel`).
-  - method: tonality-din-45681
+  - metric: tonality-din-45681
     reference: din-45681-2002-draft
     functions: [ita_tonality]
     scope: maximum tonal audibility and its frequency

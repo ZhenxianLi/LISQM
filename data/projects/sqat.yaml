@@ -60,7 +60,7 @@ caveats:
     ([#42](https://github.com/ggrecow/SQAT/pull/42)). Results from v1.3 and `main` differ.
   - The README warns that `main` may contain changes that are not yet fully verified and recommends using a release.
 implements:
-  - method: loudness-zwicker
+  - metric: loudness-zwicker
     reference: iso-532-1-2017
     functions: [Loudness_ISO532_1, Loudness_ISO532_1_from_wavfile]
     scope: stationary and time-varying
@@ -72,7 +72,7 @@ implements:
       - Checked with the 25 test signals of Annex B.2–B.5 against the standard's tolerances.
     note: >-
       Fixes to the time-varying procedure are on `main` only (PR #48).
-  - method: sharpness
+  - metric: sharpness
     reference: din-45692-2009
     functions: [Sharpness_DIN45692, Sharpness_DIN45692_from_loudness, Sharpness_DIN45692_from_wavfile]
     scope: DIN 45692 weighting, plus von Bismarck and Aures options
@@ -81,7 +81,7 @@ implements:
     validation: standard-data
     validation_details:
       - Checked with the narrowband and broadband test signals of DIN 45692.
-  - method: roughness-daniel-weber
+  - metric: roughness-daniel-weber
     reference: daniel-weber-1997
     functions: [Roughness_Daniel1997, Roughness_Daniel1997_from_wavfile]
     status: available
@@ -94,7 +94,7 @@ implements:
       The v1.x code is AARAE's `roughnessDW.m` (Dik Hermes's code), adapted and verified for SQAT in 2023. Rewritten
       on `main` (PR #65, 2026-09-08) after revised code from Dik Hermes: 63 of 119 validation values go up and 56
       down (largest change 0.155 asper).
-  - method: fluctuation-strength-osses
+  - metric: fluctuation-strength-osses
     reference: osses-2016
     functions: [FluctuationStrength_Osses2016, FluctuationStrength_Osses2016_from_wavfile]
     status: available
@@ -107,7 +107,7 @@ implements:
     note: >-
       Alejandro Osses's `FluctuationStrength_TUe.m` (TU/e, 2014–2016), taken into SQAT in 2020 and modified there
       by Osses since 2023.
-  - method: tonality-aures
+  - metric: tonality-aures
     reference: aures-1985-euphony
     functions: [Tonality_Aures1985, Tonality_Aures1985_from_wavfile]
     status: available
@@ -119,19 +119,19 @@ implements:
     note: >-
       Eight defects were fixed on `main` in September 2026 (for example, only one tonal component's level excess
       entered the result, and tones were removed from the wrong spectrum).
-  - method: psychoacoustic-annoyance
+  - metric: psychoacoustic-annoyance
     reference: zwicker-fastl-1999
     functions: [PsychoacousticAnnoyance_Zwicker1999, PsychoacousticAnnoyance_Zwicker1999_from_percentile]
     status: available
     since: v1.0
     validation: not-stated
-  - method: psychoacoustic-annoyance
+  - metric: psychoacoustic-annoyance
     reference: widmann-1992
     functions: [PsychoacousticAnnoyance_Widmann1992, PsychoacousticAnnoyance_Widmann1992_from_percentile]
     status: unreleased
     validation: not-stated
     note: Added on `main` in June 2025; the README describes it as the same model as the Zwicker & Fastl entry under its original attribution.
-  - method: psychoacoustic-annoyance
+  - metric: psychoacoustic-annoyance
     reference: more-2010
     functions: [PsychoacousticAnnoyance_More2010, PsychoacousticAnnoyance_More2010_from_percentile]
     status: available
@@ -139,7 +139,7 @@ implements:
     validation: not-stated
     validation_details:
       - No verification routine (README).
-  - method: psychoacoustic-annoyance
+  - metric: psychoacoustic-annoyance
     reference: di-2016
     functions: [PsychoacousticAnnoyance_Di2016, PsychoacousticAnnoyance_Di2016_from_percentile]
     status: available
@@ -147,7 +147,7 @@ implements:
     validation: not-stated
     validation_details:
       - No verification routine (README).
-  - method: epnl
+  - metric: epnl
     reference: cfr-14-part-36
     functions: [EPNL_FAR_Part36, get_PNL, get_PNLT, get_Duration_Correction]
     status: available
@@ -163,7 +163,7 @@ implements:
         EPNL is cross-checked with Table 4 of Rizzi et al. (2020), AIAA 2020-2582, for 15 flyover sounds (five cases
         auralised by three tools): the largest difference is about 0.6 EPNdB.
     note: Follows Amendment 36-26 (2005).
-  - method: loudness-ecma-418-2
+  - metric: loudness-ecma-418-2
     reference: ecma-418-2-ed3
     functions: [Loudness_ECMA418_2, LoudnessFromComp_ECMA418_2]
     scope: mono or two channels with binaural combination
@@ -177,7 +177,7 @@ implements:
       - >-
         Checked against the ISO 226:2003 equal-loudness contours and against reference results from commercial
         software for a binaural recording of a train station.
-  - method: loudness-ecma-418-2
+  - metric: loudness-ecma-418-2
     reference: ecma-418-2-ed4
     functions: [Loudness_ECMA418_2, LoudnessFromComp_ECMA418_2]
     status: unreleased
@@ -191,7 +191,7 @@ implements:
         reference results from commercial software for a binaural recording of a train station (last checked in
         November 2025).
     note: Updated to the 4th edition on `main` in 2025.
-  - method: roughness-ecma-418-2
+  - metric: roughness-ecma-418-2
     reference: ecma-418-2-ed3
     functions: [Roughness_ECMA418_2]
     scope: with binaural combination
@@ -205,7 +205,7 @@ implements:
       - >-
         Checked for the dependence of the roughness of AM tones on modulation frequency, and against reference results
         from commercial software for a binaural recording of a train station.
-  - method: roughness-ecma-418-2
+  - metric: roughness-ecma-418-2
     reference: ecma-418-2-ed4
     functions: [Roughness_ECMA418_2]
     status: unreleased
@@ -219,7 +219,7 @@ implements:
         frequency, and against reference results from commercial software for a binaural recording of a train
         station.
     note: Amended to the 4th edition on `main` in November 2025.
-  - method: tonality-ecma-418-2
+  - metric: tonality-ecma-418-2
     reference: ecma-418-2-ed3
     functions: [Tonality_ECMA418_2]
     status: available
@@ -230,7 +230,7 @@ implements:
     compared_with: ["commercial software"]
     validation_details:
       - Checked against reference results from commercial software for a binaural recording of a train station.
-  - method: tonality-ecma-418-2
+  - metric: tonality-ecma-418-2
     reference: ecma-418-2-ed4
     functions: [Tonality_ECMA418_2]
     status: unreleased
@@ -245,7 +245,7 @@ implements:
       - >-
         A verification against Annex B.2 (PR #79) was merged and reverted on 2026-09-21 because the Annex B values of
         the 2025 edition appear to be out of date.
-  - method: fluctuation-strength-ecma-418-2
+  - metric: fluctuation-strength-ecma-418-2
     reference: ecma-418-2-ed4
     functions: [FluctuationStrength_ECMA418_2]
     status: proposed

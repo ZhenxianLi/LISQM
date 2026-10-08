@@ -26,7 +26,7 @@ notes:
   - >-
     The roughness objects (`[roughness]`, `[roughcurve]`) compute the sensory dissonance of a spectrum given as
     lists of frequencies and amplitudes, with a model "derived from the work of Parncutt, Sethares, Vassilakis &
-    Barlow"; this is not one of the signal-based roughness methods in this list.
+    Barlow"; this is not one of the signal-based roughness metrics in this list.
   - "`[sharpness~]` is an abstraction built on `[barks~]` (24 Bark bands) and names no sharpness model."
   - >-
     Tonalness, pitch salience and commonality follow Parncutt & Strasburger (1994), after Terhardt; they are not
@@ -37,7 +37,7 @@ notes:
 caveats:
   - The README calls the library "still a work in progress".
 implements:
-  - method: equal-loudness-contours
+  - metric: equal-loudness-contours
     reference: iso-226-2003
     functions: ["[iso226]"]
     status: available

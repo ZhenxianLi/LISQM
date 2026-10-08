@@ -26,7 +26,7 @@ caveats:
     The README marks hearing-model tonality (ECMA-74:2019 Annex G) as under development; the repository
     contains the hearing-model stages, but no separate tonality function was found.
 implements:
-  - method: loudness-ecma-418-2
+  - metric: loudness-ecma-418-2
     reference: ecma-418-2-ed1
     functions: [comp_loudness]
     scope: hearing model with specific and total loudness
@@ -40,7 +40,7 @@ implements:
     note: >-
       Module `mosqito.functions.hearing_model`. Its author committed the same hearing model to MoSQITo on 2021-05-30,
       two weeks before this snapshot.
-  - method: tone-to-noise-prominence-ratio
+  - metric: tone-to-noise-prominence-ratio
     reference: ecma-74-ed17
     functions: [comp_tnr, comp_pr]
     scope: Annex D

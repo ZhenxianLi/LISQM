@@ -10,7 +10,7 @@
   --text: #1f2328;
   --muted: #5a636e;
   --faint: #8b949e;
-  --timeline: #8b949e;     /* the life line of a method on the home page */
+  --timeline: #8b949e;     /* the life line of a metric on the home page */
   --rule: #d4dbe2;
   --rule-strong: #2b3137;
   --hairline: #edf0f3;
@@ -646,9 +646,9 @@ dl.validation .evidence .tag {
   text-underline-offset: .12em;
 }
 
-/* On a method page the entries are named after projects: normal weight, so that the names shown in
+/* On a metric page the entries are named after projects: normal weight, so that the names shown in
    bold everywhere else still stand out. */
-dl.validation.on-method dt {
+dl.validation.on-metric dt {
   font-weight: 400;
 }
 
@@ -1235,8 +1235,8 @@ table.timeline tr.family + tr > * {
   border-top: 0;
 }
 
-/* The line runs from a method's first edition to the present, through the first line of each edition label. It is
-   heavier and darker than the table rules, so that it reads as the time axis of each method. */
+/* The line runs from a metric's first edition to the present, through the first line of each edition label. It is
+   heavier and darker than the table rules, so that it reads as the time axis of each metric. */
 table.timeline td.bin {
   position: relative;
 }
@@ -1584,7 +1584,7 @@ table.langs td:nth-child(2) { width: 50%; }
     font-size: .8rem;
   }
 
-  /* The timeline scrolls sideways; its method column stays in view, and long names hyphenate instead of
+  /* The timeline scrolls sideways; its metric column stays in view, and long names hyphenate instead of
      breaking at any letter. */
   table.timeline {
     min-width: 60rem;
@@ -1716,7 +1716,7 @@ table.langs td:nth-child(2) { width: 50%; }
     font-size: 1rem;
   }
 
-  /* Coverage by language: the method column stays in view. */
+  /* Coverage by language: the metric column stays in view. */
   table.coverage th:first-child,
   table.coverage td:first-child {
     position: sticky;

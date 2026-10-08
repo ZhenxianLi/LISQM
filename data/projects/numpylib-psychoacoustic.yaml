@@ -28,7 +28,7 @@ caveats:
     The implementation document describes only the Moore (1997) model as implemented; `glasberg2002` is in the
     code (with data/Glasberg2002.json) but not documented.
 implements:
-  - method: loudness-moore-glasberg
+  - metric: loudness-moore-glasberg
     reference: moore-1997
     functions: [model.moore1997, equalSones.getEqualSones]
     status: available
@@ -41,7 +41,7 @@ implements:
       - >-
         Numerical error reports (PDF) compare intermediate arrays, such as the outer- and middle-ear filter, with
         AMT's MATLAB output.
-  - method: loudness-moore-glasberg-time-varying
+  - metric: loudness-moore-glasberg-time-varying
     reference: glasberg-moore-2002
     functions: [model.glasberg2002]
     status: available

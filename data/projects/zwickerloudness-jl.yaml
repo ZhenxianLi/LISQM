@@ -31,7 +31,7 @@ caveats:
     N5 and N10 use Hyndman–Fan type 7 quantiles; the README notes that MATLAB's `prctile` (type 5), used by SQAT,
     can differ by a few percent on the same data.
 implements:
-  - method: loudness-zwicker
+  - metric: loudness-zwicker
     reference: iso-532-1-2017
     functions: [zwicker_loudness]
     scope: stationary, from 28 one-third-octave band levels
@@ -44,7 +44,7 @@ implements:
         Checked against ISO 532-1 Annex B signal 1, the only 28-band reference in Annex B (83.296 sone, tolerance ±5
         %).
       - Checked per Bark bin against MoSQITo output (maximum difference below 0.001 sone/Bark).
-  - method: loudness-zwicker
+  - metric: loudness-zwicker
     reference: iso-532-1-2017
     functions: [zwicker_loudness_time_varying]
     scope: time-varying, from band levels at 2000 Hz; N5 and N10

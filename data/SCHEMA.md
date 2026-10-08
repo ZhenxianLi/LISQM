@@ -6,8 +6,8 @@ directory. Edit these files, never the generated output.
 | File | Edited by | Contents |
 |---|---|---|
 | `site.yaml` | people | Short name (LISQM), what it stands for, subtitle, base URL, maintainer, thresholds, IndexNow key, search engine verification codes |
-| `metrics.yaml` | people | Metric families and methods (one page per method) |
-| `references.yaml` | people | Standard editions, model papers and books that methods are defined by |
+| `metrics.yaml` | people | Metric families and metrics (one page per metric) |
+| `references.yaml` | people | Standard editions, model papers and books that metrics are defined by |
 | `projects/<id>.yaml` | people | One file per listed project, including what it implements |
 | `updates.yaml` | people | Dated notes shown on the Updates page, in the Atom feed and in `CHANGELOG.md` |
 | `ignored.yaml` | people | Candidates that were reviewed and not included, so discovery does not report them again |
@@ -30,7 +30,7 @@ families:
     name: Loudness
     summary: One or two sentences.            # markdown
 
-methods:                                      # one page per method, in display order
+metrics:                                      # one page per metric, in display order
   - id: loudness-zwicker
     family: loudness                          # a family id
     name: Zwicker loudness                    # short name used in tables
@@ -38,18 +38,18 @@ methods:                                      # one page per method, in display 
     aka: [ISO 532-1, ISO 532B, DIN 45631]     # other names people search for
     unit: sone, phon
     summary: >-                               # markdown, 2–5 sentences
-      What the method computes and how its editions differ.
+      What the metric computes and how its editions differ.
     references: [iso-532-1975, din-45631-1991, iso-532-1-2017, iso-cd-532-1]   # chronological
     current: [iso-532-1-2017]                 # the edition(s) an up-to-date implementation should follow
-    edition_notes:                            # optional: what each edition changed for this method (markdown)
+    edition_notes:                            # optional: what each edition changed for this metric (markdown)
       iso-532-1-2017: Stationary and time-varying procedures.
     notes: optional markdown paragraph
-    see_also: [loudness-moore-glasberg]       # method ids
+    see_also: [loudness-moore-glasberg]       # metric ids
 ```
 
 ## `references.yaml`
 
-A list of documents. A document can be shared by several methods (ECMA-418-2 defines loudness, tonality,
+A list of documents. A document can be shared by several metrics (ECMA-418-2 defines loudness, tonality,
 roughness and fluctuation strength).
 
 ```yaml
@@ -125,8 +125,8 @@ maintainer_check: optional markdown           # the list maintainer's own observ
 # access_note: optional markdown              #   under "status unknown" with access_note and claim (what it is
 # claim: markdown                             #   said to implement) instead of implements
 implements:
-  - method: loudness-zwicker                  # a method id
-    reference: iso-532-1-2017                 # a reference id listed in that method's references
+  - metric: loudness-zwicker                  # a metric id
+    reference: iso-532-1-2017                 # a reference id listed in that metric's references
     functions: [stationary_loudness, time_varying_loudness]
     scope: optional short text, e.g. "stationary and time-varying"
     status: available                         # available | unreleased | proposed
@@ -223,11 +223,11 @@ About page lists them all.
 These record what the project itself claims. The list does not run the code. `compared_with` names what an
 implementation was compared with: the tag then reads "compared with MoSQITo" (cross-implementation), "reference
 code: SQAT" (reference-code) or adds "also compared with …" to another kind of evidence. `validation_details` are
-shown, one bullet each, under *How it was validated* on the project and method pages. Agreement with another
+shown, one bullet each, under *How it was validated* on the project and metric pages. Agreement with another
 implementation shows that both compute the same values, not that either follows the standard.
 
 A comparison with related code is not an independent check, and is marked so: with the code the row was ported
-from, following `derived_from` (or the project's `based_on`) through further ports of the same method, it reads
+from, following `derived_from` (or the project's `based_on`) through further ports of the same metric, it reads
 "(its source)"; with a port of the row's own code, "(a port of it)"; with another port of the same code, "(also
 ported from …)". When every comparison of a row is of this kind, its evidence tag is grey. In `index.json`, such
 rows carry `comparison_relations` (`source`, `port` or `shared:<project id>`).

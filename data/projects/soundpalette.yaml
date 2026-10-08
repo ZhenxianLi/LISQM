@@ -41,7 +41,7 @@ caveats:
     N5, ±15 % for roughness) are the acceptance criterion.
   - Loudness in sones depends on the declared playback level (`ref_spl`), not on a measured calibration.
 implements:
-  - method: loudness-zwicker
+  - metric: loudness-zwicker
     reference: iso-532-1-2017
     functions: ["sp::compute_psycho"]
     scope: time-varying, reported as N5; monaural
@@ -54,7 +54,7 @@ implements:
         Compared with MoSQITo 1.2.1 on calibrated test signals, used as a development-time reference (`NOTES.md`,
         `tools/psycho_oracle`).
     note: No MoSQITo code is ported.
-  - method: sharpness
+  - metric: sharpness
     reference: din-45692-2009
     functions: ["sp::compute_psycho"]
     scope: from time-averaged specific loudness
@@ -64,7 +64,7 @@ implements:
     compared_with: [mosqito]
     validation_details:
       - Compared with MoSQITo 1.2.1 (tolerance ±5 %).
-  - method: roughness-daniel-weber
+  - metric: roughness-daniel-weber
     reference: daniel-weber-1997
     functions: ["sp::compute_psycho"]
     status: available

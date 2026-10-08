@@ -32,7 +32,7 @@ caveats:
     The PyPI package named `loudness` is an unrelated LUFS (ITU-R BS.1770) project (iver56/loudness); this
     library has to be built from source.
 implements:
-  - method: loudness-moore-glasberg
+  - metric: loudness-moore-glasberg
     reference: ansi-s3-4-2007
     functions: [StationaryLoudnessANSIS342007]
     scope: with the binaural inhibition of Moore & Glasberg (2007) for two ears
@@ -43,12 +43,12 @@ implements:
       - >-
         A validation script writes computed and expected loudness of pure tones to CSV; the expected values are
         labelled "Table 7" and "Example 2" without naming their source.
-  - method: loudness-moore-glasberg
+  - metric: loudness-moore-glasberg
     reference: chen-2011
     functions: [StationaryLoudnessCHGM2011]
     status: available
     validation: self-tests
-  - method: loudness-moore-glasberg-time-varying
+  - metric: loudness-moore-glasberg-time-varying
     reference: glasberg-moore-2002
     functions: [DynamicLoudnessGM2002]
     status: available
@@ -56,7 +56,7 @@ implements:
     note: >-
       Per the header, excitation patterns follow ANSI S3.4-2007, and parameter sets use the modified long-term
       time constants of Moore et al. (2003) and the ANSI S3.4-2007 equation for specific loudness at high levels.
-  - method: loudness-zwicker
+  - metric: loudness-zwicker
     reference: din-45631-1991
     functions: [StationaryLoudnessDIN456311991]
     scope: stationary only

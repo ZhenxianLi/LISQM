@@ -1,7 +1,7 @@
 """Load, validate and enrich the list data in data/.
 
 The YAML files are the source of truth (see data/SCHEMA.md). data/snapshot.json holds metadata fetched by
-scripts/refresh.py. Everything derived here (activity, latest release, per-method implementation lists) is
+scripts/refresh.py. Everything derived here (activity, latest release, per-metric implementation lists) is
 recomputed on every build and never written back to the YAML files.
 """
 
@@ -150,7 +150,7 @@ def impl_rank(impl: dict) -> tuple:
 
 
 def only_new(m: dict) -> bool:
-    """True when every released implementation of a method's current edition comes from a newly released project."""
+    """True when every released implementation of a metric's current edition comes from a newly released project."""
     released = [i for i in m["_current_impls"] if i["status"] == "available"]
     return bool(released) and all(i["_project"]["standing"] == "newly-released" for i in released)
 
@@ -193,7 +193,7 @@ class Index:
         self.site: dict = _load_yaml(data / "site.yaml") or {}
         metrics = _load_yaml(data / "metrics.yaml") or {}
         self.families: list[dict] = metrics.get("families") or []
-        self.methods: list[dict] = metrics.get("methods") or []
+        self.metrics: list[dict] = metrics.get("metrics") or []
         self.references: list[dict] = _load_yaml(data / "references.yaml") or []
         self.projects: list[dict] = []
         self.project_files: dict[str, Path] = {}
@@ -208,7 +208,7 @@ class Index:
         self.snapshot: dict = json.loads(snap_path.read_text(encoding="utf-8")) if snap_path.exists() else {}
 
         self.family = {f.get("id"): f for f in self.families}
-        self.method = {m.get("id"): m for m in self.methods}
+        self.metric = {m.get("id"): m for m in self.metrics}
         self.ref = {r.get("id"): r for r in self.references}
         self.project = {p.get("id"): p for p in self.projects}
 
@@ -256,15 +256,15 @@ class Index:
                 add(f"{where}: date {value!r} must be YYYY, YYYY-MM or YYYY-MM-DD")
 
         check_ids(self.families, "data/metrics.yaml: families")
-        check_ids(self.methods, "data/metrics.yaml: methods")
+        check_ids(self.metrics, "data/metrics.yaml: metrics")
         check_ids(self.references, "data/references.yaml")
         for f in self.families:
             for key in ("name", "summary"):
                 if not f.get(key):
                     add(f"data/metrics.yaml: family '{f.get('id')}' missing '{key}'")
 
-        for m in self.methods:
-            w = f"data/metrics.yaml: method '{m.get('id')}'"
+        for m in self.metrics:
+            w = f"data/metrics.yaml: metric '{m.get('id')}'"
             for key in ("family", "name", "title", "summary", "unit", "references", "current"):
                 if not m.get(key):
                     add(f"{w}: missing '{key}'")
@@ -281,8 +281,8 @@ class Index:
                 if rid not in (m.get("references") or []):
                     add(f"{w}: current '{rid}' is not in its references")
             for mid in m.get("see_also") or []:
-                if mid not in self.method:
-                    add(f"{w}: see_also '{mid}' is not a method")
+                if mid not in self.metric:
+                    add(f"{w}: see_also '{mid}' is not a metric")
 
         for r in self.references:
             w = f"data/references.yaml: '{r.get('id')}'"
@@ -298,8 +298,8 @@ class Index:
             check_date(r.get("date"), w, required=r.get("status") != "in-development")
             if r.get("superseded_by") and r["superseded_by"] not in self.ref:
                 add(f"{w}: superseded_by '{r['superseded_by']}' is not a reference")
-            if not any(r.get("id") in (m.get("references") or []) for m in self.methods):
-                add(f"{w}: not used by any method")
+            if not any(r.get("id") in (m.get("references") or []) for m in self.metrics):
+                add(f"{w}: not used by any metric")
 
         repos: dict[str, str] = {}
         super_places: dict[int, str] = {}
@@ -395,11 +395,11 @@ class Index:
             seen_pairs: set[tuple] = set()
             for j, impl in enumerate(p.get("implements") or []):
                 wi = f"{w}: implements[{j}]"
-                mid, rid = impl.get("method"), impl.get("reference")
-                if mid not in self.method:
-                    add(f"{wi}: unknown method '{mid}'")
-                elif rid not in (self.method[mid].get("references") or []):
-                    add(f"{wi}: reference '{rid}' is not listed for method '{mid}'")
+                mid, rid = impl.get("metric"), impl.get("reference")
+                if mid not in self.metric:
+                    add(f"{wi}: unknown metric '{mid}'")
+                elif rid not in (self.metric[mid].get("references") or []):
+                    add(f"{wi}: reference '{rid}' is not listed for metric '{mid}'")
                 if impl.get("status") not in IMPL_STATUS:
                     add(f"{wi}: status must be one of {sorted(IMPL_STATUS)}")
                 if impl.get("validation") not in VALIDATION:
@@ -475,12 +475,12 @@ class Index:
         legacy_after = int(self.site.get("legacy_after_days", 1095))
         snap_projects = self.snapshot.get("projects") or {}
 
-        for m in self.methods:
+        for m in self.metrics:
             m["_impls"] = []
             m["_via_impls"] = []
             m["_family"] = self.family.get(m.get("family"), {})
         for r in self.references:
-            r["_methods"] = [m for m in self.methods if r["id"] in (m.get("references") or [])]
+            r["_metrics"] = [m for m in self.metrics if r["id"] in (m.get("references") or [])]
             r["_impls"] = []
 
         for p in self.projects:
@@ -527,7 +527,7 @@ class Index:
             for impl in p.get("implements") or []:
                 impl = dict(impl)
                 impl["_project"] = p
-                impl["_method"] = self.method[impl["method"]]
+                impl["_metric"] = self.metric[impl["metric"]]
                 impl["_ref"] = self.ref[impl["reference"]]
                 impl["_via"] = self.project.get(impl.get("via"))
                 impl["_uses"] = [self.project[u] for u in impl.get("uses") or [] if u in self.project]
@@ -544,9 +544,9 @@ class Index:
                 impl["_conventions"] = list(dict.fromkeys((p.get("conventions") or []) + (impl.get("conventions") or [])))
                 p["_impls"].append(impl)
                 if impl["_via"]:  # the computation is done by another listed project
-                    self.method[impl["method"]]["_via_impls"].append(impl)
+                    self.metric[impl["metric"]]["_via_impls"].append(impl)
                     continue
-                self.method[impl["method"]]["_impls"].append(impl)
+                self.metric[impl["metric"]]["_impls"].append(impl)
                 self.ref[impl["reference"]]["_impls"].append(impl)
             # Tools whose results all come from other listed projects are listed under "Others".
             p["_others"] = bool(p["_impls"]) and all(i["_via"] for i in p["_impls"])
@@ -555,38 +555,38 @@ class Index:
 
         self._relate_comparisons()
 
-        for m in self.methods:
+        for m in self.metrics:
             order = {rid: i for i, rid in enumerate(m.get("references") or [])}
 
             # The group comes before everything, so a newly released or legacy project never heads a list; within
             # a group the super projects come first, then the newest editions.
-            def method_rank(i: dict, order: dict = order) -> tuple:
+            def metric_rank(i: dict, order: dict = order) -> tuple:
                 return (GROUP_ORDER[i["_project"]["_group"]], *super_order(i["_project"]), -order[i["reference"]],
                         *impl_rank(i)[3:])
-            m["_impls"].sort(key=method_rank)
+            m["_impls"].sort(key=metric_rank)
             m["_via_impls"].sort(key=impl_rank)
             # Every row, including those computed by another project, in the same order (validation, ports).
-            m["_all_impls"] = sorted(m["_impls"] + m["_via_impls"], key=method_rank)
+            m["_all_impls"] = sorted(m["_impls"] + m["_via_impls"], key=metric_rank)
             current = set(m.get("current") or [])
             m["_current_impls"] = [i for i in m["_impls"] if i["reference"] in current]
             m["_older_impls"] = [i for i in m["_impls"] if i["reference"] not in current]
             m["_languages"] = sorted({lang for i in m["_current_impls"] if i["status"] == "available"
                                       for lang in i["_project"]["languages"]})
         for p in self.projects:
-            p["_impls"].sort(key=lambda i: (self.methods.index(i["_method"]),
-                                            -(i["_method"]["references"].index(i["reference"]))))
+            p["_impls"].sort(key=lambda i: (self.metrics.index(i["_metric"]),
+                                            -(i["_metric"]["references"].index(i["reference"]))))
 
     def _relate_comparisons(self) -> None:
         """Mark the comparisons that are not independent checks: with the code a row was ported from ("source"),
         with a port of it ("port"), or with another port of the same code ("shared", naming that code). Ports are
-        followed through the rows of the same method, so that a port of a port still counts."""
+        followed through the rows of the same metric, so that a port of a port still counts."""
         rows: dict[tuple[str, str], list[dict]] = {}
         for p in self.projects:
             for impl in p["_impls"]:
-                rows.setdefault((p["id"], impl["method"]), []).append(impl)
+                rows.setdefault((p["id"], impl["metric"]), []).append(impl)
 
         def sources(pid: str, mid: str, seen: frozenset) -> list[str]:
-            """Listed projects whose code for this method the project's code comes from, nearest first."""
+            """Listed projects whose code for this metric the project's code comes from, nearest first."""
             out: list[str] = []
             for impl in rows.get((pid, mid), []):
                 for c in impl["_derived_ids"]:
@@ -597,7 +597,7 @@ class Index:
 
         for p in self.projects:
             for impl in p["_impls"]:
-                mid, own = impl["method"], []
+                mid, own = impl["metric"], []
                 for c in impl["_derived_ids"]:
                     if c in self.project and c not in own:
                         own += [c] + [a for a in sources(c, mid, frozenset({p["id"], c})) if a not in own]
@@ -620,8 +620,8 @@ class Index:
 
     # ------------------------------------------------------------------ queries used by renderers
 
-    def families_with_methods(self) -> list[tuple[dict, list[dict]]]:
-        return [(f, [m for m in self.methods if m.get("family") == f["id"]]) for f in self.families]
+    def families_with_metrics(self) -> list[tuple[dict, list[dict]]]:
+        return [(f, [m for m in self.metrics if m.get("family") == f["id"]]) for f in self.families]
 
     def projects_by_group(self) -> list[dict]:
         """All projects by group (established, newly released, developing, legacy, others, status unknown); within
@@ -644,13 +644,13 @@ class Index:
         return sorted({lang for p in self.projects for lang in p.get("languages") or []}, key=str.lower)
 
     def gaps(self) -> list[dict]:
-        """Methods whose current edition has no available open implementation."""
-        return [m for m in self.methods
+        """Metrics whose current edition has no available open implementation."""
+        return [m for m in self.metrics
                 if not any(i["status"] == "available" for i in m["_current_impls"])]
 
     def new_only(self) -> list[dict]:
-        """Methods whose current edition has released implementations only from newly released projects."""
-        return [m for m in self.methods if only_new(m)]
+        """Metrics whose current edition has released implementations only from newly released projects."""
+        return [m for m in self.metrics if only_new(m)]
 
 
 def load(root: Path = ROOT) -> Index:

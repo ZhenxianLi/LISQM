@@ -46,7 +46,7 @@ caveats:
   - Fluctuation strength is only on the main branch (not on PyPI yet) and its verification report is marked as a draft.
   - Versions up to 0.1.13 are affected by an empty-array bug fixed in 0.1.14 ([#9](https://github.com/mlotinga/sottek-hearing-model/issues/9)).
 implements:
-  - method: loudness-ecma-418-2
+  - metric: loudness-ecma-418-2
     reference: ecma-418-2-ed4
     functions: [shm_loudness_ecma, shm_loudness_ecma_from_comp]
     scope: mono or stereo, with combined binaural output
@@ -60,7 +60,7 @@ implements:
       - >-
         RefMap's verification compared the Python code, before it became this package, and the MATLAB original with
         HEAD acoustics ArtemiS v17.1 for the two calibration signals and a 30 s binaural street recording.
-  - method: tonality-ecma-418-2
+  - metric: tonality-ecma-418-2
     reference: ecma-418-2-ed4
     functions: [shm_tonality_ecma]
     status: available
@@ -72,7 +72,7 @@ implements:
       - Unit tests check the standard's reference signal, which should give 1 tu_HMS, at 48 and 44.1 kHz.
       - RefMap's verification against ArtemiS v17.1, as for loudness.
     note: Optional experimental tonal-annoyance weighting (Sottek & Becker, 2019) since 0.1.14.
-  - method: roughness-ecma-418-2
+  - metric: roughness-ecma-418-2
     reference: ecma-418-2-ed4
     functions: [shm_roughness_ecma]
     scope: with combined binaural output
@@ -84,7 +84,7 @@ implements:
     validation_details:
       - Unit tests check the standard's reference signal, which should give 1 asper_HMS, at 48 and 44.1 kHz.
       - RefMap's verification against ArtemiS v17.1, as for loudness.
-  - method: fluctuation-strength-ecma-418-2
+  - metric: fluctuation-strength-ecma-418-2
     reference: ecma-418-2-ed4
     functions: [shm_fluctuation_ecma]
     scope: needs at least 1.37 s of signal; binaural option

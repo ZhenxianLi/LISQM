@@ -37,7 +37,7 @@ conventions:
 cite:
   doi: 10.5281/zenodo.7361480
 implements:
-  - method: loudness-moore-glasberg-time-varying
+  - metric: loudness-moore-glasberg-time-varying
     reference: glasberg-moore-2002
     functions: [loud_gui, matlab_loud]
     scope: specific loudness over time on ERB bands; three temporal models

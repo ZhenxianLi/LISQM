@@ -28,7 +28,7 @@ caveats:
     It follows ISO 1996-2:2007, which has been withdrawn; ISO 1996-2:2017 replaced its tonal audibility method
     with those of Annexes J and K.
 implements:
-  - method: tonal-audibility-iso-1996-2
+  - metric: tonal-audibility-iso-1996-2
     reference: iso-1996-2-2007
     functions: [Tonality, tonal_audibility, tonal_adjustment]
     scope: tonal audibility and tonal adjustment

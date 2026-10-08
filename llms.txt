@@ -2,7 +2,7 @@
 
 > A list of open-source implementations of psychoacoustic metrics, also called sound quality (SQ) metrics: loudness, sharpness, roughness, fluctuation strength, tonality, impulsiveness and psychoacoustic annoyance. Each implementation is listed under the standard edition or model it follows. All programming languages.
 
-Data as of 2026-10-08. 22 methods, 39 projects, languages: C, C#, C++, Julia, MATLAB, Octave, Pure Data, Python, Rust. Each implementation is tied to the standard edition or model paper it follows, with its validation evidence as stated by the project. Repository and package metadata are refreshed monthly. Implementations are listed with established projects first, SQAT and MoSQITo (widely used), and sottek-hearing-model (a very good implementation) at the top and in bold. Projects marked (newly released) were first released less than about a year ago and are not yet seen to be widely used in the community; projects marked (legacy) are archived or have had no commit for three years or more.
+Data as of 2026-10-08. 22 metrics, 39 projects, languages: C, C#, C++, Julia, MATLAB, Octave, Pure Data, Python, Rust. Each implementation is tied to the standard edition or model paper it follows, with its validation evidence as stated by the project. Repository and package metadata are refreshed monthly. Implementations are listed with established projects first, SQAT and MoSQITo (widely used), and sottek-hearing-model (a very good implementation) at the top and in bold. Projects marked (newly released) were first released less than about a year ago and are not yet seen to be widely used in the community; projects marked (legacy) are archived or have had no commit for three years or more.
 
 Developed by Zhenxian LI with assistance from Claude Code.
 
@@ -118,7 +118,7 @@ Projects whose code could not be opened, for example because the repository need
 - [Languages](https://zhenxianli.github.io/LISQM/languages.md): coverage and calling details by language
 - [Project map](https://zhenxianli.github.io/LISQM/projects/map.md): code taken from another project, use at run time, results checked against another project, and shared maintainers
 - [Frequently asked questions](https://zhenxianli.github.io/LISQM/faq.md)
-- [About and method](https://zhenxianli.github.io/LISQM/about.md)
+- [About](https://zhenxianli.github.io/LISQM/about.md): scope, how entries are checked, definitions and data access
 - [Standards timeline](https://zhenxianli.github.io/LISQM/standards.md)
 - [Updates](https://zhenxianli.github.io/LISQM/updates.md)
 - [Source repository](https://github.com/ZhenxianLi/LISQM)

@@ -29,7 +29,7 @@ cite:
     The README asks users to cite two papers by Callegari and Bizzarri on the design of ΔΣ modulators (the journal
     versions).
 implements:
-  - method: equal-loudness-contours
+  - metric: equal-loudness-contours
     reference: iso-226-2003
     functions: [pydsm.iso226]
     scope: tabled and interpolated contours; optional 20 kHz extension

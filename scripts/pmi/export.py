@@ -9,7 +9,7 @@ from xml.sax.saxutils import escape as xml_escape
 from .data import ACCESS, GROUPS, IMPL_STATUS_LONG, KINDS, STANDING, VALIDATION_LONG, Index
 from .describe import coverage
 from .paths import (ABOUT, AI, FAQ, HOME, LANGUAGES, MAP, METRICS, PROJECTS, STANDARDS, UPDATES, absolute,
-                    method_path, project_path)
+                    metric_path, project_path)
 from .text import blocks, date_str, plain
 
 
@@ -32,7 +32,7 @@ def _clean(d: dict) -> dict:
 def _implementation(i: dict) -> dict:
     """An implementation row as exported: its fields, the code it was ported from (also when that comes from the
     project's `based_on`), and how each comparison with related code relates to it."""
-    d = {"project": i["_project"]["id"], **_clean({k: v for k, v in i.items() if k != "method"})}
+    d = {"project": i["_project"]["id"], **_clean({k: v for k, v in i.items() if k != "metric"})}
     if i["_derived_ids"]:
         d["derived_from"] = list(i["_derived_ids"])
     relations = {cid: kind + (f":{origin['id']}" if origin else "") for cid, (kind, origin) in i["_relation"].items()}
@@ -43,15 +43,15 @@ def _implementation(i: dict) -> dict:
 
 def index_json(index: Index) -> str:
     site = index.site
-    methods = []
-    for m in index.methods:
+    metrics = []
+    for m in index.metrics:
         d = _clean(m)
-        d["url"] = absolute(index, method_path(m))
+        d["url"] = absolute(index, metric_path(m))
         d["coverage"] = coverage(m)
         d["implementations"] = [_implementation(i) for i in m["_impls"]]
         if m["_via_impls"]:  # tools that call one of the implementations above
             d["also_through"] = [_implementation(i) for i in m["_via_impls"]]
-        methods.append(d)
+        metrics.append(d)
     projects = []
     for p in index.projects_by_group():
         # super_project is the maintainer's display setting (bold and first); only its effect is published.
@@ -82,7 +82,7 @@ def index_json(index: Index) -> str:
         "credit": site["credit"],
         "as_of": index.as_of(),
         "schema": f"{site['repository']}/blob/main/data/SCHEMA.md",
-        "counts": {"methods": len(index.methods), "projects": len(index.projects),
+        "counts": {"metrics": len(index.metrics), "projects": len(index.projects),
                    "references": len(index.references)},
         "ordering": ("Implementations and projects are listed by group: established, newly released, developing, legacy, "
                      "others, status unknown. Newly released projects were first released less than about a year ago "
@@ -107,7 +107,7 @@ def index_json(index: Index) -> str:
                                      "partial": "only unreleased, proposed or older-edition implementations",
                                      "": "none found"}},
         "families": [_clean(f) for f in index.families],
-        "methods": methods,
+        "metrics": metrics,
         "references": [_clean(r) for r in index.references],
         "projects": projects,
         "gaps": [m["id"] for m in index.gaps()],
@@ -304,7 +304,7 @@ def sitemap(index: Index) -> str:
     as_of = index.as_of()
     urls = [(absolute(index, p), as_of) for p in (HOME, METRICS, PROJECTS, MAP, LANGUAGES, STANDARDS, UPDATES,
                                                  ABOUT, FAQ, AI)]
-    urls += [(absolute(index, method_path(m)), as_of) for m in index.methods]
+    urls += [(absolute(index, metric_path(m)), as_of) for m in index.metrics]
     urls += [(absolute(index, project_path(p)), max(date_str(p["checked"]), (p["_last_commit"] or "")[:10]))
              for p in index.projects]
     body = "\n".join(f"  <url><loc>{xml_escape(u)}</loc><lastmod>{d}</lastmod></url>" for u, d in urls)

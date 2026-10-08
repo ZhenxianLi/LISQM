@@ -26,7 +26,7 @@ notes:
 caveats:
   - No licence file, so reuse is not permitted by default.
 implements:
-  - method: fluctuation-strength-osses
+  - metric: fluctuation-strength-osses
     reference: osses-2016
     functions: [FluctuationStrength_TUe]
     status: available

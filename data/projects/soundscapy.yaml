@@ -37,7 +37,7 @@ caveats:
     The psychoacoustic values are computed by MoSQITo, so their editions and accuracy are those of the installed
     MoSQITo version.
 implements:
-  - method: loudness-zwicker
+  - metric: loudness-zwicker
     reference: iso-532-1-2017
     functions: [Binaural.mosqito_metric, process_all_metrics]
     scope: time-varying, per channel
@@ -45,7 +45,7 @@ implements:
     via: mosqito
     validation: not-stated
     note: Calls `loudness_zwtv`.
-  - method: sharpness
+  - metric: sharpness
     reference: din-45692-2009
     functions: [Binaural.mosqito_metric, process_all_metrics]
     status: available
@@ -54,7 +54,7 @@ implements:
     note: >-
       Calls `sharpness_din_from_loudness`, `sharpness_din_perseg` or `sharpness_din_tv`; the weighting can be
       chosen.
-  - method: roughness-daniel-weber
+  - metric: roughness-daniel-weber
     reference: daniel-weber-1997
     functions: [Binaural.mosqito_metric, process_all_metrics]
     status: available

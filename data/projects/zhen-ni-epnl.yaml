@@ -20,7 +20,7 @@ caveats:
     is not implemented: there is no time integration or duration correction.
   - No licence file, so reuse is not permitted by default.
 implements:
-  - method: epnl
+  - metric: epnl
     reference: icao-annex-16-vol-1
     functions: [SPL, Noy, PNL, PNLT]
     scope: PNL and PNLT only; no duration correction to EPNL

@@ -2,7 +2,7 @@
 
 > A list of open-source implementations of psychoacoustic metrics, also called sound quality (SQ) metrics: loudness, sharpness, roughness, fluctuation strength, tonality, impulsiveness and psychoacoustic annoyance. Each implementation is listed under the standard edition or model it follows. All programming languages.
 
-Data as of 2026-10-08. 22 methods, 39 projects, languages: C, C#, C++, Julia, MATLAB, Octave, Pure Data, Python, Rust. Each implementation is tied to the standard edition or model paper it follows, with its validation evidence as stated by the project. Repository and package metadata are refreshed monthly. Implementations are listed with established projects first, SQAT and MoSQITo (widely used), and sottek-hearing-model (a very good implementation) at the top and in bold. Projects marked (newly released) were first released less than about a year ago and are not yet seen to be widely used in the community; projects marked (legacy) are archived or have had no commit for three years or more.
+Data as of 2026-10-08. 22 metrics, 39 projects, languages: C, C#, C++, Julia, MATLAB, Octave, Pure Data, Python, Rust. Each implementation is tied to the standard edition or model paper it follows, with its validation evidence as stated by the project. Repository and package metadata are refreshed monthly. Implementations are listed with established projects first, SQAT and MoSQITo (widely used), and sottek-hearing-model (a very good implementation) at the top and in bold. Projects marked (newly released) were first released less than about a year ago and are not yet seen to be widely used in the community; projects marked (legacy) are archived or have had no commit for three years or more.
 
 Developed by Zhenxian LI with assistance from Claude Code.
 
@@ -118,7 +118,7 @@ Projects whose code could not be opened, for example because the repository need
 - [Languages](https://zhenxianli.github.io/LISQM/languages.md): coverage and calling details by language
 - [Project map](https://zhenxianli.github.io/LISQM/projects/map.md): code taken from another project, use at run time, results checked against another project, and shared maintainers
 - [Frequently asked questions](https://zhenxianli.github.io/LISQM/faq.md)
-- [About and method](https://zhenxianli.github.io/LISQM/about.md)
+- [About](https://zhenxianli.github.io/LISQM/about.md): scope, how entries are checked, definitions and data access
 - [Standards timeline](https://zhenxianli.github.io/LISQM/standards.md)
 - [Updates](https://zhenxianli.github.io/LISQM/updates.md)
 - [Source repository](https://github.com/ZhenxianLi/LISQM)
@@ -246,15 +246,15 @@ Questions, corrections and suggestions are welcome as GitHub issues: https://git
 
 ## Which code should I use for a psychoacoustic metric?
 
-Choose by your own environment first: the language you work in and how the results will be used. The [Languages](https://zhenxianli.github.io/LISQM/languages.html) page shows which metrics can be computed from each language and how each project can be called, also from another language. The [Metrics](https://zhenxianli.github.io/LISQM/metrics/) page names the current edition of each of the 22 methods, and each method page lists every implementation of it, with the validation it states, the code it was ported from and the choices that change its numbers. Those widely used projects, **[SQAT](https://zhenxianli.github.io/LISQM/projects/sqat.html)** (MATLAB) and **[MoSQITo](https://zhenxianli.github.io/LISQM/projects/mosqito.html)** (Python), come first in the lists, together with **[sottek-hearing-model](https://zhenxianli.github.io/LISQM/projects/sottek-hearing-model.html)** (Python), a very good implementation, but they are not the only choice. Newer projects, not yet seen to be widely used, often check their results against MoSQITo or SQAT (8 of the 10 newly released ones do), and some are built for a particular use: [MetaSona](https://zhenxianli.github.io/LISQM/projects/metasona.html) is a C library written for fast, real-time analysis, with a rolling analyser for audio that arrives in chunks; [iso532-1-rs](https://zhenxianli.github.io/LISQM/projects/iso532-1-rs.html) is a Rust engine with a streaming interface and a C interface; [torch_amt](https://zhenxianli.github.io/LISQM/projects/torch-amt.html) brings the AMT loudness models to PyTorch, differentiable and able to run on GPU. [pySQAT](https://zhenxianli.github.io/LISQM/projects/pysqat.html) ports SQAT to Python, adds a graphical interface and checks each metric against SQAT v1.3. Before relying on any of them, check the validation each project states and whether the fix you need is in a release or only on its main branch.
+Choose by your own environment first: the language you work in and how the results will be used. The [Languages](https://zhenxianli.github.io/LISQM/languages.html) page shows which metrics can be computed from each language and how each project can be called, also from another language. The [Metrics](https://zhenxianli.github.io/LISQM/metrics/) page names the current edition of each of the 22 metrics, and each metric page lists every implementation of it, with the validation it states, the code it was ported from and the choices that change its numbers. Those widely used projects, **[SQAT](https://zhenxianli.github.io/LISQM/projects/sqat.html)** (MATLAB) and **[MoSQITo](https://zhenxianli.github.io/LISQM/projects/mosqito.html)** (Python), come first in the lists, together with **[sottek-hearing-model](https://zhenxianli.github.io/LISQM/projects/sottek-hearing-model.html)** (Python), a very good implementation, but they are not the only choice. Newer projects, not yet seen to be widely used, often check their results against MoSQITo or SQAT (8 of the 10 newly released ones do), and some are built for a particular use: [MetaSona](https://zhenxianli.github.io/LISQM/projects/metasona.html) is a C library written for fast, real-time analysis, with a rolling analyser for audio that arrives in chunks; [iso532-1-rs](https://zhenxianli.github.io/LISQM/projects/iso532-1-rs.html) is a Rust engine with a streaming interface and a C interface; [torch_amt](https://zhenxianli.github.io/LISQM/projects/torch-amt.html) brings the AMT loudness models to PyTorch, differentiable and able to run on GPU. [pySQAT](https://zhenxianli.github.io/LISQM/projects/pysqat.html) ports SQAT to Python, adds a graphical interface and checks each metric against SQAT v1.3. Before relying on any of them, check the validation each project states and whether the fix you need is in a release or only on its main branch.
 
 ## Which metrics can I compute in Python, MATLAB or C?
 
-Methods whose current edition has a released open-source implementation, by language: Python: 19 of 22 (8 only from newly released projects); MATLAB/Octave: 12 of 22; C/C++: 7 of 22 (7 only from newly released projects); Rust: 3 of 22 (2 only from newly released projects); Julia: 5 of 22 (5 only from newly released projects). The [Languages](https://zhenxianli.github.io/LISQM/languages.html) page lists them, and explains how each project can be used from another language, for example a MATLAB toolbox from Python through the MATLAB Engine API.
+Metrics whose current edition has a released open-source implementation, by language: Python: 19 of 22 (8 only from newly released projects); MATLAB/Octave: 12 of 22; C/C++: 7 of 22 (7 only from newly released projects); Rust: 3 of 22 (2 only from newly released projects); Julia: 5 of 22 (5 only from newly released projects). The [Languages](https://zhenxianli.github.io/LISQM/languages.html) page lists them, and explains how each project can be used from another language, for example a MATLAB toolbox from Python through the MATLAB Engine API.
 
 ## Why does it matter which edition a tool implements?
 
-Psychoacoustic standards change between editions. ECMA-418-2, for example, has had four editions since 2020 that changed the hearing model, roughness and loudness, and all three parts of ISO 532 are being revised. Two tools that both claim to implement a standard can therefore give different values for the same sound. Liu et al. (2026, Acoustics Australia, doi:10.1007/s40857-026-00393-3) compared four tools and found differences large enough to change the predictions of sound-quality models. Each method page lists the editions and which tool follows which.
+Psychoacoustic standards change between editions. ECMA-418-2, for example, has had four editions since 2020 that changed the hearing model, roughness and loudness, and all three parts of ISO 532 are being revised. Two tools that both claim to implement a standard can therefore give different values for the same sound. Liu et al. (2026, Acoustics Australia, doi:10.1007/s40857-026-00393-3) compared four tools and found differences large enough to change the predictions of sound-quality models. Each metric page lists the editions and which tool follows which.
 
 ## Which metrics have no open-source implementation yet?
 
@@ -412,7 +412,7 @@ As stated by the projects. Each item took code from the one above it (ported, tr
 
 ## Before you compare numbers
 
-Implementations of the same method can give different numbers without either being wrong. Check these choices first.
+Implementations of the same metric can give different numbers without either being wrong. Check these choices first.
 
 - **Sound field.** ISO 532-1 has a free-field and a diffuse-field version, which give different values for the same signal. Most implementations use free field unless told otherwise.
 - **Calibration.** The input is sound pressure in pascals. Audio read from a file has to be scaled first, and tools ask for this in different ways: a calibration factor, a reference level or a full-scale level.
@@ -511,7 +511,7 @@ As stated by the projects. Each item took code from the one above it (ported, tr
 
 ## Before you compare numbers
 
-Implementations of the same method can give different numbers without either being wrong. Check these choices first.
+Implementations of the same metric can give different numbers without either being wrong. Check these choices first.
 
 What the projects state:
 
@@ -611,7 +611,7 @@ As stated by the projects. Each item took code from the one above it (ported, tr
 
 ## Before you compare numbers
 
-Implementations of the same method can give different numbers without either being wrong. Check these choices first.
+Implementations of the same metric can give different numbers without either being wrong. Check these choices first.
 
 - **Sample rate.** The Cambridge programs and ISO 532-3 work at 32 kHz. Most implementations resample to it; phonometry runs at the native rate (a documented deviation), and the Swift & Gee code and the HAW tool expect 32 kHz input.
 - **Which output.** The models give instantaneous, short-term and long-term loudness; compare like with like.
@@ -721,7 +721,7 @@ As stated by the projects. Each item took code from the one above it (ported, tr
 
 ## Before you compare numbers
 
-Implementations of the same method can give different numbers without either being wrong. Check these choices first.
+Implementations of the same metric can give different numbers without either being wrong. Check these choices first.
 
 - **Edition.** The four editions give different results; compare implementations of the same edition (see the table of editions).
 - **Which loudness.** Clause 5 gives the hearing model's basic loudness; from the 2nd edition on, Clause 8 defines the loudness to report. MoSQITo and Mosqito.NET compute only the Clause 5 value, while the RefMap code and its ports (SQAT, sottek-hearing-model, MetaSona) compute the Clause 8 loudness.
@@ -828,7 +828,7 @@ As stated by the projects. Each item took code from the one above it (ported, tr
 
 ## Before you compare numbers
 
-Implementations of the same method can give different numbers without either being wrong. Check these choices first.
+Implementations of the same metric can give different numbers without either being wrong. Check these choices first.
 
 - **Weighting.** The DIN 45692, Aures and von Bismarck weightings give different values for the same sound, and Aures' weighting depends on loudness. Many tools offer several; check which one is used (RefMap's default is Aures).
 - **Loudness input.** Sharpness is computed from Zwicker specific loudness, so the loudness choices (sound field, calibration, sample rate) carry over. Sharpness from another loudness model, such as ECMA-418-2 (RefMap) or Moore–Glasberg (Swift & Gee), is a different quantity.
@@ -938,7 +938,7 @@ As stated by the projects. Each item took code from the one above it (ported, tr
 
 ## Before you compare numbers
 
-Implementations of the same method can give different numbers without either being wrong. Check these choices first.
+Implementations of the same metric can give different numbers without either being wrong. Check these choices first.
 
 - **Frames.** The model works on 200 ms frames. Implementations differ in the hop between frames and in whether the last complete frame is reported, which changes time series and their percentiles.
 - **Code lineage.** SQAT's code (after Dik Hermes) and MoSQITo's differ in details, and ports follow one or the other; PsychoacousticMetrics.jl, which follows MoSQITo, says the two place the weighting g(z_i) differently.
@@ -1041,7 +1041,7 @@ As stated by the projects. Each item took code from the one above it (ported, tr
 
 ## Before you compare numbers
 
-Implementations of the same method can give different numbers without either being wrong. Check these choices first.
+Implementations of the same metric can give different numbers without either being wrong. Check these choices first.
 
 - **Edition.** Compare implementations of the same edition: MoSQITo, Mosqito.NET and tools that call MoSQITo follow the 2nd edition, the others the 3rd or 4th.
 - **Overall value.** The single value is the 90th percentile of the time-dependent roughness after the first 320 ms. NumPy's percentile (sottek-hearing-model) and MATLAB's `prctile` (RefMap, SQAT) interpolate differently, so single values can differ slightly.
@@ -1159,7 +1159,7 @@ As stated by the projects. Each item took code from the one above it (ported, tr
 
 ## Before you compare numbers
 
-Implementations of the same method can give different numbers without either being wrong. Check these choices first.
+Implementations of the same metric can give different numbers without either being wrong. Check these choices first.
 
 - **Sample rate.** The model's envelope filters exist for 44.1 and 48 kHz: SQAT resamples other rates, PsychoacousticMetrics.jl rejects them.
 - **Steady sounds.** The model is meant for modulated sounds; a steady tone does not give exactly zero (phonometry reports about 0.09 vacil for a 1 kHz tone).
@@ -1226,7 +1226,7 @@ As stated by the projects. Each item took code from the one above it (ported, tr
 
 ## Before you compare numbers
 
-Implementations of the same method can give different numbers without either being wrong. Check these choices first.
+Implementations of the same metric can give different numbers without either being wrong. Check these choices first.
 
 - **Overall value.** The single value is a 90th percentile of the time-dependent values after the filters have settled. NumPy (sottek-hearing-model) and MATLAB's `prctile` interpolate differently, by at most 0.0005 vacil_HMS on sottek-hearing-model's test signals.
 - **Interpretation.** Implementers report misprints and open questions in Clause 9 of the 2025 edition (phonometry's errata, sottek-hearing-model's documented departures), so implementations can differ until they are resolved.
@@ -1300,7 +1300,7 @@ As stated by the projects. Each item took code from the one above it (ported, tr
 
 ## Before you compare numbers
 
-Implementations of the same method can give different numbers without either being wrong. Check these choices first.
+Implementations of the same metric can give different numbers without either being wrong. Check these choices first.
 
 What the projects state:
 
@@ -1388,7 +1388,7 @@ As stated by the projects. Each item took code from the one above it (ported, tr
 
 ## Before you compare numbers
 
-Implementations of the same method can give different numbers without either being wrong. Check these choices first.
+Implementations of the same metric can give different numbers without either being wrong. Check these choices first.
 
 - **Edition and start.** Compare implementations of the same edition; overall values leave out the first 304 ms, where the filters settle.
 - **Tonal annoyance weighting.** RefMap and sottek-hearing-model offer an optional weighting after Sottek & Becker (2019), which is not part of ECMA-418-2; leave it off when comparing with other implementations.
@@ -1466,7 +1466,7 @@ As stated by the projects. Each item took code from the one above it (ported, tr
 
 ## Before you compare numbers
 
-Implementations of the same method can give different numbers without either being wrong. Check these choices first.
+Implementations of the same metric can give different numbers without either being wrong. Check these choices first.
 
 What the projects state:
 
@@ -1761,7 +1761,7 @@ As stated by the projects. Each item took code from the one above it (ported, tr
 
 ## Before you compare numbers
 
-Implementations of the same method can give different numbers without either being wrong. Check these choices first.
+Implementations of the same metric can give different numbers without either being wrong. Check these choices first.
 
 - **Inputs.** The models combine percentile values of loudness, sharpness, roughness and fluctuation strength (N5, S5, R5 and F5 in SQAT and PsychoacousticMetrics.jl). The percentile definition and the sharpness, roughness and fluctuation-strength models used change the result, and so does using whole-signal values instead (a stationary approximation).
 - **Same model, two names.** Zwicker & Fastl (1999) give Widmann's (1992) model; SQAT lists it under both names. More (2010) and Di et al. (2016) are different models.
@@ -1828,7 +1828,7 @@ As stated by the projects. Each item took code from the one above it (ported, tr
 
 ## Before you compare numbers
 
-Implementations of the same method can give different numbers without either being wrong. Check these choices first.
+Implementations of the same metric can give different numbers without either being wrong. Check these choices first.
 
 What the projects state:
 
@@ -1894,7 +1894,7 @@ As stated by the projects. Each item took code from the one above it (ported, tr
 
 ## Before you compare numbers
 
-Implementations of the same method can give different numbers without either being wrong. Check these choices first.
+Implementations of the same metric can give different numbers without either being wrong. Check these choices first.
 
 What the projects state:
 
@@ -2037,7 +2037,7 @@ Not stated for Sottek Hearing Model fluctuation strength · ECMA-418-2:2025 (4th
 
 ## Before you compare numbers
 
-Implementations of the same method can give different numbers without either being wrong. Check these choices first.
+Implementations of the same metric can give different numbers without either being wrong. Check these choices first.
 
 - Percentile values (N5 and the others) take the nearest rank of the sorted time series, without interpolation (`get_exceeded_value`).
 - Statistics leave out the first `time_skip` seconds of the signal; for the ECMA-418-2 metrics at least 304 ms, which the code enforces.
@@ -2136,7 +2136,7 @@ Not stated for Tonality (Aures) · Aures (1985b); Tonal audibility (ISO 1996-2) 
 
 ## Before you compare numbers
 
-Implementations of the same method can give different numbers without either being wrong. Check these choices first.
+Implementations of the same metric can give different numbers without either being wrong. Check these choices first.
 
 - [Zwicker loudness](https://zhenxianli.github.io/LISQM/metrics/loudness-zwicker.html) (ISO 532-1:2017): Signals sampled below 48 kHz are resampled to 48 kHz (FFT method) with a warning; time-varying loudness rejects rates above 48 kHz.
 
@@ -2228,7 +2228,7 @@ As reported by the project; LISQM has not run the code. Two implementations that
 
 ## Before you compare numbers
 
-Implementations of the same method can give different numbers without either being wrong. Check these choices first.
+Implementations of the same metric can give different numbers without either being wrong. Check these choices first.
 
 - Input at other sample rates is resampled to 48 kHz.
 - Overall roughness and fluctuation strength are 90th percentiles computed with NumPy (linear interpolation, Hyndman–Fan type 7). The MATLAB code it was translated from uses `prctile`, which interpolates differently, so single values can differ slightly from RefMap and SQAT.
@@ -2415,7 +2415,7 @@ The project does not say how any of these were validated.
 
 ## Notes
 
-- The roughness objects (`[roughness]`, `[roughcurve]`) compute the sensory dissonance of a spectrum given as lists of frequencies and amplitudes, with a model "derived from the work of Parncutt, Sethares, Vassilakis & Barlow"; this is not one of the signal-based roughness methods in this list.
+- The roughness objects (`[roughness]`, `[roughcurve]`) compute the sensory dissonance of a spectrum given as lists of frequencies and amplitudes, with a model "derived from the work of Parncutt, Sethares, Vassilakis & Barlow"; this is not one of the signal-based roughness metrics in this list.
 - `[sharpness~]` is an abstraction built on `[barks~]` (24 Bark bands) and names no sharpness model.
 - Tonalness, pitch salience and commonality follow Parncutt & Strasburger (1994), after Terhardt; they are not tonality metrics in the sense of this list.
 - From the author's MSc and PhD work (2005–2012). Version 1.1 was released on 2025-10-14 (git tags 1.0 of 2019 and 1.1; no GitHub releases). It builds with pd-lib-builder.
@@ -2681,7 +2681,7 @@ Not stated for Tonal components (DIN 45681) · E DIN 45681:2002-11.
 
 ## Before you compare numbers
 
-Implementations of the same method can give different numbers without either being wrong. Check these choices first.
+Implementations of the same metric can give different numbers without either being wrong. Check these choices first.
 
 - [Zwicker loudness](https://zhenxianli.github.io/LISQM/metrics/loudness-zwicker.html) (DIN 45631/A1:2010): N5 is MATLAB's `prctile(N, 95)`. Blocks are 2 ms long without overlap by default, and the signal is processed at its own sample rate.
 - [Zwicker loudness](https://zhenxianli.github.io/LISQM/metrics/loudness-zwicker.html) (DIN 45631:1991): Third-octave levels come from an FFT by default, or from a filter bank (`'mode', 'filter'`).
@@ -2822,7 +2822,7 @@ Not stated for Sharpness · DIN 45692:2009.
 
 ## Before you compare numbers
 
-Implementations of the same method can give different numbers without either being wrong. Check these choices first.
+Implementations of the same metric can give different numbers without either being wrong. Check these choices first.
 
 - Expects calibrated sound pressure in pascals.
 - The C functions require 48 kHz input; the Python interface resamples other rates to 48 kHz (SciPy `resample_poly`).
@@ -3017,7 +3017,7 @@ Not stated for Equal-loudness contours · ISO 226:2003.
 
 ## Before you compare numbers
 
-Implementations of the same method can give different numbers without either being wrong. Check these choices first.
+Implementations of the same metric can give different numbers without either being wrong. Check these choices first.
 
 - Time-varying loudness and ECMA-418-2 roughness resample input at any other rate to 48 kHz, and stationary loudness resamples rates below 48 kHz; MoSQITo rejects rates above 48 kHz for time-varying loudness.
 
@@ -3192,7 +3192,7 @@ Not stated for Tonal audibility (ISO 1996-2) · ISO 1996-2:2017; Tonal audibilit
 
 ## Before you compare numbers
 
-Implementations of the same method can give different numbers without either being wrong. Check these choices first.
+Implementations of the same metric can give different numbers without either being wrong. Check these choices first.
 
 - [Time-varying loudness (Moore–Glasberg–Schlittenlacher)](https://zhenxianli.github.io/LISQM/metrics/loudness-moore-glasberg-time-varying.html) (ISO 532-3:2023): Documented deviation: it runs at the native sample rate instead of resampling to 32 kHz.
 
@@ -3283,7 +3283,7 @@ As reported by the project; LISQM has not run the code. Two implementations that
 
 ## Before you compare numbers
 
-Implementations of the same method can give different numbers without either being wrong. Check these choices first.
+Implementations of the same metric can give different numbers without either being wrong. Check these choices first.
 
 - [Fluctuation strength (Osses et al.)](https://zhenxianli.github.io/LISQM/metrics/fluctuation-strength-osses.html) (Osses et al. (2016)): Needs audio at 44.1 or 48 kHz (an error otherwise); SQAT resamples other rates itself.
 - [Psychoacoustic annoyance](https://zhenxianli.github.io/LISQM/metrics/psychoacoustic-annoyance.html) (Widmann (1992)): The percentile form needs 48 kHz input. Percentiles are Hyndman–Fan type 7 quantiles (linear interpolation); SQAT takes the nearest rank, which the README says differs by a full order-statistic step on the coarse fluctuation-strength track.
@@ -3649,7 +3649,7 @@ The project does not say how any of these were validated.
 
 ## Before you compare numbers
 
-Implementations of the same method can give different numbers without either being wrong. Check these choices first.
+Implementations of the same metric can give different numbers without either being wrong. Check these choices first.
 
 - The code works at 32 kHz; other rates are resampled with the Signal Processing Toolbox's `resample`.
 
@@ -3998,7 +3998,7 @@ The project does not say how any of these were validated.
 ## Notes
 
 - There is no README. The GitHub description calls the project "the translation to python of the most important parameters in the field of Psychoacoustics based on the book of Zwicker and Fastl".
-- Roughness (`acousticRoughness`) follows the formula in Zwicker & Fastl's book, which is not one of the roughness methods in this list.
+- Roughness (`acousticRoughness`) follows the formula in Zwicker & Fastl's book, which is not one of the roughness metrics in this list.
 - Also contains A-weighting, voice-activity detection and the scripts Main.py and Main_WAV.py for microphone or WAV input.
 
 ## Before you rely on it
@@ -4179,7 +4179,7 @@ As reported by the project; LISQM has not run the code. Two implementations that
 
 ## Before you compare numbers
 
-Implementations of the same method can give different numbers without either being wrong. Check these choices first.
+Implementations of the same metric can give different numbers without either being wrong. Check these choices first.
 
 - Input must be sampled at 32 kHz; the reference level is entered as the sound pressure level of a full-scale sine.
 
@@ -4462,7 +4462,7 @@ As reported by the project; LISQM has not run the code. Two implementations that
 
 ## Before you compare numbers
 
-Implementations of the same method can give different numbers without either being wrong. Check these choices first.
+Implementations of the same metric can give different numbers without either being wrong. Check these choices first.
 
 - [Zwicker loudness](https://zhenxianli.github.io/LISQM/metrics/loudness-zwicker.html) (ISO 532-1:2017): Stationary loudness resamples input below 48 kHz to 48 kHz (polyphase), with a warning.
 - [Zwicker loudness](https://zhenxianli.github.io/LISQM/metrics/loudness-zwicker.html) (ISO 532-1:2017): Time-varying loudness accepts 48 kHz input only (an error otherwise).

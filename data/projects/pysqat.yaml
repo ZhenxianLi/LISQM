@@ -23,7 +23,7 @@ caveats:
   - Without a licence, reuse rights are unclear, and the bundled MATLAB code is licensed for non-commercial use only.
   - The ports follow SQAT v1.3 and do not include SQAT's 2026 fixes to ISO 532-1 time-varying loudness, Daniel & Weber roughness and Aures tonality.
 implements:
-  - method: loudness-zwicker
+  - metric: loudness-zwicker
     reference: iso-532-1-2017
     functions: [Loudness_ISO532_1]
     status: available
@@ -31,7 +31,7 @@ implements:
     compared_with: [sqat]
     validation_details:
       - Compared with SQAT v1.3, run in MATLAB, by `validation/FINAL_VAL.py`; the generated reports are not committed.
-  - method: sharpness
+  - metric: sharpness
     reference: din-45692-2009
     functions: [Sharpness_DIN45692, Sharpness_DIN45692_from_loudness]
     status: available
@@ -39,7 +39,7 @@ implements:
     compared_with: [sqat]
     validation_details:
       - Compared with SQAT v1.3, run in MATLAB, by `validation/FINAL_VAL.py`; the generated reports are not committed.
-  - method: roughness-daniel-weber
+  - metric: roughness-daniel-weber
     reference: daniel-weber-1997
     functions: [Roughness_Daniel1997]
     status: available
@@ -48,7 +48,7 @@ implements:
     validation_details:
       - Compared with SQAT v1.3, run in MATLAB, by `validation/FINAL_VAL.py`; the generated reports are not committed.
     note: Follows SQAT v1.3, before SQAT's September 2026 rewrite.
-  - method: fluctuation-strength-osses
+  - metric: fluctuation-strength-osses
     reference: osses-2016
     functions: [FluctuationStrength_Osses2016]
     status: available
@@ -56,7 +56,7 @@ implements:
     compared_with: [sqat]
     validation_details:
       - Compared with SQAT v1.3, run in MATLAB, by `validation/FINAL_VAL.py`; the generated reports are not committed.
-  - method: tonality-aures
+  - metric: tonality-aures
     reference: aures-1985-euphony
     functions: [Tonality_Aures1985]
     status: available
@@ -65,7 +65,7 @@ implements:
     validation_details:
       - Compared with SQAT v1.3, run in MATLAB, by `validation/FINAL_VAL.py`; the generated reports are not committed.
     note: A June 2026 commit corrected its calibration; it predates SQAT's September 2026 fixes.
-  - method: psychoacoustic-annoyance
+  - metric: psychoacoustic-annoyance
     reference: zwicker-fastl-1999
     functions: [PsychoacousticAnnoyance_Zwicker1999]
     status: available
@@ -73,7 +73,7 @@ implements:
     compared_with: [sqat]
     validation_details:
       - Compared with SQAT v1.3, run in MATLAB, by `validation/FINAL_VAL.py`; the generated reports are not committed.
-  - method: psychoacoustic-annoyance
+  - metric: psychoacoustic-annoyance
     reference: more-2010
     functions: [PsychoacousticAnnoyance_More2010]
     status: available
@@ -81,7 +81,7 @@ implements:
     compared_with: [sqat]
     validation_details:
       - Compared with SQAT v1.3, run in MATLAB, by `validation/FINAL_VAL.py`; the generated reports are not committed.
-  - method: psychoacoustic-annoyance
+  - metric: psychoacoustic-annoyance
     reference: di-2016
     functions: [PsychoacousticAnnoyance_Di2016]
     status: available
@@ -89,7 +89,7 @@ implements:
     compared_with: [sqat]
     validation_details:
       - Compared with SQAT v1.3, run in MATLAB, by `validation/FINAL_VAL.py`; the generated reports are not committed.
-  - method: epnl
+  - metric: epnl
     reference: cfr-14-part-36
     functions: [EPNL_FAR_Part36]
     status: available
@@ -97,7 +97,7 @@ implements:
     compared_with: [sqat]
     validation_details:
       - Compared with SQAT v1.3, run in MATLAB, by `validation/FINAL_VAL.py`; the generated reports are not committed.
-  - method: loudness-ecma-418-2
+  - metric: loudness-ecma-418-2
     reference: ecma-418-2-ed4
     functions: [Loudness_ECMA418_2]
     status: available
@@ -108,7 +108,7 @@ implements:
       - >-
         Compared by `validation/FINAL_VAL.py` with the bundled SQAT v1.3 MATLAB code, which follows ECMA-418-2:2024
         (3rd edition), so the comparison crosses editions.
-  - method: roughness-ecma-418-2
+  - metric: roughness-ecma-418-2
     reference: ecma-418-2-ed4
     functions: [Roughness_ECMA418_2]
     status: available
@@ -119,7 +119,7 @@ implements:
       - >-
         Compared by `validation/FINAL_VAL.py` with the bundled SQAT v1.3 MATLAB code, which follows ECMA-418-2:2024
         (3rd edition), so the comparison crosses editions.
-  - method: tonality-ecma-418-2
+  - metric: tonality-ecma-418-2
     reference: ecma-418-2-ed4
     functions: [Tonality_ECMA418_2]
     status: available

@@ -43,7 +43,7 @@ caveats:
     tables were added in October 2021.
   - The WAV files that the Annex B script reads are not in the repository, and no computed tables are stored.
 implements:
-  - method: loudness-moore-glasberg-time-varying
+  - metric: loudness-moore-glasberg-time-varying
     reference: iso-532-3-2023
     functions: [tv2018]
     scope: reference MATLAB code referred to in ISO 532-3, per its readme

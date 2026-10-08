@@ -30,7 +30,7 @@ caveats:
   - >-
     The loudness engine works on mono audio at 48 kHz; the plug-in measures each input channel separately.
 implements:
-  - method: loudness-zwicker
+  - metric: loudness-zwicker
     reference: iso-532-1-2017
     functions: [kirin_measure::phase_d]
     scope: time-varying, per channel at 48 kHz; stored in the recorded data
@@ -42,7 +42,7 @@ implements:
     validation_details:
       - Tests assert specific loudness within a relative 1e-3 of MoSQITo.
     note: Ported from MoSQITo v1.2.1.
-  - method: sharpness
+  - metric: sharpness
     reference: din-45692-2009
     functions: [kirin_measure::phase_d::sharpness]
     scope: from the time-varying specific loudness; shown in the plug-in

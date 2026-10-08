@@ -33,7 +33,7 @@ caveats:
     The MoSQITo golden data and the ISO Annex B fixtures are gitignored and must be regenerated locally; the README
     says "Hosted CI does not by itself prove the local MoSQITo/Annex B golden chain".
 implements:
-  - method: loudness-zwicker
+  - metric: loudness-zwicker
     reference: iso-532-1-2017
     functions: [loudness_zwst, loudness_zwtv, ZwtvStream]
     scope: stationary, time-varying and streaming
