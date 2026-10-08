@@ -57,8 +57,8 @@ VALIDATION = {
 VALIDATION_LONG = {
     "standard-data": "Compared with test signals or values published in the standard or the model paper.",
     "reference-code": "Compared with the reference program or the model authors' own code.",
-    "cross-implementation": "Compared with another implementation, named where the project says which. Agreement "
-                            "shows that both compute the same values, not that either follows the standard.",
+    "cross-implementation": "Compared with another implementation, named when the project says which. Agreement "
+                            "means that both compute the same values; they may still share an error.",
     "self-tests": "Tests exist, but without external reference data.",
     "not-stated": "The project does not say how it was validated.",
 }
@@ -100,7 +100,7 @@ GROUPS = {
     "established": STANDING["established"],
     "newly-released": STANDING["newly-released"],
     "developing": STANDING["developing"],
-    "legacy": "Archived, or no commit for three years or more. Kept for reference: the code may follow an older "
+    "legacy": "Archived, or no commit for three years or more. Kept for reference. The code may follow an older "
               "edition and may not run with current software.",
     "others": "Tools that do not compute the metrics themselves: interfaces, front ends and wrappers that call one "
               "of the listed projects.",

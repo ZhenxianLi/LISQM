@@ -145,7 +145,7 @@ def layout(index: Index, path: str, *, title: str, description: str, body: str, 
 <footer class="site-footer">
 <div class="container">
 <p class="credit">{credit(index)}</p>
-<p>Facts are taken from each project's own documentation and package metadata and checked by hand; corrections
+<p>Facts come from each project's own documentation and package metadata and are checked by hand. Corrections
 are welcome on <a href="{esc(site['repository'])}">GitHub</a>. Version {esc(str(site.get('version', '')))}, data as of {as_of}. {licences(site)}.</p>
 <p><a href="{rel('index.json')}">JSON</a> · <a href="{rel('llms.txt')}">llms.txt</a> · {md_foot}<a href="{rel('feed.xml')}">Atom feed</a></p>
 </div>
@@ -340,9 +340,9 @@ def _validation_section(index: Index, path: str, impls: list[dict], ids: dict[in
         entries.append(f'{names}\n<dd><p class="evidence">{evidence}</p>{source}{body}{check}</dd>')
     who = "each project" if on_method else "the project"
     parts = [f'<h2 id="validation">How {"they were" if on_method else "it was"} validated</h2>',
-             f'<p class="small muted">As stated by {who}; {esc(index.site["name"])} has not run the code. Agreement '
-             "with another implementation shows that both compute the same values, not that either follows the "
-             f'standard. <a href="{relative(path, ABOUT)}#validation">Kinds of evidence</a>.</p>']
+             f'<p class="small muted">As reported by {who}; {esc(index.site["name"])} has not run the code. Two '
+             "implementations that agree can still share the same error. "
+             f'<a href="{relative(path, ABOUT)}#validation">Kinds of evidence</a>.</p>']
     if not on_method and impls:
         parts.append(_maintainer_check(index, impls[0]["_project"]))
     if entries:
@@ -375,8 +375,8 @@ def _lineage_section(index: Index, path: str, m: dict) -> str:
 
     return "\n".join([
         '<h2 id="lineage">Who ported code from whom</h2>',
-        '<p class="small muted">As the projects state. Each branch shows code ported, translated or adapted from '
-        "the code above it, so agreement between them is a check of the port, not an independent validation.</p>",
+        '<p class="small muted">As stated by the projects. Each project took code from the one above it (ported, '
+        "translated or adapted), so agreement between them only checks the port.</p>",
         f'<div class="lineage">{tree(forest)}</div>',
     ])
 
@@ -662,10 +662,10 @@ def _timeline(index: Index, path: str) -> str:
     return "\n".join([
         '<section class="timeline-section" aria-labelledby="timeline">',
         '<h2 id="timeline">Editions and implementations</h2>',
-        "<p>Each standard edition or model paper sits in the column of the year it appeared. Under it are the "
-        "projects that implement it: the projects in bold and the other established projects first, then newly released, "
-        "developing and legacy ones. Hover over a name for details; each method links to a page with function names "
-        "and validation.</p>",
+        "<p>Each standard edition or model paper is placed in the column of the year it appeared, with the projects "
+        "that implement it below. Projects in bold and other established projects come first, then newly released, "
+        "developing and legacy ones. Hover over a name for details, or open a method for its function names and "
+        "validation.</p>",
         legend,
         '<div class="table-wrap"><table class="timeline"><thead><tr>' + "".join(head) + "</tr></thead>\n"
         + "\n".join(groups) + "\n</table></div>",
@@ -681,8 +681,10 @@ def _others_note(index: Index, path: str) -> str:
         return ""
     names = join_words([f'{_project_link(path, p)} (via '
                         f'{join_words(list(dict.fromkeys(i["_via"]["name"] for i in p["_impls"])))})' for p in others])
-    return (f'<p class="others-note"><strong>Others.</strong> Not in the timeline, because they call one of the '
-            f'projects above instead of computing the metrics themselves: {names}. See '
+    one = len(others) == 1
+    return (f'<p class="others-note"><strong>Others.</strong> {names} {"calls" if one else "call"} one of the '
+            "projects above instead of computing the metrics themselves, so "
+            f'{"it is" if one else "they are"} not in the timeline. See '
             f'<a href="{relative(path, PROJECTS)}#others">Others</a> on the projects page.</p>')
 
 
@@ -715,12 +717,12 @@ def home(index: Index) -> str:
         parts.append("<p>Every method in the list has at least one available open-source implementation of its "
                      "current edition.</p>")
     if index.new_only():
-        parts.append("<p>Released implementations of the current edition come only from newly released projects "
-                     f"{NEW_TAG}, not yet seen to be widely used, for:</p>")
+        parts.append("<p>For these methods, the only released implementations of the current edition come from "
+                     f"newly released projects {NEW_TAG}, not yet seen to be widely used:</p>")
         parts.append("<ul>" + "".join(f"<li>{_method_link(path, m, m['title'])}</li>"
                                       for m in index.new_only()) + "</ul>")
-    parts.append(f'<p>Which of them can be computed in Python, MATLAB, C or another language is shown on the '
-                 f'<a href="{relative(path, LANGUAGES)}">Languages</a> page.</p>')
+    parts.append(f'<p>The <a href="{relative(path, LANGUAGES)}">Languages</a> page shows which metrics can be '
+                 "computed in Python, MATLAB, C and other languages.</p>")
     parts.append("</section>")
     parts.append('<section class="col-side" aria-labelledby="updates">')
     parts.append('<h2 id="updates">Recent updates</h2>')
@@ -728,8 +730,8 @@ def home(index: Index) -> str:
         f'<li><a href="{relative(path, UPDATES)}#{esc(str(u["date"]))}">{esc(long_date(u["date"]))}</a>: '
         f'{esc(u["title"])}</li>' for u in index.updates[:5]) + "</ul>")
     parts.append('<h2 id="contribute">Contribute</h2>')
-    parts.append(f'<p>Know of an implementation that is missing, or a fact that is wrong? '
-                 f'<a href="{esc(site["repository"])}/issues/new/choose">Open an issue</a>, send a pull request, or '
+    parts.append(f'<p>If an implementation is missing or a fact is wrong, '
+                 f'<a href="{esc(site["repository"])}/issues/new/choose">open an issue</a>, send a pull request or '
                  f'<a href="{relative(path, FAQ)}#message">leave a message</a>.</p>')
     parts.append("</section>")
     parts.append("</div>")
@@ -763,7 +765,7 @@ def _in_short_block(index: Index, m: dict, path: str) -> str:
     groups = by_language(m["_current_impls"], name, tags=GROUP_TAGS)
     first = esc(current_statement(index, m)) + (" Open-source implementations of it:" if groups
                                                 else " No open-source implementation of it has been found.")
-    parts = ['<div class="in-short">', f"<p><strong>In short.</strong> {first}</p>"]
+    parts = ['<div class="in-short">', f"<p>{first}</p>"]
     if groups:
         parts.append('<ul class="by-lang">' + "".join(
             f"<li>{_lang_tag(lang)} {', '.join(names)}</li>" for lang, names in groups) + "</ul>")
@@ -828,10 +830,10 @@ def method_page(index: Index, m: dict) -> str:
         parts.append(_table("impls", ["Project", "Edition", "Functions", "Validation (as stated)", "Notes"], rows))
         ported = (' Code ported from another project is shown under <a href="#lineage">Who ported code from '
                   'whom</a>.' if lineage(m["_all_impls"]) else "")
-        parts.append(f'<p class="small muted">Listed with the projects in bold and the other established projects '
-                     f'first, then newly released, developing and legacy ones. Validation is what each project states '
-                     f'about its own testing: the details are <a href="#validation">below</a>, the kinds of evidence '
-                     f'on <a href="{relative(path, ABOUT)}#validation">the About page</a>.{ported}</p>')
+        parts.append(f'<p class="small muted">Projects in bold and other established projects come first, then '
+                     f"newly released, developing and legacy ones. Validation is what each project says about its own "
+                     f'testing. The details are <a href="#validation">below</a>, and the kinds of evidence are '
+                     f'explained on <a href="{relative(path, ABOUT)}#validation">the About page</a>.{ported}</p>')
     else:
         parts.append("<p>No open-source implementation has been found yet. If you know one, please "
                      f'<a href="{esc(index.site["repository"])}/issues/new/choose">open an issue</a>.</p>')
@@ -1056,9 +1058,9 @@ def languages_page(index: Index) -> str:
         "<h1>Languages</h1>",
         f'<p class="byline">{plural(len(index.languages()), "language")} · '
         f'{plural(len(listed), "project")} that compute the metrics themselves</p>',
-        '<p class="lead">Which metrics can be computed from each programming language, and how each project is '
-        "used from it: code written in that language, a compiled core with an interface for it, or a port of "
-        "another project.</p>",
+        '<p class="lead">Which metrics can be computed from each programming language, and how to use each project '
+        "from it. Some projects are written in the language itself, some have a compiled core with an interface "
+        "for it, and some are ports of another project.</p>",
         '<h2 id="coverage">Coverage by language</h2>',
         f'<p class="small mark-key">{mark("current")} an available implementation of the current edition '
         f'· {mark("new")} the same, but only from newly released projects not yet seen to be widely used · '
@@ -1089,14 +1091,14 @@ def languages_page(index: Index) -> str:
         parts.append(_table("langs", ["Project", "How it is used", "Current editions it implements"], rows))
     parts += [
         '<h2 id="across">Calling code across languages</h2>',
-        "<p>A project can often be used from another language than its own. These general routes are not "
-        "specific to any project; check that the code you call runs under them.</p>",
+        "<p>A project can often be used from a language other than its own. The routes below are general; check "
+        "that the code you want to call works with them.</p>",
         "<ul>",
         "<li><strong>MATLAB code from Python.</strong> The "
         '<a href="https://www.mathworks.com/help/matlab/matlab-engine-for-python.html">MATLAB Engine API for '
         "Python</a> runs MATLAB functions from Python. It needs a MATLAB installation and licence. This is how a "
-        "MATLAB toolbox such as SQAT or the Auditory Modeling Toolbox can be used from Python; without MATLAB, "
-        "pySQAT is a Python port of SQAT, and torch_amt and NumpyLibforPsychoAcoustic port some AMT loudness "
+        "MATLAB toolbox such as SQAT or the Auditory Modeling Toolbox can be used from Python. Without MATLAB, "
+        "there are Python ports: pySQAT of SQAT, and torch_amt and NumpyLibforPsychoAcoustic of some AMT loudness "
         "models.</li>",
         '<li><strong>Octave code from Python.</strong> <a href="https://pypi.org/project/oct2py/">oct2py</a> runs '
         "GNU Octave functions from Python, without a MATLAB licence, for code that runs in Octave.</li>",
@@ -1135,12 +1137,11 @@ def projects_page(index: Index) -> str:
         "<h1>Projects</h1>",
         f'<p class="byline">{plural(len(index.projects), "project")} · {plural(len(langs), "language")}</p>',
         "<p>" + highlighted(index.super_projects(), lambda p: esc(p["name"]), esc)
-        + " come first in every list and are in bold; then the other established projects, "
-        "then newly released, developing and legacy ones. Tools that only call another project are listed under "
-        "Others, and projects whose code could not "
-        "be opened under Status unknown. “Last commit” is the last commit "
-        f"on the default branch; a project is shown as inactive after {index.site.get('inactive_after_days', 365)} "
-        "days without one, and listed as legacy after three years.</p>",
+        + " are in bold and come first in every list. The other established projects follow, then newly released, "
+        "developing and legacy ones. Tools that only call another project are listed under Others, and projects "
+        "whose code could not be opened under Status unknown. “Last commit” is the last commit on the default "
+        f"branch. A project is marked inactive after {index.site.get('inactive_after_days', 365)} days without a "
+        "commit, and listed as legacy after three years.</p>",
     ]
     for key, title in GROUP_HEADINGS:
         projects = index.group(key)
@@ -1181,10 +1182,10 @@ def standards_page(index: Index) -> str:
     parts = [
         "<h1>Standards and models</h1>",
         f'<p class="byline">{plural(len(docs), "standard document")} · {plural(len(papers), "model reference")}</p>',
-        "<p>Every document the list refers to, newest first. Each implementation in the list is tied to one of "
-        "these editions, so this is also a timeline of how the definitions have changed.</p>",
-        f'<p class="small">All of them as BibTeX, with the papers that describe the listed software: '
-        f'<a href="{relative(path, BIBTEX)}">{BIBTEX}</a>.</p>',
+        "<p>All documents the list refers to, newest first. Each implementation in the list is tied to one of "
+        "these editions, so the tables also show how the definitions changed over time.</p>",
+        f'<p class="small">They are also available as BibTeX, together with the papers that describe the listed '
+        f'software: <a href="{relative(path, BIBTEX)}">{BIBTEX}</a>.</p>',
     ]
     for title, anchor, refs in (("Standards and regulations", "standards", docs),
                                 ("Model papers, books and theses", "models", papers)):
@@ -1246,8 +1247,8 @@ def about_page(index: Index) -> str:
           [f'<p class="lead">{esc(introduce(site))}</p>', f"<p>{esc(name_note(site))}</p>"]),
 
         '<h2 id="scope">What is included</h2>',
-        f"<p>Open-source code that computes a psychoacoustic metric and says which model or standard edition it "
-        f"follows. The list covers {esc(fams)}, in any programming language.</p>",
+        f"<p>The list includes open-source code that computes a psychoacoustic metric and says which model or "
+        f"standard edition it follows. It covers {esc(fams)}, in any programming language.</p>",
         "<p>Not included: broadcast loudness (LUFS, ITU-R BS.1770, EBU R 128), speech intelligibility (SII, STI), "
         "codec and speech quality metrics (PEAQ, PESQ, ViSQOL), psychophysics experiment software, music "
         "sensory-dissonance models (Plomp–Levelt, Sethares, Vassilakis), feature extractors whose loudness or "
@@ -1258,19 +1259,19 @@ def about_page(index: Index) -> str:
         f'are recorded, with the reason, in <a href="{repo}/blob/main/data/ignored.yaml">data/ignored.yaml</a>.</p>',
         '<h2 id="method">How entries are checked</h2>',
         "<p>Each entry is written from the project's own README, documentation, release notes, licence file and "
-        "package metadata, and links to those sources. The list records what a project claims; it does not run "
+        "package metadata, and links to those sources. The list records what a project claims. It does not run "
         "the code, and listing a project is not an endorsement.</p>",
         "<p>Every month a GitHub Action refreshes repository dates, releases and package versions, searches GitHub "
         "and package registries for new candidate projects, and checks the ISO and Ecma catalogues for new "
-        "editions. Dates and versions are updated directly; new candidates and editions go into one issue that a "
-        "person reviews before anything is added.</p>",
+        "editions. Dates and versions are updated directly. New candidates and editions go into an issue, and a "
+        "person reviews them before anything is added.</p>",
         '<h2 id="status">Status of an implementation</h2>',
         _table("defs", ["Value", "Meaning"], [[_tag(k, status_kind[k]), esc(v)] for k, v in IMPL_STATUS_LONG.items()]),
         '<h2 id="validation">Validation evidence</h2>',
-        "<p>As stated by each project. Where a project says what it compared its results with (MoSQITo, SQAT, the "
-        "model authors' code or commercial software), the list names it, and each project page sets out the "
-        "details under <em>How it was validated</em>. Agreement with another implementation shows that both "
-        "compute the same values, not that either follows the standard: an error they share goes unnoticed.</p>",
+        "<p>Validation is recorded as each project states it. When a project says what it compared its results "
+        "with (MoSQITo, SQAT, the model authors' code or commercial software), the list names it, and the project "
+        "page gives the details under <em>How it was validated</em>. Two implementations that agree compute the "
+        "same values, but an error they share goes unnoticed.</p>",
         _table("defs", ["Value", "Meaning"], [[_tag(VALIDATION[k], VALIDATION_KIND[k]), esc(v)]
                                               for k, v in VALIDATION_LONG.items()]),
         '<h2 id="standing">Groups of projects</h2>',
@@ -1280,11 +1281,11 @@ def about_page(index: Index) -> str:
         _table("defs", ["Group", "Meaning"], [[_tag(GROUP_NAMES[k], GROUP_KIND[k]), esc(v)]
                                               for k, v in GROUPS.items()]),
         '<h2 id="kinds">Kinds of project</h2>',
-        "<p>What a project is, for someone who wants to use it. Each project page names its kind.</p>",
+        "<p>The kind says what a project is for someone who wants to use it. Each project page names it.</p>",
         _table("defs", ["Kind", "Meaning"], [[esc(PROJECT_KINDS[k]), esc(v)] for k, v in KINDS.items()]),
         '<h2 id="leads">Leads not yet verified</h2>',
-        "<p>Candidates that may belong in the list but could not be checked yet. They are listed so that nobody "
-        "has to rediscover them; nothing here has been confirmed.</p>",
+        "<p>Candidates that may belong in the list but could not be checked yet. Nothing here has been confirmed. "
+        "They are listed so that nobody has to find them again.</p>",
         "<ul>" + "".join(f'<li><a href="{esc(l["url"])}">{esc(l["name"])}</a> {_langs(l.get("languages") or [])}: '
                          f'{inline(l["claim"])} <span class="muted">{inline(l["why"])}</span></li>'
                          for l in index.leads) + "</ul>",
@@ -1313,7 +1314,7 @@ def about_page(index: Index) -> str:
         "Project authors are encouraged to check their own entry.</p>",
         '<h2 id="citing">Citing</h2>',
         f'<p>Please cite the list with the <a href="{repo}/blob/main/CITATION.cff">CITATION.cff</a> file and the date '
-        "you accessed it, and cite the implementations you actually used: each project page says how, under "
+        "you accessed it, and cite the implementations you actually used. Each project page says how, under "
         f'<em>How to cite</em>. The standards and papers are in <a href="{relative(path, BIBTEX)}">{BIBTEX}</a>.</p>',
         '<h2 id="licence">Licence</h2>',
         f'<p>The data and the text (the list, this website, the README, llms.txt and index.json) are released under '
@@ -1331,7 +1332,7 @@ def _message_box(index: Index) -> str:
     return "\n".join([
         '<section class="message" aria-labelledby="message">',
         '<h2 id="message">Ask a question or leave a message</h2>',
-        "<p>Questions, corrections and suggestions are welcome, from users and from project authors alike. "
+        "<p>Questions, corrections and suggestions are welcome, from users and from project authors. "
         "Messages are public.</p>",
         f'<form class="message-form" action="{repo}/issues/new" method="get" target="_blank" rel="noopener">'
         '<label for="msg-title">Subject</label>'
@@ -1352,7 +1353,7 @@ def faq_page(index: Index) -> str:
     pairs = faq(index, lambda p: _project_link(path, p), lambda m: _method_link(path, m, m["title"]), esc,
                 lambda target, label: f'<a href="{relative(path, target)}">{esc(label)}</a>')
     parts = ["<h1>Questions and answers</h1>",
-             '<p class="byline">Ask your own question below; the answers further down are generated from the list '
+             '<p class="byline">Ask your own question below. The answers further down are generated from the list '
              "data, so they always match the tables.</p>",
              _message_box(index)]
     for n, (q, a) in enumerate(pairs, 1):

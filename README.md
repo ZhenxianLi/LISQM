@@ -89,7 +89,7 @@ No available open-source implementation of the current edition has been found fo
 - [Tonal components and tone adjustment (DIN 45681)](https://zhenxianli.github.io/LISQM/metrics/tonality-din-45681.html)
 - [Audibility of tones in noise (ISO/TS 20065)](https://zhenxianli.github.io/LISQM/metrics/tonal-audibility-iso-20065.html)
 
-Released implementations of the current edition come only from newly released projects, not yet seen to be widely used, for:
+For these methods, the only released implementations of the current edition come from newly released projects, not yet seen to be widely used:
 
 - [Moore–Glasberg loudness of stationary sounds (ISO 532-2, ANSI S3.4)](https://zhenxianli.github.io/LISQM/metrics/loudness-moore-glasberg.html)
 - [Fluctuation strength from the Sottek Hearing Model (ECMA-418-2)](https://zhenxianli.github.io/LISQM/metrics/fluctuation-strength-ecma-418-2.html)

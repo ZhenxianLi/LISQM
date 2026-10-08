@@ -104,8 +104,8 @@ def _validation_section(index: Index, impls: list[dict], on_method: bool) -> lis
 
     who = "each project" if on_method else "the project"
     lines = [f"## How {'they were' if on_method else 'it was'} validated", "",
-             f"As stated by {who}; {index.site['name']} has not run the code. Agreement with another implementation "
-             "shows that both compute the same values, not that either follows the standard.", ""]
+             f"As reported by {who}; {index.site['name']} has not run the code. Two implementations that agree can "
+             "still share the same error.", ""]
     if not on_method and impls and impls[0]["_project"].get("maintainer_check"):
         lines += [maintainer_check(index, impls[0]["_project"]), ""]
     checked_by_maintainer: set[str] = set()
@@ -151,8 +151,8 @@ def _lineage(index: Index, m: dict) -> list[str]:
         return []
     name = _namer(index)
     lines = ["## Who ported code from whom", "",
-             "As the projects state. Each item lists code ported, translated or adapted from the code above it, so "
-             "agreement between them is a check of the port, not an independent validation.", ""]
+             "As stated by the projects. Each item took code from the one above it (ported, translated or "
+             "adapted), so agreement between them only checks the port.", ""]
 
     def walk(items: list[tuple], depth: int) -> None:
         for (kind, value), kids in items:
@@ -205,7 +205,7 @@ def method_page(index: Index, m: dict) -> str:
     if m.get("aka"):
         facts.append(f"**Also known as:** {', '.join(m['aka'])}")
     lines += [" · ".join(facts), "", m["summary"].strip(), "",
-              "**In short.** " + in_short(index, m, name, _plain), ""]
+              in_short(index, m, name, _plain), ""]
     if m.get("notes"):
         lines += [m["notes"].strip(), ""]
 
@@ -388,20 +388,21 @@ def home(index: Index) -> str:
              f"{plural(len(index.methods), 'method')} · {plural(len(index.projects), 'project')} · "
              f"languages: {', '.join(index.languages())}", ""]
     lines += ["## Editions and implementations", "",
-              "Each method with the standard editions or model papers that define it, oldest first, and the "
-              "projects that implement each one. The current edition is in bold. After each project: its language "
-              "and the first release that included the edition. Established projects are listed first; projects "
+              "Each method is listed with the standard editions or model papers that define it, oldest first, and "
+              "the projects that implement each one. The current edition is in bold. Each project is followed by its "
+              "language and the first release that included the edition. Established projects come first. Projects "
               f"marked \"{NEW_LABEL}\" were first released less than about a year ago, and projects marked "
               "\"legacy\" are archived or have had no commit for three years or more.", ""]
     lines += timeline_md(index)
-    lines += [f"Which methods can be computed in each programming language: {absolute(index, LANGUAGES)}", ""]
+    lines += [f"The Languages page shows which methods can be computed in each programming language: "
+              f"{absolute(index, LANGUAGES)}", ""]
     gaps = index.gaps()
     if gaps:
         lines += ["## Gaps", "", "No available open-source implementation of the current edition was found for:", ""]
         lines += [f"- {_method_link(index, m, m['title'])}" for m in gaps] + [""]
     if index.new_only():
-        lines += ["Released implementations of the current edition come only from newly released projects, "
-                  "not yet seen to be widely used, for:", ""]
+        lines += ["For these methods, the only released implementations of the current edition come from newly "
+                  "released projects, not yet seen to be widely used:", ""]
         lines += [f"- {_method_link(index, m, m['title'])}" for m in index.new_only()] + [""]
     if index.updates:
         lines += ["## Recent updates", ""]
@@ -441,8 +442,9 @@ def languages_page(index: Index) -> str:
     name = _namer(index)
     listed = [p for p in index.projects_by_group() if p["_group"] not in ("others", "unknown")]
     lines = ["# Languages", "", _header(index, LANGUAGES), "",
-             "Which metrics can be computed from each programming language, and how each project is used from it: "
-             "code written in that language, a compiled core with an interface for it, or a port of another project.",
+             "Which metrics can be computed from each programming language, and how to use each project from it. "
+             "Some projects are written in the language itself, some have a compiled core with an interface for it, "
+             "and some are ports of another project.",
              "", "## Coverage by language", "", coverage_table(index), ""]
     for title, langs in LANGUAGE_SECTIONS:
         projects = [p for p in listed if langs & set(p["languages"])]
@@ -472,8 +474,8 @@ def languages_page(index: Index) -> str:
               "- MATLAB code from Python: the MATLAB Engine API for Python "
               "(https://www.mathworks.com/help/matlab/matlab-engine-for-python.html) runs MATLAB functions from "
               "Python and needs a MATLAB installation and licence. This is how SQAT or the Auditory Modeling Toolbox "
-              "can be used from Python; without MATLAB, pySQAT is a Python port of SQAT, and torch_amt and "
-              "NumpyLibforPsychoAcoustic port some AMT loudness models.",
+              "can be used from Python. Without MATLAB, there are Python ports: pySQAT of SQAT, and torch_amt and "
+              "NumpyLibforPsychoAcoustic of some AMT loudness models.",
               "- Octave code from Python: oct2py (https://pypi.org/project/oct2py/) runs GNU Octave functions from "
               "Python, without a MATLAB licence.",
               "- Python packages from MATLAB: MATLAB can call Python libraries directly "
@@ -506,10 +508,11 @@ def _calls(p: dict) -> list[str]:
 def projects_page(index: Index) -> str:
     name = _namer(index)
     lines = ["# Projects", "", _header(index, PROJECTS), "",
-             f"{plural(len(index.projects), 'project')}: established projects first, with "
-             + highlighted(index.super_projects(), lambda p: p["name"]) + " at the top and in bold; then newly "
-             "released, developing and legacy projects. Tools that only call another project's implementation are "
-             "listed under Others, and projects whose code could not be opened under Status unknown.", ""]
+             f"{plural(len(index.projects), 'project')}. "
+             + highlighted(index.super_projects(), lambda p: p["name"]) + " are in bold and come first, followed by "
+             "the other established projects, then newly released, developing and legacy projects. Tools that only "
+             "call another project's implementation are listed under Others, and projects whose code could not be "
+             "opened under Status unknown.", ""]
     for key, title in GROUP_HEADINGS:
         projects = index.group(key)
         if not projects:
@@ -541,9 +544,9 @@ def projects_page(index: Index) -> str:
 
 def standards_page(index: Index) -> str:
     lines = ["# Standards and models", "", _header(index, STANDARDS), "",
-             "Every document the list refers to, newest first. Each implementation in the list is tied to "
-             f"one of these editions. All of them as BibTeX, with the papers that describe the listed software: "
-             f"{index.site['base_url']}{BIBTEX}", ""]
+             "All documents the list refers to, newest first. Each implementation in the list is tied to one of "
+             "these editions. They are also available as BibTeX, together with the papers that describe the listed "
+             f"software: {index.site['base_url']}{BIBTEX}", ""]
     docs = [r for r in index.references if r["kind"] not in ("paper", "book", "thesis")]
     papers = [r for r in index.references if r["kind"] in ("paper", "book", "thesis")]
     for title, refs in (("Standards and regulations", docs), ("Model papers, books and theses", papers)):
@@ -581,8 +584,9 @@ def about_page(index: Index) -> str:
     else:
         lines += [introduce(site), "", name_note(site), ""]
     lines += ["## What is included", "",
-              "Open-source code that computes a psychoacoustic metric and says which model or standard edition "
-              "it follows. Quantities: " + join_words([f["name"].lower() for f in index.families]) + ". "
+              "The list includes open-source code that computes a psychoacoustic metric and says which model or "
+              "standard edition it follows. Quantities: "
+              + join_words([f["name"].lower() for f in index.families]) + ". "
               "Not included: LUFS / ITU-R BS.1770, speech intelligibility, codec quality metrics (PEAQ, PESQ, "
               "ViSQOL), psychophysics experiment software, music sensory-dissonance models, feature extractors "
               "whose loudness or sharpness follow no named psychoacoustic model, and closed-source tools. The ISO "
@@ -590,27 +594,28 @@ def about_page(index: Index) -> str:
               f"Reviewed exclusions are listed with reasons in {site['repository']}/blob/main/data/ignored.yaml.", ""]
     lines += ["## How entries are checked", "",
               "Each entry is written from the project's own README, documentation, release notes, licence file "
-              "and package metadata, with links to those sources. The list records what a project claims; it "
+              "and package metadata, with links to those sources. The list records what a project claims. It "
               "does not run the code. Repository dates, releases and package versions are refreshed monthly "
               "by a GitHub Action, which also searches for new candidate projects and watches the standards "
               "bodies for new editions. A person reviews the findings before anything is added.", ""]
     lines += ["## Status of an implementation", ""]
     lines += _table(["Value", "Meaning"], [[k, v] for k, v in IMPL_STATUS_LONG.items()]) + [""]
     lines += ["## Validation evidence", "",
-              "As stated by each project. Where a project says what it compared its results with (MoSQITo, SQAT, the "
-              "model authors' code or commercial software), the list names it, and each project page sets out the "
-              "details under *How it was validated*. Agreement with another implementation shows that both compute "
-              "the same values, not that either follows the standard: an error they share goes unnoticed.", ""]
+              "Validation is recorded as each project states it. When a project says what it compared its results "
+              "with (MoSQITo, SQAT, the model authors' code or commercial software), the list names it, and the "
+              "project page gives the details under *How it was validated*. Two implementations that agree compute "
+              "the same values, but an error they share goes unnoticed.", ""]
     lines += _table(["Value", "Meaning"], [[VALIDATION[k], v] for k, v in VALIDATION_LONG.items()]) + [""]
     lines += ["## Standing of a project", "",
               GROUP_RULE + ": " + highlighted(index.super_projects(), lambda p: p["name"])
               + ". They are never listed as legacy, and neither are reference programs published with a standard.", ""]
     lines += _table(["Group", "Meaning"], [[GROUP_NAMES[k], v] for k, v in GROUPS.items()]) + [""]
-    lines += ["## Kinds of project", "", "What a project is, for someone who wants to use it. Each project page names "
-              "its kind.", ""]
+    lines += ["## Kinds of project", "",
+              "The kind says what a project is for someone who wants to use it. Each project page names it.", ""]
     lines += _table(["Kind", "Meaning"], [[PROJECT_KINDS[k], v] for k, v in KINDS.items()]) + [""]
     lines += ["## Leads not yet verified", "",
-              "Candidates that may belong in the list but could not be checked yet; nothing here has been confirmed.", ""]
+              "Candidates that may belong in the list but could not be checked yet. Nothing here has been "
+              "confirmed.", ""]
     lines += [f"- [{l['name']}]({l['url']}) ({', '.join(l.get('languages') or [])}): {oneline(l['claim'])} {oneline(l['why'])}"
               for l in index.leads] + [""]
     lines += ["Not listed because they are closed source: MATLAB Audio Toolbox, HEAD acoustics ArtemiS SUITE, "
@@ -760,8 +765,8 @@ def readme_gaps(index: Index) -> str:
     gaps = index.gaps()
     lines = [item(m) for m in gaps] or ["None at the moment."]
     if index.new_only():
-        lines += ["", "Released implementations of the current edition come only from newly released projects, "
-                  "not yet seen to be widely used, for:", ""]
+        lines += ["", "For these methods, the only released implementations of the current edition come from newly "
+                  "released projects, not yet seen to be widely used:", ""]
         lines += [item(m) for m in index.new_only()]
     return "\n".join(lines)
 

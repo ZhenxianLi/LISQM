@@ -32,7 +32,7 @@
       "established": "Described in a publication, used by others, or written by the authors of the model, with more than a year of history.",
       "newly-released": "First released less than about a year ago, and not yet seen to be widely used in the community.",
       "developing": "Public for more than a year, but without a publication or documented use by others: research, teaching or personal code.",
-      "legacy": "Archived, or no commit for three years or more. Kept for reference: the code may follow an older edition and may not run with current software.",
+      "legacy": "Archived, or no commit for three years or more. Kept for reference. The code may follow an older edition and may not run with current software.",
       "others": "Tools that do not compute the metrics themselves: interfaces, front ends and wrappers that call one of the listed projects.",
       "unknown": "Projects whose code could not be opened, for example because the repository needs a login. What they implement is unverified, so they are listed with what they claim and not under the metrics."
     },
@@ -51,7 +51,7 @@
     "validation": {
       "standard-data": "Compared with test signals or values published in the standard or the model paper.",
       "reference-code": "Compared with the reference program or the model authors' own code.",
-      "cross-implementation": "Compared with another implementation, named where the project says which. Agreement shows that both compute the same values, not that either follows the standard.",
+      "cross-implementation": "Compared with another implementation, named when the project says which. Agreement means that both compute the same values; they may still share an error.",
       "self-tests": "Tests exist, but without external reference data.",
       "not-stated": "The project does not say how it was validated."
     },

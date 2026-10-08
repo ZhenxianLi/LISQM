@@ -47,8 +47,8 @@ def edition_short(ref: dict) -> str:
 
 
 NEW_LABEL = "newly released, not yet seen to be widely used"
-ONLY_NEW = ("So far only newly released projects, not yet seen to be widely used in the community, have released an "
-                 "implementation of it; check their validation before relying on them.")
+ONLY_NEW = ("So far, only newly released projects, not yet seen to be widely used in the community, have released "
+            "an implementation of it. Check their validation before relying on them.")
 
 
 def _relation(i: dict, cid: str, name: Fmt | None, t: Esc) -> str:
@@ -83,11 +83,9 @@ def dependence_note(i: dict) -> str:
     kinds = {kind for kind, _ in (i.get("_relation") or {}).values()}
     notes = []
     if "source" in kinds:
-        notes.append("Agreement with the code it was ported from shows that the port is faithful, not that either "
-                     "follows the standard.")
+        notes.append("It was compared with the code it was ported from, which checks the port only.")
     if "port" in kinds:
-        notes.append("Agreement with a port of its own code shows that the port is faithful, not that either "
-                     "follows the standard.")
+        notes.append("It was compared with a port of its own code, which checks the port only.")
     if "shared" in kinds:
         notes.append("Code ported from the same source is expected to agree, so that comparison is not an "
                      "independent check.")
@@ -204,7 +202,7 @@ def how_to_cite(p: dict) -> str:
     if cite.get("cff"):
         bits.append(f"The repository has a [CITATION.cff]({cite['cff']}) file.")
     if not bits:
-        return "The project does not say how to cite it: cite the repository with the version or commit you used."
+        return "The project does not say how to cite it. Cite the repository with the version or commit you used."
     return " ".join(bits) + " Name the version or commit you used."
 
 
@@ -232,18 +230,18 @@ def introduce(site: dict) -> str:
 
 def name_note(site: dict) -> str:
     """That the list computes nothing itself, and what is open."""
-    return (f"{site['name']} computes nothing itself; it lists and compares the implementations. Every listed "
-            f"implementation is open source and {site['name']} itself is open data, but many of the standards the "
-            "implementations follow are not free.")
+    return (f"{site['name']} does not compute anything itself; it lists the implementations and compares what they "
+            f"state. The listed implementations are open source, and so is the data of {site['name']}, but many of "
+            "the standards they follow are not free.")
 
 
-GROUP_RULE = ("Every project is in exactly one group, decided in this order: status unknown if its code could not "
-              "be opened; others if it computes nothing itself and calls another listed project; legacy if it is "
-              "archived or has had no commit for three years; otherwise the standing recorded for it: established, "
-              "newly released or developing. All lists follow the order established, newly released, developing, "
-              "legacy, others, status unknown, so a project that is new, little used, no longer maintained or "
-              "unverified is never the first suggestion. A few projects come before all others, in bold, in every "
-              "list")
+GROUP_RULE = ("Each project is in one group. A project whose code could not be opened is under status unknown, one "
+              "that computes nothing itself and calls another listed project is under others, and one that is "
+              "archived or has had no commit for three years is legacy. Every other project keeps the standing "
+              "recorded for it: established, newly released or developing. All lists follow the order established, "
+              "newly released, developing, legacy, others, status unknown, so a project that is new, little used, no "
+              "longer maintained or unverified is never suggested first. A few projects come before all others in "
+              "every list, in bold")
 
 
 def standing_sentence(p: dict) -> str:
@@ -253,7 +251,7 @@ def standing_sentence(p: dict) -> str:
         last = f"its last commit was in {long_date(month(p['_last_commit']))}" if p.get("_last_commit") else ""
         if p.get("_archived"):
             return "Archived by its authors" + (f"; {last}" if last else "") + ". Kept here for reference."
-        return f"Not maintained: {last}, more than three years ago. Kept here for reference."
+        return f"Not maintained. {last[:1].upper()}{last[1:]}, more than three years ago. Kept here for reference."
     if p.get("standing") != "newly-released":
         return ""
     return f"{p.get('standing_note', '').strip()} Not yet seen to be widely used in the community.".strip()
@@ -616,8 +614,8 @@ def faq(index: Index, name: Fmt, method_link: Callable[[dict], str], t: Esc,
         + " Legacy: " + t(GROUPS_TEXT["legacy"])
         + " Others: " + t(GROUPS_TEXT["others"])
         + " Status unknown: " + t(GROUPS_TEXT["unknown"])
-        + " Lists follow this order, so that a project which is new, little used, no longer maintained or unverified "
-        "is never the first suggestion. " + highlighted(supers, lambda p: t(p["name"]), t)
+        + " Lists follow this order, so a project that is new, little used, no longer maintained or unverified "
+        "is never suggested first. " + highlighted(supers, lambda p: t(p["name"]), t)
         + " come first in every list, in bold, and they and the reference programs published with a standard are "
         "never listed as legacy.")
     if index.group("newly-released"):
@@ -641,8 +639,8 @@ def ai_guide(index: Index) -> tuple[str, list[tuple[str, str, list[str]]]]:
     site = index.site
     base, repo = site["base_url"], site["repository"]
     langs = join_words(index.languages())
-    intro = ("This page is for AI agents, crawlers and LLMs that read the list on someone's behalf. "
-             "Humans are welcome too: it lists the same data in forms that are easy to retrieve, parse and quote.")
+    intro = ("This page is for AI agents, crawlers and language models that read the list for someone. It gives "
+             "the same data in forms that are easy to retrieve, parse and quote.")
     sections = [
         ("start", "Where to start", [
             f"[llms.txt]({base}llms.txt): a short summary with a link to the Markdown version of every page, "
@@ -702,7 +700,7 @@ def ai_guide(index: Index) -> tuple[str, list[tuple[str, str, list[str]]]]:
             f"Citation metadata: [CITATION.cff]({repo}/blob/main/CITATION.cff).",
             "Cite the implementations themselves as each project asks: every project page has a *How to cite* line. "
             f"The standards, model papers and software papers are in [{BIBTEX}]({base}{BIBTEX}).",
-            "In one sentence: a list of open-source implementations of psychoacoustic metrics, organised by the "
+            "Short description: a list of open-source implementations of psychoacoustic metrics, organised by the "
             "standard edition each one follows, with a source for every entry.",
             site["credit"],
         ]),
