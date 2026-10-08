@@ -19,7 +19,7 @@ Developed by Zhenxian LI with assistance from Claude Code.
 [![Licence: MIT](https://img.shields.io/badge/licence-MIT-blue.svg)](LICENSE)
 
 <!-- BEGIN GENERATED: stats -->
-Data as of 2026-10-07: 22 methods, 39 projects, languages: C, C#, C++, Julia, MATLAB, Octave, Pure Data, Python, Rust.
+Data as of 2026-10-08: 22 methods, 39 projects, languages: C, C#, C++, Julia, MATLAB, Octave, Pure Data, Python, Rust.
 <!-- END GENERATED: stats -->
 
 ## Why this list exists

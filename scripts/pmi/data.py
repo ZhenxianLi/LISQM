@@ -84,6 +84,10 @@ REGISTRIES = {
     "other": ("package", ""),
 }
 AI_ASSISTANCE = {"disclosed", "not-stated"}
+# A port's record of how it credits each source it ports (`ported_from` in the project file).
+PORTED_KEYS = {"source", "authors", "license", "credit", "checked"}
+# Licence terms that bind code derived from the source: copyleft (the GPL family) and non-commercial.
+BINDING_TERMS = {"copyleft": re.compile(r"GPL"), "non-commercial": re.compile(r"CC-BY-NC")}
 STATUS_ORDER = {"available": 0, "unreleased": 1, "proposed": 2}
 STANDING = {
     "established": "Described in a publication, used by others, or written by the authors of the model, with more "
@@ -153,6 +157,26 @@ def only_new(m: dict) -> bool:
     """True when every released implementation of a method's current edition comes from a newly released project."""
     released = [i for i in m["_current_impls"] if i["status"] == "available"]
     return bool(released) and all(i["_project"]["standing"] == "newly-released" for i in released)
+
+
+def keeps_terms(source_license: str | None, port_license: str) -> bool:
+    """False when the licence of the ported code is copyleft (GPL family) or non-commercial and the port has no
+    licence or one without those terms. It only compares licence names: it says that the conditions of the source
+    apply, not whether they are met."""
+    binding = [rule for rule in BINDING_TERMS.values() if rule.search(source_license or "")]
+    if not binding:
+        return True
+    return port_license not in ("none", "unknown") and all(rule.search(port_license) for rule in binding)
+
+
+def derived_sources(p: dict) -> list[str]:
+    """The code a project ports, in order: every row's `derived_from`, else the project's `based_on` (a row computed
+    by another project ports nothing)."""
+    out: list[str] = []
+    for impl in p.get("implements") or []:
+        ids = impl.get("derived_from") or ([p["based_on"]] if p.get("based_on") and not impl.get("via") else [])
+        out += [c for c in ids if c not in out]
+    return out
 
 
 _ID = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
@@ -419,6 +443,38 @@ class Index:
                 if pair in seen_pairs:
                     add(f"{wi}: duplicate of an earlier entry")
                 seen_pairs.add(pair)
+            # A port records how it credits each source it ports, one entry per source.
+            ported = derived_sources(p)
+            credited: set[str] = set()
+            entries = p.get("ported_from")
+            if entries is not None and not (isinstance(entries, list) and entries):
+                add(f"{w}: ported_from must be a non-empty list")
+                entries = []
+            for j, e in enumerate(entries or []):
+                we = f"{w}: ported_from[{j}]"
+                if not isinstance(e, dict) or not set(e) <= PORTED_KEYS:
+                    add(f"{we}: takes {', '.join(sorted(PORTED_KEYS))}")
+                    continue
+                src = e.get("source")
+                if not src:
+                    add(f"{we}: missing 'source'")
+                elif src in credited:
+                    add(f"{we}: '{src}' is recorded twice")
+                elif src not in ported:
+                    add(f"{we}: '{src}' is not in based_on or any derived_from")
+                credited.add(str(src))
+                if not (isinstance(e.get("credit"), str) and e["credit"].strip()):
+                    add(f"{we}: credit must say where the port names the source, or be 'none'")
+                authors = e.get("authors")
+                if authors is not None and not (isinstance(authors, list) and authors
+                                                and all(isinstance(a, str) and a.strip() for a in authors)):
+                    add(f"{we}: authors must be a non-empty list of names")
+                if e.get("license") is not None and not (isinstance(e["license"], str) and e["license"].strip()):
+                    add(f"{we}: license must be the licence of the ported code")
+                check_date(e.get("checked"), f"{we}: checked")
+            for src in ported:
+                if src not in credited:
+                    add(f"{w}: ported_from has no entry for '{src}' (how the port credits that code)")
 
         for i, u in enumerate(self.updates):
             w = f"data/updates.yaml[{i}]"
@@ -505,6 +561,19 @@ class Index:
             p["_legacy"] = (p["standing"] != "newly-released" and not p["_super"] and p["kind"] != "reference-program"
                             and (p["_archived"] or (age is not None and age >= legacy_after)))
 
+            # How the port credits each source it ports, with the authors and the licence of that code (the source
+            # project's maintainers and licence unless the entry names the authors or licence of the code ported).
+            p["_ported_from"] = []
+            for e in p.get("ported_from") or []:
+                src = self.project.get(e["source"])
+                licence = e.get("license") or (src["license"] if src else None)
+                p["_ported_from"].append({
+                    "source": e["source"], "name": src["name"] if src else e["source"], "project": src,
+                    "authors": list(e.get("authors") or (src.get("maintainers") if src else None) or []),
+                    "license": licence, "credit": None if e["credit"].strip() == "none" else e["credit"],
+                    "checked": date_str(e["checked"]), "terms_differ": not keeps_terms(licence, p["license"])})
+            credit = {e["source"]: e for e in p["_ported_from"]}
+
             p["_impls"] = []
             for impl in p.get("implements") or []:
                 impl = dict(impl)
@@ -521,6 +590,7 @@ class Index:
                 impl["_derived_ids"] = impl.get("derived_from") or (
                     [p["based_on"]] if p.get("based_on") and not impl.get("via") else [])
                 impl["_derived"] = named(impl["_derived_ids"])
+                impl["_ported"] = [credit[c] for c in impl["_derived_ids"] if c in credit]
                 # What to check before comparing its numbers: the project's general points, then the row's own.
                 impl["_conventions"] = list(dict.fromkeys((p.get("conventions") or []) + (impl.get("conventions") or [])))
                 p["_impls"].append(impl)

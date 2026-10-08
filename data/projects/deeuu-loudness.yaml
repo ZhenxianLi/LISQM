@@ -31,6 +31,16 @@ caveats:
   - >-
     The PyPI package named `loudness` is an unrelated LUFS (ITU-R BS.1770) project (iver56/loudness); this
     library has to be built from source.
+ported_from:
+  - source: BASIC program of DIN 45631 (Zwicker et al., 1991)
+    authors: [E. Zwicker, H. Fastl, U. Widmann, K. Kurakata, S. Kuwano, S. Namba]
+    credit: >-
+      The headers of the DIN 45631 modules, such as
+      [`MainLoudnessDIN456311991.h`](https://github.com/deeuu/loudness/blob/master/src/modules/MainLoudnessDIN456311991.h),
+      list as references the 1991 paper with the BASIC program, GENESIS's Loudness Toolbox and Aaron Hastings' MATLAB
+      port of the BASIC program. The paper is cited with "Germtuo, E. R." in place of its sixth author, S. Namba, and
+      in the Journal of the Acoustical Society of America instead of Japan.
+    checked: 2026-10-08
 implements:
   - method: loudness-moore-glasberg
     reference: ansi-s3-4-2007

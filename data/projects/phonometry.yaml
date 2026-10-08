@@ -35,6 +35,14 @@ caveats:
   - Single maintainer; all validation comes from the project's own tests.
   - The ECMA-418-2 checks only use the calibration signals, and no comparison with another implementation is reported. Its loudness reads 0.984 sone_HMS at the calibration point, which its own documentation says is outside the adjustment the standard allows.
   - Requires Python 3.13 or newer.
+ported_from:
+  - source: ISO 532-1 Annex A reference program
+    credit: >-
+      The headers of
+      [`zwicker.py`](https://github.com/jmrplens/phonometry/blob/main/src/phonometry/psychoacoustics/loudness/zwicker.py)
+      and `_zwicker_data.py` describe the code as a "clean-room Python port" of the Annex A reference program of
+      ISO 532-1:2017 (`ISO_532-1.c`, Annex A.4), whose tables it reproduces digit for digit.
+    checked: 2026-10-08
 implements:
   - method: loudness-zwicker
     reference: iso-532-1-2017

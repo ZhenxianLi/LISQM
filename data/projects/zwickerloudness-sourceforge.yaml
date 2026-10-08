@@ -9,8 +9,9 @@ language_note: >-
 standing: developing
 license: GPL-2.0
 license_note: >-
-  SourceForge lists "GNU General Public License version 2.0"; whether later versions are allowed was not
-  checked.
+  SourceForge lists "GNU General Public License version 2.0", but the `license` file in the release archive
+  (loudness-020) has the author's own BSD-style terms, with a fourth clause: a significantly different project that
+  reuses parts of the code must be open source as well and must reference the original code.
 maintainers: [V. Portet]
 summary: >-
   Console program in C, for BSD, Linux and Windows, that calculates the loudness of stationary sounds with
@@ -28,16 +29,27 @@ notes:
     SourceForge, not a commit date.
 caveats:
   - Stationary sounds only; there is no procedure for time-varying sounds.
-  - >-
-    No validation is stated on the SourceForge pages; the README inside the release archive was not reviewed
-    for this entry.
+ported_from:
+  - source: BASIC program of DIN 45631 (Zwicker et al., 1991)
+    authors: [E. Zwicker, H. Fastl, U. Widmann, K. Kurakata, S. Kuwano, S. Namba]
+    credit: >-
+      The [README](https://sourceforge.net/projects/zwickerloudness/files/README.TXT/download) and the `readme`,
+      `license` and documentation files of the release archive say the code is "partially ported from" the "Program
+      for calculating loudness according to DIN 45631 (ISO 532B)" of the Journal of the Acoustical Society of Japan
+      (1991), as published on Osaka University's website; they name the program and the journal, not its authors.
+    checked: 2026-10-08
 implements:
   - method: loudness-zwicker
     reference: din-45631-1991
     scope: stationary, from one-third-octave band levels
     status: available
-    validation: not-stated
+    validation: self-tests
     derived_from: ["BASIC program of DIN 45631 (Zwicker et al., 1991)"]
+    validation_details:
+      - >-
+        The documentation in the release archive says that tests with "classical cases", such as the included test
+        WAV files, "seems to give correct results", and invites users to compare the output with that of the
+        original BASIC program.
     note: >-
       Port of the 1991 BASIC program "according to DIN 45631 (ISO 532B)", the program that accompanies
       DIN 45631:1991; the same program is the basis of deeuu/loudness.
@@ -47,4 +59,6 @@ manual:
 sources:
   - https://sourceforge.net/projects/zwickerloudness/
   - https://sourceforge.net/projects/zwickerloudness/files/
-checked: 2026-10-06
+  - https://sourceforge.net/projects/zwickerloudness/files/README.TXT/download
+  - https://sourceforge.net/projects/zwickerloudness/files/zwickerloudness-020/loudness-020.tar.gz/download
+checked: 2026-10-08

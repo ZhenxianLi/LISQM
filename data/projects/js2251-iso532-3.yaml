@@ -10,6 +10,7 @@ license: none
 license_note: >-
   No licence file. The readme PDF says: "The code is provided free for any research purposes. For commercial use
   please contact Brian C. J. Moore."
+maintainers: [Brian C. J. Moore, Brian R. Glasberg, Josef Schlittenlacher]
 summary: >-
   MATLAB code by Brian C. J. Moore, Brian R. Glasberg and Josef Schlittenlacher (Cambridge Hearing Group) for the
   loudness of time-varying sounds: the model of Moore et al. (2016) with the revised time constants of Moore et

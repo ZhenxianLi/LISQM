@@ -21,6 +21,14 @@ notes:
     Depends on ZwickerLoudness.jl (compat 0.3), which does the loudness calculation from band levels; this package
     computes the band levels.
   - First registered in the Julia General registry as version 0.2.0 (2026-06-01).
+ported_from:
+  - source: mosqito
+    credit: >-
+      The licence section of the [README](https://github.com/slink/ZwickerLoudnessAudio.jl/blob/main/README.md) says
+      the filter tables and algorithm in `src/zwtv_frontend.jl` are transcribed from MoSQITo (Apache License 2.0), and
+      [`test/fixtures/NOTICE.md`](https://github.com/slink/ZwickerLoudnessAudio.jl/blob/main/test/fixtures/NOTICE.md)
+      names the MoSQITo commit (`d990c33`) its test fixtures come from.
+    checked: 2026-10-08
 implements:
   - method: loudness-zwicker
     reference: iso-532-1-2017

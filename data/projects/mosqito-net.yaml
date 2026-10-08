@@ -31,6 +31,13 @@ conventions:
   - >-
     Time-varying loudness and ECMA-418-2 roughness resample input at any other rate to 48 kHz, and stationary
     loudness resamples rates below 48 kHz; MoSQITo rejects rates above 48 kHz for time-varying loudness.
+ported_from:
+  - source: mosqito
+    credit: >-
+      [`NOTICE.md`](https://github.com/onur-akaydin/Mosqito.NET/blob/master/NOTICE.md) states that it is a C# rewrite
+      of MoSQITo 1.2.1 ("Copyright 2021 MoSQITo Developers", Apache-2.0) and lists the standards it implements from
+      MoSQITo's code; the README thanks the authors, maintainers and contributors of MoSQITo and the team at Eomys.
+    checked: 2026-10-08
 implements:
   - method: loudness-zwicker
     reference: iso-532-1-2017

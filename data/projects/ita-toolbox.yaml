@@ -45,6 +45,16 @@ caveats:
     `ita_psychoacoustic_fluctuationStrength` (2021), call the MATLAB Audio Toolbox, which is closed source, so they
     are not listed here.
   - There are no releases; use the default branch.
+ported_from:
+  - source: BASIC program of DIN 45631 (Zwicker et al., 1991)
+    authors: [E. Zwicker, H. Fastl, U. Widmann, K. Kurakata, S. Kuwano, S. Namba]
+    credit: >-
+      The header of the C core
+      [`private/DIN45631.c`](https://git.rwth-aachen.de/ita/toolbox/-/blob/master/applications/Psychoacoustics/private/DIN45631.c)
+      says it is based on the BASIC program published in J. Acoust. Soc. Jpn (E) 12(1), 1991, by E. Zwicker, H.
+      Fastl, U. Widmann, K. Kurakata, S. Kuwano and S. Namba, and names Aaron Hastings (Herrick Labs, Purdue
+      University, 2000) as its "re-author".
+    checked: 2026-10-08
 implements:
   - method: loudness-zwicker
     reference: din-45631-1991

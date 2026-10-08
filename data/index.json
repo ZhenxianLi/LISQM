@@ -12,7 +12,7 @@
     "github": "ZhenxianLi"
   },
   "credit": "Developed by Zhenxian LI with assistance from Claude Code.",
-  "as_of": "2026-10-07",
+  "as_of": "2026-10-08",
   "schema": "https://github.com/ZhenxianLi/LISQM/blob/main/data/SCHEMA.md",
   "counts": {
     "methods": 22,
@@ -56,6 +56,7 @@
     "access": {
       "restricted": "The repository cannot be opened without a login."
     },
+    "ported_from": "How a port credits each code it ports, as found in its own files: the source (a project id, or the name of code that is not a listed project), the authors and the licence of that code (the source project's maintainers and licence unless the record names those of the code ported), where the port names it (credit; null when nothing was found in the README, the licence and notice files or the file headers) and the date it was checked. terms_note is set when that code is copyleft (GPL) or non-commercial (CC-BY-NC) and the port's licence does not carry those terms; the list does not judge whether licence terms are met.",
     "comparison_relations": {
       "source": "the compared project is the code this implementation was ported from (or that code's own source)",
       "port": "the compared project was ported from this implementation",
@@ -513,9 +514,12 @@
           "reference": "din-45631-1991",
           "scope": "stationary, from one-third-octave band levels",
           "status": "available",
-          "validation": "not-stated",
+          "validation": "self-tests",
           "derived_from": [
             "BASIC program of DIN 45631 (Zwicker et al., 1991)"
+          ],
+          "validation_details": [
+            "The documentation in the release archive says that tests with \"classical cases\", such as the included test WAV files, \"seems to give correct results\", and invites users to compare the output with that of the original BASIC program."
           ],
           "note": "Port of the 1991 BASIC program \"according to DIN 45631 (ISO 532B)\", the program that accompanies DIN 45631:1991; the same program is the basis of deeuu/loudness."
         }
@@ -4312,6 +4316,27 @@
         "`main` contains breaking fixes that are not in any release: six deviations in ISO 532-1 time-varying loudness ([#48](https://github.com/ggrecow/SQAT/pull/48); test signal 10 deviated by 18.14 % in v1.3), eight defects in Aures tonality ([#67](https://github.com/ggrecow/SQAT/issues/67)), a rewrite of Daniel & Weber roughness ([#65](https://github.com/ggrecow/SQAT/pull/65)), the sound level meter time weighting ([#51](https://github.com/ggrecow/SQAT/pull/51)) and a faster annoyance calculation ([#42](https://github.com/ggrecow/SQAT/pull/42)). Results from v1.3 and `main` differ.",
         "The README warns that `main` may contain changes that are not yet fully verified and recommends using a release."
       ],
+      "ported_from": [
+        {
+          "source": "aarae",
+          "authors": [
+            "Ella Manor"
+          ],
+          "license": "BSD-3-Clause",
+          "credit": "The header of [`Loudness_ISO532_1.m`](https://github.com/ggrecow/SQAT/blob/main/psychoacoustic_metrics/Loudness_ISO532_1/Loudness_ISO532_1.m) names Ella Manor's 2015 MATLAB implementation for AARAE as its origin, adapted for SQAT by Gil Felix Greco in 2023, and keeps her BSD-3-Clause copyright notice; the README lists this function as BSD-3-Clause.",
+          "checked": "2026-10-08"
+        },
+        {
+          "source": "refmap-psychoacoustics",
+          "authors": [
+            "Mike Lotinga",
+            "Matt Torjussen"
+          ],
+          "license": "GPL-3.0",
+          "credit": "The headers of the ECMA-418-2 files, such as [`Loudness_ECMA418_2.m`](https://github.com/ggrecow/SQAT/blob/main/psychoacoustic_metrics/Loudness_ECMA418_2/Loudness_ECMA418_2.m), name their authors (Mike Lotinga, and Matt Torjussen for tonality; University of Salford) and the RefMap project, link the refmap-psychoacoustics repository and state its GPL-3.0 licence. Mike Lotinga is one of SQAT's maintainers.",
+          "checked": "2026-10-08"
+        }
+      ],
       "implements": [
         {
           "method": "loudness-zwicker",
@@ -4876,6 +4901,18 @@
         "Fluctuation strength is only on the main branch (not on PyPI yet) and its verification report is marked as a draft.",
         "Versions up to 0.1.13 are affected by an empty-array bug fixed in 0.1.14 ([#9](https://github.com/mlotinga/sottek-hearing-model/issues/9))."
       ],
+      "ported_from": [
+        {
+          "source": "refmap-psychoacoustics",
+          "authors": [
+            "Matt Torjussen",
+            "Mike Lotinga"
+          ],
+          "license": "GPL-3.0",
+          "credit": "The [README](https://github.com/mlotinga/sottek-hearing-model/blob/main/README.md) says the algorithms were translated to Python from the MATLAB code published with Lotinga, Torjussen & Felix Greco (2025), which began as Matt Torjussen's `SottekTonality.m`, and the file headers name the refmap-psychoacoustics repository and its copyleft licence. The maintainer, Mike Lotinga, is also an author of the RefMap code.",
+          "checked": "2026-10-08"
+        }
+      ],
       "implements": [
         {
           "method": "loudness-ecma-418-2",
@@ -4989,6 +5026,10 @@
       "kind": "library",
       "standing": "established",
       "license": "BSD-3-Clause",
+      "maintainers": [
+        "Valentin Le Bescond",
+        "Andrew Mitchell"
+      ],
       "packages": [
         {
           "registry": "pypi",
@@ -5004,6 +5045,17 @@
       ],
       "caveats": [
         "It follows ISO 1996-2:2007, which has been withdrawn; ISO 1996-2:2017 replaced its tonal audibility method with those of Annexes J and K."
+      ],
+      "ported_from": [
+        {
+          "source": "python-acoustics",
+          "authors": [
+            "Frederik Rietdijk"
+          ],
+          "license": "BSD-3-Clause",
+          "credit": "The \"Origin project\" section of the [README](https://github.com/Universite-Gustave-Eiffel/acoustic-toolbox/blob/main/README.md) says the project \"is based on the amazing work initially done\" in python-acoustics, with a link. The LICENSE file names Acoustic Toolbox (2024) as copyright holder; the notice of python-acoustics (\"Copyright (c) 2013, Python Acoustics\") is not in the current files.",
+          "checked": "2026-10-08"
+        }
       ],
       "implements": [
         {
@@ -5030,9 +5082,11 @@
         "https://github.com/Universite-Gustave-Eiffel/acoustic-toolbox",
         "https://github.com/Universite-Gustave-Eiffel/acoustic-toolbox/blob/main/README.md",
         "https://github.com/Universite-Gustave-Eiffel/acoustic-toolbox/blob/main/acoustic_toolbox/standards/iso_1996_2_2007.py",
-        "https://pypi.org/project/acoustic-toolbox/"
+        "https://pypi.org/project/acoustic-toolbox/",
+        "https://github.com/Universite-Gustave-Eiffel/acoustic-toolbox/blob/main/pyproject.toml",
+        "https://github.com/Universite-Gustave-Eiffel/acoustic-toolbox/blob/main/LICENSE"
       ],
-      "checked": "2026-10-06",
+      "checked": "2026-10-08",
       "url": "https://zhenxianli.github.io/LISQM/projects/acoustic-toolbox.html",
       "last_commit": "2026-02-12",
       "latest_release": {
@@ -5061,7 +5115,10 @@
       "standing": "established",
       "standing_note": "A widely used toolbox for auditory modelling that also includes some psychoacoustic functions.",
       "license": "GPL-3.0",
-      "license_note": "SourceForge lists the licence as GPLv3 without saying whether later versions are allowed; the torch_amt README, which follows the AMT licence, gives it as GPL v3.0 or later.",
+      "license_note": "SourceForge lists the licence as GPLv3. The COPYING file of release 1.6.0 says that most files are under GPL 3.0 and some under other licences, each file stating its own; the headers of the loudness models (`moore1997`, `glasberg2002`, `moore2016`) allow version 3 or any later version.",
+      "maintainers": [
+        "AMT Team, Acoustics Research Institute (Austrian Academy of Sciences)"
+      ],
       "packages": [
         {
           "registry": "other",
@@ -5144,9 +5201,10 @@
         "https://sourceforge.net/p/amtoolbox/code/ci/1.6.0/tree/models/",
         "https://sourceforge.net/p/amtoolbox/code/ci/develop/tree/experiments/",
         "https://sourceforge.net/p/amtoolbox/code/ci/develop/log/",
-        "https://github.com/StefanoGiacomelli/torch_amt/blob/main/README.md"
+        "https://github.com/StefanoGiacomelli/torch_amt/blob/main/README.md",
+        "https://sourceforge.net/projects/amtoolbox/files/AMT%201.x/"
       ],
-      "checked": "2026-10-06",
+      "checked": "2026-10-08",
       "url": "https://zhenxianli.github.io/LISQM/projects/amt.html",
       "last_commit": "2026-06-14",
       "latest_release": {
@@ -5438,6 +5496,24 @@
         "Runs inside MATLAB and needs several commercial toolboxes: Audio, DSP System, Signal Processing, and Statistics and Machine Learning; some parts also use others, such as Curve Fitting.",
         "Apart from the ISO 532-1 analyser, the project does not state how the analysers were validated."
       ],
+      "ported_from": [
+        {
+          "source": "ISO 532-1 Annex A reference program",
+          "credit": "The header of [`Loudness_ISO532_1.m`](https://github.com/densilcabrera/aarae/blob/master/Analysers/Level%20and%20Strength/Loudness_ISO532_1.m) gives its source as the C code of Annex A of ISO 532-1 (2014 draft), translated to MATLAB with adjustments by Ella Manor for AARAE (2015).",
+          "checked": "2026-10-08"
+        },
+        {
+          "source": "psysound3",
+          "authors": [
+            "Dik Hermes",
+            "Matt Flax",
+            "Farhan Rizwi"
+          ],
+          "license": "none",
+          "credit": "The header of [`RoughnessDW.m`](https://github.com/densilcabrera/aarae/blob/master/Analysers/Level%20and%20Strength/RoughnessDW.m) says it is a port of PsySound3's RoughnessDW analyser, whose original code was provided by Dik Hermes and adapted for PsySound3 by Matt Flax (2006) and Farhan Rizwi (2007), and that Ella Manor and Densil Cabrera ported it to AARAE (2015). Densil Cabrera maintains both projects.",
+          "checked": "2026-10-08"
+        }
+      ],
       "implements": [
         {
           "method": "loudness-zwicker",
@@ -5544,6 +5620,11 @@
       "standing": "established",
       "license": "none",
       "license_note": "No licence file. The readme PDF says: \"The code is provided free for any research purposes. For commercial use please contact Brian C. J. Moore.\"",
+      "maintainers": [
+        "Brian C. J. Moore",
+        "Brian R. Glasberg",
+        "Josef Schlittenlacher"
+      ],
       "summary": "MATLAB code by Brian C. J. Moore, Brian R. Glasberg and Josef Schlittenlacher (Cambridge Hearing Group) for the loudness of time-varying sounds: the model of Moore et al. (2016) with the revised time constants of Moore et al. (2018). Its readme calls `tv2018.m` \"the reference Matlab code referred to in ISO 532-3\".",
       "ai_assistance": "not-stated",
       "notes": [
@@ -5622,6 +5703,21 @@
       "caveats": [
         "`ita_roughness_daniel` and `ita_sharpness` print that a newer version exists (`ita_psychoacoustic_roughness`, `ita_psychoacoustic_sharpness`). Those functions, like `ita_psychoacoustic_loudness` and `ita_psychoacoustic_fluctuationStrength` (2021), call the MATLAB Audio Toolbox, which is closed source, so they are not listed here.",
         "There are no releases; use the default branch."
+      ],
+      "ported_from": [
+        {
+          "source": "BASIC program of DIN 45631 (Zwicker et al., 1991)",
+          "authors": [
+            "E. Zwicker",
+            "H. Fastl",
+            "U. Widmann",
+            "K. Kurakata",
+            "S. Kuwano",
+            "S. Namba"
+          ],
+          "credit": "The header of the C core [`private/DIN45631.c`](https://git.rwth-aachen.de/ita/toolbox/-/blob/master/applications/Psychoacoustics/private/DIN45631.c) says it is based on the BASIC program published in J. Acoust. Soc. Jpn (E) 12(1), 1991, by E. Zwicker, H. Fastl, U. Widmann, K. Kurakata, S. Kuwano and S. Namba, and names Aaron Hastings (Herrick Labs, Purdue University, 2000) as its \"re-author\".",
+          "checked": "2026-10-08"
+        }
       ],
       "implements": [
         {
@@ -5813,6 +5909,29 @@
         "Very new (first released in September 2026) and not yet seen to be widely used in the community; no independent verification has been published.",
         "The README calls the current version experimental, particularly roughness and tonality, and says standards conformance has not been established.",
         "Comparisons with SQAT and MoSQITo are described as kept outside the package repository, and the third-party notes say exact agreement with the MATLAB code is not established."
+      ],
+      "ported_from": [
+        {
+          "source": "mosqito",
+          "authors": [
+            "Eomys / Green Forge Coop"
+          ],
+          "license": "Apache-2.0",
+          "credit": "[`THIRD_PARTY.md`](https://github.com/huaaudio/metasona/blob/main/THIRD_PARTY.md) and [`NOTICE`](https://github.com/huaaudio/metasona/blob/main/NOTICE) credit \"Eomys and the MoSQITo contributors\", name the MoSQITo revision used (`d990c33`) and its Apache-2.0 licence, and list the upstream files its model data come from.",
+          "checked": "2026-10-08"
+        },
+        {
+          "source": "sqat",
+          "authors": [
+            "Gil Felix Greco",
+            "Roberto Merino-Martínez",
+            "Alejandro Osses",
+            "Mike Lotinga"
+          ],
+          "license": "GPL-3.0-or-later, from the main branch, with BSD-3-Clause and MIT parts",
+          "credit": "[`NOTICE`](https://github.com/huaaudio/metasona/blob/main/NOTICE) and [`THIRD_PARTY.md`](https://github.com/huaaudio/metasona/blob/main/THIRD_PARTY.md) name the SQAT revision used (`e6228b7`), the authors of each adapted part (Mike Lotinga and Matt Torjussen for the ECMA-418-2 kernels; Ella Manor, Gil Felix Greco and Sergio Aguirre for ISO 532-1 loudness; Dik Hermes and others for Daniel & Weber roughness; Gil Felix Greco and Sergio Aguirre for Aures tonality) and the licence each part keeps.",
+          "checked": "2026-10-08"
+        }
       ],
       "implements": [
         {
@@ -6067,6 +6186,17 @@
       "caveats": [
         "The loudness engine works on mono audio at 48 kHz; the plug-in measures each input channel separately."
       ],
+      "ported_from": [
+        {
+          "source": "mosqito",
+          "authors": [
+            "Eomys / Green Forge Coop"
+          ],
+          "license": "Apache-2.0",
+          "credit": "[`THIRD_PARTY_NOTICES.md`](https://github.com/heyalohaloha/kirin_hypha/blob/main/THIRD_PARTY_NOTICES.md) names MoSQITo v1.2.1 (Eomys/MoSQITo, commit `a14daea`), lists the Rust modules ported or adapted from it and keeps MoSQITo's Apache-2.0 licence text in `THIRD_PARTY_LICENSES`.",
+          "checked": "2026-10-08"
+        }
+      ],
       "implements": [
         {
           "method": "loudness-zwicker",
@@ -6161,6 +6291,17 @@
       ],
       "conventions": [
         "Time-varying loudness and ECMA-418-2 roughness resample input at any other rate to 48 kHz, and stationary loudness resamples rates below 48 kHz; MoSQITo rejects rates above 48 kHz for time-varying loudness."
+      ],
+      "ported_from": [
+        {
+          "source": "mosqito",
+          "authors": [
+            "Eomys / Green Forge Coop"
+          ],
+          "license": "Apache-2.0",
+          "credit": "[`NOTICE.md`](https://github.com/onur-akaydin/Mosqito.NET/blob/master/NOTICE.md) states that it is a C# rewrite of MoSQITo 1.2.1 (\"Copyright 2021 MoSQITo Developers\", Apache-2.0) and lists the standards it implements from MoSQITo's code; the README thanks the authors, maintainers and contributors of MoSQITo and the team at Eomys.",
+          "checked": "2026-10-08"
+        }
       ],
       "implements": [
         {
@@ -6324,6 +6465,20 @@
         "No licence file, so reuse is not permitted by default.",
         "The implementation document describes only the Moore (1997) model as implemented; `glasberg2002` is in the code (with data/Glasberg2002.json) but not documented."
       ],
+      "ported_from": [
+        {
+          "source": "amt",
+          "authors": [
+            "Thomas Deppisch",
+            "Piotr Majdak",
+            "Clara Hollomey"
+          ],
+          "license": "GPL-3.0-or-later",
+          "credit": "The [README](https://github.com/Ryrybros/NumpyLibforPsychoAcoustic/blob/main/README.md) calls the code \"a Python adaptation of models described by the Amt toolBox\", and the implementation document says the `moore1997` model \"is the same code as the amt-toolbox one\"; both link amtoolbox.org. Neither names the authors of AMT's `moore1997` and `glasberg2002` (Thomas Deppisch, Piotr Majdak and Clara Hollomey, according to the headers of AMT 1.6.0) or AMT's licence.",
+          "checked": "2026-10-08",
+          "terms_note": "The licence of the Auditory Modeling Toolbox (AMT) code (GPL-3.0-or-later) sets conditions for code derived from it, and NumpyLibforPsychoAcoustic has no licence file; LISQM has not checked whether those conditions are met."
+        }
+      ],
       "implements": [
         {
           "method": "loudness-moore-glasberg",
@@ -6409,6 +6564,13 @@
         "Single maintainer; all validation comes from the project's own tests.",
         "The ECMA-418-2 checks only use the calibration signals, and no comparison with another implementation is reported. Its loudness reads 0.984 sone_HMS at the calibration point, which its own documentation says is outside the adjustment the standard allows.",
         "Requires Python 3.13 or newer."
+      ],
+      "ported_from": [
+        {
+          "source": "ISO 532-1 Annex A reference program",
+          "credit": "The headers of [`zwicker.py`](https://github.com/jmrplens/phonometry/blob/main/src/phonometry/psychoacoustics/loudness/zwicker.py) and `_zwicker_data.py` describe the code as a \"clean-room Python port\" of the Annex A reference program of ISO 532-1:2017 (`ISO_532-1.c`, Annex A.4), whose tables it reproduces digit for digit.",
+          "checked": "2026-10-08"
+        }
       ],
       "implements": [
         {
@@ -6745,6 +6907,17 @@
         "Roughness follows MoSQITo's `roughness_dw` (\"as implemented by MoSQITo\"), not Daniel and Weber's original code.",
         "Annoyance comes in two forms: the canonical percentile convention (N5, S5, R5 and FS5 from time-varying tracks, since 0.5.0) and a documented stationary approximation from whole-signal values (since 0.4.0)."
       ],
+      "ported_from": [
+        {
+          "source": "mosqito",
+          "authors": [
+            "Eomys / Green Forge Coop"
+          ],
+          "license": "Apache-2.0",
+          "credit": "[`test/data/NOTICE`](https://github.com/slink/PsychoacousticMetrics.jl/blob/main/test/data/NOTICE) lists the source files and test data derived from MoSQITo (commit `d990c33`) and comes with a copy of its Apache-2.0 licence (`LICENSE-MoSQITo`); the README's licence section says the same.",
+          "checked": "2026-10-08"
+        }
+      ],
       "implements": [
         {
           "method": "sharpness",
@@ -6990,6 +7163,21 @@
       "caveats": [
         "The documentation claims \"Matching MATLAB AMT v1.6.0 implementations\", but the tests contain no stored AMT or MATLAB reference outputs."
       ],
+      "ported_from": [
+        {
+          "source": "amt",
+          "authors": [
+            "Piotr Majdak",
+            "Clara Hollomey",
+            "Thomas Deppisch",
+            "Josef Schlittenlacher",
+            "Michael Mihocic"
+          ],
+          "license": "GPL-3.0-or-later",
+          "credit": "The [README](https://github.com/StefanoGiacomelli/torch_amt/blob/main/README.md) says the work is based on the AMT, names Piotr Majdak, Clara Hollomey and Robert Baumgartner \"and many contributors\" with the AMT 1.x paper, and gives its GPL-3.0-or-later licence as aligned with AMT's. The docstrings of `glasberg2002.py` and `moore2016.py` say the code is ported from the AMT. The authors named here are those of AMT's `glasberg2002` and `moore2016`, according to the headers of AMT 1.6.0.",
+          "checked": "2026-10-08"
+        }
+      ],
       "implements": [
         {
           "method": "loudness-moore-glasberg-time-varying",
@@ -7168,6 +7356,21 @@
       "caveats": [
         "Without a licence, reuse rights are unclear, and the bundled MATLAB code is licensed for non-commercial use only.",
         "The ports follow SQAT v1.3 and do not include SQAT's 2026 fixes to ISO 532-1 time-varying loudness, Daniel & Weber roughness and Aures tonality."
+      ],
+      "ported_from": [
+        {
+          "source": "sqat",
+          "authors": [
+            "Gil Felix Greco",
+            "Roberto Merino-Martínez",
+            "Alejandro Osses",
+            "Mike Lotinga"
+          ],
+          "license": "CC-BY-NC-4.0, from release v1.3",
+          "credit": "The [README](https://github.com/PALILA-TUDelft/pySQAT/blob/main/README.md) calls the code a \"Python translation of SQAT\", and the repository includes the SQAT v1.3 MATLAB code with its CC-BY-NC-4.0 licence in `original_matlab/` as the validation reference. The README does not name SQAT's authors (they appear in the headers of the included MATLAB files), and the Python files have no headers.",
+          "checked": "2026-10-08",
+          "terms_note": "The licence of the SQAT code (CC-BY-NC-4.0, from release v1.3) sets conditions for code derived from it, and pySQAT has no licence file; LISQM has not checked whether those conditions are met."
+        }
       ],
       "implements": [
         {
@@ -7400,6 +7603,19 @@
       ],
       "caveats": [
         "The README says the JAX version \"does not compile as there are several portions of the implementation that are not pure\"."
+      ],
+      "ported_from": [
+        {
+          "source": "js2251-iso532-3",
+          "authors": [
+            "Brian C. J. Moore",
+            "Brian R. Glasberg",
+            "Josef Schlittenlacher"
+          ],
+          "license": "none",
+          "credit": "The [README](https://github.com/MalcolmSlaney/LoudnessModel/blob/main/README.md) says it is based on the MATLAB loudness model provided by Brian C. J. Moore, Brian R. Glasberg and Josef Schlittenlacher, links the original MATLAB code on the Cambridge Hearing Group's page and says, as the original readme does, that the code is \"free for any research purposes\"; the LICENSE file is BSD-2-Clause.",
+          "checked": "2026-10-08"
+        }
       ],
       "implements": [
         {
@@ -7724,6 +7940,21 @@
       "caveats": [
         "The README says \"This project is still in heavy development so is not stable\".",
         "The PyPI package named `loudness` is an unrelated LUFS (ITU-R BS.1770) project (iver56/loudness); this library has to be built from source."
+      ],
+      "ported_from": [
+        {
+          "source": "BASIC program of DIN 45631 (Zwicker et al., 1991)",
+          "authors": [
+            "E. Zwicker",
+            "H. Fastl",
+            "U. Widmann",
+            "K. Kurakata",
+            "S. Kuwano",
+            "S. Namba"
+          ],
+          "credit": "The headers of the DIN 45631 modules, such as [`MainLoudnessDIN456311991.h`](https://github.com/deeuu/loudness/blob/master/src/modules/MainLoudnessDIN456311991.h), list as references the 1991 paper with the BASIC program, GENESIS's Loudness Toolbox and Aaron Hastings' MATLAB port of the BASIC program. The paper is cited with \"Germtuo, E. R.\" in place of its sixth author, S. Namba, and in the Journal of the Acoustical Society of America instead of Japan.",
+          "checked": "2026-10-08"
+        }
       ],
       "implements": [
         {
@@ -8067,6 +8298,9 @@
         }
       ],
       "install": "pip install acoustics",
+      "maintainers": [
+        "Frederik Rietdijk"
+      ],
       "summary": "General Python library for acousticians, published on PyPI as `acoustics`. For this list it is relevant for its tonal audibility and tonal adjustment after ISO 1996-2:2007. Archived in February 2024 and continued as acoustic-toolbox.",
       "ai_assistance": "not-stated",
       "notes": [
@@ -8101,9 +8335,10 @@
         "https://github.com/python-acoustics/python-acoustics/blob/master/README.md",
         "https://github.com/python-acoustics/python-acoustics/blob/master/acoustics/standards/iso_1996_2_2007.py",
         "https://github.com/python-acoustics/python-acoustics/blob/master/tests/standards/test_iso_1996_2_2007.py",
-        "https://pypi.org/project/acoustics/"
+        "https://pypi.org/project/acoustics/",
+        "https://github.com/python-acoustics/python-acoustics/blob/master/docs/conf.py"
       ],
-      "checked": "2026-10-06",
+      "checked": "2026-10-08",
       "url": "https://zhenxianli.github.io/LISQM/projects/python-acoustics.html",
       "last_commit": "2023-08-20",
       "latest_release": {
@@ -8259,7 +8494,7 @@
       "language_note": "C console program for BSD, Linux and Windows that reads one-third-octave band levels from files.",
       "standing": "developing",
       "license": "GPL-2.0",
-      "license_note": "SourceForge lists \"GNU General Public License version 2.0\"; whether later versions are allowed was not checked.",
+      "license_note": "SourceForge lists \"GNU General Public License version 2.0\", but the `license` file in the release archive (loudness-020) has the author's own BSD-style terms, with a fourth clause: a significantly different project that reuses parts of the code must be open source as well and must reference the original code.",
       "maintainers": [
         "V. Portet"
       ],
@@ -8270,8 +8505,22 @@
         "Distributed as release archives on SourceForge, from release 010 (2010-04-15) to zwickerloudness-020 (2011-07-01). The last-commit date given here (2018-06-05) is the project's \"Last Update\" date on SourceForge, not a commit date."
       ],
       "caveats": [
-        "Stationary sounds only; there is no procedure for time-varying sounds.",
-        "No validation is stated on the SourceForge pages; the README inside the release archive was not reviewed for this entry."
+        "Stationary sounds only; there is no procedure for time-varying sounds."
+      ],
+      "ported_from": [
+        {
+          "source": "BASIC program of DIN 45631 (Zwicker et al., 1991)",
+          "authors": [
+            "E. Zwicker",
+            "H. Fastl",
+            "U. Widmann",
+            "K. Kurakata",
+            "S. Kuwano",
+            "S. Namba"
+          ],
+          "credit": "The [README](https://sourceforge.net/projects/zwickerloudness/files/README.TXT/download) and the `readme`, `license` and documentation files of the release archive say the code is \"partially ported from\" the \"Program for calculating loudness according to DIN 45631 (ISO 532B)\" of the Journal of the Acoustical Society of Japan (1991), as published on Osaka University's website; they name the program and the journal, not its authors.",
+          "checked": "2026-10-08"
+        }
       ],
       "implements": [
         {
@@ -8279,18 +8528,23 @@
           "reference": "din-45631-1991",
           "scope": "stationary, from one-third-octave band levels",
           "status": "available",
-          "validation": "not-stated",
+          "validation": "self-tests",
           "derived_from": [
             "BASIC program of DIN 45631 (Zwicker et al., 1991)"
+          ],
+          "validation_details": [
+            "The documentation in the release archive says that tests with \"classical cases\", such as the included test WAV files, \"seems to give correct results\", and invites users to compare the output with that of the original BASIC program."
           ],
           "note": "Port of the 1991 BASIC program \"according to DIN 45631 (ISO 532B)\", the program that accompanies DIN 45631:1991; the same program is the basis of deeuu/loudness."
         }
       ],
       "sources": [
         "https://sourceforge.net/projects/zwickerloudness/",
-        "https://sourceforge.net/projects/zwickerloudness/files/"
+        "https://sourceforge.net/projects/zwickerloudness/files/",
+        "https://sourceforge.net/projects/zwickerloudness/files/README.TXT/download",
+        "https://sourceforge.net/projects/zwickerloudness/files/zwickerloudness-020/loudness-020.tar.gz/download"
       ],
-      "checked": "2026-10-06",
+      "checked": "2026-10-08",
       "url": "https://zhenxianli.github.io/LISQM/projects/zwickerloudness-sourceforge.html",
       "last_commit": "2018-06-05",
       "latest_release": {
@@ -8534,6 +8788,17 @@
         "Depends on ZwickerLoudness.jl (compat 0.3), which does the loudness calculation from band levels; this package computes the band levels.",
         "First registered in the Julia General registry as version 0.2.0 (2026-06-01)."
       ],
+      "ported_from": [
+        {
+          "source": "mosqito",
+          "authors": [
+            "Eomys / Green Forge Coop"
+          ],
+          "license": "Apache-2.0",
+          "credit": "The licence section of the [README](https://github.com/slink/ZwickerLoudnessAudio.jl/blob/main/README.md) says the filter tables and algorithm in `src/zwtv_frontend.jl` are transcribed from MoSQITo (Apache License 2.0), and [`test/fixtures/NOTICE.md`](https://github.com/slink/ZwickerLoudnessAudio.jl/blob/main/test/fixtures/NOTICE.md) names the MoSQITo commit (`d990c33`) its test fixtures come from.",
+          "checked": "2026-10-08"
+        }
+      ],
       "implements": [
         {
           "method": "loudness-zwicker",
@@ -8684,6 +8949,11 @@
     }
   ],
   "updates": [
+    {
+      "date": "2026-10-08",
+      "title": "Ported code: credit and licences",
+      "body": "Each project that ports code has a new section, *Ported code*: where it credits the original code, with that\ncode's authors and licence. Method pages name them too, and the tree of who ported code from whom shows each\nproject's licence.\n\n- When GPL or non-commercial code is ported to a project without those terms, a note says so; LISQM does not\n  judge whether licence terms are met.\n"
+    },
     {
       "date": "2026-10-07",
       "title": "Version 0.3: ported code, citations and new projects",

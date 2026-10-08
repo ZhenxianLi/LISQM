@@ -10,6 +10,7 @@ packages:
   - registry: pypi
     name: acoustics
 install: pip install acoustics
+maintainers: [Frederik Rietdijk]
 summary: >-
   General Python library for acousticians, published on PyPI as `acoustics`. For this list it is relevant for
   its tonal audibility and tonal adjustment after ISO 1996-2:2007. Archived in February 2024 and continued as
@@ -48,4 +49,5 @@ sources:
   - https://github.com/python-acoustics/python-acoustics/blob/master/acoustics/standards/iso_1996_2_2007.py
   - https://github.com/python-acoustics/python-acoustics/blob/master/tests/standards/test_iso_1996_2_2007.py
   - https://pypi.org/project/acoustics/
-checked: 2026-10-06
+  - https://github.com/python-acoustics/python-acoustics/blob/master/docs/conf.py
+checked: 2026-10-08

@@ -53,6 +53,23 @@ caveats:
   - >-
     Comparisons with SQAT and MoSQITo are described as kept outside the package repository, and the
     third-party notes say exact agreement with the MATLAB code is not established.
+ported_from:
+  - source: mosqito
+    credit: >-
+      [`THIRD_PARTY.md`](https://github.com/huaaudio/metasona/blob/main/THIRD_PARTY.md) and
+      [`NOTICE`](https://github.com/huaaudio/metasona/blob/main/NOTICE) credit "Eomys and the MoSQITo contributors",
+      name the MoSQITo revision used (`d990c33`) and its Apache-2.0 licence, and list the upstream files its model
+      data come from.
+    checked: 2026-10-08
+  - source: sqat
+    license: GPL-3.0-or-later, from the main branch, with BSD-3-Clause and MIT parts
+    credit: >-
+      [`NOTICE`](https://github.com/huaaudio/metasona/blob/main/NOTICE) and
+      [`THIRD_PARTY.md`](https://github.com/huaaudio/metasona/blob/main/THIRD_PARTY.md) name the SQAT revision used
+      (`e6228b7`), the authors of each adapted part (Mike Lotinga and Matt Torjussen for the ECMA-418-2 kernels; Ella
+      Manor, Gil Felix Greco and Sergio Aguirre for ISO 532-1 loudness; Dik Hermes and others for Daniel & Weber
+      roughness; Gil Felix Greco and Sergio Aguirre for Aures tonality) and the licence each part keeps.
+    checked: 2026-10-08
 implements:
   - method: loudness-zwicker
     reference: iso-532-1-2017

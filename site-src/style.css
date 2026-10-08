@@ -701,6 +701,45 @@ dl.validation dd .maintainer-check {
   font-style: italic;
 }
 
+/* Each project in the tree with its maintainers and licence. */
+.lineage .node-meta {
+  margin-left: .3rem;
+  color: var(--muted);
+  font-size: .86em;
+}
+
+/* Ported code: for each source, its authors and licence, where the port credits it, and the date checked. */
+dl.ported {
+  margin: .6rem 0 1.4rem;
+}
+
+dl.ported dt {
+  margin-top: 1.1rem;
+  font-weight: 600;
+}
+
+dl.ported dd {
+  margin: .3rem 0 0;
+  padding-left: .9rem;
+  border-left: 2px solid var(--hairline);
+}
+
+dl.ported dd p {
+  margin: .2rem 0;
+}
+
+dl.ported .sep {
+  color: var(--faint);
+}
+
+/* The source's licence has terms the port's licence does not carry: said once, plainly, not as a warning. */
+dl.ported .terms {
+  margin: .4rem 0;
+  padding: .35rem .7rem;
+  background: var(--alert-bg);
+  border-left: 3px solid var(--alert-line);
+}
+
 /* Before you compare numbers. */
 dl.conventions dt {
   margin-top: .8rem;

@@ -6,6 +6,7 @@ languages: [Python]
 kind: library
 standing: established
 license: BSD-3-Clause
+maintainers: [Valentin Le Bescond, Andrew Mitchell]
 packages:
   - registry: pypi
     name: acoustic-toolbox
@@ -23,6 +24,15 @@ caveats:
   - >-
     It follows ISO 1996-2:2007, which has been withdrawn; ISO 1996-2:2017 replaced its tonal audibility method
     with those of Annexes J and K.
+ported_from:
+  - source: python-acoustics
+    credit: >-
+      The "Origin project" section of the
+      [README](https://github.com/Universite-Gustave-Eiffel/acoustic-toolbox/blob/main/README.md) says the project
+      "is based on the amazing work initially done" in python-acoustics, with a link. The LICENSE file names Acoustic
+      Toolbox (2024) as copyright holder; the notice of python-acoustics ("Copyright (c) 2013, Python Acoustics") is
+      not in the current files.
+    checked: 2026-10-08
 implements:
   - method: tonal-audibility-iso-1996-2
     reference: iso-1996-2-2007
@@ -43,4 +53,6 @@ sources:
   - https://github.com/Universite-Gustave-Eiffel/acoustic-toolbox/blob/main/README.md
   - https://github.com/Universite-Gustave-Eiffel/acoustic-toolbox/blob/main/acoustic_toolbox/standards/iso_1996_2_2007.py
   - https://pypi.org/project/acoustic-toolbox/
-checked: 2026-10-06
+  - https://github.com/Universite-Gustave-Eiffel/acoustic-toolbox/blob/main/pyproject.toml
+  - https://github.com/Universite-Gustave-Eiffel/acoustic-toolbox/blob/main/LICENSE
+checked: 2026-10-08

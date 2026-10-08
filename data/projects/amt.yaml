@@ -12,8 +12,10 @@ standing: established
 standing_note: A widely used toolbox for auditory modelling that also includes some psychoacoustic functions.
 license: GPL-3.0
 license_note: >-
-  SourceForge lists the licence as GPLv3 without saying whether later versions are allowed; the torch_amt README,
-  which follows the AMT licence, gives it as GPL v3.0 or later.
+  SourceForge lists the licence as GPLv3. The COPYING file of release 1.6.0 says that most files are under GPL 3.0
+  and some under other licences, each file stating its own; the headers of the loudness models (`moore1997`,
+  `glasberg2002`, `moore2016`) allow version 3 or any later version.
+maintainers: ["AMT Team, Acoustics Research Institute (Austrian Academy of Sciences)"]
 packages:
   - registry: other
     name: amtoolbox
@@ -96,4 +98,5 @@ sources:
   - https://sourceforge.net/p/amtoolbox/code/ci/develop/tree/experiments/
   - https://sourceforge.net/p/amtoolbox/code/ci/develop/log/
   - https://github.com/StefanoGiacomelli/torch_amt/blob/main/README.md
-checked: 2026-10-06
+  - https://sourceforge.net/projects/amtoolbox/files/AMT%201.x/
+checked: 2026-10-08
