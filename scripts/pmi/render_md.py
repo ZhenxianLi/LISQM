@@ -15,8 +15,9 @@ from .describe import (COVERAGE_COLUMNS, GROUP_RULE, NEW_LABEL, activity_text, a
                        legacy_label, licence_names, licence_terms, lineage, name_note, ref_status, release_text,
                        silent_line, standing_sentence, stated_conventions, timeline, validation_also,
                        validation_groups, validation_label, version_label)
-from .paths import (ABOUT, AI, BIBTEX, FAQ, HOME, LANGUAGES, METRICS, PROJECTS, STANDARDS, UPDATES, absolute, md_twin,
-                    method_path, project_path)
+from . import relations as RL
+from .paths import (ABOUT, AI, BIBTEX, FAQ, HOME, LANGUAGES, MAP, METRICS, PROJECTS, STANDARDS, UPDATES, absolute,
+                    md_twin, method_path, project_path)
 from .text import first_sentence, join_words, long_date, month, oneline, plain, plural
 
 def _plain(text: str) -> str:
@@ -62,6 +63,8 @@ def _impl_note(i: dict) -> str:
         bits.append(i["status"].capitalize() + (f" ({i['link']})" if i.get("link") else "") + ".")
     if i.get("_via"):
         bits.append(f"Computed by {i['_via']['name']}.")
+    if i.get("_uses"):
+        bits.append(f"Uses {join_words([q['name'] for q in i['_uses']])}.")
     if i.get("note"):
         bits.append(i["note"].strip())
     return " ".join(bits)
@@ -117,7 +120,8 @@ def _validation_section(index: Index, impls: list[dict], on_method: bool) -> lis
         heads = [title(group[0])] + [title(j, named=not on_method) for j in group[1:]]
         # Names stay as they are (super projects in bold), so the entry is not wrapped in bold.
         lines.append(f"- {'; '.join(heads)}: {evidence}" + (f"; {also}" if also else ""))
-        origin = ([f"Ported or adapted from {join_words(derived_names(i, name))}."] if i.get("_derived") else [])
+        own = " (the author's own code)" if i.get("derived_by_author") else ""
+        origin = ([f"Ported or adapted from {join_words(derived_names(i, name))}{own}."] if i.get("_derived") else [])
         origin += [dependence_note(i)] if dependence_note(i) else []
         if origin:
             lines.append(f"  - {' '.join(origin)}")
@@ -152,7 +156,8 @@ def _lineage(index: Index, m: dict) -> list[str]:
     name = _namer(index)
     lines = ["## Who ported code from whom", "",
              "As stated by the projects. Each item took code from the one above it (ported, translated or "
-             "adapted), so agreement between them only checks the port.", ""]
+             "adapted), so agreement between them only checks the port. The project map shows the same for all "
+             f"metrics: {absolute(index, MAP)}", ""]
 
     def walk(items: list[tuple], depth: int) -> None:
         for (kind, value), kids in items:
@@ -457,7 +462,7 @@ def languages_page(index: Index) -> str:
             lang = sorted(langs & set(p["languages"]))[0]
             how = f"Written in {core}" + ("" if core in langs else f", with a {lang} interface")
             if p.get("based_on"):
-                how += f"; a port of {index.project[p['based_on']]['name']}"
+                how += f"; based on {index.project[p['based_on']]['name']}"
             how += "."
             if p.get("install"):
                 how += f" `{p['install']}`"
@@ -512,7 +517,8 @@ def projects_page(index: Index) -> str:
              + highlighted(index.super_projects(), lambda p: p["name"]) + " are in bold and come first, followed by "
              "the other established projects, then newly released, developing and legacy projects. Tools that only "
              "call another project's implementation are listed under Others, and projects whose code could not be "
-             "opened under Status unknown.", ""]
+             "opened under Status unknown. The project map shows how the projects are connected: "
+             f"{absolute(index, MAP)}", ""]
     for key, title in GROUP_HEADINGS:
         projects = index.group(key)
         if not projects:
@@ -540,6 +546,54 @@ def projects_page(index: Index) -> str:
                 for p in unknown]
         lines += _table(["Project", "Language", "Kind", "Licence", "Why unknown", "Claims"], rows) + [""]
     return "\n".join(lines)
+
+
+def map_page(index: Index) -> str:
+    """Markdown twin of the project map: the same relations, in words."""
+    rel = RL.relations(index)
+    name = _namer(index)
+
+    def source(e: dict) -> str:
+        return name(e["source"]) if e["source"] else e["name"]
+
+    def what(names: list[str]) -> str:
+        return f" ({join_words(names)})"
+
+    lines = ["# Project map", "", _header(index, MAP), "",
+             "Each line of the map joins two projects: code taken from another project, the author's own code moved "
+             "between projects, a project that uses another one at run time, results checked against another "
+             "project, or a shared maintainer. The lines come from the implementation rows on the project pages. On "
+             "the web page, arrows point from the source to the project that uses it.", "",
+             "## Kinds of line", ""]
+    lines += [f"- **{kind_name}.** {text}" for _, kind_name, text in RL.KINDS] + [""]
+    for own, heading in ((False, "Code taken from another project"), (True, "The author's own code")):
+        lines += [f"## {heading}", ""]
+        groups: dict[str, list[dict]] = {}
+        for e in rel["taken"]:
+            if e["own"] == own:
+                groups.setdefault(e["key"], []).append(e)
+        for es in groups.values():
+            people = list(dict.fromkeys(m for e in es for m in e["shared"]))
+            who = f" ({join_words(people)})" if own and people else ""
+            lines.append(f"- From {source(es[0])}{who}: " + "; ".join(name(e["project"]) + what(e["methods"])
+                                                                      for e in es))
+        lines.append("")
+    lines += ["## Used at run time", ""]
+    for (a, b), d in rel["uses"].items():
+        bits = ([f"calls {name(index.project[b])}{what(d['calls'])}"] if d["calls"] else []) + \
+               ([f"needs {name(index.project[b])}{what(d['needs'])}"] if d["needs"] else [])
+        lines.append(f"- {name(index.project[a])} {' and '.join(bits)}")
+    lines += ["", "## Results checked against another project", ""]
+    lines += [f"- {name(index.project[a])} against {name(index.project[b])}{what(ms)}"
+              for (a, b), ms in rel["compares"].items()]
+    lines += ["", "## Same maintainer", ""]
+    lines += [f"- {name(index.project[a])} and {name(index.project[b])} ({join_words(names)})"
+              for (a, b), names in rel["people"].items()]
+    alone = RL.alone(index, rel)
+    if alone:
+        lines += ["", "Not on the map, as no relation is recorded for them: "
+                  + join_words([name(p) for p in alone]) + "."]
+    return "\n".join(lines) + "\n"
 
 
 def standards_page(index: Index) -> str:
@@ -711,6 +765,8 @@ def llms_txt(index: Index) -> str:
               f"- [For AI agents]({site['base_url']}{md_twin(AI)}): how to retrieve, read and cite this list",
               f"- [Metrics]({site['base_url']}{md_twin(METRICS)}): every metric with its current edition",
               f"- [Languages]({site['base_url']}{md_twin(LANGUAGES)}): coverage and calling details by language",
+              f"- [Project map]({site['base_url']}{md_twin(MAP)}): code taken from another project, use at run time, "
+              "results checked against another project, and shared maintainers",
               f"- [Frequently asked questions]({site['base_url']}{md_twin(FAQ)})",
               f"- [About and method]({site['base_url']}{md_twin(ABOUT)})",
               f"- [Standards timeline]({site['base_url']}{md_twin(STANDARDS)})",
@@ -725,7 +781,7 @@ def llms_full(index: Index) -> str:
         parts += ["", "---", "", method_page(index, m)]
     for p in index.projects_by_group():
         parts += ["", "---", "", project_page(index, p)]
-    parts += ["", "---", "", standards_page(index)]
+    parts += ["", "---", "", map_page(index), "", "---", "", standards_page(index)]
     return "\n".join(parts).rstrip() + "\n"
 
 

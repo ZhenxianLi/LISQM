@@ -3,6 +3,7 @@ name: acoustic-toolbox
 repository: https://github.com/Universite-Gustave-Eiffel/acoustic-toolbox
 docs: https://acoustic-toolbox.readthedocs.io/
 languages: [Python]
+based_on: python-acoustics
 kind: library
 standing: established
 license: BSD-3-Clause
@@ -46,4 +47,5 @@ sources:
   - https://pypi.org/project/acoustic-toolbox/
   - https://github.com/Universite-Gustave-Eiffel/acoustic-toolbox/blob/main/pyproject.toml
   - https://github.com/Universite-Gustave-Eiffel/acoustic-toolbox/blob/main/LICENSE
+  - https://github.com/Universite-Gustave-Eiffel/acoustic-toolbox/commit/5acd2a101b730b3bb740f38c678d4b2f066beaae
 checked: 2026-10-08

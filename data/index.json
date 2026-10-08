@@ -203,6 +203,9 @@
           "status": "available",
           "since": "1.0.0",
           "validation": "standard-data",
+          "derived_from": [
+            "BASIC program of DIN 45631 (Zwicker et al., 1991)"
+          ],
           "validation_details": [
             "Validation scripts use the ISO 532-1 Annex B test signals; the documentation marks it as validated."
           ],
@@ -253,7 +256,11 @@
           "scope": "time-varying",
           "status": "available",
           "validation": "not-stated",
-          "note": "Also outputs loudness fluctuation and time-varying sharpness."
+          "derived_from": [
+            "psysound3"
+          ],
+          "derived_by_author": true,
+          "note": "Also outputs loudness fluctuation and time-varying sharpness. Josef Chalupper's code (2000) in its PsySound3 version (2007), adjusted for AARAE by Ella Manor in 2015."
         },
         {
           "project": "ita-toolbox",
@@ -437,6 +444,9 @@
           "status": "available",
           "since": "0.3.0",
           "validation": "standard-data",
+          "derived_from": [
+            "mosqito"
+          ],
           "compared_with": [
             "mosqito"
           ],
@@ -444,7 +454,10 @@
             "Stages are tested against MoSQITo `loudness_zwtv` intermediates (agreement about 1e-9 to 1e-15).",
             "An Annex B.4 \"Test signal 6\" test regenerates band levels from a local MoSQITo checkout and is skipped when none is present; CI clones MoSQITo for it.",
             "The ISO WAV files are not included."
-          ]
+          ],
+          "comparison_relations": {
+            "mosqito": "source"
+          }
         },
         {
           "project": "pysqat",
@@ -681,7 +694,11 @@
           "scope": "one channel, or two channels for binaural loudness",
           "status": "available",
           "validation": "not-stated",
-          "note": "Version 1.02 (27 October 2015). Two-channel input gives binaural loudness after Moore & Glasberg (2007). The audio is resampled to 32 kHz."
+          "derived_from": [
+            "psysound3"
+          ],
+          "derived_by_author": true,
+          "note": "A port and extension of PsySound3's code by Densil Cabrera and Doheon Lee, version 1.02 (27 October 2015). Two-channel input gives binaural loudness after Moore & Glasberg (2007). The audio is resampled to 32 kHz."
         },
         {
           "project": "phonometry",
@@ -842,7 +859,7 @@
           "validation_details": [
             "There is no `exp_moore2016` experiment script on the develop branch."
           ],
-          "note": "Listed as \"MOORE2016 - Binaural loudness model\"."
+          "note": "Listed as \"MOORE2016 - Binaural loudness model\". The header says Josef Schlittenlacher provided the original implementation for the AMT in 2018, from code written for ANSI S3.4-2007 and ISO 532-2:2017."
         },
         {
           "project": "amt",
@@ -866,6 +883,10 @@
           "scope": "time-varying; one channel, or two channels for binaural loudness",
           "status": "available",
           "validation": "not-stated",
+          "derived_from": [
+            "psysound3"
+          ],
+          "derived_by_author": true,
           "note": "Same function as the stationary model; the binaural extension follows Moore & Glasberg (2007)."
         },
         {
@@ -1076,6 +1097,7 @@
           "derived_from": [
             "refmap-psychoacoustics"
           ],
+          "derived_by_author": true,
           "compared_with": [
             "commercial software"
           ],
@@ -1098,6 +1120,7 @@
           "derived_from": [
             "refmap-psychoacoustics"
           ],
+          "derived_by_author": true,
           "compared_with": [
             "commercial software"
           ],
@@ -1118,7 +1141,7 @@
           "validation_details": [
             "Validation scripts compare with figures of the standard."
           ],
-          "note": "Followed the 1st edition (2020) in versions 1.0.0–1.1.1 and the 2nd edition (2022) from 1.2.0."
+          "note": "Followed the 1st edition (2020) in versions 1.0.0–1.1.1 and the 2nd edition (2022) from 1.2.0. It grew out of the hearing model that Daniel Jiménez-Caminero added in May 2021, which is also kept in MoSQITo-FDP."
         },
         {
           "project": "sottek-hearing-model",
@@ -1131,6 +1154,7 @@
           "status": "available",
           "since": "0.1.9",
           "validation": "standard-data",
+          "derived_by_author": true,
           "compared_with": [
             "ArtemiS SUITE (HEAD acoustics)"
           ],
@@ -1233,7 +1257,11 @@
           "validation_details": [
             "Validation scripts compare the ear filter and model output with figures and values from ECMA-418-2 and ECMA-74 Annex F."
           ],
-          "note": "Module `mosqito.functions.hearing_model`."
+          "derived_by_author": true,
+          "note": "Module `mosqito.functions.hearing_model`. Its author committed the same hearing model to MoSQITo on 2021-05-30, two weeks before this snapshot.",
+          "derived_from": [
+            "mosqito"
+          ]
         }
       ],
       "also_through": [
@@ -1383,10 +1411,7 @@
           "scope": "from specific loudness",
           "status": "available",
           "since": "0.1.0",
-          "validation": "not-stated",
-          "derived_from": [
-            "sqat"
-          ]
+          "validation": "not-stated"
         },
         {
           "project": "kirin-hypha",
@@ -1463,6 +1488,9 @@
           "validation": "standard-data",
           "compared_with": [
             "mosqito"
+          ],
+          "uses": [
+            "zwickerloudness-jl"
           ],
           "validation_details": [
             "Tested against all 41 reference signals of DIN 45692:2009 chapter 6 (21 narrowband, 20 broadband) within the standard's tolerance of ±max(5 %, 0.05 acum).",
@@ -1610,10 +1638,13 @@
           "status": "available",
           "since": "v1.0",
           "validation": "standard-data",
+          "derived_from": [
+            "aarae"
+          ],
           "validation_details": [
             "Checked against amplitude- and frequency-modulation dependences from the literature."
           ],
-          "note": "Rewritten on `main` (PR #65, 2026-09-08) after revised code from Dik Hermes: 63 of 119 validation values go up and 56 down (largest change 0.155 asper)."
+          "note": "The v1.x code is AARAE's `roughnessDW.m` (Dik Hermes's code), adapted and verified for SQAT in 2023. Rewritten on `main` (PR #65, 2026-09-08) after revised code from Dik Hermes: 63 of 119 validation values go up and 56 down (largest change 0.155 asper)."
         },
         {
           "project": "mosqito",
@@ -1640,6 +1671,7 @@
           "derived_from": [
             "psysound3"
           ],
+          "derived_by_author": true,
           "note": "Ported from PsySound3's `@RoughnessDW` by Ella Manor and Densil Cabrera (2015)."
         },
         {
@@ -1664,6 +1696,10 @@
           "status": "available",
           "since": "0.1.0",
           "validation": "cross-implementation",
+          "derived_from": [
+            "sqat",
+            "mosqito"
+          ],
           "compared_with": [
             "sqat"
           ],
@@ -1672,9 +1708,6 @@
             "The API documentation calls the function experimental and says normative validation remains open."
           ],
           "note": "Follows SQAT revision `e6228b78`, which includes SQAT's September 2026 rewrite but not its later fix to the Terhardt filter bank (PR #77).",
-          "derived_from": [
-            "sqat"
-          ],
           "comparison_relations": {
             "sqat": "source"
           }
@@ -1859,6 +1892,7 @@
           "derived_from": [
             "refmap-psychoacoustics"
           ],
+          "derived_by_author": true,
           "compared_with": [
             "commercial software"
           ],
@@ -1880,6 +1914,7 @@
           "derived_from": [
             "refmap-psychoacoustics"
           ],
+          "derived_by_author": true,
           "compared_with": [
             "commercial software"
           ],
@@ -1915,6 +1950,7 @@
           "status": "available",
           "since": "0.1.9",
           "validation": "standard-data",
+          "derived_by_author": true,
           "compared_with": [
             "ArtemiS SUITE (HEAD acoustics)"
           ],
@@ -2121,9 +2157,14 @@
           "status": "available",
           "since": "v1.0",
           "validation": "standard-data",
+          "derived_from": [
+            "fluctuation-strength-tue"
+          ],
+          "derived_by_author": true,
           "validation_details": [
             "Checked against amplitude- and frequency-modulation dependences from the literature."
-          ]
+          ],
+          "note": "Alejandro Osses's `FluctuationStrength_TUe.m` (TU/e, 2014–2016), taken into SQAT in 2020 and modified there by Osses since 2023."
         },
         {
           "project": "phonometry",
@@ -2138,7 +2179,7 @@
             "sqat"
           ],
           "validation_details": [
-            "Compared with Table 1 of Osses et al. (2016) and with SQAT (correlation 0.98).",
+            "Compared with the literature values in Table 1 of Osses et al. (2016): for amplitude-modulated 70 dB tones the Pearson correlation is about 0.98, within a factor of about 2.1 at every point. SQAT's `FluctuationStrength_Osses2016` was consulted as a numeric reference for the shape of the sweep.",
             "Validated for amplitude modulation only; a steady 1 kHz tone reads about 0.09 vacil."
           ]
         },
@@ -2284,6 +2325,7 @@
           "scope": "needs at least 1.37 s of signal; binaural option",
           "status": "unreleased",
           "validation": "cross-implementation",
+          "derived_by_author": true,
           "compared_with": [
             "refmap-psychoacoustics",
             "ArtemiS SUITE (HEAD acoustics)"
@@ -2489,6 +2531,7 @@
           "derived_from": [
             "refmap-psychoacoustics"
           ],
+          "derived_by_author": true,
           "compared_with": [
             "commercial software"
           ],
@@ -2509,6 +2552,7 @@
           "derived_from": [
             "refmap-psychoacoustics"
           ],
+          "derived_by_author": true,
           "compared_with": [
             "commercial software"
           ],
@@ -2525,6 +2569,7 @@
           "status": "available",
           "since": "0.1.9",
           "validation": "standard-data",
+          "derived_by_author": true,
           "compared_with": [
             "ArtemiS SUITE (HEAD acoustics)"
           ],
@@ -2732,6 +2777,9 @@
           "validation": "self-tests",
           "validation_details": [
             "The README lists TNR/PR as available but not validated; the tests use synthetic tones in white noise."
+          ],
+          "derived_from": [
+            "mosqito"
           ]
         }
       ]
@@ -3205,6 +3253,9 @@
           "validation": "cross-implementation",
           "compared_with": [
             "sqat"
+          ],
+          "uses": [
+            "zwickerloudness-jl"
           ],
           "validation_details": [
             "Cross-checked against SQAT's `PsychoacousticAnnoyance_Widmann1992`: an 840-case formula grid, reproduced bit-exactly, and six signal-level cases with SQAT's own N5, S5, R5 and FS5 vendored, so that every deviation is attributed to a component.",
@@ -4363,10 +4414,13 @@
           "status": "available",
           "since": "v1.0",
           "validation": "standard-data",
+          "derived_from": [
+            "aarae"
+          ],
           "validation_details": [
             "Checked against amplitude- and frequency-modulation dependences from the literature."
           ],
-          "note": "Rewritten on `main` (PR #65, 2026-09-08) after revised code from Dik Hermes: 63 of 119 validation values go up and 56 down (largest change 0.155 asper)."
+          "note": "The v1.x code is AARAE's `roughnessDW.m` (Dik Hermes's code), adapted and verified for SQAT in 2023. Rewritten on `main` (PR #65, 2026-09-08) after revised code from Dik Hermes: 63 of 119 validation values go up and 56 down (largest change 0.155 asper)."
         },
         {
           "method": "fluctuation-strength-osses",
@@ -4378,9 +4432,14 @@
           "status": "available",
           "since": "v1.0",
           "validation": "standard-data",
+          "derived_from": [
+            "fluctuation-strength-tue"
+          ],
+          "derived_by_author": true,
           "validation_details": [
             "Checked against amplitude- and frequency-modulation dependences from the literature."
-          ]
+          ],
+          "note": "Alejandro Osses's `FluctuationStrength_TUe.m` (TU/e, 2014–2016), taken into SQAT in 2020 and modified there by Osses since 2023."
         },
         {
           "method": "tonality-aures",
@@ -4484,6 +4543,7 @@
           "derived_from": [
             "refmap-psychoacoustics"
           ],
+          "derived_by_author": true,
           "compared_with": [
             "commercial software"
           ],
@@ -4503,6 +4563,7 @@
           "derived_from": [
             "refmap-psychoacoustics"
           ],
+          "derived_by_author": true,
           "compared_with": [
             "commercial software"
           ],
@@ -4524,6 +4585,7 @@
           "derived_from": [
             "refmap-psychoacoustics"
           ],
+          "derived_by_author": true,
           "compared_with": [
             "commercial software"
           ],
@@ -4542,6 +4604,7 @@
           "derived_from": [
             "refmap-psychoacoustics"
           ],
+          "derived_by_author": true,
           "compared_with": [
             "commercial software"
           ],
@@ -4562,6 +4625,7 @@
           "derived_from": [
             "refmap-psychoacoustics"
           ],
+          "derived_by_author": true,
           "compared_with": [
             "commercial software"
           ],
@@ -4580,6 +4644,7 @@
           "derived_from": [
             "refmap-psychoacoustics"
           ],
+          "derived_by_author": true,
           "compared_with": [
             "commercial software"
           ],
@@ -4617,9 +4682,11 @@
         "https://github.com/ggrecow/SQAT/pull/79",
         "https://github.com/ggrecow/SQAT/tree/main/validation",
         "https://github.com/ggrecow/SQAT/tree/main/validation/EPNL_FAR_Part36",
-        "https://github.com/ggrecow/SQAT/tree/v1.3/validation"
+        "https://github.com/ggrecow/SQAT/tree/v1.3/validation",
+        "https://github.com/ggrecow/SQAT/blob/main/psychoacoustic_metrics/FluctuationStrength_Osses2016/FluctuationStrength_Osses2016.m",
+        "https://github.com/ggrecow/SQAT/blob/main/psychoacoustic_metrics/Roughness_Daniel1997/Roughness_Daniel1997.m"
       ],
-      "checked": "2026-10-07",
+      "checked": "2026-10-08",
       "url": "https://zhenxianli.github.io/LISQM/projects/sqat.html",
       "last_commit": "2026-10-02",
       "latest_release": {
@@ -4688,6 +4755,9 @@
           "status": "available",
           "since": "1.0.0",
           "validation": "standard-data",
+          "derived_from": [
+            "BASIC program of DIN 45631 (Zwicker et al., 1991)"
+          ],
           "validation_details": [
             "Validation scripts use the ISO 532-1 Annex B test signals; the documentation marks it as validated."
           ],
@@ -4708,7 +4778,7 @@
           "validation_details": [
             "Validation scripts compare with figures of the standard."
           ],
-          "note": "Followed the 1st edition (2020) in versions 1.0.0–1.1.1 and the 2nd edition (2022) from 1.2.0."
+          "note": "Followed the 1st edition (2020) in versions 1.0.0–1.1.1 and the 2nd edition (2022) from 1.2.0. It grew out of the hearing model that Daniel Jiménez-Caminero added in May 2021, which is also kept in MoSQITo-FDP."
         },
         {
           "method": "sharpness",
@@ -4821,9 +4891,11 @@
         "https://pypi.org/project/mosqito/",
         "https://github.com/Eomys/MoSQITo/issues/100",
         "https://github.com/Eomys/MoSQITo/pull/95",
-        "https://github.com/Eomys/MoSQITo/pull/97"
+        "https://github.com/Eomys/MoSQITo/pull/97",
+        "https://github.com/Eomys/MoSQITo/blob/master/mosqito/sq_metrics/loudness/loudness_zwst/_main_loudness.py",
+        "https://github.com/Eomys/MoSQITo/commit/04dab16b64041c820c08177aa74039fb3fc3ed20"
       ],
-      "checked": "2026-10-07",
+      "checked": "2026-10-08",
       "url": "https://zhenxianli.github.io/LISQM/projects/mosqito.html",
       "last_commit": "2024-04-22",
       "latest_release": {
@@ -4893,6 +4965,7 @@
           "status": "available",
           "since": "0.1.9",
           "validation": "standard-data",
+          "derived_by_author": true,
           "compared_with": [
             "ArtemiS SUITE (HEAD acoustics)"
           ],
@@ -4910,6 +4983,7 @@
           "status": "available",
           "since": "0.1.9",
           "validation": "standard-data",
+          "derived_by_author": true,
           "compared_with": [
             "ArtemiS SUITE (HEAD acoustics)"
           ],
@@ -4929,6 +5003,7 @@
           "status": "available",
           "since": "0.1.9",
           "validation": "standard-data",
+          "derived_by_author": true,
           "compared_with": [
             "ArtemiS SUITE (HEAD acoustics)"
           ],
@@ -4946,6 +5021,7 @@
           "scope": "needs at least 1.37 s of signal; binaural option",
           "status": "unreleased",
           "validation": "cross-implementation",
+          "derived_by_author": true,
           "compared_with": [
             "refmap-psychoacoustics",
             "ArtemiS SUITE (HEAD acoustics)"
@@ -4969,7 +5045,7 @@
         "https://github.com/mlotinga/sottek-hearing-model/tree/main/tests",
         "https://github.com/acoustics-code-salford/refmap-psychoacoustics/blob/main/validation/ECMA-418-2/README.md"
       ],
-      "checked": "2026-10-07",
+      "checked": "2026-10-08",
       "url": "https://zhenxianli.github.io/LISQM/projects/sottek-hearing-model.html",
       "last_commit": "2026-09-18",
       "latest_release": {
@@ -4991,6 +5067,7 @@
       "languages": [
         "Python"
       ],
+      "based_on": "python-acoustics",
       "kind": "library",
       "standing": "established",
       "license": "BSD-3-Clause",
@@ -5041,7 +5118,8 @@
         "https://github.com/Universite-Gustave-Eiffel/acoustic-toolbox/blob/main/acoustic_toolbox/standards/iso_1996_2_2007.py",
         "https://pypi.org/project/acoustic-toolbox/",
         "https://github.com/Universite-Gustave-Eiffel/acoustic-toolbox/blob/main/pyproject.toml",
-        "https://github.com/Universite-Gustave-Eiffel/acoustic-toolbox/blob/main/LICENSE"
+        "https://github.com/Universite-Gustave-Eiffel/acoustic-toolbox/blob/main/LICENSE",
+        "https://github.com/Universite-Gustave-Eiffel/acoustic-toolbox/commit/5acd2a101b730b3bb740f38c678d4b2f066beaae"
       ],
       "checked": "2026-10-08",
       "url": "https://zhenxianli.github.io/LISQM/projects/acoustic-toolbox.html",
@@ -5148,7 +5226,7 @@
           "validation_details": [
             "There is no `exp_moore2016` experiment script on the develop branch."
           ],
-          "note": "Listed as \"MOORE2016 - Binaural loudness model\"."
+          "note": "Listed as \"MOORE2016 - Binaural loudness model\". The header says Josef Schlittenlacher provided the original implementation for the AMT in 2018, from code written for ANSI S3.4-2007 and ISO 532-2:2017."
         }
       ],
       "sources": [
@@ -5480,7 +5558,11 @@
           "scope": "time-varying",
           "status": "available",
           "validation": "not-stated",
-          "note": "Also outputs loudness fluctuation and time-varying sharpness."
+          "derived_from": [
+            "psysound3"
+          ],
+          "derived_by_author": true,
+          "note": "Also outputs loudness fluctuation and time-varying sharpness. Josef Chalupper's code (2000) in its PsySound3 version (2007), adjusted for AARAE by Ella Manor in 2015."
         },
         {
           "method": "loudness-moore-glasberg",
@@ -5491,7 +5573,11 @@
           "scope": "one channel, or two channels for binaural loudness",
           "status": "available",
           "validation": "not-stated",
-          "note": "Version 1.02 (27 October 2015). Two-channel input gives binaural loudness after Moore & Glasberg (2007). The audio is resampled to 32 kHz."
+          "derived_from": [
+            "psysound3"
+          ],
+          "derived_by_author": true,
+          "note": "A port and extension of PsySound3's code by Densil Cabrera and Doheon Lee, version 1.02 (27 October 2015). Two-channel input gives binaural loudness after Moore & Glasberg (2007). The audio is resampled to 32 kHz."
         },
         {
           "method": "loudness-moore-glasberg-time-varying",
@@ -5502,6 +5588,10 @@
           "scope": "time-varying; one channel, or two channels for binaural loudness",
           "status": "available",
           "validation": "not-stated",
+          "derived_from": [
+            "psysound3"
+          ],
+          "derived_by_author": true,
           "note": "Same function as the stationary model; the binaural extension follows Moore & Glasberg (2007)."
         },
         {
@@ -5526,6 +5616,7 @@
           "derived_from": [
             "psysound3"
           ],
+          "derived_by_author": true,
           "note": "Ported from PsySound3's `@RoughnessDW` by Ella Manor and Densil Cabrera (2015)."
         }
       ],
@@ -5534,9 +5625,11 @@
         "https://github.com/densilcabrera/aarae/blob/master/README.txt",
         "https://github.com/densilcabrera/aarae/blob/master/License%20for%20AARAE.txt",
         "https://github.com/densilcabrera/aarae/tree/master/Analysers/Level%20and%20Strength",
-        "https://github.com/densilcabrera/aarae/commits/master/Analysers/Level%20and%20Strength/Loudness_ISO532_1.m"
+        "https://github.com/densilcabrera/aarae/commits/master/Analysers/Level%20and%20Strength/Loudness_ISO532_1.m",
+        "https://github.com/densilcabrera/aarae/blob/master/Analysers/Level%20and%20Strength/Loudness_MGB2b.m",
+        "https://github.com/densilcabrera/aarae/blob/master/Analysers/Level%20and%20Strength/LoudnessCF.m"
       ],
-      "checked": "2026-10-06",
+      "checked": "2026-10-08",
       "url": "https://zhenxianli.github.io/LISQM/projects/aarae.html",
       "last_commit": "2024-08-09",
       "latest_release": null,
@@ -5879,6 +5972,10 @@
           "status": "available",
           "since": "0.1.0",
           "validation": "cross-implementation",
+          "derived_from": [
+            "sqat",
+            "mosqito"
+          ],
           "compared_with": [
             "sqat"
           ],
@@ -5971,7 +6068,7 @@
         "https://github.com/huaaudio/metasona/blob/main/docs/c-api.md",
         "https://github.com/huaaudio/metasona/blob/main/docs/python-api.md"
       ],
-      "checked": "2026-10-07",
+      "checked": "2026-10-08",
       "url": "https://zhenxianli.github.io/LISQM/projects/metasona.html",
       "last_commit": "2026-09-25",
       "latest_release": {
@@ -6566,7 +6663,7 @@
             "sqat"
           ],
           "validation_details": [
-            "Compared with Table 1 of Osses et al. (2016) and with SQAT (correlation 0.98).",
+            "Compared with the literature values in Table 1 of Osses et al. (2016): for amplitude-modulated 70 dB tones the Pearson correlation is about 0.98, within a factor of about 2.1 at every point. SQAT's `FluctuationStrength_Osses2016` was consulted as a numeric reference for the shape of the sweep.",
             "Validated for amplitude modulation only; a steady 1 kHz tone reads about 0.09 vacil."
           ]
         },
@@ -6717,9 +6814,10 @@
         "https://github.com/jmrplens/phonometry/blob/main/CITATION.cff",
         "https://github.com/jmrplens/phonometry/blob/main/paper/paper.md",
         "https://jmrplens.github.io/phonometry/",
-        "https://pypi.org/project/phonometry/"
+        "https://pypi.org/project/phonometry/",
+        "https://github.com/jmrplens/phonometry/blob/main/src/phonometry/psychoacoustics/quality/fluctuation_strength.py"
       ],
-      "checked": "2026-10-07",
+      "checked": "2026-10-08",
       "url": "https://zhenxianli.github.io/LISQM/projects/phonometry.html",
       "last_commit": "2026-10-06",
       "latest_release": {
@@ -6778,6 +6876,9 @@
           "validation": "standard-data",
           "compared_with": [
             "mosqito"
+          ],
+          "uses": [
+            "zwickerloudness-jl"
           ],
           "validation_details": [
             "Tested against all 41 reference signals of DIN 45692:2009 chapter 6 (21 narrowband, 20 broadband) within the standard's tolerance of ±max(5 %, 0.05 acum).",
@@ -6840,6 +6941,9 @@
           "compared_with": [
             "sqat"
           ],
+          "uses": [
+            "zwickerloudness-jl"
+          ],
           "validation_details": [
             "Cross-checked against SQAT's `PsychoacousticAnnoyance_Widmann1992`: an 840-case formula grid, reproduced bit-exactly, and six signal-level cases with SQAT's own N5, S5, R5 and FS5 vendored, so that every deviation is attributed to a component.",
             "Checked at the published 1 au anchor (a 1 kHz tone at 40 dB SPL): on the 4 s cross-check case, the percentile convention lands 0.1 % from it and the stationary approximation 0.8 %; on the README's 5 s examples, 0.3 % and 1.4 %."
@@ -6860,7 +6964,7 @@
         "https://github.com/slink/PsychoacousticMetrics.jl/blob/main/Project.toml",
         "https://github.com/JuliaRegistries/General/tree/master/P/PsychoacousticMetrics"
       ],
-      "checked": "2026-10-07",
+      "checked": "2026-10-08",
       "url": "https://zhenxianli.github.io/LISQM/projects/psychoacousticmetrics-jl.html",
       "last_commit": "2026-09-02",
       "latest_release": {
@@ -7130,6 +7234,9 @@
           "status": "available",
           "since": "0.3.0",
           "validation": "standard-data",
+          "derived_from": [
+            "mosqito"
+          ],
           "compared_with": [
             "mosqito"
           ],
@@ -7148,9 +7255,10 @@
         "https://github.com/slink/ZwickerLoudness.jl/blob/main/README.md",
         "https://github.com/slink/ZwickerLoudness.jl/blob/main/test/fixtures/NOTICE.md",
         "https://github.com/slink/ZwickerLoudness.jl/releases",
-        "https://github.com/JuliaRegistries/General/tree/master/Z/ZwickerLoudness"
+        "https://github.com/JuliaRegistries/General/tree/master/Z/ZwickerLoudness",
+        "https://github.com/slink/ZwickerLoudness.jl/blob/main/src/method2.jl"
       ],
-      "checked": "2026-10-06",
+      "checked": "2026-10-08",
       "url": "https://zhenxianli.github.io/LISQM/projects/zwickerloudness-jl.html",
       "last_commit": "2026-09-02",
       "latest_release": {
@@ -7824,6 +7932,7 @@
       "languages": [
         "Python"
       ],
+      "based_on": "mosqito",
       "kind": "research-code",
       "standing": "developing",
       "license": "Apache-2.0",
@@ -7854,7 +7963,8 @@
           "validation_details": [
             "Validation scripts compare the ear filter and model output with figures and values from ECMA-418-2 and ECMA-74 Annex F."
           ],
-          "note": "Module `mosqito.functions.hearing_model`."
+          "derived_by_author": true,
+          "note": "Module `mosqito.functions.hearing_model`. Its author committed the same hearing model to MoSQITo on 2021-05-30, two weeks before this snapshot."
         },
         {
           "method": "tone-to-noise-prominence-ratio",
@@ -7875,9 +7985,10 @@
         "https://github.com/djcaminero/MoSQITo-FDP",
         "https://github.com/djcaminero/MoSQITo-FDP/blob/master/readme.md",
         "https://github.com/djcaminero/MoSQITo-FDP/tree/master/mosqito/functions/hearing_model",
-        "https://github.com/djcaminero/MoSQITo-FDP/tree/master/mosqito/validations/hearing_model"
+        "https://github.com/djcaminero/MoSQITo-FDP/tree/master/mosqito/validations/hearing_model",
+        "https://github.com/Eomys/MoSQITo/commit/04dab16b64041c820c08177aa74039fb3fc3ed20"
       ],
-      "checked": "2026-10-06",
+      "checked": "2026-10-08",
       "url": "https://zhenxianli.github.io/LISQM/projects/mosqito-fdp.html",
       "last_commit": "2021-07-05",
       "latest_release": null,

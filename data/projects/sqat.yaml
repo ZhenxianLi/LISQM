@@ -87,19 +87,26 @@ implements:
     status: available
     since: v1.0
     validation: standard-data
+    derived_from: [aarae]
     validation_details:
       - Checked against amplitude- and frequency-modulation dependences from the literature.
     note: >-
-      Rewritten on `main` (PR #65, 2026-09-08) after revised code from Dik Hermes: 63 of 119 validation values go up
-      and 56 down (largest change 0.155 asper).
+      The v1.x code is AARAE's `roughnessDW.m` (Dik Hermes's code), adapted and verified for SQAT in 2023. Rewritten
+      on `main` (PR #65, 2026-09-08) after revised code from Dik Hermes: 63 of 119 validation values go up and 56
+      down (largest change 0.155 asper).
   - method: fluctuation-strength-osses
     reference: osses-2016
     functions: [FluctuationStrength_Osses2016, FluctuationStrength_Osses2016_from_wavfile]
     status: available
     since: v1.0
     validation: standard-data
+    derived_from: [fluctuation-strength-tue]
+    derived_by_author: true
     validation_details:
       - Checked against amplitude- and frequency-modulation dependences from the literature.
+    note: >-
+      Alejandro Osses's `FluctuationStrength_TUe.m` (TU/e, 2014–2016), taken into SQAT in 2020 and modified there
+      by Osses since 2023.
   - method: tonality-aures
     reference: aures-1985-euphony
     functions: [Tonality_Aures1985, Tonality_Aures1985_from_wavfile]
@@ -164,6 +171,7 @@ implements:
     since: v1.3
     validation: cross-implementation
     derived_from: [refmap-psychoacoustics]
+    derived_by_author: true
     compared_with: ["commercial software"]
     validation_details:
       - >-
@@ -175,6 +183,7 @@ implements:
     status: unreleased
     validation: cross-implementation
     derived_from: [refmap-psychoacoustics]
+    derived_by_author: true
     compared_with: ["commercial software"]
     validation_details:
       - >-
@@ -190,6 +199,7 @@ implements:
     since: v1.3
     validation: cross-implementation
     derived_from: [refmap-psychoacoustics]
+    derived_by_author: true
     compared_with: ["commercial software"]
     validation_details:
       - >-
@@ -201,6 +211,7 @@ implements:
     status: unreleased
     validation: cross-implementation
     derived_from: [refmap-psychoacoustics]
+    derived_by_author: true
     compared_with: ["commercial software"]
     validation_details:
       - >-
@@ -215,6 +226,7 @@ implements:
     since: v1.3
     validation: cross-implementation
     derived_from: [refmap-psychoacoustics]
+    derived_by_author: true
     compared_with: ["commercial software"]
     validation_details:
       - Checked against reference results from commercial software for a binaural recording of a train station.
@@ -224,6 +236,7 @@ implements:
     status: unreleased
     validation: cross-implementation
     derived_from: [refmap-psychoacoustics]
+    derived_by_author: true
     compared_with: ["commercial software"]
     validation_details:
       - >-
@@ -264,4 +277,6 @@ sources:
   - https://github.com/ggrecow/SQAT/tree/main/validation
   - https://github.com/ggrecow/SQAT/tree/main/validation/EPNL_FAR_Part36
   - https://github.com/ggrecow/SQAT/tree/v1.3/validation
-checked: 2026-10-07
+  - https://github.com/ggrecow/SQAT/blob/main/psychoacoustic_metrics/FluctuationStrength_Osses2016/FluctuationStrength_Osses2016.m
+  - https://github.com/ggrecow/SQAT/blob/main/psychoacoustic_metrics/Roughness_Daniel1997/Roughness_Daniel1997.m
+checked: 2026-10-08

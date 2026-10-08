@@ -77,12 +77,14 @@ implements:
     status: available
     since: 0.1.0
     validation: not-stated
+    derived_from: []
   - method: roughness-daniel-weber
     reference: daniel-weber-1997
     functions: [roughness_daniel_weber]
     status: available
     since: 0.1.0
     validation: cross-implementation
+    derived_from: [sqat, mosqito]
     compared_with: [sqat]
     validation_details:
       - >-
@@ -156,4 +158,4 @@ sources:
   - https://github.com/huaaudio/metasona/blob/main/python/metasona/_abi.py
   - https://github.com/huaaudio/metasona/blob/main/docs/c-api.md
   - https://github.com/huaaudio/metasona/blob/main/docs/python-api.md
-checked: 2026-10-07
+checked: 2026-10-08

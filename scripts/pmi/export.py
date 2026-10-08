@@ -8,8 +8,8 @@ from xml.sax.saxutils import escape as xml_escape
 
 from .data import ACCESS, GROUPS, IMPL_STATUS_LONG, KINDS, STANDING, VALIDATION_LONG, Index
 from .describe import coverage
-from .paths import (ABOUT, AI, FAQ, HOME, LANGUAGES, METRICS, PROJECTS, STANDARDS, UPDATES, absolute, method_path,
-                    project_path)
+from .paths import (ABOUT, AI, FAQ, HOME, LANGUAGES, MAP, METRICS, PROJECTS, STANDARDS, UPDATES, absolute,
+                    method_path, project_path)
 from .text import blocks, date_str, plain
 
 
@@ -302,8 +302,8 @@ def atom_feed(index: Index) -> str:
 
 def sitemap(index: Index) -> str:
     as_of = index.as_of()
-    urls = [(absolute(index, p), as_of) for p in (HOME, METRICS, PROJECTS, LANGUAGES, STANDARDS, UPDATES, ABOUT,
-                                                 FAQ, AI)]
+    urls = [(absolute(index, p), as_of) for p in (HOME, METRICS, PROJECTS, MAP, LANGUAGES, STANDARDS, UPDATES,
+                                                 ABOUT, FAQ, AI)]
     urls += [(absolute(index, method_path(m)), as_of) for m in index.methods]
     urls += [(absolute(index, project_path(p)), max(date_str(p["checked"]), (p["_last_commit"] or "")[:10]))
              for p in index.projects]

@@ -216,7 +216,7 @@ the data, otherwise *inactive since* the month of that commit; an archived repos
   retrieve and cite the list.
 - An Atom feed of updates is at <https://zhenxianli.github.io/LISQM/feed.xml>.
 
-To build the website locally:
+To build the website locally (the project map also needs [Graphviz](https://graphviz.org/download/)):
 
 ```sh
 pip install -r requirements.txt

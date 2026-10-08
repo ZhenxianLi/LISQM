@@ -43,6 +43,7 @@ implements:
     status: available
     since: 1.0.0
     validation: standard-data
+    derived_from: ["BASIC program of DIN 45631 (Zwicker et al., 1991)"]
     validation_details:
       - Validation scripts use the ISO 532-1 Annex B test signals; the documentation marks it as validated.
     conventions:
@@ -60,7 +61,9 @@ implements:
     validation: standard-data
     validation_details:
       - Validation scripts compare with figures of the standard.
-    note: Followed the 1st edition (2020) in versions 1.0.0–1.1.1 and the 2nd edition (2022) from 1.2.0.
+    note: >-
+      Followed the 1st edition (2020) in versions 1.0.0–1.1.1 and the 2nd edition (2022) from 1.2.0. It grew out of
+      the hearing model that Daniel Jiménez-Caminero added in May 2021, which is also kept in MoSQITo-FDP.
   - method: sharpness
     reference: din-45692-2009
     functions: [sharpness_din_st, sharpness_din_tv, sharpness_din_perseg, sharpness_din_from_loudness, sharpness_din_freq]
@@ -143,4 +146,6 @@ sources:
   - https://github.com/Eomys/MoSQITo/issues/100
   - https://github.com/Eomys/MoSQITo/pull/95
   - https://github.com/Eomys/MoSQITo/pull/97
-checked: 2026-10-07
+  - https://github.com/Eomys/MoSQITo/blob/master/mosqito/sq_metrics/loudness/loudness_zwst/_main_loudness.py
+  - https://github.com/Eomys/MoSQITo/commit/04dab16b64041c820c08177aa74039fb3fc3ed20
+checked: 2026-10-08

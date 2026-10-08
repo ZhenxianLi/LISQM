@@ -139,7 +139,13 @@ implements:
     compared_with: [mosqito]                  # optional: what it was compared with, as listed project ids (linked)
                                               # or names ("ArtemiS SUITE (HEAD acoustics)")
     derived_from: [mosqito]                   # optional: the code it was ported or adapted from, as project ids or
-                                              # names ("ISO 532-1 Annex A reference program"); default: based_on
+                                              # names ("ISO 532-1 Annex A reference program"); default: based_on;
+                                              # [] when the row took no code, although the project has based_on
+    derived_by_author: true                   # optional: the code it was taken from was written by someone who also
+                                              # maintains this project (a contribution, a move or a translation
+                                              # within the same team, not a port by someone else)
+    uses: [zwickerloudness-jl]                # optional: listed projects the row needs at run time, for example for
+                                              # their results, although it computes the metric itself (else: via)
     validation_details: [markdown strings]    # optional: what was checked, against what, tolerance and result
     conventions: [markdown strings]           # optional: choices of this row that change its numbers
     note: optional markdown (other facts; validation goes in validation_details)
@@ -225,6 +231,22 @@ from, following `derived_from` (or the project's `based_on`) through further por
 "(its source)"; with a port of the row's own code, "(a port of it)"; with another port of the same code, "(also
 ported from …)". When every comparison of a row is of this kind, its evidence tag is grey. In `index.json`, such
 rows carry `comparison_relations` (`source`, `port` or `shared:<project id>`).
+
+### The project map
+
+`projects/map.html` draws every relation between projects that the rows record, as a picture made by Graphviz when
+the site is built, and lists the same relations in words. Arrows point from the source to the project that uses it:
+
+| Line | From the rows |
+|---|---|
+| code taken from another project | `derived_from` (or the project's `based_on`); a grey box for a published program |
+| the author's own code | the same, when every row of the pair has `derived_by_author` |
+| used at run time | `via` (the source does the computation) and `uses` (the row needs the source) |
+| results checked against | `compared_with`, without comparisons with related code and pairs already joined |
+| same maintainer | a name in `maintainers` of both projects, when no other line joins them; no arrow |
+
+A test fails when two projects with a maintainer in common share code without `derived_by_author`, so that this
+is checked on the rows rather than guessed from the names.
 
 ## `snapshot.json` (machine-written)
 

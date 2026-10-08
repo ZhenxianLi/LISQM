@@ -7,6 +7,7 @@ from .data import Index
 HOME = "index.html"
 METRICS = "metrics/index.html"
 PROJECTS = "projects/index.html"
+MAP = "projects/map.html"  # the project map: how the listed projects are connected
 LANGUAGES = "languages.html"
 AI = "ai.html"
 STANDARDS = "standards.html"

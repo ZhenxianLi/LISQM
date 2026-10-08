@@ -26,6 +26,9 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
+      - name: Install Graphviz (it draws the project map)
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq graphviz fonts-dejavu-core
+
       - name: Validate data
         run: python scripts/build.py --check
 

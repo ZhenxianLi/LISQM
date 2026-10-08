@@ -701,6 +701,107 @@ dl.validation dd .maintainer-check {
   font-style: italic;
 }
 
+/* The project map: a legend, the picture drawn by Graphviz (scrolls sideways when the screen is narrow), the kinds
+   of line and the same relations in words. */
+.map-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .35rem 1.2rem;
+  list-style: none;
+  margin: .6rem 0 .8rem;
+  padding: 0;
+  font-size: .9rem;
+  color: var(--muted);
+}
+
+.map-legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+}
+
+.line-sample {
+  flex: none;
+}
+
+.key-box {
+  display: inline-block;
+  flex: none;
+  white-space: nowrap;
+  padding: 0 .35rem;
+  border: 1.3px solid var(--lang-py);
+  border-radius: 4px;
+  font-size: .8rem;
+  line-height: 1.4;
+  color: var(--text);
+  background: var(--bg);
+}
+
+.key-box.super {
+  border: 2.4px solid var(--text);
+  font-weight: 700;
+}
+
+.key-box.legacy {
+  opacity: .62;
+}
+
+.key-box.code {
+  border: 1px dashed #8b949e;
+  background: #f3f4f6;
+  font-style: italic;
+  color: var(--muted);
+}
+
+.map-wrap {
+  overflow-x: auto;
+  margin: .4rem 0;
+  padding: .4rem;
+  border: 1px solid var(--rule);
+  -webkit-overflow-scrolling: touch;
+}
+
+svg.map-graph {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
+
+svg.map-graph a {
+  text-decoration: none;
+}
+
+svg.map-graph g.node:hover path,
+svg.map-graph g.node:hover polygon {
+  fill: #eef7f3;
+}
+
+svg.map-graph g.edge:hover path:not(.hit) {
+  stroke-width: 3;
+}
+
+dl.map-kinds {
+  max-width: var(--measure);
+  margin: .4rem 0 1rem;
+}
+
+dl.map-kinds dt {
+  display: flex;
+  align-items: center;
+  gap: .45rem;
+  margin-top: .55rem;
+  font-weight: 600;
+}
+
+dl.map-kinds dd {
+  margin: .1rem 0 0 3.3rem;
+}
+
+ul.map-words li {
+  margin: .2rem 0;
+}
+
 /* Before you compare numbers. */
 dl.conventions dt {
   margin-top: .8rem;

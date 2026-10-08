@@ -364,6 +364,8 @@ class Index:
                     add(f"{w}: a super project needs a highlight, the short label shown with it (e.g. widely used)")
             elif p.get("highlight"):
                 add(f"{w}: highlight is only for a super project")
+            if pid in ("index", "map"):  # projects/index.html and projects/map.html are other pages
+                add(f"{w}: the id '{pid}' is reserved")
             if p.get("based_on") and p["based_on"] not in self.project:
                 add(f"{w}: based_on '{p['based_on']}' is not a project id")
             if p.get("core") and p["core"] not in (p.get("languages") or []):
@@ -410,13 +412,27 @@ class Index:
                     add(f"{wi}: via must name another project")
                 for key in ("compared_with", "validation_details", "derived_from", "conventions"):
                     value = impl.get(key)
-                    if value is not None and not (isinstance(value, list) and value
+                    empty_ok = key == "derived_from"  # [] says the row took no code, whatever based_on says
+                    if value is not None and not (isinstance(value, list) and (value or empty_ok)
                                                   and all(isinstance(v, str) and v.strip() for v in value)):
-                        add(f"{wi}: {key} must be a non-empty list of strings")
+                        add(f"{wi}: {key} must be a {'' if empty_ok else 'non-empty '}list of strings")
                 if pid in (impl.get("compared_with") or []):
                     add(f"{wi}: compared_with must name other implementations")
                 if pid in (impl.get("derived_from") or []):
                     add(f"{wi}: derived_from must name another project or code")
+                if "derived_by_author" in impl:
+                    has_source = (impl["derived_from"] if "derived_from" in impl
+                                  else p.get("based_on") and not impl.get("via"))
+                    if impl["derived_by_author"] is not True:
+                        add(f"{wi}: derived_by_author can only be true")
+                    elif not has_source:
+                        add(f"{wi}: derived_by_author needs the code it came from (derived_from or based_on)")
+                uses = impl.get("uses")
+                if uses is not None:
+                    if not (isinstance(uses, list) and uses and all(u in self.project for u in uses)):
+                        add(f"{wi}: uses must be a non-empty list of listed project ids")
+                    elif pid in uses or impl.get("via") in uses:
+                        add(f"{wi}: uses must name another project than itself and its via")
                 pair = (mid, rid, impl.get("status"), impl.get("scope"))
                 if pair in seen_pairs:
                     add(f"{wi}: duplicate of an earlier entry")
@@ -514,14 +530,15 @@ class Index:
                 impl["_method"] = self.method[impl["method"]]
                 impl["_ref"] = self.ref[impl["reference"]]
                 impl["_via"] = self.project.get(impl.get("via"))
+                impl["_uses"] = [self.project[u] for u in impl.get("uses") or [] if u in self.project]
                 # What it was compared with, and the code it was ported or adapted from (the row's
-                # `derived_from`, else the project's `based_on`; a row computed by another project ports nothing):
-                # listed projects by id, anything else by name.
+                # `derived_from`, even an empty one, else the project's `based_on`; a row computed by another project
+                # ports nothing): listed projects by id, anything else by name.
                 named = lambda ids: [(self.project[c]["name"], self.project[c]) if c in self.project else (c, None)
                                      for c in ids]  # noqa: E731
                 impl["_compared"] = named(impl.get("compared_with") or [])
-                impl["_derived_ids"] = impl.get("derived_from") or (
-                    [p["based_on"]] if p.get("based_on") and not impl.get("via") else [])
+                impl["_derived_ids"] = (list(impl["derived_from"]) if "derived_from" in impl else
+                                        [p["based_on"]] if p.get("based_on") and not impl.get("via") else [])
                 impl["_derived"] = named(impl["_derived_ids"])
                 # What to check before comparing its numbers: the project's general points, then the row's own.
                 impl["_conventions"] = list(dict.fromkeys((p.get("conventions") or []) + (impl.get("conventions") or [])))

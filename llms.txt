@@ -116,6 +116,7 @@ Projects whose code could not be opened, for example because the repository need
 - [For AI agents](https://zhenxianli.github.io/LISQM/ai.md): how to retrieve, read and cite this list
 - [Metrics](https://zhenxianli.github.io/LISQM/metrics/index.md): every metric with its current edition
 - [Languages](https://zhenxianli.github.io/LISQM/languages.md): coverage and calling details by language
+- [Project map](https://zhenxianli.github.io/LISQM/projects/map.md): code taken from another project, use at run time, results checked against another project, and shared maintainers
 - [Frequently asked questions](https://zhenxianli.github.io/LISQM/faq.md)
 - [About and method](https://zhenxianli.github.io/LISQM/about.md)
 - [Standards timeline](https://zhenxianli.github.io/LISQM/standards.md)

@@ -58,22 +58,30 @@ implements:
     scope: time-varying
     status: available
     validation: not-stated
-    note: Also outputs loudness fluctuation and time-varying sharpness.
+    derived_from: [psysound3]
+    derived_by_author: true
+    note: >-
+      Also outputs loudness fluctuation and time-varying sharpness. Josef Chalupper's code (2000) in its PsySound3
+      version (2007), adjusted for AARAE by Ella Manor in 2015.
   - method: loudness-moore-glasberg
     reference: moore-1997
     functions: [Loudness_MGB2b]
     scope: one channel, or two channels for binaural loudness
     status: available
     validation: not-stated
+    derived_from: [psysound3]
+    derived_by_author: true
     note: >-
-      Version 1.02 (27 October 2015). Two-channel input gives binaural loudness after Moore & Glasberg (2007).
-      The audio is resampled to 32 kHz.
+      A port and extension of PsySound3's code by Densil Cabrera and Doheon Lee, version 1.02 (27 October 2015).
+      Two-channel input gives binaural loudness after Moore & Glasberg (2007). The audio is resampled to 32 kHz.
   - method: loudness-moore-glasberg-time-varying
     reference: glasberg-moore-2002
     functions: [Loudness_MGB2b]
     scope: time-varying; one channel, or two channels for binaural loudness
     status: available
     validation: not-stated
+    derived_from: [psysound3]
+    derived_by_author: true
     note: Same function as the stationary model; the binaural extension follows Moore & Glasberg (2007).
   - method: sharpness
     reference: fastl-zwicker-2007
@@ -90,6 +98,7 @@ implements:
     status: available
     validation: not-stated
     derived_from: [psysound3]
+    derived_by_author: true
     note: Ported from PsySound3's `@RoughnessDW` by Ella Manor and Densil Cabrera (2015).
 manual:
   last_commit: 2024-08-09
@@ -100,4 +109,6 @@ sources:
   - https://github.com/densilcabrera/aarae/blob/master/License%20for%20AARAE.txt
   - https://github.com/densilcabrera/aarae/tree/master/Analysers/Level%20and%20Strength
   - https://github.com/densilcabrera/aarae/commits/master/Analysers/Level%20and%20Strength/Loudness_ISO532_1.m
-checked: 2026-10-06
+  - https://github.com/densilcabrera/aarae/blob/master/Analysers/Level%20and%20Strength/Loudness_MGB2b.m
+  - https://github.com/densilcabrera/aarae/blob/master/Analysers/Level%20and%20Strength/LoudnessCF.m
+checked: 2026-10-08

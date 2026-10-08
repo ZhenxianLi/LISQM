@@ -85,7 +85,9 @@ implements:
     validation: not-stated
     validation_details:
       - There is no `exp_moore2016` experiment script on the develop branch.
-    note: Listed as "MOORE2016 - Binaural loudness model".
+    note: >-
+      Listed as "MOORE2016 - Binaural loudness model". The header says Josef Schlittenlacher provided the original
+      implementation for the AMT in 2018, from code written for ANSI S3.4-2007 and ISO 532-2:2017.
 manual:
   last_commit: 2026-06-14
   latest_release: {version: 1.6.0, date: 2024-10-01}

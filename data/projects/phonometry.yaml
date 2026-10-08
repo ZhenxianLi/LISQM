@@ -120,7 +120,10 @@ implements:
     validation: standard-data
     compared_with: [sqat]
     validation_details:
-      - Compared with Table 1 of Osses et al. (2016) and with SQAT (correlation 0.98).
+      - >-
+        Compared with the literature values in Table 1 of Osses et al. (2016): for amplitude-modulated 70 dB tones
+        the Pearson correlation is about 0.98, within a factor of about 2.1 at every point. SQAT's
+        `FluctuationStrength_Osses2016` was consulted as a numeric reference for the shape of the sweep.
       - Validated for amplitude modulation only; a steady 1 kHz tone reads about 0.09 vacil.
   - method: fluctuation-strength-osses
     reference: fastl-zwicker-2007
@@ -232,4 +235,5 @@ sources:
   - https://github.com/jmrplens/phonometry/blob/main/paper/paper.md
   - https://jmrplens.github.io/phonometry/
   - https://pypi.org/project/phonometry/
-checked: 2026-10-07
+  - https://github.com/jmrplens/phonometry/blob/main/src/phonometry/psychoacoustics/quality/fluctuation_strength.py
+checked: 2026-10-08

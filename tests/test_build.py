@@ -3,12 +3,17 @@ Markdown twin, structured data parses, and the README markers are intact."""
 
 from __future__ import annotations
 
+import contextlib
 import html
+import io
 import json
+import os
 import re
+import shutil
 import sys
 import tempfile
 import unittest
+from unittest import mock
 from html.parser import HTMLParser
 from pathlib import Path
 
@@ -18,7 +23,10 @@ sys.path.insert(0, str(ROOT / "scripts"))
 import build  # noqa: E402
 from pmi.data import GROUP_ORDER, KINDS, load  # noqa: E402
 from pmi.describe import timeline  # noqa: E402
-from pmi.render_html import _analytics  # noqa: E402
+from pmi import relations as RL, render_html  # noqa: E402
+from pmi.describe import lineage  # noqa: E402
+from pmi.text import blocks  # noqa: E402
+from pmi.render_html import LANG_CODES, _analytics  # noqa: E402
 
 
 class _Links(HTMLParser):
@@ -402,7 +410,8 @@ class BuildTest(unittest.TestCase):
         texts += [self.site / "llms.txt", self.site / "llms-full.txt", ROOT / "README.md"]
         for path in texts:
             for stars, text, pid in md_link.findall(path.read_text(encoding="utf-8")):
-                if text == self.index.project[pid]["name"]:  # not file names given as examples ("projects/sqat.md")
+                # Project pages only (not the project map), and not file names given as examples ("projects/sqat.md").
+                if pid in self.index.project and text == self.index.project[pid]["name"]:
                     self.assertEqual(bool(stars), pid in supers, f"{path.name}: {pid} bold only if a super project")
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
         table = readme[readme.index("BEGIN GENERATED: projects"):readme.index("END GENERATED: projects")]
@@ -555,6 +564,99 @@ class BuildTest(unittest.TestCase):
         self.assertIn("Creative Commons Attribution 4.0 International", (ROOT / "LICENSE-DATA").read_text(encoding="utf-8"))
         self.assertTrue((ROOT / "LICENSE").read_text(encoding="utf-8").startswith("MIT License"))
         self.assertIn("license: CC-BY-4.0", (ROOT / "CITATION.cff").read_text(encoding="utf-8"))
+
+    def test_project_map_relations(self) -> None:
+        rel = RL.relations(self.index)
+        kinds = {(line["source"], line["user"]): line["kind"] for line in RL.lines(self.index, rel)}
+        # Code that its own author or team moved is drawn apart from code that someone else took.
+        self.assertEqual(kinds[("refmap-psychoacoustics", "sqat")], "own")
+        self.assertEqual(kinds[("fluctuation-strength-tue", "sqat")], "own")
+        self.assertEqual(kinds[("psysound3", "aarae")], "own")
+        self.assertEqual(kinds[("aarae", "sqat")], "port")
+        self.assertEqual(kinds[("BASIC program of DIN 45631 (Zwicker et al., 1991)", "mosqito")], "port")
+        # Every arrow runs from the source to the project that uses it, also for run-time use and comparisons.
+        self.assertEqual(kinds[("mosqito", "psychobox")], "uses")
+        self.assertEqual(kinds[("zwickerloudness-jl", "psychoacousticmetrics-jl")], "uses")
+        self.assertEqual(kinds[("mosqito", "iso532-1-rs")], "compare")
+        self.assertNotIn("dir=back", RL.dot_source(self.index, rel, "projects/map.html", LANG_CODES))
+        # One line per pair: code taken is not drawn again as a comparison or a shared maintainer.
+        self.assertEqual(kinds[("mosqito", "zwickerloudness-jl")], "port")
+        pairs = [frozenset(pair) for pair in kinds]
+        self.assertEqual(len(pairs), len(set(pairs)))
+        self.assertEqual(kinds[("acoustic-toolbox", "soundscapy")], "people")
+        self.assertNotIn(frozenset(("sqat", "sottek-hearing-model")), pairs, "both took Mike Lotinga's own code")
+        # A shared maintainer with code between the two projects is recorded on the rows, not guessed.
+        for e in rel["taken"]:
+            if e["shared"]:
+                self.assertTrue(e["own"], f"{e['key']} -> {e['project']['id']}: derived_by_author?")
+
+    def test_project_map_page(self) -> None:
+        page = (self.site / "projects/map.html").read_text(encoding="utf-8")
+        self.assertIn("<h1>Project map</h1>", page)
+        if shutil.which("dot"):
+            self.assertIn('<svg class="map-graph"', page)
+            self.assertIn('xlink:href="../projects/mosqito.html"', page)
+            self.assertNotIn("<title>map</title>", page)
+        self.assertIn("<h3>The author's own code</h3>", page)
+        md = (self.site / "projects/map.md").read_text(encoding="utf-8")
+        self.assertIn("## Used at run time", md)
+        self.assertIn("projects/map.html", (self.site / "sitemap.xml").read_text(encoding="utf-8"))
+        self.assertIn("projects/map.md", (self.site / "llms.txt").read_text(encoding="utf-8"))
+        for path in ("projects/index.html", "projects/sqat.html", "metrics/loudness-zwicker.html"):
+            self.assertIn('href="../projects/map.html"', (self.site / path).read_text(encoding="utf-8"), path)
+
+    def test_project_map_without_graphviz(self) -> None:
+        with mock.patch.object(RL.shutil, "which", return_value=None), mock.patch.dict(os.environ):
+            os.environ.pop("CI", None)
+            with contextlib.redirect_stdout(io.StringIO()):
+                page = render_html.map_page(self.index)
+            self.assertNotIn('<svg class="map-graph"', page)
+            self.assertIn("Graphviz is missing", page)
+            self.assertIn("<h3>Code taken from another project</h3>", page)
+            os.environ["CI"] = "true"
+            with self.assertRaises(SystemExit):
+                render_html.map_page(self.index)
+
+    def test_relation_fields_are_checked(self) -> None:
+        sharpness = next(i for i in self.index.project["metasona"]["_impls"] if i["method"] == "sharpness")
+        self.assertEqual(sharpness["_derived_ids"], [], "an empty derived_from overrides based_on")
+        p = self.index.project["kirin-hypha"]
+        impl, saved = p["implements"][0], dict(p["implements"][0])
+        try:
+            impl["derived_by_author"] = "yes"
+            impl["uses"] = ["kirin-hypha"]
+            problems = "\n".join(self.index.validate())
+            self.assertIn("derived_by_author can only be true", problems)
+            self.assertIn("uses must name another project than itself", problems)
+            impl["derived_by_author"] = True
+            impl["derived_from"] = []
+            impl["uses"] = ["no-such-project"]
+            problems = "\n".join(self.index.validate())
+            self.assertIn("derived_by_author needs the code it came from", problems)
+            self.assertIn("uses must be a non-empty list of listed project ids", problems)
+            impl.clear()
+            impl.update(saved)
+            p["id"] = "map"
+            self.assertIn("the id 'map' is reserved", "\n".join(self.index.validate()))
+        finally:
+            p["id"] = "kirin-hypha"
+            impl.clear()
+            impl.update(saved)
+        self.assertEqual(self.index.validate(), [])
+
+    def test_port_tree_follows_editions(self) -> None:
+        forest = lineage(self.index.method["loudness-zwicker"]["_all_impls"])
+        roots = {(node[1] if node[0] == "code" else node[1]["id"]): kids for node, kids in forest}
+        # AARAE took its Chalupper & Fastl code from PsySound3, and SQAT took AARAE's ISO 532-1 code, not that one.
+        self.assertEqual([(node[1]["id"], kids) for node, kids in roots["psysound3"]], [("aarae", [])])
+        aarae = next(kids for node, kids in roots["ISO 532-1 Annex A reference program"] if node[1]["id"] == "aarae")
+        self.assertIn("sqat", [node[1]["id"] for node, _ in aarae])
+
+    def test_bullets_may_wrap(self) -> None:
+        self.assertEqual(blocks("Intro.\n\n- One item\n  that wraps.\n- Two."),
+                         "<p>Intro.</p>\n<ul><li>One item that wraps.</li><li>Two.</li></ul>")
+        updates = (self.site / "updates.html").read_text(encoding="utf-8")
+        self.assertNotIn("<p>- ", updates, "every bullet list of the updates is a list")
 
 if __name__ == "__main__":
     unittest.main()

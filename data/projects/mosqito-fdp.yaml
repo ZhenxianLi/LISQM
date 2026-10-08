@@ -2,6 +2,7 @@ id: mosqito-fdp
 name: MoSQITo-FDP
 repository: https://github.com/djcaminero/MoSQITo-FDP
 languages: [Python]
+based_on: mosqito
 kind: research-code
 standing: developing
 license: Apache-2.0
@@ -35,7 +36,10 @@ implements:
       - >-
         Validation scripts compare the ear filter and model output with figures and values from ECMA-418-2 and ECMA-74
         Annex F.
-    note: Module `mosqito.functions.hearing_model`.
+    derived_by_author: true
+    note: >-
+      Module `mosqito.functions.hearing_model`. Its author committed the same hearing model to MoSQITo on 2021-05-30,
+      two weeks before this snapshot.
   - method: tone-to-noise-prominence-ratio
     reference: ecma-74-ed17
     functions: [comp_tnr, comp_pr]
@@ -52,4 +56,5 @@ sources:
   - https://github.com/djcaminero/MoSQITo-FDP/blob/master/readme.md
   - https://github.com/djcaminero/MoSQITo-FDP/tree/master/mosqito/functions/hearing_model
   - https://github.com/djcaminero/MoSQITo-FDP/tree/master/mosqito/validations/hearing_model
-checked: 2026-10-06
+  - https://github.com/Eomys/MoSQITo/commit/04dab16b64041c820c08177aa74039fb3fc3ed20
+checked: 2026-10-08

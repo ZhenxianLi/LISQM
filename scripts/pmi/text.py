@@ -45,9 +45,19 @@ def blocks(text: str | None) -> str:
     out: list[str] = []
     for chunk in re.split(r"\n\s*\n", str(text).strip()):
         lines = [ln.rstrip() for ln in chunk.splitlines() if ln.strip()]
-        if lines and all(ln.lstrip().startswith("- ") for ln in lines):
-            items = "".join(f"<li>{inline(ln.lstrip()[2:])}</li>" for ln in lines)
-            out.append(f"<ul>{items}</ul>")
+        indent = (len(lines[0]) - len(lines[0].lstrip())) if lines else 0
+
+        def item(ln: str, indent: int = indent) -> bool:
+            return ln.lstrip().startswith("- ") and len(ln) - len(ln.lstrip()) == indent
+        # A list: every line starts an item, or continues the item above it (indented further).
+        if lines and item(lines[0]) and all(item(ln) or len(ln) - len(ln.lstrip()) > indent for ln in lines):
+            items: list[list[str]] = []
+            for ln in lines:
+                if item(ln):
+                    items.append([ln.lstrip()[2:]])
+                else:
+                    items[-1].append(ln.strip())
+            out.append("<ul>" + "".join(f"<li>{inline(' '.join(i))}</li>" for i in items) + "</ul>")
         else:
             out.append(f"<p>{inline(' '.join(ln.strip() for ln in lines))}</p>")
     return "\n".join(out)

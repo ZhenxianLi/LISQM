@@ -40,6 +40,7 @@ implements:
     since: 0.2.0
     validation: standard-data
     compared_with: [mosqito]
+    uses: [zwickerloudness-jl]
     validation_details:
       - >-
         Tested against all 41 reference signals of DIN 45692:2009 chapter 6 (21 narrowband, 20 broadband) within the
@@ -98,6 +99,7 @@ implements:
     since: 0.4.0
     validation: cross-implementation
     compared_with: [sqat]
+    uses: [zwickerloudness-jl]
     validation_details:
       - >-
         Cross-checked against SQAT's `PsychoacousticAnnoyance_Widmann1992`: an 840-case formula grid, reproduced
@@ -124,4 +126,4 @@ sources:
   - https://github.com/slink/PsychoacousticMetrics.jl/blob/main/test/data/NOTICE
   - https://github.com/slink/PsychoacousticMetrics.jl/blob/main/Project.toml
   - https://github.com/JuliaRegistries/General/tree/master/P/PsychoacousticMetrics
-checked: 2026-10-07
+checked: 2026-10-08

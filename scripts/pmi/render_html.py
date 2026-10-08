@@ -21,7 +21,8 @@ from .describe import (COVERAGE_COLUMNS, GROUP_RULE, ONLY_NEW, activity_text, ai
                        impl_phrase, introduce, language_order, licence_names, licence_terms, lineage, name_note,
                        only_related, ref_status, release_text, silent_line, standing_sentence, stated_conventions,
                        time_bins, timeline, validation_also, validation_groups, validation_label)
-from .paths import (ABOUT, AI, BIBTEX, FAQ, HOME, LANGUAGES, METRICS, PROJECTS, STANDARDS, UPDATES, absolute,
+from . import relations as RL
+from .paths import (ABOUT, AI, BIBTEX, FAQ, HOME, LANGUAGES, MAP, METRICS, PROJECTS, STANDARDS, UPDATES, absolute,
                     md_twin, method_path, project_path, relative)
 from .text import blocks, esc, first_sentence, inline, join_words, long_date, month, plain, plural
 
@@ -180,6 +181,7 @@ def _sidebar(index: Index, path: str, section: str) -> str:
                                                for m in methods], href=f"{rel(METRICS)}#{fam['id']}", sub=True))
     elif section == "Projects":
         blocks_.append(_side("All projects", [], href=rel(PROJECTS)))
+        blocks_.append(_side("Project map", [], href=rel(MAP)))
         for key, title in GROUP_HEADINGS:
             projects = index.group(key)
             if projects:
@@ -325,7 +327,8 @@ def _validation_section(index: Index, path: str, impls: list[dict], ids: dict[in
             evidence += f" {also}"
         origin = []
         if i.get("_derived"):
-            origin.append(f"Ported or adapted from {join_words(derived_names(i, linked, esc))}.")
+            own = " (the author's own code)" if i.get("derived_by_author") else ""
+            origin.append(f"Ported or adapted from {join_words(derived_names(i, linked, esc))}{own}.")
         if dependence_note(i):
             origin.append(esc(dependence_note(i)))
         source = f'<p class="derived">{" ".join(origin)}</p>' if origin else ""
@@ -376,7 +379,8 @@ def _lineage_section(index: Index, path: str, m: dict) -> str:
     return "\n".join([
         '<h2 id="lineage">Who ported code from whom</h2>',
         '<p class="small muted">As stated by the projects. Each project took code from the one above it (ported, '
-        "translated or adapted), so agreement between them only checks the port.</p>",
+        "translated or adapted), so agreement between them only checks the port. The "
+        f'<a href="{relative(path, MAP)}">project map</a> shows the same for all metrics.</p>',
         f'<div class="lineage">{tree(forest)}</div>',
     ])
 
@@ -477,6 +481,8 @@ def _status_note(i: dict) -> str:
         bits.append(_tag("pull request", "neutral", IMPL_STATUS_LONG["proposed"], href=i.get("link", "")))
     if i.get("_via"):
         bits.append(f'Computed by {esc(i["_via"]["name"])}.')
+    if i.get("_uses"):
+        bits.append(f'Uses {esc(join_words([q["name"] for q in i["_uses"]]))}.')
     if i.get("note"):
         bits.append(inline(i["note"]))
     return " ".join(bits)
@@ -1030,7 +1036,7 @@ def _how(p: dict, langs: set[str], index: Index, path: str) -> str:
     lang = sorted(langs & set(p["languages"]))[0]
     how = f"Written in {esc(core)}" if core in langs else f"Written in {esc(core)}, with a {esc(lang)} interface"
     if p.get("based_on"):
-        how += f"; a port of {_project_link(path, index.project[p['based_on']])}"
+        how += f"; based on {_project_link(path, index.project[p['based_on']])}"
     how += "."
     install = p.get("install") or ""
     if install and (lang == "Python") == install.startswith("pip") and (lang == "Julia") == ("Pkg" in install):
@@ -1142,6 +1148,8 @@ def projects_page(index: Index) -> str:
         "whose code could not be opened under Status unknown. “Last commit” is the last commit on the default "
         f"branch. A project is marked inactive after {index.site.get('inactive_after_days', 365)} days without a "
         "commit, and listed as legacy after three years.</p>",
+        f'<p>The <a href="{relative(path, MAP)}">project map</a> shows which projects took code from which, which use '
+        "another project at run time, and which checked their results against another one.</p>",
     ]
     for key, title in GROUP_HEADINGS:
         projects = index.group(key)
@@ -1173,6 +1181,103 @@ def projects_page(index: Index) -> str:
                   description=(f"{len(index.projects)} open-source projects implementing psychoacoustic metrics in "
                                f"{join_words(langs)}, with licence, latest release and activity."),
                   body="\n".join(parts), section="Projects", jsonld=ld)
+
+
+def _line_sample(kind: str) -> str:
+    """A short sample of a kind of line, for the legend."""
+    colour, width, style, arrow = RL.LINES[kind]
+    dash = {"dashed": ' stroke-dasharray="6 4"', "dotted": ' stroke-dasharray="2 4"'}.get(style, "")
+    head = f'<path d="M30,2 L38,6 L30,10 z" fill="{colour}"/>' if arrow else ""
+    return (f'<svg class="line-sample" width="40" height="12" aria-hidden="true"><line x1="1" y1="6" '
+            f'x2="{31 if arrow else 39}" y2="6" stroke="{colour}" stroke-width="{width}"{dash}/>{head}</svg>')
+
+
+def _map_words(index: Index, path: str, rel: dict) -> str:
+    """The relations of the map as lists, for readers who cannot see the picture or want to search it."""
+    link = lambda p: _project_link(path, p)  # noqa: E731
+
+    def source(e: dict) -> str:
+        if e["source"]:
+            return link(e["source"])
+        ref = rel["code_refs"].get(e["key"])
+        return f'<a href="{relative(path, STANDARDS)}#ref-{esc(ref)}">{esc(e["name"])}</a>' if ref else esc(e["name"])
+
+    def what(names: list[str]) -> str:
+        return f' <span class="muted">({esc(join_words(names))})</span>'
+
+    def by_source(own: bool) -> str:
+        groups: dict[str, list[dict]] = {}
+        for e in rel["taken"]:
+            if e["own"] == own:
+                groups.setdefault(e["key"], []).append(e)
+        items = []
+        for es in groups.values():
+            people = list(dict.fromkeys(m for e in es for m in e["shared"]))
+            who = f" ({esc(join_words(people))})" if own and people else ""
+            items.append(f"<li>From {source(es[0])}{who}: "
+                         + "; ".join(link(e["project"]) + what(e["methods"]) for e in es) + "</li>")
+        return "".join(items)
+
+    uses = []
+    for (a, b), d in rel["uses"].items():
+        bits = ([f"calls {link(index.project[b])}{what(d['calls'])}"] if d["calls"] else []) + \
+               ([f"needs {link(index.project[b])}{what(d['needs'])}"] if d["needs"] else [])
+        uses.append(f"<li>{link(index.project[a])} {' and '.join(bits)}</li>")
+    compares = "".join(f"<li>{link(index.project[a])} against {link(index.project[b])}{what(ms)}</li>"
+                       for (a, b), ms in rel["compares"].items())
+    people = "".join(f"<li>{link(index.project[a])} and {link(index.project[b])} "
+                     f'<span class="muted">({esc(join_words(names))})</span></li>'
+                     for (a, b), names in rel["people"].items())
+    parts = ['<h2 id="words">In words</h2>',
+             "<h3>Code taken from another project</h3>", f'<ul class="map-words">{by_source(False)}</ul>',
+             "<h3>The author's own code</h3>", f'<ul class="map-words">{by_source(True)}</ul>',
+             "<h3>Used at run time</h3>", f'<ul class="map-words">{"".join(uses)}</ul>',
+             "<h3>Results checked against another project</h3>", f'<ul class="map-words">{compares}</ul>',
+             "<h3>Same maintainer</h3>", f'<ul class="map-words">{people}</ul>']
+    alone = RL.alone(index, rel)
+    if alone:
+        parts.append("<p>Not on the map, as no relation is recorded for them: "
+                     + join_words([link(p) for p in alone]) + ".</p>")
+    return "\n".join(parts)
+
+
+def map_page(index: Index) -> str:
+    path = MAP
+    rel = RL.relations(index)
+    picture = RL.svg(index, rel, path, LANG_CODES)
+    shown = len({e["project"]["id"] for e in rel["taken"]} | {e["key"] for e in rel["taken"] if e["source"]}
+                | {k for pair in list(rel["uses"]) + list(rel["compares"]) + list(rel["people"]) for k in pair})
+    legend = [f"<li>{_line_sample(kind)} {esc(text)}</li>" for kind, text in RL.LEGEND]
+    legend += ['<li><span class="key-box super">SQAT</span> ' + esc(join_words([p["name"] for p in
+                                                                                  index.super_projects()])) + "</li>",
+               '<li><span class="key-box legacy">legacy</span> legacy project</li>',
+               '<li><span class="key-box code">ISO 532-1</span> program published with a standard or a paper</li>']
+    kinds = "".join(f"<dt>{_line_sample(kind)} {esc(name)}</dt><dd>{esc(text)}</dd>" for kind, name, text in RL.KINDS)
+    body = "\n".join([
+        _crumbs(f'<a href="{relative(path, PROJECTS)}">Projects</a>'),
+        "<h1>Project map</h1>",
+        f'<p class="byline">{plural(shown, "project")} · {plural(RL.count_lines(rel), "line")}</p>',
+        '<p class="lead">Each line joins two projects: code taken from another project, the author\'s own code '
+        "moved between projects, a project that uses another one at run time, results checked against another "
+        "project, or a shared maintainer. The lines come from the implementation rows on the project pages.</p>",
+        "<p>Arrows point from the source to the project that uses it, so sources stand on the left. Click a box to "
+        "open the project, or hover over a line to see the metrics behind it.</p>",
+        '<ul class="map-legend">' + "".join(legend) + "</ul>",
+        (f'<div class="map-wrap">{picture}</div>' if picture else
+         '<p class="notice notice-info">The picture could not be drawn where this page was built (Graphviz is '
+         "missing). The same relations are listed below.</p>"),
+        '<p class="small muted">Each method page shows the code taken for its metric under <em>Who ported code '
+        "from whom</em>.</p>",
+        '<h2 id="kinds">Kinds of line</h2>',
+        f'<dl class="map-kinds">{kinds}</dl>',
+        _map_words(index, path, rel),
+    ])
+    html = layout(index, path, title="Project map",
+                  description="How the open-source projects that implement psychoacoustic metrics are connected: "
+                              "code taken from another project, the author's own code, use at run time, results "
+                              "checked against another project, and shared maintainers.",
+                  body=body, section="Projects")
+    return html
 
 
 def standards_page(index: Index) -> str:

@@ -190,7 +190,9 @@ To have the scheduled job watch a standard that it does not cover yet, add a pat
 
 ## Local checks
 
-You need Python 3 (CI uses 3.12) and the packages in `requirements.txt`.
+You need Python 3 (CI uses 3.12) and the packages in `requirements.txt`. The project map is drawn by
+[Graphviz](https://graphviz.org/download/) (`dot`); without it the build still works, and the map page lists the
+relations in words only.
 
 ```sh
 python -m venv .venv

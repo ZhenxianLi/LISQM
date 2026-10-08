@@ -51,6 +51,7 @@ implements:
     status: available
     since: 0.3.0
     validation: standard-data
+    derived_from: [mosqito]
     compared_with: [mosqito]
     validation_details:
       - Stages are tested against MoSQITo `loudness_zwtv` intermediates (agreement about 1e-9 to 1e-15).
@@ -70,4 +71,5 @@ sources:
   - https://github.com/slink/ZwickerLoudness.jl/blob/main/test/fixtures/NOTICE.md
   - https://github.com/slink/ZwickerLoudness.jl/releases
   - https://github.com/JuliaRegistries/General/tree/master/Z/ZwickerLoudness
-checked: 2026-10-06
+  - https://github.com/slink/ZwickerLoudness.jl/blob/main/src/method2.jl
+checked: 2026-10-08
