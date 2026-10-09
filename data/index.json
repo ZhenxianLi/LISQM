@@ -8899,7 +8899,7 @@
     {
       "date": "2026-10-08",
       "title": "Version 0.4: the project map",
-      "body": "A new page, the [project map](https://zhenxianli.github.io/LISQM/projects/map.html), shows how the listed\nprojects are connected: code taken from another project, the author's own code, use at run time, results\nchecked against another project, and shared contributors.\n"
+      "body": "A new page, the [project map](https://zhenxianli.github.io/LISQM/projects/map.html), shows how the listed\nprojects are connected: code ported or adapted from another project, the author's own code, use at run time,\nresults checked against another project, and shared contributors.\n"
     },
     {
       "date": "2026-10-08",

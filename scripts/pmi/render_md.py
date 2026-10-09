@@ -223,7 +223,13 @@ def _metric_map(index: Index, m: dict) -> list[str]:
              f"{index.site['base_url']}{md_twin(MAP)})."
              + (" Agreement between a project and the code it was ported or adapted from only checks the port."
                 if rel["taken"] else ""), ""]
-    return lines + _relation_lines(index, rel, "###")
+    lines += _relation_lines(index, rel, "###")
+    alone = RL.alone(index, rel)
+    if alone:
+        name = _namer(index)
+        lines += ["Not on the map, as no relation is recorded for them: " + join_words([name(p) for p in alone]) + ".",
+                  ""]
+    return lines
 
 
 def _conventions(index: Index, impls: list[dict], general: list[str], on_metric: bool) -> list[str]:

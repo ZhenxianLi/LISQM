@@ -324,10 +324,13 @@ def svg(index: Index, rel: dict, path: str, lang_codes: dict,
 
 
 def alone(index: Index, rel: dict) -> list[dict]:
-    """Listed projects that no line joins (projects with unverified code are left out)."""
+    """Listed projects that no line joins (projects with unverified code are left out); on the map of one metric,
+    the projects with a row for that metric that no line joins."""
     shown = ({e["project"]["id"] for e in rel["taken"]} | {e["key"] for e in rel["taken"]}
              | {k for pair in list(rel["uses"]) + list(rel["compares"]) + list(rel["people"]) for k in pair})
-    return [p for p in index.projects_by_group() if p["id"] not in shown and p["_group"] != "unknown"]
+    of_metric = {i["_project"]["id"] for i in rel["metric"]["_impls"]} if rel.get("metric") else None
+    return [p for p in index.projects_by_group() if p["id"] not in shown and p["_group"] != "unknown"
+            and (of_metric is None or p["id"] in of_metric)]
 
 
 def count_lines(rel: dict) -> int:

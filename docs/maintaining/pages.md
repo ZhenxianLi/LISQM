@@ -89,8 +89,8 @@ Built by `metric_page()` from the metric in `data/metrics.yaml`, its editions in
   licence tag, `unreleased`, `PR` or `partial`, the project it is computed by or uses, the row's `note`).
 - **How they were validated**: as reported by each project. The owner's own check (`maintainer_check`) appears
   apart, under the project's first entry.
-- **Project map**: the map with only the lines of this metric's rows, each naming the edition. There is no such
-  section when the metric has no relation.
+- **Project map**: the map with only the lines of this metric's rows, each naming the edition, and under it the
+  projects of the metric that no line joins. There is no such section when the metric has no relation.
 - **Before you compare numbers**: the metric's `conventions`, then the projects' (their rows' conventions, and the
   project conventions that hold for this metric; a project convention with `metrics` appears only on those pages).
 - **References**.

@@ -412,6 +412,7 @@ def _metric_map_section(index: Index, path: str, m: dict, rel: dict) -> str:
         return ("\n".join(['<h2 id="map">Project map</h2>',
                            f'<p>The <a href="{to_map}">project map</a> shows how the projects for this metric are '
                            "connected.</p>"]))
+    alone = RL.alone(index, rel)
     return "\n".join([
         '<h2 id="map">Project map</h2>',
         f'<p>The <a href="{to_map}">project map</a>, with only the lines for {esc(in_sentence(m["name"]))}.'
@@ -419,6 +420,8 @@ def _metric_map_section(index: Index, path: str, m: dict, rel: dict) -> str:
            if rel["taken"] else "")
         + "</p>",
         picture,
+        ("<p>Not on the map, as no relation is recorded for them: "
+         + join_words([_project_link(path, p) for p in alone]) + ".</p>" if alone else ""),
     ])
 
 

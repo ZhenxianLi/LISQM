@@ -703,6 +703,23 @@ class BuildTest(unittest.TestCase):
         self.assertIn("## Project map", md)
         self.assertIn("- From [AARAE](https://zhenxianli.github.io/LISQM/projects/aarae.html): "
                       "**[SQAT](https://zhenxianli.github.io/LISQM/projects/sqat.html)** (ISO 532-1:2017)", md)
+        # Every project of a metric is on its map, or named under it as having no recorded relation (phonometry for
+        # Moore-Glasberg loudness).
+        for m in self.index.metrics:
+            page = (self.site / f"metrics/{m['id']}.html").read_text(encoding="utf-8")
+            if '<h2 id="map">' not in page:
+                continue
+            section = page[page.index('<h2 id="map">'):]
+            section = section[:section.find("<h2", 5)]
+            named = set(re.findall(r'href="\.\./projects/([^"]+)\.html"', section))
+            for i in m["_impls"]:
+                if i["_project"]["_group"] != "unknown":
+                    self.assertIn(i["_project"]["id"], named, f"{m['id']}: {i['_project']['id']}")
+        moore = (self.site / "metrics/loudness-moore-glasberg.html").read_text(encoding="utf-8")
+        self.assertRegex(moore, r'<p>Not on the map, as no relation is recorded for them: [^\n]*'
+                                r'href="\.\./projects/phonometry\.html"')
+        self.assertRegex((self.site / "metrics/loudness-moore-glasberg.md").read_text(encoding="utf-8"),
+                         r"Not on the map, as no relation is recorded for them: [^\n]*\[phonometry\]")
 
     def test_data_texts_are_whole(self) -> None:
         # In YAML, " #" in an unquoted text starts a comment and ": " makes a mapping: both once cut a sentence.
