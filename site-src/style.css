@@ -871,18 +871,18 @@ p, ul, ol {
   margin: 0 0 1rem;
 }
 
-main > p,
-main > ul,
-main > ol,
+/* One reading width for all running text, legends, bylines and notes included, so that they end at the same right
+   edge; only tables, the timeline and the maps are wider. Text inside them follows their width. */
+main :is(p, ul, ol, dl, blockquote),
 main > .in-short,
 main > .notice,
-.col-main > p,
-.timeline-section > p {
+.message,
+.legend {
+  box-sizing: border-box;
   max-width: var(--measure);
 }
 
-main > p.byline,
-.timeline-section > p.others-note {
+main :is(td, th, table, figure, .map-wrap, .legend) :is(p, ul, ol, dl) {
   max-width: none;
 }
 

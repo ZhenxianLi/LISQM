@@ -34,8 +34,11 @@ width first and then at about 390 px.
   with MoSQITo"), grey when the comparison is with related code. Names in bold are the projects with
   `super_project`.
 - **Design.** Plain, blog-like pages in the green of the masthead, with colour where it helps reading; no rounded
-  cards or decorative boxes. The desktop layout is the reference: styles for narrow screens (below 40rem) must not
-  change the desktop view. Dark mode exists in the code but is off (`dark_mode: false`); keep it off.
+  cards or decorative boxes. All text (paragraphs, lists, legends, bylines, notes) has one reading width
+  (`--measure`), so that it ends at the same right edge; only tables, the timeline and the maps are wider, and the
+  text inside them follows their width. The desktop layout is the reference: styles for narrow screens (below
+  40rem) must not change the desktop view. Dark mode exists in the code but is off (`dark_mode: false`); keep it
+  off.
 - **Links and anchors.** Internal links are relative and must resolve (a test checks every link and anchor).
   Keep the anchors of sections stable: other sites link to them.
 - **Machine-readable parts.** JSON-LD (`schema.org`) in every page, the Markdown twin, the sitemap, the feed. The

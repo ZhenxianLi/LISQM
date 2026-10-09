@@ -72,6 +72,7 @@ the owner asks, and then add a row here. Texts marked *owner's text* are kept wo
 | 2026-10-09 | On the home timeline, each standard or paper links to its entry on the Standards page. | Home |
 | 2026-10-09 | Every project map, the whole map and those of the metric pages, also draws the projects that no line joins, as boxes without lines under "no relation recorded". | map, Projects, metric pages |
 | 2026-10-09 | On the whole map, the smaller groups (AMT's and iso532-3's) are under the largest group, and the projects that no line joins are in rows under the map, not in a column. | map, Projects |
+| 2026-10-09 | One reading width for all text, legends, bylines and notes included (option B of three previews); only tables, the timeline and the maps are wider. | every page |
 | 2026-10-09 | An open pull request is tagged "PR", whose meaning is clear; the value in the data stays `proposed`. Code merged but not released stays "unreleased". | tags, Markdown twins |
 | 2026-10-09 | HEAD acoustics ArtemiS SUITE, a reference in psychoacoustics, is named wherever a project compared its results with it, never as "commercial software": SQAT's validation pages name it (and its version) in their source. | `compared_with` |
 | 2026-10-09 | Search: a field in the tab bar on desktop and a filter above the tables of the Projects page; on phones (and tablets) a Search button that opens a dialog. | every page, Projects |
