@@ -16,7 +16,7 @@ issue or to the owner; do not change them yourself. Current values:
 | Social preview | `assets/social-preview.png`, drawn from `assets/social-preview.svg` with the tagline as subtitle; uploaded by the owner. The build also copies it into the site for link previews. |
 | Branches | `main` only; delete any other branch after it is merged (Dependabot's are temporary) |
 | Pages | source: GitHub Actions |
-| Releases and tags | made by the owner (`v0.4.0` …) |
+| Releases and tags | only for version 1.0, made by the owner; earlier versions are only pushed (one old tag, `v0.5.0`) |
 | Comments | none on the website; the FAQ message box opens an issue |
 
 When the name, the tagline or the scope changes, the description, the topics and the social preview may need to
@@ -43,12 +43,13 @@ creates them when they are missing.
 
 ## Versions and releases
 
-- Versions follow semantic versioning: `0.Y.0` for a release with new pages or features, `0.Y.Z` for corrections.
-  The owner decides when to release.
-- A release is prepared in one commit: `version` in `data/site.yaml`; `version` and `date-released` in
+- Versions follow semantic versioning: `0.Y.0` for a version with new pages or features, `0.Y.Z` for corrections.
+  The owner decides when to make a version.
+- A version is prepared in one commit: `version` in `data/site.yaml`; `version` and `date-released` in
   `CITATION.cff`; an entry "Version 0.Y: <what is new>" at the top of `data/updates.yaml`, short.
-- The owner then creates the tag `v0.Y.Z` on that commit and publishes the GitHub release with the same text.
-  Agents do not create or push tags.
+- That commit is only pushed: no tag and no GitHub release. The one release the owner plans is version 1.0, which
+  the owner creates. The tag `v0.5.0` (on the first commit of that version) stays as it is. Agents do not create or
+  push tags.
 
 ## Workflows
 
