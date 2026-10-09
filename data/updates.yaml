@@ -9,7 +9,12 @@
     language, a licence or a metric.
 
     - The project map gives every line its own end, so that lines no longer meet at one point, and joins every
-      pair of projects that share a contributor.
+      pair of projects that share a contributor. Code from another project is "ported or adapted"; projects that
+      no line joins are drawn as boxes without lines, also on the map of each metric page.
+    - Each standard or paper on the Home timeline links to its entry on the Standards page.
+    - All text has one reading width; only tables, the timeline and the maps are wider.
+    - Validation tags name HEAD acoustics ArtemiS SUITE wherever a project compared its results with it, now also
+      for SQAT's ECMA-418-2 loudness, roughness and tonality.
     - Metric pages and the Languages page flag licences that limit use; the FAQ says what a listing does not
       certify.
     - Corrections from a review of the site.
