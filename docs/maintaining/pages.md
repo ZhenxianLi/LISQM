@@ -91,8 +91,7 @@ Built by `metric_page()` from the metric in `data/metrics.yaml`, its editions in
   apart, under the project's first entry.
 - **Project map**: the map with only the lines of this metric's rows, each naming the edition. The metric's
   projects that no line joins are boxes without lines, in the first column under the rest, below the words "no
-  relation recorded" (the whole map does not draw such projects: it names them in words). There is no such section
-  when the metric has no relation.
+  relation recorded", as on the whole map. There is no such section when the metric has no relation.
 - **Before you compare numbers**: the metric's `conventions`, then the projects' (their rows' conventions, and the
   project conventions that hold for this metric; a project convention with `metrics` appears only on those pages).
 - **References**.
@@ -147,10 +146,11 @@ in `data/SCHEMA.md`. Built by `map_page()`.
   neither share an end nor cross where they meet a box. A box with many lines grows taller. A grey line between
   boxes of the same column joins them directly.
 - **Boxes**: bold for the bold projects, faded for legacy projects, dashed for programs published with a standard
-  or a paper. Each box links to its page; each line has a tooltip naming the metrics (on a metric page, the
+  or a paper. Projects that no line joins are boxes without lines in the first column under the rest, below the
+  words "no relation recorded". Each box links to its page; each line has a tooltip naming the metrics (on a metric page, the
   editions).
-- **In words**: the same relations as text, and the projects left out (no relation, or code that could not be
-  opened).
+- **In words**: the same relations as text, the projects drawn without a line, and those left out because their
+  code could not be opened.
 - `contributors` holds people with code of their own in a project, taken from its commit history or documentation;
   never e-mail addresses. When a contributor of both projects wrote the code that was ported or adapted, mark the row
   with `derived_by_author` (a test checks this).

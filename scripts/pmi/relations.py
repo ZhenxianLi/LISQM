@@ -277,10 +277,10 @@ def dot_source(index: Index, rel: dict, path: str, lang_codes: dict, pos: dict |
             attrs.append("dir=back")
         return f"  {_q(line['source'])} -> {_q(line['user'])} [{', '.join(attrs)}];"
 
-    # On the map of one metric, the metric's projects that no line joins: boxes without lines, under a short label,
-    # in the first column below the rest (declared first and bottom up, as Graphviz stacks a left-to-right graph
-    # from the bottom). The whole map has none.
-    single = alone(index, rel) if rel.get("metric") else []
+    # The projects that no line joins (on the map of one metric, that metric's): boxes without lines, under a short
+    # label, in the first column below the rest (declared first and bottom up, as Graphviz stacks a left-to-right
+    # graph from the bottom).
+    single = alone(index, rel)
     if single:
         out += [node(p["id"]) for p in reversed(single)]
         out.append('  "alone:label" [shape=plaintext, label=<<font color="#6e7781" point-size="11"><i>no relation '
@@ -351,8 +351,7 @@ def shown(index: Index, rel: dict) -> set[str]:
     """What the legend needs: the kinds of line drawn, and "super", "legacy" and "code" for the kinds of box."""
     out = {line["kind"] for line in lines(index, rel)}
     keys = {k for line in lines(index, rel) for k in (line["source"], line["user"])}
-    if rel.get("metric"):  # the map of a metric also draws its projects that no line joins
-        keys |= {p["id"] for p in alone(index, rel)}
+    keys |= {p["id"] for p in alone(index, rel)}  # the projects that no line joins are drawn too
     projects = [index.project[k] for k in keys if k in index.project]
     out |= {"super"} if any(p["_super"] for p in projects) else set()
     out |= {"legacy"} if any(p["_group"] == "legacy" for p in projects) else set()

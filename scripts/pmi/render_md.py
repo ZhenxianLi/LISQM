@@ -630,7 +630,8 @@ def map_page(index: Index) -> str:
     lines += _relation_lines(index, rel, "##")
     alone = RL.alone(index, rel)
     if alone:
-        lines += ["Not on the map, as no relation is recorded for them: " + join_words([name(p) for p in alone]) + "."]
+        lines += ["On the map without a line, as no relation is recorded for them: "
+                  + join_words([name(p) for p in alone]) + "."]
     unknown = index.group("unknown")
     if unknown:
         lines += ["", "Left out, as their code could not be opened: " + join_words([name(p) for p in unknown]) + "."]

@@ -704,7 +704,7 @@ class BuildTest(unittest.TestCase):
         self.assertIn("- From [AARAE](https://zhenxianli.github.io/LISQM/projects/aarae.html): "
                       "**[SQAT](https://zhenxianli.github.io/LISQM/projects/sqat.html)** (ISO 532-1:2017)", md)
         # Every project of a metric is on its map: a project that no line joins is a box without a line, under
-        # "no relation recorded" (phonometry for Moore-Glasberg loudness). The whole map has no such boxes.
+        # "no relation recorded" (phonometry for Moore-Glasberg loudness), as on the whole map.
         for m in self.index.metrics:
             page = (self.site / f"metrics/{m['id']}.html").read_text(encoding="utf-8")
             if '<h2 id="map">' not in page:
@@ -723,9 +723,15 @@ class BuildTest(unittest.TestCase):
         self.assertNotIn("Not on the map", moore)
         self.assertRegex((self.site / "metrics/loudness-moore-glasberg.md").read_text(encoding="utf-8"),
                          r"On the map without a line, as no relation is recorded for them: [^\n]*\[phonometry\]")
-        whole = (self.site / "projects/map.html").read_text(encoding="utf-8")
-        self.assertNotIn("no relation recorded", whole)
-        self.assertIn("<p>Not on the map, as no relation is recorded for them: ", whole)
+        for page in ("projects/map.html", "projects/index.html"):
+            whole = (self.site / page).read_text(encoding="utf-8")
+            start = whole.index('<svg class="map-graph"')
+            picture = whole[start:whole.index("</svg>", start)]
+            self.assertIn(">no relation recorded</text>", picture, page)
+            for p in RL.alone(self.index, RL.relations(self.index)):
+                self.assertIn(f'xlink:href="../projects/{p["id"]}.html"', picture, f"{page}: {p['id']}")
+        self.assertIn("<p>On the map without a line, as no relation is recorded for them: ",
+                      (self.site / "projects/map.html").read_text(encoding="utf-8"))
 
     def test_data_texts_are_whole(self) -> None:
         # In YAML, " #" in an unquoted text starts a comment and ": " makes a mapping: both once cut a sentence.

@@ -1329,7 +1329,7 @@ def _map_words(index: Index, path: str, rel: dict) -> str:
              "<h3>Same contributor</h3>", f'<ul class="map-words">{people}</ul>']
     alone = RL.alone(index, rel)
     if alone:
-        parts.append("<p>Not on the map, as no relation is recorded for them: "
+        parts.append("<p>On the map without a line, as no relation is recorded for them: "
                      + join_words([link(p) for p in alone]) + ".</p>")
     unknown = index.group("unknown")
     if unknown:
@@ -1374,7 +1374,8 @@ def map_page(index: Index) -> str:
     rel = RL.relations(index)
     picture = _map_picture(index, path, rel, ("#words", "below"))
     shown = len({e["project"]["id"] for e in rel["taken"]} | {e["key"] for e in rel["taken"] if e["source"]}
-                | {k for pair in list(rel["uses"]) + list(rel["compares"]) + list(rel["people"]) for k in pair})
+                | {k for pair in list(rel["uses"]) + list(rel["compares"]) + list(rel["people"]) for k in pair}
+                | {p["id"] for p in RL.alone(index, rel)})
     kinds = "".join(f"<dt>{_line_sample(kind)} {esc(name)}</dt><dd>{esc(text)}</dd>" for kind, name, text in RL.KINDS)
     # A metric page shows the lines of its own metric; one with code ported or adapted from another project as the
     # example.
