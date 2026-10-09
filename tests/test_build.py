@@ -733,6 +733,36 @@ class BuildTest(unittest.TestCase):
         self.assertIn("<p>On the map without a line, as no relation is recorded for them: ",
                       (self.site / "projects/map.html").read_text(encoding="utf-8"))
 
+    def test_whole_map_order(self) -> None:
+        # On the whole map the largest group of joined boxes is on top: in each column, the boxes of the smaller
+        # groups (AMT's) are under it. The boxes that no line joins are in rows under all the others.
+        if not shutil.which("dot"):
+            self.skipTest("Graphviz is not installed")
+        page = (self.site / "projects/map.html").read_text(encoding="utf-8")
+        start = page.index('<svg class="map-graph"')
+        boxes = {}  # project id: centre (x, y) in the picture, y downwards
+        for dx, dy, pid, d in re.findall(
+                r'(?:<g transform="translate\(([-\d.]+),([-\d.]+)\)">\n)?<!-- [^\n]* -->\n<g id="node\d+" '
+                r'class="node">\n<title>[^<]*</title>\n<g id="a_node\d+"><a xlink:href="\.\./projects/([^"]+)\.html"'
+                r'[^>]*>\n<path [^>]*?d="([^"]+)"', page[start:page.index("</svg>", start)]):
+            xs, ys = zip(*((float(x), float(y)) for x, y in re.findall(r"([-\d.]+),([-\d.]+)", d)))
+            boxes[pid] = ((min(xs) + max(xs)) / 2 + float(dx or 0), (min(ys) + max(ys)) / 2 + float(dy or 0))
+        rel = RL.relations(self.index)
+        drawn = RL.lines(self.index, rel)
+        found = RL.groups(list(dict.fromkeys(k for line in drawn for k in (line["source"], line["user"]))), drawn)
+        largest = max(found, key=len)
+        self.assertIn("amt", [k for group in found if group is not largest for k in group])
+        for group in found:
+            for k in (k for k in group if group is not largest and k in boxes):
+                for top in (t for t in largest if t in boxes and abs(boxes[t][0] - boxes[k][0]) < 1):
+                    self.assertLess(boxes[top][1], boxes[k][1], f"{top} above {k}")
+        single = [p["id"] for p in RL.alone(self.index, rel)]
+        lowest = max(y for k, (x, y) in boxes.items() if k not in single)
+        self.assertEqual(set(single) - set(boxes), set())
+        self.assertTrue(all(boxes[k][1] > lowest for k in single))
+        self.assertLess(len({round(boxes[k][1]) for k in single}), len(single), "in rows, not in a column")
+        self.assertNotIn("<title>alone:label</title>", page)
+
     def test_data_texts_are_whole(self) -> None:
         # In YAML, " #" in an unquoted text starts a comment and ": " makes a mapping: both once cut a sentence.
         self.assertTrue(self.index.project["mosqito"]["caveats"][0].endswith("low-pass filter (#92, #95)."))
