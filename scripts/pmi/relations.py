@@ -3,8 +3,8 @@
 Sources stand to the left of the map: code and use run from the source to the project that uses it, and a check
 points back from the project to the one it checked its results against.
 
-- code taken: a row's `derived_from` (else the project's `based_on`); "own" when every row of the pair says
-  `derived_by_author`, that is, the code was moved by its own author or within the same team;
+- ported or adapted code: a row's `derived_from` (else the project's `based_on`); "own" when every row of the pair
+  says `derived_by_author`, that is, the code was moved by its own author or within the same team;
 - used at run time: a row's `via` (another project does the computation) and `uses` (it needs another project);
 - results checked: a row's `compared_with`, leaving out comparisons with related code (`_relation`) and pairs that
   another line already joins;
@@ -42,21 +42,22 @@ LINES = {
 }
 # The kinds of line, as the legend names them and as the page explains them (shared by the HTML page and its
 # Markdown twin).
-LEGEND = [("port", "code taken from another project"), ("own", "the author's own code"),
+LEGEND = [("port", "ported or adapted from another project"), ("own", "the author's own code"),
           ("uses", "used at run time"), ("compare", "results checked against"), ("people", "same contributor")]
 KINDS = [
-    ("port", "Code taken from another project",
-     "The project's code for a metric was ported, translated, copied or adapted from the source, or the whole "
-     "project continues the source. A grey box is a program published with a standard or a paper."),
+    ("port", "Ported or adapted from another project",
+     "The project's code for a metric was ported from the source (translated into another language) or adapted "
+     "from it (reused with changes), or the whole project continues the source. A grey box is a program published "
+     "with a standard or a paper."),
     ("own", "The author's own code",
-     "The code was written by someone who also maintains the project that took it: a contribution, a move or a "
-     "translation within the same team, not a port by someone else."),
+     "The code was written by someone who also maintains the project that ported or adapted it: a contribution, a "
+     "move or a translation within the same team, not a port by someone else."),
     ("uses", "Used at run time",
      "The project calls the source to compute the metric, or needs its results as input."),
     ("compare", "Results checked against",
      "The arrow points from the project to the one it checked its results against. Comparisons with the code a "
-     "project was taken from, with a port of its own code or with another port of the same code are not drawn, "
-     "because they only show that two copies agree."),
+     "project was ported or adapted from, with a port of its own code or with another port of the same code are "
+     "not drawn, because they only show that two versions of the same code agree."),
     ("people", "Same contributor",
      "Someone has worked on both projects, as a maintainer or with code of their own. Not drawn beside a line of "
      "the author's own code, which says the same."),
@@ -168,7 +169,7 @@ def lines(index: Index, rel: dict) -> list[dict]:
             who = f" ({join_words(e['shared'])})" if e["shared"] else ""
             tip = f"Author's own code: {e['name']} to {e['project']['name']}{who}, for {about(e['metrics'])}"
         else:
-            tip = f"Code taken: {e['name']} to {e['project']['name']}, for {about(e['metrics'])}"
+            tip = f"Ported or adapted: {e['name']} to {e['project']['name']}, for {about(e['metrics'])}"
         out.append({"kind": "own" if e["own"] else "port", "source": e["key"], "user": e["project"]["id"],
                     "tip": tip})
     for (a, b), d in rel["uses"].items():

@@ -183,7 +183,7 @@ def _relation_lines(index: Index, rel: dict, level: str) -> list[str]:
         return f" ({join_words(names)})"
 
     sections: list[tuple[str, list[str]]] = []
-    for own, heading in ((False, "Code taken from another project"), (True, "The author's own code")):
+    for own, heading in ((False, "Ported or adapted from another project"), (True, "The author's own code")):
         groups: dict[str, list[dict]] = {}
         for e in rel["taken"]:
             if e["own"] == own:
@@ -221,8 +221,8 @@ def _metric_map(index: Index, m: dict) -> list[str]:
     lines = ["## Project map", "",
              f"The lines of the project map for {in_sentence(m['name'])} only (the whole map: "
              f"{index.site['base_url']}{md_twin(MAP)})."
-             + (" Agreement between a project and the code it was taken from only checks the port." if rel["taken"]
-                else ""), ""]
+             + (" Agreement between a project and the code it was ported or adapted from only checks the port."
+                if rel["taken"] else ""), ""]
     return lines + _relation_lines(index, rel, "###")
 
 
@@ -614,11 +614,11 @@ def map_page(index: Index) -> str:
     rel = RL.relations(index)
     name = _namer(index)
     lines = ["# Project map", "", _header(index, MAP), "",
-             "Each line of the map joins two projects: code taken from another project, the author's own code moved "
-             "between projects, a project that uses another one at run time, results checked against another "
-             "project, or a shared contributor. The lines come from the implementation rows on the project pages. On "
-             "the web page, arrows point from the source to the project that uses it, and a check points from the "
-             "project to the one it checked its results against.", "",
+             "Each line of the map joins two projects: code ported or adapted from another project, the author's own "
+             "code moved between projects, a project that uses another one at run time, results checked against "
+             "another project, or a shared contributor. The lines come from the implementation rows on the project "
+             "pages. On the web page, arrows point from the source to the project that uses it, and a check points "
+             "from the project to the one it checked its results against.", "",
              "## Kinds of line", ""]
     lines += [f"- **{kind_name}.** {text}" for _, kind_name, text in RL.KINDS] + [""]
     lines += _relation_lines(index, rel, "##")
@@ -796,8 +796,8 @@ def llms_txt(index: Index) -> str:
               f"- [For AI agents]({site['base_url']}{md_twin(AI)}): how to retrieve, read and cite this list",
               f"- [Metrics]({site['base_url']}{md_twin(METRICS)}): every metric with its current edition",
               f"- [Languages]({site['base_url']}{md_twin(LANGUAGES)}): coverage and calling details by language",
-              f"- [Project map]({site['base_url']}{md_twin(MAP)}): code taken from another project, use at run time, "
-              "results checked against another project, and shared contributors",
+              f"- [Project map]({site['base_url']}{md_twin(MAP)}): code ported or adapted from another project, use "
+              "at run time, results checked against another project, and shared contributors",
               f"- [Frequently asked questions]({site['base_url']}{md_twin(FAQ)})",
               f"- [About]({site['base_url']}{md_twin(ABOUT)}): scope, how entries are checked, definitions and data access",
               f"- [Standards timeline]({site['base_url']}{md_twin(STANDARDS)})",

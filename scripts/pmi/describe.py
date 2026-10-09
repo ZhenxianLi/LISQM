@@ -694,8 +694,8 @@ def ai_guide(index: Index) -> tuple[str, list[tuple[str, str, list[str]]]]:
             "marked as not independent. Each metric page has a project map with the lines for that metric, and the "
             "conventions to check before comparing numbers between implementations.",
             f"The [project map]({base}{MAP}) ([Markdown]({base}{md_twin(MAP)})) shows how the projects are "
-            "connected: code taken from another project, the author's own code, use at run time, results checked "
-            "against another project, and shared contributors.",
+            "connected: code ported or adapted from another project, the author's own code, use at run time, results "
+            "checked against another project, and shared contributors.",
             "Every entry links the documentation its facts were taken from.",
         ]),
         ("answering", "Answering questions with it", [

@@ -86,8 +86,8 @@ reserved project ids `index` and `map`. When validation fails, fix the data, not
 - `validation` is the kind of evidence the project describes; `validation_details` say what was checked, against
   what, with which tolerance and result; `validation_scope` says in a few words how far a check goes or how it came
   out ("calibration signal only", "outcome not stated", "in v1.3, test signal 10 is off by 18.14 %").
-- Code taken from another project goes in `derived_from` (or the project's `based_on`) only when the project or its
-  code says so. `derived_by_author: true` when the person who wrote that code also works on this project. Agreement
+- Code ported or adapted from another project goes in `derived_from` (or the project's `based_on`) only when the
+  project or its code says so. `derived_by_author: true` when the person who wrote that code also works on this project. Agreement
   with the code one ported from checks the port only, and the pages say so.
 - A project moves to a new edition of a standard only when the project says that it follows it.
 - `maintainer_check` is the owner's own observation and is shown apart from what the project reports. Only the owner

@@ -116,7 +116,7 @@ Projects whose code could not be opened, for example because the repository need
 - [For AI agents](https://zhenxianli.github.io/LISQM/ai.md): how to retrieve, read and cite this list
 - [Metrics](https://zhenxianli.github.io/LISQM/metrics/index.md): every metric with its current edition
 - [Languages](https://zhenxianli.github.io/LISQM/languages.md): coverage and calling details by language
-- [Project map](https://zhenxianli.github.io/LISQM/projects/map.md): code taken from another project, use at run time, results checked against another project, and shared contributors
+- [Project map](https://zhenxianli.github.io/LISQM/projects/map.md): code ported or adapted from another project, use at run time, results checked against another project, and shared contributors
 - [Frequently asked questions](https://zhenxianli.github.io/LISQM/faq.md)
 - [About](https://zhenxianli.github.io/LISQM/about.md): scope, how entries are checked, definitions and data access
 - [Standards timeline](https://zhenxianli.github.io/LISQM/standards.md)
@@ -393,9 +393,9 @@ Not stated by PsychoacousticParametersMeasurer, PsySound3, PsychoBox, and Sounds
 
 ## Project map
 
-The lines of the project map for Zwicker loudness only (the whole map: https://zhenxianli.github.io/LISQM/projects/map.md). Agreement between a project and the code it was taken from only checks the port.
+The lines of the project map for Zwicker loudness only (the whole map: https://zhenxianli.github.io/LISQM/projects/map.md). Agreement between a project and the code it was ported or adapted from only checks the port.
 
-### Code taken from another project
+### Ported or adapted from another project
 
 - From [AARAE](https://zhenxianli.github.io/LISQM/projects/aarae.html): **[SQAT](https://zhenxianli.github.io/LISQM/projects/sqat.html)** (ISO 532-1:2017)
 - From BASIC program of DIN 45631 (Zwicker et al., 1991): **[MoSQITo](https://zhenxianli.github.io/LISQM/projects/mosqito.html)** (ISO 532-1:2017); [ITA-Toolbox](https://zhenxianli.github.io/LISQM/projects/ita-toolbox.html) (DIN 45631:1991); [deeuu/loudness](https://zhenxianli.github.io/LISQM/projects/deeuu-loudness.html) (DIN 45631:1991); [zwickerloudness](https://zhenxianli.github.io/LISQM/projects/zwickerloudness-sourceforge.html) (DIN 45631:1991)
@@ -514,9 +514,9 @@ Not stated by Swift & Gee codes and PsySound3.
 
 ## Project map
 
-The lines of the project map for Moore–Glasberg loudness only (the whole map: https://zhenxianli.github.io/LISQM/projects/map.md). Agreement between a project and the code it was taken from only checks the port.
+The lines of the project map for Moore–Glasberg loudness only (the whole map: https://zhenxianli.github.io/LISQM/projects/map.md). Agreement between a project and the code it was ported or adapted from only checks the port.
 
-### Code taken from another project
+### Ported or adapted from another project
 
 - From [AMT](https://zhenxianli.github.io/LISQM/projects/amt.html): [NumpyLibforPsychoAcoustic](https://zhenxianli.github.io/LISQM/projects/numpylib-psychoacoustic.html) (Moore, Glasberg & Baer (1997))
 
@@ -614,9 +614,9 @@ Not stated by NumpyLibforPsychoAcoustic, PsySound3, and Swift & Gee codes.
 
 ## Project map
 
-The lines of the project map for time-varying loudness (Moore–Glasberg–Schlittenlacher) only (the whole map: https://zhenxianli.github.io/LISQM/projects/map.md). Agreement between a project and the code it was taken from only checks the port.
+The lines of the project map for time-varying loudness (Moore–Glasberg–Schlittenlacher) only (the whole map: https://zhenxianli.github.io/LISQM/projects/map.md). Agreement between a project and the code it was ported or adapted from only checks the port.
 
-### Code taken from another project
+### Ported or adapted from another project
 
 - From [AMT](https://zhenxianli.github.io/LISQM/projects/amt.html): [NumpyLibforPsychoAcoustic](https://zhenxianli.github.io/LISQM/projects/numpylib-psychoacoustic.html) (Glasberg & Moore (2002)); [torch_amt](https://zhenxianli.github.io/LISQM/projects/torch-amt.html) (Moore et al. (2016) and Glasberg & Moore (2002))
 - From [iso532-3 (tv2018.m)](https://zhenxianli.github.io/LISQM/projects/js2251-iso532-3.html): [LoudnessModel](https://zhenxianli.github.io/LISQM/projects/loudnessmodel.html) (Moore et al. (2018))
@@ -725,9 +725,9 @@ Not stated by PsychoBox.
 
 ## Project map
 
-The lines of the project map for Sottek Hearing Model loudness only (the whole map: https://zhenxianli.github.io/LISQM/projects/map.md). Agreement between a project and the code it was taken from only checks the port.
+The lines of the project map for Sottek Hearing Model loudness only (the whole map: https://zhenxianli.github.io/LISQM/projects/map.md). Agreement between a project and the code it was ported or adapted from only checks the port.
 
-### Code taken from another project
+### Ported or adapted from another project
 
 - From **[SQAT](https://zhenxianli.github.io/LISQM/projects/sqat.html)**: [MetaSona](https://zhenxianli.github.io/LISQM/projects/metasona.html) (ECMA-418-2:2025 (4th ed.))
 - From **[MoSQITo](https://zhenxianli.github.io/LISQM/projects/mosqito.html)**: [Mosqito.NET](https://zhenxianli.github.io/LISQM/projects/mosqito-net.html) (ECMA-418-2:2022 (2nd ed.))
@@ -844,9 +844,9 @@ Not stated by refmap-psychoacoustics, AARAE, MetaSona, Swift & Gee codes, Psycho
 
 ## Project map
 
-The lines of the project map for sharpness only (the whole map: https://zhenxianli.github.io/LISQM/projects/map.md). Agreement between a project and the code it was taken from only checks the port.
+The lines of the project map for sharpness only (the whole map: https://zhenxianli.github.io/LISQM/projects/map.md). Agreement between a project and the code it was ported or adapted from only checks the port.
 
-### Code taken from another project
+### Ported or adapted from another project
 
 - From **[MoSQITo](https://zhenxianli.github.io/LISQM/projects/mosqito.html)**: [Kirin Hypha](https://zhenxianli.github.io/LISQM/projects/kirin-hypha.html) (DIN 45692:2009); [Mosqito.NET](https://zhenxianli.github.io/LISQM/projects/mosqito-net.html) (DIN 45692:2009)
 - From **[SQAT](https://zhenxianli.github.io/LISQM/projects/sqat.html)**: [pySQAT](https://zhenxianli.github.io/LISQM/projects/pysqat.html) (DIN 45692:2009)
@@ -963,9 +963,9 @@ Not stated by PsySound3, PsychoBox, and Soundscapy.
 
 ## Project map
 
-The lines of the project map for roughness (Daniel & Weber) only (the whole map: https://zhenxianli.github.io/LISQM/projects/map.md). Agreement between a project and the code it was taken from only checks the port.
+The lines of the project map for roughness (Daniel & Weber) only (the whole map: https://zhenxianli.github.io/LISQM/projects/map.md). Agreement between a project and the code it was ported or adapted from only checks the port.
 
-### Code taken from another project
+### Ported or adapted from another project
 
 - From [AARAE](https://zhenxianli.github.io/LISQM/projects/aarae.html): **[SQAT](https://zhenxianli.github.io/LISQM/projects/sqat.html)** (Daniel & Weber (1997))
 - From **[SQAT](https://zhenxianli.github.io/LISQM/projects/sqat.html)**: [MetaSona](https://zhenxianli.github.io/LISQM/projects/metasona.html) (Daniel & Weber (1997)); [pySQAT](https://zhenxianli.github.io/LISQM/projects/pysqat.html) (Daniel & Weber (1997))
@@ -1077,9 +1077,9 @@ Not stated by PsychoBox.
 
 ## Project map
 
-The lines of the project map for Sottek Hearing Model roughness only (the whole map: https://zhenxianli.github.io/LISQM/projects/map.md). Agreement between a project and the code it was taken from only checks the port.
+The lines of the project map for Sottek Hearing Model roughness only (the whole map: https://zhenxianli.github.io/LISQM/projects/map.md). Agreement between a project and the code it was ported or adapted from only checks the port.
 
-### Code taken from another project
+### Ported or adapted from another project
 
 - From **[SQAT](https://zhenxianli.github.io/LISQM/projects/sqat.html)**: [MetaSona](https://zhenxianli.github.io/LISQM/projects/metasona.html) (ECMA-418-2:2025 (4th ed.))
 - From **[MoSQITo](https://zhenxianli.github.io/LISQM/projects/mosqito.html)**: [Mosqito.NET](https://zhenxianli.github.io/LISQM/projects/mosqito-net.html) (ECMA-418-2:2022 (2nd ed.))
@@ -1209,9 +1209,9 @@ Not stated by PsychoacousticParametersMeasurer.
 
 ## Project map
 
-The lines of the project map for fluctuation strength (Osses et al.) only (the whole map: https://zhenxianli.github.io/LISQM/projects/map.md). Agreement between a project and the code it was taken from only checks the port.
+The lines of the project map for fluctuation strength (Osses et al.) only (the whole map: https://zhenxianli.github.io/LISQM/projects/map.md). Agreement between a project and the code it was ported or adapted from only checks the port.
 
-### Code taken from another project
+### Ported or adapted from another project
 
 - From **[SQAT](https://zhenxianli.github.io/LISQM/projects/sqat.html)**: [pySQAT](https://zhenxianli.github.io/LISQM/projects/pysqat.html) (Osses et al. (2016))
 
@@ -1286,7 +1286,7 @@ Not stated by SQAT.
 
 ## Project map
 
-The lines of the project map for Sottek Hearing Model fluctuation strength only (the whole map: https://zhenxianli.github.io/LISQM/projects/map.md). Agreement between a project and the code it was taken from only checks the port.
+The lines of the project map for Sottek Hearing Model fluctuation strength only (the whole map: https://zhenxianli.github.io/LISQM/projects/map.md). Agreement between a project and the code it was ported or adapted from only checks the port.
 
 ### The author's own code
 
@@ -1363,9 +1363,9 @@ Not stated by MoSQITo.
 
 ## Project map
 
-The lines of the project map for tonality (Aures) only (the whole map: https://zhenxianli.github.io/LISQM/projects/map.md). Agreement between a project and the code it was taken from only checks the port.
+The lines of the project map for tonality (Aures) only (the whole map: https://zhenxianli.github.io/LISQM/projects/map.md). Agreement between a project and the code it was ported or adapted from only checks the port.
 
-### Code taken from another project
+### Ported or adapted from another project
 
 - From **[SQAT](https://zhenxianli.github.io/LISQM/projects/sqat.html)**: [MetaSona](https://zhenxianli.github.io/LISQM/projects/metasona.html) (Aures (1985b)); [pySQAT](https://zhenxianli.github.io/LISQM/projects/pysqat.html) (Aures (1985b))
 
@@ -1450,9 +1450,9 @@ As reported by each project; LISQM has not run the code. Two implementations tha
 
 ## Project map
 
-The lines of the project map for Sottek Hearing Model tonality only (the whole map: https://zhenxianli.github.io/LISQM/projects/map.md). Agreement between a project and the code it was taken from only checks the port.
+The lines of the project map for Sottek Hearing Model tonality only (the whole map: https://zhenxianli.github.io/LISQM/projects/map.md). Agreement between a project and the code it was ported or adapted from only checks the port.
 
-### Code taken from another project
+### Ported or adapted from another project
 
 - From **[SQAT](https://zhenxianli.github.io/LISQM/projects/sqat.html)**: [MetaSona](https://zhenxianli.github.io/LISQM/projects/metasona.html) (ECMA-418-2:2025 (4th ed.))
 
@@ -1540,9 +1540,9 @@ As reported by each project; LISQM has not run the code. Two implementations tha
 
 ## Project map
 
-The lines of the project map for tone-to-noise ratio and prominence ratio only (the whole map: https://zhenxianli.github.io/LISQM/projects/map.md). Agreement between a project and the code it was taken from only checks the port.
+The lines of the project map for tone-to-noise ratio and prominence ratio only (the whole map: https://zhenxianli.github.io/LISQM/projects/map.md). Agreement between a project and the code it was ported or adapted from only checks the port.
 
-### Code taken from another project
+### Ported or adapted from another project
 
 - From **[MoSQITo](https://zhenxianli.github.io/LISQM/projects/mosqito.html)**: [Mosqito.NET](https://zhenxianli.github.io/LISQM/projects/mosqito-net.html) (ECMA-74:2019 (17th ed.)); [MoSQITo-FDP](https://zhenxianli.github.io/LISQM/projects/mosqito-fdp.html) (ECMA-74:2019 (17th ed.))
 
@@ -1683,9 +1683,9 @@ Not stated by MoSQITo; phonometry for ISO 1996-2:2017 and ISO 1996-2:2007.
 
 ## Project map
 
-The lines of the project map for tonal audibility (ISO 1996-2) only (the whole map: https://zhenxianli.github.io/LISQM/projects/map.md). Agreement between a project and the code it was taken from only checks the port.
+The lines of the project map for tonal audibility (ISO 1996-2) only (the whole map: https://zhenxianli.github.io/LISQM/projects/map.md). Agreement between a project and the code it was ported or adapted from only checks the port.
 
-### Code taken from another project
+### Ported or adapted from another project
 
 - From [python-acoustics](https://zhenxianli.github.io/LISQM/projects/python-acoustics.html): [acoustic-toolbox](https://zhenxianli.github.io/LISQM/projects/acoustic-toolbox.html) (ISO 1996-2:2007)
 
@@ -1833,9 +1833,9 @@ Not stated by SQAT for Zwicker & Fastl (1999) and Widmann (1992); refmap-psychoa
 
 ## Project map
 
-The lines of the project map for psychoacoustic annoyance only (the whole map: https://zhenxianli.github.io/LISQM/projects/map.md). Agreement between a project and the code it was taken from only checks the port.
+The lines of the project map for psychoacoustic annoyance only (the whole map: https://zhenxianli.github.io/LISQM/projects/map.md). Agreement between a project and the code it was ported or adapted from only checks the port.
 
-### Code taken from another project
+### Ported or adapted from another project
 
 - From **[SQAT](https://zhenxianli.github.io/LISQM/projects/sqat.html)**: [pySQAT](https://zhenxianli.github.io/LISQM/projects/pysqat.html) (Di et al. (2016), More (2010), and Zwicker & Fastl (1999))
 
@@ -1913,9 +1913,9 @@ Not stated by MoSQITo, PSYCHO, PyDSM, Mosqito.NET, and IoSR Matlab Toolbox.
 
 ## Project map
 
-The lines of the project map for equal-loudness contours only (the whole map: https://zhenxianli.github.io/LISQM/projects/map.md). Agreement between a project and the code it was taken from only checks the port.
+The lines of the project map for equal-loudness contours only (the whole map: https://zhenxianli.github.io/LISQM/projects/map.md). Agreement between a project and the code it was ported or adapted from only checks the port.
 
-### Code taken from another project
+### Ported or adapted from another project
 
 - From **[MoSQITo](https://zhenxianli.github.io/LISQM/projects/mosqito.html)**: [Mosqito.NET](https://zhenxianli.github.io/LISQM/projects/mosqito-net.html) (ISO 226:2003)
 
@@ -1972,9 +1972,9 @@ Not stated by SUAVE and Zhen-Ni/epnl.
 
 ## Project map
 
-The lines of the project map for perceived noise level and EPNL only (the whole map: https://zhenxianli.github.io/LISQM/projects/map.md). Agreement between a project and the code it was taken from only checks the port.
+The lines of the project map for perceived noise level and EPNL only (the whole map: https://zhenxianli.github.io/LISQM/projects/map.md). Agreement between a project and the code it was ported or adapted from only checks the port.
 
-### Code taken from another project
+### Ported or adapted from another project
 
 - From **[SQAT](https://zhenxianli.github.io/LISQM/projects/sqat.html)**: [pySQAT](https://zhenxianli.github.io/LISQM/projects/pysqat.html) (14 CFR Part 36)
 
@@ -4604,17 +4604,17 @@ As described in the sources below; the code itself could not be checked.
 
 > Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-09. Web page: https://zhenxianli.github.io/LISQM/projects/map.html
 
-Each line of the map joins two projects: code taken from another project, the author's own code moved between projects, a project that uses another one at run time, results checked against another project, or a shared contributor. The lines come from the implementation rows on the project pages. On the web page, arrows point from the source to the project that uses it, and a check points from the project to the one it checked its results against.
+Each line of the map joins two projects: code ported or adapted from another project, the author's own code moved between projects, a project that uses another one at run time, results checked against another project, or a shared contributor. The lines come from the implementation rows on the project pages. On the web page, arrows point from the source to the project that uses it, and a check points from the project to the one it checked its results against.
 
 ## Kinds of line
 
-- **Code taken from another project.** The project's code for a metric was ported, translated, copied or adapted from the source, or the whole project continues the source. A grey box is a program published with a standard or a paper.
-- **The author's own code.** The code was written by someone who also maintains the project that took it: a contribution, a move or a translation within the same team, not a port by someone else.
+- **Ported or adapted from another project.** The project's code for a metric was ported from the source (translated into another language) or adapted from it (reused with changes), or the whole project continues the source. A grey box is a program published with a standard or a paper.
+- **The author's own code.** The code was written by someone who also maintains the project that ported or adapted it: a contribution, a move or a translation within the same team, not a port by someone else.
 - **Used at run time.** The project calls the source to compute the metric, or needs its results as input.
-- **Results checked against.** The arrow points from the project to the one it checked its results against. Comparisons with the code a project was taken from, with a port of its own code or with another port of the same code are not drawn, because they only show that two copies agree.
+- **Results checked against.** The arrow points from the project to the one it checked its results against. Comparisons with the code a project was ported or adapted from, with a port of its own code or with another port of the same code are not drawn, because they only show that two versions of the same code agree.
 - **Same contributor.** Someone has worked on both projects, as a maintainer or with code of their own. Not drawn beside a line of the author's own code, which says the same.
 
-## Code taken from another project
+## Ported or adapted from another project
 
 - From [AARAE](https://zhenxianli.github.io/LISQM/projects/aarae.html): **[SQAT](https://zhenxianli.github.io/LISQM/projects/sqat.html)** (Zwicker loudness and Roughness (Daniel & Weber))
 - From BASIC program of DIN 45631 (Zwicker et al., 1991): **[MoSQITo](https://zhenxianli.github.io/LISQM/projects/mosqito.html)** (Zwicker loudness); [ITA-Toolbox](https://zhenxianli.github.io/LISQM/projects/ita-toolbox.html) (Zwicker loudness); [deeuu/loudness](https://zhenxianli.github.io/LISQM/projects/deeuu-loudness.html) (Zwicker loudness); [zwickerloudness](https://zhenxianli.github.io/LISQM/projects/zwickerloudness-sourceforge.html) (Zwicker loudness)

@@ -133,11 +133,11 @@ Built by `project_page()` from `data/projects/<id>.yaml` and the snapshot.
 Drawn at build time by Graphviz (`scripts/pmi/relations.py`) from the `implements` rows; the fields are described
 in `data/SCHEMA.md`. Built by `map_page()`.
 
-- **Kinds of line**: code taken from another project (black arrow); the author's own code (green arrow,
-  `derived_by_author`); used at run time (dotted arrow, `uses`); results checked against another project (dashed
-  blue arrow, `compared_with`); same contributor (grey line without an arrow: a name in `maintainers` or
-  `contributors` of both projects; drawn also beside a line of another kind, but not beside a green line, which
-  already says that the same person is involved).
+- **Kinds of line**: ported or adapted from another project (black arrow; never "taken", which sounds like taking
+  without leave); the author's own code (green arrow, `derived_by_author`); used at run time (dotted arrow, `uses`);
+  results checked against another project (dashed blue arrow, `compared_with`); same contributor (grey line without an
+  arrow: a name in `maintainers` or `contributors` of both projects; drawn also beside a line of another kind, but not
+  beside a green line, which already says that the same person is involved).
 - **Direction**: sources stand on the left, and an arrow points from the source to the project that uses it. A
   check points from the project to the one it checked its results against: "A's results checked against B" is
   drawn A → B. Every line has an end of its own: it leaves a box on its right side and enters the next box on its
@@ -150,8 +150,8 @@ in `data/SCHEMA.md`. Built by `map_page()`.
 - **In words**: the same relations as text, and the projects left out (no relation, or code that could not be
   opened).
 - `contributors` holds people with code of their own in a project, taken from its commit history or documentation;
-  never e-mail addresses. When a contributor of both projects wrote the code that was taken, mark the row with
-  `derived_by_author` (a test checks this).
+  never e-mail addresses. When a contributor of both projects wrote the code that was ported or adapted, mark the row
+  with `derived_by_author` (a test checks this).
 - *Check* the picture after any change to `derived_from`, `based_on`, `derived_by_author`, `uses`, `compared_with`,
   `maintainers` or `contributors`: no label covered, no line through a box, the arrows in the right direction.
 

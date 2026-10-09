@@ -253,7 +253,7 @@ check points from the project to the one it checked its results against (placed 
 
 | Line | From the rows |
 |---|---|
-| code taken from another project | `derived_from` (or the project's `based_on`); a grey box for a published program |
+| ported or adapted from another project | `derived_from` (or the project's `based_on`); a grey box for a published program |
 | the author's own code | the same, when every row of the pair has `derived_by_author` |
 | used at run time | `via` (the source does the computation) and `uses` (the row needs the source) |
 | results checked against | `compared_with`, without comparisons with related code and pairs already joined |

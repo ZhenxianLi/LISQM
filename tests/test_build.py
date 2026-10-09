@@ -490,12 +490,13 @@ class BuildTest(unittest.TestCase):
         self.assertIn("(also ported from ", pysqat, "pySQAT's ECMA-418-2 rows and SQAT share RefMap's code")
         zwicker = (self.site / "metrics/loudness-zwicker.html").read_text(encoding="utf-8")
         self.assertIn('<h2 id="map">Project map</h2>', zwicker)
-        self.assertIn('The <a href="#map">project map</a> below shows which project took code from which.', zwicker)
+        self.assertIn('The <a href="#map">project map</a> below shows which project was ported or adapted from which.',
+                      zwicker)
         if shutil.which("dot"):
             picture = zwicker[zwicker.index('<svg class="map-graph"'):]
             picture = picture[:picture.index("</svg>")]
             self.assertIn("<title>Project map for Zwicker loudness</title>", picture)
-            self.assertIn("Code taken: MoSQITo to Kirin Hypha, for ISO 532&#45;1:2017", picture)  # Graphviz escapes -
+            self.assertIn("Ported or adapted: MoSQITo to Kirin Hypha, for ISO 532&#45;1:2017", picture)  # escapes -
             self.assertIn("BASIC program (DIN 45631, 1991)", picture)
         data = json.loads((self.site / "index.json").read_text(encoding="utf-8"))
         rows = [i for m in data["metrics"] for i in m["implementations"] if i["project"] == "kirin-hypha"]
@@ -646,7 +647,7 @@ class BuildTest(unittest.TestCase):
                 page = render_html.map_page(self.index)
             self.assertNotIn('<svg class="map-graph"', page)
             self.assertIn("Graphviz is missing", page)
-            self.assertIn("<h3>Code taken from another project</h3>", page)
+            self.assertIn("<h3>Ported or adapted from another project</h3>", page)
             os.environ["CI"] = "true"
             with self.assertRaises(SystemExit):
                 render_html.map_page(self.index)

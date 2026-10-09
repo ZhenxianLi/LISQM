@@ -415,7 +415,8 @@ def _metric_map_section(index: Index, path: str, m: dict, rel: dict) -> str:
     return "\n".join([
         '<h2 id="map">Project map</h2>',
         f'<p>The <a href="{to_map}">project map</a>, with only the lines for {esc(in_sentence(m["name"]))}.'
-        + (" Agreement between a project and the code it was taken from only checks the port." if rel["taken"] else "")
+        + (" Agreement between a project and the code it was ported or adapted from only checks the port."
+           if rel["taken"] else "")
         + "</p>",
         picture,
     ])
@@ -892,7 +893,7 @@ def metric_page(index: Index, m: dict) -> str:
                  _status_note(i, licence=True)]
                 for i in m["_impls"]]
         parts.append(_table("impls", ["Project", "Edition", "Functions", "Validation (as stated)", "Notes"], rows))
-        ported = (' The <a href="#map">project map</a> below shows which project took code from which.'
+        ported = (' The <a href="#map">project map</a> below shows which project was ported or adapted from which.'
                   if rel["taken"] else "")
         parts.append(f'<p class="small muted">Projects in bold and other established projects come first, then '
                      f"newly released, developing and legacy ones. Validation is what each project says about its own "
@@ -1223,7 +1224,7 @@ def projects_page(index: Index) -> str:
     parts = [
         "<h1>Projects</h1>",
         f'<p class="byline">{plural(len(index.projects), "project")} · {plural(len(langs), "language")}</p>',
-        f'<p>The <a href="{to_map}">project map</a> shows which projects took code from which, which use '
+        f'<p>The <a href="{to_map}">project map</a> shows which projects were ported or adapted from which, which use '
         "another project at run time, and which checked their results against another one. Arrows point from the "
         "source to the project that uses it; a check points from the project to the one it checked its results "
         "against.</p>",
@@ -1319,7 +1320,7 @@ def _map_words(index: Index, path: str, rel: dict) -> str:
                      f'<span class="muted">({esc(join_words(names))})</span></li>'
                      for (a, b), names in rel["people"].items())
     parts = ['<h2 id="words">In words</h2>',
-             "<h3>Code taken from another project</h3>", f'<ul class="map-words">{by_source(False)}</ul>',
+             "<h3>Ported or adapted from another project</h3>", f'<ul class="map-words">{by_source(False)}</ul>',
              "<h3>The author's own code</h3>", f'<ul class="map-words">{by_source(True)}</ul>',
              "<h3>Used at run time</h3>", f'<ul class="map-words">{"".join(uses)}</ul>',
              "<h3>Results checked against another project</h3>", f'<ul class="map-words">{compares}</ul>',
@@ -1373,14 +1374,15 @@ def map_page(index: Index) -> str:
     shown = len({e["project"]["id"] for e in rel["taken"]} | {e["key"] for e in rel["taken"] if e["source"]}
                 | {k for pair in list(rel["uses"]) + list(rel["compares"]) + list(rel["people"]) for k in pair})
     kinds = "".join(f"<dt>{_line_sample(kind)} {esc(name)}</dt><dd>{esc(text)}</dd>" for kind, name, text in RL.KINDS)
-    # A metric page shows the lines of its own metric; one that has code taken from another project as the example.
+    # A metric page shows the lines of its own metric; one with code ported or adapted from another project as the
+    # example.
     example = next((m for m in index.metrics if RL.relations(index, m)["taken"]), None)
     body = "\n".join([
         _crumbs(f'<a href="{relative(path, PROJECTS)}">Projects</a>'),
         "<h1>Project map</h1>",
         f'<p class="byline">{plural(shown, "project")} · {plural(RL.count_lines(rel), "line")}</p>',
-        '<p class="lead">Each line joins two projects: code taken from another project, the author\'s own code '
-        "moved between projects, a project that uses another one at run time, results checked against another "
+        '<p class="lead">Each line joins two projects: code ported or adapted from another project, the author\'s '
+        "own code moved between projects, a project that uses another one at run time, results checked against another "
         "project, or a shared contributor. The lines come from the implementation rows on the project pages.</p>",
         "<p>Arrows point from the source to the project that uses it, so sources stand on the left. A check points "
         "the other way: from the project to the one it checked its results against. Click a box to open the "
@@ -1396,8 +1398,8 @@ def map_page(index: Index) -> str:
     ])
     html = layout(index, path, title="Project map",
                   description="How the open-source projects that implement psychoacoustic metrics are connected: "
-                              "code taken from another project, the author's own code, use at run time, results "
-                              "checked against another project, and shared contributors.",
+                              "code ported or adapted from another project, the author's own code, use at run "
+                              "time, results checked against another project, and shared contributors.",
                   body=body, section="Projects")
     return html
 
