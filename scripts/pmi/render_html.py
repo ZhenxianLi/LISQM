@@ -273,7 +273,7 @@ def _validation(i: dict, href: str = "") -> str:
     cell = _tag(validation_label(i), _validation_kind(i), VALIDATION_LONG[v] + (" Details below." if href else ""),
                 href=href)
     if i.get("validation_scope"):  # how far the check goes, e.g. "calibration signal only"
-        cell += f'<br><span class="small muted">{esc(i["validation_scope"])}</span>'
+        cell += f'<br><span class="small muted">({esc(i["validation_scope"])})</span>'
     also = validation_also(i)
     if also:
         cell += f'<br><span class="small muted">{esc(also)}</span>'

@@ -827,8 +827,8 @@ class BuildTest(unittest.TestCase):
 
     def test_validation_scope_is_shown_with_the_evidence(self) -> None:
         page = (self.site / "metrics/loudness-zwicker.html").read_text(encoding="utf-8")
-        self.assertIn('standard or paper data</a><br><span class="small muted">in v1.3, test signal 10 is off by 18.14 '
-                      '%</span>', page)
+        self.assertIn('standard or paper data</a><br><span class="small muted">(in v1.3, test signal 10 is off by '
+                      '18.14 %)</span>', page)
         self.assertIn('standard or paper data</span> <span class="muted">(outcome not stated)</span>', page)
         md = (self.site / "metrics/loudness-ecma-418-2.md").read_text(encoding="utf-8")
         self.assertIn("standard or paper data (calibration signal only; outside the allowed adjustment)", md)
