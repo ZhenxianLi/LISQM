@@ -26,16 +26,16 @@ Developed by Zhenxian LI with assistance from Claude Code.
 ## Fluctuation strength
 
 - [Fluctuation strength, Osses et al. model and Fastl & Zwicker formula](https://zhenxianli.github.io/LISQM/metrics/fluctuation-strength-osses.md): current edition Osses et al. (2016); implementations: SQAT, phonometry (newly released), PsychoacousticMetrics.jl (newly released), pySQAT (developing), fluctuation-strength-TUe (legacy)
-- [Fluctuation strength from the Sottek Hearing Model (ECMA-418-2)](https://zhenxianli.github.io/LISQM/metrics/fluctuation-strength-ecma-418-2.md): current edition ECMA-418-2:2025 (4th ed.); implementations: SQAT (proposed), sottek-hearing-model (unreleased), phonometry (newly released)
+- [Fluctuation strength from the Sottek Hearing Model (ECMA-418-2)](https://zhenxianli.github.io/LISQM/metrics/fluctuation-strength-ecma-418-2.md): current edition ECMA-418-2:2025 (4th ed.); implementations: SQAT (PR), sottek-hearing-model (unreleased), phonometry (newly released)
 
 ## Tonality
 
-- [Tonality, Aures/Terhardt model](https://zhenxianli.github.io/LISQM/metrics/tonality-aures.md): current edition Aures (1985b); implementations: SQAT, MoSQITo (proposed), MetaSona (newly released), pySQAT (developing)
+- [Tonality, Aures/Terhardt model](https://zhenxianli.github.io/LISQM/metrics/tonality-aures.md): current edition Aures (1985b); implementations: SQAT, MoSQITo (PR), MetaSona (newly released), pySQAT (developing)
 - [Tonality from the Sottek Hearing Model (ECMA-418-2)](https://zhenxianli.github.io/LISQM/metrics/tonality-ecma-418-2.md): current edition ECMA-418-2:2025 (4th ed.); implementations: SQAT (unreleased), sottek-hearing-model, refmap-psychoacoustics, MetaSona (newly released), phonometry (newly released)
 - [Tone-to-noise ratio and prominence ratio (ECMA-418-1)](https://zhenxianli.github.io/LISQM/metrics/tone-to-noise-prominence-ratio.md): current edition ECMA-418-1:2024 (3rd ed.); implementations: phonometry (newly released)
 - [Tonal components and tone adjustment (DIN 45681)](https://zhenxianli.github.io/LISQM/metrics/tonality-din-45681.md): current edition DIN 45681:2005; implementations: none found
 - [Audibility of tones in noise (ISO/TS 20065)](https://zhenxianli.github.io/LISQM/metrics/tonal-audibility-iso-20065.md): current edition ISO/TS 20065:2022; implementations: none found
-- [Tonal audibility in environmental noise (ISO 1996-2)](https://zhenxianli.github.io/LISQM/metrics/tonal-audibility-iso-1996-2.md): current edition ISO 1996-2:2017; implementations: MoSQITo (proposed), phonometry (newly released)
+- [Tonal audibility in environmental noise (ISO 1996-2)](https://zhenxianli.github.io/LISQM/metrics/tonal-audibility-iso-1996-2.md): current edition ISO 1996-2:2017; implementations: MoSQITo (PR), phonometry (newly released)
 - [Tonal audibility of wind turbine noise (IEC 61400-11)](https://zhenxianli.github.io/LISQM/metrics/tonal-audibility-iec-61400-11.md): current edition IEC 61400-11:2012+AMD1:2018; implementations: phonometry (newly released)
 
 ## Impulsiveness

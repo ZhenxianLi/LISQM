@@ -7,8 +7,8 @@ from __future__ import annotations
 
 import re
 
-from .data import (ACCESS, GROUP_NAMES, GROUPS, IMPL_STATUS_LONG, KINDS, PROJECT_KINDS, REGISTRIES, VALIDATION,
-                   VALIDATION_LONG, Index)
+from .data import (ACCESS, GROUP_NAMES, GROUPS, IMPL_STATUS, IMPL_STATUS_LONG, KINDS, PROJECT_KINDS, REGISTRIES,
+                   VALIDATION, VALIDATION_LONG, Index)
 from .describe import (COVERAGE_COLUMNS, GROUP_RULE, NEW_LABEL, activity_text, ai_guide, by_language, coverage, dedupe,
                        highlight_sentence, highlighted,
                        covers, dependence_note, derived_names, edition_state, faq, how_to_cite, in_sentence, in_short,
@@ -64,7 +64,8 @@ def _impl_note(i: dict) -> str:
     if licence_flag(i["_project"], i):
         bits.append(licence_flag_text(i["_project"], i))
     if i["status"] != "available":
-        bits.append(i["status"].capitalize() + (f" ({i['link']})" if i.get("link") else "") + ".")
+        label = IMPL_STATUS[i["status"]]
+        bits.append(label[:1].upper() + label[1:] + (f" ({i['link']})" if i.get("link") else "") + ".")
     if i.get("partial"):
         bits.append("Partial: computes only part of the metric.")
     if i.get("_via"):
@@ -156,7 +157,7 @@ def maintainer_check(index: Index, p: dict) -> str:
 
 def _labelled(impls: list[dict], name) -> list[str]:
     """Each project of these rows once, with its group when that is newly released, developing or legacy, and
-    "unreleased" or "proposed" when none of its rows is released (the tags of the web pages, in words)."""
+    "unreleased" or "PR" (proposed) when none of its rows is released (the tags of the web pages, in words)."""
     rows: dict[str, list[dict]] = {}
     for i in impls:
         rows.setdefault(i["_project"]["id"], []).append(i)
@@ -165,7 +166,7 @@ def _labelled(impls: list[dict], name) -> list[str]:
         p = its[0]["_project"]
         bits = [GROUP_NAMES[p["_group"]]] if p["_group"] in ("newly-released", "developing", "legacy") else []
         if not any(i["status"] == "available" for i in its):
-            bits.append("unreleased" if any(i["status"] == "unreleased" for i in its) else "proposed")
+            bits.append("unreleased" if any(i["status"] == "unreleased" for i in its) else IMPL_STATUS["proposed"])
         out.append(name(p) + (f" ({', '.join(bits)})" if bits else ""))
     return out
 
@@ -277,7 +278,7 @@ def metric_page(index: Index, m: dict) -> str:
     for rid in reversed(m["references"]):
         r = index.ref[rid]
         impls = dedupe([i for i in m["_impls"] if i["reference"] == rid])
-        who = ", ".join(name(i["_project"]) + ("" if i["status"] == "available" else f" ({i['status']})")
+        who = ", ".join(name(i["_project"]) + ("" if i["status"] == "available" else f" ({IMPL_STATUS[i['status']]})")
                         for i in impls)
         status = ref_status(r) + (f"; {r['revision']}" if r.get("revision") else "")
         rows.append([month(r.get("date")) or "—", _edition_link(index, r), status,
@@ -361,8 +362,8 @@ def project_page(index: Index, p: dict) -> str:
                   "As described in the sources below; the code itself could not be checked.", ""]
     else:
         lines += ["## What it implements", ""]
-        rows = [[_metric_link(index, i["_metric"]), _edition(index, i), _functions(i), i["status"], _validation(i),
-                 (i.get("note") or "").strip()] for i in p["_impls"]]
+        rows = [[_metric_link(index, i["_metric"]), _edition(index, i), _functions(i), IMPL_STATUS[i["status"]],
+                 _validation(i), (i.get("note") or "").strip()] for i in p["_impls"]]
         lines += _table(["Metric", "Edition", "Functions", "Status", "Validation (as stated)", "Notes"], rows) + [""]
         lines += _validation_section(index, p["_impls"], on_metric=False)
         lines += _conventions(index, p["_impls"], p["_general_conventions"], on_metric=False)
@@ -585,7 +586,8 @@ def projects_page(index: Index) -> str:
         lines += [f"## {title}", "", GROUPS[key], ""]
         rows = [[name(p), ", ".join(p["languages"]),
                  PROJECT_KINDS[p["kind"]], p["license"], release_text(p), p["_last_commit"] or "unknown",
-                 activity_text(p), ", ".join(m["name"] + (f" ({state})" if state else "") for m, state in covers(p))]
+                 activity_text(p), ", ".join(m["name"] + (f" ({IMPL_STATUS.get(state, state)})" if state else "")
+                                             for m, state in covers(p))]
                 for p in projects]
         lines += _table(["Project", "Language", "Kind", "Licence", "Latest release", "Last commit", "Activity",
                          "Covers"], rows) + [""]
@@ -686,7 +688,7 @@ def about_page(index: Index) -> str:
               "by a GitHub Action, which also searches for new candidate projects and watches the standards "
               "bodies for new editions. A person reviews the findings before anything is added.", ""]
     lines += ["## Status of an implementation", ""]
-    lines += _table(["Value", "Meaning"], [[k, v] for k, v in IMPL_STATUS_LONG.items()]) + [""]
+    lines += _table(["Value", "Meaning"], [[IMPL_STATUS[k], v] for k, v in IMPL_STATUS_LONG.items()]) + [""]
     lines += ["## Validation evidence", "",
               "Validation is recorded as each project states it. When a project says what it compared its results "
               "with (MoSQITo, SQAT, the model authors' code or commercial software), the list names it, and the "

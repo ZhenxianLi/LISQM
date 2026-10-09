@@ -100,7 +100,7 @@ reserved project ids `index` and `map`. When validation fails, fix the data, not
 - **Metric**, never "method", for a quantity such as loudness or sharpness; a **metric page** is
   `metrics/<id>.html`.
 - **Status of an implementation row**: available (no tag), `unreleased` (merged, not in a release yet), `proposed`
-  (open pull request or separate branch), `partial` (computes only part of the metric).
+  (open pull request or separate branch; its tag reads `PR`), `partial` (computes only part of the metric).
 - **Groups**, always in this order: established, newly released (tag `new`), developing, legacy, then others and
   status unknown.
 - **Editions**: `current` (in force), `superseded`, `withdrawn`, `in development` (drafts and new work items),

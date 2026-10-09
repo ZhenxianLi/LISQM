@@ -29,7 +29,7 @@ width first and then at about 390 px.
 - **Footer.** The credit line from `data/site.yaml`, word for word: "Developed by Zhenxian LI with assistance from
   Claude Code." (a test checks every page, the README, the llms files and CITATION.cff), the licences (data and
   text CC BY 4.0, code MIT) and the date of the data.
-- **One vocabulary of tags.** Groups: `new`, `developing`, `legacy`. Rows: `unreleased`, `proposed`, `partial`.
+- **One vocabulary of tags.** Groups: `new`, `developing`, `legacy`. Rows: `unreleased`, `PR`, `partial`.
   Licences: `no licence`, `non-commercial`, `source-available`. Evidence tags name what was compared ("compared
   with MoSQITo"), grey when the comparison is with related code. Names in bold are the projects with
   `super_project`.
@@ -54,7 +54,7 @@ The first answer to "which open-source code implements which edition of each met
   paper sits in the column of its year, with the projects that implement it. A green box is a current edition,
   including national standards in force; grey is a superseded or withdrawn edition or an earlier model paper; drafts
   carry `in development`. At most four projects per edition, the most established first; "+N more" opens the rest
-  in place. Marks: `new` and `dev` after the name, a grey name for legacy, `unreleased` and `proposed` tags. The
+  in place. Marks: `new` and `dev` after the name, a grey name for legacy, `unreleased` and `PR` tags. The
   line of years stays more visible than the borders of the table, and no border cuts it.
 - **Gaps**: the metrics without an available implementation of the current edition, then those whose only released
   implementations come from newly released projects. Generated from the data.
@@ -86,7 +86,7 @@ Built by `metric_page()` from the metric in `data/metrics.yaml`, its editions in
   implementations.
 - **Implementations**: one row per project and edition. Project and languages; edition with `scope` and `since`;
   functions; validation (the evidence tag, `validation_scope` under it, "also compared with …"); notes (group tag,
-  licence tag, `unreleased`, `proposed` or `partial`, the project it is computed by or uses, the row's `note`).
+  licence tag, `unreleased`, `PR` or `partial`, the project it is computed by or uses, the row's `note`).
 - **How they were validated**: as reported by each project. The owner's own check (`maintainer_check`) appears
   apart, under the project's first entry.
 - **Project map**: the map with only the lines of this metric's rows, each naming the edition. There is no such
@@ -108,7 +108,7 @@ Built by `projects_page()`.
   languages, licence, release, activity and metrics.
 - One table per group (established, newly released, developing, legacy, others, status unknown): project and kind,
   languages, licence, latest release, last commit and activity, and what it covers (metrics, with `unreleased`,
-  `proposed` or `partial` where no row of that metric is available).
+  `PR` or `partial` where no row of that metric is available).
 - *Check* after a new project, a change of group, licence, release or rows.
 
 ## Project pages (`projects/<id>.html`)

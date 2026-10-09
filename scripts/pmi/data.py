@@ -37,10 +37,11 @@ KINDS = {
     "plugin": "Runs inside other software: a plug-in for an audio workstation, or a Pure Data external.",
     "reference-program": "Code published with a standard or by the authors of the model, as the reference for it.",
 }
+# The values of `status`, and how their tags read on the pages ("PR": an open pull request).
 IMPL_STATUS = {
     "available": "available",
     "unreleased": "unreleased",
-    "proposed": "proposed",
+    "proposed": "PR",
 }
 IMPL_STATUS_LONG = {
     "available": "In the latest release, or on the default branch of a project without releases.",

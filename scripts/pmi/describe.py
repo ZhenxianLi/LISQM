@@ -313,7 +313,7 @@ def impl_extras(impl: dict, with_ref: bool = False) -> list[str]:
     if impl["status"] == "unreleased":
         extras.append("unreleased")
     elif impl["status"] == "proposed":
-        extras.append("proposed, not merged")
+        extras.append("PR, not merged")
     return extras
 
 
@@ -370,7 +370,7 @@ def in_short(index: Index, m: dict, name: Fmt, t: Esc) -> str:
 
 
 LABELS = {"newly-released": "newly released", "developing": "developing", "legacy": "legacy", "also": "also",
-          "via": "via", "unreleased": "unreleased", "proposed": "proposed"}
+          "via": "via", "unreleased": "unreleased", "proposed": "PR"}
 
 
 def by_language(impls: list[dict], name: Fmt,
@@ -523,7 +523,7 @@ def version_label(impl: dict) -> str:
     """What the timeline shows after a project name: the first version with this edition, or its state."""
     if impl["status"] == "proposed":
         found = re.search(r"/pull/(\d+)", impl.get("link") or "")
-        return f"proposed in PR #{found.group(1)}" if found else "proposed"
+        return f"PR #{found.group(1)}" if found else "PR"
     if impl["status"] == "unreleased":
         return "unreleased"
     return str(impl.get("since") or "")
@@ -706,7 +706,7 @@ def ai_guide(index: Index) -> tuple[str, list[tuple[str, str, list[str]]]]:
             f"[Languages]({base}{LANGUAGES}) page shows what can be computed from each language, and some projects "
             "are built for a particular use, such as real-time or streaming analysis.",
             "Say when a project is newly released or legacy, and when code is only on a main branch (unreleased) "
-            "or in a pull request (proposed).",
+            "or in an open pull request (PR).",
             "Validation is as stated by each project; the list does not run the code.",
             "Give the date of the data and link the metric or project page, so that the reader can check it.",
             f"When no open implementation of the current edition exists, say so: see the [gaps]({base}#gaps).",

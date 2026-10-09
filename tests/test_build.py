@@ -757,12 +757,12 @@ class BuildTest(unittest.TestCase):
                                     p["id"])
         self.assertIn("; on the default branch, no release;", home)
         llms = (self.site / "llms.txt").read_text(encoding="utf-8")
-        self.assertRegex(llms, r"Tonality, Aures/Terhardt model\]\([^)]+\): [^\n]*MoSQITo \(proposed\)")
+        self.assertRegex(llms, r"Tonality, Aures/Terhardt model\]\([^)]+\): [^\n]*MoSQITo \(PR\)")
         projects = (self.site / "projects/index.html").read_text(encoding="utf-8")
         mosqito = projects[projects.index('<td data-label="Project"><a href="../projects/mosqito.html"'):]
         mosqito = mosqito[:mosqito.index("</tr>")]
-        self.assertRegex(mosqito, r'tonality-aures\.html">[^<]+</a> <span class="tag[^"]*"[^>]*>proposed<')
-        self.assertIn("(proposed)", (self.site / "projects/index.md").read_text(encoding="utf-8"))
+        self.assertRegex(mosqito, r'tonality-aures\.html">[^<]+</a> <span class="tag[^"]*"[^>]*>PR<')
+        self.assertIn("(PR)", (self.site / "projects/index.md").read_text(encoding="utf-8"))
         # Zhen-Ni computes PNL and PNLT only: listed with a tag, not counted as an EPNL implementation.
         zhen = self.index.project["zhen-ni-epnl"]["_impls"][0]
         self.assertTrue(zhen["partial"])
@@ -809,11 +809,13 @@ class BuildTest(unittest.TestCase):
         self.assertNotIn("not the current edition", home)
 
     def test_one_vocabulary_and_one_name(self) -> None:
-        # Code not in a release is "unreleased", an open pull request "proposed", on every page.
-        for page in ("index.html", "metrics/index.html", "metrics/loudness-ecma-418-2.html"):
-            text = (self.site / page).read_text(encoding="utf-8")
-            self.assertNotRegex(text, r'class="tag [^"]*"[^>]*>(main|PR)<', page)
+        # Code not in a release is "unreleased", an open pull request "PR" (the owner's choice), on every page.
+        for page in self.pages:
+            text = page.read_text(encoding="utf-8")
+            self.assertNotRegex(text, r'class="tag [^"]*"[^>]*>(main|proposed)<', page.name)
         self.assertIn(">unreleased</span>", (self.site / "index.html").read_text(encoding="utf-8"))
+        self.assertIn(">PR</a>", (self.site / "metrics/tonality-aures.html").read_text(encoding="utf-8"))
+        self.assertIn(">PR</span> open pull request", (self.site / "metrics/index.html").read_text(encoding="utf-8"))
         # A project has one name, the same in the sidebar, the timeline, the map and its own page.
         amt = self.index.project["amt"]
         self.assertEqual((amt["name"], amt["full_name"]), ("AMT", "Auditory Modeling Toolbox"))

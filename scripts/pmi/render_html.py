@@ -13,8 +13,8 @@ import json
 import re
 from pathlib import Path
 
-from .data import (ACCESS, GROUP_NAMES, GROUPS, IMPL_STATUS_LONG, KINDS, PROJECT_KINDS, REGISTRIES, VALIDATION,
-                   VALIDATION_LONG, VERIFICATION_META, Index, only_new, update_anchor)
+from .data import (ACCESS, GROUP_NAMES, GROUPS, IMPL_STATUS, IMPL_STATUS_LONG, KINDS, PROJECT_KINDS, REGISTRIES,
+                   VALIDATION, VALIDATION_LONG, VERIFICATION_META, Index, only_new, update_anchor)
 from .describe import (COVERAGE_COLUMNS, GROUP_RULE, ONLY_NEW, activity_text, ai_guide, by_language, coverage,
                        highlight_sentence, highlighted,
                        covers, current_statement, dedupe, dependence_note, derived_names, edition_state, faq,
@@ -507,11 +507,11 @@ def _functions(i: dict) -> str:
 
 
 def _state_tag(state: str, href: str = "") -> str:
-    """A row that is not simply available: unreleased (merged, not in a release), proposed (an open pull request)
-    or partial (it computes only part of the metric)."""
+    """A row that is not simply available: unreleased (merged, not in a release), PR (proposed: an open pull
+    request) or partial (it computes only part of the metric)."""
     kind = {"unreleased": "warn"}.get(state, "neutral")
     title = IMPL_STATUS_LONG.get(state, "Computes only part of the metric.")
-    return _tag(state, kind, title, href=href)
+    return _tag(IMPL_STATUS.get(state, state), kind, title, href=href)
 
 
 def _licence_tag(p: dict, i: dict | None = None) -> str:
@@ -1493,7 +1493,8 @@ def about_page(index: Index) -> str:
         "editions. Dates and versions are updated directly. New candidates and editions go into an issue, and a "
         "person reviews them before anything is added.</p>",
         '<h2 id="status">Status of an implementation</h2>',
-        _table("defs", ["Value", "Meaning"], [[_tag(k, status_kind[k]), esc(v)] for k, v in IMPL_STATUS_LONG.items()]),
+        _table("defs", ["Value", "Meaning"],
+               [[_tag(IMPL_STATUS[k], status_kind[k]), esc(v)] for k, v in IMPL_STATUS_LONG.items()]),
         '<h2 id="validation">Validation evidence</h2>',
         "<p>Validation is recorded as each project states it. When a project says what it compared its results "
         "with (MoSQITo, SQAT, the model authors' code or commercial software), the list names it, and the project "

@@ -220,7 +220,7 @@ About page lists them all.
 |---|---|
 | `available` | In the latest release, or on the default branch of a project that does not make releases |
 | `unreleased` | Merged on the default branch but newer than the latest release |
-| `proposed` | Open pull request or separate branch, not merged |
+| `proposed` | Open pull request or separate branch, not merged; tagged `PR` on the pages |
 
 ### Validation evidence (as stated by the project)
 
