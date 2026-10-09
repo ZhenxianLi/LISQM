@@ -872,6 +872,34 @@ class BuildTest(unittest.TestCase):
         self.assertIn('<h2 id="q7">Can I rely on a listed implementation in a report that an authority will check?'
                       "</h2>", faq)
 
+    def test_owner_texts_are_kept(self) -> None:
+        # Texts written or dictated by the owner (docs/maintaining/owner-decisions.md) change only when the owner
+        # asks; update this test together with that table.
+        def text(page: str) -> str:
+            plain = re.sub(r"<[^>]+>", "", (self.site / page).read_text(encoding="utf-8"))
+            return " ".join(html.unescape(plain).split())
+        self.assertIn("Find an open-source method to calculate psychoacoustic metrics such as loudness, sharpness, "
+                      "roughness and tonality, one that you can trust and that best fits your coding environment, "
+                      "whether Python, MATLAB, C/C++, Rust, Julia or another language. Each implementation is listed "
+                      "under the edition of the standard or model it follows, with the validation it reports, so that "
+                      "you can judge whether its results are credible.", text("index.html"))
+        self.assertIn("This page is for AI agents, crawlers and LLMs that read the list on someone's behalf. Humans "
+                      "are welcome too: it lists the same data in forms that are easy to retrieve, parse and quote.",
+                      text("ai.html"))
+        about = text("about.html")
+        for key in ("about_lead", "about_story"):
+            first = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", self.index.site[key]).split(". ")[0]
+            self.assertIn(" ".join(first.split()), about, key)
+        self.assertIn("is renewed monthly", about)
+        faq = text("faq.html")
+        self.assertIn("MetaSona is a C library written for fast, real-time analysis, with a rolling analyser for audio "
+                      "that arrives in chunks", faq)
+        self.assertIn("pySQAT ports SQAT to Python", faq)
+        self.assertNotIn("Kirin Hypha is", faq)
+        for name in ("README.md", "review-issue.md", "pages.md", "repository.md", "owner-decisions.md"):
+            self.assertTrue((ROOT / "docs" / "maintaining" / name).exists(), name)
+        self.assertIn("docs/maintaining/owner-decisions.md", (ROOT / "AGENTS.md").read_text(encoding="utf-8"))
+
     def test_bullets_may_wrap(self) -> None:
         self.assertEqual(blocks("Intro.\n\n- One item\n  that wraps.\n- Two."),
                          "<p>Intro.</p>\n<ul><li>One item that wraps.</li><li>Two.</li></ul>")

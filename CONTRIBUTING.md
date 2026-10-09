@@ -262,6 +262,8 @@ generated output. Everything that describes a project, a metric or an edition is
   unverified leads, never as facts.
 - Disagreements about an entry are settled with sources: the list records what projects and standards bodies
   state.
+- The maintainers, people and AI agents alike, follow the standards in [`docs/maintaining/`](docs/maintaining/):
+  how to work through the review issue, what each page must show, and how the repository is kept.
 
 By contributing, you agree that your contribution is published under the licences of this repository: data and
 text under [CC BY 4.0](LICENSE-DATA), code under the [MIT License](LICENSE).

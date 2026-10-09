@@ -660,8 +660,9 @@ def ai_guide(index: Index) -> tuple[str, list[tuple[str, str, list[str]]]]:
     site = index.site
     base, repo = site["base_url"], site["repository"]
     langs = join_words(index.languages())
-    intro = ("This page is for AI agents, crawlers and language models that read the list for someone. It gives "
-             "the same data in forms that are easy to retrieve, parse and quote.")
+    # The owner's wording (7 October 2026); see docs/maintaining/owner-decisions.md.
+    intro = ("This page is for AI agents, crawlers and LLMs that read the list on someone's behalf. "
+             "Humans are welcome too: it lists the same data in forms that are easy to retrieve, parse and quote.")
     sections = [
         ("start", "Where to start", [
             f"[llms.txt]({base}llms.txt): a short summary with a link to the Markdown version of every page, "
