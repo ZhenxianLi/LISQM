@@ -840,6 +840,38 @@ class BuildTest(unittest.TestCase):
             impl["validation_scope"] = "in v1.3, test signal 10 is off by 18.14 %"
         self.assertEqual(self.index.validate(), [])
 
+    def test_licence_flags_where_projects_are_compared(self) -> None:
+        def notes(page: str, pid: str, edition: str) -> str:
+            text = (self.site / page).read_text(encoding="utf-8")
+            table = text[text.index('<h2 id="implementations">'):text.index('<h2 id="validation">')]
+            for row in table.split("<tr>")[1:]:
+                if f'projects/{pid}.html"' in row and f">{edition}</a>" in row:
+                    return row
+            self.fail(f"{pid} {edition} not in {page}")
+        # No licence file, a non-commercial or a source-available licence is tagged on the metric pages; SQAT's
+        # releases are non-commercial, while its default branch is under the GPL.
+        self.assertIn(">no licence<", notes("metrics/loudness-moore-glasberg-time-varying.html", "js2251-iso532-3",
+                                            "ISO 532-3:2023"))
+        self.assertIn(">source-available<", notes("metrics/loudness-zwicker.html", "soundpalette", "ISO 532-1:2017"))
+        ecma = "metrics/loudness-ecma-418-2.html"
+        self.assertIn(">non-commercial<", notes(ecma, "sqat", "ECMA-418-2:2024 (3rd ed.)"))
+        self.assertNotIn(">non-commercial<", notes(ecma, "sqat", "ECMA-418-2:2025 (4th ed.)"))
+        languages = (self.site / "languages.html").read_text(encoding="utf-8")
+        self.assertRegex(languages, r'projects/soundpalette\.html">SoundPalette</a> <span class="tag tag-new"[^>]*>new'
+                                    r'</span> <span class="tag tag-neutral"[^>]*>source-available<')
+        self.assertIn("(newly released, source-available)", (self.site / "languages.md").read_text(encoding="utf-8"))
+        # The project's own page gives the licence once, in its facts.
+        self.assertNotIn(">non-commercial<", (self.site / "projects/sqat.html").read_text(encoding="utf-8"))
+
+    def test_metric_groups_and_authority_reports(self) -> None:
+        self.assertIn("Four models are standardised", " ".join(self.index.family["loudness"]["summary"].split()))
+        faq = (self.site / "faq.html").read_text(encoding="utf-8")
+        self.assertIn("Being listed here is not a certification or an approval", faq)
+        # A question of its own, after the others: the first answer stays as it is.
+        self.assertIn('<h2 id="q1">Which code should I use for a psychoacoustic metric?</h2>', faq)
+        self.assertIn('<h2 id="q7">Can I rely on a listed implementation in a report that an authority will check?'
+                      "</h2>", faq)
+
     def test_bullets_may_wrap(self) -> None:
         self.assertEqual(blocks("Intro.\n\n- One item\n  that wraps.\n- Two."),
                          "<p>Intro.</p>\n<ul><li>One item that wraps.</li><li>Two.</li></ul>")

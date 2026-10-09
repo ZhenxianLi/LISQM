@@ -21,6 +21,36 @@ PAPER_KINDS = {"paper", "book", "thesis"}
 
 # How the licences of LISQM itself are named to readers.
 LICENCE_NAMES = {"CC-BY-4.0": "CC BY 4.0", "MIT": "MIT"}
+# Code that may not be free to reuse is flagged wherever it is compared with other implementations.
+LICENCE_FLAGS = {
+    "no licence": "No licence file: by default, copying, changing or sharing the code needs the author's permission.",
+    "non-commercial": "The licence does not allow commercial use.",
+    "source-available": "A source-available licence, not an open-source one: some uses are not allowed.",
+    "licence unknown": "The licence could not be checked.",
+}
+
+
+def licence_flag(p: dict, i: dict | None = None) -> str:
+    """A key of LICENCE_FLAGS when the code may not be free to reuse, else ''. When only the releases are
+    non-commercial (SQAT), a row that is only on the default branch is not flagged."""
+    lic = str(p.get("license") or "")
+    if lic == "none":
+        return "no licence"
+    if lic == "unknown":
+        return "licence unknown"
+    if re.search(r"-NC\b", lic):
+        return "" if "(releases)" in lic and i is not None and i["status"] != "available" else "non-commercial"
+    if re.match(r"(FSL|BUSL|SSPL)-", lic):
+        return "source-available"
+    return ""
+
+
+def licence_flag_text(p: dict, i: dict | None = None) -> str:
+    """The explanation of the flag; for non-commercial releases, which code it applies to."""
+    flag = licence_flag(p, i)
+    if flag == "non-commercial" and "(releases)" in str(p.get("license")):
+        return "The releases do not allow commercial use; the default branch has another licence."
+    return LICENCE_FLAGS.get(flag, "")
 
 
 def licence_names(site: dict) -> tuple[str, str]:
@@ -211,7 +241,8 @@ def name_note(site: dict) -> str:
     """That the list computes nothing itself, and what is open."""
     return (f"{site['name']} does not compute anything itself; it lists the implementations and compares what they "
             "state. The listed implementations publish their source code, most under an open-source licence; a few "
-            "have no licence file, or a source-available or non-commercial licence, as each project's page says. "
+            "have no licence file, or a source-available or non-commercial licence: they are tagged on the metric "
+            "pages and the Languages page, and each project's page gives the details. "
             f"The data of {site['name']} is open, but many of the standards the implementations follow are not free.")
 
 
@@ -613,6 +644,13 @@ def faq(index: Index, name: Fmt, metric_link: Callable[[dict], str], t: Esc,
                "From each project's own README, documentation, release notes, licence file and package metadata, "
                "with links to those sources. The list records what a project claims and does not run the code. "
                "Repository and package metadata are refreshed monthly, and a person reviews new findings."))
+    qa.append(("Can I rely on a listed implementation in a report that an authority will check?",
+               t(f"Being listed here is not a certification or an approval: {index.site['name']} records what each "
+                 "project states and has not run the code. For a report that an authority, a certification body or "
+                 "a client will check, use the edition and method that the regulation or contract names, check the "
+                 "implementation yourself with the test signals or reference data of that edition where it gives "
+                 "them, and state the version or commit you used. Each metric page lists the editions and what each "
+                 "project says about its validation.")))
     return qa
 
 

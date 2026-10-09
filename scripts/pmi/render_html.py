@@ -19,7 +19,8 @@ from .describe import (COVERAGE_COLUMNS, GROUP_RULE, ONLY_NEW, activity_text, ai
                        highlight_sentence, highlighted,
                        covers, current_statement, dedupe, dependence_note, derived_names, edition_state, faq,
                        how_to_cite,
-                       impl_phrase, in_sentence, introduce, language_order, licence_names, licence_terms, name_note,
+                       impl_phrase, in_sentence, introduce, language_order, licence_flag, licence_flag_text,
+                       licence_names, licence_terms, name_note,
                        only_related, ref_status, release_text, silent_line, standing_sentence, stated_conventions,
                        time_bins, timeline, validation_also, validation_groups, validation_label)
 from . import relations as RL
@@ -485,11 +486,20 @@ def _state_tag(state: str, href: str = "") -> str:
     return _tag(state, kind, title, href=href)
 
 
-def _status_note(i: dict) -> str:
-    """Notes cell: state tags first (new project, unreleased, pull request), then the free-text note."""
+def _licence_tag(p: dict, i: dict | None = None) -> str:
+    """'no licence', 'non-commercial' or 'source-available' when the code may not be free to reuse."""
+    flag = licence_flag(p, i)
+    return _tag(flag, "neutral", licence_flag_text(p, i)) if flag else ""
+
+
+def _status_note(i: dict, licence: bool = False) -> str:
+    """Notes cell: state tags first (new project, licence where projects are compared, unreleased, pull request),
+    then the free-text note."""
     bits = []
     if i["_project"]["_group"] in GROUP_TAGS:
         bits.append(GROUP_TAGS[i["_project"]["_group"]])
+    if licence and _licence_tag(i["_project"], i):
+        bits.append(_licence_tag(i["_project"], i))
     if i["status"] in ("unreleased", "proposed"):
         bits.append(_state_tag(i["status"], i.get("link", "")))
     if i.get("partial"):
@@ -850,7 +860,8 @@ def metric_page(index: Index, m: dict) -> str:
     stated = {id(i) for group in validation_groups(checked, lambda i: i["_project"]["id"])[0] for i in group}
     if m["_impls"]:
         rows = [[f'{name(i["_project"])}<br>{_langs(i["_project"]["languages"])}', _edition_cell(path, i),
-                 _functions(i), _validation(i, f"#{ids[id(i)]}" if id(i) in stated else ""), _status_note(i)]
+                 _functions(i), _validation(i, f"#{ids[id(i)]}" if id(i) in stated else ""),
+                 _status_note(i, licence=True)]
                 for i in m["_impls"]]
         parts.append(_table("impls", ["Project", "Edition", "Functions", "Validation (as stated)", "Notes"], rows))
         ported = (' The <a href="#map">project map</a> below shows which project took code from which.'
@@ -1119,6 +1130,8 @@ def languages_page(index: Index) -> str:
             name = _project_link(path, p)
             if p["_group"] in GROUP_TAGS:
                 name += " " + GROUP_TAGS[p["_group"]]
+            if _licence_tag(p):
+                name += " " + _licence_tag(p)
             metrics = list(dict.fromkeys((i["_metric"]["id"], bool(i.get("partial"))) for i in p["_impls"]
                                          if i["reference"] in i["_metric"]["current"] and i["status"] == "available"
                                          and not i.get("_via")))

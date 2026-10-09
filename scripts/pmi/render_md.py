@@ -13,7 +13,8 @@ from .describe import (COVERAGE_COLUMNS, GROUP_RULE, NEW_LABEL, activity_text, a
                        highlight_sentence, highlighted,
                        covers, dependence_note, derived_names, edition_state, faq, how_to_cite, in_sentence, in_short,
                        introduce,
-                       legacy_label, licence_names, licence_terms, name_note, ref_status, release_text,
+                       legacy_label, licence_flag, licence_flag_text, licence_names, licence_terms, name_note,
+                       ref_status, release_text,
                        silent_line, standing_sentence, stated_conventions, timeline, validation_also,
                        validation_groups, validation_label, version_label)
 from . import relations as RL
@@ -60,8 +61,12 @@ def _impl_note(i: dict) -> str:
     bits = {"newly-released": ["Newly released project, not yet seen to be widely used."],
             "developing": ["Developing project: no publication or documented use by others."],
             "legacy": ["Legacy project, no longer maintained."]}.get(i["_project"]["_group"], [])
+    if licence_flag(i["_project"], i):
+        bits.append(licence_flag_text(i["_project"], i))
     if i["status"] != "available":
         bits.append(i["status"].capitalize() + (f" ({i['link']})" if i.get("link") else "") + ".")
+    if i.get("partial"):
+        bits.append("Partial: computes only part of the metric.")
     if i.get("_via"):
         bits.append(f"Computed by {i['_via']['name']}.")
     if i.get("_uses"):
@@ -524,7 +529,9 @@ def languages_page(index: Index) -> str:
                                          if i["reference"] in i["_metric"]["current"] and i["status"] == "available"
                                          and not i.get("_via")))
             group = GROUP_NAMES[p["_group"]]
-            rows.append([name(p) + (f" ({group})" if p["_group"] in ("newly-released", "developing", "legacy") else ""), how,
+            flags = ([group] if p["_group"] in ("newly-released", "developing", "legacy") else []) + (
+                [licence_flag(p)] if licence_flag(p) else [])
+            rows.append([name(p) + (f" ({', '.join(flags)})" if flags else ""), how,
                          ", ".join(metrics) or "older editions or unreleased code only"])
         lines += _table(["Project", "How it is used", "Current editions it implements"], rows) + [""]
     lines += ["## Calling code across languages", "",
