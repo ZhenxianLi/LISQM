@@ -703,8 +703,8 @@ class BuildTest(unittest.TestCase):
         self.assertIn("## Project map", md)
         self.assertIn("- From [AARAE](https://zhenxianli.github.io/LISQM/projects/aarae.html): "
                       "**[SQAT](https://zhenxianli.github.io/LISQM/projects/sqat.html)** (ISO 532-1:2017)", md)
-        # Every project of a metric is on its map, or named under it as having no recorded relation (phonometry for
-        # Moore-Glasberg loudness).
+        # Every project of a metric is on its map: a project that no line joins is a box without a line, under
+        # "no relation recorded" (phonometry for Moore-Glasberg loudness). The whole map has no such boxes.
         for m in self.index.metrics:
             page = (self.site / f"metrics/{m['id']}.html").read_text(encoding="utf-8")
             if '<h2 id="map">' not in page:
@@ -716,10 +716,16 @@ class BuildTest(unittest.TestCase):
                 if i["_project"]["_group"] != "unknown":
                     self.assertIn(i["_project"]["id"], named, f"{m['id']}: {i['_project']['id']}")
         moore = (self.site / "metrics/loudness-moore-glasberg.html").read_text(encoding="utf-8")
-        self.assertRegex(moore, r'<p>Not on the map, as no relation is recorded for them: [^\n]*'
-                                r'href="\.\./projects/phonometry\.html"')
+        start = moore.index('<svg class="map-graph"')
+        svg = moore[start:moore.index("</svg>", start)]
+        self.assertIn(">no relation recorded</text>", svg)
+        self.assertIn('xlink:href="../projects/phonometry.html"', svg)
+        self.assertNotIn("Not on the map", moore)
         self.assertRegex((self.site / "metrics/loudness-moore-glasberg.md").read_text(encoding="utf-8"),
-                         r"Not on the map, as no relation is recorded for them: [^\n]*\[phonometry\]")
+                         r"On the map without a line, as no relation is recorded for them: [^\n]*\[phonometry\]")
+        whole = (self.site / "projects/map.html").read_text(encoding="utf-8")
+        self.assertNotIn("no relation recorded", whole)
+        self.assertIn("<p>Not on the map, as no relation is recorded for them: ", whole)
 
     def test_data_texts_are_whole(self) -> None:
         # In YAML, " #" in an unquoted text starts a comment and ": " makes a mapping: both once cut a sentence.

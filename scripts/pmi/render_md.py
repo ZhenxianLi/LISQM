@@ -227,8 +227,8 @@ def _metric_map(index: Index, m: dict) -> list[str]:
     alone = RL.alone(index, rel)
     if alone:
         name = _namer(index)
-        lines += ["Not on the map, as no relation is recorded for them: " + join_words([name(p) for p in alone]) + ".",
-                  ""]
+        lines += ["On the map without a line, as no relation is recorded for them: "
+                  + join_words([name(p) for p in alone]) + ".", ""]
     return lines
 
 

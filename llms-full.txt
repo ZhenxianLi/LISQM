@@ -422,7 +422,7 @@ The lines of the project map for Zwicker loudness only (the whole map: https://z
 
 - [ZwickerLoudness.jl](https://zhenxianli.github.io/LISQM/projects/zwickerloudness-jl.html) and [ZwickerLoudnessAudio.jl](https://zhenxianli.github.io/LISQM/projects/zwickerloudnessaudio-jl.html) (slink)
 
-Not on the map, as no relation is recorded for them: [PsychoacousticParametersMeasurer](https://zhenxianli.github.io/LISQM/projects/psychoacoustic-parameters-measurer.html).
+On the map without a line, as no relation is recorded for them: [PsychoacousticParametersMeasurer](https://zhenxianli.github.io/LISQM/projects/psychoacoustic-parameters-measurer.html).
 
 ## Before you compare numbers
 
@@ -526,7 +526,7 @@ The lines of the project map for Moore–Glasberg loudness only (the whole map: 
 
 - From [PsySound3](https://zhenxianli.github.io/LISQM/projects/psysound3.html) (Densil Cabrera): [AARAE](https://zhenxianli.github.io/LISQM/projects/aarae.html) (Moore, Glasberg & Baer (1997))
 
-Not on the map, as no relation is recorded for them: [phonometry](https://zhenxianli.github.io/LISQM/projects/phonometry.html), [deeuu/loudness](https://zhenxianli.github.io/LISQM/projects/deeuu-loudness.html), and [Swift & Gee codes](https://zhenxianli.github.io/LISQM/projects/rapid-loudness-sharpness.html).
+On the map without a line, as no relation is recorded for them: [phonometry](https://zhenxianli.github.io/LISQM/projects/phonometry.html), [deeuu/loudness](https://zhenxianli.github.io/LISQM/projects/deeuu-loudness.html), and [Swift & Gee codes](https://zhenxianli.github.io/LISQM/projects/rapid-loudness-sharpness.html).
 
 ## Before you compare numbers
 
@@ -629,7 +629,7 @@ The lines of the project map for time-varying loudness (Moore–Glasberg–Schli
 
 - From [PsySound3](https://zhenxianli.github.io/LISQM/projects/psysound3.html) (Densil Cabrera): [AARAE](https://zhenxianli.github.io/LISQM/projects/aarae.html) (Glasberg & Moore (2002))
 
-Not on the map, as no relation is recorded for them: [phonometry](https://zhenxianli.github.io/LISQM/projects/phonometry.html), [deeuu/loudness](https://zhenxianli.github.io/LISQM/projects/deeuu-loudness.html), [HAW loudness tool](https://zhenxianli.github.io/LISQM/projects/haw-specific-loudness.html), and [Swift & Gee codes](https://zhenxianli.github.io/LISQM/projects/rapid-loudness-sharpness.html).
+On the map without a line, as no relation is recorded for them: [phonometry](https://zhenxianli.github.io/LISQM/projects/phonometry.html), [deeuu/loudness](https://zhenxianli.github.io/LISQM/projects/deeuu-loudness.html), [HAW loudness tool](https://zhenxianli.github.io/LISQM/projects/haw-specific-loudness.html), and [Swift & Gee codes](https://zhenxianli.github.io/LISQM/projects/rapid-loudness-sharpness.html).
 
 ## Before you compare numbers
 
@@ -752,7 +752,7 @@ The lines of the project map for Sottek Hearing Model loudness only (the whole m
 
 - **[SQAT](https://zhenxianli.github.io/LISQM/projects/sqat.html)** and **[sottek-hearing-model](https://zhenxianli.github.io/LISQM/projects/sottek-hearing-model.html)** (Mike Lotinga)
 
-Not on the map, as no relation is recorded for them: [phonometry](https://zhenxianli.github.io/LISQM/projects/phonometry.html).
+On the map without a line, as no relation is recorded for them: [phonometry](https://zhenxianli.github.io/LISQM/projects/phonometry.html).
 
 ## Before you compare numbers
 
@@ -874,7 +874,7 @@ The lines of the project map for sharpness only (the whole map: https://zhenxian
 
 - **[SQAT](https://zhenxianli.github.io/LISQM/projects/sqat.html)** and [refmap-psychoacoustics](https://zhenxianli.github.io/LISQM/projects/refmap-psychoacoustics.html) (Mike Lotinga)
 
-Not on the map, as no relation is recorded for them: [AARAE](https://zhenxianli.github.io/LISQM/projects/aarae.html), [MetaSona](https://zhenxianli.github.io/LISQM/projects/metasona.html), [phonometry](https://zhenxianli.github.io/LISQM/projects/phonometry.html), [PsychoacousticParametersMeasurer](https://zhenxianli.github.io/LISQM/projects/psychoacoustic-parameters-measurer.html), and [Swift & Gee codes](https://zhenxianli.github.io/LISQM/projects/rapid-loudness-sharpness.html).
+On the map without a line, as no relation is recorded for them: [AARAE](https://zhenxianli.github.io/LISQM/projects/aarae.html), [MetaSona](https://zhenxianli.github.io/LISQM/projects/metasona.html), [phonometry](https://zhenxianli.github.io/LISQM/projects/phonometry.html), [PsychoacousticParametersMeasurer](https://zhenxianli.github.io/LISQM/projects/psychoacoustic-parameters-measurer.html), and [Swift & Gee codes](https://zhenxianli.github.io/LISQM/projects/rapid-loudness-sharpness.html).
 
 ## Before you compare numbers
 
@@ -994,7 +994,7 @@ The lines of the project map for roughness (Daniel & Weber) only (the whole map:
 
 - [SoundPalette](https://zhenxianli.github.io/LISQM/projects/soundpalette.html) against **[MoSQITo](https://zhenxianli.github.io/LISQM/projects/mosqito.html)** (Daniel & Weber (1997))
 
-Not on the map, as no relation is recorded for them: [ITA-Toolbox](https://zhenxianli.github.io/LISQM/projects/ita-toolbox.html).
+On the map without a line, as no relation is recorded for them: [ITA-Toolbox](https://zhenxianli.github.io/LISQM/projects/ita-toolbox.html).
 
 ## Before you compare numbers
 
@@ -1109,7 +1109,7 @@ The lines of the project map for Sottek Hearing Model roughness only (the whole 
 
 - **[SQAT](https://zhenxianli.github.io/LISQM/projects/sqat.html)** and **[sottek-hearing-model](https://zhenxianli.github.io/LISQM/projects/sottek-hearing-model.html)** (Mike Lotinga)
 
-Not on the map, as no relation is recorded for them: [phonometry](https://zhenxianli.github.io/LISQM/projects/phonometry.html).
+On the map without a line, as no relation is recorded for them: [phonometry](https://zhenxianli.github.io/LISQM/projects/phonometry.html).
 
 ## Before you compare numbers
 
@@ -1238,7 +1238,7 @@ The lines of the project map for fluctuation strength (Osses et al.) only (the w
 - [phonometry](https://zhenxianli.github.io/LISQM/projects/phonometry.html) against **[SQAT](https://zhenxianli.github.io/LISQM/projects/sqat.html)** (Osses et al. (2016))
 - [PsychoacousticMetrics.jl](https://zhenxianli.github.io/LISQM/projects/psychoacousticmetrics-jl.html) against **[SQAT](https://zhenxianli.github.io/LISQM/projects/sqat.html)** (Osses et al. (2016))
 
-Not on the map, as no relation is recorded for them: [PsychoacousticParametersMeasurer](https://zhenxianli.github.io/LISQM/projects/psychoacoustic-parameters-measurer.html).
+On the map without a line, as no relation is recorded for them: [PsychoacousticParametersMeasurer](https://zhenxianli.github.io/LISQM/projects/psychoacoustic-parameters-measurer.html).
 
 ## Before you compare numbers
 
@@ -1312,7 +1312,7 @@ The lines of the project map for Sottek Hearing Model fluctuation strength only 
 
 - **[SQAT](https://zhenxianli.github.io/LISQM/projects/sqat.html)** and **[sottek-hearing-model](https://zhenxianli.github.io/LISQM/projects/sottek-hearing-model.html)** (Mike Lotinga)
 
-Not on the map, as no relation is recorded for them: [phonometry](https://zhenxianli.github.io/LISQM/projects/phonometry.html).
+On the map without a line, as no relation is recorded for them: [phonometry](https://zhenxianli.github.io/LISQM/projects/phonometry.html).
 
 ## Before you compare numbers
 
@@ -1387,7 +1387,7 @@ The lines of the project map for tonality (Aures) only (the whole map: https://z
 
 - From **[SQAT](https://zhenxianli.github.io/LISQM/projects/sqat.html)**: [MetaSona](https://zhenxianli.github.io/LISQM/projects/metasona.html) (Aures (1985b)); [pySQAT](https://zhenxianli.github.io/LISQM/projects/pysqat.html) (Aures (1985b))
 
-Not on the map, as no relation is recorded for them: **[MoSQITo](https://zhenxianli.github.io/LISQM/projects/mosqito.html)**.
+On the map without a line, as no relation is recorded for them: **[MoSQITo](https://zhenxianli.github.io/LISQM/projects/mosqito.html)**.
 
 ## Before you compare numbers
 
@@ -1488,7 +1488,7 @@ The lines of the project map for Sottek Hearing Model tonality only (the whole m
 
 - **[SQAT](https://zhenxianli.github.io/LISQM/projects/sqat.html)** and **[sottek-hearing-model](https://zhenxianli.github.io/LISQM/projects/sottek-hearing-model.html)** (Mike Lotinga)
 
-Not on the map, as no relation is recorded for them: [phonometry](https://zhenxianli.github.io/LISQM/projects/phonometry.html).
+On the map without a line, as no relation is recorded for them: [phonometry](https://zhenxianli.github.io/LISQM/projects/phonometry.html).
 
 ## Before you compare numbers
 
@@ -1572,7 +1572,7 @@ The lines of the project map for tone-to-noise ratio and prominence ratio only (
 
 - **[MoSQITo](https://zhenxianli.github.io/LISQM/projects/mosqito.html)** and [MoSQITo-FDP](https://zhenxianli.github.io/LISQM/projects/mosqito-fdp.html) (Daniel Jiménez-Caminero Costa)
 
-Not on the map, as no relation is recorded for them: [phonometry](https://zhenxianli.github.io/LISQM/projects/phonometry.html).
+On the map without a line, as no relation is recorded for them: [phonometry](https://zhenxianli.github.io/LISQM/projects/phonometry.html).
 
 ## References
 
@@ -1713,7 +1713,7 @@ The lines of the project map for tonal audibility (ISO 1996-2) only (the whole m
 
 - From [python-acoustics](https://zhenxianli.github.io/LISQM/projects/python-acoustics.html): [acoustic-toolbox](https://zhenxianli.github.io/LISQM/projects/acoustic-toolbox.html) (ISO 1996-2:2007)
 
-Not on the map, as no relation is recorded for them: **[MoSQITo](https://zhenxianli.github.io/LISQM/projects/mosqito.html)** and [phonometry](https://zhenxianli.github.io/LISQM/projects/phonometry.html).
+On the map without a line, as no relation is recorded for them: **[MoSQITo](https://zhenxianli.github.io/LISQM/projects/mosqito.html)** and [phonometry](https://zhenxianli.github.io/LISQM/projects/phonometry.html).
 
 ## References
 
@@ -1877,7 +1877,7 @@ The lines of the project map for psychoacoustic annoyance only (the whole map: h
 
 - **[SQAT](https://zhenxianli.github.io/LISQM/projects/sqat.html)** and [refmap-psychoacoustics](https://zhenxianli.github.io/LISQM/projects/refmap-psychoacoustics.html) (Mike Lotinga)
 
-Not on the map, as no relation is recorded for them: [phonometry](https://zhenxianli.github.io/LISQM/projects/phonometry.html) and [PsychoacousticParametersMeasurer](https://zhenxianli.github.io/LISQM/projects/psychoacoustic-parameters-measurer.html).
+On the map without a line, as no relation is recorded for them: [phonometry](https://zhenxianli.github.io/LISQM/projects/phonometry.html) and [PsychoacousticParametersMeasurer](https://zhenxianli.github.io/LISQM/projects/psychoacoustic-parameters-measurer.html).
 
 ## Before you compare numbers
 
@@ -1947,7 +1947,7 @@ The lines of the project map for equal-loudness contours only (the whole map: ht
 
 - From **[MoSQITo](https://zhenxianli.github.io/LISQM/projects/mosqito.html)**: [Mosqito.NET](https://zhenxianli.github.io/LISQM/projects/mosqito-net.html) (ISO 226:2003)
 
-Not on the map, as no relation is recorded for them: [PSYCHO](https://zhenxianli.github.io/LISQM/projects/pd-psycho.html), [PyDSM](https://zhenxianli.github.io/LISQM/projects/pydsm.html), [phonometry](https://zhenxianli.github.io/LISQM/projects/phonometry.html), and [IoSR Matlab Toolbox](https://zhenxianli.github.io/LISQM/projects/iosr-matlab-toolbox.html).
+On the map without a line, as no relation is recorded for them: [PSYCHO](https://zhenxianli.github.io/LISQM/projects/pd-psycho.html), [PyDSM](https://zhenxianli.github.io/LISQM/projects/pydsm.html), [phonometry](https://zhenxianli.github.io/LISQM/projects/phonometry.html), and [IoSR Matlab Toolbox](https://zhenxianli.github.io/LISQM/projects/iosr-matlab-toolbox.html).
 
 ## References
 
@@ -2008,7 +2008,7 @@ The lines of the project map for perceived noise level and EPNL only (the whole 
 
 - From **[SQAT](https://zhenxianli.github.io/LISQM/projects/sqat.html)**: [pySQAT](https://zhenxianli.github.io/LISQM/projects/pysqat.html) (14 CFR Part 36)
 
-Not on the map, as no relation is recorded for them: [phonometry](https://zhenxianli.github.io/LISQM/projects/phonometry.html), [SUAVE](https://zhenxianli.github.io/LISQM/projects/suave.html), and [Zhen-Ni/epnl](https://zhenxianli.github.io/LISQM/projects/zhen-ni-epnl.html).
+On the map without a line, as no relation is recorded for them: [phonometry](https://zhenxianli.github.io/LISQM/projects/phonometry.html), [SUAVE](https://zhenxianli.github.io/LISQM/projects/suave.html), and [Zhen-Ni/epnl](https://zhenxianli.github.io/LISQM/projects/zhen-ni-epnl.html).
 
 ## References
 
