@@ -8,16 +8,19 @@ points back from the project to the one it checked its results against.
 - used at run time: a row's `via` (another project does the computation) and `uses` (it needs another project);
 - results checked: a row's `compared_with`, leaving out comparisons with related code (`_relation`) and pairs that
   another line already joins;
-- same contributor: a person named in `maintainers` or `contributors` of both projects, when nothing else joins
-  them (no direction).
+- same contributor: a person named in `maintainers` or `contributors` of both projects (no direction); not drawn
+  beside a line of the author's own code, which says the same.
 
 A metric page draws the same map from the rows of that metric only. The picture is drawn by Graphviz (`dot`) when
-the site is built. Without Graphviz the page keeps the same relations in words and says that the picture is
-missing; on a CI runner (`CI` set) a missing Graphviz is an error.
+the site is built, in two passes: every line has an end of its own on the side of each box, and the second pass
+orders those ends by where the box at the other end of the line was placed in the first. Without Graphviz the
+page keeps the same relations in words and says that the picture is missing; on a CI runner (`CI` set) a missing
+Graphviz is an error.
 """
 
 from __future__ import annotations
 
+import json
 import os
 import re
 import shutil
@@ -55,8 +58,8 @@ KINDS = [
      "project was taken from, with a port of its own code or with another port of the same code are not drawn, "
      "because they only show that two copies agree."),
     ("people", "Same contributor",
-     "Someone has worked on both projects, as a maintainer or with code of their own, and no other line joins "
-     "them."),
+     "Someone has worked on both projects, as a maintainer or with code of their own. Not drawn beside a line of "
+     "the author's own code, which says the same."),
 ]
 
 
@@ -67,6 +70,11 @@ LANG_COLOURS = {"py": "#2463ad", "m": "#bd5512", "c": "#6b46a6", "rs": "#94471c"
 SHORT_CODE = {"ISO 532-1 Annex A reference program": "ISO 532-1 Annex A program",
               "BASIC program of DIN 45631 (Zwicker et al., 1991)": "BASIC program (DIN 45631, 1991)"}
 SERIF = "Charter,'Bitstream Charter','Sitka Text',Cambria,Georgia,'Noto Serif','DejaVu Serif',serif"
+# Where lines meet a box (points): every line has an end of its own, this far from the next one, and none this close
+# to the rounded top or bottom of the box. A box with many lines grows taller than BOX_HEIGHT.
+PORT_GAP = 6.0
+PORT_EDGE = 4.0
+BOX_HEIGHT = 22.0
 MONO = "ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono','DejaVu Sans Mono',monospace"
 
 
@@ -122,14 +130,10 @@ def relations(index: Index, metric: dict | None = None) -> dict:
                 if c in index.project and c not in (i.get("_relation") or {}) and not i.get("via") \
                         and frozenset((p["id"], c)) not in joined:
                     _add(compares.setdefault((p["id"], c), []), what(i))
-    joined |= {frozenset(k) for k in compares}
 
-    # A person who moved their own code from one project into two others already joins those two through it.
-    moved: dict[str, list[tuple[str, str]]] = {}  # person -> (source, project) pairs of own code
-    for e in taken.values():
-        if e["own"] and e["source"]:
-            for m in e["shared"]:
-                moved.setdefault(m, []).append((e["key"], e["project"]["id"]))
+    # A person on both projects: a grey line, also beside a line of another kind, but not beside a line of the
+    # author's own code, which already says that the same people are involved.
+    own = {frozenset((e["key"], e["project"]["id"])) for e in taken.values() if e["own"]}
     people: dict[tuple, list] = {}
     by_person: dict[str, list] = {}
     for p in index.projects_by_group():
@@ -140,11 +144,8 @@ def relations(index: Index, metric: dict | None = None) -> dict:
     for m, ps in by_person.items():
         for n, a in enumerate(ps):
             for b in ps[n + 1:]:
-                pair = frozenset((a["id"], b["id"]))
-                sources = [{pid for k, pid in moved.get(m, []) if k == key} for key, _ in moved.get(m, [])]
-                if pair in joined or any(pair <= s for s in sources):
-                    continue
-                _add(people.setdefault((a["id"], b["id"]), []), m)
+                if frozenset((a["id"], b["id"])) not in own:
+                    _add(people.setdefault((a["id"], b["id"]), []), m)
     return {"taken": list(taken.values()), "uses": uses, "compares": compares, "people": people,
             "code_refs": {k: c.most_common(1)[0][0] for k, c in refs.items()}, "metric": metric}
 
@@ -193,19 +194,53 @@ def _html(s: str) -> str:
     return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
 
-def dot_source(index: Index, rel: dict, path: str, lang_codes: dict) -> str:
-    """The map as a Graphviz graph, left to right, with curved lines; every box links to its page."""
+def _ports(side: str, count: int, height: float) -> str:
+    """A column of `count` line ends ("i0", "i1" … or "o0" …) spread over the height of a box."""
+    if not count:
+        return f'<TD WIDTH="1" HEIGHT="{height:.1f}"></TD>'
+    step = (height - 2 * PORT_EDGE) / count
+    pad = f'<TR><TD WIDTH="1" HEIGHT="{PORT_EDGE:g}" FIXEDSIZE="TRUE"></TD></TR>'
+    ends = "".join(f'<TR><TD PORT="{side}{n}" WIDTH="1" HEIGHT="{step:.2f}" FIXEDSIZE="TRUE"></TD></TR>'
+                   for n in range(count))
+    return f'<TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="0">{pad}{ends}{pad}</TABLE></TD>'
+
+
+def dot_source(index: Index, rel: dict, path: str, lang_codes: dict, pos: dict | None = None) -> str:
+    """The map as a Graphviz graph, left to right, with curved lines; every box links to its page.
+
+    A line leaves a box from an end of its own on the box's right side and enters the next box on its left side.
+    With `pos` (each box's (x, y) in a first layout) the ends are ordered by the box at the other end of the line,
+    top first, so that lines neither share an end nor cross where they meet a box; a grey line between two
+    columns gets ends too, while one between boxes of the same column joins them directly."""
     out = ["digraph map {",
            '  graph [rankdir=LR, splines=spline, nodesep=0.22, ranksep=1.1, newrank=true, bgcolor="transparent", '
            'pad=0.1];',
-           '  node [shape=box, style="rounded,filled", fillcolor="white", fontname="DejaVu Serif", fontsize=12, '
-           'height=0.34, margin="0.1,0.04"];',
+           '  node [shape=plain, fontname="DejaVu Serif", fontsize=12];',
            "  edge [arrowsize=0.75];"]
-    nodes: dict[str, str] = {}
+    drawn = lines(index, rel)
+    ended = [line for line in drawn if LINES[line["kind"]][3]]
+    loose = []
+    for line in drawn:
+        if LINES[line["kind"]][3]:
+            continue
+        if pos and abs(pos[line["source"]][0] - pos[line["user"]][0]) > 20:
+            left, right = sorted((line["source"], line["user"]), key=lambda k: pos[k][0])
+            ended.append(dict(line, source=left, user=right))
+        else:
+            loose.append(line)
+    ins: dict[str, list[int]] = {}
+    outs: dict[str, list[int]] = {}
+    for n, line in enumerate(ended):
+        outs.setdefault(line["source"], []).append(n)
+        ins.setdefault(line["user"], []).append(n)
+    if pos:  # Graphviz's y grows upwards
+        for ends, other in ((outs, "user"), (ins, "source")):
+            for numbers in ends.values():
+                numbers.sort(key=lambda n: -pos[ended[n][other]][1])
 
-    def node(key: str) -> None:
-        if key in nodes:
-            return
+    def node(key: str) -> str:
+        k_in, k_out = len(ins.get(key, [])), len(outs.get(key, []))
+        height = max(BOX_HEIGHT, PORT_GAP * max(k_in, k_out) + 2 * PORT_EDGE)
         p = index.project.get(key)
         if p:
             code, cls = lang_codes.get(p["languages"][0], (p["languages"][0][:2].lower(), "other"))
@@ -214,37 +249,39 @@ def dot_source(index: Index, rel: dict, path: str, lang_codes: dict) -> str:
             if p["_super"]:
                 label = f"<b>{label}</b>"
             alpha = "9e" if p["_group"] == "legacy" else ""  # legacy projects are faded, as elsewhere
-            nodes[key] = (f'  {_q(key)} [label=<<font face="DejaVu Sans Mono" point-size="10" '
-                          f'color="{colour}{alpha}">{_html(code)}</font>  '
-                          f'<font color="#1f2328{alpha}">{label}</font>>, '
-                          f'color="{"#1f2328" if p["_super"] else colour}{alpha}", '
-                          f'penwidth={2.4 if p["_super"] else 1.2}, URL={_q(relative(path, project_path(p)))}, '
-                          f'tooltip={_q(p["name"] + ": " + ", ".join(p["languages"]))}];')
+            text = (f'<font face="DejaVu Sans Mono" point-size="10" color="{colour}{alpha}">{_html(code)}</font>  '
+                    f'<font color="#1f2328{alpha}">{label}</font>')
+            box = (f'BORDER="{2 if p["_super"] else 1}" COLOR="{"#1f2328" if p["_super"] else colour}{alpha}" '
+                   'BGCOLOR="white" STYLE="rounded"')
+            attrs = (f'URL={_q(relative(path, project_path(p)))}, '
+                     f'tooltip={_q(p["name"] + ": " + ", ".join(p["languages"]))}')
         else:  # a program published with a standard or a paper
             full = next(e["name"] for e in rel["taken"] if e["key"] == key)
             ref = rel["code_refs"].get(key)
-            url = f", URL={_q(relative(path, STANDARDS) + '#ref-' + ref)}" if ref else ""
-            nodes[key] = (f'  {_q(key)} [label=<<i>{_html(SHORT_CODE.get(full, full))}</i>>, '
-                          f'style="rounded,dashed,filled", fillcolor="#f3f4f6", color="#8b949e", '
-                          f'fontcolor="#5a636e"{url}, tooltip={_q(full + ", published with the standard or paper")}];')
+            text = f'<font color="#5a636e"><i>{_html(SHORT_CODE.get(full, full))}</i></font>'
+            box = 'BORDER="1" COLOR="#8b949e" BGCOLOR="#f3f4f6" STYLE="rounded,dashed"'
+            url = f"URL={_q(relative(path, STANDARDS) + '#ref-' + ref)}, " if ref else ""
+            attrs = f'{url}tooltip={_q(full + ", published with the standard or paper")}'
+        label = (f'<<TABLE {box} CELLBORDER="0" CELLSPACING="0" CELLPADDING="0"><TR>{_ports("i", k_in, height)}'
+                 f'<TD HEIGHT="{height:.1f}" CELLPADDING="3">{text}</TD>{_ports("o", k_out, height)}</TR></TABLE>>')
+        return f"  {_q(key)} [label={label}, {attrs}];"
 
-    edges = []
-    for line in lines(index, rel):
-        node(line["source"])
-        node(line["user"])
+    def edge(line: dict, ends: list[str]) -> str:
         colour, width, style, arrow = LINES[line["kind"]]
         attrs = [f'color="{colour}"', f"penwidth={width}", f"style={style}", f"tooltip={_q(line['tip'])}",
-                 f"edgetooltip={_q(line['tip'])}"]
+                 f"edgetooltip={_q(line['tip'])}"] + ends
         if not arrow:  # same contributor: no direction, and no say in the left-to-right order
             attrs += ["dir=none", "constraint=false"]
-        else:
-            # Every line leaves a box on its right and enters the next on its left, so the ends do not pile up on
-            # the corners of a box.
-            attrs += ["tailport=e", "headport=w"]
-            if line["kind"] == "compare":  # placed like a source on the left, but A's results checked against B
-                attrs.append("dir=back")
-        edges.append(f"  {_q(line['source'])} -> {_q(line['user'])} [{', '.join(attrs)}];")
-    return "\n".join(out + list(nodes.values()) + edges + ["}"])
+        elif line["kind"] == "compare":  # placed like a source on the left, but A's results checked against B
+            attrs.append("dir=back")
+        return f"  {_q(line['source'])} -> {_q(line['user'])} [{', '.join(attrs)}];"
+
+    keys = dict.fromkeys(k for line in drawn for k in (line["source"], line["user"]))
+    out += [node(key) for key in keys]
+    out += [edge(line, [f'tailport="o{outs[line["source"]].index(n)}:e"',
+                        f'headport="i{ins[line["user"]].index(n)}:w"']) for n, line in enumerate(ended)]
+    out += [edge(line, []) for line in loose]
+    return "\n".join(out + ["}"])
 
 
 def svg(index: Index, rel: dict, path: str, lang_codes: dict,
@@ -256,8 +293,14 @@ def svg(index: Index, rel: dict, path: str, lang_codes: dict,
             raise SystemExit("Graphviz (the dot program) is needed to draw the project map; install it first.")
         print("warning: Graphviz (dot) not found; the project map is built without its picture")
         return ""
-    result = subprocess.run(["dot", "-Tsvg"], input=dot_source(index, rel, path, lang_codes), capture_output=True,
-                            text=True, check=True)
+    # First pass: where the boxes go; second pass: the same, with the ends of the lines in the order of the boxes
+    # they lead to.
+    first = subprocess.run(["dot", "-Tjson0"], input=dot_source(index, rel, path, lang_codes), capture_output=True,
+                           text=True, check=True)
+    pos = {o["name"]: tuple(float(v) for v in o["pos"].split(","))
+           for o in json.loads(first.stdout).get("objects", []) if "pos" in o}
+    result = subprocess.run(["dot", "-Tsvg"], input=dot_source(index, rel, path, lang_codes, pos),
+                            capture_output=True, text=True, check=True)
     text = result.stdout[result.stdout.index("<svg"):]
     # Scale with the page (the viewBox stays), and use the site's type where it is installed.
     # At most life size, and never so small that the labels shrink below about 9 px: a narrow screen scrolls.

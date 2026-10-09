@@ -1,6 +1,19 @@
 # Dated notes shown on the Updates page, in the Atom feed and in CHANGELOG.md. Newest first.
 # Body: Markdown paragraphs and "- " bullet lists. See data/SCHEMA.md.
 
+- date: 2026-10-09
+  title: "Version 0.5: search"
+  body: |
+    A search field in the tab bar finds metrics, standards and papers, projects and function names; on phones it
+    opens from the Search button. On the Projects page, a filter shows only the projects that match, for example a
+    language, a licence or a metric.
+
+    - The project map gives every line its own end, so that lines no longer meet at one point, and joins every
+      pair of projects that share a contributor.
+    - Metric pages and the Languages page flag licences that limit use; the FAQ says what a listing does not
+      certify.
+    - Corrections from a review of the site.
+
 - date: 2026-10-08
   title: "Version 0.4: the project map"
   body: |

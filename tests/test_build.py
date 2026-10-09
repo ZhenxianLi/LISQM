@@ -568,7 +568,8 @@ class BuildTest(unittest.TestCase):
 
     def test_project_map_relations(self) -> None:
         rel = RL.relations(self.index)
-        kinds = {(line["source"], line["user"]): line["kind"] for line in RL.lines(self.index, rel)}
+        kinds = {(line["source"], line["user"]): line["kind"] for line in RL.lines(self.index, rel)
+                 if line["kind"] != "people"}
         # Code that its own author or team moved is drawn apart from code that someone else took.
         self.assertEqual(kinds[("refmap-psychoacoustics", "sqat")], "own")
         self.assertEqual(kinds[("fluctuation-strength-tue", "sqat")], "own")
@@ -584,12 +585,28 @@ class BuildTest(unittest.TestCase):
         self.assertTrue(edges)
         for edge in edges:
             self.assertEqual("dir=back" in edge, "style=dashed" in edge, edge)
-        # One line per pair: code taken is not drawn again as a comparison or a shared maintainer.
+        # Every line with a direction has ends of its own: no two lines share the end of a box.
+        tails, heads = [], []
+        for edge in edges:
+            source, user, attrs = re.match(r'\s*"((?:[^"\\]|\\.)*)" -> "((?:[^"\\]|\\.)*)" \[(.*)\];$', edge).groups()
+            if "dir=none" not in attrs:
+                tails.append((source, re.search(r'tailport="(o\d+):e"', attrs).group(1)))
+                heads.append((user, re.search(r'headport="(i\d+):w"', attrs).group(1)))
+        self.assertEqual(len(tails), len(set(tails)))
+        self.assertEqual(len(heads), len(set(heads)))
+        self.assertEqual(len(tails), sum(line["kind"] != "people" for line in RL.lines(self.index, rel)))
+        # Code taken is not drawn again as a comparison. A shared contributor has a grey line of its own, also beside
+        # a line of another kind, but not beside the author's own code, which says the same.
         self.assertEqual(kinds[("mosqito", "zwickerloudness-jl")], "port")
-        pairs = [frozenset(pair) for pair in kinds]
-        self.assertEqual(len(pairs), len(set(pairs)))
-        self.assertEqual(kinds[("acoustic-toolbox", "soundscapy")], "people")
-        self.assertNotIn(frozenset(("sqat", "sottek-hearing-model")), pairs, "both took Mike Lotinga's own code")
+        by_pair: dict[frozenset, list[str]] = {}
+        for line in RL.lines(self.index, rel):
+            by_pair.setdefault(frozenset((line["source"], line["user"])), []).append(line["kind"])
+        for pair, both in by_pair.items():
+            self.assertTrue(len(both) == 1 or (len(both) == 2 and "people" in both and "own" not in both), pair)
+        self.assertEqual(sorted(by_pair[frozenset(("mosqito", "mosqito-fdp"))]), ["people", "port"])
+        self.assertEqual(by_pair[frozenset(("sqat", "sottek-hearing-model"))], ["people"], "Mike Lotinga")
+        self.assertEqual(by_pair[frozenset(("refmap-psychoacoustics", "sqat"))], ["own"])
+        self.assertEqual(by_pair[frozenset(("acoustic-toolbox", "soundscapy"))], ["people"])
         # A person on both sides of a code line is recorded on the rows, not guessed: at least one row of the pair
         # says derived_by_author (MoSQITo-FDP took its author's hearing model from MoSQITo, and others' TNR/PR code).
         for e in rel["taken"]:
@@ -667,7 +684,8 @@ class BuildTest(unittest.TestCase):
     def test_metric_maps(self) -> None:
         def lines(mid: str) -> dict:
             rel = RL.relations(self.index, self.index.metric[mid])
-            return {(line["source"], line["user"]): line for line in RL.lines(self.index, rel)}
+            return {(line["source"], line["user"]): line for line in RL.lines(self.index, rel)
+                    if line["kind"] != "people"}
         # A metric page draws only the lines of its own rows, each naming the edition it is about: SQAT took AARAE's
         # ISO 532-1 code, while AARAE's code from PsySound3 is for Chalupper & Fastl (2002).
         zwicker = lines("loudness-zwicker")
@@ -917,6 +935,51 @@ class BuildTest(unittest.TestCase):
         narrow = css[css.index("@media (max-width: 40rem)"):]
         self.assertIn(".phone-only {\n  display: none;", css[:css.index("@media (max-width: 40rem)")])
         self.assertIn("content: attr(data-label);", narrow)
+
+    def test_search(self) -> None:
+        import hashlib
+        # search.json holds every kind, every metric and project, and only entries that lead to a page and an anchor
+        # that exist.
+        entries = json.loads((self.site / "search.json").read_text(encoding="utf-8"))
+        self.assertEqual({e["k"] for e in entries}, {"Metric", "Standard", "Paper", "Project", "Function", "Page"})
+        names = {(e["k"], e["t"]) for e in entries}
+        for m in self.index.metrics:
+            self.assertIn(("Metric", m["name"]), names)
+        for p in self.index.projects:
+            self.assertIn(("Project", p["name"]), names)
+        self.assertIn(("Page", "Frequently asked questions"), names)
+        anchors: dict[Path, set[str]] = {}
+        for e in entries:
+            target, _, fragment = e["u"].partition("#")
+            path = self.site / target
+            self.assertTrue(path.is_file(), e["u"])
+            if fragment:
+                self.assertIn(fragment, anchors.setdefault(path, self.parse(path).ids), e["u"])
+        old = {e["t"] for e in entries if e.get("old")}
+        self.assertTrue(old and all(r["status"] in ("superseded", "withdrawn") for r in self.index.references
+                                    if r["label"] in old))
+        # Every page but the error page has the field, the button and the dialog, and asks for search.js by its
+        # version, with the way back to the root of the site.
+        version = hashlib.sha256((self.site / "search.js").read_bytes()).hexdigest()[:10]
+        for page in self.pages:
+            text = page.read_text(encoding="utf-8")
+            if page.name == "404.html":
+                self.assertNotIn("search", text.lower().replace("research", ""), page.name)
+                continue
+            root = re.search(rf'search\.js\?v={version}" data-root="([./]*)" defer>', text)
+            self.assertTrue(root, page.name)
+            self.assertEqual((page.parent / root.group(1)).resolve(), self.site.resolve(), page.name)
+            for hook in ('<form class="site-search" role="search">', '<button class="search-open" type="button">',
+                         '<dialog class="search-dialog"'):
+                self.assertEqual(text.count(hook), 1, f"{page.name}: {hook}")
+            self.assertIn("document.documentElement.classList.add('js');", text, page.name)
+        # The filter of the Projects page; nothing of the search shows without JavaScript.
+        projects = (self.site / "projects/index.html").read_text(encoding="utf-8")
+        self.assertLess(projects.index('<div class="table-filter">'), projects.index('<h2 id="established">'))
+        self.assertIn('<label for="project-filter">Filter projects</label><input id="project-filter"', projects)
+        css = (self.site / "style.css").read_text(encoding="utf-8")
+        self.assertIn(".site-search,\n.search-open,\n.table-filter {\n  display: none;\n}", css)
+        self.assertIn("table.projects tr[hidden]", css)
 
 if __name__ == "__main__":
     unittest.main()

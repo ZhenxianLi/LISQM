@@ -2,6 +2,18 @@
 
 Notable changes to the list. This file is generated from `data/updates.yaml`; the same notes are on the website (https://zhenxianli.github.io/LISQM/updates.html) and in its Atom feed.
 
+## 2026-10-09: Version 0.5: search
+
+A search field in the tab bar finds metrics, standards and papers, projects and function names; on phones it
+opens from the Search button. On the Projects page, a filter shows only the projects that match, for example a
+language, a licence or a metric.
+
+- The project map gives every line its own end, so that lines no longer meet at one point, and joins every
+  pair of projects that share a contributor.
+- Metric pages and the Languages page flag licences that limit use; the FAQ says what a listing does not
+  certify.
+- Corrections from a review of the site.
+
 ## 2026-10-08: Version 0.4: the project map
 
 A new page, the [project map](https://zhenxianli.github.io/LISQM/projects/map.html), shows how the listed

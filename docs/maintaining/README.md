@@ -33,7 +33,8 @@ Refresh workflow ─► data/snapshot.json, data/standards-watch.json, data/link
 - **Generator.** `scripts/pmi/data.py` loads and validates the data and derives fields such as groups, activity and
   the current implementations; `describe.py` holds the sentences shared by the web pages and their Markdown twins;
   `render_html.py` and `render_md.py` write the pages; `relations.py` draws the project map with Graphviz;
-  `export.py` writes `index.json`, the feed, the sitemap and the BibTeX file. The stylesheet is `site-src/style.css`.
+  `export.py` writes `index.json`, the feed, the sitemap and the BibTeX file; `search.py` writes `search.json`, which
+  the search of the website reads. The stylesheet is `site-src/style.css`, the search `site-src/search.js`.
 - **Never edit generated output by hand**: the README tables between `<!-- BEGIN GENERATED: … -->` and
   `<!-- END GENERATED: … -->`, `CHANGELOG.md`, `llms.txt`, `llms-full.txt`, `data/index.json` and `site/`. Change
   the data or the generator and build again.

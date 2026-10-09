@@ -6,7 +6,7 @@
 
 Inputs:  data/*.yaml, data/projects/*.yaml, data/snapshot.json, site-src/ (stylesheet, icon), assets/
 Outputs: site/ (HTML pages with Markdown twins, index.json, references.bib, llms.txt, llms-full.txt, feed.xml,
-         sitemap.xml)
+         sitemap.xml, search.json for the search of the website)
          README.md (between GENERATED markers), CHANGELOG.md, llms.txt, llms-full.txt,
          data/index.json
 """
@@ -21,7 +21,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from pmi import export, render_html, render_md  # noqa: E402
+from pmi import export, render_html, render_md, search  # noqa: E402
 from pmi.data import ROOT, DataError, load  # noqa: E402
 from pmi.paths import (ABOUT, AI, BIBTEX, FAQ, HOME, LANGUAGES, MAP, METRICS, PROJECTS, STANDARDS,  # noqa: E402
                        UPDATES, md_twin, metric_path, project_path)
@@ -87,6 +87,8 @@ def build_site(index, out: Path) -> int:
     write(out / "feed.xml", export.atom_feed(index))
     write(out / "sitemap.xml", export.sitemap(index))
     write(out / "robots.txt", export.robots(index))
+    write(out / "search.json", search.search_index(index, render_html.LANG_CODES, render_html.ABOUT_SECTIONS,
+                                                  render_html.LANGUAGE_SECTIONS))
     write(out / ".nojekyll", "")
     return len(pages)
 

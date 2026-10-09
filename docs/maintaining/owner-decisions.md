@@ -67,4 +67,6 @@ the owner asks, and then add a row here. Texts marked *owner's text* are kept wo
 | 2026-10-08 | Licence tags (no licence, non-commercial, source-available) on the metric pages and the Languages page; an FAQ answer saying that a listing is not a certification. | metric pages, Languages, FAQ |
 | 2026-10-08 | Not done for now: "suggest a correction" links on project pages, a change of the refresh wording, the round of phone and accessibility fixes. | – |
 | 2026-10-08 | Opinions and designs are shown as previews first; concrete requested changes are pushed. Only what was asked is changed. | working rule |
-| 2026-10-06 – 2026-10-08 | Versions 0.1 (2026-10-06), 0.2 and 0.3 (2026-10-07), 0.4 (2026-10-08). The owner creates the tags and releases. | `version`, GitHub |
+| 2026-10-09 | The project map gives every line its own end on each box, in the order of the boxes at the other end, instead of meeting at one point. Same-contributor lines join every pair of projects that share a person, also beside other lines, but not beside a green line of the author's own code. | map |
+| 2026-10-09 | Search: a field in the tab bar on desktop and a filter above the tables of the Projects page; on phones (and tablets) a Search button that opens a dialog. | every page, Projects |
+| 2026-10-06 – 2026-10-09 | Versions 0.1 (2026-10-06), 0.2 and 0.3 (2026-10-07), 0.4 (2026-10-08), 0.5 (2026-10-09). The owner creates the tags and releases. | `version`, GitHub |

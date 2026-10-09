@@ -3,7 +3,7 @@
    page has a sidebar that lists the contents of its tab. Inside, the text is set like a blog: serif type, ruled
    tables, a comfortable measure for running text. Colour is for reading: links are clearly blue, and the states
    that matter (current edition, newly released and legacy projects, release state, validation, language) each have
-   their own colour. No web fonts; JavaScript only for optional comments and for opening pages at their top. */
+   their own colour. No web fonts; JavaScript only for the search and for opening pages at their top. */
 
 :root {
   --bg: #ffffff;
@@ -285,6 +285,415 @@ body {
   background: var(--brand);
   border-bottom-color: var(--brand-ink);
   opacity: 1;
+}
+
+/* ---------------------------------------------------------------- search
+
+   site-src/search.js. A field at the right end of the tab bar on wide screens, a Search button in the masthead that
+   opens a dialog on narrow ones, and a filter above the tables of the Projects page. Without JavaScript none of
+   them is shown (the "js" class is set by the script at the top of every page). */
+
+.site-search,
+.search-open,
+.table-filter {
+  display: none;
+}
+
+.js .site-search {
+  display: block;
+}
+
+.js .table-filter {
+  display: flex;
+}
+
+.tabs .container {
+  position: relative;
+}
+
+.site-search {
+  position: relative;
+  flex: 1 1 12rem;
+  max-width: 19rem;
+  align-self: center;
+  margin-left: auto;
+  padding: .2rem 0;
+}
+
+.site-search input {
+  box-sizing: border-box;
+  width: 100%;
+  padding: .32rem 1.9rem .32rem 1.9rem;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, .94);
+  font: inherit;
+  font-size: .88rem;
+  color: #1f2328;
+}
+
+.site-search input::placeholder {
+  color: #6e7781;
+}
+
+.site-search .search-icon {
+  position: absolute;
+  top: 50%;
+  left: .55rem;
+  z-index: 1;
+  color: #5a636e;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.site-search input:focus {
+  outline: 2px solid var(--brand);
+  outline-offset: 1px;
+  background-color: #fff;
+}
+
+.site-search input::-webkit-search-cancel-button {
+  display: none;
+}
+
+.site-search > kbd {
+  position: absolute;
+  top: 50%;
+  right: .45rem;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.site-search input:focus + kbd {
+  display: none;
+}
+
+.site-search .search-results {
+  position: absolute;
+  top: calc(100% + .1rem);
+  right: 0;
+  z-index: 30;
+  width: min(34rem, 90vw);
+  max-height: 70vh;
+  overflow-y: auto;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  box-shadow: 0 10px 28px rgba(15, 30, 40, .18);
+}
+
+/* Between tablets and wide screens the tabs leave no room for the field: it folds to a magnifier at the end of the
+   tab bar, and opens over the tabs while it is in use. */
+@media (min-width: 64.0625rem) and (max-width: 72rem) {
+  .site-search {
+    flex: none;
+    width: 2.4rem;
+  }
+
+  .site-search input {
+    padding-right: 0;
+    border-color: rgba(255, 255, 255, .45);
+    color: transparent;
+    background-color: transparent;
+    cursor: pointer;
+  }
+
+  .site-search input:hover {
+    background-color: var(--tab-hover);
+  }
+
+  .site-search .search-icon {
+    left: 50%;
+    color: #fff;
+    transform: translate(-50%, -50%);
+  }
+
+  .site-search:focus-within .search-icon {
+    left: 1.15rem;
+    color: #5a636e;
+    transform: translateY(-50%);
+  }
+
+  .site-search input::placeholder,
+  .site-search > kbd {
+    visibility: hidden;
+  }
+
+  .site-search:focus-within {
+    position: absolute;
+    top: 0;
+    right: 1.5rem;
+    z-index: 2;
+    width: 19rem;
+    padding-left: .6rem;
+    background: var(--brand-deep);
+  }
+
+  .site-search:focus-within input {
+    padding-right: .6rem;
+    border-color: transparent;
+    color: #1f2328;
+    background-color: #fff;
+    cursor: text;
+  }
+
+  .site-search:focus-within input::placeholder {
+    visibility: visible;
+  }
+}
+
+/* The results, in the panel and in the dialog. */
+.search-results {
+  font-family: var(--sans);
+  font-size: .92rem;
+  text-align: left;
+  color: var(--text);
+  background: var(--bg);
+}
+
+.sr-group + .sr-group {
+  border-top: 1px solid var(--hairline);
+}
+
+.sr-head {
+  margin: 0;
+  padding: .55rem .9rem .2rem;
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.search-results a.sr-item {
+  display: block;
+  padding: .32rem .9rem .38rem;
+  border-bottom: 0;
+  border-left: 3px solid transparent;
+  font-size: inherit;
+  font-weight: 400;
+  color: var(--text);
+  text-decoration: none;
+  opacity: 1;
+}
+
+.search-results a.sr-item:hover,
+.search-results a.sr-item.active {
+  background: var(--current-bg);
+  border-left-color: var(--brand-deep);
+}
+
+.sr-title {
+  display: block;
+  font-weight: 600;
+  color: var(--link);
+}
+
+.sr-title code {
+  font-size: .92em;
+  color: var(--text);
+}
+
+.sr-sub {
+  display: block;
+  overflow: hidden;
+  font-size: .8rem;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--muted);
+}
+
+.sr-item mark {
+  padding: 0 .05em;
+  background: #fff1a8;
+  color: inherit;
+}
+
+.sr-item .mk {
+  margin-left: .35em;
+  font-size: .72em;
+  font-weight: 700;
+}
+
+.sr-item .mk-legacy {
+  color: var(--muted);
+}
+
+.sr-none {
+  margin: 0;
+  padding: .9rem;
+  color: var(--muted);
+}
+
+.sr-foot {
+  margin: 0;
+  padding: .45rem .9rem;
+  border-top: 1px solid var(--hairline);
+  font-size: .72rem;
+  color: var(--faint);
+  background: var(--panel);
+}
+
+.site-search kbd,
+.sr-foot kbd {
+  display: inline-block;
+  min-width: 1.2em;
+  margin: 0 .12em;
+  padding: 0 .3em;
+  border: 1px solid var(--panel-line);
+  border-bottom-width: 2px;
+  border-radius: 3px;
+  background: #fff;
+  font-family: var(--mono);
+  font-size: .78rem;
+  line-height: 1.4;
+  text-align: center;
+  color: var(--muted);
+}
+
+.search-icon {
+  flex: none;
+  width: 1rem;
+  height: 1rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+}
+
+/* The Search button of narrow screens, and its dialog. */
+.search-open {
+  align-items: center;
+  gap: .45rem;
+  padding: .42rem .8rem;
+  border: 1px solid rgba(6, 57, 43, .35);
+  border-radius: 4px;
+  background: rgba(255, 255, 255, .5);
+  font: inherit;
+  font-size: .9rem;
+  font-weight: 600;
+  color: var(--brand-ink);
+  cursor: pointer;
+}
+
+.search-open:hover {
+  background: rgba(255, 255, 255, .75);
+}
+
+.search-dialog {
+  box-sizing: border-box;
+  width: min(44rem, calc(100vw - 2rem));
+  max-height: 84vh;
+  margin: 8vh auto auto;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  color: var(--text);
+  background: var(--bg);
+  box-shadow: 0 24px 60px rgba(10, 25, 35, .35);
+}
+
+.search-dialog[open] {
+  display: flex;
+  flex-direction: column;
+}
+
+.search-dialog::backdrop {
+  background: rgba(15, 30, 40, .45);
+}
+
+.dialog-field {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: .6rem;
+  padding: .7rem .9rem;
+  border-bottom: 1px solid var(--rule);
+  font-family: var(--sans);
+  color: var(--muted);
+}
+
+.dialog-field input {
+  flex: 1;
+  min-width: 0;
+  padding: .2rem 0;
+  border: 0;
+  outline: none;
+  font: inherit;
+  font-size: 1.05rem;
+  color: var(--text);
+  background: transparent;
+}
+
+.dialog-field input::-webkit-search-cancel-button {
+  display: none;
+}
+
+.dialog-close {
+  flex: none;
+  padding: .3rem .7rem;
+  border: 1px solid var(--panel-line);
+  border-radius: 4px;
+  background: var(--panel);
+  font: inherit;
+  font-size: .85rem;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.search-dialog .search-results {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.dialog-hint {
+  margin: 0;
+  padding: .8rem .9rem;
+  font-family: var(--sans);
+  font-size: .85rem;
+  color: var(--muted);
+}
+
+.search-results:not([hidden]) ~ .dialog-hint {
+  display: none;
+}
+
+/* The filter of the Projects page. */
+.table-filter {
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .4rem .8rem;
+  margin: 1.2rem 0 .4rem;
+  padding: .55rem .7rem;
+  border: 1px solid var(--panel-line);
+  font-family: var(--sans);
+  font-size: .9rem;
+  background: var(--panel);
+}
+
+.table-filter label {
+  font-weight: 600;
+}
+
+.table-filter input {
+  flex: 0 1 24rem;
+  min-width: 0;
+  padding: .35rem .55rem;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  font: inherit;
+  color: var(--text);
+  background: var(--bg);
+}
+
+.table-filter .count {
+  color: var(--muted);
+}
+
+/* What the filter hides stays hidden, whatever the layout of the tables (on phones each row is a block). */
+table.projects tr[hidden],
+main [hidden]:is(h2, p, div, figure, section) {
+  display: none !important;
 }
 
 /* ---------------------------------------------------------------- page grid and sidebar */
@@ -748,8 +1157,9 @@ svg.map-graph a {
   text-decoration: none;
 }
 
-svg.map-graph g.node:hover path,
-svg.map-graph g.node:hover polygon {
+/* Only the background of a box: its border is drawn over the text and must stay unfilled. */
+svg.map-graph g.node:hover path:not([fill="none"]),
+svg.map-graph g.node:hover polygon:not([fill="none"]) {
   fill: #eef7f3;
 }
 
@@ -1040,8 +1450,8 @@ table.coverage td:not(:first-child) {
 
 table.editions td:first-child,
 table.standards td:first-child,
-table.projects td:nth-child(4),
-table.projects td:nth-child(5) {
+table.projects td:nth-child(5),
+table.projects .when {
   white-space: nowrap;
 }
 
@@ -1526,11 +1936,60 @@ table.langs td:nth-child(2) { width: 50%; }
   .masthead-meta {
     display: none;
   }
+
+  /* The search moves from the tab bar to a button at the right of the masthead, which opens a dialog. */
+  .js .site-search {
+    display: none;
+  }
+
+  .js .masthead-row {
+    flex-wrap: nowrap;
+  }
+
+  .js .brand {
+    min-width: 0;
+  }
+
+  .js .brand-tagline {
+    text-wrap: balance;
+  }
+
+  .js .search-open {
+    display: inline-flex;
+    flex: none;
+  }
 }
 
 @media (max-width: 40rem) {
   html {
     font-size: 100%; /* 16px */
+  }
+
+  /* The Search button shows only its magnifier (its name is still read out), and the dialog fills the screen. */
+  .search-open {
+    padding: .6rem;
+  }
+
+  .js .masthead-row {
+    column-gap: .8rem;
+  }
+
+  .search-open .label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .search-dialog {
+    width: 100%;
+    max-width: none;
+    height: 100%;
+    max-height: none;
+    margin: 0;
+    border-radius: 0;
   }
 
   .container {

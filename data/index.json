@@ -2,7 +2,7 @@
   "name": "LISQM",
   "full_name": "List of Implementations of Sound Quality Metrics",
   "tagline": "A List of Open-Source Implementations of Psychoacoustic and Sound Quality Metrics",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "A list of open-source implementations of psychoacoustic metrics, also called sound quality (SQ) metrics: loudness, sharpness, roughness, fluctuation strength, tonality, impulsiveness and psychoacoustic annoyance. Each implementation is listed under the standard edition or model it follows. All programming languages.",
   "url": "https://zhenxianli.github.io/LISQM/",
   "repository": "https://github.com/ZhenxianLi/LISQM",
@@ -14,7 +14,7 @@
     "github": "ZhenxianLi"
   },
   "credit": "Developed by Zhenxian LI with assistance from Claude Code.",
-  "as_of": "2026-10-08",
+  "as_of": "2026-10-09",
   "schema": "https://github.com/ZhenxianLi/LISQM/blob/main/data/SCHEMA.md",
   "counts": {
     "metrics": 22,
@@ -8891,6 +8891,11 @@
     }
   ],
   "updates": [
+    {
+      "date": "2026-10-09",
+      "title": "Version 0.5: search",
+      "body": "A search field in the tab bar finds metrics, standards and papers, projects and function names; on phones it\nopens from the Search button. On the Projects page, a filter shows only the projects that match, for example a\nlanguage, a licence or a metric.\n\n- The project map gives every line its own end, so that lines no longer meet at one point, and joins every\n  pair of projects that share a contributor.\n- Metric pages and the Languages page flag licences that limit use; the FAQ says what a listing does not\n  certify.\n- Corrections from a review of the site.\n"
+    },
     {
       "date": "2026-10-08",
       "title": "Version 0.4: the project map",

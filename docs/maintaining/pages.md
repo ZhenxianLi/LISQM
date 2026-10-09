@@ -13,6 +13,15 @@ width first and then at about 390 px.
 - **Masthead and tabs.** LISQM, the tagline (`tagline` in `data/site.yaml`), the logo, and the tabs Home, Metrics,
   Projects, Languages, Standards, FAQ, Updates, For AI and About; the current tab is marked. The logo is the only
   tribute to the owner's laboratory: no text names it.
+- **Search.** A field at the right end of the tab bar; where the tabs leave no room for it (about 1025 to 1150 px)
+  it folds to a magnifier and opens over the tabs while in use. Below 64rem a Search button at the right of the
+  masthead opens the same search in a dialog, which fills the screen on phones. `site-src/search.js` looks through
+  `search.json` in the browser: metrics, standards and papers, projects (with their languages and the maintainers
+  named on their pages), function names and page sections, all built from the data by `scripts/pmi/search.py`.
+  Results come in groups, metrics first unless another group matches better, function names last. "/" starts a
+  search. Shown only when JavaScript runs (the `js` class); not on the error page. Every entry must lead to a page
+  and an anchor that exist (a test checks this). *Check* the field at about 1280 and 1100 px and the dialog at
+  390 px after a change to the masthead or the tabs.
 - **Sidebar.** Each tab has its own sidebar with the content of that tab: the sections of the page, or the metrics,
   projects, standards or updates of the tab. A group that holds a single metric of the same name is one heading
   that links to the metric. Each entry appears once. The sidebar ends with empty space, so that its last line can
@@ -94,6 +103,9 @@ Built by `projects_page()`.
 - The full project map first, with its legend and two sentences: arrows point from the source to the project that
   uses it; a check points from the project to the one it checked its results against.
 - A paragraph on the order of the lists (the bold projects are named from the data).
+- **Filter projects**: a field above the tables (JavaScript only) that hides the rows that do not match its words,
+  and the groups left empty, and says how many projects are shown. It reads the text of each row: name, kind,
+  languages, licence, release, activity and metrics.
 - One table per group (established, newly released, developing, legacy, others, status unknown): project and kind,
   languages, licence, latest release, last commit and activity, and what it covers (metrics, with `unreleased`,
   `proposed` or `partial` where no row of that metric is available).
@@ -124,10 +136,14 @@ in `data/SCHEMA.md`. Built by `map_page()`.
 - **Kinds of line**: code taken from another project (black arrow); the author's own code (green arrow,
   `derived_by_author`); used at run time (dotted arrow, `uses`); results checked against another project (dashed
   blue arrow, `compared_with`); same contributor (grey line without an arrow: a name in `maintainers` or
-  `contributors` of both projects, drawn only when no other line joins them).
+  `contributors` of both projects; drawn also beside a line of another kind, but not beside a green line, which
+  already says that the same person is involved).
 - **Direction**: sources stand on the left, and an arrow points from the source to the project that uses it. A
   check points from the project to the one it checked its results against: "A's results checked against B" is
-  drawn A → B. Lines leave a box on its right and enter the next box on its left.
+  drawn A → B. Every line has an end of its own: it leaves a box on its right side and enters the next box on its
+  left side, and the ends are ordered by the box at the other end (the map is laid out twice for this), so lines
+  neither share an end nor cross where they meet a box. A box with many lines grows taller. A grey line between
+  boxes of the same column joins them directly.
 - **Boxes**: bold for the bold projects, faded for legacy projects, dashed for programs published with a standard
   or a paper. Each box links to its page; each line has a tooltip naming the metrics (on a metric page, the
   editions).
@@ -207,4 +223,5 @@ Built by `about_page()`.
 
 ## Error page (`404.html`)
 
-Links back to the home page and the tabs. It has no Markdown twin.
+Links back to the home page and the tabs. It has no Markdown twin and no search: it is served from any path, so
+the search could not find its files.

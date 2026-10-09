@@ -257,7 +257,7 @@ check points from the project to the one it checked its results against (placed 
 | the author's own code | the same, when every row of the pair has `derived_by_author` |
 | used at run time | `via` (the source does the computation) and `uses` (the row needs the source) |
 | results checked against | `compared_with`, without comparisons with related code and pairs already joined |
-| same contributor | a name in `maintainers` or `contributors` of both projects, when no other line joins them; no arrow |
+| same contributor | a name in `maintainers` or `contributors` of both projects; no arrow; not drawn beside a line of the author's own code, which says the same |
 
 A test fails when two projects with a person in common share code and no row of the pair has `derived_by_author`,
 so that this is checked on the rows rather than guessed from the names.

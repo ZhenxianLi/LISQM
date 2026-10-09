@@ -40,9 +40,11 @@ LOGO = ('<svg class="brand-mark" viewBox="0 0 64 64" aria-hidden="true" focusabl
         '<g fill="#fff"><rect x="8" y="46" width="4" height="10" rx="2"/><rect x="14.5" y="40" width="4" height="16" '
         'rx="2"/><rect x="21" y="34" width="4" height="22" rx="2"/></g></svg>')
 
-# Opens each page at its top, also when the site is shown inside another page (a preview frame keeps its scroll
-# position across links). Links to a #section and the Back button keep their usual behaviour.
-TOP_SCRIPT = ("<script>(function(){var n=window.performance&&performance.getEntriesByType"
+# Marks the page as running JavaScript (the search is shown only then), and opens each page at its top, also when
+# the site is shown inside another page (a preview frame keeps its scroll position across links). Links to a
+# #section and the Back button keep their usual behaviour.
+TOP_SCRIPT = ("<script>document.documentElement.classList.add('js');"
+              "(function(){var n=window.performance&&performance.getEntriesByType"
               "&&performance.getEntriesByType('navigation')[0];if(location.hash||(n&&n.type!=='navigate'))return;"
               "addEventListener('load',function(){var t=document.getElementById('top');"
               "if(t&&t.scrollIntoView)t.scrollIntoView({block:'start'});});})();</script>")
@@ -80,11 +82,31 @@ GROUP_HEADINGS = [("established", "Established projects"), ("newly-released", "N
 # stylesheet it cached before.
 STYLE_VERSION = hashlib.sha256((Path(__file__).resolve().parents[2] / "site-src" / "style.css").read_bytes()
                                ).hexdigest()[:10]
+SEARCH_VERSION = hashlib.sha256((Path(__file__).resolve().parents[2] / "site-src" / "search.js").read_bytes()
+                                ).hexdigest()[:10]
+# The search (site-src/search.js): a field in the tab bar on wide screens, a button that opens a dialog on narrow
+# ones. Shown only when JavaScript runs (the "js" class).
+SEARCH_ICON = ('<svg class="search-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">'
+               '<circle cx="6.5" cy="6.5" r="4.6"/><path d="M10 10l4 4"/></svg>')
+SEARCH_FIELD = (f'<form class="site-search" role="search">{SEARCH_ICON}<input type="search" name="q" '
+                'placeholder="Search the list" aria-label="Search the list" '
+                'autocomplete="off" spellcheck="false"><kbd aria-hidden="true">/</kbd>'
+                '<div class="search-results" aria-label="Search results" hidden></div></form>')
+SEARCH_BUTTON = f'<button class="search-open" type="button">{SEARCH_ICON}<span class="label">Search</span></button>'
+SEARCH_DIALOG = ('<dialog class="search-dialog" aria-label="Search the list">'
+                 f'<form class="dialog-field" method="dialog" role="search">{SEARCH_ICON}<input type="search" name="q" '
+                 'placeholder="Search the list" aria-label="Search the list" '
+                 'autocomplete="off" spellcheck="false"><button type="submit" class="dialog-close">Close</button>'
+                 '</form><div class="search-results" aria-label="Search results" hidden></div>'
+                 '<p class="dialog-hint">Metrics, standards and papers, projects, function names and pages.</p>'
+                 '</dialog>')
+
 
 def layout(index: Index, path: str, *, title: str, description: str, body: str, section: str,
            jsonld: list[dict] | None = None, og_type: str = "website", markdown: bool = True,
-           side: str | None = None) -> str:
-    """The page frame. The sidebar follows the tab: each tab lists its own contents (`side` overrides it)."""
+           side: str | None = None, search: bool = True) -> str:
+    """The page frame. The sidebar follows the tab: each tab lists its own contents (`side` overrides it).
+    `search` adds the search, which needs pages at known depths (not the error page, served from any path)."""
     site = index.site
     rel = lambda target: relative(path, target)  # noqa: E731
     canonical = absolute(index, path)
@@ -108,6 +130,9 @@ def layout(index: Index, path: str, *, title: str, description: str, body: str, 
     verify = "".join(f'<meta name="{VERIFICATION_META[engine]}" content="{esc(str(code))}">\n'
                      for engine, code in (site.get("verification") or {}).items() if code) if path == HOME else ""
     as_of = esc(long_date(index.as_of()))
+    root = rel(HOME)[:-len(HOME)]
+    search_head = (f'<script src="{esc(rel("search.js"))}?v={SEARCH_VERSION}" data-root="{esc(root)}" defer>'
+                   "</script>\n" if search else "")
     return f"""<!doctype html>
 <html lang="en"{'' if site.get('dark_mode') else ' data-theme="light"'}>
 <head>
@@ -128,16 +153,18 @@ def layout(index: Index, path: str, *, title: str, description: str, body: str, 
 <meta property="og:image" content="{esc(site['base_url'])}social-preview.png">
 <meta name="twitter:card" content="summary_large_image">
 {ld}{TOP_SCRIPT}
-</head>
+{search_head}</head>
 <body>
 <a class="skip" href="#content">Skip to content</a>
 <header class="masthead" id="top">
 <div class="container masthead-row">
 <a class="brand" href="{rel(HOME)}">{LOGO}<span class="brand-text"><span class="brand-name">{esc(site['name'])}</span> <span class="brand-tagline">{esc(site['tagline'])}</span></span></a>
 <p class="masthead-meta">Version {esc(str(site.get('version', '')))} · data as of {as_of}<br><a href="{esc(site['repository'])}">Source on GitHub</a></p>
+{SEARCH_BUTTON if search else ""}
 </div>
 <nav class="tabs" aria-label="Site"><div class="container">
 {tabs}
+{SEARCH_FIELD if search else ""}
 </div></nav>
 </header>
 <div class="container {page_class}">
@@ -154,6 +181,7 @@ are welcome on <a href="{esc(site['repository'])}">GitHub</a>. Version {esc(str(
 <p><a href="{rel('index.json')}">JSON</a> · <a href="{rel('llms.txt')}">llms.txt</a> · {md_foot}<a href="{rel('feed.xml')}">Atom feed</a></p>
 </div>
 </footer>
+{SEARCH_DIALOG if search else ""}
 {_analytics(site)}</body>
 </html>
 """
@@ -1178,8 +1206,10 @@ PROJECT_COLUMNS = ["Project", "Language", "Licence", "Latest release", "Last com
 def _project_row(path: str, p: dict, last: str) -> list[str]:
     """A row of the projects tables: the kind of project goes under its name, and its activity under the date of
     its last commit."""
+    # The month of a release stays whole when the cell wraps: "v1.2.1" above "(2024-04)".
+    release = re.sub(r" \((\d{4}-\d{2})\)$", r' <span class="when">(\1)</span>', esc(release_text(p)))
     return [f'{_project_link(path, p)}<br><span class="muted">{esc(PROJECT_KINDS[p["kind"]])}</span>',
-            _langs(p["languages"]), esc(p["license"]), esc(release_text(p)),
+            _langs(p["languages"]), esc(p["license"]), release,
             f'{esc(p["_last_commit"] or "unknown")}<br>{_activity_tag(p, short=True)}', last]
 
 
@@ -1206,6 +1236,10 @@ def projects_page(index: Index) -> str:
         "whose code could not be opened under Status unknown. “Last commit” is the last commit on the default "
         f"branch. A project is marked inactive after {index.site.get('inactive_after_days', 365)} days without a "
         "commit, and listed as legacy after three years.</p>",
+        # Shown only when JavaScript runs (site-src/search.js filters the rows).
+        '<div class="table-filter"><label for="project-filter">Filter projects</label><input id="project-filter" '
+        'type="search" placeholder="Name, language, licence or metric" autocomplete="off" spellcheck="false">'
+        '<span class="count" aria-live="polite"></span></div>',
     ]
     for key, title in GROUP_HEADINGS:
         projects = index.group(key)
@@ -1592,5 +1626,5 @@ def not_found(index: Index) -> str:
     body = (f'<h1>Page not found</h1><p>The page you asked for does not exist. Start from the '
             f'<a href="{base}">home page</a> or the <a href="{base}projects/">list of projects</a>.</p>')
     page = layout(index, "404.html", title="Page not found", description="Page not found.", body=body, section="",
-                  markdown=False, side="")
+                  markdown=False, side="", search=False)
     return re.sub(r'href="(?!https?:|#|mailto:)([^"]*)"', lambda m: f'href="{base}{m.group(1)}"', page)

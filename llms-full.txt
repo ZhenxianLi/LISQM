@@ -2,7 +2,7 @@
 
 > A list of open-source implementations of psychoacoustic metrics, also called sound quality (SQ) metrics: loudness, sharpness, roughness, fluctuation strength, tonality, impulsiveness and psychoacoustic annoyance. Each implementation is listed under the standard edition or model it follows. All programming languages.
 
-Data as of 2026-10-08. 22 metrics, 39 projects, languages: C, C#, C++, Julia, MATLAB, Octave, Pure Data, Python, Rust. Each implementation is tied to the standard edition or model paper it follows, with its validation evidence as stated by the project. Repository and package metadata are refreshed monthly. Implementations are listed with established projects first, SQAT and MoSQITo (widely used), and sottek-hearing-model (a very good implementation) at the top and in bold. Projects marked (newly released) were first released less than about a year ago and are not yet seen to be widely used in the community; projects marked (legacy) are archived or have had no commit for three years or more.
+Data as of 2026-10-09. 22 metrics, 39 projects, languages: C, C#, C++, Julia, MATLAB, Octave, Pure Data, Python, Rust. Each implementation is tied to the standard edition or model paper it follows, with its validation evidence as stated by the project. Repository and package metadata are refreshed monthly. Implementations are listed with established projects first, SQAT and MoSQITo (widely used), and sottek-hearing-model (a very good implementation) at the top and in bold. Projects marked (newly released) were first released less than about a year ago and are not yet seen to be widely used in the community; projects marked (legacy) are archived or have had no commit for three years or more.
 
 Developed by Zhenxian LI with assistance from Claude Code.
 
@@ -128,7 +128,7 @@ Projects whose code could not be opened, for example because the repository need
 
 # About LISQM
 
-> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-08. Web page: https://zhenxianli.github.io/LISQM/about.html
+> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-09. Web page: https://zhenxianli.github.io/LISQM/about.html
 
 Are you looking for an open-source way to calculate psychoacoustic metrics such as loudness, sharpness, roughness and tonality? One you can trust, and that fits your coding environment, whether Python, MATLAB, C/C++, Rust, Julia or another language? LISQM lists the open-source implementations of each metric under the standard it follows, together with the validation each one reports.
 
@@ -240,7 +240,7 @@ Developed by Zhenxian LI with assistance from Claude Code.
 
 # Frequently asked questions
 
-> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-08. Web page: https://zhenxianli.github.io/LISQM/faq.html
+> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-09. Web page: https://zhenxianli.github.io/LISQM/faq.html
 
 Questions, corrections and suggestions are welcome as GitHub issues: https://github.com/ZhenxianLi/LISQM/issues/new
 
@@ -277,7 +277,7 @@ Being listed here is not a certification or an approval: LISQM records what each
 
 # Zwicker loudness (ISO 532-1, DIN 45631)
 
-> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-08. Web page: https://zhenxianli.github.io/LISQM/metrics/loudness-zwicker.html
+> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-09. Web page: https://zhenxianli.github.io/LISQM/metrics/loudness-zwicker.html
 
 **Quantity:** Loudness · **Unit:** sone, phon · **Also known as:** ISO 532-1, ISO 532B, ISO 532 method B, DIN 45631, DIN 45631/A1, Zwicker method
 
@@ -418,6 +418,10 @@ The lines of the project map for Zwicker loudness only (the whole map: https://z
 - [iso532-1-rs](https://zhenxianli.github.io/LISQM/projects/iso532-1-rs.html) against **[MoSQITo](https://zhenxianli.github.io/LISQM/projects/mosqito.html)** (ISO 532-1:2017)
 - [SoundPalette](https://zhenxianli.github.io/LISQM/projects/soundpalette.html) against **[MoSQITo](https://zhenxianli.github.io/LISQM/projects/mosqito.html)** (ISO 532-1:2017)
 
+### Same contributor
+
+- [ZwickerLoudness.jl](https://zhenxianli.github.io/LISQM/projects/zwickerloudness-jl.html) and [ZwickerLoudnessAudio.jl](https://zhenxianli.github.io/LISQM/projects/zwickerloudnessaudio-jl.html) (slink)
+
 ## Before you compare numbers
 
 Implementations of the same metric can give different numbers without either being wrong. Check these choices first.
@@ -451,7 +455,7 @@ What the projects state:
 
 # Moore–Glasberg loudness of stationary sounds (ISO 532-2, ANSI S3.4)
 
-> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-08. Web page: https://zhenxianli.github.io/LISQM/metrics/loudness-moore-glasberg.html
+> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-09. Web page: https://zhenxianli.github.io/LISQM/metrics/loudness-moore-glasberg.html
 
 **Quantity:** Loudness · **Unit:** sone, phon · **Also known as:** ISO 532-2, ANSI S3.4, ANSI/ASA S3.4-2007, Moore-Glasberg method, Cambridge loudness model
 
@@ -541,7 +545,7 @@ What the projects state:
 
 # Time-varying loudness, Moore–Glasberg–Schlittenlacher (ISO 532-3)
 
-> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-08. Web page: https://zhenxianli.github.io/LISQM/metrics/loudness-moore-glasberg-time-varying.html
+> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-09. Web page: https://zhenxianli.github.io/LISQM/metrics/loudness-moore-glasberg-time-varying.html
 
 **Quantity:** Loudness · **Unit:** sone, phon · **Also known as:** ISO 532-3, TVL, time-varying loudness, Glasberg and Moore 2002, Moore-Glasberg-Schlittenlacher method, short-term loudness, long-term loudness
 
@@ -647,7 +651,7 @@ What the projects state:
 
 # Loudness from the Sottek Hearing Model (ECMA-418-2)
 
-> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-08. Web page: https://zhenxianli.github.io/LISQM/metrics/loudness-ecma-418-2.html
+> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-09. Web page: https://zhenxianli.github.io/LISQM/metrics/loudness-ecma-418-2.html
 
 **Quantity:** Loudness · **Unit:** sone_HMS · **Also known as:** ECMA-418-2 loudness, Sottek Hearing Model, SHM loudness, sone_HMS, hearing model loudness
 
@@ -738,6 +742,10 @@ The lines of the project map for Sottek Hearing Model loudness only (the whole m
 - [pySQAT](https://zhenxianli.github.io/LISQM/projects/pysqat.html) calls **[sottek-hearing-model](https://zhenxianli.github.io/LISQM/projects/sottek-hearing-model.html)** (ECMA-418-2:2025 (4th ed.))
 - [PsychoBox](https://zhenxianli.github.io/LISQM/projects/psychobox.html) calls **[MoSQITo](https://zhenxianli.github.io/LISQM/projects/mosqito.html)** (ECMA-418-2:2022 (2nd ed.))
 
+### Same contributor
+
+- **[SQAT](https://zhenxianli.github.io/LISQM/projects/sqat.html)** and **[sottek-hearing-model](https://zhenxianli.github.io/LISQM/projects/sottek-hearing-model.html)** (Mike Lotinga)
+
 ## Before you compare numbers
 
 Implementations of the same metric can give different numbers without either being wrong. Check these choices first.
@@ -766,7 +774,7 @@ What the projects state:
 
 # Sharpness (DIN 45692, Aures, von Bismarck)
 
-> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-08. Web page: https://zhenxianli.github.io/LISQM/metrics/sharpness.html
+> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-09. Web page: https://zhenxianli.github.io/LISQM/metrics/sharpness.html
 
 **Quantity:** Sharpness · **Unit:** acum · **Also known as:** DIN 45692, acum, Zwicker sharpness, Aures sharpness, von Bismarck sharpness
 
@@ -884,7 +892,7 @@ What the projects state:
 
 # Roughness, Daniel & Weber model
 
-> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-08. Web page: https://zhenxianli.github.io/LISQM/metrics/roughness-daniel-weber.html
+> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-09. Web page: https://zhenxianli.github.io/LISQM/metrics/roughness-daniel-weber.html
 
 **Quantity:** Roughness · **Unit:** asper · **Also known as:** Daniel and Weber roughness, Daniel & Weber 1997, Aures roughness, asper
 
@@ -999,7 +1007,7 @@ What the projects state:
 
 # Roughness from the Sottek Hearing Model (ECMA-418-2)
 
-> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-08. Web page: https://zhenxianli.github.io/LISQM/metrics/roughness-ecma-418-2.html
+> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-09. Web page: https://zhenxianli.github.io/LISQM/metrics/roughness-ecma-418-2.html
 
 **Quantity:** Roughness · **Unit:** asper_HMS · **Also known as:** ECMA-418-2 roughness, asper_HMS, Sottek roughness, SHM roughness
 
@@ -1085,6 +1093,10 @@ The lines of the project map for Sottek Hearing Model roughness only (the whole 
 - [pySQAT](https://zhenxianli.github.io/LISQM/projects/pysqat.html) calls **[sottek-hearing-model](https://zhenxianli.github.io/LISQM/projects/sottek-hearing-model.html)** (ECMA-418-2:2025 (4th ed.))
 - [PsychoBox](https://zhenxianli.github.io/LISQM/projects/psychobox.html) calls **[MoSQITo](https://zhenxianli.github.io/LISQM/projects/mosqito.html)** (ECMA-418-2:2022 (2nd ed.))
 
+### Same contributor
+
+- **[SQAT](https://zhenxianli.github.io/LISQM/projects/sqat.html)** and **[sottek-hearing-model](https://zhenxianli.github.io/LISQM/projects/sottek-hearing-model.html)** (Mike Lotinga)
+
 ## Before you compare numbers
 
 Implementations of the same metric can give different numbers without either being wrong. Check these choices first.
@@ -1113,7 +1125,7 @@ What the projects state:
 
 # Roughness, DIN 38455
 
-> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-08. Web page: https://zhenxianli.github.io/LISQM/metrics/roughness-din-38455.html
+> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-09. Web page: https://zhenxianli.github.io/LISQM/metrics/roughness-din-38455.html
 
 **Quantity:** Roughness · **Unit:** asper · **Also known as:** DIN 38455, Rauigkeit, German roughness standard
 
@@ -1142,7 +1154,7 @@ No open-source implementation has been found yet. If you know one, please [open 
 
 # Fluctuation strength, Osses et al. model and Fastl & Zwicker formula
 
-> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-08. Web page: https://zhenxianli.github.io/LISQM/metrics/fluctuation-strength-osses.html
+> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-09. Web page: https://zhenxianli.github.io/LISQM/metrics/fluctuation-strength-osses.html
 
 **Quantity:** Fluctuation strength · **Unit:** vacil · **Also known as:** fluctuation strength, vacil, Osses 2016, Fastl and Zwicker fluctuation strength
 
@@ -1234,7 +1246,7 @@ What the projects state:
 
 # Fluctuation strength from the Sottek Hearing Model (ECMA-418-2)
 
-> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-08. Web page: https://zhenxianli.github.io/LISQM/metrics/fluctuation-strength-ecma-418-2.html
+> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-09. Web page: https://zhenxianli.github.io/LISQM/metrics/fluctuation-strength-ecma-418-2.html
 
 **Quantity:** Fluctuation strength · **Unit:** vacil_HMS · **Also known as:** ECMA-418-2 fluctuation strength, vacil_HMS, Sottek fluctuation strength
 
@@ -1304,7 +1316,7 @@ What the projects state:
 
 # Tonality, Aures/Terhardt model
 
-> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-08. Web page: https://zhenxianli.github.io/LISQM/metrics/tonality-aures.html
+> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-09. Web page: https://zhenxianli.github.io/LISQM/metrics/tonality-aures.html
 
 **Quantity:** Tonality · **Unit:** t.u. · **Also known as:** Aures tonality, Terhardt tonality, tonality units, t.u., sensory euphony
 
@@ -1376,7 +1388,7 @@ What the projects state:
 
 # Tonality from the Sottek Hearing Model (ECMA-418-2)
 
-> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-08. Web page: https://zhenxianli.github.io/LISQM/metrics/tonality-ecma-418-2.html
+> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-09. Web page: https://zhenxianli.github.io/LISQM/metrics/tonality-ecma-418-2.html
 
 **Quantity:** Tonality · **Unit:** tu_HMS · **Also known as:** ECMA-418-2 tonality, psychoacoustic tonality, tu_HMS, Sottek tonality, SHM tonality
 
@@ -1452,6 +1464,10 @@ The lines of the project map for Sottek Hearing Model tonality only (the whole m
 
 - [pySQAT](https://zhenxianli.github.io/LISQM/projects/pysqat.html) calls **[sottek-hearing-model](https://zhenxianli.github.io/LISQM/projects/sottek-hearing-model.html)** (ECMA-418-2:2025 (4th ed.))
 
+### Same contributor
+
+- **[SQAT](https://zhenxianli.github.io/LISQM/projects/sqat.html)** and **[sottek-hearing-model](https://zhenxianli.github.io/LISQM/projects/sottek-hearing-model.html)** (Mike Lotinga)
+
 ## Before you compare numbers
 
 Implementations of the same metric can give different numbers without either being wrong. Check these choices first.
@@ -1478,7 +1494,7 @@ What the projects state:
 
 # Tone-to-noise ratio and prominence ratio (ECMA-418-1)
 
-> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-08. Web page: https://zhenxianli.github.io/LISQM/metrics/tone-to-noise-prominence-ratio.html
+> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-09. Web page: https://zhenxianli.github.io/LISQM/metrics/tone-to-noise-prominence-ratio.html
 
 **Quantity:** Tonality · **Unit:** dB · **Also known as:** TNR, PR, ECMA-418-1, ECMA-74 Annex D, prominent discrete tones, ANSI S1.13 Annex
 
@@ -1530,6 +1546,10 @@ The lines of the project map for tone-to-noise ratio and prominence ratio only (
 
 - From **[MoSQITo](https://zhenxianli.github.io/LISQM/projects/mosqito.html)**: [Mosqito.NET](https://zhenxianli.github.io/LISQM/projects/mosqito-net.html) (ECMA-74:2019 (17th ed.)); [MoSQITo-FDP](https://zhenxianli.github.io/LISQM/projects/mosqito-fdp.html) (ECMA-74:2019 (17th ed.))
 
+### Same contributor
+
+- **[MoSQITo](https://zhenxianli.github.io/LISQM/projects/mosqito.html)** and [MoSQITo-FDP](https://zhenxianli.github.io/LISQM/projects/mosqito-fdp.html) (Daniel Jiménez-Caminero Costa)
+
 ## References
 
 1. ECMA-74:2019 (17th ed.). Measurement of airborne noise emitted by information technology and telecommunications equipment. https://ecma-international.org/publications-and-standards/standards/ecma-74/
@@ -1542,7 +1562,7 @@ The lines of the project map for tone-to-noise ratio and prominence ratio only (
 
 # Tonal components and tone adjustment (DIN 45681)
 
-> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-08. Web page: https://zhenxianli.github.io/LISQM/metrics/tonality-din-45681.html
+> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-09. Web page: https://zhenxianli.github.io/LISQM/metrics/tonality-din-45681.html
 
 **Quantity:** Tonality · **Unit:** dB · **Also known as:** DIN 45681, tone adjustment, K_T, Tonzuschlag
 
@@ -1581,7 +1601,7 @@ None of these projects says how its code was validated.
 
 # Audibility of tones in noise (ISO/TS 20065)
 
-> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-08. Web page: https://zhenxianli.github.io/LISQM/metrics/tonal-audibility-iso-20065.html
+> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-09. Web page: https://zhenxianli.github.io/LISQM/metrics/tonal-audibility-iso-20065.html
 
 **Quantity:** Tonality · **Unit:** dB · **Also known as:** ISO/TS 20065, ISO/PAS 20065, tonal audibility, decisive audibility, ΔL_ta
 
@@ -1622,7 +1642,7 @@ As reported by each project; LISQM has not run the code. Two implementations tha
 
 # Tonal audibility in environmental noise (ISO 1996-2)
 
-> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-08. Web page: https://zhenxianli.github.io/LISQM/metrics/tonal-audibility-iso-1996-2.html
+> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-09. Web page: https://zhenxianli.github.io/LISQM/metrics/tonal-audibility-iso-1996-2.html
 
 **Quantity:** Tonality · **Unit:** dB · **Also known as:** ISO 1996-2 Annex C, ISO 1996-2 Annex J, ISO 1996-2 Annex K, tonal adjustment, environmental noise tonality
 
@@ -1679,7 +1699,7 @@ The lines of the project map for tonal audibility (ISO 1996-2) only (the whole m
 
 # Tonal audibility of wind turbine noise (IEC 61400-11)
 
-> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-08. Web page: https://zhenxianli.github.io/LISQM/metrics/tonal-audibility-iec-61400-11.html
+> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-09. Web page: https://zhenxianli.github.io/LISQM/metrics/tonal-audibility-iec-61400-11.html
 
 **Quantity:** Tonality · **Unit:** dB · **Also known as:** IEC 61400-11, wind turbine tonality, tonal audibility
 
@@ -1718,7 +1738,7 @@ None of these projects says how its code was validated.
 
 # Prominence of impulsive sounds (ISO/PAS 1996-3, NT ACOU 112)
 
-> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-08. Web page: https://zhenxianli.github.io/LISQM/metrics/impulsiveness.html
+> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-09. Web page: https://zhenxianli.github.io/LISQM/metrics/impulsiveness.html
 
 **Quantity:** Impulsiveness · **Unit:** dB · **Also known as:** ISO/PAS 1996-3, NT ACOU 112, impulsiveness, impulse adjustment, impulsive sound prominence
 
@@ -1756,7 +1776,7 @@ None of these projects says how its code was validated.
 
 # Psychoacoustic annoyance (Widmann, Zwicker & Fastl, More, Di et al.)
 
-> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-08. Web page: https://zhenxianli.github.io/LISQM/metrics/psychoacoustic-annoyance.html
+> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-09. Web page: https://zhenxianli.github.io/LISQM/metrics/psychoacoustic-annoyance.html
 
 **Quantity:** Psychoacoustic annoyance · **Unit:** dimensionless · **Also known as:** PA, psychoacoustic annoyance, Zwicker annoyance, Widmann annoyance, More annoyance, Di annoyance
 
@@ -1856,7 +1876,7 @@ What the projects state:
 
 # Equal-loudness-level contours (ISO 226)
 
-> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-08. Web page: https://zhenxianli.github.io/LISQM/metrics/equal-loudness-contours.html
+> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-09. Web page: https://zhenxianli.github.io/LISQM/metrics/equal-loudness-contours.html
 
 **Quantity:** Related quantities · **Unit:** dB SPL, phon · **Also known as:** ISO 226, equal-loudness contours, phon curves, threshold of hearing
 
@@ -1909,7 +1929,7 @@ The lines of the project map for equal-loudness contours only (the whole map: ht
 
 # Perceived noise level, PNLT and EPNL (ICAO Annex 16, 14 CFR Part 36)
 
-> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-08. Web page: https://zhenxianli.github.io/LISQM/metrics/epnl.html
+> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-09. Web page: https://zhenxianli.github.io/LISQM/metrics/epnl.html
 
 **Quantity:** Related quantities · **Unit:** PNdB, EPNdB · **Also known as:** EPNL, EPNdB, PNL, PNLT, perceived noisiness, noy, aircraft noise certification
 
@@ -1968,7 +1988,7 @@ The lines of the project map for perceived noise level and EPNL only (the whole 
 
 # Aural detectability of sounds in background noise
 
-> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-08. Web page: https://zhenxianli.github.io/LISQM/metrics/aural-detectability.html
+> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-09. Web page: https://zhenxianli.github.io/LISQM/metrics/aural-detectability.html
 
 **Quantity:** Related quantities · **Unit:** d′ (detectability index), dB · **Also known as:** detectability, d-prime, signal detection, aural detection, audibility of aircraft
 
@@ -2006,7 +2026,7 @@ None of these projects says how its code was validated.
 
 # SQAT
 
-> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-08. Web page: https://zhenxianli.github.io/LISQM/projects/sqat.html
+> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-09. Web page: https://zhenxianli.github.io/LISQM/projects/sqat.html
 
 MATLAB toolbox for sound quality analysis that bundles most psychoacoustic metrics in one place: ISO 532-1 and ECMA-418-2 loudness, DIN 45692 sharpness, Daniel & Weber and ECMA-418-2 roughness, Osses fluctuation strength, Aures and ECMA-418-2 tonality, three psychoacoustic annoyance models (Zwicker & Fastl, which `main` also provides under its original attribution to Widmann; More; Di et al.) and EPNL. Every metric except the annoyance models has its own verification routine.
 
@@ -2137,7 +2157,7 @@ Implementations of the same metric can give different numbers without either bei
 
 # MoSQITo
 
-> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-08. Web page: https://zhenxianli.github.io/LISQM/projects/mosqito.html
+> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-09. Web page: https://zhenxianli.github.io/LISQM/projects/mosqito.html
 
 Python library for sound quality metrics: ISO 532-1 loudness, DIN 45692 sharpness, Daniel & Weber roughness, ECMA-418-2 hearing-model loudness (Clause 5) and roughness (2nd edition), tone-to-noise and prominence ratios, and the speech intelligibility index. Widely used, but without a release or a commit since April 2024.
 
@@ -2233,7 +2253,7 @@ Implementations of the same metric can give different numbers without either bei
 
 # sottek-hearing-model
 
-> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-08. Web page: https://zhenxianli.github.io/LISQM/projects/sottek-hearing-model.html
+> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-09. Web page: https://zhenxianli.github.io/LISQM/projects/sottek-hearing-model.html
 
 Python implementation of the ECMA-418-2:2025 (4th edition) Sottek Hearing Model metrics: loudness and roughness (with binaural combination), tonality (per channel), and fluctuation strength on the main branch. Translated from the MATLAB code used in SQAT and the RefMap project.
 
@@ -2319,7 +2339,7 @@ Implementations of the same metric can give different numbers without either bei
 
 # acoustic-toolbox
 
-> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-08. Web page: https://zhenxianli.github.io/LISQM/projects/acoustic-toolbox.html
+> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-09. Web page: https://zhenxianli.github.io/LISQM/projects/acoustic-toolbox.html
 
 Python acoustics library under the Université Gustave Eiffel GitHub organisation, continuing python-acoustics. For this list it is relevant for its tonal audibility and tonal adjustment after ISO 1996-2:2007.
 
@@ -2377,7 +2397,7 @@ As reported by the project; LISQM has not run the code. Two implementations that
 
 # AMT
 
-> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-08. Web page: https://zhenxianli.github.io/LISQM/projects/amt.html
+> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-09. Web page: https://zhenxianli.github.io/LISQM/projects/amt.html
 
 MATLAB/Octave toolbox of auditory models for reproducible research. Its loudness models include the Moore–Glasberg models for stationary sounds (`moore1997`, `chen2011`), time-varying sounds (`glasberg2002`) and binaural loudness (`moore2016`).
 
@@ -2443,7 +2463,7 @@ As reported by the project; LISQM has not run the code. Two implementations that
 
 # PSYCHO
 
-> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-08. Web page: https://zhenxianli.github.io/LISQM/projects/pd-psycho.html
+> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-09. Web page: https://zhenxianli.github.io/LISQM/projects/pd-psycho.html
 
 Pure Data library of psychoacoustic objects (C externals and abstractions) from the author's research on dissonance models. Includes ISO 226:2003 equal-loudness contours and phon, sone and dB conversions, as well as roughness, sharpness and tonalness objects.
 
@@ -2497,7 +2517,7 @@ The project does not say how any of these were validated.
 
 # refmap-psychoacoustics
 
-> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-08. Web page: https://zhenxianli.github.io/LISQM/projects/refmap-psychoacoustics.html
+> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-09. Web page: https://zhenxianli.github.io/LISQM/projects/refmap-psychoacoustics.html
 
 Research code of the REFMAP project at the University of Salford, in MATLAB with Python ports. Implements ECMA-418-2:2025 loudness, tonality and roughness, and also sharpness, impulsiveness, psychoacoustic annoyance and aural detectability models.
 
@@ -2573,7 +2593,7 @@ Not stated for Sharpness · DIN 45692:2009; Psychoacoustic annoyance · Di et al
 
 # AARAE
 
-> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-08. Web page: https://zhenxianli.github.io/LISQM/projects/aarae.html
+> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-09. Web page: https://zhenxianli.github.io/LISQM/projects/aarae.html
 
 Audio and Acoustical Response Analysis Environment: a MATLAB environment with a graphical interface, made to support teaching and research in acoustics. Its analysers include ISO 532-1 and Chalupper–Fastl loudness, Moore–Glasberg loudness (stationary, time-varying and binaural), sharpness and Daniel & Weber roughness.
 
@@ -2641,7 +2661,7 @@ Not stated for Sharpness · Fastl & Zwicker (2007).
 
 # iso532-3 (tv2018.m)
 
-> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-08. Web page: https://zhenxianli.github.io/LISQM/projects/js2251-iso532-3.html
+> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-09. Web page: https://zhenxianli.github.io/LISQM/projects/js2251-iso532-3.html
 
 MATLAB code by Brian C. J. Moore, Brian R. Glasberg and Josef Schlittenlacher (Cambridge Hearing Group) for the loudness of time-varying sounds: the model of Moore et al. (2016) with the revised time constants of Moore et al. (2018). Its readme calls `tv2018.m` "the reference Matlab code referred to in ISO 532-3".
 
@@ -2698,7 +2718,7 @@ As reported by the project; LISQM has not run the code. Two implementations that
 
 # ITA-Toolbox
 
-> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-08. Web page: https://zhenxianli.github.io/LISQM/projects/ita-toolbox.html
+> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-09. Web page: https://zhenxianli.github.io/LISQM/projects/ita-toolbox.html
 
 MATLAB toolbox for acoustic measurements and signal processing from the Institute of Technical Acoustics, RWTH Aachen University, open source since 2010. Its psychoacoustics application computes stationary loudness after DIN 45631 / ISO 532 B, time-varying loudness after DIN 45631/A1, Daniel & Weber roughness and DIN 45681 tonality (2002 draft).
 
@@ -2770,7 +2790,7 @@ Implementations of the same metric can give different numbers without either bei
 
 # PyDSM
 
-> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-08. Web page: https://zhenxianli.github.io/LISQM/projects/pydsm.html
+> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-09. Web page: https://zhenxianli.github.io/LISQM/projects/pydsm.html
 
 Python toolbox for the design and simulation of delta-sigma modulators. It contains a helper module, `pydsm.iso226`, with ISO 226:2003 equal-loudness contours.
 
@@ -2824,7 +2844,7 @@ The project does not say how any of these were validated.
 
 # MetaSona
 
-> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-08. Web page: https://zhenxianli.github.io/LISQM/projects/metasona.html
+> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-09. Web page: https://zhenxianli.github.io/LISQM/projects/metasona.html
 
 **Newly released project.** First released in September 2026. Not yet seen to be widely used in the community. Check its validation before relying on it.
 
@@ -2916,7 +2936,7 @@ Implementations of the same metric can give different numbers without either bei
 
 # iso532-1-rs
 
-> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-08. Web page: https://zhenxianli.github.io/LISQM/projects/iso532-1-rs.html
+> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-09. Web page: https://zhenxianli.github.io/LISQM/projects/iso532-1-rs.html
 
 **Newly released project.** First version tagged in July 2026. Not yet seen to be widely used in the community. Check its validation before relying on it.
 
@@ -2972,7 +2992,7 @@ As reported by the project; LISQM has not run the code. Two implementations that
 
 # Kirin Hypha
 
-> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-08. Web page: https://zhenxianli.github.io/LISQM/projects/kirin-hypha.html
+> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-09. Web page: https://zhenxianli.github.io/LISQM/projects/kirin-hypha.html
 
 **Newly released project.** First public commit in April 2026; v1.0.0 was released in May 2026. Not yet seen to be widely used in the community. Check its validation before relying on it.
 
@@ -3031,7 +3051,7 @@ As reported by the project; LISQM has not run the code. Two implementations that
 
 # Mosqito.NET
 
-> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-08. Web page: https://zhenxianli.github.io/LISQM/projects/mosqito-net.html
+> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-09. Web page: https://zhenxianli.github.io/LISQM/projects/mosqito-net.html
 
 **Newly released project.** First published on GitHub in April 2026. Not yet seen to be widely used in the community. Check its validation before relying on it.
 
@@ -3105,7 +3125,7 @@ Implementations of the same metric can give different numbers without either bei
 
 # NumpyLibforPsychoAcoustic
 
-> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-08. Web page: https://zhenxianli.github.io/LISQM/projects/numpylib-psychoacoustic.html
+> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-09. Web page: https://zhenxianli.github.io/LISQM/projects/numpylib-psychoacoustic.html
 
 **Newly released project.** First published on GitHub in November 2025. Not yet seen to be widely used in the community. Check its validation before relying on it.
 
@@ -3164,7 +3184,7 @@ Not stated for Time-varying loudness (Moore–Glasberg–Schlittenlacher) · Gla
 
 # phonometry
 
-> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-08. Web page: https://zhenxianli.github.io/LISQM/projects/phonometry.html
+> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-09. Web page: https://zhenxianli.github.io/LISQM/projects/phonometry.html
 
 **Newly released project.** Its psychoacoustics module was first released in July 2026 (version 3.1.0). Not yet seen to be widely used in the community. Check its validation before relying on it.
 
@@ -3291,7 +3311,7 @@ Implementations of the same metric can give different numbers without either bei
 
 # PsychoacousticMetrics.jl
 
-> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-08. Web page: https://zhenxianli.github.io/LISQM/projects/psychoacousticmetrics-jl.html
+> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-09. Web page: https://zhenxianli.github.io/LISQM/projects/psychoacousticmetrics-jl.html
 
 **Newly released project.** First registered in July 2026. Not yet seen to be widely used in the community. Check its validation before relying on it.
 
@@ -3366,7 +3386,7 @@ Implementations of the same metric can give different numbers without either bei
 
 # SoundPalette
 
-> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-08. Web page: https://zhenxianli.github.io/LISQM/projects/soundpalette.html
+> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-09. Web page: https://zhenxianli.github.io/LISQM/projects/soundpalette.html
 
 **Newly released project.** Its psychoacoustic metrics were added in July 2026 (v0.5.0). Not yet seen to be widely used in the community. Check its validation before relying on it.
 
@@ -3429,7 +3449,7 @@ As reported by the project; LISQM has not run the code. Two implementations that
 
 # torch_amt
 
-> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-08. Web page: https://zhenxianli.github.io/LISQM/projects/torch-amt.html
+> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-09. Web page: https://zhenxianli.github.io/LISQM/projects/torch-amt.html
 
 **Newly released project.** First released in February 2026. Not yet seen to be widely used in the community. Check its validation before relying on it.
 
@@ -3487,7 +3507,7 @@ As reported by the project; LISQM has not run the code. Two implementations that
 
 # ZwickerLoudness.jl
 
-> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-08. Web page: https://zhenxianli.github.io/LISQM/projects/zwickerloudness-jl.html
+> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-09. Web page: https://zhenxianli.github.io/LISQM/projects/zwickerloudness-jl.html
 
 **Newly released project.** First registered in February 2026. Not yet seen to be widely used in the community. Check its validation before relying on it.
 
@@ -3552,7 +3572,7 @@ As reported by the project; LISQM has not run the code. Two implementations that
 
 # pySQAT
 
-> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-08. Web page: https://zhenxianli.github.io/LISQM/projects/pysqat.html
+> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-09. Web page: https://zhenxianli.github.io/LISQM/projects/pysqat.html
 
 Python port of the MATLAB toolbox SQAT (README title "SQAT4PY") with a PySide6 graphical interface. Covers ISO 532-1 loudness, DIN 45692 sharpness, Daniel & Weber roughness, Osses fluctuation strength, Aures tonality, three psychoacoustic annoyance models and EPNL; its ECMA-418-2 functions call sottek-hearing-model.
 
@@ -3618,7 +3638,7 @@ As reported by the project; LISQM has not run the code. Two implementations that
 
 # LoudnessModel
 
-> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-08. Web page: https://zhenxianli.github.io/LISQM/projects/loudnessmodel.html
+> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-09. Web page: https://zhenxianli.github.io/LISQM/projects/loudnessmodel.html
 
 Python translation of the Cambridge MATLAB code for the TVL2018 loudness model: Moore et al. (2016) with the revised time constants of Moore et al. (2018). Computes instantaneous, short-term and long-term loudness, in a NumPy version and a JAX version.
 
@@ -3673,7 +3693,7 @@ As reported by the project; LISQM has not run the code. Two implementations that
 
 # deeuu/loudness
 
-> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-08. Web page: https://zhenxianli.github.io/LISQM/projects/deeuu-loudness.html
+> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-09. Web page: https://zhenxianli.github.io/LISQM/projects/deeuu-loudness.html
 
 **Legacy project.** Not maintained. Its last commit was in August 2019, more than three years ago. Kept here for reference. Its code may follow an older edition and may not run with current software.
 
@@ -3738,7 +3758,7 @@ As reported by the project; LISQM has not run the code. Two implementations that
 
 # fluctuation-strength-TUe
 
-> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-08. Web page: https://zhenxianli.github.io/LISQM/projects/fluctuation-strength-tue.html
+> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-09. Web page: https://zhenxianli.github.io/LISQM/projects/fluctuation-strength-tue.html
 
 **Legacy project.** Not maintained. Its last commit was in January 2020, more than three years ago. Kept here for reference. Its code may follow an older edition and may not run with current software.
 
@@ -3794,7 +3814,7 @@ As reported by the project; LISQM has not run the code. Two implementations that
 
 # HAW loudness tool
 
-> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-08. Web page: https://zhenxianli.github.io/LISQM/projects/haw-specific-loudness.html
+> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-09. Web page: https://zhenxianli.github.io/LISQM/projects/haw-specific-loudness.html
 
 **Legacy project.** Not maintained. Its last commit was in December 2022, more than three years ago. Kept here for reference. Its code may follow an older edition and may not run with current software.
 
@@ -3856,7 +3876,7 @@ Implementations of the same metric can give different numbers without either bei
 
 # IoSR Matlab Toolbox
 
-> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-08. Web page: https://zhenxianli.github.io/LISQM/projects/iosr-matlab-toolbox.html
+> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-09. Web page: https://zhenxianli.github.io/LISQM/projects/iosr-matlab-toolbox.html
 
 **Legacy project.** Not maintained. Its last commit was in August 2017, more than three years ago. Kept here for reference. Its code may follow an older edition and may not run with current software.
 
@@ -3909,7 +3929,7 @@ The project does not say how any of these were validated.
 
 # MoSQITo-FDP
 
-> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-08. Web page: https://zhenxianli.github.io/LISQM/projects/mosqito-fdp.html
+> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-09. Web page: https://zhenxianli.github.io/LISQM/projects/mosqito-fdp.html
 
 **Legacy project.** Archived by its authors; its last commit was in July 2021. Kept here for reference. Its code may follow an older edition and may not run with current software.
 
@@ -3970,7 +3990,7 @@ As reported by the project; LISQM has not run the code. Two implementations that
 
 # PsychoacousticParametersMeasurer
 
-> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-08. Web page: https://zhenxianli.github.io/LISQM/projects/psychoacoustic-parameters-measurer.html
+> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-09. Web page: https://zhenxianli.github.io/LISQM/projects/psychoacoustic-parameters-measurer.html
 
 **Legacy project.** Not maintained. Its last commit was in June 2021, more than three years ago. Kept here for reference. Its code may follow an older edition and may not run with current software.
 
@@ -4028,7 +4048,7 @@ The project does not say how any of these were validated.
 
 # PsySound3
 
-> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-08. Web page: https://zhenxianli.github.io/LISQM/projects/psysound3.html
+> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-09. Web page: https://zhenxianli.github.io/LISQM/projects/psysound3.html
 
 **Legacy project.** Not maintained. Its last commit was in March 2015, more than three years ago. Kept here for reference. Its code may follow an older edition and may not run with current software.
 
@@ -4091,7 +4111,7 @@ The project does not say how any of these were validated.
 
 # python-acoustics
 
-> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-08. Web page: https://zhenxianli.github.io/LISQM/projects/python-acoustics.html
+> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-09. Web page: https://zhenxianli.github.io/LISQM/projects/python-acoustics.html
 
 **Legacy project.** Archived by its authors; its last commit was in August 2023. Kept here for reference. Its code may follow an older edition and may not run with current software.
 
@@ -4151,7 +4171,7 @@ As reported by the project; LISQM has not run the code. Two implementations that
 
 # SUAVE
 
-> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-08. Web page: https://zhenxianli.github.io/LISQM/projects/suave.html
+> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-09. Web page: https://zhenxianli.github.io/LISQM/projects/suave.html
 
 **Legacy project.** Not maintained. Its last commit was in December 2022, more than three years ago. Kept here for reference. Its code may follow an older edition and may not run with current software.
 
@@ -4202,7 +4222,7 @@ The project does not say how any of these were validated.
 
 # Swift & Gee codes
 
-> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-08. Web page: https://zhenxianli.github.io/LISQM/projects/rapid-loudness-sharpness.html
+> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-09. Web page: https://zhenxianli.github.io/LISQM/projects/rapid-loudness-sharpness.html
 
 **Legacy project.** Not maintained. Its last commit was in January 2020, more than three years ago. Kept here for reference. Its code may follow an older edition and may not run with current software.
 
@@ -4265,7 +4285,7 @@ Implementations of the same metric can give different numbers without either bei
 
 # Zhen-Ni/epnl
 
-> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-08. Web page: https://zhenxianli.github.io/LISQM/projects/zhen-ni-epnl.html
+> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-09. Web page: https://zhenxianli.github.io/LISQM/projects/zhen-ni-epnl.html
 
 **Legacy project.** Not maintained. Its last commit was in July 2023, more than three years ago. Kept here for reference. Its code may follow an older edition and may not run with current software.
 
@@ -4316,7 +4336,7 @@ The project does not say how any of these were validated.
 
 # zwickerloudness
 
-> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-08. Web page: https://zhenxianli.github.io/LISQM/projects/zwickerloudness-sourceforge.html
+> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-09. Web page: https://zhenxianli.github.io/LISQM/projects/zwickerloudness-sourceforge.html
 
 **Legacy project.** Not maintained. Its last commit was in June 2018, more than three years ago. Kept here for reference. Its code may follow an older edition and may not run with current software.
 
@@ -4370,7 +4390,7 @@ As reported by the project; LISQM has not run the code. Two implementations that
 
 # PsychoBox
 
-> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-08. Web page: https://zhenxianli.github.io/LISQM/projects/psychobox.html
+> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-09. Web page: https://zhenxianli.github.io/LISQM/projects/psychobox.html
 
 Desktop application (PySide6 GUI) for playing, editing, filtering and analysing audio. Its psychoacoustic metrics are computed by MoSQITo 1.2.1: Zwicker loudness, ECMA-418-2 loudness, DIN 45692 sharpness, Daniel & Weber roughness and ECMA-418-2 roughness.
 
@@ -4426,7 +4446,7 @@ The project does not say how any of these were validated.
 
 # Soundscapy
 
-> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-08. Web page: https://zhenxianli.github.io/LISQM/projects/soundscapy.html
+> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-09. Web page: https://zhenxianli.github.io/LISQM/projects/soundscapy.html
 
 Python library for soundscape assessment. Its optional audio module computes psychoacoustic metrics of binaural recordings, per channel, by calling MoSQITo: time-varying Zwicker loudness, DIN 45692 sharpness and Daniel & Weber roughness.
 
@@ -4484,7 +4504,7 @@ The project does not say how any of these were validated.
 
 # ZwickerLoudnessAudio.jl
 
-> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-08. Web page: https://zhenxianli.github.io/LISQM/projects/zwickerloudnessaudio-jl.html
+> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-09. Web page: https://zhenxianli.github.io/LISQM/projects/zwickerloudnessaudio-jl.html
 
 **Newly released project.** First registered in June 2026. Not yet seen to be widely used in the community. Check its validation before relying on it.
 
@@ -4547,7 +4567,7 @@ Implementations of the same metric can give different numbers without either bei
 
 # PsyTools
 
-> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-08. Web page: https://zhenxianli.github.io/LISQM/projects/psytools.html
+> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-09. Web page: https://zhenxianli.github.io/LISQM/projects/psytools.html
 
 **Status unknown.** The repository cannot be opened without a login. It redirects to the TU Graz GitLab login page, while the author's profile page on the same server is public (checked 2026-10-07). What it implements has not been verified, so it is not listed under the metrics.
 
@@ -4582,7 +4602,7 @@ As described in the sources below; the code itself could not be checked.
 
 # Project map
 
-> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-08. Web page: https://zhenxianli.github.io/LISQM/projects/map.html
+> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-09. Web page: https://zhenxianli.github.io/LISQM/projects/map.html
 
 Each line of the map joins two projects: code taken from another project, the author's own code moved between projects, a project that uses another one at run time, results checked against another project, or a shared contributor. The lines come from the implementation rows on the project pages. On the web page, arrows point from the source to the project that uses it, and a check points from the project to the one it checked its results against.
 
@@ -4592,7 +4612,7 @@ Each line of the map joins two projects: code taken from another project, the au
 - **The author's own code.** The code was written by someone who also maintains the project that took it: a contribution, a move or a translation within the same team, not a port by someone else.
 - **Used at run time.** The project calls the source to compute the metric, or needs its results as input.
 - **Results checked against.** The arrow points from the project to the one it checked its results against. Comparisons with the code a project was taken from, with a port of its own code or with another port of the same code are not drawn, because they only show that two copies agree.
-- **Same contributor.** Someone has worked on both projects, as a maintainer or with code of their own, and no other line joins them.
+- **Same contributor.** Someone has worked on both projects, as a maintainer or with code of their own. Not drawn beside a line of the author's own code, which says the same.
 
 ## Code taken from another project
 
@@ -4628,8 +4648,12 @@ Each line of the map joins two projects: code taken from another project, the au
 
 ## Same contributor
 
+- **[SQAT](https://zhenxianli.github.io/LISQM/projects/sqat.html)** and **[sottek-hearing-model](https://zhenxianli.github.io/LISQM/projects/sottek-hearing-model.html)** (Mike Lotinga)
+- **[MoSQITo](https://zhenxianli.github.io/LISQM/projects/mosqito.html)** and [MoSQITo-FDP](https://zhenxianli.github.io/LISQM/projects/mosqito-fdp.html) (Daniel Jiménez-Caminero Costa)
 - [acoustic-toolbox](https://zhenxianli.github.io/LISQM/projects/acoustic-toolbox.html) and [Soundscapy](https://zhenxianli.github.io/LISQM/projects/soundscapy.html) (Andrew Mitchell)
+- [PsychoacousticMetrics.jl](https://zhenxianli.github.io/LISQM/projects/psychoacousticmetrics-jl.html) and [ZwickerLoudness.jl](https://zhenxianli.github.io/LISQM/projects/zwickerloudness-jl.html) (slink)
 - [PsychoacousticMetrics.jl](https://zhenxianli.github.io/LISQM/projects/psychoacousticmetrics-jl.html) and [ZwickerLoudnessAudio.jl](https://zhenxianli.github.io/LISQM/projects/zwickerloudnessaudio-jl.html) (slink)
+- [ZwickerLoudness.jl](https://zhenxianli.github.io/LISQM/projects/zwickerloudness-jl.html) and [ZwickerLoudnessAudio.jl](https://zhenxianli.github.io/LISQM/projects/zwickerloudnessaudio-jl.html) (slink)
 
 Not on the map, as no relation is recorded for them: [PSYCHO](https://zhenxianli.github.io/LISQM/projects/pd-psycho.html), [PyDSM](https://zhenxianli.github.io/LISQM/projects/pydsm.html), [HAW loudness tool](https://zhenxianli.github.io/LISQM/projects/haw-specific-loudness.html), [IoSR Matlab Toolbox](https://zhenxianli.github.io/LISQM/projects/iosr-matlab-toolbox.html), [PsychoacousticParametersMeasurer](https://zhenxianli.github.io/LISQM/projects/psychoacoustic-parameters-measurer.html), [SUAVE](https://zhenxianli.github.io/LISQM/projects/suave.html), [Swift & Gee codes](https://zhenxianli.github.io/LISQM/projects/rapid-loudness-sharpness.html), and [Zhen-Ni/epnl](https://zhenxianli.github.io/LISQM/projects/zhen-ni-epnl.html).
 
@@ -4640,7 +4664,7 @@ Left out, as their code could not be opened: [PsyTools](https://zhenxianli.githu
 
 # Standards and models
 
-> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-08. Web page: https://zhenxianli.github.io/LISQM/standards.html
+> Part of [LISQM](https://zhenxianli.github.io/LISQM/) (List of Implementations of Sound Quality Metrics), a list of open-source implementations of psychoacoustic metrics. Data as of 2026-10-09. Web page: https://zhenxianli.github.io/LISQM/standards.html
 
 All documents the list refers to, newest first. Each implementation in the list is tied to one of these editions. They are also available as BibTeX, together with the papers that describe the listed software: https://zhenxianli.github.io/LISQM/references.bib
 
