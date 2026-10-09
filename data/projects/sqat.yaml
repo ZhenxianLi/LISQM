@@ -183,11 +183,11 @@ implements:
     validation: cross-implementation
     derived_from: [refmap-psychoacoustics]
     derived_by_author: true
-    compared_with: ["commercial software"]
+    compared_with: ["ArtemiS SUITE (HEAD acoustics)"]
     validation_details:
       - >-
-        Checked against the ISO 226:2003 equal-loudness contours and against reference results from commercial
-        software for a binaural recording of a train station.
+        Checked against the ISO 226:2003 equal-loudness contours and against reference results from HEAD acoustics
+        ArtemiS SUITE 15.7 (named in the source of SQAT's validation page) for a binaural recording of a train station.
   - metric: loudness-ecma-418-2
     reference: ecma-418-2-ed4
     functions: [Loudness_ECMA418_2, LoudnessFromComp_ECMA418_2]
@@ -195,12 +195,12 @@ implements:
     validation: cross-implementation
     derived_from: [refmap-psychoacoustics]
     derived_by_author: true
-    compared_with: ["commercial software"]
+    compared_with: ["ArtemiS SUITE (HEAD acoustics)"]
     validation_details:
       - >-
-        On `main`, checked for the 4th edition against the ISO 226:2003 equal-loudness contours and against
-        reference results from commercial software for a binaural recording of a train station (last checked in
-        November 2025).
+        On `main`, checked for the 4th edition against the ISO 226:2003 equal-loudness contours and against reference
+        results from HEAD acoustics ArtemiS SUITE 17.1 (named in the source of SQAT's validation page) for a binaural
+        recording of a train station (last checked in November 2025).
     note: Updated to the 4th edition on `main` in 2025.
   - metric: roughness-ecma-418-2
     reference: ecma-418-2-ed3
@@ -211,11 +211,12 @@ implements:
     validation: cross-implementation
     derived_from: [refmap-psychoacoustics]
     derived_by_author: true
-    compared_with: ["commercial software"]
+    compared_with: ["ArtemiS SUITE (HEAD acoustics)"]
     validation_details:
       - >-
         Checked for the dependence of the roughness of AM tones on modulation frequency, and against reference results
-        from commercial software for a binaural recording of a train station.
+        from HEAD acoustics ArtemiS SUITE 15.7 (named in the source of SQAT's validation page) for a binaural recording
+        of a train station.
   - metric: roughness-ecma-418-2
     reference: ecma-418-2-ed4
     functions: [Roughness_ECMA418_2]
@@ -223,12 +224,12 @@ implements:
     validation: cross-implementation
     derived_from: [refmap-psychoacoustics]
     derived_by_author: true
-    compared_with: ["commercial software"]
+    compared_with: ["ArtemiS SUITE (HEAD acoustics)"]
     validation_details:
       - >-
-        On `main`, checked for the 4th edition for the dependence of the roughness of AM tones on modulation
-        frequency, and against reference results from commercial software for a binaural recording of a train
-        station.
+        On `main`, checked for the 4th edition for the dependence of the roughness of AM tones on modulation frequency,
+        and against reference results from HEAD acoustics ArtemiS SUITE 17.1 (named in the source of SQAT's validation
+        page) for a binaural recording of a train station.
     note: Amended to the 4th edition on `main` in November 2025.
   - metric: tonality-ecma-418-2
     reference: ecma-418-2-ed3
@@ -238,9 +239,11 @@ implements:
     validation: cross-implementation
     derived_from: [refmap-psychoacoustics]
     derived_by_author: true
-    compared_with: ["commercial software"]
+    compared_with: ["ArtemiS SUITE (HEAD acoustics)"]
     validation_details:
-      - Checked against reference results from commercial software for a binaural recording of a train station.
+      - >-
+        Checked against reference results from HEAD acoustics ArtemiS SUITE 15.7 (named in the source of SQAT's
+        validation page) for a binaural recording of a train station.
   - metric: tonality-ecma-418-2
     reference: ecma-418-2-ed4
     functions: [Tonality_ECMA418_2]
@@ -248,11 +251,11 @@ implements:
     validation: cross-implementation
     derived_from: [refmap-psychoacoustics]
     derived_by_author: true
-    compared_with: ["commercial software"]
+    compared_with: ["ArtemiS SUITE (HEAD acoustics)"]
     validation_details:
       - >-
-        On `main`, checked for the 4th edition against reference results from commercial software for a binaural
-        recording of a train station.
+        On `main`, checked for the 4th edition against reference results from HEAD acoustics ArtemiS SUITE 17.1 (named
+        in the source of SQAT's validation page) for a binaural recording of a train station.
       - >-
         A verification against Annex B.2 (PR #79) was merged and reverted on 2026-09-21 because the Annex B values of
         the 2025 edition appear to be out of date.
