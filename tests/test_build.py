@@ -829,7 +829,8 @@ class BuildTest(unittest.TestCase):
             ref = self.index.ref[rid]
             self.assertEqual(ref["status"], "current", rid)
             title = html.escape(f'{ref["title"]}. Current.')
-            self.assertIn(f'<div class="edition ed-current"><span class="ed-label" title="{title}">', home, rid)
+            self.assertIn(f'<div class="edition ed-current"><a class="ed-label" href="standards.html#ref-{rid}" '
+                          f'title="{title}">', home, rid)
         self.assertNotIn("not the current edition", home)
 
     def test_one_vocabulary_and_one_name(self) -> None:

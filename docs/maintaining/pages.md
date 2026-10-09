@@ -53,7 +53,7 @@ The first answer to "which open-source code implements which edition of each met
 - **Editions and implementations** (the timeline) comes first. Columns are periods of years; each edition or model
   paper sits in the column of its year, with the projects that implement it. A green box is a current edition,
   including national standards in force; grey is a superseded or withdrawn edition or an earlier model paper; drafts
-  carry `in development`. At most four projects per edition, the most established first; "+N more" opens the rest
+  carry `in development`. Each label links to the document's entry on the Standards page. At most four projects per edition, the most established first; "+N more" opens the rest
   in place. Marks: `new` and `dev` after the name, a grey name for legacy, `unreleased` and `PR` tags. The
   line of years stays more visible than the borders of the table, and no border cuts it.
 - **Gaps**: the metrics without an available implementation of the current edition, then those whose only released

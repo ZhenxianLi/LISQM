@@ -658,7 +658,9 @@ TIMELINE_SHOWN = 4
 def _timeline_edition(path: str, m: dict, ref: dict, impls: list[dict]) -> str:
     state = edition_state(m, ref)
     tip = f'{ref["title"]}. {ref_status(ref).capitalize()}.'
-    label = f'<span class="ed-label" title="{esc(tip)}">{_breakable(ref["label"])}</span>'
+    # The label leads to the document's entry on the Standards page.
+    label = (f'<a class="ed-label" href="{relative(path, STANDARDS)}#ref-{esc(ref["id"])}" title="{esc(tip)}">'
+             f'{_breakable(ref["label"])}</a>')
     if state == "dev":
         label += " " + _tag("in development", "warn")
     # `impls` is in the order established, newly released, developing, legacy.
