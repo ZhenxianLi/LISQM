@@ -128,7 +128,8 @@ def validation_groups(impls: list[dict], key: Callable[[dict], str]) -> tuple[li
         if i["validation"] == "not-stated" and not details and not compared and not i.get("derived_from"):
             silent.append(i)
         else:
-            groups.setdefault((key(i), i["validation"], compared, derived, details), []).append(i)
+            groups.setdefault((key(i), i["validation"], i.get("validation_scope"), compared, derived, details),
+                              []).append(i)
     return list(groups.values()), silent
 
 
@@ -491,15 +492,16 @@ def version_label(impl: dict) -> str:
     """What the timeline shows after a project name: the first version with this edition, or its state."""
     if impl["status"] == "proposed":
         found = re.search(r"/pull/(\d+)", impl.get("link") or "")
-        return f"PR #{found.group(1)}" if found else "proposed"
+        return f"proposed in PR #{found.group(1)}" if found else "proposed"
     if impl["status"] == "unreleased":
         return "unreleased"
     return str(impl.get("since") or "")
 
 
 def edition_state(m: dict, ref: dict) -> str:
-    """'current' for the metric's current edition(s), 'old' for superseded or withdrawn ones, 'dev' for drafts."""
-    if ref["id"] in m["current"]:
+    """'current' for the metric's current edition(s) and the other standards in force (a national standard has its
+    own scope beside the ISO one), 'old' for superseded or withdrawn ones, 'dev' for drafts."""
+    if ref["id"] in m["current"] or ref["status"] == "current":
         return "current"
     if ref["status"] in ("superseded", "withdrawn"):
         return "old"

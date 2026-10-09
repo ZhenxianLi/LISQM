@@ -343,6 +343,13 @@ class Index:
             for key in ("notes", "caveats", "sources"):
                 if p.get(key) is not None and not all(isinstance(x, str) and x.strip() for x in p[key]):
                     add(f"{w}: every item of {key} must be text (quote an item that contains ': ')")
+            # One name everywhere: the page, every list, the map and the machine-readable files.
+            if "short_name" in p:
+                add(f"{w}: short_name is no longer used; name is the one name shown everywhere, and a longer title "
+                    "goes in full_name")
+            if p.get("full_name") is not None and not (isinstance(p["full_name"], str) and p["full_name"].strip()
+                                                       and p["full_name"] != p.get("name")):
+                add(f"{w}: full_name must be a longer title than name")
             if p.get("maintainer_check") is not None and not (isinstance(p["maintainer_check"], str)
                                                               and p["maintainer_check"].strip()):
                 add(f"{w}: maintainer_check must be a non-empty string")
@@ -429,6 +436,9 @@ class Index:
                     add(f"{wi}: validation must be one of {sorted(VALIDATION)}")
                 if impl.get("functions") is not None and not isinstance(impl["functions"], list):
                     add(f"{wi}: functions must be a list")
+                scope = impl.get("validation_scope")
+                if scope is not None and not (isinstance(scope, str) and 0 < len(scope.strip()) <= 60):
+                    add(f"{wi}: validation_scope must be a few words (at most 60 characters)")
                 if "partial" in impl and (impl["partial"] is not True or not impl.get("scope")):
                     add(f"{wi}: partial can only be true, with a scope that says what is computed")
                 if impl.get("via") and impl["via"] not in self.project:

@@ -1,6 +1,5 @@
 id: js2251-iso532-3
 name: iso532-3 (tv2018.m)
-short_name: iso532-3
 repository: https://github.com/js2251/iso532-3
 docs: https://github.com/js2251/iso532-3/blob/main/readme%20TVL%202018.pdf
 languages: [MATLAB]

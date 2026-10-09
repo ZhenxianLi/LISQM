@@ -54,6 +54,7 @@ implements:
     status: available
     since: 0.1.9
     validation: standard-data
+    validation_scope: calibration signals and one recording
     derived_by_author: true
     compared_with: ["ArtemiS SUITE (HEAD acoustics)"]
     validation_details:
@@ -67,6 +68,7 @@ implements:
     status: available
     since: 0.1.9
     validation: standard-data
+    validation_scope: reference signal and one recording
     derived_by_author: true
     compared_with: ["ArtemiS SUITE (HEAD acoustics)"]
     validation_details:
@@ -80,6 +82,7 @@ implements:
     status: available
     since: 0.1.9
     validation: standard-data
+    validation_scope: reference signal and one recording
     derived_by_author: true
     compared_with: ["ArtemiS SUITE (HEAD acoustics)"]
     validation_details:

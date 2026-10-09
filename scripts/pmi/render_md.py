@@ -86,7 +86,8 @@ def _edition(index: Index, i: dict) -> str:
 def _validation(i: dict) -> str:
     """Table cell: the stated evidence, naming what the implementation was compared with."""
     also = validation_also(i)
-    return validation_label(i) + (f"; {also}" if also else "")
+    scope = f" ({i['validation_scope']})" if i.get("validation_scope") else ""
+    return validation_label(i) + scope + (f"; {also}" if also else "")
 
 
 def _validation_section(index: Index, impls: list[dict], on_metric: bool) -> list[str]:
@@ -115,7 +116,7 @@ def _validation_section(index: Index, impls: list[dict], on_metric: bool) -> lis
     checked_by_maintainer: set[str] = set()
     for group in groups:
         i = group[0]
-        evidence = validation_label(i, name)
+        evidence = validation_label(i, name) + (f" ({i['validation_scope']})" if i.get("validation_scope") else "")
         also = validation_also(i, name)
         # On a metric page a group is one project: name it once, then the editions.
         heads = [title(group[0])] + [title(j, named=not on_metric) for j in group[1:]]
@@ -314,7 +315,8 @@ def project_page(index: Index, p: dict) -> str:
         lines += [f"**Legacy project.** {standing_sentence(p)} Its code may follow an older edition and may not run "
                   "with current software.", ""]
     lines += [p["summary"].strip(), ""]
-    facts = [("Repository", p["repository"])]
+    facts = [("Full name", p["full_name"])] if p.get("full_name") else []
+    facts.append(("Repository", p["repository"]))
     for key, label in (("homepage", "Homepage"), ("docs", "Documentation")):
         if p.get(key):
             facts.append((label, p[key]))

@@ -38,6 +38,7 @@ implements:
     status: available
     since: 0.2.0
     validation: standard-data
+    validation_scope: one Annex B signal
     compared_with: [mosqito]
     validation_details:
       - >-
@@ -51,6 +52,7 @@ implements:
     status: available
     since: 0.3.0
     validation: standard-data
+    validation_scope: one Annex B signal
     derived_from: [mosqito]
     compared_with: [mosqito]
     validation_details:

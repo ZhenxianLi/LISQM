@@ -194,7 +194,7 @@ def _sidebar(index: Index, path: str, section: str) -> str:
             if projects:
                 label = title.replace(" projects", "")
                 blocks_.append(_side(f"{label} ({len(projects)})", [
-                    (rel(project_path(p)), _strong(p, _breakable(p.get("short_name") or p["name"])),
+                    (rel(project_path(p)), _strong(p, _breakable(p["name"])),
                      project_path(p) == path) for p in projects], href=f"{rel(PROJECTS)}#{key}", sub=True))
     elif section == "Languages":
         blocks_.append(_side("On this page", [(f"{rel(LANGUAGES)}#{a}", t, False) for a, t in
@@ -271,6 +271,8 @@ def _validation(i: dict, href: str = "") -> str:
     v = i["validation"]
     cell = _tag(validation_label(i), _validation_kind(i), VALIDATION_LONG[v] + (" Details below." if href else ""),
                 href=href)
+    if i.get("validation_scope"):  # how far the check goes, e.g. "calibration signal only"
+        cell += f'<br><span class="small muted">{esc(i["validation_scope"])}</span>'
     also = validation_also(i)
     if also:
         cell += f'<br><span class="small muted">{esc(also)}</span>'
@@ -332,6 +334,8 @@ def _validation_section(index: Index, path: str, impls: list[dict], ids: dict[in
         names = "".join(f'<dt id="{ids[id(j)]}">{title(j)}</dt>' for j in group)
         evidence = (f'<span class="tag tag-{_validation_kind(i)}" title="{esc(VALIDATION_LONG[v])}">'
                     f"{validation_label(i, linked, esc)}</span>")
+        if i.get("validation_scope"):
+            evidence += f' <span class="muted">({esc(i["validation_scope"])})</span>'
         also = validation_also(i, linked, esc)
         if also:
             evidence += f" {also}"
@@ -538,6 +542,8 @@ def _software_ld(index: Index, p: dict) -> dict:
     d = {"@type": "SoftwareSourceCode", "name": p["name"], "codeRepository": p["repository"],
          "programmingLanguage": p["languages"], "description": plain(p["summary"]),
          "url": absolute(index, project_path(p))}
+    if p.get("full_name"):
+        d["alternateName"] = p["full_name"]
     if p["license"] not in ("none", "proprietary-free", "unknown"):
         d["license"] = p["license"]
     if p.get("_last_commit"):
@@ -592,12 +598,10 @@ def _timeline_impl(path: str, i: dict) -> str:
     a marker if the code is not released, and a small "new" or "dev" after newly released and developing projects;
     legacy projects are grey. Version, languages and activity are in the tooltip."""
     p = i["_project"]
-    name = _strong(p, _breakable(p.get("short_name") or p["name"]))
+    name = _strong(p, _breakable(p["name"]))
     bits = [f'<a href="{relative(path, project_path(p))}">{name}</a>']
-    if i["status"] == "proposed":
-        bits.append(_tag("PR", "neutral", IMPL_STATUS_LONG["proposed"], href=i.get("link", "")))
-    elif i["status"] == "unreleased":
-        bits.append(_tag("main", "warn", IMPL_STATUS_LONG["unreleased"]))
+    if i["status"] != "available":
+        bits.append(_state_tag(i["status"], href=i.get("link", "") if i["status"] == "proposed" else ""))
     if p["_group"] in TIMELINE_MARKS:
         word, kind = TIMELINE_MARKS[p["_group"]]
         bits.append(f'<span class="mk mk-{kind}" title="{esc(GROUP_NAMES[p["_group"]].capitalize())}. '
@@ -614,10 +618,7 @@ TIMELINE_SHOWN = 4
 
 def _timeline_edition(path: str, m: dict, ref: dict, impls: list[dict]) -> str:
     state = edition_state(m, ref)
-    status = ref_status(ref).capitalize()
-    if state != "current" and ref["status"] == "current":
-        status = "In force, but not the current edition for this metric"
-    tip = f'{ref["title"]}. {status}.'
+    tip = f'{ref["title"]}. {ref_status(ref).capitalize()}.'
     label = f'<span class="ed-label" title="{esc(tip)}">{_breakable(ref["label"])}</span>'
     if state == "dev":
         label += " " + _tag("in development", "warn")
@@ -634,8 +635,8 @@ def _timeline_edition(path: str, m: dict, ref: dict, impls: list[dict]) -> str:
                      f'+{len(rest)} more</span><span class="opened" hidden>show fewer</span></summary>'
                      f"<ul>{hidden}</ul></details></li>")
     body = f'<ul>{"".join(lines)}</ul>' if lines else ""
-    # Every edition that is neither current nor a draft is grey: superseded standards, older standards still in
-    # force and earlier model papers alike. The tooltip keeps the exact status.
+    # Every edition that is neither current nor a draft is grey: superseded standards and earlier model papers
+    # alike. The tooltip keeps the exact status.
     return f'<div class="edition ed-{state or "old"}">{label}{body}</div>'
 
 
@@ -679,7 +680,7 @@ def _timeline(index: Index, path: str) -> str:
         'publication or documented use by others · <span class="key-quiet">grey name</span>: legacy, archived or '
         f"no commit for three years or more · each edition shows at most {TIMELINE_SHOWN} projects, the most "
         "established first; <em>+ more</em> shows the rest</p>"
-        f'<p>{_tag("main", "warn")} merged, not in a release yet · {_tag("PR", "neutral")} open pull request · '
+        f'<p>{_state_tag("unreleased")} merged, not in a release yet · {_state_tag("proposed")} open pull request · '
         "hover over a name for its languages, version and status</p>"
         "</div>")
     return "\n".join([
@@ -897,7 +898,8 @@ def metric_page(index: Index, m: dict) -> str:
 
 def project_page(index: Index, p: dict) -> str:
     path = project_path(p)
-    facts: list[tuple[str, str]] = [("Repository", f'<a href="{esc(p["repository"])}">{esc(p["repository"])}</a>')]
+    facts: list[tuple[str, str]] = [("Full name", esc(p["full_name"]))] if p.get("full_name") else []
+    facts.append(("Repository", f'<a href="{esc(p["repository"])}">{esc(p["repository"])}</a>'))
     if p.get("homepage"):
         facts.append(("Homepage", f'<a href="{esc(p["homepage"])}">{esc(p["homepage"])}</a>'))
     if p.get("docs"):
@@ -1012,8 +1014,7 @@ def _project_names(path: str, impls: list[dict]) -> str:
         p = i["_project"]
         bit = _lang_badge(p["languages"][0]) + _project_link(path, p)
         if i["status"] != "available":
-            bit += " " + _tag("main" if i["status"] == "unreleased" else "PR",
-                              "warn" if i["status"] == "unreleased" else "neutral", IMPL_STATUS_LONG[i["status"]])
+            bit += " " + _state_tag(i["status"])
         if p["_group"] in GROUP_TAGS:
             bit += " " + GROUP_TAGS[p["_group"]]
         cls = "pn quiet" if p["_group"] == "legacy" else "pn"

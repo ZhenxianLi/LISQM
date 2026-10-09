@@ -779,6 +779,67 @@ class BuildTest(unittest.TestCase):
         self.assertIn('Left out, as their code could not be opened: <a href="../projects/psytools.html">PsyTools',
                       words)
 
+    def test_standards_in_force_look_current(self) -> None:
+        # A national standard in force (DIN 45631, ANSI S3.4, NT ACOU 112) has its own scope beside the ISO one: it
+        # is current on the timeline too, although the metric names one edition to follow.
+        home = (self.site / "index.html").read_text(encoding="utf-8")
+        for rid in ("din-45631-a1-2010", "ansi-s3-4-2007", "nt-acou-112-2002"):
+            ref = self.index.ref[rid]
+            self.assertEqual(ref["status"], "current", rid)
+            title = html.escape(f'{ref["title"]}. Current.')
+            self.assertIn(f'<div class="edition ed-current"><span class="ed-label" title="{title}">', home, rid)
+        self.assertNotIn("not the current edition", home)
+
+    def test_one_vocabulary_and_one_name(self) -> None:
+        # Code not in a release is "unreleased", an open pull request "proposed", on every page.
+        for page in ("index.html", "metrics/index.html", "metrics/loudness-ecma-418-2.html"):
+            text = (self.site / page).read_text(encoding="utf-8")
+            self.assertNotRegex(text, r'class="tag [^"]*"[^>]*>(main|PR)<', page)
+        self.assertIn(">unreleased</span>", (self.site / "index.html").read_text(encoding="utf-8"))
+        # A project has one name, the same in the sidebar, the timeline, the map and its own page.
+        amt = self.index.project["amt"]
+        self.assertEqual((amt["name"], amt["full_name"]), ("AMT", "Auditory Modeling Toolbox"))
+        page = (self.site / "projects/amt.html").read_text(encoding="utf-8")
+        self.assertIn("<h1>AMT</h1>", page)
+        self.assertIn("<td>Auditory Modeling Toolbox</td>", page)
+        self.assertIn('"alternateName": "Auditory Modeling Toolbox"', page)
+        projects = (self.site / "projects/index.html").read_text(encoding="utf-8")
+        for pid in ("refmap-psychoacoustics", "zhen-ni-epnl", "rapid-loudness-sharpness"):
+            name = html.escape(self.index.project[pid]["name"], quote=False)
+            self.assertIn(f'<a href="../projects/{pid}.html">{name}</a>', projects, pid)
+        svg = (self.site / "projects/map.html").read_text(encoding="utf-8")
+        self.assertIn(">refmap&#45;psychoacoustics</text>", svg, "Graphviz writes - as &#45;")
+        p = self.index.project["amt"]
+        try:
+            p["short_name"] = "AMT"
+            p["full_name"] = "AMT"
+            problems = "\n".join(self.index.validate())
+            self.assertIn("short_name is no longer used", problems)
+            self.assertIn("full_name must be a longer title than name", problems)
+        finally:
+            del p["short_name"]
+            p["full_name"] = "Auditory Modeling Toolbox"
+        self.assertEqual(self.index.validate(), [])
+        # N5 is a value taken from Zwicker loudness, not another name for it.
+        zwicker = self.index.metric["loudness-zwicker"]
+        self.assertNotIn("N5", zwicker["aka"])
+        self.assertIn("N5, the loudness exceeded 5 % of the time", " ".join(zwicker["summary"].split()))
+
+    def test_validation_scope_is_shown_with_the_evidence(self) -> None:
+        page = (self.site / "metrics/loudness-zwicker.html").read_text(encoding="utf-8")
+        self.assertIn('standard or paper data</a><br><span class="small muted">in v1.3, test signal 10 is off by 18.14 '
+                      '%</span>', page)
+        self.assertIn('standard or paper data</span> <span class="muted">(outcome not stated)</span>', page)
+        md = (self.site / "metrics/loudness-ecma-418-2.md").read_text(encoding="utf-8")
+        self.assertIn("standard or paper data (calibration signal only; outside the allowed adjustment)", md)
+        impl = self.index.project["sqat"]["implements"][0]
+        try:
+            impl["validation_scope"] = "x" * 61
+            self.assertIn("validation_scope must be a few words", "\n".join(self.index.validate()))
+        finally:
+            impl["validation_scope"] = "in v1.3, test signal 10 is off by 18.14 %"
+        self.assertEqual(self.index.validate(), [])
+
     def test_bullets_may_wrap(self) -> None:
         self.assertEqual(blocks("Intro.\n\n- One item\n  that wraps.\n- Two."),
                          "<p>Intro.</p>\n<ul><li>One item that wraps.</li><li>Two.</li></ul>")

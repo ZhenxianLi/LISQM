@@ -1,6 +1,5 @@
 id: refmap-psychoacoustics
 name: refmap-psychoacoustics
-short_name: refmap
 repository: https://github.com/acoustics-code-salford/refmap-psychoacoustics
 languages: [MATLAB, Python]
 kind: research-code

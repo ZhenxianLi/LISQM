@@ -73,6 +73,7 @@ implements:
     status: available
     since: 3.1.0
     validation: standard-data
+    validation_scope: calibration signal only; outside the allowed adjustment
     validation_details:
       - Checked at the calibration signal only, where it gives 0.9843 sone_HMS (−1.55 %).
   - metric: tonality-ecma-418-2
@@ -82,6 +83,7 @@ implements:
     status: available
     since: 3.1.0
     validation: standard-data
+    validation_scope: calibration signal only
     validation_details:
       - Checked at the calibration signal only.
   - metric: roughness-ecma-418-2
@@ -91,6 +93,7 @@ implements:
     status: available
     since: 3.1.0
     validation: standard-data
+    validation_scope: calibration signal only
     validation_details:
       - Checked at the calibration signal only.
   - metric: fluctuation-strength-ecma-418-2
@@ -100,6 +103,7 @@ implements:
     status: available
     since: 3.3.0
     validation: standard-data
+    validation_scope: calibration signal only
     validation_details:
       - Checked at the calibration signal only (0.993 vacil_HMS).
     note: Misprints found in Clause 9 are listed in the project's errata.
@@ -152,6 +156,7 @@ implements:
     status: available
     since: 3.1.0
     validation: standard-data
+    validation_scope: formula examples; no published TNR or PR value
     validation_details:
       - >-
         Tests check worked examples printed in ECMA-418-1:2024: the critical band at 500 Hz and 1 kHz (Clause 10,

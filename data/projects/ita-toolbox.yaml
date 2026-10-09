@@ -69,6 +69,7 @@ implements:
     scope: time-varying, with N5
     status: available
     validation: standard-data
+    validation_scope: results plotted, not checked
     validation_details:
       - >-
         A test script plots the results for the amendment's test signals A to D (1 kHz tone pulses of 10 ms to 500 ms)
@@ -86,6 +87,7 @@ implements:
     functions: [ita_roughness_daniel]
     status: available
     validation: standard-data
+    validation_scope: a code comment only
     validation_details:
       - >-
         A code comment says that after major bug fixes the values "more or less match those of the paper by Daniel";

@@ -50,13 +50,13 @@ metrics:
     family: loudness
     name: Zwicker loudness
     title: Zwicker loudness (ISO 532-1, DIN 45631)
-    aka: [ISO 532-1, ISO 532B, ISO 532 method B, DIN 45631, DIN 45631/A1, Zwicker method, N5, percentile loudness]
+    aka: [ISO 532-1, ISO 532B, ISO 532 method B, DIN 45631, DIN 45631/A1, Zwicker method]
     unit: sone, phon
     summary: >-
       Loudness from Zwicker's model: third-octave band levels are turned into specific loudness on the
       critical-band (Bark) scale and integrated. ISO 532-1:2017 specifies one procedure for stationary sounds
-      and one for time-varying sounds (from which percentile values such as N5 are taken), and replaced
-      method B of ISO 532:1975. The German standards DIN 45631 (stationary) and DIN 45631/A1 (time-varying)
+      and one for time-varying sounds (from which percentile values are taken, such as N5, the loudness exceeded
+      5 % of the time), and replaced method B of ISO 532:1975. The German standards DIN 45631 (stationary) and DIN 45631/A1 (time-varying)
       specify Zwicker's method; ISO 532-1:2017 states that its stationary method is based on DIN 45631:1991.
     notes: >-
       In China, GB/T 25982-2024 (interior noise of buses, in force since July 2025) sets loudness and sharpness

@@ -124,12 +124,10 @@
         "ISO 532 method B",
         "DIN 45631",
         "DIN 45631/A1",
-        "Zwicker method",
-        "N5",
-        "percentile loudness"
+        "Zwicker method"
       ],
       "unit": "sone, phon",
-      "summary": "Loudness from Zwicker's model: third-octave band levels are turned into specific loudness on the critical-band (Bark) scale and integrated. ISO 532-1:2017 specifies one procedure for stationary sounds and one for time-varying sounds (from which percentile values such as N5 are taken), and replaced method B of ISO 532:1975. The German standards DIN 45631 (stationary) and DIN 45631/A1 (time-varying) specify Zwicker's method; ISO 532-1:2017 states that its stationary method is based on DIN 45631:1991.",
+      "summary": "Loudness from Zwicker's model: third-octave band levels are turned into specific loudness on the critical-band (Bark) scale and integrated. ISO 532-1:2017 specifies one procedure for stationary sounds and one for time-varying sounds (from which percentile values are taken, such as N5, the loudness exceeded 5 % of the time), and replaced method B of ISO 532:1975. The German standards DIN 45631 (stationary) and DIN 45631/A1 (time-varying) specify Zwicker's method; ISO 532-1:2017 states that its stationary method is based on DIN 45631:1991.",
       "notes": "In China, GB/T 25982-2024 (interior noise of buses, in force since July 2025) sets loudness and sharpness limits and gives Zwicker's calculation in an informative annex.",
       "references": [
         "iso-532-1975",
@@ -182,6 +180,7 @@
           "status": "available",
           "since": "v1.0",
           "validation": "standard-data",
+          "validation_scope": "in v1.3, test signal 10 is off by 18.14 %",
           "derived_from": [
             "aarae"
           ],
@@ -203,6 +202,7 @@
           "status": "available",
           "since": "1.0.0",
           "validation": "standard-data",
+          "validation_scope": "outcome not stated",
           "derived_from": [
             "BASIC program of DIN 45631 (Zwicker et al., 1991)"
           ],
@@ -222,6 +222,7 @@
           "scope": "stationary and time-varying",
           "status": "available",
           "validation": "standard-data",
+          "validation_scope": "time-varying signals only",
           "derived_from": [
             "ISO 532-1 Annex A reference program"
           ],
@@ -239,6 +240,7 @@
           "scope": "time-varying, with N5",
           "status": "available",
           "validation": "standard-data",
+          "validation_scope": "results plotted, not checked",
           "validation_details": [
             "A test script plots the results for the amendment's test signals A to D (1 kHz tone pulses of 10 ms to 500 ms) against its tolerance bands; it does not check them automatically."
           ],
@@ -426,6 +428,7 @@
           "status": "available",
           "since": "0.2.0",
           "validation": "standard-data",
+          "validation_scope": "one Annex B signal",
           "compared_with": [
             "mosqito"
           ],
@@ -444,6 +447,7 @@
           "status": "available",
           "since": "0.3.0",
           "validation": "standard-data",
+          "validation_scope": "one Annex B signal",
           "derived_from": [
             "mosqito"
           ],
@@ -749,15 +753,6 @@
           "validation": "self-tests"
         },
         {
-          "project": "rapid-loudness-sharpness",
-          "reference": "ansi-s3-4-2007",
-          "functions": [
-            "stationaryLoudness"
-          ],
-          "status": "available",
-          "validation": "not-stated"
-        },
-        {
           "project": "deeuu-loudness",
           "reference": "ansi-s3-4-2007",
           "functions": [
@@ -770,6 +765,15 @@
             "Unit tests cover each module and model.",
             "A validation script writes computed and expected loudness of pure tones to CSV; the expected values are labelled \"Table 7\" and \"Example 2\" without naming their source."
           ]
+        },
+        {
+          "project": "rapid-loudness-sharpness",
+          "reference": "ansi-s3-4-2007",
+          "functions": [
+            "stationaryLoudness"
+          ],
+          "status": "available",
+          "validation": "not-stated"
         },
         {
           "project": "psysound3",
@@ -983,15 +987,6 @@
           ]
         },
         {
-          "project": "rapid-loudness-sharpness",
-          "reference": "glasberg-moore-2002",
-          "functions": [
-            "Glasberg_loudness"
-          ],
-          "status": "available",
-          "validation": "not-stated"
-        },
-        {
           "project": "deeuu-loudness",
           "reference": "glasberg-moore-2002",
           "functions": [
@@ -1000,17 +995,6 @@
           "status": "available",
           "validation": "self-tests",
           "note": "Per the header, excitation patterns follow ANSI S3.4-2007, and parameter sets use the modified long-term time constants of Moore et al. (2003) and the ANSI S3.4-2007 equation for specific loudness at high levels."
-        },
-        {
-          "project": "psysound3",
-          "reference": "glasberg-moore-2002",
-          "functions": [
-            "@LoudnessMGB"
-          ],
-          "scope": "time-varying and binaural",
-          "status": "available",
-          "validation": "not-stated",
-          "note": "The same analyser as the stationary entry; its description cites Glasberg & Moore (2002)."
         },
         {
           "project": "haw-specific-loudness",
@@ -1030,6 +1014,26 @@
             "For two equal-level tones at 1 and 2 kHz, the deviation from LOUDAES ranges from −4.4 % to +3.8 % with the Hann-window FFT and reaches +6.7 % with the Fourier-time transform.",
             "For the stationary part of signals the thesis reports good agreement with TVL, Glasberg & Moore's program for time-varying sounds, without figures."
           ]
+        },
+        {
+          "project": "psysound3",
+          "reference": "glasberg-moore-2002",
+          "functions": [
+            "@LoudnessMGB"
+          ],
+          "scope": "time-varying and binaural",
+          "status": "available",
+          "validation": "not-stated",
+          "note": "The same analyser as the stationary entry; its description cites Glasberg & Moore (2002)."
+        },
+        {
+          "project": "rapid-loudness-sharpness",
+          "reference": "glasberg-moore-2002",
+          "functions": [
+            "Glasberg_loudness"
+          ],
+          "status": "available",
+          "validation": "not-stated"
         }
       ]
     },
@@ -1138,6 +1142,7 @@
           "status": "available",
           "since": "1.2.0",
           "validation": "standard-data",
+          "validation_scope": "outcome not stated",
           "validation_details": [
             "Validation scripts compare with figures of the standard."
           ],
@@ -1154,6 +1159,7 @@
           "status": "available",
           "since": "0.1.9",
           "validation": "standard-data",
+          "validation_scope": "calibration signals and one recording",
           "derived_by_author": true,
           "compared_with": [
             "ArtemiS SUITE (HEAD acoustics)"
@@ -1219,6 +1225,7 @@
           "status": "available",
           "since": "3.1.0",
           "validation": "standard-data",
+          "validation_scope": "calibration signal only; outside the allowed adjustment",
           "validation_details": [
             "Checked at the calibration signal only, where it gives 0.9843 sone_HMS (−1.55 %)."
           ]
@@ -1375,6 +1382,7 @@
           "status": "available",
           "since": "1.0.2",
           "validation": "standard-data",
+          "validation_scope": "outcome not stated",
           "validation_details": [
             "Validation scripts use the DIN 45692 test signals; the documentation marks it as validated."
           ]
@@ -1656,6 +1664,7 @@
           "status": "available",
           "since": "1.0.0",
           "validation": "standard-data",
+          "validation_scope": "outcome not stated",
           "validation_details": [
             "The documentation marks it as validated against reference data."
           ]
@@ -1682,6 +1691,7 @@
           ],
           "status": "available",
           "validation": "standard-data",
+          "validation_scope": "a code comment only",
           "validation_details": [
             "A code comment says that after major bug fixes the values \"more or less match those of the paper by Daniel\"; no test or comparison script is included."
           ],
@@ -1950,6 +1960,7 @@
           "status": "available",
           "since": "0.1.9",
           "validation": "standard-data",
+          "validation_scope": "reference signal and one recording",
           "derived_by_author": true,
           "compared_with": [
             "ArtemiS SUITE (HEAD acoustics)"
@@ -2011,6 +2022,7 @@
           "status": "available",
           "since": "3.1.0",
           "validation": "standard-data",
+          "validation_scope": "calibration signal only",
           "validation_details": [
             "Checked at the calibration signal only."
           ]
@@ -2352,6 +2364,7 @@
           "status": "available",
           "since": "3.3.0",
           "validation": "standard-data",
+          "validation_scope": "calibration signal only",
           "validation_details": [
             "Checked at the calibration signal only (0.993 vacil_HMS)."
           ],
@@ -2408,6 +2421,7 @@
           "status": "available",
           "since": "v1.0",
           "validation": "standard-data",
+          "validation_scope": "v1.3: one signal-to-noise comparison",
           "validation_details": [
             "v1.3 is checked with one signal-to-noise comparison.",
             "The September 2026 fixes on `main` add checks against Aures's Figs. 5 and 6."
@@ -2569,6 +2583,7 @@
           "status": "available",
           "since": "0.1.9",
           "validation": "standard-data",
+          "validation_scope": "reference signal and one recording",
           "derived_by_author": true,
           "compared_with": [
             "ArtemiS SUITE (HEAD acoustics)"
@@ -2631,6 +2646,7 @@
           "status": "available",
           "since": "3.1.0",
           "validation": "standard-data",
+          "validation_scope": "calibration signal only",
           "validation_details": [
             "Checked at the calibration signal only."
           ]
@@ -2732,6 +2748,7 @@
           "status": "available",
           "since": "3.1.0",
           "validation": "standard-data",
+          "validation_scope": "formula examples; no published TNR or PR value",
           "validation_details": [
             "Tests check worked examples printed in ECMA-418-1:2024: the critical band at 500 Hz and 1 kHz (Clause 10, Formula 2), its band edges at 1 kHz (Clause 12.2) and the proximity spacing at 150 and 850 Hz (Clause 11.6, Formula 14).",
             "TNR and PR of a 1 kHz tone in white noise are compared with the values expected from the standard's formulas (within 0.4 dB for TNR and 0.1 dB for PR); no TNR or PR value published in the standard is checked."
@@ -3538,6 +3555,19 @@
           }
         },
         {
+          "project": "suave",
+          "reference": "icao-annex-16-vol-1",
+          "functions": [
+            "pnl_noise",
+            "noise_tone_correction",
+            "epnl_noise"
+          ],
+          "scope": "PNL, PNLT and EPNL; the code cites no edition",
+          "status": "available",
+          "validation": "not-stated",
+          "note": "EPNL is computed from a PNLT time history. The noise tools cite neither ICAO Annex 16 nor 14 CFR Part 36, nor an edition; their docstrings give \"Source: None\"."
+        },
+        {
           "project": "zhen-ni-epnl",
           "reference": "icao-annex-16-vol-1",
           "functions": [
@@ -3551,19 +3581,6 @@
           "status": "available",
           "validation": "not-stated",
           "note": "Code comments cite \"Annex 16 - Volume I, APP 2-16 / 2-17\" and number the 24 bands \"consistent with ICAO ANNEX 16\". The quantities are Rust types converted into each other with `From`."
-        },
-        {
-          "project": "suave",
-          "reference": "icao-annex-16-vol-1",
-          "functions": [
-            "pnl_noise",
-            "noise_tone_correction",
-            "epnl_noise"
-          ],
-          "scope": "PNL, PNLT and EPNL; the code cites no edition",
-          "status": "available",
-          "validation": "not-stated",
-          "note": "EPNL is computed from a PNLT time history. The noise tools cite neither ICAO Annex 16 nor 14 CFR Part 36, nor an edition; their docstrings give \"Source: None\"."
         }
       ]
     },
@@ -4403,6 +4420,7 @@
           "status": "available",
           "since": "v1.0",
           "validation": "standard-data",
+          "validation_scope": "in v1.3, test signal 10 is off by 18.14 %",
           "derived_from": [
             "aarae"
           ],
@@ -4474,6 +4492,7 @@
           "status": "available",
           "since": "v1.0",
           "validation": "standard-data",
+          "validation_scope": "v1.3: one signal-to-noise comparison",
           "validation_details": [
             "v1.3 is checked with one signal-to-noise comparison.",
             "The September 2026 fixes on `main` add checks against Aures's Figs. 5 and 6."
@@ -4781,6 +4800,7 @@
           "status": "available",
           "since": "1.0.0",
           "validation": "standard-data",
+          "validation_scope": "outcome not stated",
           "derived_from": [
             "BASIC program of DIN 45631 (Zwicker et al., 1991)"
           ],
@@ -4801,6 +4821,7 @@
           "status": "available",
           "since": "1.2.0",
           "validation": "standard-data",
+          "validation_scope": "outcome not stated",
           "validation_details": [
             "Validation scripts compare with figures of the standard."
           ],
@@ -4820,6 +4841,7 @@
           "status": "available",
           "since": "1.0.2",
           "validation": "standard-data",
+          "validation_scope": "outcome not stated",
           "validation_details": [
             "Validation scripts use the DIN 45692 test signals; the documentation marks it as validated."
           ]
@@ -4834,6 +4856,7 @@
           "status": "available",
           "since": "1.0.0",
           "validation": "standard-data",
+          "validation_scope": "outcome not stated",
           "validation_details": [
             "The documentation marks it as validated against reference data."
           ]
@@ -4997,6 +5020,7 @@
           "status": "available",
           "since": "0.1.9",
           "validation": "standard-data",
+          "validation_scope": "calibration signals and one recording",
           "derived_by_author": true,
           "compared_with": [
             "ArtemiS SUITE (HEAD acoustics)"
@@ -5015,6 +5039,7 @@
           "status": "available",
           "since": "0.1.9",
           "validation": "standard-data",
+          "validation_scope": "reference signal and one recording",
           "derived_by_author": true,
           "compared_with": [
             "ArtemiS SUITE (HEAD acoustics)"
@@ -5035,6 +5060,7 @@
           "status": "available",
           "since": "0.1.9",
           "validation": "standard-data",
+          "validation_scope": "reference signal and one recording",
           "derived_by_author": true,
           "compared_with": [
             "ArtemiS SUITE (HEAD acoustics)"
@@ -5169,8 +5195,8 @@
     },
     {
       "id": "amt",
-      "name": "Auditory Modeling Toolbox (AMT)",
-      "short_name": "AMT",
+      "name": "AMT",
+      "full_name": "Auditory Modeling Toolbox",
       "repository": "https://sourceforge.net/p/amtoolbox/code/",
       "homepage": "https://amtoolbox.org",
       "languages": [
@@ -5287,8 +5313,7 @@
     },
     {
       "id": "pd-psycho",
-      "name": "PSYCHO (pd-psycho)",
-      "short_name": "PSYCHO",
+      "name": "PSYCHO",
       "repository": "https://github.com/porres/pd-psycho",
       "languages": [
         "Pure Data",
@@ -5353,7 +5378,6 @@
     {
       "id": "refmap-psychoacoustics",
       "name": "refmap-psychoacoustics",
-      "short_name": "refmap",
       "repository": "https://github.com/acoustics-code-salford/refmap-psychoacoustics",
       "languages": [
         "MATLAB",
@@ -5573,6 +5597,7 @@
           "scope": "stationary and time-varying",
           "status": "available",
           "validation": "standard-data",
+          "validation_scope": "time-varying signals only",
           "derived_from": [
             "ISO 532-1 Annex A reference program"
           ],
@@ -5674,7 +5699,6 @@
     {
       "id": "js2251-iso532-3",
       "name": "iso532-3 (tv2018.m)",
-      "short_name": "iso532-3",
       "repository": "https://github.com/js2251/iso532-3",
       "docs": "https://github.com/js2251/iso532-3/blob/main/readme%20TVL%202018.pdf",
       "languages": [
@@ -5798,6 +5822,7 @@
           "scope": "time-varying, with N5",
           "status": "available",
           "validation": "standard-data",
+          "validation_scope": "results plotted, not checked",
           "validation_details": [
             "A test script plots the results for the amendment's test signals A to D (1 kHz tone pulses of 10 ms to 500 ms) against its tolerance bands; it does not check them automatically."
           ],
@@ -5814,6 +5839,7 @@
           ],
           "status": "available",
           "validation": "standard-data",
+          "validation_scope": "a code comment only",
           "validation_details": [
             "A code comment says that after major bug fixes the values \"more or less match those of the paper by Daniel\"; no test or comparison script is included."
           ],
@@ -6624,6 +6650,7 @@
           "status": "available",
           "since": "3.1.0",
           "validation": "standard-data",
+          "validation_scope": "calibration signal only; outside the allowed adjustment",
           "validation_details": [
             "Checked at the calibration signal only, where it gives 0.9843 sone_HMS (−1.55 %)."
           ]
@@ -6638,6 +6665,7 @@
           "status": "available",
           "since": "3.1.0",
           "validation": "standard-data",
+          "validation_scope": "calibration signal only",
           "validation_details": [
             "Checked at the calibration signal only."
           ]
@@ -6652,6 +6680,7 @@
           "status": "available",
           "since": "3.1.0",
           "validation": "standard-data",
+          "validation_scope": "calibration signal only",
           "validation_details": [
             "Checked at the calibration signal only."
           ]
@@ -6666,6 +6695,7 @@
           "status": "available",
           "since": "3.3.0",
           "validation": "standard-data",
+          "validation_scope": "calibration signal only",
           "validation_details": [
             "Checked at the calibration signal only (0.993 vacil_HMS)."
           ],
@@ -6743,6 +6773,7 @@
           "status": "available",
           "since": "3.1.0",
           "validation": "standard-data",
+          "validation_scope": "formula examples; no published TNR or PR value",
           "validation_details": [
             "Tests check worked examples printed in ECMA-418-1:2024: the critical band at 500 Hz and 1 kHz (Clause 10, Formula 2), its band edges at 1 kHz (Clause 12.2) and the proximity spacing at 150 and 850 Hz (Clause 11.6, Formula 14).",
             "TNR and PR of a 1 kHz tone in white noise are compared with the values expected from the standard's formulas (within 0.4 dB for TNR and 0.1 dB for PR); no TNR or PR value published in the standard is checked."
@@ -7252,6 +7283,7 @@
           "status": "available",
           "since": "0.2.0",
           "validation": "standard-data",
+          "validation_scope": "one Annex B signal",
           "compared_with": [
             "mosqito"
           ],
@@ -7270,6 +7302,7 @@
           "status": "available",
           "since": "0.3.0",
           "validation": "standard-data",
+          "validation_scope": "one Annex B signal",
           "derived_from": [
             "mosqito"
           ],
@@ -7599,272 +7632,8 @@
       "group": "developing"
     },
     {
-      "id": "rapid-loudness-sharpness",
-      "name": "Codes for the rapid calculation of loudness and sharpness",
-      "short_name": "Swift & Gee codes",
-      "repository": "https://www.mathworks.com/matlabcentral/fileexchange/73808-codes-for-the-rapid-calculation-of-loudness-and-sharpness",
-      "languages": [
-        "MATLAB"
-      ],
-      "kind": "research-code",
-      "standing": "established",
-      "license": "BSD-3-Clause",
-      "license_note": "`license.txt`: Copyright (c) 2019, Stephen Hales Swift.",
-      "packages": [
-        {
-          "registry": "file-exchange",
-          "name": "73808",
-          "url": "https://www.mathworks.com/matlabcentral/fileexchange/73808-codes-for-the-rapid-calculation-of-loudness-and-sharpness"
-        }
-      ],
-      "maintainers": [
-        "Stephen Hales Swift"
-      ],
-      "summary": "MATLAB code by S. Hales Swift (Brigham Young University) on MATLAB File Exchange for fast Moore–Glasberg loudness: ANSI S3.4-2007 stationary loudness and Glasberg & Moore (2002) time-varying loudness, each with the sharpness of Swift & Gee (2017), which is computed from Moore–Glasberg specific loudness.",
-      "ai_assistance": "not-stated",
-      "paper": {
-        "citation": "Swift, S. H., & Gee, K. L. (2019). Techniques for the rapid calculation of the excitation pattern in the time varying extensions to ANSI S3.4-2007. *Proceedings of Meetings on Acoustics*, 36, 040002."
-      },
-      "notes": [
-        "Version 1.0.0 (2020-01-24) is the only update after the first upload (2019-12-31). There is no public commit history; the files can be read online on File Exchange without logging in.",
-        "The sharpness code is by the authors of the sharpness model."
-      ],
-      "caveats": [
-        "No validation is described.",
-        "Without the Signal Processing Toolbox, the File Exchange page says a file from the Cambridge Hearing Group's website is needed; that page now needs a University of Cambridge login."
-      ],
-      "conventions": [
-        "The code works at 32 kHz; other rates are resampled with the Signal Processing Toolbox's `resample`."
-      ],
-      "cite": {
-        "text": "The File Exchange page asks for the paper above for the loudness code and for Swift & Gee (2017) for the sharpness code."
-      },
-      "implements": [
-        {
-          "metric": "loudness-moore-glasberg",
-          "reference": "ansi-s3-4-2007",
-          "functions": [
-            "stationaryLoudness"
-          ],
-          "status": "available",
-          "validation": "not-stated"
-        },
-        {
-          "metric": "loudness-moore-glasberg-time-varying",
-          "reference": "glasberg-moore-2002",
-          "functions": [
-            "Glasberg_loudness"
-          ],
-          "status": "available",
-          "validation": "not-stated"
-        },
-        {
-          "metric": "sharpness",
-          "reference": "swift-gee-2017",
-          "functions": [
-            "stationaryLoudness",
-            "Glasberg_loudness"
-          ],
-          "scope": "from Moore–Glasberg specific loudness, stationary and time-varying",
-          "status": "available",
-          "validation": "not-stated"
-        }
-      ],
-      "sources": [
-        "https://www.mathworks.com/matlabcentral/fileexchange/73808-codes-for-the-rapid-calculation-of-loudness-and-sharpness",
-        "https://viewer.mathworks.com/addons/73808/latest",
-        "https://doi.org/10.1121/1.5016193"
-      ],
-      "checked": "2026-10-07",
-      "url": "https://zhenxianli.github.io/LISQM/projects/rapid-loudness-sharpness.html",
-      "last_commit": "2020-01-24",
-      "latest_release": {
-        "version": "1.0.0",
-        "date": "2020-01-24",
-        "source": "MATLAB File Exchange"
-      },
-      "prerelease": null,
-      "activity": "inactive",
-      "archived": false,
-      "stars": null,
-      "group": "legacy"
-    },
-    {
-      "id": "zhen-ni-epnl",
-      "name": "epnl (Zhen-Ni)",
-      "short_name": "Zhen-Ni/epnl",
-      "repository": "https://github.com/Zhen-Ni/epnl",
-      "languages": [
-        "Rust"
-      ],
-      "kind": "library",
-      "standing": "developing",
-      "license": "none",
-      "maintainers": [
-        "Zhen-Ni"
-      ],
-      "summary": "Small Rust crate that computes perceived noisiness (noy), perceived noise level (PNL) and tone-corrected perceived noise level (PNLT) from 24 one-third-octave band levels, citing ICAO Annex 16, Volume I, Appendix 2 in its code comments.",
-      "ai_assistance": "not-stated",
-      "notes": [
-        "The crate (version 0.1.0) has no README and is not published on crates.io; input.txt holds two example 24-band spectra."
-      ],
-      "caveats": [
-        "The GitHub description reads \"Calculate Effective Perceived Noise Level (EPNL) for aircrafts\", but EPNL itself is not implemented: there is no time integration or duration correction.",
-        "No licence file, so reuse is not permitted by default."
-      ],
-      "implements": [
-        {
-          "metric": "epnl",
-          "reference": "icao-annex-16-vol-1",
-          "functions": [
-            "SPL",
-            "Noy",
-            "PNL",
-            "PNLT"
-          ],
-          "scope": "PNL and PNLT only; no duration correction to EPNL",
-          "partial": true,
-          "status": "available",
-          "validation": "not-stated",
-          "note": "Code comments cite \"Annex 16 - Volume I, APP 2-16 / 2-17\" and number the 24 bands \"consistent with ICAO ANNEX 16\". The quantities are Rust types converted into each other with `From`."
-        }
-      ],
-      "sources": [
-        "https://github.com/Zhen-Ni/epnl",
-        "https://github.com/Zhen-Ni/epnl/blob/master/Cargo.toml",
-        "https://github.com/Zhen-Ni/epnl/tree/master/src"
-      ],
-      "checked": "2026-10-06",
-      "url": "https://zhenxianli.github.io/LISQM/projects/zhen-ni-epnl.html",
-      "last_commit": "2023-07-10",
-      "latest_release": null,
-      "prerelease": null,
-      "activity": "inactive",
-      "archived": false,
-      "stars": 0,
-      "group": "legacy"
-    },
-    {
-      "id": "fluctuation-strength-tue",
-      "name": "fluctuation-strength-TUe",
-      "repository": "https://github.com/aosses-tue/fluctuation-strength-TUe",
-      "languages": [
-        "MATLAB"
-      ],
-      "kind": "research-code",
-      "standing": "established",
-      "license": "none",
-      "maintainers": [
-        "Alejandro Osses"
-      ],
-      "summary": "MATLAB code of the fluctuation strength model of Osses, García & Kohlrausch (2016) (`FluctuationStrength_TUe.m`), with the stimuli of the paper and a demo that reproduces its figures.",
-      "ai_assistance": "not-stated",
-      "paper": {
-        "citation": "Osses, A., García, R., & Kohlrausch, A. (2016). Modelling the sensation of fluctuation strength. *Proceedings of Meetings on Acoustics*, 28, 050005.",
-        "doi": "10.1121/2.0000410"
-      },
-      "notes": [
-        "The header says the algorithm was \"adapted from the Roughness model\" and programmed by Alejandro Osses and Rodrigo García at TU/e, 2014–2016.",
-        "The model is also documented in Osses Vecchi (2018), PhD thesis, TU Eindhoven (Chapter 2 and Appendix B), linked from the README.",
-        "Version 1.0 is a git tag of 2019-12-31; the code was optimised after the tag, on 2020-01-02."
-      ],
-      "caveats": [
-        "No licence file, so reuse is not permitted by default."
-      ],
-      "implements": [
-        {
-          "metric": "fluctuation-strength-osses",
-          "reference": "osses-2016",
-          "functions": [
-            "FluctuationStrength_TUe"
-          ],
-          "status": "available",
-          "since": "1.0",
-          "validation": "standard-data",
-          "validation_details": [
-            "`demos/demo_osses2016a.m` reproduces the figures of the paper with the included stimuli (AM and FM tones, AM noise and excerpts of real sounds)."
-          ]
-        }
-      ],
-      "sources": [
-        "https://github.com/aosses-tue/fluctuation-strength-TUe",
-        "https://github.com/aosses-tue/fluctuation-strength-TUe/blob/master/README.md",
-        "https://github.com/aosses-tue/fluctuation-strength-TUe/blob/master/FluctuationStrength_TUe.m",
-        "https://doi.org/10.1121/2.0000410",
-        "https://research.tue.nl/files/103868563/20180919_Osses_Vecchi.pdf"
-      ],
-      "checked": "2026-10-06",
-      "url": "https://zhenxianli.github.io/LISQM/projects/fluctuation-strength-tue.html",
-      "last_commit": "2020-01-02",
-      "latest_release": {
-        "version": "v1.0",
-        "date": "2019-12-31",
-        "source": "GitHub release"
-      },
-      "prerelease": null,
-      "activity": "inactive",
-      "archived": false,
-      "stars": 1,
-      "group": "legacy"
-    },
-    {
-      "id": "iosr-matlab-toolbox",
-      "name": "IoSR Matlab Toolbox",
-      "repository": "https://github.com/IoSR-Surrey/MatlabToolbox",
-      "languages": [
-        "MATLAB"
-      ],
-      "kind": "library",
-      "standing": "established",
-      "license": "MIT",
-      "maintainers": [
-        "Christopher Hummersone"
-      ],
-      "summary": "General-purpose MATLAB toolbox from the Institute of Sound Recording (University of Surrey) for auditory modelling, signal processing, source separation, statistics and plotting. For this list it provides ISO 226:2003 equal-loudness contours; it has no loudness, sharpness or roughness models.",
-      "ai_assistance": "not-stated",
-      "notes": [
-        "`iosr.auditory.loudWeight` returns loudness-weighting coefficients derived from the 65-phon ISO 226:2003 contour.",
-        "The two functions are also published on MATLAB File Exchange, as submissions 50348 (\"ISO 226:2003 Normal equal-loudness-level contours\") and 50349 (\"Loudness weighting coefficients\")."
-      ],
-      "caveats": [
-        "ISO 226:2003 was withdrawn in 2023 and replaced by ISO 226:2023; the function follows the 2003 edition.",
-        "No commits since August 2017."
-      ],
-      "implements": [
-        {
-          "metric": "equal-loudness-contours",
-          "reference": "iso-226-2003",
-          "functions": [
-            "iosr.auditory.iso226"
-          ],
-          "status": "available",
-          "validation": "not-stated"
-        }
-      ],
-      "sources": [
-        "https://github.com/IoSR-Surrey/MatlabToolbox",
-        "https://github.com/IoSR-Surrey/MatlabToolbox/blob/master/README.md",
-        "https://github.com/IoSR-Surrey/MatlabToolbox/blob/master/+iosr/+auditory/iso226.m",
-        "https://github.com/IoSR-Surrey/MatlabToolbox/blob/master/+iosr/+auditory/loudWeight.m"
-      ],
-      "checked": "2026-10-06",
-      "url": "https://zhenxianli.github.io/LISQM/projects/iosr-matlab-toolbox.html",
-      "last_commit": "2017-08-18",
-      "latest_release": {
-        "version": "v2.8",
-        "date": "2017-06-17",
-        "source": "GitHub release"
-      },
-      "prerelease": null,
-      "activity": "inactive",
-      "archived": false,
-      "stars": 133,
-      "group": "legacy"
-    },
-    {
       "id": "deeuu-loudness",
-      "name": "loudness (deeuu)",
-      "short_name": "deeuu/loudness",
+      "name": "deeuu/loudness",
       "repository": "https://github.com/deeuu/loudness",
       "languages": [
         "C++",
@@ -7960,6 +7729,197 @@
       "activity": "inactive",
       "archived": false,
       "stars": 40,
+      "group": "legacy"
+    },
+    {
+      "id": "fluctuation-strength-tue",
+      "name": "fluctuation-strength-TUe",
+      "repository": "https://github.com/aosses-tue/fluctuation-strength-TUe",
+      "languages": [
+        "MATLAB"
+      ],
+      "kind": "research-code",
+      "standing": "established",
+      "license": "none",
+      "maintainers": [
+        "Alejandro Osses"
+      ],
+      "summary": "MATLAB code of the fluctuation strength model of Osses, García & Kohlrausch (2016) (`FluctuationStrength_TUe.m`), with the stimuli of the paper and a demo that reproduces its figures.",
+      "ai_assistance": "not-stated",
+      "paper": {
+        "citation": "Osses, A., García, R., & Kohlrausch, A. (2016). Modelling the sensation of fluctuation strength. *Proceedings of Meetings on Acoustics*, 28, 050005.",
+        "doi": "10.1121/2.0000410"
+      },
+      "notes": [
+        "The header says the algorithm was \"adapted from the Roughness model\" and programmed by Alejandro Osses and Rodrigo García at TU/e, 2014–2016.",
+        "The model is also documented in Osses Vecchi (2018), PhD thesis, TU Eindhoven (Chapter 2 and Appendix B), linked from the README.",
+        "Version 1.0 is a git tag of 2019-12-31; the code was optimised after the tag, on 2020-01-02."
+      ],
+      "caveats": [
+        "No licence file, so reuse is not permitted by default."
+      ],
+      "implements": [
+        {
+          "metric": "fluctuation-strength-osses",
+          "reference": "osses-2016",
+          "functions": [
+            "FluctuationStrength_TUe"
+          ],
+          "status": "available",
+          "since": "1.0",
+          "validation": "standard-data",
+          "validation_details": [
+            "`demos/demo_osses2016a.m` reproduces the figures of the paper with the included stimuli (AM and FM tones, AM noise and excerpts of real sounds)."
+          ]
+        }
+      ],
+      "sources": [
+        "https://github.com/aosses-tue/fluctuation-strength-TUe",
+        "https://github.com/aosses-tue/fluctuation-strength-TUe/blob/master/README.md",
+        "https://github.com/aosses-tue/fluctuation-strength-TUe/blob/master/FluctuationStrength_TUe.m",
+        "https://doi.org/10.1121/2.0000410",
+        "https://research.tue.nl/files/103868563/20180919_Osses_Vecchi.pdf"
+      ],
+      "checked": "2026-10-06",
+      "url": "https://zhenxianli.github.io/LISQM/projects/fluctuation-strength-tue.html",
+      "last_commit": "2020-01-02",
+      "latest_release": {
+        "version": "v1.0",
+        "date": "2019-12-31",
+        "source": "GitHub release"
+      },
+      "prerelease": null,
+      "activity": "inactive",
+      "archived": false,
+      "stars": 1,
+      "group": "legacy"
+    },
+    {
+      "id": "haw-specific-loudness",
+      "name": "HAW loudness tool",
+      "full_name": "Specific loudness of time-varying sounds (MATLAB tool)",
+      "repository": "https://zenodo.org/records/7361480",
+      "homepage": "https://reposit.haw-hamburg.de/handle/20.500.12738/14892",
+      "languages": [
+        "MATLAB"
+      ],
+      "kind": "application",
+      "standing": "established",
+      "license": "CC-BY-4.0",
+      "license_note": "Licence of the HAW Hamburg repository record; the archive itself has no licence file.",
+      "maintainers": [
+        "Christian Sabrautzky",
+        "Robert Mores"
+      ],
+      "summary": "MATLAB tool with a graphical interface, from HAW Hamburg, that shows the specific loudness of time-varying sounds: a Moore–Glasberg front end on ERB bands with temporal processing after Glasberg & Moore (2002), Chalupper & Fastl (2002) or Baumgarte (2000). Written in 2007 for a diploma thesis and published on Zenodo in 2022.",
+      "ai_assistance": "not-stated",
+      "paper": {
+        "citation": "Sabrautzky, C. (2007). *Erweiterung eines Lautheitsmodells von Moore und Glasberg zur Berechnung der spezifischen Lautheit dynamischer Audiosignale* [Diploma thesis, HAW Hamburg]."
+      },
+      "notes": [
+        "Code by Christian Sabrautzky (2007, revision 0.7), with changes by Robert Mores (2013) and a playback toolbar by Nico Schäfer. The Zenodo record (2022-12-16) includes an English overview of the models and the German thesis.",
+        "Offers free-field and diffuse-field outer-ear filters and three spectral analyses: FFT with a Blackman–Harris or Hann window, and a Fourier-time transform."
+      ],
+      "caveats": [
+        "Not an implementation of ANSI S3.4-2007 or ISO 532-2/-3. It follows Glasberg & Moore (2002) with the constants A, α and E_THRQ read from published graphs and interpolated, and its Chalupper–Fastl and Baumgarte options apply those models' temporal processing to Moore–Glasberg specific loudness."
+      ],
+      "conventions": [
+        "Input must be sampled at 32 kHz; the reference level is entered as the sound pressure level of a full-scale sine."
+      ],
+      "cite": {
+        "doi": "10.5281/zenodo.7361480"
+      },
+      "implements": [
+        {
+          "metric": "loudness-moore-glasberg-time-varying",
+          "reference": "glasberg-moore-2002",
+          "functions": [
+            "loud_gui",
+            "matlab_loud"
+          ],
+          "scope": "specific loudness over time on ERB bands; three temporal models",
+          "status": "available",
+          "validation": "reference-code",
+          "compared_with": [
+            "LOUDAES and TVL (Glasberg & Moore's programs)"
+          ],
+          "validation_details": [
+            "The thesis compares the total loudness of pure tones (30–100 dB) with LOUDAES, Glasberg & Moore's program for stationary sounds: mostly within 5 %, with larger deviations at low levels near 50 Hz and above 5 kHz (−9.3 % for 5 kHz at 30 dB).",
+            "For two equal-level tones at 1 and 2 kHz, the deviation from LOUDAES ranges from −4.4 % to +3.8 % with the Hann-window FFT and reaches +6.7 % with the Fourier-time transform.",
+            "For the stationary part of signals the thesis reports good agreement with TVL, Glasberg & Moore's program for time-varying sounds, without figures."
+          ]
+        }
+      ],
+      "sources": [
+        "https://zenodo.org/records/7361480",
+        "https://reposit.haw-hamburg.de/handle/20.500.12738/14892"
+      ],
+      "checked": "2026-10-07",
+      "url": "https://zhenxianli.github.io/LISQM/projects/haw-specific-loudness.html",
+      "last_commit": "2022-12-16",
+      "latest_release": {
+        "version": "1",
+        "date": "2022-12-16",
+        "source": "Zenodo"
+      },
+      "prerelease": null,
+      "activity": "inactive",
+      "archived": false,
+      "stars": null,
+      "group": "legacy"
+    },
+    {
+      "id": "iosr-matlab-toolbox",
+      "name": "IoSR Matlab Toolbox",
+      "repository": "https://github.com/IoSR-Surrey/MatlabToolbox",
+      "languages": [
+        "MATLAB"
+      ],
+      "kind": "library",
+      "standing": "established",
+      "license": "MIT",
+      "maintainers": [
+        "Christopher Hummersone"
+      ],
+      "summary": "General-purpose MATLAB toolbox from the Institute of Sound Recording (University of Surrey) for auditory modelling, signal processing, source separation, statistics and plotting. For this list it provides ISO 226:2003 equal-loudness contours; it has no loudness, sharpness or roughness models.",
+      "ai_assistance": "not-stated",
+      "notes": [
+        "`iosr.auditory.loudWeight` returns loudness-weighting coefficients derived from the 65-phon ISO 226:2003 contour.",
+        "The two functions are also published on MATLAB File Exchange, as submissions 50348 (\"ISO 226:2003 Normal equal-loudness-level contours\") and 50349 (\"Loudness weighting coefficients\")."
+      ],
+      "caveats": [
+        "ISO 226:2003 was withdrawn in 2023 and replaced by ISO 226:2023; the function follows the 2003 edition.",
+        "No commits since August 2017."
+      ],
+      "implements": [
+        {
+          "metric": "equal-loudness-contours",
+          "reference": "iso-226-2003",
+          "functions": [
+            "iosr.auditory.iso226"
+          ],
+          "status": "available",
+          "validation": "not-stated"
+        }
+      ],
+      "sources": [
+        "https://github.com/IoSR-Surrey/MatlabToolbox",
+        "https://github.com/IoSR-Surrey/MatlabToolbox/blob/master/README.md",
+        "https://github.com/IoSR-Surrey/MatlabToolbox/blob/master/+iosr/+auditory/iso226.m",
+        "https://github.com/IoSR-Surrey/MatlabToolbox/blob/master/+iosr/+auditory/loudWeight.m"
+      ],
+      "checked": "2026-10-06",
+      "url": "https://zhenxianli.github.io/LISQM/projects/iosr-matlab-toolbox.html",
+      "last_commit": "2017-08-18",
+      "latest_release": {
+        "version": "v2.8",
+        "date": "2017-06-17",
+        "source": "GitHub release"
+      },
+      "prerelease": null,
+      "activity": "inactive",
+      "archived": false,
+      "stars": 133,
       "group": "legacy"
     },
     {
@@ -8290,80 +8250,6 @@
       "group": "legacy"
     },
     {
-      "id": "haw-specific-loudness",
-      "name": "Specific loudness of time-varying sounds (MATLAB tool)",
-      "short_name": "HAW loudness tool",
-      "repository": "https://zenodo.org/records/7361480",
-      "homepage": "https://reposit.haw-hamburg.de/handle/20.500.12738/14892",
-      "languages": [
-        "MATLAB"
-      ],
-      "kind": "application",
-      "standing": "established",
-      "license": "CC-BY-4.0",
-      "license_note": "Licence of the HAW Hamburg repository record; the archive itself has no licence file.",
-      "maintainers": [
-        "Christian Sabrautzky",
-        "Robert Mores"
-      ],
-      "summary": "MATLAB tool with a graphical interface, from HAW Hamburg, that shows the specific loudness of time-varying sounds: a Moore–Glasberg front end on ERB bands with temporal processing after Glasberg & Moore (2002), Chalupper & Fastl (2002) or Baumgarte (2000). Written in 2007 for a diploma thesis and published on Zenodo in 2022.",
-      "ai_assistance": "not-stated",
-      "paper": {
-        "citation": "Sabrautzky, C. (2007). *Erweiterung eines Lautheitsmodells von Moore und Glasberg zur Berechnung der spezifischen Lautheit dynamischer Audiosignale* [Diploma thesis, HAW Hamburg]."
-      },
-      "notes": [
-        "Code by Christian Sabrautzky (2007, revision 0.7), with changes by Robert Mores (2013) and a playback toolbar by Nico Schäfer. The Zenodo record (2022-12-16) includes an English overview of the models and the German thesis.",
-        "Offers free-field and diffuse-field outer-ear filters and three spectral analyses: FFT with a Blackman–Harris or Hann window, and a Fourier-time transform."
-      ],
-      "caveats": [
-        "Not an implementation of ANSI S3.4-2007 or ISO 532-2/-3. It follows Glasberg & Moore (2002) with the constants A, α and E_THRQ read from published graphs and interpolated, and its Chalupper–Fastl and Baumgarte options apply those models' temporal processing to Moore–Glasberg specific loudness."
-      ],
-      "conventions": [
-        "Input must be sampled at 32 kHz; the reference level is entered as the sound pressure level of a full-scale sine."
-      ],
-      "cite": {
-        "doi": "10.5281/zenodo.7361480"
-      },
-      "implements": [
-        {
-          "metric": "loudness-moore-glasberg-time-varying",
-          "reference": "glasberg-moore-2002",
-          "functions": [
-            "loud_gui",
-            "matlab_loud"
-          ],
-          "scope": "specific loudness over time on ERB bands; three temporal models",
-          "status": "available",
-          "validation": "reference-code",
-          "compared_with": [
-            "LOUDAES and TVL (Glasberg & Moore's programs)"
-          ],
-          "validation_details": [
-            "The thesis compares the total loudness of pure tones (30–100 dB) with LOUDAES, Glasberg & Moore's program for stationary sounds: mostly within 5 %, with larger deviations at low levels near 50 Hz and above 5 kHz (−9.3 % for 5 kHz at 30 dB).",
-            "For two equal-level tones at 1 and 2 kHz, the deviation from LOUDAES ranges from −4.4 % to +3.8 % with the Hann-window FFT and reaches +6.7 % with the Fourier-time transform.",
-            "For the stationary part of signals the thesis reports good agreement with TVL, Glasberg & Moore's program for time-varying sounds, without figures."
-          ]
-        }
-      ],
-      "sources": [
-        "https://zenodo.org/records/7361480",
-        "https://reposit.haw-hamburg.de/handle/20.500.12738/14892"
-      ],
-      "checked": "2026-10-07",
-      "url": "https://zhenxianli.github.io/LISQM/projects/haw-specific-loudness.html",
-      "last_commit": "2022-12-16",
-      "latest_release": {
-        "version": "1",
-        "date": "2022-12-16",
-        "source": "Zenodo"
-      },
-      "prerelease": null,
-      "activity": "inactive",
-      "archived": false,
-      "stars": null,
-      "group": "legacy"
-    },
-    {
       "id": "suave",
       "name": "SUAVE",
       "repository": "https://github.com/suavecode/SUAVE",
@@ -8420,9 +8306,154 @@
       "group": "legacy"
     },
     {
+      "id": "rapid-loudness-sharpness",
+      "name": "Swift & Gee codes",
+      "full_name": "Codes for the rapid calculation of loudness and sharpness",
+      "repository": "https://www.mathworks.com/matlabcentral/fileexchange/73808-codes-for-the-rapid-calculation-of-loudness-and-sharpness",
+      "languages": [
+        "MATLAB"
+      ],
+      "kind": "research-code",
+      "standing": "established",
+      "license": "BSD-3-Clause",
+      "license_note": "`license.txt`: Copyright (c) 2019, Stephen Hales Swift.",
+      "packages": [
+        {
+          "registry": "file-exchange",
+          "name": "73808",
+          "url": "https://www.mathworks.com/matlabcentral/fileexchange/73808-codes-for-the-rapid-calculation-of-loudness-and-sharpness"
+        }
+      ],
+      "maintainers": [
+        "Stephen Hales Swift"
+      ],
+      "summary": "MATLAB code by S. Hales Swift (Brigham Young University) on MATLAB File Exchange for fast Moore–Glasberg loudness: ANSI S3.4-2007 stationary loudness and Glasberg & Moore (2002) time-varying loudness, each with the sharpness of Swift & Gee (2017), which is computed from Moore–Glasberg specific loudness.",
+      "ai_assistance": "not-stated",
+      "paper": {
+        "citation": "Swift, S. H., & Gee, K. L. (2019). Techniques for the rapid calculation of the excitation pattern in the time varying extensions to ANSI S3.4-2007. *Proceedings of Meetings on Acoustics*, 36, 040002."
+      },
+      "notes": [
+        "Version 1.0.0 (2020-01-24) is the only update after the first upload (2019-12-31). There is no public commit history; the files can be read online on File Exchange without logging in.",
+        "The sharpness code is by the authors of the sharpness model."
+      ],
+      "caveats": [
+        "No validation is described.",
+        "Without the Signal Processing Toolbox, the File Exchange page says a file from the Cambridge Hearing Group's website is needed; that page now needs a University of Cambridge login."
+      ],
+      "conventions": [
+        "The code works at 32 kHz; other rates are resampled with the Signal Processing Toolbox's `resample`."
+      ],
+      "cite": {
+        "text": "The File Exchange page asks for the paper above for the loudness code and for Swift & Gee (2017) for the sharpness code."
+      },
+      "implements": [
+        {
+          "metric": "loudness-moore-glasberg",
+          "reference": "ansi-s3-4-2007",
+          "functions": [
+            "stationaryLoudness"
+          ],
+          "status": "available",
+          "validation": "not-stated"
+        },
+        {
+          "metric": "loudness-moore-glasberg-time-varying",
+          "reference": "glasberg-moore-2002",
+          "functions": [
+            "Glasberg_loudness"
+          ],
+          "status": "available",
+          "validation": "not-stated"
+        },
+        {
+          "metric": "sharpness",
+          "reference": "swift-gee-2017",
+          "functions": [
+            "stationaryLoudness",
+            "Glasberg_loudness"
+          ],
+          "scope": "from Moore–Glasberg specific loudness, stationary and time-varying",
+          "status": "available",
+          "validation": "not-stated"
+        }
+      ],
+      "sources": [
+        "https://www.mathworks.com/matlabcentral/fileexchange/73808-codes-for-the-rapid-calculation-of-loudness-and-sharpness",
+        "https://viewer.mathworks.com/addons/73808/latest",
+        "https://doi.org/10.1121/1.5016193"
+      ],
+      "checked": "2026-10-07",
+      "url": "https://zhenxianli.github.io/LISQM/projects/rapid-loudness-sharpness.html",
+      "last_commit": "2020-01-24",
+      "latest_release": {
+        "version": "1.0.0",
+        "date": "2020-01-24",
+        "source": "MATLAB File Exchange"
+      },
+      "prerelease": null,
+      "activity": "inactive",
+      "archived": false,
+      "stars": null,
+      "group": "legacy"
+    },
+    {
+      "id": "zhen-ni-epnl",
+      "name": "Zhen-Ni/epnl",
+      "repository": "https://github.com/Zhen-Ni/epnl",
+      "languages": [
+        "Rust"
+      ],
+      "kind": "library",
+      "standing": "developing",
+      "license": "none",
+      "maintainers": [
+        "Zhen-Ni"
+      ],
+      "summary": "Small Rust crate that computes perceived noisiness (noy), perceived noise level (PNL) and tone-corrected perceived noise level (PNLT) from 24 one-third-octave band levels, citing ICAO Annex 16, Volume I, Appendix 2 in its code comments.",
+      "ai_assistance": "not-stated",
+      "notes": [
+        "The crate (version 0.1.0) has no README and is not published on crates.io; input.txt holds two example 24-band spectra."
+      ],
+      "caveats": [
+        "The GitHub description reads \"Calculate Effective Perceived Noise Level (EPNL) for aircrafts\", but EPNL itself is not implemented: there is no time integration or duration correction.",
+        "No licence file, so reuse is not permitted by default."
+      ],
+      "implements": [
+        {
+          "metric": "epnl",
+          "reference": "icao-annex-16-vol-1",
+          "functions": [
+            "SPL",
+            "Noy",
+            "PNL",
+            "PNLT"
+          ],
+          "scope": "PNL and PNLT only; no duration correction to EPNL",
+          "partial": true,
+          "status": "available",
+          "validation": "not-stated",
+          "note": "Code comments cite \"Annex 16 - Volume I, APP 2-16 / 2-17\" and number the 24 bands \"consistent with ICAO ANNEX 16\". The quantities are Rust types converted into each other with `From`."
+        }
+      ],
+      "sources": [
+        "https://github.com/Zhen-Ni/epnl",
+        "https://github.com/Zhen-Ni/epnl/blob/master/Cargo.toml",
+        "https://github.com/Zhen-Ni/epnl/tree/master/src"
+      ],
+      "checked": "2026-10-06",
+      "url": "https://zhenxianli.github.io/LISQM/projects/zhen-ni-epnl.html",
+      "last_commit": "2023-07-10",
+      "latest_release": null,
+      "prerelease": null,
+      "activity": "inactive",
+      "archived": false,
+      "stars": 0,
+      "group": "legacy"
+    },
+    {
       "id": "zwickerloudness-sourceforge",
-      "name": "Zwicker's Loudness Calculation SW + Tool (ISO 532B)",
-      "short_name": "zwickerloudness",
+      "name": "zwickerloudness",
+      "full_name": "Zwicker's Loudness Calculation SW + Tool (ISO 532B)",
       "repository": "https://sourceforge.net/projects/zwickerloudness/",
       "languages": [
         "C"

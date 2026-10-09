@@ -1,6 +1,5 @@
 id: pd-psycho
-name: PSYCHO (pd-psycho)
-short_name: PSYCHO
+name: PSYCHO
 repository: https://github.com/porres/pd-psycho
 languages: [Pure Data, C]
 kind: plugin

@@ -1,6 +1,6 @@
 id: zwickerloudness-sourceforge
-name: "Zwicker's Loudness Calculation SW + Tool (ISO 532B)"
-short_name: zwickerloudness
+name: zwickerloudness
+full_name: "Zwicker's Loudness Calculation SW + Tool (ISO 532B)"
 repository: https://sourceforge.net/projects/zwickerloudness/
 languages: [C]
 kind: application

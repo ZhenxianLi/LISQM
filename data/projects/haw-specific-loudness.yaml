@@ -1,6 +1,6 @@
 id: haw-specific-loudness
-name: Specific loudness of time-varying sounds (MATLAB tool)
-short_name: HAW loudness tool
+name: HAW loudness tool
+full_name: Specific loudness of time-varying sounds (MATLAB tool)
 repository: https://zenodo.org/records/7361480
 homepage: https://reposit.haw-hamburg.de/handle/20.500.12738/14892
 languages: [MATLAB]

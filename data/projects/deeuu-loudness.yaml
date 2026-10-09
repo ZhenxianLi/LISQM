@@ -1,6 +1,5 @@
 id: deeuu-loudness
-name: loudness (deeuu)
-short_name: deeuu/loudness
+name: deeuu/loudness
 repository: https://github.com/deeuu/loudness
 languages: [C++, Python]
 kind: library

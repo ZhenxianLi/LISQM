@@ -210,7 +210,7 @@ def dot_source(index: Index, rel: dict, path: str, lang_codes: dict) -> str:
         if p:
             code, cls = lang_codes.get(p["languages"][0], (p["languages"][0][:2].lower(), "other"))
             colour = LANG_COLOURS.get(cls, LANG_COLOURS["other"])
-            label = _html(p.get("short_name") or p["name"])
+            label = _html(p["name"])
             if p["_super"]:
                 label = f"<b>{label}</b>"
             alpha = "9e" if p["_group"] == "legacy" else ""  # legacy projects are faded, as elsewhere

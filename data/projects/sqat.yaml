@@ -76,6 +76,7 @@ implements:
     status: available
     since: v1.0
     validation: standard-data
+    validation_scope: "in v1.3, test signal 10 is off by 18.14 %"
     derived_from: [aarae]
     validation_details:
       - Checked with the 25 test signals of Annex B.2–B.5 against the standard's tolerances.
@@ -122,6 +123,7 @@ implements:
     status: available
     since: v1.0
     validation: standard-data
+    validation_scope: "v1.3: one signal-to-noise comparison"
     validation_details:
       - v1.3 is checked with one signal-to-noise comparison.
       - The September 2026 fixes on `main` add checks against Aures's Figs. 5 and 6.

@@ -46,6 +46,7 @@ implements:
     status: available
     since: 1.0.0
     validation: standard-data
+    validation_scope: outcome not stated
     derived_from: ["BASIC program of DIN 45631 (Zwicker et al., 1991)"]
     validation_details:
       - Validation scripts use the ISO 532-1 Annex B test signals; the documentation marks it as validated.
@@ -62,6 +63,7 @@ implements:
     status: available
     since: 1.2.0
     validation: standard-data
+    validation_scope: outcome not stated
     validation_details:
       - Validation scripts compare with figures of the standard.
     note: >-
@@ -74,6 +76,7 @@ implements:
     status: available
     since: 1.0.2
     validation: standard-data
+    validation_scope: outcome not stated
     validation_details:
       - Validation scripts use the DIN 45692 test signals; the documentation marks it as validated.
   - metric: roughness-daniel-weber
@@ -82,6 +85,7 @@ implements:
     status: available
     since: 1.0.0
     validation: standard-data
+    validation_scope: outcome not stated
     validation_details:
       - The documentation marks it as validated against reference data.
   - metric: roughness-ecma-418-2

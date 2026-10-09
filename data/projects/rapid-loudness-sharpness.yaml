@@ -1,6 +1,6 @@
 id: rapid-loudness-sharpness
-name: Codes for the rapid calculation of loudness and sharpness
-short_name: Swift & Gee codes
+name: "Swift & Gee codes"
+full_name: Codes for the rapid calculation of loudness and sharpness
 repository: https://www.mathworks.com/matlabcentral/fileexchange/73808-codes-for-the-rapid-calculation-of-loudness-and-sharpness
 languages: [MATLAB]
 kind: research-code

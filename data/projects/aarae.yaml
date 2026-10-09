@@ -44,6 +44,7 @@ implements:
     scope: stationary and time-varying
     status: available
     validation: standard-data
+    validation_scope: time-varying signals only
     derived_from: ["ISO 532-1 Annex A reference program"]
     validation_details:
       - >-

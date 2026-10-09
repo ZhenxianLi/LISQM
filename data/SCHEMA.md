@@ -77,8 +77,8 @@ roughness and fluctuation strength).
 
 ```yaml
 id: metasona                                  # must equal the file name
-name: MetaSona
-short_name: optional shorter name for dense views such as the home-page timeline
+name: MetaSona                                # the one name shown everywhere: page, lists, map, files
+full_name: optional longer title, shown on the project page (e.g. AMT: Auditory Modeling Toolbox)
 repository: https://github.com/huaaudio/metasona   # canonical source location (any host)
 homepage: optional URL
 docs: optional URL
@@ -119,6 +119,9 @@ notes: [optional markdown strings]            # neutral facts worth knowing
 caveats: [optional markdown strings]          # known problems a user should check before relying on it
 conventions: [optional markdown strings]      # choices that change its numbers for every metric (sample rate,
                                               # calibration, percentiles …); shown under "Before you compare numbers"
+                                              # on the project page and on every metric page of the project. An
+                                              # item that holds for some metrics only is {text: …, metrics: [ids]}
+                                              # and is shown on those metric pages only
 cite:                                         # optional: how the project asks to be cited (shown as "How to cite";
   doi: 10.5281/zenodo.0000000                 #   without it the page says to cite the paper, or the repository)
   cff: https://github.com/…/CITATION.cff      # URL of its CITATION.cff file
@@ -132,6 +135,9 @@ implements:
     reference: iso-532-1-2017                 # a reference id listed in that metric's references
     functions: [stationary_loudness, time_varying_loudness]
     scope: optional short text, e.g. "stationary and time-varying"
+    partial: true                             # optional: computes only part of the metric (say what in scope); the
+                                              # row is listed with a "partial" tag but not counted as an
+                                              # implementation of the metric (coverage, gaps, timeline)
     status: available                         # available | unreleased | proposed
     since: optional version
     link: optional URL (folder, pull request …)
@@ -150,6 +156,9 @@ implements:
     uses: [zwickerloudness-jl]                # optional: listed projects the row needs at run time, for example for
                                               # their results, although it computes the metric itself (else: via)
     validation_details: [markdown strings]    # optional: what was checked, against what, tolerance and result
+    validation_scope: optional few words      # how far the check goes or how it came out, shown next to the
+                                              # evidence tag (at most 60 characters): "calibration signal only",
+                                              # "outcome not stated", "in v1.3, test signal 10 is off by 18.14 %"
     conventions: [markdown strings]           # optional: choices of this row that change its numbers
     note: optional markdown (other facts; validation goes in validation_details)
 manual:                                       # optional fallback when the refresher cannot reach the host

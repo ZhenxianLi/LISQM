@@ -1,6 +1,6 @@
 id: amt
-name: Auditory Modeling Toolbox (AMT)
-short_name: AMT
+name: AMT
+full_name: Auditory Modeling Toolbox
 repository: https://sourceforge.net/p/amtoolbox/code/
 homepage: https://amtoolbox.org
 languages: [MATLAB, Octave]
