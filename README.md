@@ -76,7 +76,7 @@ has its own page on the website with the full edition history, function names an
 | Impulsiveness | [Impulse prominence](https://zhenxianli.github.io/LISQM/metrics/impulsiveness.html) | ISO/PAS 1996-3:2022 | Python: [phonometry](https://zhenxianli.github.io/LISQM/projects/phonometry.html) (newly released) · earlier or related: [phonometry](https://zhenxianli.github.io/LISQM/projects/phonometry.html) (NT ACOU 112) |
 | Psychoacoustic annoyance | [Psychoacoustic annoyance](https://zhenxianli.github.io/LISQM/metrics/psychoacoustic-annoyance.html) | Widmann (1992), Zwicker & Fastl (1999), More (2010), and Di et al. (2016) | Python: [phonometry](https://zhenxianli.github.io/LISQM/projects/phonometry.html) (newly released), [pySQAT](https://zhenxianli.github.io/LISQM/projects/pysqat.html) (developing), [PsychoacousticParametersMeasurer](https://zhenxianli.github.io/LISQM/projects/psychoacoustic-parameters-measurer.html) (legacy) · MATLAB: **[SQAT](https://zhenxianli.github.io/LISQM/projects/sqat.html)**, [refmap-psychoacoustics](https://zhenxianli.github.io/LISQM/projects/refmap-psychoacoustics.html) (also Python) · Julia: [PsychoacousticMetrics.jl](https://zhenxianli.github.io/LISQM/projects/psychoacousticmetrics-jl.html) (newly released) |
 | Related quantities | [Equal-loudness contours](https://zhenxianli.github.io/LISQM/metrics/equal-loudness-contours.html) | ISO 226:2023 | Python: [phonometry](https://zhenxianli.github.io/LISQM/projects/phonometry.html) (newly released) · earlier or related: **[MoSQITo](https://zhenxianli.github.io/LISQM/projects/mosqito.html)** (ISO 226:2003), [PSYCHO (pd-psycho)](https://zhenxianli.github.io/LISQM/projects/pd-psycho.html) (ISO 226:2003), [PyDSM](https://zhenxianli.github.io/LISQM/projects/pydsm.html) (ISO 226:2003), [Mosqito.NET](https://zhenxianli.github.io/LISQM/projects/mosqito-net.html) (ISO 226:2003), [IoSR Matlab Toolbox](https://zhenxianli.github.io/LISQM/projects/iosr-matlab-toolbox.html) (ISO 226:2003) |
-| Related quantities | [Perceived noise level and EPNL](https://zhenxianli.github.io/LISQM/metrics/epnl.html) | ICAO Annex 16, Vol. I and 14 CFR Part 36 | Python: [phonometry](https://zhenxianli.github.io/LISQM/projects/phonometry.html) (newly released), [pySQAT](https://zhenxianli.github.io/LISQM/projects/pysqat.html) (developing), [SUAVE](https://zhenxianli.github.io/LISQM/projects/suave.html) (legacy) · MATLAB: **[SQAT](https://zhenxianli.github.io/LISQM/projects/sqat.html)** · Rust: [epnl (Zhen-Ni)](https://zhenxianli.github.io/LISQM/projects/zhen-ni-epnl.html) (legacy) |
+| Related quantities | [Perceived noise level and EPNL](https://zhenxianli.github.io/LISQM/metrics/epnl.html) | ICAO Annex 16, Vol. I and 14 CFR Part 36 | Python: [phonometry](https://zhenxianli.github.io/LISQM/projects/phonometry.html) (newly released), [pySQAT](https://zhenxianli.github.io/LISQM/projects/pysqat.html) (developing), [SUAVE](https://zhenxianli.github.io/LISQM/projects/suave.html) (legacy) · MATLAB: **[SQAT](https://zhenxianli.github.io/LISQM/projects/sqat.html)** |
 | Related quantities | [Aural detectability](https://zhenxianli.github.io/LISQM/metrics/aural-detectability.html) | Fidell et al. (1974) | MATLAB: [refmap-psychoacoustics](https://zhenxianli.github.io/LISQM/projects/refmap-psychoacoustics.html) (also Python) · earlier or related: [refmap-psychoacoustics](https://zhenxianli.github.io/LISQM/projects/refmap-psychoacoustics.html) (Rizzi et al. (2025)) |
 <!-- END GENERATED: overview -->
 
@@ -89,7 +89,7 @@ No available open-source implementation of the current edition has been found fo
 - [Tonal components and tone adjustment (DIN 45681)](https://zhenxianli.github.io/LISQM/metrics/tonality-din-45681.html)
 - [Audibility of tones in noise (ISO/TS 20065)](https://zhenxianli.github.io/LISQM/metrics/tonal-audibility-iso-20065.html)
 
-For these metrics, the only released implementations of the current edition come from newly released projects, not yet seen to be widely used:
+For the following metrics, the only released implementations of the current edition come from newly released projects, not yet seen to be widely used:
 
 - [Moore–Glasberg loudness of stationary sounds (ISO 532-2, ANSI S3.4)](https://zhenxianli.github.io/LISQM/metrics/loudness-moore-glasberg.html)
 - [Fluctuation strength from the Sottek Hearing Model (ECMA-418-2)](https://zhenxianli.github.io/LISQM/metrics/fluctuation-strength-ecma-418-2.html)
@@ -127,10 +127,10 @@ Which languages have an implementation of each metric.
 | [Impulse prominence](https://zhenxianli.github.io/LISQM/metrics/impulsiveness.html) | ◐ | — | — | — | — | — |
 | [Psychoacoustic annoyance](https://zhenxianli.github.io/LISQM/metrics/psychoacoustic-annoyance.html) | ● | ● | — | — | ◐ | — |
 | [Equal-loudness contours](https://zhenxianli.github.io/LISQM/metrics/equal-loudness-contours.html) | ◐ | ○ | ○ | — | — | ○ |
-| [Perceived noise level and EPNL](https://zhenxianli.github.io/LISQM/metrics/epnl.html) | ● | ● | — | ● | — | — |
+| [Perceived noise level and EPNL](https://zhenxianli.github.io/LISQM/metrics/epnl.html) | ● | ● | — | ○ | — | — |
 | [Aural detectability](https://zhenxianli.github.io/LISQM/metrics/aural-detectability.html) | ● | ● | — | — | — | — |
 
-● an available implementation of the current edition; ◐ the same, but only from newly released projects not yet seen to be widely used; ○ only unreleased, proposed or older-edition implementations; — none found. Bindings count: a C library with a Python interface counts for Python.
+● an available implementation of the current edition; ◐ the same, but only from newly released projects not yet seen to be widely used; ○ only unreleased, proposed, older-edition or partial implementations; — none found. Bindings count: a C library with a Python interface counts for Python.
 <!-- END GENERATED: coverage -->
 
 ## Projects

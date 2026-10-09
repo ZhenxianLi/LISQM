@@ -6,7 +6,7 @@ import json
 import re
 from xml.sax.saxutils import escape as xml_escape
 
-from .data import ACCESS, GROUPS, IMPL_STATUS_LONG, KINDS, STANDING, VALIDATION_LONG, Index
+from .data import ACCESS, GROUPS, IMPL_STATUS_LONG, KINDS, STANDING, VALIDATION_LONG, Index, update_anchor
 from .describe import coverage
 from .paths import (ABOUT, AI, FAQ, HOME, LANGUAGES, MAP, METRICS, PROJECTS, STANDARDS, UPDATES, absolute,
                     metric_path, project_path)
@@ -104,7 +104,8 @@ def index_json(index: Index) -> str:
                         "coverage": {"current": "an available implementation of the current edition",
                                      "new": "an available implementation of the current edition, but only from "
                                             "newly released projects",
-                                     "partial": "only unreleased, proposed or older-edition implementations",
+                                     "partial": "only unreleased, proposed, older-edition or partial "
+                                                "implementations",
                                      "": "none found"}},
         "families": [_clean(f) for f in index.families],
         "metrics": metrics,
@@ -278,7 +279,7 @@ def atom_feed(index: Index) -> str:
     entries = []
     for u in index.updates:
         day = date_str(u["date"])
-        link = f"{absolute(index, UPDATES)}#{day}"
+        link = f"{absolute(index, UPDATES)}#{update_anchor(u)}"
         entries.append(f"""  <entry>
     <title>{xml_escape(u['title'])}</title>
     <link href="{xml_escape(link)}"/>

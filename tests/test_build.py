@@ -21,7 +21,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "scripts"))
 
 import build  # noqa: E402
-from pmi.data import GROUP_ORDER, KINDS, load  # noqa: E402
+from pmi.data import GROUP_ORDER, KINDS, load, update_anchor  # noqa: E402
 from pmi.describe import timeline  # noqa: E402
 from pmi import relations as RL, render_html  # noqa: E402
 from pmi.text import blocks  # noqa: E402
@@ -684,6 +684,100 @@ class BuildTest(unittest.TestCase):
         self.assertIn("## Project map", md)
         self.assertIn("- From [AARAE](https://zhenxianli.github.io/LISQM/projects/aarae.html): "
                       "**[SQAT](https://zhenxianli.github.io/LISQM/projects/sqat.html)** (ISO 532-1:2017)", md)
+
+    def test_data_texts_are_whole(self) -> None:
+        # In YAML, " #" in an unquoted text starts a comment and ": " makes a mapping: both once cut a sentence.
+        self.assertTrue(self.index.project["mosqito"]["caveats"][0].endswith("low-pass filter (#92, #95)."))
+        phonometry = (self.site / "projects/phonometry.html").read_text(encoding="utf-8")
+        self.assertIn("Not implemented: Daniel &amp; Weber roughness", phonometry)
+        p = self.index.project["kirin-hypha"]
+        saved = p.get("caveats")
+        try:
+            p["caveats"] = ["Bug reports on TNR/PR (", {"Not implemented": "Aures tonality"}]
+            problems = "\n".join(self.index.validate())
+            self.assertIn("every item of caveats must be text", problems)
+            self.assertIn("unbalanced brackets", problems)
+        finally:
+            if saved is None:
+                del p["caveats"]
+            else:
+                p["caveats"] = saved
+        self.assertEqual(self.index.validate(), [])
+
+    def test_update_anchors_are_unique(self) -> None:
+        anchors = [update_anchor(u) for u in self.index.updates]
+        self.assertEqual(len(anchors), len(set(anchors)), "two updates of one day share an anchor")
+        self.assertLessEqual(set(anchors), self.parse(self.site / "updates.html").ids)
+        ids = re.findall(r"<id>([^<]+)</id>", (self.site / "feed.xml").read_text(encoding="utf-8"))
+        self.assertEqual(len(ids), len(set(ids)), "feed entries need their own ids")
+        self.index.updates.append(dict(self.index.updates[0]))
+        try:
+            self.assertIn("another update has the same date and title", "\n".join(self.index.validate()))
+        finally:
+            self.index.updates.pop()
+
+    def test_sidebars_list_each_section_once(self) -> None:
+        def side(page: str) -> str:
+            text = (self.site / page).read_text(encoding="utf-8")
+            text = text[text.index('<aside class="sidebar"'):]
+            return text[:text.index("</aside>")]
+        about = (self.site / "about.html").read_text(encoding="utf-8")
+        self.assertEqual(re.findall(r'href="#([^"]+)"', side("about.html")), re.findall(r'<h2 id="([^"]+)"', about))
+        labels = re.findall(r">([^<>]+)</a>", side("standards.html"))
+        self.assertEqual(len(labels), len(set(labels)), "a document used by two metrics is listed once")
+        # A group with one metric of the same name is one heading, linking to the metric.
+        self.assertIn('<p class="side-family"><a href="../metrics/sharpness.html" aria-current="page">Sharpness',
+                      side("metrics/sharpness.html"))
+        self.assertIn("<h1>Frequently asked questions</h1>", (self.site / "faq.html").read_text(encoding="utf-8"))
+
+    def test_states_are_kept_in_every_list(self) -> None:
+        # A row that is not released, or computes only part of a metric, is marked wherever its project is named.
+        home = (self.site / "index.html").read_text(encoding="utf-8")
+        for p in self.index.projects:
+            if not p.get("_release"):
+                self.assertNotRegex(home, rf'title="{re.escape(html.escape(p["name"]))}: [^"]*released in',
+                                    p["id"])
+        self.assertIn("; on the default branch, no release;", home)
+        llms = (self.site / "llms.txt").read_text(encoding="utf-8")
+        self.assertRegex(llms, r"Tonality, Aures/Terhardt model\]\([^)]+\): [^\n]*MoSQITo \(proposed\)")
+        projects = (self.site / "projects/index.html").read_text(encoding="utf-8")
+        mosqito = projects[projects.index('<td data-label="Project"><a href="../projects/mosqito.html"'):]
+        mosqito = mosqito[:mosqito.index("</tr>")]
+        self.assertRegex(mosqito, r'tonality-aures\.html">[^<]+</a> <span class="tag[^"]*"[^>]*>proposed<')
+        self.assertIn("(proposed)", (self.site / "projects/index.md").read_text(encoding="utf-8"))
+        # Zhen-Ni computes PNL and PNLT only: listed with a tag, not counted as an EPNL implementation.
+        zhen = self.index.project["zhen-ni-epnl"]["_impls"][0]
+        self.assertTrue(zhen["partial"])
+        self.assertNotIn(zhen, self.index.metric["epnl"]["_current_impls"])
+        for _, rows in timeline(self.index):
+            for row in rows:
+                for cell in row["cells"]:
+                    for _, impls in cell:
+                        self.assertNotIn(zhen, impls)
+        epnl = (self.site / "metrics/epnl.html").read_text(encoding="utf-8")
+        self.assertIn(">partial<", epnl)
+        self.assertIn("For the following metrics, the only released implementations of the current edition come "
+                      "from newly released projects", home)
+
+    def test_conventions_of_other_metrics_stay_on_the_project_page(self) -> None:
+        epnl = (self.site / "metrics/epnl.html").read_text(encoding="utf-8")
+        self.assertNotIn("time_skip", epnl, "SQAT's statistics are for other metrics")
+        roughness = (self.site / "metrics/roughness-ecma-418-2.html").read_text(encoding="utf-8")
+        self.assertIn("at least 320 ms", roughness)
+        self.assertNotIn("at least 304 ms", roughness)
+        self.assertIn("at least 304 ms", (self.site / "projects/sqat.html").read_text(encoding="utf-8"))
+        impl = self.index.project["mosqito-net"]["implements"][0]
+        conventions = self.index.project["mosqito-net"]["conventions"]
+        saved = list(conventions)
+        try:
+            conventions[0] = {"text": "Resamples to 48 kHz.", "metrics": ["epnl"]}
+            self.assertIn("conventions must be", "\n".join(self.index.validate()), impl["metric"])
+        finally:
+            conventions[:] = saved
+        self.assertEqual(self.index.validate(), [])
+        words = (self.site / "projects/map.html").read_text(encoding="utf-8")
+        self.assertIn('Left out, as their code could not be opened: <a href="../projects/psytools.html">PsyTools',
+                      words)
 
     def test_bullets_may_wrap(self) -> None:
         self.assertEqual(blocks("Intro.\n\n- One item\n  that wraps.\n- Two."),

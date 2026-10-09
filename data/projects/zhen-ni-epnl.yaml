@@ -24,6 +24,7 @@ implements:
     reference: icao-annex-16-vol-1
     functions: [SPL, Noy, PNL, PNLT]
     scope: PNL and PNLT only; no duration correction to EPNL
+    partial: true
     status: available
     validation: not-stated
     note: >-

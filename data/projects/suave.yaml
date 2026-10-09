@@ -24,7 +24,7 @@ implements:
   - metric: epnl
     reference: icao-annex-16-vol-1
     functions: [pnl_noise, noise_tone_correction, epnl_noise]
-    scope: PNL, PNLT and EPNL
+    scope: PNL, PNLT and EPNL; the code cites no edition
     status: available
     validation: not-stated
     note: >-

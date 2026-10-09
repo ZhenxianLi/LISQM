@@ -14,10 +14,11 @@ import re
 from pathlib import Path
 
 from .data import (ACCESS, GROUP_NAMES, GROUPS, IMPL_STATUS_LONG, KINDS, PROJECT_KINDS, REGISTRIES, VALIDATION,
-                   VALIDATION_LONG, VERIFICATION_META, Index, only_new)
+                   VALIDATION_LONG, VERIFICATION_META, Index, only_new, update_anchor)
 from .describe import (COVERAGE_COLUMNS, GROUP_RULE, ONLY_NEW, activity_text, ai_guide, by_language, coverage,
                        highlight_sentence, highlighted,
-                       current_statement, dedupe, dependence_note, derived_names, edition_state, faq, how_to_cite,
+                       covers, current_statement, dedupe, dependence_note, derived_names, edition_state, faq,
+                       how_to_cite,
                        impl_phrase, in_sentence, introduce, language_order, licence_names, licence_terms, name_note,
                        only_related, ref_status, release_text, silent_line, standing_sentence, stated_conventions,
                        time_bins, timeline, validation_also, validation_groups, validation_label)
@@ -62,7 +63,8 @@ LANGUAGE_SECTIONS = [("python", "Python", {"Python"}), ("matlab", "MATLAB and Oc
                      ("julia", "Julia", {"Julia"}),
                      ("pure-data", "Pure Data", {"Pure Data"})]
 ABOUT_SECTIONS = [("why", "Why I built LISQM"), ("scope", "What is included"), ("checks", "How entries are checked"), ("status", "Status"),
-                  ("validation", "Validation"), ("standing", "Groups of projects"), ("leads", "Leads"),
+                  ("validation", "Validation"), ("standing", "Groups of projects"), ("kinds", "Kinds of project"),
+                  ("leads", "Leads"),
                   ("data", "Machine-readable data"), ("contributing", "Contributing"), ("citing", "Citing"),
                   ("licence", "Licence")]
 # In the order of the projects page.
@@ -156,10 +158,11 @@ are welcome on <a href="{esc(site['repository'])}">GitHub</a>. Version {esc(str(
 """
 
 
-def _side(label: str, items: list[tuple[str, str, bool]], href: str = "", sub: bool = False) -> str:
+def _side(label: str, items: list[tuple[str, str, bool]], href: str = "", sub: bool = False,
+          current: bool = False) -> str:
     """One block of a sidebar: a heading and links; the link to the current page is marked."""
-    head = f'<a href="{esc(href)}">{esc(label)}</a>' if href else esc(label)
     here = ' aria-current="page"'
+    head = f'<a href="{esc(href)}"{here if current else ""}>{esc(label)}</a>' if href else esc(label)
     links = "".join(f'<li><a href="{esc(h)}"{here if cur else ""}>{text}</a></li>' for h, text, cur in items)
     return f'<p class="{"side-family" if sub else "side-head"}">{head}</p>' + (f"<ul>{links}</ul>" if items else "")
 
@@ -177,6 +180,11 @@ def _sidebar(index: Index, path: str, section: str) -> str:
     elif section == "Metrics":
         blocks_.append(_side("All metrics", [], href=rel(METRICS)))
         for fam, metrics in index.families_with_metrics():
+            if len(metrics) == 1 and metrics[0]["name"] == fam["name"]:
+                m = metrics[0]
+                blocks_.append(_side(fam["name"], [], href=rel(metric_path(m)), sub=True,
+                                     current=metric_path(m) == path))
+                continue
             blocks_.append(_side(fam["name"], [(rel(metric_path(m)), esc(m["name"]), metric_path(m) == path)
                                                for m in metrics], href=f"{rel(METRICS)}#{fam['id']}", sub=True))
     elif section == "Projects":
@@ -196,12 +204,15 @@ def _sidebar(index: Index, path: str, section: str) -> str:
     elif section == "Standards":
         blocks_.append(_side("On this page", [("#standards", "Standards and regulations", False),
                                               ("#models", "Model papers, books and theses", False)]))
+        listed: set[str] = set()
         for fam, metrics in index.families_with_metrics():
-            refs = list(dict.fromkeys(r for m in metrics for r in m["current"]))
-            blocks_.append(_side(fam["name"], [(f"{rel(STANDARDS)}#ref-{r}", esc(index.ref[r]["label"]), False)
-                                               for r in refs], sub=True))
+            refs = [r for r in dict.fromkeys(r for m in metrics for r in m["current"]) if r not in listed]
+            listed |= set(refs)
+            if refs:
+                blocks_.append(_side(fam["name"], [(f"{rel(STANDARDS)}#ref-{r}", esc(index.ref[r]["label"]), False)
+                                                   for r in refs], sub=True))
     elif section == "Updates":
-        blocks_.append(_side("Updates", [(f"{rel(UPDATES)}#{esc(str(u['date']))}",
+        blocks_.append(_side("Updates", [(f"{rel(UPDATES)}#{esc(update_anchor(u))}",
                                           f"{esc(long_date(u['date']))}: {esc(u['title'])}", False)
                                          for u in index.updates]))
     elif section == "About":
@@ -462,15 +473,23 @@ def _functions(i: dict) -> str:
     return ", ".join(f"<code>{esc(f)}</code>" for f in i.get("functions") or [])
 
 
+def _state_tag(state: str, href: str = "") -> str:
+    """A row that is not simply available: unreleased (merged, not in a release), proposed (an open pull request)
+    or partial (it computes only part of the metric)."""
+    kind = {"unreleased": "warn"}.get(state, "neutral")
+    title = IMPL_STATUS_LONG.get(state, "Computes only part of the metric.")
+    return _tag(state, kind, title, href=href)
+
+
 def _status_note(i: dict) -> str:
     """Notes cell: state tags first (new project, unreleased, pull request), then the free-text note."""
     bits = []
     if i["_project"]["_group"] in GROUP_TAGS:
         bits.append(GROUP_TAGS[i["_project"]["_group"]])
-    if i["status"] == "unreleased":
-        bits.append(_tag("unreleased", "warn", IMPL_STATUS_LONG["unreleased"], href=i.get("link", "")))
-    elif i["status"] == "proposed":
-        bits.append(_tag("pull request", "neutral", IMPL_STATUS_LONG["proposed"], href=i.get("link", "")))
+    if i["status"] in ("unreleased", "proposed"):
+        bits.append(_state_tag(i["status"], i.get("link", "")))
+    if i.get("partial"):
+        bits.append(_state_tag("partial"))
     if i.get("_via"):
         bits.append(f'Computed by {esc(i["_via"]["name"])}.')
     if i.get("_uses"):
@@ -543,7 +562,9 @@ def _breakable(text: str) -> str:
 
 def _impl_tip(i: dict) -> str:
     p = i["_project"]
-    tip = [", ".join(p["languages"]), {"available": "released" + (f" in {i['since']}" if i.get("since") else ""),
+    available = ("released" + (f" in {i['since']}" if i.get("since") else "") if p.get("_release") else
+                 "on the default branch, no release")
+    tip = [", ".join(p["languages"]), {"available": available,
                                        "unreleased": "merged, not yet released",
                                        "proposed": "open pull request, not merged"}[i["status"]],
            activity_text(p)]
@@ -719,8 +740,8 @@ def home(index: Index) -> str:
         parts.append("<p>Every metric in the list has at least one available open-source implementation of its "
                      "current edition.</p>")
     if index.new_only():
-        parts.append("<p>For these metrics, the only released implementations of the current edition come from "
-                     f"newly released projects {NEW_TAG}, not yet seen to be widely used:</p>")
+        parts.append("<p>For the following metrics, the only released implementations of the current edition come "
+                     "from newly released projects, not yet seen to be widely used:</p>")
         parts.append("<ul>" + "".join(f"<li>{_metric_link(path, m, m['title'])}</li>"
                                       for m in index.new_only()) + "</ul>")
     parts.append(f'<p>The <a href="{relative(path, LANGUAGES)}">Languages</a> page shows which metrics can be '
@@ -729,7 +750,7 @@ def home(index: Index) -> str:
     parts.append('<section class="col-side" aria-labelledby="updates">')
     parts.append('<h2 id="updates">Recent updates</h2>')
     parts.append('<ul class="updates">' + "".join(
-        f'<li><a href="{relative(path, UPDATES)}#{esc(str(u["date"]))}">{esc(long_date(u["date"]))}</a>: '
+        f'<li><a href="{relative(path, UPDATES)}#{esc(update_anchor(u))}">{esc(long_date(u["date"]))}</a>: '
         f'{esc(u["title"])}</li>' for u in index.updates[:5]) + "</ul>")
     parts.append('<h2 id="contribute">Contribute</h2>')
     parts.append(f'<p>If an implementation is missing or a fact is wrong, '
@@ -807,8 +828,8 @@ def metric_page(index: Index, m: dict) -> str:
         impls = dedupe([i for i in m["_impls"] if i["reference"] == rid])
         who = ", ".join(name(i["_project"]) + (f" {GROUP_TAGS[i['_project']['_group']]}"
                                                if i["_project"]["_group"] in GROUP_TAGS else "")
-                        + ("" if i["status"] == "available" else
-                           " " + _tag(i["status"], "warn" if i["status"] == "unreleased" else "neutral"))
+                        + ("" if i["status"] == "available" else " " + _state_tag(i["status"]))
+                        + (" " + _state_tag("partial") if i.get("partial") else "")
                         for i in impls)
         status = _ref_tag(r)
         if r.get("revision"):
@@ -959,7 +980,7 @@ def project_page(index: Index, p: dict) -> str:
                  _validation(i, f"#{ids[id(i)]}" if id(i) in stated else ""), _status_note(i)] for i in p["_impls"]]
         parts.append(_table("impls", ["Metric", "Edition", "Functions", "Validation (as stated)", "Notes"], rows))
         parts.append(_validation_section(index, path, p["_impls"], ids, on_metric=False))
-        parts.append(_conventions_section(index, path, p["_impls"], p.get("conventions") or [], on_metric=False))
+        parts.append(_conventions_section(index, path, p["_impls"], p["_general_conventions"], on_metric=False))
     if p.get("notes"):
         parts.append('<h2 id="notes">Notes</h2>')
         parts.append("<ul>" + "".join(f"<li>{inline(n)}</li>" for n in p["notes"]) + "</ul>")
@@ -1000,6 +1021,17 @@ def _project_names(path: str, impls: list[dict]) -> str:
     return " ".join(out)
 
 
+def _key(index: Index) -> str:
+    """The language codes and the tags used in the lists of projects."""
+    langs = sorted({lang for p in index.projects for lang in p["languages"][:1]}, key=language_order)
+    labels = {"MATLAB": "MATLAB or Octave"}
+    codes = " ".join(f'<span class="key-lang">{_lang_badge(lang)} {esc(labels.get(lang, lang))}</span>'
+                     for lang in langs)
+    tags = (f"{NEW_TAG} newly released · {DEV_TAG} developing · {LEGACY_TAG} legacy · "
+            f"{_state_tag('unreleased')} merged, not in a release yet · {_state_tag('proposed')} open pull request")
+    return f'<p class="key-langs small">{codes}</p>\n<p class="small muted">{tags}</p>'
+
+
 def metrics_page(index: Index) -> str:
     path = METRICS
     parts = [
@@ -1008,6 +1040,7 @@ def metrics_page(index: Index) -> str:
         '<p class="lead">Each metric with its unit, the edition that an up-to-date implementation should follow, and '
         "the open-source projects that implement that edition. Every metric has its own page with all editions, "
         "function names and validation.</p>",
+        _key(index),
     ]
     for fam, metrics in index.families_with_metrics():
         parts.append(f'<h2 id="{esc(fam["id"])}">{esc(fam["name"])}</h2>')
@@ -1050,7 +1083,7 @@ def languages_page(index: Index) -> str:
     cols = [c for c, _ in COVERAGE_COLUMNS] + ["Other"]
     marks = {"current": "available implementation of the current edition",
              "new": "available implementation of the current edition, but only from newly released projects",
-             "partial": "only unreleased, proposed or older-edition implementations",
+             "partial": "only unreleased, proposed, older-edition or partial implementations",
              "": "none found"}
 
     def mark(state: str) -> str:
@@ -1067,7 +1100,7 @@ def languages_page(index: Index) -> str:
         '<h2 id="coverage">Coverage by language</h2>',
         f'<p class="small mark-key">{mark("current")} an available implementation of the current edition '
         f'· {mark("new")} the same, but only from newly released projects not yet seen to be widely used · '
-        f'{mark("partial")} only unreleased, proposed or older-edition implementations · {mark("")} none '
+        f'{mark("partial")} only unreleased, proposed, older-edition or partial implementations · {mark("")} none '
         "found. A library with bindings counts for each language it can be called from.</p>",
     ]
     rows = []
@@ -1085,12 +1118,15 @@ def languages_page(index: Index) -> str:
             name = _project_link(path, p)
             if p["_group"] in GROUP_TAGS:
                 name += " " + GROUP_TAGS[p["_group"]]
-            metrics = list(dict.fromkeys(i["_metric"]["id"] for i in p["_impls"]
+            metrics = list(dict.fromkeys((i["_metric"]["id"], bool(i.get("partial"))) for i in p["_impls"]
                                          if i["reference"] in i["_metric"]["current"] and i["status"] == "available"
                                          and not i.get("_via")))
-            covers = (", ".join(_metric_link(path, index.metric[mid]) for mid in metrics) if metrics else
-                      '<span class="muted">older editions or unreleased code only</span>')
-            rows.append([name, _how(p, langs, index, path), covers])
+            cover = (", ".join(_metric_link(path, index.metric[mid]) + (" " + _tag("partial", "neutral", "Computes "
+                                                                                     "only part of the metric.")
+                                                                         if partial else "")
+                               for mid, partial in metrics) if metrics else
+                     '<span class="muted">older editions or unreleased code only</span>')
+            rows.append([name, _how(p, langs, index, path), cover])
         parts.append(_table("langs", ["Project", "How it is used", "Current editions it implements"], rows))
     parts += [
         '<h2 id="across">Calling code across languages</h2>',
@@ -1145,7 +1181,8 @@ def projects_page(index: Index) -> str:
         f'<p class="byline">{plural(len(index.projects), "project")} · {plural(len(langs), "language")}</p>',
         f'<p>The <a href="{to_map}">project map</a> shows which projects took code from which, which use '
         "another project at run time, and which checked their results against another one. Arrows point from the "
-        "source to the project that uses it.</p>",
+        "source to the project that uses it; a check points from the project to the one it checked its results "
+        "against.</p>",
         picture,
         (f'<p class="small muted">The <a href="{to_map}">map page</a> explains each kind of line and lists the same '
          "relations in words.</p>" if picture else ""),
@@ -1162,8 +1199,8 @@ def projects_page(index: Index) -> str:
             continue
         parts.append(f'<h2 id="{key}">{esc(title)} <span class="count">{len(projects)}</span></h2>')
         parts.append(f'<p class="muted">{esc(GROUPS[key])}</p>')
-        rows = [_project_row(path, p, ", ".join(_metric_link(path, m) for m in {
-                    i["_metric"]["id"]: i["_metric"] for i in p["_impls"]}.values())) for p in projects]
+        rows = [_project_row(path, p, ", ".join(_metric_link(path, m) + (" " + _state_tag(state) if state else "")
+                                                for m, state in covers(p))) for p in projects]
         parts.append(_table("projects", PROJECT_COLUMNS + ["Covers"], rows))
     others = index.others()
     if others:
@@ -1243,6 +1280,10 @@ def _map_words(index: Index, path: str, rel: dict) -> str:
     if alone:
         parts.append("<p>Not on the map, as no relation is recorded for them: "
                      + join_words([link(p) for p in alone]) + ".</p>")
+    unknown = index.group("unknown")
+    if unknown:
+        parts.append("<p>Left out, as their code could not be opened: " + join_words([link(p) for p in unknown])
+                     + ".</p>")
     return "\n".join(parts)
 
 
@@ -1351,7 +1392,7 @@ def updates_page(index: Index) -> str:
              '<p class="byline">Notable changes to the list and to the projects it follows. '
              f'Also available as an <a href="{relative(path, "feed.xml")}">Atom feed</a>.</p>']
     for u in index.updates:
-        parts.append(f'<section class="update" id="{esc(str(u["date"]))}">')
+        parts.append(f'<section class="update" id="{esc(update_anchor(u))}">')
         parts.append(f'<h2>{esc(u["title"])}</h2>')
         parts.append(f'<p class="byline"><time datetime="{esc(str(u["date"]))}">{esc(long_date(u["date"]))}</time></p>')
         parts.append(blocks(u["body"]))
@@ -1490,14 +1531,14 @@ def faq_page(index: Index) -> str:
     path = FAQ
     pairs = faq(index, lambda p: _project_link(path, p), lambda m: _metric_link(path, m, m["title"]), esc,
                 lambda target, label: f'<a href="{relative(path, target)}">{esc(label)}</a>')
-    parts = ["<h1>Questions and answers</h1>",
+    parts = ["<h1>Frequently asked questions</h1>",
              '<p class="byline">Ask your own question below. The answers further down are generated from the list '
              "data, so they always match the tables.</p>",
              _message_box(index)]
     for n, (q, a) in enumerate(pairs, 1):
         parts.append(f'<h2 id="q{n}">{esc(q)}</h2>')
         parts.append(f"<p>{a}</p>")
-    side = ('<aside class="sidebar" aria-label="Questions">' + _side("Leave a message", [], href="#message")
+    side = ('<aside class="sidebar" aria-label="FAQ contents">' + _side("Leave a message", [], href="#message")
             + _side("Questions", [(f"#q{n}", esc(q), False) for n, (q, _) in enumerate(pairs, 1)]) + "</aside>")
     ld = [{"@type": "FAQPage", "url": absolute(index, path), "mainEntity": [
         {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": plain(re.sub(r"<[^>]+>", "", a))}}
@@ -1518,7 +1559,7 @@ def ai_page(index: Index) -> str:
         parts.append(f'<h2 id="{anchor}">{esc(heading)}</h2>')
         parts.append("<ul>" + "".join(f"<li>{inline(item)}</li>" for item in items) + "</ul>")
     base = index.site["base_url"]
-    side = ('<aside class="sidebar" aria-label="For AI">'
+    side = ('<aside class="sidebar" aria-label="For AI contents">'
             + _side("On this page", [(f"#{a}", esc(h), False) for a, h, _ in sections])
             + _side("Files", [(base + f, f, False) for f in ("llms.txt", "llms-full.txt", "index.json", BIBTEX,
                                                               "sitemap.xml", "feed.xml")])

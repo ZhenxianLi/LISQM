@@ -187,6 +187,19 @@ def stated_conventions(impls: list[dict], on_metric: bool) -> list[tuple[dict, l
     return out
 
 
+def covers(p: dict) -> list[tuple[dict, str]]:
+    """The metrics a project's rows cover, in list order, each with what holds it back: "" (an available row),
+    "partial" (it computes only part of the metric), "unreleased" or "proposed"; the best row of the metric decides."""
+    rank = {"": 0, "partial": 1, "unreleased": 2, "proposed": 3}
+    best: dict[str, tuple[dict, str]] = {}
+    for i in p["_impls"]:
+        state = "" if i["status"] == "available" else i["status"]
+        state = "partial" if i.get("partial") and not state else state
+        if i["metric"] not in best or rank[state] < rank[best[i["metric"]][1]]:
+            best[i["metric"]] = (i["_metric"], state)
+    return list(best.values())
+
+
 def introduce(site: dict) -> str:
     """What the name stands for, then the site description: "LISQM stands for … It is a list …"."""
     text = site["description"].strip()
@@ -196,8 +209,9 @@ def introduce(site: dict) -> str:
 def name_note(site: dict) -> str:
     """That the list computes nothing itself, and what is open."""
     return (f"{site['name']} does not compute anything itself; it lists the implementations and compares what they "
-            f"state. The listed implementations are open source, and so is the data of {site['name']}, but many of "
-            "the standards they follow are not free.")
+            "state. The listed implementations publish their source code, most under an open-source licence; a few "
+            "have no licence file, or a source-available or non-commercial licence, as each project's page says. "
+            f"The data of {site['name']} is open, but many of the standards the implementations follow are not free.")
 
 
 GROUP_RULE = ("Each project is in one group. A project whose code could not be opened is under status unknown, one "
@@ -372,8 +386,8 @@ def language_order(lang: str) -> tuple[int, str]:
 
 def coverage(m: dict) -> dict[str, str]:
     """Per language column: 'current' (an available implementation of the current edition), 'new' (the same,
-    but only from newly released projects), 'partial' (only unreleased, proposed or older-edition implementations) or ''
-    (none).
+    but only from newly released projects), 'partial' (only unreleased, proposed, older-edition or partial
+    implementations) or '' (none).
     Bindings count: a C library with a Python interface covers Python."""
     known = set().union(*(langs for _, langs in COVERAGE_COLUMNS))
     out = {}
@@ -381,7 +395,8 @@ def coverage(m: dict) -> dict[str, str]:
         def matches(p: dict) -> bool:
             return bool(set(p["languages"]) & langs) if langs is not None else bool(set(p["languages"]) - known)
         impls = [i for i in m["_impls"] if matches(i["_project"]) and i["_ref"]["status"] != "in-development"]
-        released = [i for i in impls if i["status"] == "available" and i["reference"] in m["current"]]
+        released = [i for i in impls if i["status"] == "available" and i["reference"] in m["current"]
+                    and not i.get("partial")]
         if any(i["_project"]["standing"] != "newly-released" for i in released):
             out[col] = "current"
         elif released:
@@ -463,7 +478,8 @@ def timeline(index: Index) -> list[tuple[dict, list[dict]]]:
                 n = bin_of(ref, bins)
                 if n is None:
                     continue
-                impls = sorted(dedupe([i for i in m["_impls"] if i["reference"] == rid]), key=impl_rank)
+                impls = sorted(dedupe([i for i in m["_impls"] if i["reference"] == rid and not i.get("partial")]),
+                               key=impl_rank)
                 cells[n].append((ref, impls))
             used = [n for n, c in enumerate(cells) if c]
             rows.append({"metric": m, "cells": cells, "first": used[0] if used else len(bins)})

@@ -33,7 +33,9 @@ notes:
   - A C#/.NET port, Mosqito.NET, is listed separately; it was announced in issue [#98](https://github.com/Eomys/MoSQITo/issues/98).
   - The documentation lists hearing-model tonality (citing ECMA-74) as under development; there is no function for it.
 caveats:
-  - No maintainer has answered issues or pull requests opened since 2024, including bug reports on TNR/PR (#80, #81, #99) and on the ECMA-418-2 roughness low-pass filter (#92, #95).
+  - >-
+    No maintainer has answered issues or pull requests opened since 2024, including bug reports on TNR/PR (#80,
+    #81, #99) and on the ECMA-418-2 roughness low-pass filter (#92, #95).
   - "`import mosqito` fails when matplotlib is not installed, because it is imported but not declared as a dependency ([#100](https://github.com/Eomys/MoSQITo/issues/100)); install matplotlib yourself."
   - Its ECMA-418-2 functions follow the 2nd edition (2022), two editions behind the current one.
 implements:

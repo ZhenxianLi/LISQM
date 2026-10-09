@@ -381,6 +381,10 @@ main {
   text-decoration: underline;
 }
 
+.side-family a[aria-current="page"] {
+  color: var(--green-text);
+}
+
 .sidebar ul {
   list-style: none;
   margin: 0;

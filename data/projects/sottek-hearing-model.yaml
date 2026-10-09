@@ -38,10 +38,11 @@ maintainer_check: >-
   This is a personal check, not a published comparison.
 conventions:
   - Input at other sample rates is resampled to 48 kHz.
-  - >-
-    Overall roughness and fluctuation strength are 90th percentiles computed with NumPy (linear interpolation,
-    Hyndman–Fan type 7). The MATLAB code it was translated from uses `prctile`, which interpolates differently, so
-    single values can differ slightly from RefMap and SQAT.
+  - text: >-
+      Overall roughness and fluctuation strength are 90th percentiles computed with NumPy (linear interpolation,
+      Hyndman–Fan type 7). The MATLAB code it was translated from uses `prctile`, which interpolates differently,
+      so single values can differ slightly from RefMap and SQAT.
+    metrics: [roughness-ecma-418-2, fluctuation-strength-ecma-418-2]
 caveats:
   - Fluctuation strength is only on the main branch (not on PyPI yet) and its verification report is marked as a draft.
   - Versions up to 0.1.13 are affected by an empty-array bug fixed in 0.1.14 ([#9](https://github.com/mlotinga/sottek-hearing-model/issues/9)).

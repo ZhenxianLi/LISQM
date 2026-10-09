@@ -66,7 +66,7 @@
     "coverage": {
       "current": "an available implementation of the current edition",
       "new": "an available implementation of the current edition, but only from newly released projects",
-      "partial": "only unreleased, proposed or older-edition implementations",
+      "partial": "only unreleased, proposed, older-edition or partial implementations",
       "": "none found"
     }
   },
@@ -3479,7 +3479,7 @@
         "Python": "current",
         "MATLAB/Octave": "current",
         "C/C++": "",
-        "Rust": "current",
+        "Rust": "partial",
         "Julia": "",
         "Other": ""
       },
@@ -3547,6 +3547,7 @@
             "PNLT"
           ],
           "scope": "PNL and PNLT only; no duration correction to EPNL",
+          "partial": true,
           "status": "available",
           "validation": "not-stated",
           "note": "Code comments cite \"Annex 16 - Volume I, APP 2-16 / 2-17\" and number the 24 bands \"consistent with ICAO ANNEX 16\". The quantities are Rust types converted into each other with `From`."
@@ -3559,7 +3560,7 @@
             "noise_tone_correction",
             "epnl_noise"
           ],
-          "scope": "PNL, PNLT and EPNL",
+          "scope": "PNL, PNLT and EPNL; the code cites no edition",
           "status": "available",
           "validation": "not-stated",
           "note": "EPNL is computed from a PNLT time history. The noise tools cite neither ICAO Annex 16 nor 14 CFR Part 36, nor an edition; their docstrings give \"Source: None\"."
@@ -4360,8 +4361,30 @@
         "Open pull requests: [#78](https://github.com/ggrecow/SQAT/pull/78) (ECMA-418-2 fluctuation strength) and [#84](https://github.com/ggrecow/SQAT/pull/84) (graphical interface)."
       ],
       "conventions": [
-        "Percentile values (N5 and the others) take the nearest rank of the sorted time series, without interpolation (`get_exceeded_value`).",
-        "Statistics leave out the first `time_skip` seconds of the signal; for the ECMA-418-2 metrics at least 304 ms, which the code enforces."
+        {
+          "text": "Statistics such as N5 take the nearest rank of the sorted time series, without interpolation (`get_exceeded_value`), and leave out the first `time_skip` seconds of the signal.",
+          "metrics": [
+            "loudness-zwicker",
+            "sharpness",
+            "roughness-daniel-weber",
+            "fluctuation-strength-osses",
+            "tonality-aures",
+            "psychoacoustic-annoyance"
+          ]
+        },
+        {
+          "text": "Statistics take the nearest rank of the sorted time series, without interpolation (`get_exceeded_value`), and leave out the first `time_skip` seconds; the code enforces at least 304 ms (it cites ECMA-418-2:2025, Section 8.1.4).",
+          "metrics": [
+            "loudness-ecma-418-2",
+            "tonality-ecma-418-2"
+          ]
+        },
+        {
+          "text": "The single value is the 90th percentile from MATLAB's `prctile`, which interpolates; the other statistics take the nearest rank (`get_exceeded_value`). The first `time_skip` seconds are left out; the code enforces at least 320 ms (it cites ECMA-418-2:2025, Section 7.1.8).",
+          "metrics": [
+            "roughness-ecma-418-2"
+          ]
+        }
       ],
       "caveats": [
         "The latest release (v1.3) is licensed for non-commercial use only; the GPL licence applies to the unreleased `main` branch.",
@@ -4740,7 +4763,7 @@
         "The documentation lists hearing-model tonality (citing ECMA-74) as under development; there is no function for it."
       ],
       "caveats": [
-        "No maintainer has answered issues or pull requests opened since 2024, including bug reports on TNR/PR (#80,",
+        "No maintainer has answered issues or pull requests opened since 2024, including bug reports on TNR/PR (#80, #81, #99) and on the ECMA-418-2 roughness low-pass filter (#92, #95).",
         "`import mosqito` fails when matplotlib is not installed, because it is imported but not declared as a dependency ([#100](https://github.com/Eomys/MoSQITo/issues/100)); install matplotlib yourself.",
         "Its ECMA-418-2 functions follow the 2nd edition (2022), two editions behind the current one."
       ],
@@ -4950,7 +4973,13 @@
       "maintainer_check": "In personal use, Zhenxian LI found its results in very good agreement with those of HEAD acoustics ArtemiS SUITE. This is a personal check, not a published comparison.",
       "conventions": [
         "Input at other sample rates is resampled to 48 kHz.",
-        "Overall roughness and fluctuation strength are 90th percentiles computed with NumPy (linear interpolation, Hyndman–Fan type 7). The MATLAB code it was translated from uses `prctile`, which interpolates differently, so single values can differ slightly from RefMap and SQAT."
+        {
+          "text": "Overall roughness and fluctuation strength are 90th percentiles computed with NumPy (linear interpolation, Hyndman–Fan type 7). The MATLAB code it was translated from uses `prctile`, which interpolates differently, so single values can differ slightly from RefMap and SQAT.",
+          "metrics": [
+            "roughness-ecma-418-2",
+            "fluctuation-strength-ecma-418-2"
+          ]
+        }
       ],
       "caveats": [
         "Fluctuation strength is only on the main branch (not on PyPI yet) and its verification report is marked as a draft.",
@@ -6280,7 +6309,13 @@
         "Its ECMA-418-2 functions follow the 2nd edition (2022), two editions behind the current one, as in MoSQITo."
       ],
       "conventions": [
-        "Time-varying loudness and ECMA-418-2 roughness resample input at any other rate to 48 kHz, and stationary loudness resamples rates below 48 kHz; MoSQITo rejects rates above 48 kHz for time-varying loudness."
+        {
+          "text": "Time-varying loudness and ECMA-418-2 roughness resample input at any other rate to 48 kHz, and stationary loudness resamples rates below 48 kHz; MoSQITo rejects rates above 48 kHz for time-varying loudness.",
+          "metrics": [
+            "loudness-zwicker",
+            "roughness-ecma-418-2"
+          ]
+        }
       ],
       "implements": [
         {
@@ -6520,9 +6555,7 @@
         "The README reports 1793 of 1793 conformance checks passing across 519 standards, generated by the project's own CI ([CONFORMANCE.md](https://github.com/jmrplens/phonometry/blob/main/docs/CONFORMANCE.md)).",
         "Keeps a public errata list of misprints found in standards, including ECMA-418-1:2024 and ECMA-418-2:2025 ([ERRATA.md](https://github.com/jmrplens/phonometry/blob/main/docs/ERRATA.md)).",
         "A JOSS-format paper draft exists in the repository; no published paper yet. Version 4.0 (release candidate since 2026-09-10) moves modules.",
-        {
-          "Not implemented": "Daniel & Weber roughness, Aures tonality, More and Di annoyance, and binaural combination for ECMA-418-2."
-        }
+        "Not implemented: Daniel & Weber roughness, Aures tonality, More and Di annoyance, and binaural combination for ECMA-418-2."
       ],
       "caveats": [
         "Very new (psychoacoustics module first released in July 2026) and not yet seen to be widely used in the community; no independent verification has been published.",
@@ -7690,6 +7723,7 @@
             "PNLT"
           ],
           "scope": "PNL and PNLT only; no duration correction to EPNL",
+          "partial": true,
           "status": "available",
           "validation": "not-stated",
           "note": "Code comments cite \"Annex 16 - Volume I, APP 2-16 / 2-17\" and number the 24 bands \"consistent with ICAO ANNEX 16\". The quantities are Rust types converted into each other with `From`."
@@ -8360,7 +8394,7 @@
             "noise_tone_correction",
             "epnl_noise"
           ],
-          "scope": "PNL, PNLT and EPNL",
+          "scope": "PNL, PNLT and EPNL; the code cites no edition",
           "status": "available",
           "validation": "not-stated",
           "note": "EPNL is computed from a PNLT time history. The noise tools cite neither ICAO Annex 16 nor 14 CFR Part 36, nor an edition; their docstrings give \"Source: None\"."

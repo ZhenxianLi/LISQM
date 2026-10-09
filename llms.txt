@@ -11,7 +11,7 @@ Developed by Zhenxian LI with assistance from Claude Code.
 - [Zwicker loudness (ISO 532-1, DIN 45631)](https://zhenxianli.github.io/LISQM/metrics/loudness-zwicker.md): current edition ISO 532-1:2017; implementations: SQAT, MoSQITo, AARAE, MetaSona (newly released), iso532-1-rs (newly released), Kirin Hypha (newly released), Mosqito.NET (newly released), phonometry (newly released), SoundPalette (newly released), ZwickerLoudness.jl (newly released), pySQAT (developing), PsychoacousticParametersMeasurer (legacy)
 - [Moore–Glasberg loudness of stationary sounds (ISO 532-2, ANSI S3.4)](https://zhenxianli.github.io/LISQM/metrics/loudness-moore-glasberg.md): current edition ISO 532-2:2017; implementations: phonometry (newly released)
 - [Time-varying loudness, Moore–Glasberg–Schlittenlacher (ISO 532-3)](https://zhenxianli.github.io/LISQM/metrics/loudness-moore-glasberg-time-varying.md): current edition ISO 532-3:2023; implementations: iso532-3 (tv2018.m), phonometry (newly released)
-- [Loudness from the Sottek Hearing Model (ECMA-418-2)](https://zhenxianli.github.io/LISQM/metrics/loudness-ecma-418-2.md): current edition ECMA-418-2:2025 (4th ed.); implementations: SQAT, sottek-hearing-model, refmap-psychoacoustics, MetaSona (newly released), phonometry (newly released)
+- [Loudness from the Sottek Hearing Model (ECMA-418-2)](https://zhenxianli.github.io/LISQM/metrics/loudness-ecma-418-2.md): current edition ECMA-418-2:2025 (4th ed.); implementations: SQAT (unreleased), sottek-hearing-model, refmap-psychoacoustics, MetaSona (newly released), phonometry (newly released)
 
 ## Sharpness
 
@@ -20,22 +20,22 @@ Developed by Zhenxian LI with assistance from Claude Code.
 ## Roughness
 
 - [Roughness, Daniel & Weber model](https://zhenxianli.github.io/LISQM/metrics/roughness-daniel-weber.md): current edition Daniel & Weber (1997); implementations: SQAT, MoSQITo, AARAE, ITA-Toolbox, MetaSona (newly released), Mosqito.NET (newly released), PsychoacousticMetrics.jl (newly released), SoundPalette (newly released), pySQAT (developing), PsySound3 (legacy)
-- [Roughness from the Sottek Hearing Model (ECMA-418-2)](https://zhenxianli.github.io/LISQM/metrics/roughness-ecma-418-2.md): current edition ECMA-418-2:2025 (4th ed.); implementations: SQAT, sottek-hearing-model, refmap-psychoacoustics, MetaSona (newly released), phonometry (newly released)
+- [Roughness from the Sottek Hearing Model (ECMA-418-2)](https://zhenxianli.github.io/LISQM/metrics/roughness-ecma-418-2.md): current edition ECMA-418-2:2025 (4th ed.); implementations: SQAT (unreleased), sottek-hearing-model, refmap-psychoacoustics, MetaSona (newly released), phonometry (newly released)
 - [Roughness, DIN 38455](https://zhenxianli.github.io/LISQM/metrics/roughness-din-38455.md): current edition DIN 38455:2024; implementations: none found
 
 ## Fluctuation strength
 
 - [Fluctuation strength, Osses et al. model and Fastl & Zwicker formula](https://zhenxianli.github.io/LISQM/metrics/fluctuation-strength-osses.md): current edition Osses et al. (2016); implementations: SQAT, phonometry (newly released), PsychoacousticMetrics.jl (newly released), pySQAT (developing), fluctuation-strength-TUe (legacy)
-- [Fluctuation strength from the Sottek Hearing Model (ECMA-418-2)](https://zhenxianli.github.io/LISQM/metrics/fluctuation-strength-ecma-418-2.md): current edition ECMA-418-2:2025 (4th ed.); implementations: SQAT, sottek-hearing-model, phonometry (newly released)
+- [Fluctuation strength from the Sottek Hearing Model (ECMA-418-2)](https://zhenxianli.github.io/LISQM/metrics/fluctuation-strength-ecma-418-2.md): current edition ECMA-418-2:2025 (4th ed.); implementations: SQAT (proposed), sottek-hearing-model (unreleased), phonometry (newly released)
 
 ## Tonality
 
-- [Tonality, Aures/Terhardt model](https://zhenxianli.github.io/LISQM/metrics/tonality-aures.md): current edition Aures (1985b); implementations: SQAT, MoSQITo, MetaSona (newly released), pySQAT (developing)
-- [Tonality from the Sottek Hearing Model (ECMA-418-2)](https://zhenxianli.github.io/LISQM/metrics/tonality-ecma-418-2.md): current edition ECMA-418-2:2025 (4th ed.); implementations: SQAT, sottek-hearing-model, refmap-psychoacoustics, MetaSona (newly released), phonometry (newly released)
+- [Tonality, Aures/Terhardt model](https://zhenxianli.github.io/LISQM/metrics/tonality-aures.md): current edition Aures (1985b); implementations: SQAT, MoSQITo (proposed), MetaSona (newly released), pySQAT (developing)
+- [Tonality from the Sottek Hearing Model (ECMA-418-2)](https://zhenxianli.github.io/LISQM/metrics/tonality-ecma-418-2.md): current edition ECMA-418-2:2025 (4th ed.); implementations: SQAT (unreleased), sottek-hearing-model, refmap-psychoacoustics, MetaSona (newly released), phonometry (newly released)
 - [Tone-to-noise ratio and prominence ratio (ECMA-418-1)](https://zhenxianli.github.io/LISQM/metrics/tone-to-noise-prominence-ratio.md): current edition ECMA-418-1:2024 (3rd ed.); implementations: phonometry (newly released)
 - [Tonal components and tone adjustment (DIN 45681)](https://zhenxianli.github.io/LISQM/metrics/tonality-din-45681.md): current edition DIN 45681:2005; implementations: none found
 - [Audibility of tones in noise (ISO/TS 20065)](https://zhenxianli.github.io/LISQM/metrics/tonal-audibility-iso-20065.md): current edition ISO/TS 20065:2022; implementations: none found
-- [Tonal audibility in environmental noise (ISO 1996-2)](https://zhenxianli.github.io/LISQM/metrics/tonal-audibility-iso-1996-2.md): current edition ISO 1996-2:2017; implementations: MoSQITo, phonometry (newly released)
+- [Tonal audibility in environmental noise (ISO 1996-2)](https://zhenxianli.github.io/LISQM/metrics/tonal-audibility-iso-1996-2.md): current edition ISO 1996-2:2017; implementations: MoSQITo (proposed), phonometry (newly released)
 - [Tonal audibility of wind turbine noise (IEC 61400-11)](https://zhenxianli.github.io/LISQM/metrics/tonal-audibility-iec-61400-11.md): current edition IEC 61400-11:2012+AMD1:2018; implementations: phonometry (newly released)
 
 ## Impulsiveness
@@ -49,7 +49,7 @@ Developed by Zhenxian LI with assistance from Claude Code.
 ## Related quantities
 
 - [Equal-loudness-level contours (ISO 226)](https://zhenxianli.github.io/LISQM/metrics/equal-loudness-contours.md): current edition ISO 226:2023; implementations: phonometry (newly released)
-- [Perceived noise level, PNLT and EPNL (ICAO Annex 16, 14 CFR Part 36)](https://zhenxianli.github.io/LISQM/metrics/epnl.md): current edition ICAO Annex 16, Vol. I and 14 CFR Part 36; implementations: SQAT, phonometry (newly released), pySQAT (developing), epnl (Zhen-Ni) (legacy), SUAVE (legacy)
+- [Perceived noise level, PNLT and EPNL (ICAO Annex 16, 14 CFR Part 36)](https://zhenxianli.github.io/LISQM/metrics/epnl.md): current edition ICAO Annex 16, Vol. I and 14 CFR Part 36; implementations: SQAT, phonometry (newly released), pySQAT (developing), SUAVE (legacy)
 - [Aural detectability of sounds in background noise](https://zhenxianli.github.io/LISQM/metrics/aural-detectability.md): current edition Fidell et al. (1974); implementations: refmap-psychoacoustics
 
 ## Projects

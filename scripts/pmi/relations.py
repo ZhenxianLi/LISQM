@@ -237,8 +237,12 @@ def dot_source(index: Index, rel: dict, path: str, lang_codes: dict) -> str:
                  f"edgetooltip={_q(line['tip'])}"]
         if not arrow:  # same contributor: no direction, and no say in the left-to-right order
             attrs += ["dir=none", "constraint=false"]
-        elif line["kind"] == "compare":  # placed like a source on the left, but A's results checked against B: A -> B
-            attrs.append("dir=back")
+        else:
+            # Every line leaves a box on its right and enters the next on its left, so the ends do not pile up on
+            # the corners of a box.
+            attrs += ["tailport=e", "headport=w"]
+            if line["kind"] == "compare":  # placed like a source on the left, but A's results checked against B
+                attrs.append("dir=back")
         edges.append(f"  {_q(line['source'])} -> {_q(line['user'])} [{', '.join(attrs)}];")
     return "\n".join(out + list(nodes.values()) + edges + ["}"])
 

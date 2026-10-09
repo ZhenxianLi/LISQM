@@ -43,12 +43,21 @@ notes:
     ISO 532-1 loudness was adapted in 2023 from Ella Manor's 2015 MATLAB code for AARAE.
   - "Open pull requests: [#78](https://github.com/ggrecow/SQAT/pull/78) (ECMA-418-2 fluctuation strength) and [#84](https://github.com/ggrecow/SQAT/pull/84) (graphical interface)."
 conventions:
-  - >-
-    Percentile values (N5 and the others) take the nearest rank of the sorted time series, without interpolation
-    (`get_exceeded_value`).
-  - >-
-    Statistics leave out the first `time_skip` seconds of the signal; for the ECMA-418-2 metrics at least 304 ms,
-    which the code enforces.
+  - text: >-
+      Statistics such as N5 take the nearest rank of the sorted time series, without interpolation
+      (`get_exceeded_value`), and leave out the first `time_skip` seconds of the signal.
+    metrics: [loudness-zwicker, sharpness, roughness-daniel-weber, fluctuation-strength-osses, tonality-aures,
+              psychoacoustic-annoyance]
+  - text: >-
+      Statistics take the nearest rank of the sorted time series, without interpolation (`get_exceeded_value`), and
+      leave out the first `time_skip` seconds; the code enforces at least 304 ms (it cites ECMA-418-2:2025,
+      Section 8.1.4).
+    metrics: [loudness-ecma-418-2, tonality-ecma-418-2]
+  - text: >-
+      The single value is the 90th percentile from MATLAB's `prctile`, which interpolates; the other statistics take
+      the nearest rank (`get_exceeded_value`). The first `time_skip` seconds are left out; the code enforces at least
+      320 ms (it cites ECMA-418-2:2025, Section 7.1.8).
+    metrics: [roughness-ecma-418-2]
 caveats:
   - The latest release (v1.3) is licensed for non-commercial use only; the GPL licence applies to the unreleased `main` branch.
   - >-

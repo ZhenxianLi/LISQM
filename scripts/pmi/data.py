@@ -149,6 +149,13 @@ def impl_rank(impl: dict) -> tuple:
             project_rank(p), 1 if impl.get("_via") else 0, p["name"].lower())
 
 
+def update_anchor(u: dict) -> str:
+    """The anchor of an update on the Updates page: its date and the start of its title, e.g.
+    2026-10-08-version-0-4-the-project-map (several updates can share a date)."""
+    words = re.sub(r"[^a-z0-9]+", "-", str(u["title"]).lower()).strip("-").split("-")
+    return f"{date_str(u['date'])}-{'-'.join(words[:6])}"
+
+
 def only_new(m: dict) -> bool:
     """True when every released implementation of a metric's current edition comes from a newly released project."""
     released = [i for i in m["_current_impls"] if i["status"] == "available"]
@@ -324,9 +331,18 @@ class Index:
                 if not p.get(key):
                     add(f"{w}: missing '{key}'")
             conventions = p.get("conventions")
-            if conventions is not None and not (isinstance(conventions, list) and conventions
-                                                and all(isinstance(c, str) and c.strip() for c in conventions)):
-                add(f"{w}: conventions must be a non-empty list of strings")
+            own_metrics = {i.get("metric") for i in p.get("implements") or []}
+            if conventions is not None and not (isinstance(conventions, list) and conventions and all(
+                    (isinstance(c, str) and c.strip()) or (isinstance(c, dict) and isinstance(c.get("text"), str)
+                                                           and c["text"].strip() and c.get("metrics")
+                                                           and set(c["metrics"]) <= own_metrics)
+                    for c in conventions)):
+                add(f"{w}: conventions must be a non-empty list of strings, or of {{text, metrics}} where metrics "
+                    "are metrics the project implements")
+            # Lists of sentences: a stray "key: value" in YAML turns an item into a mapping.
+            for key in ("notes", "caveats", "sources"):
+                if p.get(key) is not None and not all(isinstance(x, str) and x.strip() for x in p[key]):
+                    add(f"{w}: every item of {key} must be text (quote an item that contains ': ')")
             if p.get("maintainer_check") is not None and not (isinstance(p["maintainer_check"], str)
                                                               and p["maintainer_check"].strip()):
                 add(f"{w}: maintainer_check must be a non-empty string")
@@ -413,6 +429,8 @@ class Index:
                     add(f"{wi}: validation must be one of {sorted(VALIDATION)}")
                 if impl.get("functions") is not None and not isinstance(impl["functions"], list):
                     add(f"{wi}: functions must be a list")
+                if "partial" in impl and (impl["partial"] is not True or not impl.get("scope")):
+                    add(f"{wi}: partial can only be true, with a scope that says what is computed")
                 if impl.get("via") and impl["via"] not in self.project:
                     add(f"{wi}: via '{impl['via']}' is not a listed project")
                 if impl.get("via") == pid:
@@ -445,12 +463,17 @@ class Index:
                     add(f"{wi}: duplicate of an earlier entry")
                 seen_pairs.add(pair)
 
+        anchors: set[str] = set()
         for i, u in enumerate(self.updates):
             w = f"data/updates.yaml[{i}]"
             check_date(u.get("date"), w)
             for key in ("title", "body"):
                 if not u.get(key):
                     add(f"{w}: missing '{key}'")
+            if u.get("date") and u.get("title"):
+                if update_anchor(u) in anchors:
+                    add(f"{w}: another update has the same date and title")
+                anchors.add(update_anchor(u))
         for i, lead in enumerate(self.leads):
             for key in ("name", "url", "claim", "why"):
                 if not lead.get(key):
@@ -462,6 +485,24 @@ class Index:
                 add(f"data/ignored.yaml[{i}]: needs url and reason")
             elif normalise_url(ig["url"]) in repos:
                 add(f"data/ignored.yaml[{i}]: {ig['url']} is also a listed project")
+
+        # A " #" in an unquoted YAML text starts a comment and cuts the text short, often inside brackets.
+        def check_brackets(value: Any, where: str) -> None:
+            if isinstance(value, str):
+                if value.count("(") != value.count(")") or value.count("[") != value.count("]"):
+                    add(f"{where}: unbalanced brackets in …{value[-40:]!r} (quote a text that contains ' #')")
+            elif isinstance(value, dict):
+                for k, v in value.items():
+                    if not str(k).startswith("_"):  # derived data, which links to other entries
+                        check_brackets(v, where)
+            elif isinstance(value, list):
+                for v in value:
+                    check_brackets(v, where)
+        for where, items in (("data/metrics.yaml", self.families + self.metrics),
+                             ("data/references.yaml", self.references), ("data/projects", self.projects),
+                             ("data/updates.yaml", self.updates)):
+            for item in items:
+                check_brackets(item, f"{where}: '{item.get('id') or item.get('title')}'")
         return problems
 
     # ------------------------------------------------------------------ derived data
@@ -531,6 +572,7 @@ class Index:
                             and (p["_archived"] or (age is not None and age >= legacy_after)))
 
             p["_impls"] = []
+            p["_general_conventions"] = [c if isinstance(c, str) else c["text"] for c in p.get("conventions") or []]
             for impl in p.get("implements") or []:
                 impl = dict(impl)
                 impl["_project"] = p
@@ -547,8 +589,11 @@ class Index:
                 impl["_derived_ids"] = (list(impl["derived_from"]) if "derived_from" in impl else
                                         [p["based_on"]] if p.get("based_on") and not impl.get("via") else [])
                 impl["_derived"] = named(impl["_derived_ids"])
-                # What to check before comparing its numbers: the project's general points, then the row's own.
-                impl["_conventions"] = list(dict.fromkeys((p.get("conventions") or []) + (impl.get("conventions") or [])))
+                # What to check before comparing its numbers: the project's points that concern this metric (all
+                # of them, unless a point names its metrics), then the row's own.
+                impl["_conventions"] = list(dict.fromkeys(
+                    [c if isinstance(c, str) else c["text"] for c in p.get("conventions") or []
+                     if isinstance(c, str) or impl["metric"] in c["metrics"]] + (impl.get("conventions") or [])))
                 p["_impls"].append(impl)
                 if impl["_via"]:  # the computation is done by another listed project
                     self.metric[impl["metric"]]["_via_impls"].append(impl)
@@ -575,7 +620,9 @@ class Index:
             # Every row, including those computed by another project, in the same order (validation, ports).
             m["_all_impls"] = sorted(m["_impls"] + m["_via_impls"], key=metric_rank)
             current = set(m.get("current") or [])
-            m["_current_impls"] = [i for i in m["_impls"] if i["reference"] in current]
+            # A row that computes only part of the metric (`partial`) is listed, but does not count as an
+            # implementation of the current edition.
+            m["_current_impls"] = [i for i in m["_impls"] if i["reference"] in current and not i.get("partial")]
             m["_older_impls"] = [i for i in m["_impls"] if i["reference"] not in current]
             m["_languages"] = sorted({lang for i in m["_current_impls"] if i["status"] == "available"
                                       for lang in i["_project"]["languages"]})

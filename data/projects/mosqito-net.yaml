@@ -28,9 +28,10 @@ caveats:
     reference data before relying on them.
   - Its ECMA-418-2 functions follow the 2nd edition (2022), two editions behind the current one, as in MoSQITo.
 conventions:
-  - >-
-    Time-varying loudness and ECMA-418-2 roughness resample input at any other rate to 48 kHz, and stationary
-    loudness resamples rates below 48 kHz; MoSQITo rejects rates above 48 kHz for time-varying loudness.
+  - text: >-
+      Time-varying loudness and ECMA-418-2 roughness resample input at any other rate to 48 kHz, and stationary
+      loudness resamples rates below 48 kHz; MoSQITo rejects rates above 48 kHz for time-varying loudness.
+    metrics: [loudness-zwicker, roughness-ecma-418-2]
 implements:
   - metric: loudness-zwicker
     reference: iso-532-1-2017

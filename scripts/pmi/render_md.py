@@ -11,7 +11,8 @@ from .data import (ACCESS, GROUP_NAMES, GROUPS, IMPL_STATUS_LONG, KINDS, PROJECT
                    VALIDATION_LONG, Index)
 from .describe import (COVERAGE_COLUMNS, GROUP_RULE, NEW_LABEL, activity_text, ai_guide, by_language, coverage, dedupe,
                        highlight_sentence, highlighted,
-                       dependence_note, derived_names, edition_state, faq, how_to_cite, in_sentence, in_short, introduce,
+                       covers, dependence_note, derived_names, edition_state, faq, how_to_cite, in_sentence, in_short,
+                       introduce,
                        legacy_label, licence_names, licence_terms, name_note, ref_status, release_text,
                        silent_line, standing_sentence, stated_conventions, timeline, validation_also,
                        validation_groups, validation_label, version_label)
@@ -145,6 +146,22 @@ def _validation_section(index: Index, impls: list[dict], on_metric: bool) -> lis
 def maintainer_check(index: Index, p: dict) -> str:
     """The list maintainer's own observation about a project, set apart from what the project states."""
     return f"**Checked by the maintainer of {index.site['name']}:** {oneline(p['maintainer_check'])}"
+
+
+def _labelled(impls: list[dict], name) -> list[str]:
+    """Each project of these rows once, with its group when that is newly released, developing or legacy, and
+    "unreleased" or "proposed" when none of its rows is released (the tags of the web pages, in words)."""
+    rows: dict[str, list[dict]] = {}
+    for i in impls:
+        rows.setdefault(i["_project"]["id"], []).append(i)
+    out = []
+    for its in rows.values():
+        p = its[0]["_project"]
+        bits = [GROUP_NAMES[p["_group"]]] if p["_group"] in ("newly-released", "developing", "legacy") else []
+        if not any(i["status"] == "available" for i in its):
+            bits.append("unreleased" if any(i["status"] == "unreleased" for i in its) else "proposed")
+        out.append(name(p) + (f" ({', '.join(bits)})" if bits else ""))
+    return out
 
 
 def _relation_lines(index: Index, rel: dict, level: str) -> list[str]:
@@ -341,7 +358,7 @@ def project_page(index: Index, p: dict) -> str:
                  (i.get("note") or "").strip()] for i in p["_impls"]]
         lines += _table(["Metric", "Edition", "Functions", "Status", "Validation (as stated)", "Notes"], rows) + [""]
         lines += _validation_section(index, p["_impls"], on_metric=False)
-        lines += _conventions(index, p["_impls"], p.get("conventions") or [], on_metric=False)
+        lines += _conventions(index, p["_impls"], p["_general_conventions"], on_metric=False)
     if p.get("notes"):
         lines += ["## Notes", ""] + [f"- {oneline(n)}" for n in p["notes"]] + [""]
     if p.get("caveats"):
@@ -377,8 +394,8 @@ def coverage_table(index: Index) -> str:
         cov = coverage(m)
         rows.append([_metric_link(index, m, m["name"])] + [COVERAGE_MARK[cov[c]] for c in cols])
     legend = ("● an available implementation of the current edition; ◐ the same, but only from newly released projects "
-              "not yet seen to be widely used; ○ only unreleased, proposed or older-edition implementations; — none "
-              "found. Bindings count: a C library with a Python interface counts for Python.")
+              "not yet seen to be widely used; ○ only unreleased, proposed, older-edition or partial implementations; "
+              "— none found. Bindings count: a C library with a Python interface counts for Python.")
     return "\n".join(_table(head, rows)) + "\n\n" + legend
 
 
@@ -441,8 +458,8 @@ def home(index: Index) -> str:
         lines += ["## Gaps", "", "No available open-source implementation of the current edition was found for:", ""]
         lines += [f"- {_metric_link(index, m, m['title'])}" for m in gaps] + [""]
     if index.new_only():
-        lines += ["For these metrics, the only released implementations of the current edition come from newly "
-                  "released projects, not yet seen to be widely used:", ""]
+        lines += ["For the following metrics, the only released implementations of the current edition come from "
+                  "newly released projects, not yet seen to be widely used:", ""]
         lines += [f"- {_metric_link(index, m, m['title'])}" for m in index.new_only()] + [""]
     if index.updates:
         lines += ["## Recent updates", ""]
@@ -465,10 +482,7 @@ def metrics_page(index: Index) -> str:
         rows = []
         for m in metrics:
             current = join_words([index.ref[r]["label"] for r in m["current"]])
-            who = ", ".join(dict.fromkeys(
-                name(i["_project"]) + (f" ({GROUP_NAMES[i['_project']['_group']]})"
-                                       if i["_project"]["_group"] in ("newly-released", "developing", "legacy") else "")
-                for i in m["_current_impls"])) or "none found"
+            who = ", ".join(_labelled(m["_current_impls"], name)) or "none found"
             rows.append([_metric_link(index, m), m["unit"], current, who])
         lines += _table(["Metric", "Unit", "Current edition", "Implementations of it"], rows) + [""]
     return "\n".join(lines)
@@ -503,7 +517,8 @@ def languages_page(index: Index) -> str:
                 how += f" `{p['install']}`"
             if p.get("language_note"):
                 how += " " + " ".join(p["language_note"].split())
-            metrics = list(dict.fromkeys(i["_metric"]["name"] for i in p["_impls"]
+            metrics = list(dict.fromkeys(i["_metric"]["name"] + (" (partial)" if i.get("partial") else "")
+                                         for i in p["_impls"]
                                          if i["reference"] in i["_metric"]["current"] and i["status"] == "available"
                                          and not i.get("_via")))
             group = GROUP_NAMES[p["_group"]]
@@ -561,7 +576,7 @@ def projects_page(index: Index) -> str:
         lines += [f"## {title}", "", GROUPS[key], ""]
         rows = [[name(p), ", ".join(p["languages"]),
                  PROJECT_KINDS[p["kind"]], p["license"], release_text(p), p["_last_commit"] or "unknown",
-                 activity_text(p), ", ".join(sorted({i["_metric"]["name"] for i in p["_impls"]}))]
+                 activity_text(p), ", ".join(m["name"] + (f" ({state})" if state else "") for m, state in covers(p))]
                 for p in projects]
         lines += _table(["Project", "Language", "Kind", "Licence", "Latest release", "Last commit", "Activity",
                          "Covers"], rows) + [""]
@@ -599,6 +614,9 @@ def map_page(index: Index) -> str:
     alone = RL.alone(index, rel)
     if alone:
         lines += ["Not on the map, as no relation is recorded for them: " + join_words([name(p) for p in alone]) + "."]
+    unknown = index.group("unknown")
+    if unknown:
+        lines += ["", "Left out, as their code could not be opened: " + join_words([name(p) for p in unknown]) + "."]
     return "\n".join(lines).rstrip("\n") + "\n"
 
 
@@ -733,11 +751,7 @@ def llms_txt(index: Index) -> str:
         lines += [f"## {fam['name']}", ""]
         for m in metrics:
             current = join_words([index.ref[r]["label"] for r in m["current"]])
-            projects = ", ".join(dict.fromkeys(
-                i["_project"]["name"] + (f" ({GROUP_NAMES[i['_project']['_group']]})"
-                                         if i["_project"]["_group"] in ("newly-released", "developing", "legacy") else "")
-                for i in m["_current_impls"]))
-            projects = projects or "none found"
+            projects = ", ".join(_labelled(m["_current_impls"], lambda p: p["name"])) or "none found"
             lines.append(f"- [{m['title']}]({site['base_url']}{md_twin(metric_path(m))}): current edition "
                          f"{current}; implementations: {projects}")
         lines.append("")
@@ -827,8 +841,8 @@ def readme_gaps(index: Index) -> str:
     gaps = index.gaps()
     lines = [item(m) for m in gaps] or ["None at the moment."]
     if index.new_only():
-        lines += ["", "For these metrics, the only released implementations of the current edition come from newly "
-                  "released projects, not yet seen to be widely used:", ""]
+        lines += ["", "For the following metrics, the only released implementations of the current edition come "
+                  "from newly released projects, not yet seen to be widely used:", ""]
         lines += [item(m) for m in index.new_only()]
     return "\n".join(lines)
 
