@@ -33,6 +33,7 @@ follow: list what to change for the owner.
 | `CONTRIBUTING.md` | Inclusion rules, how to propose, correct and report, writing rules, local checks, the automation and the review process. Keep it in step with `data/SCHEMA.md` and the validation in `scripts/pmi/data.py`. |
 | `data/SCHEMA.md` | Every field of the data and what it means. Change it in the same commit as a new or changed field. |
 | `CODE_OF_CONDUCT.md`, `SECURITY.md` | Stable; change only with the owner. |
+| `EXPLORATORY-SUGGESTIONS-developing-a-metric-function.md` | Exploratory suggestions on what to do when developing a metric function, a draft for discussion; it says so in its name and at its top. Not on the website. Its examples come from the data and name their source; change it only with the owner. |
 | `AGENTS.md`, `CLAUDE.md`, `docs/maintaining/` | These standards. Change them in the same commit as a change of practice; record new owner decisions in `owner-decisions.md`. |
 | `.github/ISSUE_TEMPLATE/` | Forms for adding a project, a correction and a standard edition; `config.yml` keeps blank issues and links to the website and the schema. |
 | `.github/pull_request_template.md` | The checklist for pull requests. |

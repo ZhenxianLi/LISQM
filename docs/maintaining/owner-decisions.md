@@ -79,6 +79,7 @@ the owner asks, and then add a row here. Texts marked *owner's text* are kept wo
 | 2026-10-10 | The Projects page opens with the paragraph on the order of the lists, then the map with its legend above it (as before); the two sentences on what the map shows are gone (the map page explains it). | Projects |
 | 2026-10-10 | On a metric page the project map comes before the implementations: editions, map, implementations, validation, conventions, references. | metric pages |
 | 2026-10-10 | A line on the map of a metric page joins only projects listed for that metric; the whole map keeps every recorded relation. | metric pages |
+| 2026-10-10 | An exploratory document of suggestions for developing a metric function sits in the repository root, marked as a draft for discussion in its name and at its top; it is not on the website for now. | repository |
 | 2026-10-10 | The maps of the metric pages also put the projects that no line joins in rows, not in a column: under the columns of the map, or side by side from the left when that takes fewer rows; a single box stays where it was. | metric pages |
 | 2026-10-09 | An open pull request is tagged "PR", whose meaning is clear; the value in the data stays `proposed`. Code merged but not released stays "unreleased". | tags, Markdown twins |
 | 2026-10-09 | HEAD acoustics ArtemiS SUITE, a reference in psychoacoustics, is named wherever a project compared its results with it, never as "commercial software": SQAT's validation pages name it (and its version) in their source. | `compared_with` |
