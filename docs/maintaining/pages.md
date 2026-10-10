@@ -93,8 +93,9 @@ Built by `metric_page()` from the metric in `data/metrics.yaml`, its editions in
 - **How they were validated**: as reported by each project. The owner's own check (`maintainer_check`) appears
   apart, under the project's first entry.
 - **Project map**: the map with only the lines of this metric's rows, each naming the edition. The metric's
-  projects that no line joins are boxes without lines, in the first column under the rest, below the words "no
-  relation recorded" (the whole map has them in rows). There is no such section when the metric has no relation.
+  projects that no line joins are boxes without lines in rows under the rest, below the words "no relation
+  recorded", as on the whole map; a single one stays in the first column. There is no such section when the metric
+  has no relation.
 - **Before you compare numbers**: the metric's `conventions`, then the projects' (their rows' conventions, and the
   project conventions that hold for this metric; a project convention with `metrics` appears only on those pages).
 - **References**.
@@ -150,9 +151,10 @@ in `data/SCHEMA.md`. Built by `map_page()`.
   boxes of the same column joins them directly.
 - **Boxes**: bold for the bold projects, faded for legacy projects, dashed for programs published with a standard
   or a paper. The largest group of joined boxes is on top, the smaller groups (such as AMT's) under it. Projects
-  that no line joins are boxes without lines in rows under all of them, a box under each column of the map, below
-  the words "no relation recorded". Each box links to its page; each line has a tooltip naming the metrics (on a
-  metric page, the editions).
+  that no line joins are boxes without lines in rows under the lowest box or line of the columns they take, below
+  the words "no relation recorded": a box under each column of the map, or side by side from the left when that
+  takes fewer rows. Each box links to its page; each line has a tooltip naming the metrics (on a metric page, the
+  editions).
 - **In words**: the same relations as text, the projects drawn without a line, and those left out because their
   code could not be opened.
 - `contributors` holds people with code of their own in a project, taken from its commit history or documentation;

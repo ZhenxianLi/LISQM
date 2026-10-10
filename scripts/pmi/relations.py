@@ -13,10 +13,10 @@ points back from the project to the one it checked its results against.
 
 A metric page draws the same map from the rows of that metric only. The picture is drawn by Graphviz (`dot`) when
 the site is built, in two passes: every line has an end of its own on the side of each box, and the second pass
-orders those ends by where the box at the other end of the line was placed in the first. On the whole map the
-largest group of joined boxes is on top with the smaller groups under it, and the boxes that no line joins are then
-moved into rows under the rest. Without Graphviz the page keeps the same relations in words and says that the
-picture is missing; on a CI runner (`CI` set) a missing Graphviz is an error.
+orders those ends by where the box at the other end of the line was placed in the first. The boxes that no line
+joins are then moved into rows under the rest; on the whole map the largest group of joined boxes is on top, with
+the smaller groups under it. Without Graphviz the page keeps the same relations in words and says that the picture
+is missing; on a CI runner (`CI` set) a missing Graphviz is an error.
 """
 
 from __future__ import annotations
@@ -78,8 +78,8 @@ SERIF = "Charter,'Bitstream Charter','Sitka Text',Cambria,Georgia,'Noto Serif','
 PORT_GAP = 6.0
 PORT_EDGE = 4.0
 BOX_HEIGHT = 22.0
-# On the whole map, the space (points) above the label of the boxes that no line joins, and the least space between
-# two of those boxes in a row.
+# The space (points) above the label of the boxes that no line joins, and the least space between two of those boxes
+# in a row.
 ROW_GAP = 24.0
 MONO = "ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono','DejaVu Sans Mono',monospace"
 
@@ -284,7 +284,7 @@ def dot_source(index: Index, rel: dict, path: str, lang_codes: dict, pos: dict |
 
     # The projects that no line joins (on the map of one metric, that metric's): boxes without lines, under a short
     # label, in the first column below the rest (declared first and bottom up, as Graphviz stacks a left-to-right
-    # graph from the bottom). On the whole map `svg` then moves them into rows.
+    # graph from the bottom). `svg` then moves them into rows.
     single = alone(index, rel)
     if single:
         out += [node(p["id"]) for p in reversed(single)]
@@ -323,7 +323,7 @@ def svg(index: Index, rel: dict, path: str, lang_codes: dict,
     result = subprocess.run(["dot", "-Tsvg"], input=second, capture_output=True, text=True, check=True)
     text = result.stdout[result.stdout.index("<svg"):]
     single = [p["id"] for p in alone(index, rel)]
-    if single and not rel.get("metric"):  # the whole map: the boxes that no line joins in rows under the rest
+    if single:  # the boxes that no line joins in rows under the rest
         drawn = subprocess.run(["dot", "-Tjson0"], input=second, capture_output=True, text=True, check=True)
         text = _in_rows(text, json.loads(drawn.stdout), single)
     text = text.replace("<title>alone:label</title>\n", "")  # no tooltip with Graphviz's name for the label
@@ -371,37 +371,56 @@ def groups(keys: list[str], drawn: list[dict]) -> list[list[str]]:
 
 def _in_rows(text: str, drawn: dict, single: list[str]) -> str:
     """Move the boxes that no line joins, which Graphviz stacks in the first column under their label, into rows
-    under the rest of the map: a box under each column of the map (fewer when the boxes would not fit), the label
-    above the first row. `drawn` is Graphviz's JSON of the same picture, in points with y upwards; in the SVG, y
-    grows downwards."""
+    under the lowest box or line of the columns they take, the label above the first row. A box goes under each
+    column of the map, as long as that takes no more rows than putting the boxes side by side from the left; a
+    single box stays where Graphviz put it. `drawn` is Graphviz's JSON of the same picture, in points with y
+    upwards; in the SVG, y grows downwards."""
     nodes = {o["name"]: o for o in drawn.get("objects", []) if "pos" in o}
+    rest = [k for k in nodes if k not in single and k != "alone:label"]
+    if len(single) < 2 or not rest:
+        return text
     at = {k: tuple(float(v) for v in o["pos"].split(",")) for k, o in nodes.items()}
     half = {k: float(o["height"]) * 36 for k, o in nodes.items()}  # half the height, from inches
     wide = {k: float(o["width"]) * 72 for k, o in nodes.items()}
-    rest = [k for k in nodes if k not in single and k != "alone:label"]
-    if not rest:  # no line at all: the column stays
-        return text
     columns = sorted({round(at[k][0], 1) for k in rest})
     right = float(drawn["bb"].split(",")[2])
-    floor = min([at[k][1] - half[k] for k in rest]
-                + [float(y) for e in drawn.get("edges", []) for y in re.findall(r"-?[\d.]+,(-?[\d.]+)", e["pos"])])
+    # The points of the lines: their ends and the control points of their curves.
+    points = [(float(x), float(y)) for e in drawn.get("edges", []) for x, y in re.findall(r"(-?[\d.]+),(-?[\d.]+)",
+                                                                                         e["pos"])]
 
-    def fits(count: int) -> bool:
-        for start in range(0, len(single), count):
-            row = single[start:start + count]
-            for n, k in enumerate(row):
-                if columns[n] - wide[k] / 2 < -1 or columns[n] + wide[k] / 2 > right + 1 or \
-                        (n and columns[n] - columns[n - 1] < (wide[k] + wide[row[n - 1]]) / 2 + ROW_GAP):
-                    return False
-        return True
+    def under_columns(count: int) -> dict | None:
+        """Each box's (x, row) with a box under each of the first `count` columns, or None if they do not fit."""
+        place = {k: (columns[n % count], n // count) for n, k in enumerate(single)}
+        for n, k in enumerate(single):
+            x = place[k][0]
+            if x - wide[k] / 2 < -1 or x + wide[k] / 2 > right + 1 or \
+                    (n % count and x - place[single[n - 1]][0] < (wide[k] + wide[single[n - 1]]) / 2 + ROW_GAP):
+                return None
+        return place
 
-    count = next((n for n in range(len(columns), 1, -1) if fits(n)), 1)
-    step = at[single[0]][1] - at[single[1]][1] if len(single) > 1 else 0  # as Graphviz spaced the column
+    def side_by_side() -> dict:
+        """Each box's (x, row), side by side from the left, with a new row when the next box would not fit."""
+        place, x, row = {}, 0.0, 0
+        for k in single:
+            if x and x + wide[k] > right:
+                x, row = 0.0, row + 1
+            place[k] = (x + wide[k] / 2, row)
+            x += wide[k] + ROW_GAP
+        return place
+
+    packed = side_by_side()
+    place = next((p for n in range(len(columns), 1, -1) if (p := under_columns(n))
+                  and max(r for _, r in p.values()) <= max(r for _, r in packed.values())), packed)
+    label_x = columns[0] if place is not packed else wide["alone:label"] / 2
+    left = min([label_x - wide["alone:label"] / 2] + [x - wide[k] / 2 for k, (x, _) in place.items()]) - ROW_GAP
+    end = max([label_x + wide["alone:label"] / 2] + [x + wide[k] / 2 for k, (x, _) in place.items()]) + ROW_GAP
+    floor = min([at[k][1] - half[k] for k in rest if left < at[k][0] + wide[k] / 2 and at[k][0] - wide[k] / 2 < end]
+                + [py for px, py in points if left < px < end])
     label = floor - ROW_GAP - half["alone:label"]
     first = label - (at["alone:label"][1] - at[single[0]][1])
-    to = {"alone:label": (columns[0], label)}
-    to |= {k: (columns[n % count], first - n // count * step) for n, k in enumerate(single)}
-    moves = {k: (x - at[k][0], at[k][1] - y) for k, (x, y) in to.items()}
+    step = at[single[0]][1] - at[single[1]][1]  # as Graphviz spaced the column
+    to = {"alone:label": (label_x, label)} | {k: (x, first - row * step) for k, (x, row) in place.items()}
+    moves = {k: (tx - at[k][0], at[k][1] - ty) for k, (tx, ty) in to.items()}
 
     def move(part: str) -> str:
         found = re.match(r'<!-- .*? -->\n<g id="node\d+" class="node">\n<title>([^<]*)</title>', part)
@@ -411,7 +430,9 @@ def _in_rows(text: str, drawn: dict, single: list[str]) -> str:
         return f'<g transform="translate({dx:.2f},{dy:.2f})">\n{part.rstrip()}\n</g>\n'
 
     text = "".join(move(part) for part in re.split(r"(?=<!-- )", text))
-    low = min(y - half[k] for k, (x, y) in to.items())  # the new bottom of the picture, from the old one
+    # The new bottom of the picture, from the old one (Graphviz's picture starts at 0, 0).
+    low = min([ty - half[k] for k, (tx, ty) in to.items()] + [at[k][1] - half[k] for k in rest]
+              + [py for px, py in points])
     return re.sub(r'viewBox="([\d.]+) ([\d.]+) ([\d.]+) ([\d.]+)"',
                   lambda m: f'viewBox="{m[1]} {m[2]} {m[3]} {float(m[4]) - low:.2f}"', text, count=1)
 

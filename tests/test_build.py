@@ -54,6 +54,19 @@ class _Links(HTMLParser):
             self._in_ld = False
 
 
+def map_boxes(page: str) -> dict[str, tuple[float, float]]:
+    """The centre (x, y) of each project's box in the first map picture of a page, y downwards."""
+    start = page.index('<svg class="map-graph"')
+    boxes = {}
+    for dx, dy, pid, d in re.findall(
+            r'(?:<g transform="translate\(([-\d.]+),([-\d.]+)\)">\n)?<!-- [^\n]* -->\n<g id="node\d+" '
+            r'class="node">\n<title>[^<]*</title>\n<g id="a_node\d+"><a xlink:href="\.\./projects/([^"]+)\.html"'
+            r'[^>]*>\n<path [^>]*?d="([^"]+)"', page[start:page.index("</svg>", start)]):
+        xs, ys = zip(*((float(x), float(y)) for x, y in re.findall(r"([-\d.]+),([-\d.]+)", d)))
+        boxes[pid] = ((min(xs) + max(xs)) / 2 + float(dx or 0), (min(ys) + max(ys)) / 2 + float(dy or 0))
+    return boxes
+
+
 class BuildTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
@@ -739,14 +752,7 @@ class BuildTest(unittest.TestCase):
         if not shutil.which("dot"):
             self.skipTest("Graphviz is not installed")
         page = (self.site / "projects/map.html").read_text(encoding="utf-8")
-        start = page.index('<svg class="map-graph"')
-        boxes = {}  # project id: centre (x, y) in the picture, y downwards
-        for dx, dy, pid, d in re.findall(
-                r'(?:<g transform="translate\(([-\d.]+),([-\d.]+)\)">\n)?<!-- [^\n]* -->\n<g id="node\d+" '
-                r'class="node">\n<title>[^<]*</title>\n<g id="a_node\d+"><a xlink:href="\.\./projects/([^"]+)\.html"'
-                r'[^>]*>\n<path [^>]*?d="([^"]+)"', page[start:page.index("</svg>", start)]):
-            xs, ys = zip(*((float(x), float(y)) for x, y in re.findall(r"([-\d.]+),([-\d.]+)", d)))
-            boxes[pid] = ((min(xs) + max(xs)) / 2 + float(dx or 0), (min(ys) + max(ys)) / 2 + float(dy or 0))
+        boxes = map_boxes(page)
         rel = RL.relations(self.index)
         drawn = RL.lines(self.index, rel)
         found = RL.groups(list(dict.fromkeys(k for line in drawn for k in (line["source"], line["user"]))), drawn)
@@ -762,6 +768,19 @@ class BuildTest(unittest.TestCase):
         self.assertTrue(all(boxes[k][1] > lowest for k in single))
         self.assertLess(len({round(boxes[k][1]) for k in single}), len(single), "in rows, not in a column")
         self.assertNotIn("<title>alone:label</title>", page)
+        # On the map of a metric page too, two or more such boxes are in rows (five in two rows for sharpness), and a
+        # single one stays in the first column.
+        for m in self.index.metrics:
+            rel = RL.relations(self.index, m)
+            single = [p["id"] for p in RL.alone(self.index, rel)]
+            if len(single) > 1 and RL.count_lines(rel):
+                boxes = map_boxes((self.site / f"metrics/{m['id']}.html").read_text(encoding="utf-8"))
+                self.assertLess(len({round(boxes[k][1]) for k in single}), len(single), m["id"])
+        single = [p["id"] for p in RL.alone(self.index, RL.relations(self.index, self.index.metric["sharpness"]))]
+        boxes = map_boxes((self.site / "metrics/sharpness.html").read_text(encoding="utf-8"))
+        self.assertEqual((len(single), len({round(boxes[k][1]) for k in single})), (5, 2))
+        boxes = map_boxes((self.site / "metrics/roughness-daniel-weber.html").read_text(encoding="utf-8"))
+        self.assertLess(boxes["ita-toolbox"][1], boxes["mosqito"][1], "a single box stays in the first column")
 
     def test_data_texts_are_whole(self) -> None:
         # In YAML, " #" in an unquoted text starts a comment and ": " makes a mapping: both once cut a sentence.
