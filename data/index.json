@@ -2,7 +2,7 @@
   "name": "LISQM",
   "full_name": "List of Implementations of Sound Quality Metrics",
   "tagline": "A List of Open-Source Implementations of Psychoacoustic and Sound Quality Metrics",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "description": "A list of open-source implementations of psychoacoustic metrics, also called sound quality (SQ) metrics: loudness, sharpness, roughness, fluctuation strength, tonality, impulsiveness and psychoacoustic annoyance. Each implementation is listed under the standard edition or model it follows. All programming languages.",
   "url": "https://zhenxianli.github.io/LISQM/",
   "repository": "https://github.com/ZhenxianLi/LISQM",
@@ -8891,6 +8891,11 @@
     }
   ],
   "updates": [
+    {
+      "date": "2026-10-10",
+      "title": "Version 0.5.4: metric maps keep to their metric",
+      "body": "A line on the map of a metric page now joins only projects listed for that metric; the whole project map still\nshows every recorded relation.\n"
+    },
     {
       "date": "2026-10-10",
       "title": "Version 0.5.3: the Projects page",

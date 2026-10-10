@@ -2,6 +2,12 @@
 # Body: Markdown paragraphs and "- " bullet lists. See data/SCHEMA.md.
 
 - date: 2026-10-10
+  title: "Version 0.5.4: metric maps keep to their metric"
+  body: |
+    A line on the map of a metric page now joins only projects listed for that metric; the whole project map still
+    shows every recorded relation.
+
+- date: 2026-10-10
   title: "Version 0.5.3: the Projects page"
   body: |
     The Projects page opens with how its lists are ordered, then the project map with its legend under it.

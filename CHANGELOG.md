@@ -2,6 +2,11 @@
 
 Notable changes to the list. This file is generated from `data/updates.yaml`; the same notes are on the website (https://zhenxianli.github.io/LISQM/updates.html) and in its Atom feed.
 
+## 2026-10-10: Version 0.5.4: metric maps keep to their metric
+
+A line on the map of a metric page now joins only projects listed for that metric; the whole project map still
+shows every recorded relation.
+
 ## 2026-10-10: Version 0.5.3: the Projects page
 
 The Projects page opens with how its lists are ordered, then the project map with its legend under it.

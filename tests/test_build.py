@@ -728,6 +728,15 @@ class BuildTest(unittest.TestCase):
             for i in m["_impls"]:
                 if i["_project"]["_group"] != "unknown":
                     self.assertIn(i["_project"]["id"], named, f"{m['id']}: {i['_project']['id']}")
+        # ... and only those: a row's link to a project without a row for the metric (PsychoacousticMetrics.jl
+        # needs ZwickerLoudness.jl for sharpness; sottek-hearing-model's fluctuation strength comes from a RefMap
+        # file that is not on its main branch) stays on the whole map.
+        for m in self.index.metrics:
+            listed = {i["_project"]["id"] for i in m["_all_impls"]}
+            ends = {k for line in RL.lines(self.index, RL.relations(self.index, m))
+                    for k in (line["source"], line["user"])}
+            self.assertLessEqual(ends & set(self.index.project), listed, m["id"])
+        self.assertIn(("psychoacousticmetrics-jl", "zwickerloudness-jl"), RL.relations(self.index)["uses"])
         moore = (self.site / "metrics/loudness-moore-glasberg.html").read_text(encoding="utf-8")
         start = moore.index('<svg class="map-graph"')
         svg = moore[start:moore.index("</svg>", start)]

@@ -96,9 +96,15 @@ def people_of(p: dict) -> list[str]:
 
 def relations(index: Index, metric: dict | None = None) -> dict:
     """Every recorded relation between listed projects, and the published programs they took code from; with
-    `metric`, only the relations recorded in the rows of that metric (and shared contributors among its projects)."""
+    `metric`, only the relations recorded in the rows of that metric between projects listed for it (and shared
+    contributors among them): a row's link to a project without a row for the metric is left to the whole map."""
     def rows(p: dict) -> list[dict]:
         return [i for i in p["_impls"] if metric is None or i["_metric"] is metric]
+
+    listed = {p["id"] for p in index.projects if rows(p)}
+
+    def on_map(pid: str) -> bool:
+        return metric is None or pid not in index.project or pid in listed
 
     def what(i: dict) -> str:
         """What a line is about: the metric, or on the map of one metric the edition."""
@@ -109,6 +115,8 @@ def relations(index: Index, metric: dict | None = None) -> dict:
     for p in index.projects_by_group():
         for i in rows(p):
             for cid, (name, q) in zip(i["_derived_ids"], i["_derived"]):
+                if not on_map(cid):
+                    continue
                 e = taken.setdefault((cid, p["id"]), {"key": cid, "source": q, "name": name, "project": p,
                                                        "metrics": [], "rows": []})
                 _add(e["metrics"], what(i))
@@ -123,9 +131,9 @@ def relations(index: Index, metric: dict | None = None) -> dict:
     uses: dict[tuple, dict] = {}    # (user id, source id) -> {"calls": [...], "needs": [...]}
     for p in index.projects_by_group():
         for i in rows(p):
-            if i.get("_via"):
+            if i.get("_via") and on_map(i["_via"]["id"]):
                 _add(uses.setdefault((p["id"], i["_via"]["id"]), {"calls": [], "needs": []})["calls"], what(i))
-            for q in i.get("_uses") or []:
+            for q in [q for q in i.get("_uses") or [] if on_map(q["id"])]:
                 _add(uses.setdefault((p["id"], q["id"]), {"calls": [], "needs": []})["needs"], what(i))
     joined |= {frozenset(k) for k in uses}
 
@@ -133,7 +141,7 @@ def relations(index: Index, metric: dict | None = None) -> dict:
     for p in index.projects_by_group():
         for i in rows(p):
             for c in i.get("compared_with") or []:
-                if c in index.project and c not in (i.get("_relation") or {}) and not i.get("via") \
+                if c in index.project and on_map(c) and c not in (i.get("_relation") or {}) and not i.get("via") \
                         and frozenset((p["id"], c)) not in joined:
                     _add(compares.setdefault((p["id"], c), []), what(i))
 

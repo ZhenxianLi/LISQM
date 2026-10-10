@@ -861,7 +861,6 @@ The lines of the project map for sharpness only (the whole map: https://zhenxian
 
 ### Used at run time
 
-- [PsychoacousticMetrics.jl](https://zhenxianli.github.io/LISQM/projects/psychoacousticmetrics-jl.html) needs [ZwickerLoudness.jl](https://zhenxianli.github.io/LISQM/projects/zwickerloudness-jl.html) (DIN 45692:2009)
 - [PsychoBox](https://zhenxianli.github.io/LISQM/projects/psychobox.html) calls **[MoSQITo](https://zhenxianli.github.io/LISQM/projects/mosqito.html)** (DIN 45692:2009)
 - [Soundscapy](https://zhenxianli.github.io/LISQM/projects/soundscapy.html) calls **[MoSQITo](https://zhenxianli.github.io/LISQM/projects/mosqito.html)** (DIN 45692:2009)
 
@@ -1302,11 +1301,7 @@ Not stated by SQAT.
 
 ## Project map
 
-The lines of the project map for Sottek Hearing Model fluctuation strength only (the whole map: https://zhenxianli.github.io/LISQM/projects/map.md). Agreement between a project and the code it was ported or adapted from only checks the port.
-
-### The author's own code
-
-- From [refmap-psychoacoustics](https://zhenxianli.github.io/LISQM/projects/refmap-psychoacoustics.html) (Mike Lotinga): **[sottek-hearing-model](https://zhenxianli.github.io/LISQM/projects/sottek-hearing-model.html)** (ECMA-418-2:2025 (4th ed.))
+The lines of the project map for Sottek Hearing Model fluctuation strength only (the whole map: https://zhenxianli.github.io/LISQM/projects/map.md).
 
 ### Same contributor
 
@@ -1864,10 +1859,6 @@ The lines of the project map for psychoacoustic annoyance only (the whole map: h
 ### Ported or adapted from another project
 
 - From **[SQAT](https://zhenxianli.github.io/LISQM/projects/sqat.html)**: [pySQAT](https://zhenxianli.github.io/LISQM/projects/pysqat.html) (Di et al. (2016), More (2010), and Zwicker & Fastl (1999))
-
-### Used at run time
-
-- [PsychoacousticMetrics.jl](https://zhenxianli.github.io/LISQM/projects/psychoacousticmetrics-jl.html) needs [ZwickerLoudness.jl](https://zhenxianli.github.io/LISQM/projects/zwickerloudness-jl.html) (Widmann (1992))
 
 ### Results checked against another project
 
