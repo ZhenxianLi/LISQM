@@ -1224,23 +1224,19 @@ def projects_page(index: Index) -> str:
     to_map = relative(path, MAP)
     # The project map comes first; its own page explains the kinds of line and lists the relations in words.
     picture = _map_picture(index, path, RL.relations(index), (f"{to_map}#words", "on the map page"),
-                           "Project map: the same relations are listed in words on the map page.")
+                           "Project map: the same relations are listed in words on the map page.", legend_below=True)
     parts = [
         "<h1>Projects</h1>",
         f'<p class="byline">{plural(len(index.projects), "project")} · {plural(len(langs), "language")}</p>',
-        f'<p>The <a href="{to_map}">project map</a> shows which projects were ported or adapted from which, which use '
-        "another project at run time, and which checked their results against another one. Arrows point from the "
-        "source to the project that uses it; a check points from the project to the one it checked its results "
-        "against.</p>",
-        picture,
-        (f'<p class="small muted">The <a href="{to_map}">map page</a> explains each kind of line and lists the same '
-         "relations in words.</p>" if picture else ""),
         "<p>" + highlighted(index.super_projects(), lambda p: esc(p["name"]), esc)
         + " are in bold and come first in every list. The other established projects follow, then newly released, "
         "developing and legacy ones. Tools that only call another project are listed under Others, and projects "
         "whose code could not be opened under Status unknown. “Last commit” is the last commit on the default "
         f"branch. A project is marked inactive after {index.site.get('inactive_after_days', 365)} days without a "
         "commit, and listed as legacy after three years.</p>",
+        picture,
+        (f'<p class="small muted">The <a href="{to_map}">map page</a> explains each kind of line and lists the same '
+         "relations in words.</p>" if picture else ""),
         # Shown only when JavaScript runs (site-src/search.js filters the rows).
         '<div class="table-filter"><label for="project-filter">Filter projects</label><input id="project-filter" '
         'type="search" placeholder="Name, language, licence or metric" autocomplete="off" spellcheck="false">'
@@ -1341,10 +1337,12 @@ def _map_words(index: Index, path: str, rel: dict) -> str:
 
 
 def _map_picture(index: Index, path: str, rel: dict, words: tuple[str, str] | None,
-                 title: str = "Project map: the same relations are listed in words below the picture.") -> str:
+                 title: str = "Project map: the same relations are listed in words below the picture.",
+                 legend_below: bool = False) -> str:
     """The legend and the picture of a project map (the map page, the top of the Projects page, a metric page), or ""
-    when Graphviz is missing. The legend names only what the picture shows. On phones a hint says that a wide
-    picture scrolls sideways, and `words` (a link and where it leads) points to the same relations in words."""
+    when Graphviz is missing. The legend names only what the picture shows; with `legend_below` it comes under the
+    picture, as wide as it. On phones a hint says that a wide picture scrolls sideways, and `words` (a link and where
+    it leads) points to the same relations in words."""
     picture = RL.svg(index, rel, path, LANG_CODES, title)
     if not picture:
         return ""
@@ -1364,10 +1362,12 @@ def _map_picture(index: Index, path: str, rel: dict, words: tuple[str, str] | No
                 f'<a href="{words[0]}">in words</a> {words[1]}.</p>')
     elif wide and int(wide.group(1)) > 340:
         hint = '<p class="small muted phone-only">Scroll the picture sideways.</p>'
+    key = f'<ul class="map-legend{" below" if legend_below else ""}">' + "".join(legend) + "</ul>"
     return "\n".join(part for part in [
-        '<ul class="map-legend">' + "".join(legend) + "</ul>",
+        "" if legend_below else key,
         hint,
         f'<div class="map-wrap">{picture}</div>',
+        key if legend_below else "",
     ] if part)
 
 

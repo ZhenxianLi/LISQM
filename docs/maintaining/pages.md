@@ -105,9 +105,8 @@ Built by `metric_page()` from the metric in `data/metrics.yaml`, its editions in
 
 Built by `projects_page()`.
 
-- The full project map first, with its legend and two sentences: arrows point from the source to the project that
-  uses it; a check points from the project to the one it checked its results against.
-- A paragraph on the order of the lists (the bold projects are named from the data).
+- A paragraph on the order of the lists first (the bold projects are named from the data).
+- Then the full project map, with its legend under it, as wide as the picture, and a line pointing to the map page.
 - **Filter projects**: a field above the tables (JavaScript only) that hides the rows that do not match its words,
   and the groups left empty, and says how many projects are shown. It reads the text of each row: name, kind,
   languages, licence, release, activity and metrics.

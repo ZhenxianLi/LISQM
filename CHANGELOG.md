@@ -2,6 +2,10 @@
 
 Notable changes to the list. This file is generated from `data/updates.yaml`; the same notes are on the website (https://zhenxianli.github.io/LISQM/updates.html) and in its Atom feed.
 
+## 2026-10-10: Version 0.5.3: the Projects page
+
+The Projects page opens with how its lists are ordered, then the project map with its legend under it.
+
 ## 2026-10-10: Version 0.5.2: tidier maps and links
 
 - On the map of each metric page, projects that no line joins are laid out in rows instead of a column.

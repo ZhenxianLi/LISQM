@@ -1105,6 +1105,12 @@ dl.validation dd .maintainer-check {
   color: var(--muted);
 }
 
+/* On the Projects page the legend sits under the picture, as wide as it. */
+main ul.map-legend.below {
+  max-width: none;
+  margin: .5rem 0 .4rem;
+}
+
 .map-legend li {
   display: inline-flex;
   align-items: center;
