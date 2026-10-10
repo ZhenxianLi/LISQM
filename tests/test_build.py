@@ -503,7 +503,7 @@ class BuildTest(unittest.TestCase):
         self.assertIn("(also ported from ", pysqat, "pySQAT's ECMA-418-2 rows and SQAT share RefMap's code")
         zwicker = (self.site / "metrics/loudness-zwicker.html").read_text(encoding="utf-8")
         self.assertIn('<h2 id="map">Project map</h2>', zwicker)
-        self.assertIn('The <a href="#map">project map</a> below shows which project was ported or adapted from which.',
+        self.assertIn('The <a href="#map">project map</a> above shows which project was ported or adapted from which.',
                       zwicker)
         if shutil.which("dot"):
             picture = zwicker[zwicker.index('<svg class="map-graph"'):]

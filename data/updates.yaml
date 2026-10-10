@@ -2,6 +2,12 @@
 # Body: Markdown paragraphs and "- " bullet lists. See data/SCHEMA.md.
 
 - date: 2026-10-10
+  title: "Version 0.5.5: the map before the implementations"
+  body: |
+    On each metric page the project map now comes right after the editions, before the table of implementations.
+    On the Projects page the legend of the map is back above the picture.
+
+- date: 2026-10-10
   title: "Version 0.5.4: metric maps keep to their metric"
   body: |
     A line on the map of a metric page now joins only projects listed for that metric; the whole project map still

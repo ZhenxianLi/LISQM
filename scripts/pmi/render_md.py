@@ -291,6 +291,7 @@ def metric_page(index: Index, m: dict) -> str:
                      (m.get("edition_notes") or {}).get(rid, ""), who])
     lines += _table(["Date", "Edition", "Status", "What changed", "Implemented by"], rows) + [""]
 
+    lines += _metric_map(index, m)
     lines += ["## Implementations", ""]
     if m["_impls"]:
         rows = [[name(i["_project"]), ", ".join(i["_project"]["languages"]), _edition(index, i), _functions(i),
@@ -310,7 +311,6 @@ def metric_page(index: Index, m: dict) -> str:
     checked = m["_all_impls"]  # every row, also those computed by another project
     if checked:
         lines += _validation_section(index, checked, on_metric=True)
-    lines += _metric_map(index, m)
     lines += _conventions(index, checked, m.get("conventions") or [], on_metric=True)
     lines += ["## References", ""] + _reference_list([index.ref[r] for r in m["references"]]) + [""]
     return "\n".join(lines)

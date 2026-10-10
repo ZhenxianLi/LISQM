@@ -887,6 +887,7 @@ def metric_page(index: Index, m: dict) -> str:
                      inline((m.get("edition_notes") or {}).get(rid, "")), who])
     parts.append(_table("editions", ["Date", "Edition", "Status", "What changed", "Implemented by"], rows))
 
+    parts.append(_metric_map_section(index, path, m, rel))
     parts.append('<h2 id="implementations">Implementations</h2>')
     checked = m["_all_impls"]  # every row, also those computed by another project
     ids = _validation_ids(checked, lambda i: i["_project"]["id"])
@@ -897,7 +898,7 @@ def metric_page(index: Index, m: dict) -> str:
                  _status_note(i, licence=True)]
                 for i in m["_impls"]]
         parts.append(_table("impls", ["Project", "Edition", "Functions", "Validation (as stated)", "Notes"], rows))
-        ported = (' The <a href="#map">project map</a> below shows which project was ported or adapted from which.'
+        ported = (' The <a href="#map">project map</a> above shows which project was ported or adapted from which.'
                   if rel["taken"] else "")
         parts.append(f'<p class="small muted">Projects in bold and other established projects come first, then '
                      f"newly released, developing and legacy ones. Validation is what each project says about its own "
@@ -916,7 +917,6 @@ def metric_page(index: Index, m: dict) -> str:
                                                   for s in m["see_also"]) + ".</p>")
     if checked:
         parts.append(_validation_section(index, path, checked, ids, on_metric=True))
-    parts.append(_metric_map_section(index, path, m, rel))
     parts.append(_conventions_section(index, path, checked, m.get("conventions") or [], on_metric=True))
     parts.append('<h2 id="references">References</h2>')
     parts.append(_ref_list([index.ref[r] for r in m["references"]]))
@@ -1224,7 +1224,7 @@ def projects_page(index: Index) -> str:
     to_map = relative(path, MAP)
     # The project map comes first; its own page explains the kinds of line and lists the relations in words.
     picture = _map_picture(index, path, RL.relations(index), (f"{to_map}#words", "on the map page"),
-                           "Project map: the same relations are listed in words on the map page.", legend_below=True)
+                           "Project map: the same relations are listed in words on the map page.")
     parts = [
         "<h1>Projects</h1>",
         f'<p class="byline">{plural(len(index.projects), "project")} · {plural(len(langs), "language")}</p>',
@@ -1337,12 +1337,10 @@ def _map_words(index: Index, path: str, rel: dict) -> str:
 
 
 def _map_picture(index: Index, path: str, rel: dict, words: tuple[str, str] | None,
-                 title: str = "Project map: the same relations are listed in words below the picture.",
-                 legend_below: bool = False) -> str:
+                 title: str = "Project map: the same relations are listed in words below the picture.") -> str:
     """The legend and the picture of a project map (the map page, the top of the Projects page, a metric page), or ""
-    when Graphviz is missing. The legend names only what the picture shows; with `legend_below` it comes under the
-    picture, as wide as it. On phones a hint says that a wide picture scrolls sideways, and `words` (a link and where
-    it leads) points to the same relations in words."""
+    when Graphviz is missing. The legend names only what the picture shows. On phones a hint says that a wide
+    picture scrolls sideways, and `words` (a link and where it leads) points to the same relations in words."""
     picture = RL.svg(index, rel, path, LANG_CODES, title)
     if not picture:
         return ""
@@ -1362,12 +1360,10 @@ def _map_picture(index: Index, path: str, rel: dict, words: tuple[str, str] | No
                 f'<a href="{words[0]}">in words</a> {words[1]}.</p>')
     elif wide and int(wide.group(1)) > 340:
         hint = '<p class="small muted phone-only">Scroll the picture sideways.</p>'
-    key = f'<ul class="map-legend{" below" if legend_below else ""}">' + "".join(legend) + "</ul>"
     return "\n".join(part for part in [
-        "" if legend_below else key,
+        '<ul class="map-legend">' + "".join(legend) + "</ul>",
         hint,
         f'<div class="map-wrap">{picture}</div>',
-        key if legend_below else "",
     ] if part)
 
 

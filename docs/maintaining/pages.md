@@ -87,15 +87,16 @@ Built by `metric_page()` from the metric in `data/metrics.yaml`, its editions in
   released projects implement it, then earlier editions and related models.
 - **Editions and who implements them**: each edition with its date, status, what changed (`revision`) and its
   implementations.
+- **Project map**, before the implementations: the map with only the lines of this metric's rows, each naming the
+  edition, and only between projects listed for this metric (a link to another project stays on the whole map). The
+  metric's projects that no line joins are boxes without lines in rows under the rest, below the words "no relation
+  recorded", as on the whole map; a single one stays in the first column. There is no such section when the metric
+  has no relation.
 - **Implementations**: one row per project and edition. Project and languages; edition with `scope` and `since`;
   functions; validation (the evidence tag, `validation_scope` under it, "also compared with …"); notes (group tag,
   licence tag, `unreleased`, `PR` or `partial`, the project it is computed by or uses, the row's `note`).
 - **How they were validated**: as reported by each project. The owner's own check (`maintainer_check`) appears
   apart, under the project's first entry.
-- **Project map**: the map with only the lines of this metric's rows, each naming the edition, and only between
-  projects listed for this metric (a link to another project stays on the whole map). The metric's projects that no
-  line joins are boxes without lines in rows under the rest, below the words "no relation recorded", as on the
-  whole map; a single one stays in the first column. There is no such section when the metric has no relation.
 - **Before you compare numbers**: the metric's `conventions`, then the projects' (their rows' conventions, and the
   project conventions that hold for this metric; a project convention with `metrics` appears only on those pages).
 - **References**.
@@ -106,7 +107,7 @@ Built by `metric_page()` from the metric in `data/metrics.yaml`, its editions in
 Built by `projects_page()`.
 
 - A paragraph on the order of the lists first (the bold projects are named from the data).
-- Then the full project map, with its legend under it, as wide as the picture, and a line pointing to the map page.
+- Then the full project map, with its legend above it, and a line pointing to the map page.
 - **Filter projects**: a field above the tables (JavaScript only) that hides the rows that do not match its words,
   and the groups left empty, and says how many projects are shown. It reads the text of each row: name, kind,
   languages, licence, release, activity and metrics.

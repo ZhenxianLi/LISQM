@@ -2,6 +2,11 @@
 
 Notable changes to the list. This file is generated from `data/updates.yaml`; the same notes are on the website (https://zhenxianli.github.io/LISQM/updates.html) and in its Atom feed.
 
+## 2026-10-10: Version 0.5.5: the map before the implementations
+
+On each metric page the project map now comes right after the editions, before the table of implementations.
+On the Projects page the legend of the map is back above the picture.
+
 ## 2026-10-10: Version 0.5.4: metric maps keep to their metric
 
 A line on the map of a metric page now joins only projects listed for that metric; the whole project map still
