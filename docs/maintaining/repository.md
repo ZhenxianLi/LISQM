@@ -43,8 +43,9 @@ creates them when they are missing.
 
 ## Versions and releases
 
-- Versions follow semantic versioning: `0.Y.0` for a version with new pages or features, `0.Y.Z` for corrections.
-  The owner decides when to make a version.
+- Versions follow semantic versioning, and every pushed update gets one without asking: small fixes and content
+  updates raise the third number (`0.5.2` → `0.5.3`), new website features the second (`0.5.x` → `0.6.0`). Version
+  1.0 is for the official release, when the owner decides.
 - A version is prepared in one commit: `version` in `data/site.yaml`; `version` and `date-released` in
   `CITATION.cff`; an entry "Version 0.Y: <what is new>" at the top of `data/updates.yaml`, short.
 - That commit is only pushed: no tag and no GitHub release. The one release the owner plans is version 1.0, which
