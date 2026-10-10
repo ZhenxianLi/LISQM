@@ -182,6 +182,8 @@ Built by `standards_page()`.
 
 - Every entry of `data/references.yaml`: standards and regulations, then model papers, books and theses, each with
   status, date, link or DOI and the metrics that use it. The sidebar lists each document once.
+- Each row carries the id `ref-<id>`: links from the Home timeline, the metric pages and the maps open the page at
+  that row, which is marked in light yellow (also near the end of the page, where it cannot reach the top).
 - `references.bib` holds all of them as BibTeX (generated).
 - Standards are not free: link the publisher's catalogue page; never host or commit a copy.
 

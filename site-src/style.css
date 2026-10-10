@@ -1049,6 +1049,12 @@ dl.validation dt:target {
   box-shadow: 0 0 0 .2rem var(--warn-bg);
 }
 
+/* The row of the Standards page that a link opens at (from the Home timeline, a metric page or the map). */
+table.grid tr:target,
+table.grid tr:target td {
+  background: var(--warn-bg);
+}
+
 /* Evidence tags can name long things ("compared with ArtemiS SUITE (HEAD acoustics)"), so they wrap. */
 table.impls .tag,
 dl.validation .evidence .tag {

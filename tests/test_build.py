@@ -887,6 +887,13 @@ class BuildTest(unittest.TestCase):
             self.assertIn(f'<div class="edition ed-current"><a class="ed-label" href="standards.html#ref-{rid}" '
                           f'title="{title}">', home, rid)
         self.assertNotIn("not the current edition", home)
+        # Such a link opens the Standards page at the whole row of the reference (its top, also on phones, where a
+        # row is a block with labels), and the style marks that row.
+        standards = (self.site / "standards.html").read_text(encoding="utf-8")
+        for rid in self.index.ref:
+            self.assertIn(f'<tr id="ref-{rid}">', standards, rid)
+        self.assertNotIn('<span id="ref-', standards)
+        self.assertIn("table.grid tr:target", (ROOT / "site-src" / "style.css").read_text(encoding="utf-8"))
 
     def test_one_vocabulary_and_one_name(self) -> None:
         # Code not in a release is "unreleased", an open pull request "PR" (the owner's choice), on every page.

@@ -553,15 +553,17 @@ def _edition_cell(path: str, i: dict) -> str:
     return cell
 
 
-def _table(cls: str, head: list[str], rows: list[list[str]], caption: str = "") -> str:
+def _table(cls: str, head: list[str], rows: list[list[str]], caption: str = "", ids: list[str] | None = None) -> str:
     """A gridded table; on narrow screens it scrolls sideways inside its own box, or (lists of projects,
-    implementations, editions and documents) shows each row as a block with the column names as labels."""
+    implementations, editions and documents) shows each row as a block with the column names as labels. `ids`
+    gives each row an id, so that a link can open the page at that row."""
     cap = f"<caption>{caption}</caption>" if caption else ""
     thead = "".join(f'<th scope="col">{h}</th>' for h in head)
     labels = [re.sub(r"<[^>]+>", "", h) for h in head]
-    body = "\n".join("<tr>" + "".join(f'<td data-label="{labels[n] if n < len(labels) else ""}">{c}</td>' if c else
-                                       f'<td class="empty" data-label="{labels[n] if n < len(labels) else ""}">—</td>'
-                                       for n, c in enumerate(row)) + "</tr>" for row in rows)
+    body = "\n".join((f'<tr id="{ids[i]}">' if ids else "<tr>")
+                     + "".join(f'<td data-label="{labels[n] if n < len(labels) else ""}">{c}</td>' if c else
+                               f'<td class="empty" data-label="{labels[n] if n < len(labels) else ""}">—</td>'
+                               for n, c in enumerate(row)) + "</tr>" for i, row in enumerate(rows))
     return (f'<div class="table-wrap"><table class="grid {cls}">{cap}<thead><tr>{thead}</tr></thead>\n'
             f"<tbody>\n{body}\n</tbody></table></div>")
 
@@ -1422,17 +1424,18 @@ def standards_page(index: Index) -> str:
     for title, anchor, refs in (("Standards and regulations", "standards", docs),
                                 ("Model papers, books and theses", "models", papers)):
         parts.append(f'<h2 id="{anchor}">{title}</h2>')
-        rows = []
+        rows, ids = [], []
         for r in sorted(refs, key=lambda r: (str(r.get("date") or "9999"), r["label"]), reverse=True):
             note = f'<br><span class="muted">{inline(r["revision"])}</span>' if r.get("revision") else ""
             label = _ref_link(r)
             if r["status"] in ("superseded", "withdrawn"):
                 label = f'<span class="old">{label}</span>'
-            rows.append([f'<span id="ref-{esc(r["id"])}"></span>' + (esc(month(r.get("date"))) or "—"),
+            ids.append(f"ref-{esc(r['id'])}")  # the whole row is what a link to the reference opens at
+            rows.append([esc(month(r.get("date"))) or "—",
                          f'{label}<br><span class="muted">{esc(r["title"])}</span>',
                          _ref_tag(r) + note,
                          ", ".join(_metric_link(path, m) for m in r["_metrics"])])
-        parts.append(_table("standards", ["Date", "Document", "Status", "Used by"], rows))
+        parts.append(_table("standards", ["Date", "Document", "Status", "Used by"], rows, ids=ids))
     return layout(index, path, title="Standards and model papers for psychoacoustic metrics",
                   description=("Timeline of ISO 532, ECMA-418-1, ECMA-418-2, DIN 45692, DIN 45681, ISO/TS 20065, "
                                "ISO 1996-2, ISO 226 and the model papers behind psychoacoustic metrics, with status."),
