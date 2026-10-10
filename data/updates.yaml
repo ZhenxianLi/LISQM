@@ -1,6 +1,12 @@
 # Dated notes shown on the Updates page, in the Atom feed and in CHANGELOG.md. Newest first.
 # Body: Markdown paragraphs and "- " bullet lists. See data/SCHEMA.md.
 
+- date: 2026-10-10
+  title: "Version 0.5.2: tidier maps and links"
+  body: |
+    - On the map of each metric page, projects that no line joins are laid out in rows instead of a column.
+    - A link to a standard or a paper opens the Standards page at its whole row, which is marked.
+
 - date: 2026-10-09
   title: "Version 0.5: search"
   body: |

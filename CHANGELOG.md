@@ -2,6 +2,11 @@
 
 Notable changes to the list. This file is generated from `data/updates.yaml`; the same notes are on the website (https://zhenxianli.github.io/LISQM/updates.html) and in its Atom feed.
 
+## 2026-10-10: Version 0.5.2: tidier maps and links
+
+- On the map of each metric page, projects that no line joins are laid out in rows instead of a column.
+- A link to a standard or a paper opens the Standards page at its whole row, which is marked.
+
 ## 2026-10-09: Version 0.5: search
 
 A search field in the tab bar finds metrics, standards and papers, projects and function names; on phones it
