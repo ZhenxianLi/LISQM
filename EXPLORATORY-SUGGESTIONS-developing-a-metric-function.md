@@ -25,6 +25,8 @@ Before coding
 - [ ] Check the **existing implementations** of the same edition, their validation and their open issues.
 - [ ] If you contribute to a project, check that its maintainers **answer**, and open an issue before the code.
 - [ ] Check the **licences** of everything you might read or port; decide your own.
+- [ ] If you port or adapt code, note the exact **version** (release and commit) and the exact **files and
+      functions** you take, and keep that note up to date.
 - [ ] Get the standard legally, and check what you may **redistribute** from it (usually nothing).
 
 While coding
@@ -122,19 +124,72 @@ LISQM's "Before you compare numbers" sections record for the common metrics.
   - SQAT's releases up to v1.3 are CC-BY-NC-4.0 (non-commercial); its `main` branch is GPL-3.0-or-later.
 - **When the licences do not fit, implement from the standard's text.** You may still compare your results with the
   GPL code: comparing is not copying.
-- **Record where code comes from**, in the file header and the README: project, file, version or commit, authors.
-  Good examples from the records:
-  - SQAT's Daniel & Weber roughness (v1.x) is AARAE's `roughnessDW.m`, Dik Hermes's code, adapted and verified for
-    SQAT in 2023.
-  - MetaSona, a new project, says that its roughness follows SQAT revision `e6228b78`, and which later SQAT fix it
-    does not include (PR #77).
-  - sottek-hearing-model's fluctuation strength names the MATLAB file it was translated from
-    (`acousticSHMFluctuation.m`).
+- **Record where code comes from**: see the next subsection.
 - **Choose your own licence knowingly.** Apache-2.0, BSD or MIT let any project, also a commercial one, reuse your
   code; GPL keeps derivatives open but cannot be merged into permissively licensed projects.
 - **The standard itself.** ISO and DIN documents are sold; Ecma standards are free to download. Do not commit the
   text, tables or test signals of a standard unless its licence allows it; generate signals from their description
   where you can.
+
+### When you port or adapt code: name the exact version and functions
+
+"Ported from SQAT" or "based on MoSQITo" is not enough. Say exactly which version and which functions you took.
+
+**Why it matters**
+
+- **The source changes, and so do its numbers.** Two ports of the same toolbox can give different results:
+  pySQAT follows SQAT v1.3, from before SQAT's September 2026 rewrite of Daniel & Weber roughness, which moved
+  63 of 119 validation values up and 56 down. MetaSona, a new project, follows a later SQAT revision. Only the
+  version tells a reader which numbers to expect.
+- **Bugs travel with the code.** Ports of MoSQITo 1.2.1 (Mosqito.NET, Kirin Hypha) carry that version's code: a
+  later fix in MoSQITo, such as the low-pass filter range in its pull request #95, reaches them only if they take it
+  in. Only the version tells whether a port has a known problem or its fix.
+- **Mislabels travel too.** Mosqito.NET's code comments say ISO 226:1987, while the tables it ported from MoSQITo
+  follow Jeff Tackett's code for ISO 226:2003.
+- **A comparison with the source checks the port only against that same version.** Name it, or the comparison
+  cannot be repeated.
+- **Default branches move.** sottek-hearing-model's fluctuation strength was translated from
+  `acousticSHMFluctuation.m`, which its report places in the RefMap repository, but the file is not on RefMap's
+  `main` branch (checked 2026-10-07). A commit hash or a permanent link would still find it.
+
+**What to write down**
+
+- The source project, its licence and the authors of the code.
+- The exact version: the release tag if there is one, and always the commit hash, with its date. Link the files at
+  that commit (a permanent link), not the default branch.
+- The exact files and functions you took, and the function of yours that each one became.
+- What you changed: the language, adaptations, options left out, fixes you made yourself.
+- Later changes in the source that you have or have not taken in, by issue or pull request number.
+
+**Where to write it**
+
+- In the header or docstring of each ported file or function.
+- In one central list for the whole project (a NOTICE or third-party file, or a section of the README).
+- In the validation report, next to any comparison with the source.
+- Update it every time you take in a newer version of the source.
+
+**Good examples from the records**
+
+- Kirin Hypha: a port of MoSQITo v1.2.1, naming `loudness_zwtv` and its stages.
+- ZwickerLoudness.jl: its transcription reference is MoSQITo's `loudness_zwtv` at commit `d990c33f94f1`.
+- MetaSona: ports SQAT revision `e6228b78` (2026-09-15), says which SQAT fixes that revision includes (#65) and
+  which later fix it does not (PR #77).
+- AARAE: its Daniel & Weber roughness was ported from PsySound3's `@RoughnessDW` by Ella Manor and Densil Cabrera
+  (2015); SQAT's v1.x roughness then took AARAE's `roughnessDW.m` (Dik Hermes's code), adapted and verified for SQAT
+  in 2023.
+
+**A header to copy**
+
+```text
+Ported from:      <project> (<repository URL>), licence <licence>, code by <authors>
+Version:          <release tag, or "not in a release">, commit <hash> (<date>)
+                  <permanent link to the file at that commit>
+Taken:            <file>:<function>  ->  <our function>
+                  <file>:<function>  ->  <our function>
+Changed:          <translated to …; adapted …; left out …; fixed …>
+Upstream changes: included <#…>; not included <#…>
+Compared with:    the source at the same commit; results in <validation page>
+```
 
 ---
 
@@ -262,7 +317,8 @@ Sample rate:                   (required rate; reject or resample, which resampl
 Options and defaults:          (field, start-up time left out, percentile method, frame/hop, constants)
 Outputs and units:             (single values, time series, specific values)
 Departures from the text:      (each with its reason)
-Code it is based on:           (project, file, version or commit, licence) or "written from the standard"
+Code it is based on:           (project, licence, release and commit, files and functions taken; what was
+                               changed; later upstream fixes included or not) or "written from the standard"
 Licence of this code:
 Test signals and targets:      (from the standard; tolerances)
 Independent comparison:        (which implementation, same edition, different lineage)
