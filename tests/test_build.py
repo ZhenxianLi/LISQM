@@ -609,24 +609,51 @@ class BuildTest(unittest.TestCase):
         self.assertEqual(len(tails), len(set(tails)))
         self.assertEqual(len(heads), len(set(heads)))
         self.assertEqual(len(tails), sum(line["kind"] != "people" for line in RL.lines(self.index, rel)))
-        # Code taken is not drawn again as a comparison. A shared contributor has a grey line of its own, also beside
-        # a line of another kind, but not beside the author's own code, which says the same.
+        # Code taken is not drawn again as a comparison for the same metric. A shared contributor has a grey line of
+        # its own, also beside a line of another kind, but not beside the author's own code, which says the same.
         self.assertEqual(kinds[("mosqito", "zwickerloudness-jl")], "port")
         by_pair: dict[frozenset, list[str]] = {}
         for line in RL.lines(self.index, rel):
             by_pair.setdefault(frozenset((line["source"], line["user"])), []).append(line["kind"])
         for pair, both in by_pair.items():
-            self.assertTrue(len(both) == 1 or (len(both) == 2 and "people" in both and "own" not in both), pair)
-        self.assertEqual(sorted(by_pair[frozenset(("mosqito", "mosqito-fdp"))]), ["people", "port"])
+            self.assertEqual(len(both), len(set(both)), pair)  # at most one line of each kind
+            self.assertFalse("people" in both and "own" in both, pair)
+        # MoSQITo-FDP took its author's hearing model from MoSQITo (green) and others' TNR/PR code (black): both
+        # lines. PsychoacousticMetrics.jl ported MoSQITo's roughness (black) and checked its sharpness against it.
+        self.assertEqual(sorted(by_pair[frozenset(("mosqito", "mosqito-fdp"))]), ["own", "port"])
+        self.assertEqual(sorted(by_pair[frozenset(("mosqito", "psychoacousticmetrics-jl"))]), ["compare", "port"])
         self.assertEqual(by_pair[frozenset(("sqat", "sottek-hearing-model"))], ["people"], "Mike Lotinga")
         self.assertEqual(by_pair[frozenset(("refmap-psychoacoustics", "sqat"))], ["own"])
         self.assertEqual(by_pair[frozenset(("acoustic-toolbox", "soundscapy"))], ["people"])
         # A person on both sides of a code line is recorded on the rows, not guessed: at least one row of the pair
         # says derived_by_author (MoSQITo-FDP took its author's hearing model from MoSQITo, and others' TNR/PR code).
+        rows_of: dict[tuple, list] = {}
         for e in rel["taken"]:
             if e["shared"]:
-                self.assertTrue(any(i.get("derived_by_author") for i in e["rows"]),
-                                f"{e['key']} -> {e['project']['id']}: derived_by_author?")
+                rows_of.setdefault((e["key"], e["project"]["id"]), []).extend(e["rows"])
+        for (key, pid), rows in rows_of.items():
+            self.assertTrue(any(i.get("derived_by_author") for i in rows), f"{key} -> {pid}: derived_by_author?")
+
+    def test_metric_maps_agree_with_the_whole_map(self) -> None:
+        # Every line of a metric map is on the whole map with the same kind, except a grey same-contributor line
+        # where the whole map has a green line of the author's own code, which says the same. A line of the whole
+        # map that is on no metric map joins two projects with no metric in common.
+        whole: dict[frozenset, set] = {}
+        for line in RL.lines(self.index, RL.relations(self.index)):
+            whole.setdefault(frozenset((line["source"], line["user"])), set()).add(line["kind"])
+        seen: set[frozenset] = set()
+        for m in self.index.metrics:
+            for line in RL.lines(self.index, RL.relations(self.index, m)):
+                pair = frozenset((line["source"], line["user"]))
+                seen.add(pair)
+                self.assertIn(pair, whole, (m["id"], sorted(pair)))
+                if not (line["kind"] == "people" and "own" in whole[pair]):
+                    self.assertIn(line["kind"], whole[pair], (m["id"], sorted(pair)))
+        metrics_of = {p["id"]: {i["metric"] for i in p["_impls"]} for p in self.index.projects}
+        for pair in set(whole) - seen:
+            a, b = sorted(pair)
+            self.assertTrue(a in metrics_of and b in metrics_of, sorted(pair))
+            self.assertFalse(metrics_of[a] & metrics_of[b], sorted(pair))
 
     def test_project_map_page(self) -> None:
         page = (self.site / "projects/map.html").read_text(encoding="utf-8")
@@ -744,7 +771,8 @@ class BuildTest(unittest.TestCase):
         self.assertIn('xlink:href="../projects/phonometry.html"', svg)
         self.assertNotIn("Not on the map", moore)
         self.assertRegex((self.site / "metrics/loudness-moore-glasberg.md").read_text(encoding="utf-8"),
-                         r"On the map without a line, as no relation is recorded for them: [^\n]*\[phonometry\]")
+                         r"On the map without a line, as no relation to another project listed for [^\n]* is recorded "
+                         r"for them: [^\n]*\[phonometry\]")
         for page in ("projects/map.html", "projects/index.html"):
             whole = (self.site / page).read_text(encoding="utf-8")
             start = whole.index('<svg class="map-graph"')

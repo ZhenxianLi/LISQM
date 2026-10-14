@@ -142,7 +142,10 @@ in `data/SCHEMA.md`. Built by `map_page()`.
   without leave); the author's own code (green arrow, `derived_by_author`); used at run time (dotted arrow, `uses`);
   results checked against another project (dashed blue arrow, `compared_with`); same contributor (grey line without an
   arrow: a name in `maintainers` or `contributors` of both projects; drawn also beside a line of another kind, but not
-  beside a green line, which already says that the same person is involved).
+  beside a green line, which already says that the same person is involved). The whole map shows every line of every
+  metric page's map: a pair with the author's own code for one metric and ported code for another has both lines, and
+  a comparison for one metric is drawn beside a code line for another. Lines of the whole map that are on no metric
+  map join projects with no metric in common (a test checks all of this).
 - **Direction**: sources stand on the left, and an arrow points from the source to the project that uses it. A
   check points from the project to the one it checked its results against: "A's results checked against B" is
   drawn A → B. Every line has an end of its own: it leaves a box on its right side and enters the next box on its

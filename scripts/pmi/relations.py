@@ -3,11 +3,12 @@
 Sources stand to the left of the map: code and use run from the source to the project that uses it, and a check
 points back from the project to the one it checked its results against.
 
-- ported or adapted code: a row's `derived_from` (else the project's `based_on`); "own" when every row of the pair
-  says `derived_by_author`, that is, the code was moved by its own author or within the same team;
+- ported or adapted code: a row's `derived_from` (else the project's `based_on`); "own" for the rows that say
+  `derived_by_author`, that is, the code was moved by its own author or within the same team (a pair with rows of
+  both kinds has a green and a black line);
 - used at run time: a row's `via` (another project does the computation) and `uses` (it needs another project);
 - results checked: a row's `compared_with`, leaving out comparisons with related code (`_relation`) and pairs that
-  another line already joins;
+  another line already joins for the same metric;
 - same contributor: a person named in `maintainers` or `contributors` of both projects (no direction); not drawn
   beside a line of the author's own code, which says the same.
 
@@ -110,39 +111,41 @@ def relations(index: Index, metric: dict | None = None) -> dict:
         """What a line is about: the metric, or on the map of one metric the edition."""
         return i["_ref"]["label"] if metric else i["_metric"]["name"]
 
-    taken: dict[tuple, dict] = {}   # (source key, project id) -> pair
+    taken: dict[tuple, dict] = {}   # (source key, project id, own) -> line: a pair with rows of both kinds has two
     refs: dict[str, Counter] = {}   # a published program -> the editions of the rows that took code from it
+    joined: set[tuple] = set()      # (pair, metric id): pairs that a code or run-time line joins, by metric
     for p in index.projects_by_group():
         for i in rows(p):
             for cid, (name, q) in zip(i["_derived_ids"], i["_derived"]):
                 if not on_map(cid):
                     continue
-                e = taken.setdefault((cid, p["id"]), {"key": cid, "source": q, "name": name, "project": p,
-                                                       "metrics": [], "rows": []})
+                own = bool(i.get("derived_by_author"))
+                e = taken.setdefault((cid, p["id"], own), {"key": cid, "source": q, "name": name, "project": p,
+                                                            "own": own, "metrics": [], "rows": []})
                 _add(e["metrics"], what(i))
                 e["rows"].append(i)
+                joined.add((frozenset((cid, p["id"])), i["metric"]))
                 if q is None:
                     refs.setdefault(cid, Counter())[i["reference"]] += 1
     for e in taken.values():
-        e["own"] = all(i.get("derived_by_author") for i in e["rows"])
         e["shared"] = [m for m in people_of(e["project"]) if e["source"] and m in people_of(e["source"])]
-    joined = {frozenset((k, pid)) for k, pid in taken}
 
     uses: dict[tuple, dict] = {}    # (user id, source id) -> {"calls": [...], "needs": [...]}
     for p in index.projects_by_group():
         for i in rows(p):
             if i.get("_via") and on_map(i["_via"]["id"]):
                 _add(uses.setdefault((p["id"], i["_via"]["id"]), {"calls": [], "needs": []})["calls"], what(i))
+                joined.add((frozenset((p["id"], i["_via"]["id"])), i["metric"]))
             for q in [q for q in i.get("_uses") or [] if on_map(q["id"])]:
                 _add(uses.setdefault((p["id"], q["id"]), {"calls": [], "needs": []})["needs"], what(i))
-    joined |= {frozenset(k) for k in uses}
+                joined.add((frozenset((p["id"], q["id"])), i["metric"]))
 
     compares: dict[tuple, list] = {}  # (project id, the project it compared with) -> metrics
     for p in index.projects_by_group():
         for i in rows(p):
             for c in i.get("compared_with") or []:
                 if c in index.project and on_map(c) and c not in (i.get("_relation") or {}) and not i.get("via") \
-                        and frozenset((p["id"], c)) not in joined:
+                        and (frozenset((p["id"], c)), i["metric"]) not in joined:
                     _add(compares.setdefault((p["id"], c), []), what(i))
 
     # A person on both projects: a grey line, also beside a line of another kind, but not beside a line of the

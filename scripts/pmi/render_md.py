@@ -219,16 +219,16 @@ def _metric_map(index: Index, m: dict) -> list[str]:
     if not RL.count_lines(rel):
         return []
     lines = ["## Project map", "",
-             f"The lines of the project map for {in_sentence(m['name'])} only (the whole map: "
-             f"{index.site['base_url']}{md_twin(MAP)})."
+             f"The lines of the project map for {in_sentence(m['name'])} only, between the projects listed for it "
+             f"(the whole map: {index.site['base_url']}{md_twin(MAP)})."
              + (" Agreement between a project and the code it was ported or adapted from only checks the port."
                 if rel["taken"] else ""), ""]
     lines += _relation_lines(index, rel, "###")
     alone = RL.alone(index, rel)
     if alone:
         name = _namer(index)
-        lines += ["On the map without a line, as no relation is recorded for them: "
-                  + join_words([name(p) for p in alone]) + ".", ""]
+        lines += [f"On the map without a line, as no relation to another project listed for {in_sentence(m['name'])} "
+                  "is recorded for them: " + join_words([name(p) for p in alone]) + ".", ""]
     return lines
 
 

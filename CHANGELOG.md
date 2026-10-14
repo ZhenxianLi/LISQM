@@ -2,6 +2,12 @@
 
 Notable changes to the list. This file is generated from `data/updates.yaml`; the same notes are on the website (https://zhenxianli.github.io/LISQM/updates.html) and in its Atom feed.
 
+## 2026-10-14: Version 0.5.6: the maps agree
+
+The whole project map now shows every line of every metric page's map: a project with its author's own code for
+one metric and ported code for another has both lines, and a comparison for one metric is drawn beside a code
+line for another. Only a same-contributor line is left out beside a line of the author's own code.
+
 ## 2026-10-10: Version 0.5.5: the map before the implementations
 
 On each metric page the project map now comes right after the editions, before the table of implementations.

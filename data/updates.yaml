@@ -1,6 +1,13 @@
 # Dated notes shown on the Updates page, in the Atom feed and in CHANGELOG.md. Newest first.
 # Body: Markdown paragraphs and "- " bullet lists. See data/SCHEMA.md.
 
+- date: 2026-10-14
+  title: "Version 0.5.6: the maps agree"
+  body: |
+    The whole project map now shows every line of every metric page's map: a project with its author's own code for
+    one metric and ported code for another has both lines, and a comparison for one metric is drawn beside a code
+    line for another. Only a same-contributor line is left out beside a line of the author's own code.
+
 - date: 2026-10-10
   title: "Version 0.5.5: the map before the implementations"
   body: |

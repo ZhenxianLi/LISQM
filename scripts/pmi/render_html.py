@@ -414,7 +414,8 @@ def _metric_map_section(index: Index, path: str, m: dict, rel: dict) -> str:
                            "connected.</p>"]))
     return "\n".join([
         '<h2 id="map">Project map</h2>',
-        f'<p>The <a href="{to_map}">project map</a>, with only the lines for {esc(in_sentence(m["name"]))}.'
+        f'<p>The <a href="{to_map}">project map</a>, with only the lines for {esc(in_sentence(m["name"]))} between '
+        "the projects listed for it."
         + (" Agreement between a project and the code it was ported or adapted from only checks the port."
            if rel["taken"] else "")
         + "</p>",
