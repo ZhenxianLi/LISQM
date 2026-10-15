@@ -14,7 +14,7 @@
     "github": "ZhenxianLi"
   },
   "credit": "Developed by Zhenxian LI with assistance from Claude Code.",
-  "as_of": "2026-10-14",
+  "as_of": "2026-10-15",
   "schema": "https://github.com/ZhenxianLi/LISQM/blob/main/data/SCHEMA.md",
   "counts": {
     "metrics": 22,
@@ -4730,10 +4730,10 @@
       ],
       "checked": "2026-10-08",
       "url": "https://zhenxianli.github.io/LISQM/projects/sqat.html",
-      "last_commit": "2026-10-02",
+      "last_commit": "2026-10-15",
       "latest_release": {
-        "version": "v1.3",
-        "date": "2025-04-04",
+        "version": "v2.0",
+        "date": "2026-10-15",
         "source": "GitHub release"
       },
       "prerelease": null,
@@ -5312,70 +5312,6 @@
       "group": "established"
     },
     {
-      "id": "pd-psycho",
-      "name": "PSYCHO",
-      "repository": "https://github.com/porres/pd-psycho",
-      "languages": [
-        "Pure Data",
-        "C"
-      ],
-      "kind": "plugin",
-      "core": "C",
-      "language_note": "Objects for Pure Data: C externals built with pd-lib-builder, and Pd abstractions.",
-      "standing": "established",
-      "license": "GPL-3.0-or-later",
-      "license_note": "LICENSE.txt holds the GPL v3 text; the only licence notice in the sources (roughness.c) allows any later version.",
-      "maintainers": [
-        "Alexandre Torres Porres"
-      ],
-      "summary": "Pure Data library of psychoacoustic objects (C externals and abstractions) from the author's research on dissonance models. Includes ISO 226:2003 equal-loudness contours and phon, sone and dB conversions, as well as roughness, sharpness and tonalness objects.",
-      "ai_assistance": "not-stated",
-      "paper": {
-        "citation": "Porres, A. T. (2011). Dissonance Model Toolbox in Pure Data. *Proceedings of the 4th Pure Data International Convention (PdCon11)*, Berlin."
-      },
-      "notes": [
-        "The roughness objects (`[roughness]`, `[roughcurve]`) compute the sensory dissonance of a spectrum given as lists of frequencies and amplitudes, with a model \"derived from the work of Parncutt, Sethares, Vassilakis & Barlow\"; this is not one of the signal-based roughness metrics in this list.",
-        "`[sharpness~]` is an abstraction built on `[barks~]` (24 Bark bands) and names no sharpness model.",
-        "Tonalness, pitch salience and commonality follow Parncutt & Strasburger (1994), after Terhardt; they are not tonality metrics in the sense of this list.",
-        "From the author's MSc and PhD work (2005–2012). Version 1.1 was released on 2025-10-14 (git tags 1.0 of 2019 and 1.1; no GitHub releases). It builds with pd-lib-builder."
-      ],
-      "caveats": [
-        "The README calls the library \"still a work in progress\"."
-      ],
-      "implements": [
-        {
-          "metric": "equal-loudness-contours",
-          "reference": "iso-226-2003",
-          "functions": [
-            "[iso226]"
-          ],
-          "status": "available",
-          "validation": "not-stated",
-          "note": "The help patch names ISO 226:2003. Related objects convert between phon and dB (`[phon2db]`, `[db2phon]`) and between phon and sone (`[phon2sone]`, `[sone2phon]`)."
-        }
-      ],
-      "sources": [
-        "https://github.com/porres/pd-psycho",
-        "https://github.com/porres/pd-psycho/blob/master/README.md",
-        "https://github.com/porres/pd-psycho/blob/master/LICENSE.txt",
-        "https://github.com/porres/pd-psycho/tree/master/Classes",
-        "https://github.com/porres/pd-psycho/tree/master/Help-files"
-      ],
-      "checked": "2026-10-06",
-      "url": "https://zhenxianli.github.io/LISQM/projects/pd-psycho.html",
-      "last_commit": "2025-10-14",
-      "latest_release": {
-        "version": "1.1",
-        "date": "2025-10-14",
-        "source": "GitHub release"
-      },
-      "prerelease": null,
-      "activity": "active",
-      "archived": false,
-      "stars": 22,
-      "group": "established"
-    },
-    {
       "id": "refmap-psychoacoustics",
       "name": "refmap-psychoacoustics",
       "repository": "https://github.com/acoustics-code-salford/refmap-psychoacoustics",
@@ -5547,7 +5483,7 @@
       ],
       "checked": "2026-10-07",
       "url": "https://zhenxianli.github.io/LISQM/projects/refmap-psychoacoustics.html",
-      "last_commit": "2026-10-06",
+      "last_commit": "2026-10-14",
       "latest_release": null,
       "prerelease": null,
       "activity": "active",
@@ -5872,6 +5808,70 @@
       "activity": "inactive",
       "archived": false,
       "stars": null,
+      "group": "established"
+    },
+    {
+      "id": "pd-psycho",
+      "name": "PSYCHO",
+      "repository": "https://github.com/porres/pd-psycho",
+      "languages": [
+        "Pure Data",
+        "C"
+      ],
+      "kind": "plugin",
+      "core": "C",
+      "language_note": "Objects for Pure Data: C externals built with pd-lib-builder, and Pd abstractions.",
+      "standing": "established",
+      "license": "GPL-3.0-or-later",
+      "license_note": "LICENSE.txt holds the GPL v3 text; the only licence notice in the sources (roughness.c) allows any later version.",
+      "maintainers": [
+        "Alexandre Torres Porres"
+      ],
+      "summary": "Pure Data library of psychoacoustic objects (C externals and abstractions) from the author's research on dissonance models. Includes ISO 226:2003 equal-loudness contours and phon, sone and dB conversions, as well as roughness, sharpness and tonalness objects.",
+      "ai_assistance": "not-stated",
+      "paper": {
+        "citation": "Porres, A. T. (2011). Dissonance Model Toolbox in Pure Data. *Proceedings of the 4th Pure Data International Convention (PdCon11)*, Berlin."
+      },
+      "notes": [
+        "The roughness objects (`[roughness]`, `[roughcurve]`) compute the sensory dissonance of a spectrum given as lists of frequencies and amplitudes, with a model \"derived from the work of Parncutt, Sethares, Vassilakis & Barlow\"; this is not one of the signal-based roughness metrics in this list.",
+        "`[sharpness~]` is an abstraction built on `[barks~]` (24 Bark bands) and names no sharpness model.",
+        "Tonalness, pitch salience and commonality follow Parncutt & Strasburger (1994), after Terhardt; they are not tonality metrics in the sense of this list.",
+        "From the author's MSc and PhD work (2005–2012). Version 1.1 was released on 2025-10-14 (git tags 1.0 of 2019 and 1.1; no GitHub releases). It builds with pd-lib-builder."
+      ],
+      "caveats": [
+        "The README calls the library \"still a work in progress\"."
+      ],
+      "implements": [
+        {
+          "metric": "equal-loudness-contours",
+          "reference": "iso-226-2003",
+          "functions": [
+            "[iso226]"
+          ],
+          "status": "available",
+          "validation": "not-stated",
+          "note": "The help patch names ISO 226:2003. Related objects convert between phon and dB (`[phon2db]`, `[db2phon]`) and between phon and sone (`[phon2sone]`, `[sone2phon]`)."
+        }
+      ],
+      "sources": [
+        "https://github.com/porres/pd-psycho",
+        "https://github.com/porres/pd-psycho/blob/master/README.md",
+        "https://github.com/porres/pd-psycho/blob/master/LICENSE.txt",
+        "https://github.com/porres/pd-psycho/tree/master/Classes",
+        "https://github.com/porres/pd-psycho/tree/master/Help-files"
+      ],
+      "checked": "2026-10-06",
+      "url": "https://zhenxianli.github.io/LISQM/projects/pd-psycho.html",
+      "last_commit": "2025-10-14",
+      "latest_release": {
+        "version": "1.1",
+        "date": "2025-10-14",
+        "source": "GitHub release"
+      },
+      "prerelease": null,
+      "activity": "inactive",
+      "archived": false,
+      "stars": 22,
       "group": "established"
     },
     {
@@ -6294,16 +6294,16 @@
       ],
       "checked": "2026-10-07",
       "url": "https://zhenxianli.github.io/LISQM/projects/kirin-hypha.html",
-      "last_commit": "2026-10-07",
+      "last_commit": "2026-10-14",
       "latest_release": {
         "version": "v1.1.50",
         "date": "2026-09-21",
-        "source": ""
+        "source": "GitHub release"
       },
       "prerelease": null,
       "activity": "active",
       "archived": false,
-      "stars": null,
+      "stars": 6,
       "group": "newly-released"
     },
     {
@@ -6476,7 +6476,7 @@
       "prerelease": null,
       "activity": "active",
       "archived": false,
-      "stars": null,
+      "stars": 0,
       "group": "newly-released"
     },
     {
@@ -6886,7 +6886,7 @@
       ],
       "checked": "2026-10-08",
       "url": "https://zhenxianli.github.io/LISQM/projects/phonometry.html",
-      "last_commit": "2026-10-06",
+      "last_commit": "2026-10-14",
       "latest_release": {
         "version": "v3.3.0",
         "date": "2026-07-26",
@@ -6898,7 +6898,7 @@
       },
       "activity": "active",
       "archived": false,
-      "stars": 119,
+      "stars": 125,
       "group": "newly-released"
     },
     {
@@ -7033,16 +7033,16 @@
       ],
       "checked": "2026-10-08",
       "url": "https://zhenxianli.github.io/LISQM/projects/psychoacousticmetrics-jl.html",
-      "last_commit": "2026-09-02",
+      "last_commit": "2026-09-03",
       "latest_release": {
-        "version": "0.5.0",
+        "version": "v0.5.0",
         "date": "2026-09-02",
-        "source": ""
+        "source": "GitHub release"
       },
       "prerelease": null,
       "activity": "active",
       "archived": false,
-      "stars": null,
+      "stars": 1,
       "group": "newly-released"
     },
     {
@@ -7567,7 +7567,7 @@
       "prerelease": null,
       "activity": "active",
       "archived": false,
-      "stars": 5,
+      "stars": 6,
       "group": "developing"
     },
     {
@@ -7628,7 +7628,7 @@
       "prerelease": null,
       "activity": "inactive",
       "archived": false,
-      "stars": 17,
+      "stars": 19,
       "group": "developing"
     },
     {
@@ -8302,7 +8302,7 @@
       "prerelease": null,
       "activity": "inactive",
       "archived": false,
-      "stars": 530,
+      "stars": 532,
       "group": "legacy"
     },
     {
