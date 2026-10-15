@@ -1,4 +1,9 @@
 {
-  "failing": {},
-  "generated": null
+  "failing": {
+    "https://web.archive.org/web/20150306205824/http://genesis-acoustics.com/index.php?page=32": {
+      "detail": "network error: [Errno 111] Connection refused",
+      "since": "2026-10-15"
+    }
+  },
+  "generated": "2026-10-15T09:59:05Z"
 }
