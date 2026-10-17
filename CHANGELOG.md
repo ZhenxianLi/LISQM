@@ -2,6 +2,13 @@
 
 Notable changes to the list. This file is generated from `data/updates.yaml`; the same notes are on the website (https://zhenxianli.github.io/LISQM/updates.html) and in its Atom feed.
 
+## 2026-10-17: Version 0.5.7: SQAT v2.0 and ecma418-torch
+
+- SQAT v2.0 is out. Its 4th-edition ECMA-418-2 functions and the Widmann annoyance model are now in a release,
+  the release is under the GPL, and the SQAT page says what changed from v1.3.
+- Added ecma418-torch, a newly released Python package with differentiable ECMA-418-2:2025 roughness and
+  fluctuation strength in PyTorch. It was found by the scheduled search for new projects.
+
 ## 2026-10-14: Version 0.5.6: the maps agree
 
 The whole project map now shows every line of every metric page's map: a project with its author's own code for

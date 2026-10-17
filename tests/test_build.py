@@ -23,7 +23,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 import build  # noqa: E402
 from pmi.data import GROUP_ORDER, KINDS, load, update_anchor  # noqa: E402
 from pmi.describe import timeline  # noqa: E402
-from pmi import relations as RL, render_html  # noqa: E402
+from pmi import describe, relations as RL, render_html  # noqa: E402
 from pmi.text import blocks  # noqa: E402
 from pmi.render_html import LANG_CODES, _analytics  # noqa: E402
 
@@ -971,17 +971,17 @@ class BuildTest(unittest.TestCase):
 
     def test_validation_scope_is_shown_with_the_evidence(self) -> None:
         page = (self.site / "metrics/loudness-zwicker.html").read_text(encoding="utf-8")
-        self.assertIn('standard or paper data</a><br><span class="small muted">(in v1.3, test signal 10 is off by '
-                      '18.14 %)</span>', page)
+        self.assertIn('standard or paper data</a><br><span class="small muted">(time-varying signals only)</span>',
+                      page)
         self.assertIn('standard or paper data</span> <span class="muted">(outcome not stated)</span>', page)
         md = (self.site / "metrics/loudness-ecma-418-2.md").read_text(encoding="utf-8")
         self.assertIn("standard or paper data (calibration signal only; outside the allowed adjustment)", md)
-        impl = self.index.project["sqat"]["implements"][0]
+        impl = self.index.project["aarae"]["implements"][0]
         try:
             impl["validation_scope"] = "x" * 61
             self.assertIn("validation_scope must be a few words", "\n".join(self.index.validate()))
         finally:
-            impl["validation_scope"] = "in v1.3, test signal 10 is off by 18.14 %"
+            impl["validation_scope"] = "time-varying signals only"
         self.assertEqual(self.index.validate(), [])
 
     def test_licence_flags_where_projects_are_compared(self) -> None:
@@ -992,14 +992,18 @@ class BuildTest(unittest.TestCase):
                 if f'projects/{pid}.html"' in row and f">{edition}</a>" in row:
                     return row
             self.fail(f"{pid} {edition} not in {page}")
-        # No licence file, a non-commercial or a source-available licence is tagged on the metric pages; SQAT's
-        # releases are non-commercial, while its default branch is under the GPL.
+        # No licence file, a non-commercial or a source-available licence is tagged on the metric pages. SQAT's
+        # releases up to v1.3 are non-commercial; since v2.0 they are under the GPL, like its default branch.
         self.assertIn(">no licence<", notes("metrics/loudness-moore-glasberg-time-varying.html", "js2251-iso532-3",
                                             "ISO 532-3:2023"))
         self.assertIn(">source-available<", notes("metrics/loudness-zwicker.html", "soundpalette", "ISO 532-1:2017"))
         ecma = "metrics/loudness-ecma-418-2.html"
-        self.assertIn(">non-commercial<", notes(ecma, "sqat", "ECMA-418-2:2024 (3rd ed.)"))
         self.assertNotIn(">non-commercial<", notes(ecma, "sqat", "ECMA-418-2:2025 (4th ed.)"))
+        # When only the releases are non-commercial, a row that is only on the default branch is not flagged.
+        both = {"license": "GPL-3.0-or-later (main) / CC-BY-NC-4.0 (releases)"}
+        self.assertEqual(describe.licence_flag(both, {"status": "available"}), "non-commercial")
+        self.assertEqual(describe.licence_flag(both, {"status": "unreleased"}), "")
+        self.assertEqual(describe.licence_flag({"license": "CC-BY-NC-4.0"}, {"status": "unreleased"}), "non-commercial")
         languages = (self.site / "languages.html").read_text(encoding="utf-8")
         self.assertRegex(languages, r'projects/soundpalette\.html">SoundPalette</a> <span class="tag tag-new"[^>]*>new'
                                     r'</span> <span class="tag tag-neutral"[^>]*>source-available<')

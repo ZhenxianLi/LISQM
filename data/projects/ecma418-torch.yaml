@@ -1,0 +1,95 @@
+id: ecma418-torch
+name: ecma418-torch
+repository: https://github.com/agrathwohl/ecma418-torch
+docs: https://github.com/agrathwohl/ecma418-torch#readme
+languages: [Python]
+kind: library
+language_note: >-
+  A PyTorch package (Python 3.10 or newer, PyTorch 2.0 or newer) that computes in float64 and is differentiable end
+  to end, so the metrics can serve as terms in gradient-based optimisation. Not on PyPI yet.
+standing: newly-released
+standing_note: First published on GitHub on 2026-10-11 (version 0.1.0 in its metadata); no release or PyPI package yet.
+license: MIT
+maintainers: [Andrew Grathwohl]
+summary: >-
+  Roughness (Clause 7) and fluctuation strength (Clause 9) of ECMA-418-2:2025 (4th edition) in PyTorch,
+  differentiable end to end, with the binaural combination of two channels. The code cites the formula numbers of
+  the standard and lists the places where it reads a printed formula differently.
+ai_assistance: not-stated
+notes:
+  - >-
+    The README describes the gradient as the derivative of the metric wherever the metric is differentiable; the
+    tests check it against central differences and with the Taylor remainder (`tests/test_gradients.py`).
+  - >-
+    The tests run sottek-hearing-model as an oracle: its outputs for five test signals are stored in
+    `tests/fixtures`, with the commit they were made with. The fluctuation strength of sottek-hearing-model used
+    there is not in a release yet.
+  - >-
+    The README reports 22 s forward and 32 s backward for 240 s of stereo audio at 44.1 kHz on an RTX 3090 Ti
+    (10.6 GiB peak memory), for roughness and fluctuation strength together.
+conventions:
+  - Input at other sample rates is resampled to 48 kHz (band-limited, by the Fourier method).
+  - >-
+    The single value is the 90th percentile from `torch.quantile` (linear interpolation) of the time-dependent
+    values, after the first 16 (roughness) or 36 (fluctuation strength) values at 50 Hz are left out.
+  - >-
+    The outer and middle ear filter uses the coefficients as printed in Table 1 of the standard, where
+    sottek-hearing-model uses unrounded ones.
+caveats:
+  - Very new (first published in October 2026) and not yet seen to be widely used in the community; no independent verification has been published.
+  - Single author; one commit so far.
+implements:
+  - metric: roughness-ecma-418-2
+    reference: ecma-418-2-ed4
+    functions: [roughness]
+    scope: with binaural combination; without the optional entropy weighting of Section 7.1.6
+    status: available
+    validation: cross-implementation
+    compared_with: [sottek-hearing-model, "ArtemiS SUITE (HEAD acoustics)"]
+    validation_details:
+      - >-
+        The 1 kHz tone amplitude-modulated at 70 Hz (60 dB SPL) gives 0.9999987 asper for 10 s (the test allows
+        1e-4 around 1), and the average specific roughness in band 17 is 0.37348, against 0.374 from ArtemiS v17 as
+        quoted in the tests of sottek-hearing-model.
+      - >-
+        Against sottek-hearing-model run as an oracle on three signals (the calibration tone, noise and a mixture of
+        modulated tones and noise), the time-dependent values differ by at most 2e-5 asper and the single values by
+        at most 2e-5; the README traces the residual to the rounded filter coefficients.
+      - The tests also check that two identical channels give the mono result and that input at 44.1 kHz gives the 48 kHz result within 0.2 %.
+  - metric: fluctuation-strength-ecma-418-2
+    reference: ecma-418-2-ed4
+    functions: [fluctuation_strength]
+    scope: with binaural combination
+    status: available
+    validation: cross-implementation
+    compared_with: [sottek-hearing-model, "ArtemiS SUITE (HEAD acoustics)"]
+    conventions:
+      - >-
+        By default it follows the printed text in three places where sottek-hearing-model decides otherwise: the step
+        limit of Formula (152) (2e-4 Hz, against 0.2), no fundamental required for an assumed order in Section
+        9.1.8, and machine epsilon for ε0 (against 1e-12). The options `newton_cap` and `require_fundamental` give
+        sottek-hearing-model's choices.
+      - >-
+        Formula (127) is computed with π instead of the printed 2π in the phase term, and Formula (144) without the
+        printed "− 1", which the code says would shift every rate down one bin.
+    validation_details:
+      - >-
+        The 1 kHz tone amplitude-modulated at 4 Hz (60 dB SPL) gives 0.99579 vacil for 10 s (the test allows 1e-2
+        around 1), and the average specific fluctuation strength in band 17 is 0.38876, against 0.395 from ArtemiS
+        v17 as quoted in the tests of sottek-hearing-model.
+      - >-
+        Against sottek-hearing-model run as an oracle on two signals: with that package's three choices, the
+        time-dependent values differ by at most 6.3e-5 vacil and the single values by at most 6.3e-5; with the
+        defaults, which follow the printed text, the single values differ by 0.2 % and 0.5 %.
+manual:
+  last_commit: 2026-10-11
+  archived: false
+sources:
+  - https://github.com/agrathwohl/ecma418-torch/blob/master/README.md
+  - https://github.com/agrathwohl/ecma418-torch/blob/master/LICENSE
+  - https://github.com/agrathwohl/ecma418-torch/blob/master/pyproject.toml
+  - https://github.com/agrathwohl/ecma418-torch/blob/master/benchmarks/evidence.md
+  - https://github.com/agrathwohl/ecma418-torch/blob/master/tests/test_fidelity.py
+  - https://github.com/agrathwohl/ecma418-torch/blob/master/tests/fixtures/make_oracle_fixtures.py
+  - https://github.com/agrathwohl/ecma418-torch/blob/master/src/ecma418_torch/fluctuation.py
+checked: 2026-10-17

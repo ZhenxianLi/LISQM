@@ -34,8 +34,8 @@ notes:
   - First commit and first PyPI release on 2026-09-16.
   - >-
     Ports SQAT revision `e6228b78` (2026-09-15), which includes the Daniel & Weber rewrite (#65) and the Aures
-    tonality fixes (#66–#73) but not PR #77 (2026-09-17), a fix to the Terhardt filter bank that Daniel & Weber
-    roughness uses. Model data come from MoSQITo; differences to both are listed in
+    tonality fixes (#66–#73) but not PR #77 (2026-09-17, in SQAT v2.0), a fix to the Terhardt filter bank that
+    Daniel & Weber roughness uses. Model data come from MoSQITo; differences to both are listed in
     [THIRD_PARTY.md](https://github.com/huaaudio/metasona/blob/main/THIRD_PARTY.md).
   - The README reports speed-ups over MoSQITo 1.2.1 (e.g. 73× for time-varying loudness on its benchmark signal).
 conventions:
@@ -93,7 +93,7 @@ implements:
       - The API documentation calls the function experimental and says normative validation remains open.
     note: >-
       Follows SQAT revision `e6228b78`, which includes SQAT's September 2026 rewrite but not its later fix to the
-      Terhardt filter bank (PR #77).
+      Terhardt filter bank (PR #77, in SQAT v2.0).
   - metric: tonality-aures
     reference: aures-1985-euphony
     functions: [tonality_aures]

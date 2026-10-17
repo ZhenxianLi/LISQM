@@ -218,9 +218,9 @@ metrics:
       not standardised, and the paper leaves details open (filter bank, calibration, framing), so
       implementations can give different values for the same signal.
     notes: >-
-      SQAT rewrote its implementation in September 2026 (PR #65). It builds on Alejandro Osses's code and was
-      corrected against revised code that Dik Hermes provided in 2025, which changes results compared with SQAT
-      v1.3 and earlier.
+      SQAT rewrote its implementation in September 2026 (PR #65, released in v2.0). It builds on Alejandro Osses's
+      code and was corrected against revised code that Dik Hermes provided in 2025, which changes results compared
+      with SQAT v1.3 and earlier.
     references: [aures-1985-roughness, daniel-weber-1997]
     current: [daniel-weber-1997]
     conventions:
@@ -232,8 +232,8 @@ metrics:
         the other; PsychoacousticMetrics.jl, which follows MoSQITo, says the two place the weighting g(z_i)
         differently.
       - >-
-        **Version.** SQAT rewrote its roughness on `main` in September 2026, so SQAT v1.3, `main` and code ported
-        from either give different values.
+        **Version.** SQAT rewrote its roughness in v2.0 (September 2026), so SQAT v1.3 and earlier, v2.0 and code
+        ported from either give different values.
     edition_notes:
       aures-1985-roughness: Earlier model that Daniel & Weber optimised.
       daniel-weber-1997: Reference model.
@@ -347,9 +347,9 @@ metrics:
       Tonality from Aures (1985): tonal components are extracted with the method of Terhardt, Stoll & Seewann
       (1982), weighted, and related to the loudness of the whole sound. Not standardised.
     notes: >-
-      SQAT corrected several issues in September 2026 (for example, the level excess of only one tonal
-      component, the last positive one, entered the result, combined with the first component's frequency and
-      bandwidth), which changes results compared with SQAT v1.3 and earlier.
+      SQAT corrected several issues in September 2026, released in v2.0 (for example, the level excess of only one
+      tonal component, the last positive one, entered the result, combined with the first component's frequency
+      and bandwidth), which changes results compared with SQAT v1.3 and earlier.
     references: [terhardt-1982, aures-1985-euphony]
     current: [aures-1985-euphony]
     edition_notes:

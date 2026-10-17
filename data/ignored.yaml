@@ -189,6 +189,73 @@
   reason: Audio watermark removal that uses ISO 226 for masking; it does not compute the metrics.
   checked: 2026-10-07
 
+# --- Second scheduled review (October 2026, issue #3)
+- url: https://github.com/cvosoft/lautheit
+  reason: >-
+    Web page for a loudness listening experiment (halving and doubling of a 1 kHz tone); software for listening
+    tests, out of scope.
+  checked: 2026-10-17
+- url: https://github.com/adrianopol/vorbisgain
+  reason: ReplayGain volume normalisation for Ogg Vorbis files (programme loudness), out of scope.
+  checked: 2026-10-17
+- url: https://github.com/beast1962/Ogg-Vorbis-Full-Version
+  reason: Download page for a Windows codec, without source code; not a psychoacoustic metric.
+  checked: 2026-10-17
+- url: https://github.com/tugas404/Ogg-Vorbis-Full-Version-Unlocked
+  reason: Download page for a Windows codec, without source code; not a psychoacoustic metric.
+  checked: 2026-10-17
+- url: https://github.com/apxutekror-1980/Ogg-Vorbis
+  reason: Download page for a Windows codec, without source code; not a psychoacoustic metric.
+  checked: 2026-10-17
+- url: https://github.com/muchelnewton470/Nero-Waveeditor-Full-Version
+  reason: Download page for a Windows audio editor, without source code; not a psychoacoustic metric.
+  checked: 2026-10-17
+- url: https://github.com/Hunterfacolumn/FxSound-Pro-Audio-Enhancer
+  reason: Download page for a Windows audio enhancer, without source code; not a psychoacoustic metric.
+  checked: 2026-10-17
+- url: https://github.com/Duongnguix-a11/Peace-Equalizer-Apo
+  reason: Equalizer interface for Windows; no psychoacoustic metric.
+  checked: 2026-10-17
+- url: https://github.com/rhahermann/peace-preset-generator
+  reason: Equalizer preset generator; no psychoacoustic metric.
+  checked: 2026-10-17
+- url: https://github.com/AlexWabita/equalizer-apo-profiles
+  reason: Equalizer profiles; no psychoacoustic metric.
+  checked: 2026-10-17
+- url: https://github.com/DIMOSUS/Resonalyze
+  reason: >-
+    Car audio measurement and loudspeaker tuning (impulse and frequency responses, time alignment); "psychoacoustic"
+    there means frequency-dependent smoothing, and no psychoacoustic metric is computed.
+  checked: 2026-10-17
+- url: https://github.com/adrbn/podfidelity
+  reason: macOS menu-bar app that keeps AirPods in a high-quality Bluetooth mode; no psychoacoustic metric.
+  checked: 2026-10-17
+- url: https://github.com/jrfeng/snow
+  reason: Android music player framework; no psychoacoustic metric. Archived.
+  checked: 2026-10-17
+- url: https://github.com/anhb/Install-Manjaro-Linux-on-Matebook-X-Pro-2021-Huawei
+  reason: Linux installation guide for a laptop; no code for the metrics.
+  checked: 2026-10-17
+- url: https://github.com/dfeen87/Phased-Music-Notes
+  reason: Smoothing of transitions between musical notes; no psychoacoustic metric.
+  checked: 2026-10-17
+- url: https://github.com/CPCCoder/SoundMatchAnalyser
+  reason: >-
+    Compares two audio files with PEAQ, LUFS, SNR, THD and MSE (codec quality and programme loudness), out of
+    scope.
+  checked: 2026-10-17
+- url: https://github.com/mmatsuyama963/Tonal-Dissonance
+  reason: >-
+    Model of tonal tension in Western music; its roughness is Sethares's generalisation of Plomp and Levelt, a
+    music dissonance model (out of scope).
+  checked: 2026-10-17
+- url: https://github.com/BaccoMachine/hierarchical-music-generation
+  reason: Piano music generation guided by Vassilakis roughness, a music dissonance model (out of scope).
+  checked: 2026-10-17
+- url: https://github.com/Chris-Toff321/Sound-Quality-Metrics-Project
+  reason: Empty repository (one commit in January 2026 with only a `.gitattributes` file).
+  checked: 2026-10-17
+
 # --- Leads checked in October 2026
 - url: https://www.psychol.cam.ac.uk/hearing
   reason: >-

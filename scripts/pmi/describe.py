@@ -32,7 +32,7 @@ LICENCE_FLAGS = {
 
 def licence_flag(p: dict, i: dict | None = None) -> str:
     """A key of LICENCE_FLAGS when the code may not be free to reuse, else ''. When only the releases are
-    non-commercial (SQAT), a row that is only on the default branch is not flagged."""
+    non-commercial (as for SQAT up to v1.3), a row that is only on the default branch is not flagged."""
     lic = str(p.get("license") or "")
     if lic == "none":
         return "no licence"

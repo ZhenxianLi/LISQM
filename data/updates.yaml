@@ -1,6 +1,14 @@
 # Dated notes shown on the Updates page, in the Atom feed and in CHANGELOG.md. Newest first.
 # Body: Markdown paragraphs and "- " bullet lists. See data/SCHEMA.md.
 
+- date: 2026-10-17
+  title: "Version 0.5.7: SQAT v2.0 and ecma418-torch"
+  body: |
+    - SQAT v2.0 is out. Its 4th-edition ECMA-418-2 functions and the Widmann annoyance model are now in a release,
+      the release is under the GPL, and the SQAT page says what changed from v1.3.
+    - Added ecma418-torch, a newly released Python package with differentiable ECMA-418-2:2025 roughness and
+      fluctuation strength in PyTorch. It was found by the scheduled search for new projects.
+
 - date: 2026-10-14
   title: "Version 0.5.6: the maps agree"
   body: |

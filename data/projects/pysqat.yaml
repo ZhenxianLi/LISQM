@@ -21,7 +21,7 @@ notes:
   - Developed since May 2025 under the PALILA-TUDelft GitHub organisation; no release or tag yet.
 caveats:
   - Without a licence, reuse rights are unclear, and the bundled MATLAB code is licensed for non-commercial use only.
-  - The ports follow SQAT v1.3 and do not include SQAT's 2026 fixes to ISO 532-1 time-varying loudness, Daniel & Weber roughness and Aures tonality.
+  - The ports follow SQAT v1.3 and do not include the 2026 fixes to ISO 532-1 time-varying loudness, Daniel & Weber roughness and Aures tonality that SQAT released in v2.0.
 implements:
   - metric: loudness-zwicker
     reference: iso-532-1-2017

@@ -2,7 +2,7 @@
   "name": "LISQM",
   "full_name": "List of Implementations of Sound Quality Metrics",
   "tagline": "A List of Open-Source Implementations of Psychoacoustic and Sound Quality Metrics",
-  "version": "0.5.6",
+  "version": "0.5.7",
   "description": "A list of open-source implementations of psychoacoustic metrics, also called sound quality (SQ) metrics: loudness, sharpness, roughness, fluctuation strength, tonality, impulsiveness and psychoacoustic annoyance. Each implementation is listed under the standard edition or model it follows. All programming languages.",
   "url": "https://zhenxianli.github.io/LISQM/",
   "repository": "https://github.com/ZhenxianLi/LISQM",
@@ -14,11 +14,11 @@
     "github": "ZhenxianLi"
   },
   "credit": "Developed by Zhenxian LI with assistance from Claude Code.",
-  "as_of": "2026-10-15",
+  "as_of": "2026-10-17",
   "schema": "https://github.com/ZhenxianLi/LISQM/blob/main/data/SCHEMA.md",
   "counts": {
     "metrics": 22,
-    "projects": 39,
+    "projects": 40,
     "references": 55
   },
   "ordering": "Implementations and projects are listed by group: established, newly released, developing, legacy, others, status unknown. Newly released projects were first released less than about a year ago and are not yet seen to be widely used in the community. Legacy projects are archived or have had no commit for three years or more; the projects with a highlight (shown in bold on the website) and reference programs are never legacy. Within each group the projects with a highlight come first, then ranked and active ones. Projects in the others group do not compute the metrics themselves; they call another listed project (listed in calls), and their rows appear under also_through instead of implementations. Projects in the unknown group could not be opened (access); they list a claim and no implementations.",
@@ -180,14 +180,14 @@
           "status": "available",
           "since": "v1.0",
           "validation": "standard-data",
-          "validation_scope": "in v1.3, test signal 10 is off by 18.14 %",
           "derived_from": [
             "aarae"
           ],
           "validation_details": [
-            "Checked with the 25 test signals of Annex B.2–B.5 against the standard's tolerances."
+            "Checked with the 25 test signals of Annex B.2–B.5 against the standard's tolerances.",
+            "For v2.0, the validation notes say that the maximum loudness and N5 of the time-varying test signals are close to the reference values, apart from offsets in the N5 of test signals 12 and 13 that they trace to the standard's reference spreadsheet. In v1.3, test signal 10 deviated by 18.14 % (PR #48)."
           ],
-          "note": "Fixes to the time-varying procedure are on `main` only (PR #48)."
+          "note": "v2.0 corrects the time-varying procedure (PR #48) and the `time_skip` handling of the stationary procedure; results differ from v1.x."
         },
         {
           "project": "mosqito",
@@ -1096,7 +1096,8 @@
             "Loudness_ECMA418_2",
             "LoudnessFromComp_ECMA418_2"
           ],
-          "status": "unreleased",
+          "status": "available",
+          "since": "v2.0",
           "validation": "cross-implementation",
           "derived_from": [
             "refmap-psychoacoustics"
@@ -1106,9 +1107,9 @@
             "ArtemiS SUITE (HEAD acoustics)"
           ],
           "validation_details": [
-            "On `main`, checked for the 4th edition against the ISO 226:2003 equal-loudness contours and against reference results from HEAD acoustics ArtemiS SUITE 17.1 (named in the source of SQAT's validation page) for a binaural recording of a train station (last checked in November 2025)."
+            "Checked for the 4th edition against the ISO 226:2003 equal-loudness contours and against reference results from HEAD acoustics ArtemiS SUITE 17.1 (named in the source of SQAT's validation page) for a binaural recording of a train station (last checked in November 2025)."
           ],
-          "note": "Updated to the 4th edition on `main` in 2025."
+          "note": "Updated to the 4th edition in 2025."
         },
         {
           "project": "sqat",
@@ -1130,7 +1131,8 @@
           ],
           "validation_details": [
             "Checked against the ISO 226:2003 equal-loudness contours and against reference results from HEAD acoustics ArtemiS SUITE 15.7 (named in the source of SQAT's validation page) for a binaural recording of a train station."
-          ]
+          ],
+          "note": "In v1.3; v2.0 follows the 4th edition."
         },
         {
           "project": "mosqito",
@@ -1606,7 +1608,7 @@
       ],
       "unit": "asper",
       "summary": "Roughness from the model of Daniel & Weber (1997), an optimised version of Aures's (1985) model. It is not standardised, and the paper leaves details open (filter bank, calibration, framing), so implementations can give different values for the same signal.",
-      "notes": "SQAT rewrote its implementation in September 2026 (PR #65). It builds on Alejandro Osses's code and was corrected against revised code that Dik Hermes provided in 2025, which changes results compared with SQAT v1.3 and earlier.",
+      "notes": "SQAT rewrote its implementation in September 2026 (PR #65, released in v2.0). It builds on Alejandro Osses's code and was corrected against revised code that Dik Hermes provided in 2025, which changes results compared with SQAT v1.3 and earlier.",
       "references": [
         "aures-1985-roughness",
         "daniel-weber-1997"
@@ -1617,7 +1619,7 @@
       "conventions": [
         "**Frames.** The model works on 200 ms frames. Implementations differ in the hop between frames and in whether the last complete frame is reported, which changes time series and their percentiles.",
         "**Code lineage.** SQAT's code (after Dik Hermes) and MoSQITo's differ in details, and ports follow one or the other; PsychoacousticMetrics.jl, which follows MoSQITo, says the two place the weighting g(z_i) differently.",
-        "**Version.** SQAT rewrote its roughness on `main` in September 2026, so SQAT v1.3, `main` and code ported from either give different values."
+        "**Version.** SQAT rewrote its roughness in v2.0 (September 2026), so SQAT v1.3 and earlier, v2.0 and code ported from either give different values."
       ],
       "edition_notes": {
         "aures-1985-roughness": "Earlier model that Daniel & Weber optimised.",
@@ -1652,7 +1654,7 @@
           "validation_details": [
             "Checked against amplitude- and frequency-modulation dependences from the literature."
           ],
-          "note": "The v1.x code is AARAE's `roughnessDW.m` (Dik Hermes's code), adapted and verified for SQAT in 2023. Rewritten on `main` (PR #65, 2026-09-08) after revised code from Dik Hermes: 63 of 119 validation values go up and 56 down (largest change 0.155 asper)."
+          "note": "The v1.x code is AARAE's `roughnessDW.m` (Dik Hermes's code), adapted and verified for SQAT in 2023. v2.0 rewrites it (PR #65, 2026-09-08) with corrections from revised code that Dik Hermes sent to the SQAT team in 2025: 63 of 119 validation values go up and 56 down (largest change 0.155 asper)."
         },
         {
           "project": "mosqito",
@@ -1717,7 +1719,7 @@
             "The project says that detailed validation and reference comparisons are kept outside the repository; the results are not published.",
             "The API documentation calls the function experimental and says normative validation remains open."
           ],
-          "note": "Follows SQAT revision `e6228b78`, which includes SQAT's September 2026 rewrite but not its later fix to the Terhardt filter bank (PR #77).",
+          "note": "Follows SQAT revision `e6228b78`, which includes SQAT's September 2026 rewrite but not its later fix to the Terhardt filter bank (PR #77, in SQAT v2.0).",
           "comparison_relations": {
             "sqat": "source"
           }
@@ -1897,7 +1899,8 @@
           "functions": [
             "Roughness_ECMA418_2"
           ],
-          "status": "unreleased",
+          "status": "available",
+          "since": "v2.0",
           "validation": "cross-implementation",
           "derived_from": [
             "refmap-psychoacoustics"
@@ -1907,9 +1910,9 @@
             "ArtemiS SUITE (HEAD acoustics)"
           ],
           "validation_details": [
-            "On `main`, checked for the 4th edition for the dependence of the roughness of AM tones on modulation frequency, and against reference results from HEAD acoustics ArtemiS SUITE 17.1 (named in the source of SQAT's validation page) for a binaural recording of a train station."
+            "Checked for the 4th edition for the dependence of the roughness of AM tones on modulation frequency, and against reference results from HEAD acoustics ArtemiS SUITE 17.1 (named in the source of SQAT's validation page) for a binaural recording of a train station."
           ],
-          "note": "Amended to the 4th edition on `main` in November 2025."
+          "note": "Amended to the 4th edition in November 2025."
         },
         {
           "project": "sqat",
@@ -1930,7 +1933,8 @@
           ],
           "validation_details": [
             "Checked for the dependence of the roughness of AM tones on modulation frequency, and against reference results from HEAD acoustics ArtemiS SUITE 15.7 (named in the source of SQAT's validation page) for a binaural recording of a train station."
-          ]
+          ],
+          "note": "In v1.3; v2.0 follows the 4th edition."
         },
         {
           "project": "mosqito",
@@ -2011,6 +2015,25 @@
           "comparison_relations": {
             "sqat": "source"
           }
+        },
+        {
+          "project": "ecma418-torch",
+          "reference": "ecma-418-2-ed4",
+          "functions": [
+            "roughness"
+          ],
+          "scope": "with binaural combination; without the optional entropy weighting of Section 7.1.6",
+          "status": "available",
+          "validation": "cross-implementation",
+          "compared_with": [
+            "sottek-hearing-model",
+            "ArtemiS SUITE (HEAD acoustics)"
+          ],
+          "validation_details": [
+            "The 1 kHz tone amplitude-modulated at 70 Hz (60 dB SPL) gives 0.9999987 asper for 10 s (the test allows 1e-4 around 1), and the average specific roughness in band 17 is 0.37348, against 0.374 from ArtemiS v17 as quoted in the tests of sottek-hearing-model.",
+            "Against sottek-hearing-model run as an oracle on three signals (the calibration tone, noise and a mixture of modulated tones and noise), the time-dependent values differ by at most 2e-5 asper and the single values by at most 2e-5; the README traces the residual to the rounded filter coefficients.",
+            "The tests also check that two identical channels give the mono result and that input at 44.1 kHz gives the 48 kHz result within 0.2 %."
+          ]
         },
         {
           "project": "phonometry",
@@ -2355,6 +2378,28 @@
           }
         },
         {
+          "project": "ecma418-torch",
+          "reference": "ecma-418-2-ed4",
+          "functions": [
+            "fluctuation_strength"
+          ],
+          "scope": "with binaural combination",
+          "status": "available",
+          "validation": "cross-implementation",
+          "compared_with": [
+            "sottek-hearing-model",
+            "ArtemiS SUITE (HEAD acoustics)"
+          ],
+          "conventions": [
+            "By default it follows the printed text in three places where sottek-hearing-model decides otherwise: the step limit of Formula (152) (2e-4 Hz, against 0.2), no fundamental required for an assumed order in Section 9.1.8, and machine epsilon for ε0 (against 1e-12). The options `newton_cap` and `require_fundamental` give sottek-hearing-model's choices.",
+            "Formula (127) is computed with π instead of the printed 2π in the phase term, and Formula (144) without the printed \"− 1\", which the code says would shift every rate down one bin."
+          ],
+          "validation_details": [
+            "The 1 kHz tone amplitude-modulated at 4 Hz (60 dB SPL) gives 0.99579 vacil for 10 s (the test allows 1e-2 around 1), and the average specific fluctuation strength in band 17 is 0.38876, against 0.395 from ArtemiS v17 as quoted in the tests of sottek-hearing-model.",
+            "Against sottek-hearing-model run as an oracle on two signals: with that package's three choices, the time-dependent values differ by at most 6.3e-5 vacil and the single values by at most 6.3e-5; with the defaults, which follow the printed text, the single values differ by 0.2 % and 0.5 %."
+          ]
+        },
+        {
           "project": "phonometry",
           "reference": "ecma-418-2-ed4",
           "functions": [
@@ -2386,7 +2431,7 @@
       ],
       "unit": "t.u.",
       "summary": "Tonality from Aures (1985): tonal components are extracted with the method of Terhardt, Stoll & Seewann (1982), weighted, and related to the loudness of the whole sound. Not standardised.",
-      "notes": "SQAT corrected several issues in September 2026 (for example, the level excess of only one tonal component, the last positive one, entered the result, combined with the first component's frequency and bandwidth), which changes results compared with SQAT v1.3 and earlier.",
+      "notes": "SQAT corrected several issues in September 2026, released in v2.0 (for example, the level excess of only one tonal component, the last positive one, entered the result, combined with the first component's frequency and bandwidth), which changes results compared with SQAT v1.3 and earlier.",
       "references": [
         "terhardt-1982",
         "aures-1985-euphony"
@@ -2421,12 +2466,11 @@
           "status": "available",
           "since": "v1.0",
           "validation": "standard-data",
-          "validation_scope": "v1.3: one signal-to-noise comparison",
           "validation_details": [
-            "v1.3 is checked with one signal-to-noise comparison.",
-            "The September 2026 fixes on `main` add checks against Aures's Figs. 5 and 6."
+            "v2.0 has five validation scripts: a tone emerging from noise, compared with Fig. 1(a) of Hastings et al. (2003) (root mean square deviation 0.0129 t.u. over nine points); the extraction of tonal components and the level excess, compared with the intermediate values of an independent implementation (Zhang & Shrestha, 2003); the weightings of bandwidth and frequency, compared with Aures's Figs. 6 and 5; and the dependence on bandwidth, compared with Hastings's subjective data.",
+            "v1.3 is checked with one signal-to-noise comparison."
           ],
-          "note": "Eight defects were fixed on `main` in September 2026 (for example, only one tonal component's level excess entered the result, and tones were removed from the wrong spectrum)."
+          "note": "v2.0 fixes eight defects (issue #67; for example, only one tonal component's level excess entered the result, and tones were removed from the wrong spectrum), so results differ from v1.x."
         },
         {
           "project": "mosqito",
@@ -2540,7 +2584,8 @@
           "functions": [
             "Tonality_ECMA418_2"
           ],
-          "status": "unreleased",
+          "status": "available",
+          "since": "v2.0",
           "validation": "cross-implementation",
           "derived_from": [
             "refmap-psychoacoustics"
@@ -2550,7 +2595,7 @@
             "ArtemiS SUITE (HEAD acoustics)"
           ],
           "validation_details": [
-            "On `main`, checked for the 4th edition against reference results from HEAD acoustics ArtemiS SUITE 17.1 (named in the source of SQAT's validation page) for a binaural recording of a train station.",
+            "Checked for the 4th edition against reference results from HEAD acoustics ArtemiS SUITE 17.1 (named in the source of SQAT's validation page) for a binaural recording of a train station.",
             "A verification against Annex B.2 (PR #79) was merged and reverted on 2026-09-21 because the Annex B values of the 2025 edition appear to be out of date."
           ]
         },
@@ -2572,7 +2617,8 @@
           ],
           "validation_details": [
             "Checked against reference results from HEAD acoustics ArtemiS SUITE 15.7 (named in the source of SQAT's validation page) for a binaural recording of a train station."
-          ]
+          ],
+          "note": "In v1.3; v2.0 follows the 4th edition."
         },
         {
           "project": "sottek-hearing-model",
@@ -3196,7 +3242,8 @@
           ],
           "status": "available",
           "since": "v1.0",
-          "validation": "not-stated"
+          "validation": "not-stated",
+          "note": "Since v2.0 a wrapper of `PsychoacousticAnnoyance_Widmann1992`, which its header says will be removed in future releases."
         },
         {
           "project": "sqat",
@@ -3205,9 +3252,10 @@
             "PsychoacousticAnnoyance_Widmann1992",
             "PsychoacousticAnnoyance_Widmann1992_from_percentile"
           ],
-          "status": "unreleased",
+          "status": "available",
+          "since": "v2.0",
           "validation": "not-stated",
-          "note": "Added on `main` in June 2025; the README describes it as the same model as the Zwicker & Fastl entry under its original attribution."
+          "note": "Added in June 2025 (PR #32); the README describes it as the same model as the Zwicker & Fastl entry under its original attribution."
         },
         {
           "project": "refmap-psychoacoustics",
@@ -4356,26 +4404,26 @@
       "language_note": "MATLAB only; SQAT has no Python interface of its own. pySQAT is a Python port of it, and MetaSona ports parts of it to C.",
       "standing": "established",
       "highlight": "widely used",
-      "license": "GPL-3.0-or-later (main) / CC-BY-NC-4.0 (releases)",
-      "license_note": "The default branch has been GPL-3.0-or-later since 2026-09-15, with BSD-3-Clause (ISO 532-1 loudness), MIT (Daniel & Weber roughness and nine utilities) and CC0-1.0 (colour maps) exceptions. Every release up to and including v1.3 is CC-BY-NC-4.0 (non-commercial) at repository level, while 21 metric files in v1.3 carry BSD-style notices and the ECMA-418-2 files say GPL-3.0.",
+      "license": "GPL-3.0-or-later",
+      "license_note": "Since v2.0 (2026-10-15) the releases, like the default branch since 2026-09-15, are GPL-3.0-or-later, with BSD-3-Clause (ISO 532-1 loudness), MIT (Daniel & Weber roughness and nine utilities) and CC0-1.0 (colour maps) exceptions. Every release up to and including v1.3 is CC-BY-NC-4.0 (non-commercial) at repository level, while 21 metric files in v1.3 carry BSD-style notices and the ECMA-418-2 files say GPL-3.0.",
       "maintainers": [
         "Gil Felix Greco",
         "Roberto Merino-Martínez",
         "Alejandro Osses",
         "Mike Lotinga"
       ],
-      "summary": "MATLAB toolbox for sound quality analysis that bundles most psychoacoustic metrics in one place: ISO 532-1 and ECMA-418-2 loudness, DIN 45692 sharpness, Daniel & Weber and ECMA-418-2 roughness, Osses fluctuation strength, Aures and ECMA-418-2 tonality, three psychoacoustic annoyance models (Zwicker & Fastl, which `main` also provides under its original attribution to Widmann; More; Di et al.) and EPNL. Every metric except the annoyance models has its own verification routine.",
+      "summary": "MATLAB toolbox for sound quality analysis that bundles most psychoacoustic metrics in one place: ISO 532-1 and ECMA-418-2 loudness, DIN 45692 sharpness, Daniel & Weber and ECMA-418-2 roughness, Osses fluctuation strength, Aures and ECMA-418-2 tonality, three psychoacoustic annoyance models (Widmann's, which SQAT also offers under its common attribution to Zwicker & Fastl; More; Di et al.) and EPNL. Every metric except the annoyance models has its own verification routine. Since v2.0 it also has a graphical interface.",
       "ai_assistance": "disclosed",
-      "ai_note": "Header comments in 20 files changed in August and September 2026 say the changes were assisted by Claude (Anthropic) and verified by the authors; 32 commits carry AI co-author trailers. The README has no AI statement.",
+      "ai_note": "At v2.0, header comments in 44 files (24 of them in the graphical interface) say that changes or code written from August to October 2026 were assisted by Claude (Anthropic) and verified by the authors; 132 commits carry AI co-author trailers. Neither the README nor the v2.0 release notes have an AI statement.",
       "paper": {
         "citation": "Felix Greco, G., Merino-Martínez, R., Osses, A., & Langer, S. C. (2023). SQAT: a MATLAB-based toolbox for quantitative sound quality analysis. *Proceedings of INTER-NOISE 2023*, Chiba, Japan.",
         "doi": "10.3397/IN_2023_1075"
       },
       "notes": [
         "The README lists 61 studies and theses that use SQAT.",
-        "The latest release is v1.3 (2025-04-04); about 200 commits have been made on `main` since. Most of the metric-correctness work of August–September 2026 came from an external contributor through about 20 pull requests.",
+        "v2.0 (2026-10-15) came about 330 commits after v1.3 (2025-04-04); its release notes mark the changes to the sound level meter, ISO 532-1 loudness, Daniel & Weber roughness, Aures tonality and the annoyance models as not backward compatible. Most of the metric-correctness work of August–September 2026, and the graphical interface, came from an external contributor through about 20 pull requests.",
         "The ECMA-418-2 functions come from the RefMap MATLAB code by Lotinga and Torjussen (University of Salford); the ISO 532-1 loudness was adapted in 2023 from Ella Manor's 2015 MATLAB code for AARAE.",
-        "Open pull requests: [#78](https://github.com/ggrecow/SQAT/pull/78) (ECMA-418-2 fluctuation strength) and [#84](https://github.com/ggrecow/SQAT/pull/84) (graphical interface)."
+        "Open pull request: [#78](https://github.com/ggrecow/SQAT/pull/78) (ECMA-418-2 fluctuation strength)."
       ],
       "conventions": [
         {
@@ -4404,8 +4452,8 @@
         }
       ],
       "caveats": [
-        "The latest release (v1.3) is licensed for non-commercial use only; the GPL licence applies to the unreleased `main` branch.",
-        "`main` contains breaking fixes that are not in any release: six deviations in ISO 532-1 time-varying loudness ([#48](https://github.com/ggrecow/SQAT/pull/48); test signal 10 deviated by 18.14 % in v1.3), eight defects in Aures tonality ([#67](https://github.com/ggrecow/SQAT/issues/67)), a rewrite of Daniel & Weber roughness ([#65](https://github.com/ggrecow/SQAT/pull/65)), the sound level meter time weighting ([#51](https://github.com/ggrecow/SQAT/pull/51)) and a faster annoyance calculation ([#42](https://github.com/ggrecow/SQAT/pull/42)). Results from v1.3 and `main` differ.",
+        "Releases up to and including v1.3 are licensed for non-commercial use only; v2.0 is under the GPL.",
+        "v2.0 is not backward compatible with v1.x. It corrects six deviations in ISO 532-1 time-varying loudness ([#48](https://github.com/ggrecow/SQAT/pull/48); test signal 10 deviated by 18.14 % in v1.3) and eight defects in Aures tonality ([#67](https://github.com/ggrecow/SQAT/issues/67)), rewrites Daniel & Weber roughness ([#65](https://github.com/ggrecow/SQAT/pull/65)), corrects the time weighting of the sound level meter ([#51](https://github.com/ggrecow/SQAT/pull/51); tone bursts with a duty cycle of 0.02 were reported 17.6 dB too low up to v1.3) and makes the annoyance calculation faster ([#42](https://github.com/ggrecow/SQAT/pull/42)). Results from v1.x and v2.0 differ.",
         "The README warns that `main` may contain changes that are not yet fully verified and recommends using a release."
       ],
       "implements": [
@@ -4420,14 +4468,14 @@
           "status": "available",
           "since": "v1.0",
           "validation": "standard-data",
-          "validation_scope": "in v1.3, test signal 10 is off by 18.14 %",
           "derived_from": [
             "aarae"
           ],
           "validation_details": [
-            "Checked with the 25 test signals of Annex B.2–B.5 against the standard's tolerances."
+            "Checked with the 25 test signals of Annex B.2–B.5 against the standard's tolerances.",
+            "For v2.0, the validation notes say that the maximum loudness and N5 of the time-varying test signals are close to the reference values, apart from offsets in the N5 of test signals 12 and 13 that they trace to the standard's reference spreadsheet. In v1.3, test signal 10 deviated by 18.14 % (PR #48)."
           ],
-          "note": "Fixes to the time-varying procedure are on `main` only (PR #48)."
+          "note": "v2.0 corrects the time-varying procedure (PR #48) and the `time_skip` handling of the stationary procedure; results differ from v1.x."
         },
         {
           "metric": "sharpness",
@@ -4461,7 +4509,7 @@
           "validation_details": [
             "Checked against amplitude- and frequency-modulation dependences from the literature."
           ],
-          "note": "The v1.x code is AARAE's `roughnessDW.m` (Dik Hermes's code), adapted and verified for SQAT in 2023. Rewritten on `main` (PR #65, 2026-09-08) after revised code from Dik Hermes: 63 of 119 validation values go up and 56 down (largest change 0.155 asper)."
+          "note": "The v1.x code is AARAE's `roughnessDW.m` (Dik Hermes's code), adapted and verified for SQAT in 2023. v2.0 rewrites it (PR #65, 2026-09-08) with corrections from revised code that Dik Hermes sent to the SQAT team in 2025: 63 of 119 validation values go up and 56 down (largest change 0.155 asper)."
         },
         {
           "metric": "fluctuation-strength-osses",
@@ -4492,12 +4540,11 @@
           "status": "available",
           "since": "v1.0",
           "validation": "standard-data",
-          "validation_scope": "v1.3: one signal-to-noise comparison",
           "validation_details": [
-            "v1.3 is checked with one signal-to-noise comparison.",
-            "The September 2026 fixes on `main` add checks against Aures's Figs. 5 and 6."
+            "v2.0 has five validation scripts: a tone emerging from noise, compared with Fig. 1(a) of Hastings et al. (2003) (root mean square deviation 0.0129 t.u. over nine points); the extraction of tonal components and the level excess, compared with the intermediate values of an independent implementation (Zhang & Shrestha, 2003); the weightings of bandwidth and frequency, compared with Aures's Figs. 6 and 5; and the dependence on bandwidth, compared with Hastings's subjective data.",
+            "v1.3 is checked with one signal-to-noise comparison."
           ],
-          "note": "Eight defects were fixed on `main` in September 2026 (for example, only one tonal component's level excess entered the result, and tones were removed from the wrong spectrum)."
+          "note": "v2.0 fixes eight defects (issue #67; for example, only one tonal component's level excess entered the result, and tones were removed from the wrong spectrum), so results differ from v1.x."
         },
         {
           "metric": "psychoacoustic-annoyance",
@@ -4508,7 +4555,8 @@
           ],
           "status": "available",
           "since": "v1.0",
-          "validation": "not-stated"
+          "validation": "not-stated",
+          "note": "Since v2.0 a wrapper of `PsychoacousticAnnoyance_Widmann1992`, which its header says will be removed in future releases."
         },
         {
           "metric": "psychoacoustic-annoyance",
@@ -4517,9 +4565,10 @@
             "PsychoacousticAnnoyance_Widmann1992",
             "PsychoacousticAnnoyance_Widmann1992_from_percentile"
           ],
-          "status": "unreleased",
+          "status": "available",
+          "since": "v2.0",
           "validation": "not-stated",
-          "note": "Added on `main` in June 2025; the README describes it as the same model as the Zwicker & Fastl entry under its original attribution."
+          "note": "Added in June 2025 (PR #32); the README describes it as the same model as the Zwicker & Fastl entry under its original attribution."
         },
         {
           "metric": "psychoacoustic-annoyance",
@@ -4591,7 +4640,8 @@
           ],
           "validation_details": [
             "Checked against the ISO 226:2003 equal-loudness contours and against reference results from HEAD acoustics ArtemiS SUITE 15.7 (named in the source of SQAT's validation page) for a binaural recording of a train station."
-          ]
+          ],
+          "note": "In v1.3; v2.0 follows the 4th edition."
         },
         {
           "metric": "loudness-ecma-418-2",
@@ -4600,7 +4650,8 @@
             "Loudness_ECMA418_2",
             "LoudnessFromComp_ECMA418_2"
           ],
-          "status": "unreleased",
+          "status": "available",
+          "since": "v2.0",
           "validation": "cross-implementation",
           "derived_from": [
             "refmap-psychoacoustics"
@@ -4610,9 +4661,9 @@
             "ArtemiS SUITE (HEAD acoustics)"
           ],
           "validation_details": [
-            "On `main`, checked for the 4th edition against the ISO 226:2003 equal-loudness contours and against reference results from HEAD acoustics ArtemiS SUITE 17.1 (named in the source of SQAT's validation page) for a binaural recording of a train station (last checked in November 2025)."
+            "Checked for the 4th edition against the ISO 226:2003 equal-loudness contours and against reference results from HEAD acoustics ArtemiS SUITE 17.1 (named in the source of SQAT's validation page) for a binaural recording of a train station (last checked in November 2025)."
           ],
-          "note": "Updated to the 4th edition on `main` in 2025."
+          "note": "Updated to the 4th edition in 2025."
         },
         {
           "metric": "roughness-ecma-418-2",
@@ -4633,7 +4684,8 @@
           ],
           "validation_details": [
             "Checked for the dependence of the roughness of AM tones on modulation frequency, and against reference results from HEAD acoustics ArtemiS SUITE 15.7 (named in the source of SQAT's validation page) for a binaural recording of a train station."
-          ]
+          ],
+          "note": "In v1.3; v2.0 follows the 4th edition."
         },
         {
           "metric": "roughness-ecma-418-2",
@@ -4641,7 +4693,8 @@
           "functions": [
             "Roughness_ECMA418_2"
           ],
-          "status": "unreleased",
+          "status": "available",
+          "since": "v2.0",
           "validation": "cross-implementation",
           "derived_from": [
             "refmap-psychoacoustics"
@@ -4651,9 +4704,9 @@
             "ArtemiS SUITE (HEAD acoustics)"
           ],
           "validation_details": [
-            "On `main`, checked for the 4th edition for the dependence of the roughness of AM tones on modulation frequency, and against reference results from HEAD acoustics ArtemiS SUITE 17.1 (named in the source of SQAT's validation page) for a binaural recording of a train station."
+            "Checked for the 4th edition for the dependence of the roughness of AM tones on modulation frequency, and against reference results from HEAD acoustics ArtemiS SUITE 17.1 (named in the source of SQAT's validation page) for a binaural recording of a train station."
           ],
-          "note": "Amended to the 4th edition on `main` in November 2025."
+          "note": "Amended to the 4th edition in November 2025."
         },
         {
           "metric": "tonality-ecma-418-2",
@@ -4673,7 +4726,8 @@
           ],
           "validation_details": [
             "Checked against reference results from HEAD acoustics ArtemiS SUITE 15.7 (named in the source of SQAT's validation page) for a binaural recording of a train station."
-          ]
+          ],
+          "note": "In v1.3; v2.0 follows the 4th edition."
         },
         {
           "metric": "tonality-ecma-418-2",
@@ -4681,7 +4735,8 @@
           "functions": [
             "Tonality_ECMA418_2"
           ],
-          "status": "unreleased",
+          "status": "available",
+          "since": "v2.0",
           "validation": "cross-implementation",
           "derived_from": [
             "refmap-psychoacoustics"
@@ -4691,7 +4746,7 @@
             "ArtemiS SUITE (HEAD acoustics)"
           ],
           "validation_details": [
-            "On `main`, checked for the 4th edition against reference results from HEAD acoustics ArtemiS SUITE 17.1 (named in the source of SQAT's validation page) for a binaural recording of a train station.",
+            "Checked for the 4th edition against reference results from HEAD acoustics ArtemiS SUITE 17.1 (named in the source of SQAT's validation page) for a binaural recording of a train station.",
             "A verification against Annex B.2 (PR #79) was merged and reverted on 2026-09-21 because the Annex B values of the 2025 edition appear to be out of date."
           ]
         },
@@ -4708,7 +4763,7 @@
         }
       ],
       "cite": {
-        "text": "The README asks for the toolbox itself: Felix Greco, G., Merino-Martínez, R., Osses, A., & Lotinga, M. J. B. (2025). *SQAT: a sound quality analysis toolbox for MATLAB*. Zenodo. It recommends citing the specific version used, since results differ between releases; each release has its own DOI. The paper above describes the first release.",
+        "text": "The README asks for the toolbox itself: Felix Greco, G., Merino-Martínez, R., Osses, A., & Lotinga, M. J. B. (2026). *SQAT: a sound quality analysis toolbox for MATLAB*. Zenodo. It recommends citing the specific version used, since results differ between releases; each release has its own DOI (for v2.0, `citation.cff` gives 10.5281/zenodo.23387628). The paper above describes the first release.",
         "doi": "10.5281/zenodo.7934709",
         "cff": "https://github.com/ggrecow/SQAT/blob/main/citation.cff"
       },
@@ -4717,18 +4772,23 @@
         "https://github.com/ggrecow/SQAT/blob/main/LICENSE",
         "https://github.com/ggrecow/SQAT/blob/main/citation.cff",
         "https://github.com/ggrecow/SQAT/releases",
+        "https://github.com/ggrecow/SQAT/releases/tag/v2.0",
         "https://github.com/ggrecow/SQAT/issues/67",
         "https://github.com/ggrecow/SQAT/pull/48",
         "https://github.com/ggrecow/SQAT/pull/65",
         "https://github.com/ggrecow/SQAT/pull/78",
         "https://github.com/ggrecow/SQAT/pull/79",
-        "https://github.com/ggrecow/SQAT/tree/main/validation",
+        "https://github.com/ggrecow/SQAT/tree/v2.0/validation",
+        "https://github.com/ggrecow/SQAT/blob/v2.0/validation/Loudness_ISO532_1/2_synthetic_signals_time_varying_loudness/README.md",
+        "https://github.com/ggrecow/SQAT/blob/v2.0/validation/Tonality_Aures1985/README.md",
+        "https://github.com/ggrecow/SQAT/blob/v2.0/validation/sound_level_meter/README.md",
         "https://github.com/ggrecow/SQAT/tree/main/validation/EPNL_FAR_Part36",
         "https://github.com/ggrecow/SQAT/tree/v1.3/validation",
         "https://github.com/ggrecow/SQAT/blob/main/psychoacoustic_metrics/FluctuationStrength_Osses2016/FluctuationStrength_Osses2016.m",
-        "https://github.com/ggrecow/SQAT/blob/main/psychoacoustic_metrics/Roughness_Daniel1997/Roughness_Daniel1997.m"
+        "https://github.com/ggrecow/SQAT/blob/v2.0/psychoacoustic_metrics/Roughness_Daniel1997/Roughness_Daniel1997.m",
+        "https://github.com/ggrecow/SQAT/blob/v2.0/psychoacoustic_metrics/PsychoacousticAnnoyance_Zwicker1999/PsychoacousticAnnoyance_Zwicker1999.m"
       ],
-      "checked": "2026-10-08",
+      "checked": "2026-10-17",
       "url": "https://zhenxianli.github.io/LISQM/projects/sqat.html",
       "last_commit": "2026-10-15",
       "latest_release": {
@@ -5972,7 +6032,7 @@
       "ai_note": "README and NOTICE state that it was developed with assistance from OpenAI Codex.",
       "notes": [
         "First commit and first PyPI release on 2026-09-16.",
-        "Ports SQAT revision `e6228b78` (2026-09-15), which includes the Daniel & Weber rewrite (#65) and the Aures tonality fixes (#66–#73) but not PR #77 (2026-09-17), a fix to the Terhardt filter bank that Daniel & Weber roughness uses. Model data come from MoSQITo; differences to both are listed in [THIRD_PARTY.md](https://github.com/huaaudio/metasona/blob/main/THIRD_PARTY.md).",
+        "Ports SQAT revision `e6228b78` (2026-09-15), which includes the Daniel & Weber rewrite (#65) and the Aures tonality fixes (#66–#73) but not PR #77 (2026-09-17, in SQAT v2.0), a fix to the Terhardt filter bank that Daniel & Weber roughness uses. Model data come from MoSQITo; differences to both are listed in [THIRD_PARTY.md](https://github.com/huaaudio/metasona/blob/main/THIRD_PARTY.md).",
         "The README reports speed-ups over MoSQITo 1.2.1 (e.g. 73× for time-varying loudness on its benchmark signal)."
       ],
       "conventions": [
@@ -6041,7 +6101,7 @@
             "The project says that detailed validation and reference comparisons are kept outside the repository; the results are not published.",
             "The API documentation calls the function experimental and says normative validation remains open."
           ],
-          "note": "Follows SQAT revision `e6228b78`, which includes SQAT's September 2026 rewrite but not its later fix to the Terhardt filter bank (PR #77)."
+          "note": "Follows SQAT revision `e6228b78`, which includes SQAT's September 2026 rewrite but not its later fix to the Terhardt filter bank (PR #77, in SQAT v2.0)."
         },
         {
           "metric": "tonality-aures",
@@ -6138,6 +6198,100 @@
       "activity": "active",
       "archived": false,
       "stars": 1,
+      "group": "newly-released"
+    },
+    {
+      "id": "ecma418-torch",
+      "name": "ecma418-torch",
+      "repository": "https://github.com/agrathwohl/ecma418-torch",
+      "docs": "https://github.com/agrathwohl/ecma418-torch#readme",
+      "languages": [
+        "Python"
+      ],
+      "kind": "library",
+      "language_note": "A PyTorch package (Python 3.10 or newer, PyTorch 2.0 or newer) that computes in float64 and is differentiable end to end, so the metrics can serve as terms in gradient-based optimisation. Not on PyPI yet.",
+      "standing": "newly-released",
+      "standing_note": "First published on GitHub on 2026-10-11 (version 0.1.0 in its metadata); no release or PyPI package yet.",
+      "license": "MIT",
+      "maintainers": [
+        "Andrew Grathwohl"
+      ],
+      "summary": "Roughness (Clause 7) and fluctuation strength (Clause 9) of ECMA-418-2:2025 (4th edition) in PyTorch, differentiable end to end, with the binaural combination of two channels. The code cites the formula numbers of the standard and lists the places where it reads a printed formula differently.",
+      "ai_assistance": "not-stated",
+      "notes": [
+        "The README describes the gradient as the derivative of the metric wherever the metric is differentiable; the tests check it against central differences and with the Taylor remainder (`tests/test_gradients.py`).",
+        "The tests run sottek-hearing-model as an oracle: its outputs for five test signals are stored in `tests/fixtures`, with the commit they were made with. The fluctuation strength of sottek-hearing-model used there is not in a release yet.",
+        "The README reports 22 s forward and 32 s backward for 240 s of stereo audio at 44.1 kHz on an RTX 3090 Ti (10.6 GiB peak memory), for roughness and fluctuation strength together."
+      ],
+      "conventions": [
+        "Input at other sample rates is resampled to 48 kHz (band-limited, by the Fourier method).",
+        "The single value is the 90th percentile from `torch.quantile` (linear interpolation) of the time-dependent values, after the first 16 (roughness) or 36 (fluctuation strength) values at 50 Hz are left out.",
+        "The outer and middle ear filter uses the coefficients as printed in Table 1 of the standard, where sottek-hearing-model uses unrounded ones."
+      ],
+      "caveats": [
+        "Very new (first published in October 2026) and not yet seen to be widely used in the community; no independent verification has been published.",
+        "Single author; one commit so far."
+      ],
+      "implements": [
+        {
+          "metric": "roughness-ecma-418-2",
+          "reference": "ecma-418-2-ed4",
+          "functions": [
+            "roughness"
+          ],
+          "scope": "with binaural combination; without the optional entropy weighting of Section 7.1.6",
+          "status": "available",
+          "validation": "cross-implementation",
+          "compared_with": [
+            "sottek-hearing-model",
+            "ArtemiS SUITE (HEAD acoustics)"
+          ],
+          "validation_details": [
+            "The 1 kHz tone amplitude-modulated at 70 Hz (60 dB SPL) gives 0.9999987 asper for 10 s (the test allows 1e-4 around 1), and the average specific roughness in band 17 is 0.37348, against 0.374 from ArtemiS v17 as quoted in the tests of sottek-hearing-model.",
+            "Against sottek-hearing-model run as an oracle on three signals (the calibration tone, noise and a mixture of modulated tones and noise), the time-dependent values differ by at most 2e-5 asper and the single values by at most 2e-5; the README traces the residual to the rounded filter coefficients.",
+            "The tests also check that two identical channels give the mono result and that input at 44.1 kHz gives the 48 kHz result within 0.2 %."
+          ]
+        },
+        {
+          "metric": "fluctuation-strength-ecma-418-2",
+          "reference": "ecma-418-2-ed4",
+          "functions": [
+            "fluctuation_strength"
+          ],
+          "scope": "with binaural combination",
+          "status": "available",
+          "validation": "cross-implementation",
+          "compared_with": [
+            "sottek-hearing-model",
+            "ArtemiS SUITE (HEAD acoustics)"
+          ],
+          "conventions": [
+            "By default it follows the printed text in three places where sottek-hearing-model decides otherwise: the step limit of Formula (152) (2e-4 Hz, against 0.2), no fundamental required for an assumed order in Section 9.1.8, and machine epsilon for ε0 (against 1e-12). The options `newton_cap` and `require_fundamental` give sottek-hearing-model's choices.",
+            "Formula (127) is computed with π instead of the printed 2π in the phase term, and Formula (144) without the printed \"− 1\", which the code says would shift every rate down one bin."
+          ],
+          "validation_details": [
+            "The 1 kHz tone amplitude-modulated at 4 Hz (60 dB SPL) gives 0.99579 vacil for 10 s (the test allows 1e-2 around 1), and the average specific fluctuation strength in band 17 is 0.38876, against 0.395 from ArtemiS v17 as quoted in the tests of sottek-hearing-model.",
+            "Against sottek-hearing-model run as an oracle on two signals: with that package's three choices, the time-dependent values differ by at most 6.3e-5 vacil and the single values by at most 6.3e-5; with the defaults, which follow the printed text, the single values differ by 0.2 % and 0.5 %."
+          ]
+        }
+      ],
+      "sources": [
+        "https://github.com/agrathwohl/ecma418-torch/blob/master/README.md",
+        "https://github.com/agrathwohl/ecma418-torch/blob/master/LICENSE",
+        "https://github.com/agrathwohl/ecma418-torch/blob/master/pyproject.toml",
+        "https://github.com/agrathwohl/ecma418-torch/blob/master/benchmarks/evidence.md",
+        "https://github.com/agrathwohl/ecma418-torch/blob/master/tests/test_fidelity.py",
+        "https://github.com/agrathwohl/ecma418-torch/blob/master/tests/fixtures/make_oracle_fixtures.py",
+        "https://github.com/agrathwohl/ecma418-torch/blob/master/src/ecma418_torch/fluctuation.py"
+      ],
+      "checked": "2026-10-17",
+      "url": "https://zhenxianli.github.io/LISQM/projects/ecma418-torch.html",
+      "last_commit": "2026-10-11",
+      "latest_release": null,
+      "prerelease": null,
+      "activity": "active",
+      "archived": false,
+      "stars": null,
       "group": "newly-released"
     },
     {
@@ -7364,7 +7518,7 @@
       ],
       "caveats": [
         "Without a licence, reuse rights are unclear, and the bundled MATLAB code is licensed for non-commercial use only.",
-        "The ports follow SQAT v1.3 and do not include SQAT's 2026 fixes to ISO 532-1 time-varying loudness, Daniel & Weber roughness and Aures tonality."
+        "The ports follow SQAT v1.3 and do not include the 2026 fixes to ISO 532-1 time-varying loudness, Daniel & Weber roughness and Aures tonality that SQAT released in v2.0."
       ],
       "implements": [
         {
@@ -8891,6 +9045,11 @@
     }
   ],
   "updates": [
+    {
+      "date": "2026-10-17",
+      "title": "Version 0.5.7: SQAT v2.0 and ecma418-torch",
+      "body": "- SQAT v2.0 is out. Its 4th-edition ECMA-418-2 functions and the Widmann annoyance model are now in a release,\n  the release is under the GPL, and the SQAT page says what changed from v1.3.\n- Added ecma418-torch, a newly released Python package with differentiable ECMA-418-2:2025 roughness and\n  fluctuation strength in PyTorch. It was found by the scheduled search for new projects.\n"
+    },
     {
       "date": "2026-10-14",
       "title": "Version 0.5.6: the maps agree",
