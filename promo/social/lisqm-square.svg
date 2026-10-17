@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1200" viewBox="0 0 1200 1200">
+  <rect width="1200" height="1200" fill="#ffffff"/>
+  <rect width="1200" height="52" fill="#25c59b"/><rect y="52" width="1200" height="9" fill="#0f7d60"/>
+  <g transform="translate(100 150) scale(1.8)">
+    <rect width="64" height="64" rx="14" fill="#25c59b"/>
+    <g fill="none" stroke="#fff" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M26 31C26 19 33 11 42 11C51 11 56 18 56 27C56 35 50 39 47 44C44 49 45 55 38 56C34 57 31 54 31 51"/>
+      <path d="M34 30C34 24 37 20 42 20C46.5 20 48 24.5 46 28.5C44.5 31.5 41 32.5 41 37"/>
+    </g>
+    <g fill="#fff"><rect x="8" y="46" width="4" height="10" rx="2"/><rect x="14.5" y="40" width="4" height="16" rx="2"/><rect x="21" y="34" width="4" height="22" rx="2"/></g>
+  </g>
+  <g font-family="Charter, 'Bitstream Charter', Georgia, 'Liberation Serif', 'DejaVu Serif', serif" fill="#1f2328">
+    <text font-size="38" font-style="italic" fill="#5a636e"><tspan x="100" y="380">Are you looking for an open-source way</tspan><tspan x="100" y="430">to calculate psychoacoustic metrics?</tspan></text>
+    <text x="100" y="590" font-size="110" font-weight="700" letter-spacing="-2">LISQM</text>
+    <text font-size="38" font-weight="700" fill="#0f7d60"><tspan x="100" y="656">A List of Open-Source Implementations of</tspan><tspan x="100" y="704">Psychoacoustic and Sound Quality Metrics</tspan></text>
+    <text x="100" y="768" font-size="23" font-style="italic" fill="#5a636e">Each listed under the standard edition it follows · with its validation, licence and activity · renewed monthly</text>
+    <text x="100" y="880" font-size="25" >Loudness · Sharpness · Roughness · Fluctuation strength · Tonality · Impulsiveness · Annoyance</text>
+    <text x="100" y="940" font-size="25" font-weight="700" letter-spacing="1.5"><tspan fill="#2463ad">PYTHON</tspan><tspan fill="#8b949e">  ·  </tspan><tspan fill="#bd5512">MATLAB / OCTAVE</tspan><tspan fill="#8b949e">  ·  </tspan><tspan fill="#6b46a6">C / C++</tspan><tspan fill="#8b949e">  ·  </tspan><tspan fill="#94471c">RUST</tspan><tspan fill="#8b949e">  ·  </tspan><tspan fill="#8b3aa9">JULIA</tspan><tspan fill="#8b949e">  ·  </tspan><tspan fill="#36606e">PURE DATA</tspan></text>
+    <text x="100" y="1090" font-size="32" font-weight="700" fill="#0f7d60">zhenxianli.github.io/LISQM</text>
+    <rect x="100" y="818" width="1000" height="1.5" fill="#2b3137"/>
+  </g>
+</svg>
