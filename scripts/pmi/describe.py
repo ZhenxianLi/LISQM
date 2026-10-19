@@ -586,8 +586,9 @@ def faq(index: Index, name: Fmt, metric_link: Callable[[dict], str], t: Esc,
     elif uses:
         choose.append("Some newer projects are built for a particular use: " + "; ".join(uses) + ".")
     if "pysqat" in index.project:
-        choose.append(name(index.project["pysqat"]) + t(" ports SQAT to Python, adds a graphical interface and checks "
-                                                        "each metric against SQAT v1.3."))
+        choose.append(name(index.project["pysqat"]) + t(" ports SQAT v1.3 to Python, checks each metric against that "
+                                                        "version and adds its own graphical interface, which it "
+                                                        "implemented independently of SQAT."))
     choose.append("Before relying on any of them, check the validation each project states and whether the fix you "
                   "need is in a release or only on its main branch.")
     qa.append(("Which code should I use for a psychoacoustic metric?", " ".join(choose)))

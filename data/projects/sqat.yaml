@@ -6,7 +6,8 @@ languages: [MATLAB]
 kind: library
 language_note: >-
   MATLAB only; SQAT has no Python interface of its own. pySQAT is a Python port of it, and MetaSona ports
-  parts of it to C.
+  parts of it to C. Since v2.0 a graphical interface, `SQAT_GUI.m`, runs the metrics without programming, still
+  inside MATLAB.
 standing: established
 super_project: 1  # bold and first in every list (see data/SCHEMA.md)
 highlight: widely used
@@ -43,6 +44,13 @@ notes:
   - >-
     The ECMA-418-2 functions come from the RefMap MATLAB code by Lotinga and Torjussen (University of Salford); the
     ISO 532-1 loudness was adapted in 2023 from Ella Manor's 2015 MATLAB code for AARAE.
+  - >-
+    v2.0 adds a graphical interface, `SQAT_GUI.m` ([#84](https://github.com/ggrecow/SQAT/pull/84)). It loads
+    calibrated .wav files, plays them with waveform and spectrogram, runs the sound level meter and any SQAT metric,
+    compares files in a table of single values and exports the results. The README says every value comes from
+    the SQAT functions, so the interface gives the same results as the code; it recommends the interface for a few
+    files and the functions for many. The header of `SQAT_GUI.m` says that it is laid out as the interface of
+    pySQAT.
   - "Open pull request: [#78](https://github.com/ggrecow/SQAT/pull/78) (ECMA-418-2 fluctuation strength)."
 conventions:
   - text: >-
@@ -321,4 +329,6 @@ sources:
   - https://github.com/ggrecow/SQAT/blob/main/psychoacoustic_metrics/FluctuationStrength_Osses2016/FluctuationStrength_Osses2016.m
   - https://github.com/ggrecow/SQAT/blob/v2.0/psychoacoustic_metrics/Roughness_Daniel1997/Roughness_Daniel1997.m
   - https://github.com/ggrecow/SQAT/blob/v2.0/psychoacoustic_metrics/PsychoacousticAnnoyance_Zwicker1999/PsychoacousticAnnoyance_Zwicker1999.m
-checked: 2026-10-17
+  - https://github.com/ggrecow/SQAT/blob/v2.0/gui/SQAT_GUI.m
+  - https://github.com/ggrecow/SQAT/pull/84
+checked: 2026-10-19

@@ -1,6 +1,12 @@
 # Dated notes shown on the Updates page, in the Atom feed and in CHANGELOG.md. Newest first.
 # Body: Markdown paragraphs and "- " bullet lists. See data/SCHEMA.md.
 
+- date: 2026-10-19
+  title: "Version 0.5.8: SQAT's graphical interface"
+  body: |
+    The SQAT page and the Languages page describe the graphical interface that SQAT added in v2.0. The FAQ now
+    says that pySQAT ports SQAT v1.3 and that it implemented its own graphical interface independently of SQAT.
+
 - date: 2026-10-17
   title: "Version 0.5.7: SQAT v2.0 and ecma418-torch"
   body: |

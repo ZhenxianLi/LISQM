@@ -2,6 +2,11 @@
 
 Notable changes to the list. This file is generated from `data/updates.yaml`; the same notes are on the website (https://zhenxianli.github.io/LISQM/updates.html) and in its Atom feed.
 
+## 2026-10-19: Version 0.5.8: SQAT's graphical interface
+
+The SQAT page and the Languages page describe the graphical interface that SQAT added in v2.0. The FAQ now
+says that pySQAT ports SQAT v1.3 and that it implemented its own graphical interface independently of SQAT.
+
 ## 2026-10-17: Version 0.5.7: SQAT v2.0 and ecma418-torch
 
 - SQAT v2.0 is out. Its 4th-edition ECMA-418-2 functions and the Widmann annoyance model are now in a release,
