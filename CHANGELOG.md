@@ -2,10 +2,15 @@
 
 Notable changes to the list. This file is generated from `data/updates.yaml`; the same notes are on the website (https://zhenxianli.github.io/LISQM/updates.html) and in its Atom feed.
 
+## 2026-10-19: Version 0.5.9: SQAT's interface follows pySQAT's layout
+
+The FAQ, the SQAT and pySQAT pages and the Languages page now say that the graphical interface SQAT added in
+v2.0 follows the layout of pySQAT's interface, as the header of its code says.
+
 ## 2026-10-19: Version 0.5.8: SQAT's graphical interface
 
-The SQAT page and the Languages page describe the graphical interface that SQAT added in v2.0. The FAQ now
-says that pySQAT ports SQAT v1.3 and that it implemented its own graphical interface independently of SQAT.
+The SQAT page and the Languages page describe the graphical interface that SQAT added in v2.0, and the FAQ
+names the SQAT version that pySQAT ports (v1.3).
 
 ## 2026-10-17: Version 0.5.7: SQAT v2.0 and ecma418-torch
 

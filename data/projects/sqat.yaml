@@ -6,8 +6,8 @@ languages: [MATLAB]
 kind: library
 language_note: >-
   MATLAB only; SQAT has no Python interface of its own. pySQAT is a Python port of it, and MetaSona ports
-  parts of it to C. Since v2.0 a graphical interface, `SQAT_GUI.m`, runs the metrics without programming, still
-  inside MATLAB.
+  parts of it to C. Since v2.0 a graphical interface, `SQAT_GUI.m`, laid out like pySQAT's, runs the metrics
+  without programming, still inside MATLAB.
 standing: established
 super_project: 1  # bold and first in every list (see data/SCHEMA.md)
 highlight: widely used
@@ -49,8 +49,9 @@ notes:
     calibrated .wav files, plays them with waveform and spectrogram, runs the sound level meter and any SQAT metric,
     compares files in a table of single values and exports the results. The README says every value comes from
     the SQAT functions, so the interface gives the same results as the code; it recommends the interface for a few
-    files and the functions for many. The header of `SQAT_GUI.m` says that it is laid out as the interface of
-    pySQAT.
+    files and the functions for many. The header of `SQAT_GUI.m` and the commit that added it say that its layout
+    follows the interface of pySQAT; the commit lists a dBFS calibration field, a channel selector, a results table
+    and the Widmann (1992) annoyance model as going beyond pySQAT.
   - "Open pull request: [#78](https://github.com/ggrecow/SQAT/pull/78) (ECMA-418-2 fluctuation strength)."
 conventions:
   - text: >-

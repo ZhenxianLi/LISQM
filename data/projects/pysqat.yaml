@@ -19,6 +19,9 @@ summary: >-
 ai_assistance: not-stated
 notes:
   - Developed since May 2025 under the PALILA-TUDelft GitHub organisation; no release or tag yet.
+  - >-
+    Its PySide6 interface, `main_UI.py`, dates from January 2026. The graphical interface that SQAT added in v2.0
+    follows its layout, as the header of SQAT's `SQAT_GUI.m` says.
 caveats:
   - Without a licence, reuse rights are unclear, and the bundled MATLAB code is licensed for non-commercial use only.
   - The ports follow SQAT v1.3 and do not include the 2026 fixes to ISO 532-1 time-varying loudness, Daniel & Weber roughness and Aures tonality that SQAT released in v2.0.
@@ -138,4 +141,7 @@ sources:
   - https://github.com/PALILA-TUDelft/pySQAT/tree/main/validation
   - https://github.com/PALILA-TUDelft/pySQAT/blob/main/validation/FINAL_VAL.py
   - https://github.com/PALILA-TUDelft/pySQAT/issues/1
-checked: 2026-10-07
+  - https://github.com/PALILA-TUDelft/pySQAT/blob/main/main_UI.py
+  - https://github.com/PALILA-TUDelft/pySQAT/blob/main/original_matlab/citation.cff
+  - https://github.com/ggrecow/SQAT/blob/v2.0/gui/SQAT_GUI.m
+checked: 2026-10-19

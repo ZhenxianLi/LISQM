@@ -1043,7 +1043,7 @@ class BuildTest(unittest.TestCase):
         self.assertIn("MetaSona is a C library written for fast, real-time analysis, with a rolling analyser for audio "
                       "that arrives in chunks", faq)
         self.assertIn("pySQAT ports SQAT v1.3 to Python", faq)
-        self.assertIn("its own graphical interface, which it implemented independently of SQAT", faq)
+        self.assertIn("the graphical interface that SQAT added in v2.0 follows the layout of pySQAT's interface", faq)
         self.assertNotIn("Kirin Hypha is", faq)
         for name in ("README.md", "review-issue.md", "pages.md", "repository.md", "owner-decisions.md"):
             self.assertTrue((ROOT / "docs" / "maintaining" / name).exists(), name)

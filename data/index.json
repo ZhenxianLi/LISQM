@@ -2,7 +2,7 @@
   "name": "LISQM",
   "full_name": "List of Implementations of Sound Quality Metrics",
   "tagline": "A List of Open-Source Implementations of Psychoacoustic and Sound Quality Metrics",
-  "version": "0.5.8",
+  "version": "0.5.9",
   "description": "A list of open-source implementations of psychoacoustic metrics, also called sound quality (SQ) metrics: loudness, sharpness, roughness, fluctuation strength, tonality, impulsiveness and psychoacoustic annoyance. Each implementation is listed under the standard edition or model it follows. All programming languages.",
   "url": "https://zhenxianli.github.io/LISQM/",
   "repository": "https://github.com/ZhenxianLi/LISQM",
@@ -4401,7 +4401,7 @@
         "MATLAB"
       ],
       "kind": "library",
-      "language_note": "MATLAB only; SQAT has no Python interface of its own. pySQAT is a Python port of it, and MetaSona ports parts of it to C. Since v2.0 a graphical interface, `SQAT_GUI.m`, runs the metrics without programming, still inside MATLAB.",
+      "language_note": "MATLAB only; SQAT has no Python interface of its own. pySQAT is a Python port of it, and MetaSona ports parts of it to C. Since v2.0 a graphical interface, `SQAT_GUI.m`, laid out like pySQAT's, runs the metrics without programming, still inside MATLAB.",
       "standing": "established",
       "highlight": "widely used",
       "license": "GPL-3.0-or-later",
@@ -4423,7 +4423,7 @@
         "The README lists 61 studies and theses that use SQAT.",
         "v2.0 (2026-10-15) came about 330 commits after v1.3 (2025-04-04); its release notes mark the changes to the sound level meter, ISO 532-1 loudness, Daniel & Weber roughness, Aures tonality and the annoyance models as not backward compatible. Most of the metric-correctness work of August–September 2026, and the graphical interface, came from an external contributor through about 20 pull requests.",
         "The ECMA-418-2 functions come from the RefMap MATLAB code by Lotinga and Torjussen (University of Salford); the ISO 532-1 loudness was adapted in 2023 from Ella Manor's 2015 MATLAB code for AARAE.",
-        "v2.0 adds a graphical interface, `SQAT_GUI.m` ([#84](https://github.com/ggrecow/SQAT/pull/84)). It loads calibrated .wav files, plays them with waveform and spectrogram, runs the sound level meter and any SQAT metric, compares files in a table of single values and exports the results. The README says every value comes from the SQAT functions, so the interface gives the same results as the code; it recommends the interface for a few files and the functions for many. The header of `SQAT_GUI.m` says that it is laid out as the interface of pySQAT.",
+        "v2.0 adds a graphical interface, `SQAT_GUI.m` ([#84](https://github.com/ggrecow/SQAT/pull/84)). It loads calibrated .wav files, plays them with waveform and spectrogram, runs the sound level meter and any SQAT metric, compares files in a table of single values and exports the results. The README says every value comes from the SQAT functions, so the interface gives the same results as the code; it recommends the interface for a few files and the functions for many. The header of `SQAT_GUI.m` and the commit that added it say that its layout follows the interface of pySQAT; the commit lists a dBFS calibration field, a channel selector, a results table and the Widmann (1992) annoyance model as going beyond pySQAT.",
         "Open pull request: [#78](https://github.com/ggrecow/SQAT/pull/78) (ECMA-418-2 fluctuation strength)."
       ],
       "conventions": [
@@ -7517,7 +7517,8 @@
       "summary": "Python port of the MATLAB toolbox SQAT (README title \"SQAT4PY\") with a PySide6 graphical interface. Covers ISO 532-1 loudness, DIN 45692 sharpness, Daniel & Weber roughness, Osses fluctuation strength, Aures tonality, three psychoacoustic annoyance models and EPNL; its ECMA-418-2 functions call sottek-hearing-model.",
       "ai_assistance": "not-stated",
       "notes": [
-        "Developed since May 2025 under the PALILA-TUDelft GitHub organisation; no release or tag yet."
+        "Developed since May 2025 under the PALILA-TUDelft GitHub organisation; no release or tag yet.",
+        "Its PySide6 interface, `main_UI.py`, dates from January 2026. The graphical interface that SQAT added in v2.0 follows its layout, as the header of SQAT's `SQAT_GUI.m` says."
       ],
       "caveats": [
         "Without a licence, reuse rights are unclear, and the bundled MATLAB code is licensed for non-commercial use only.",
@@ -7715,9 +7716,12 @@
         "https://github.com/PALILA-TUDelft/pySQAT/blob/main/README.md",
         "https://github.com/PALILA-TUDelft/pySQAT/tree/main/validation",
         "https://github.com/PALILA-TUDelft/pySQAT/blob/main/validation/FINAL_VAL.py",
-        "https://github.com/PALILA-TUDelft/pySQAT/issues/1"
+        "https://github.com/PALILA-TUDelft/pySQAT/issues/1",
+        "https://github.com/PALILA-TUDelft/pySQAT/blob/main/main_UI.py",
+        "https://github.com/PALILA-TUDelft/pySQAT/blob/main/original_matlab/citation.cff",
+        "https://github.com/ggrecow/SQAT/blob/v2.0/gui/SQAT_GUI.m"
       ],
-      "checked": "2026-10-07",
+      "checked": "2026-10-19",
       "url": "https://zhenxianli.github.io/LISQM/projects/pysqat.html",
       "last_commit": "2026-06-27",
       "latest_release": null,
@@ -9050,8 +9054,13 @@
   "updates": [
     {
       "date": "2026-10-19",
+      "title": "Version 0.5.9: SQAT's interface follows pySQAT's layout",
+      "body": "The FAQ, the SQAT and pySQAT pages and the Languages page now say that the graphical interface SQAT added in\nv2.0 follows the layout of pySQAT's interface, as the header of its code says.\n"
+    },
+    {
+      "date": "2026-10-19",
       "title": "Version 0.5.8: SQAT's graphical interface",
-      "body": "The SQAT page and the Languages page describe the graphical interface that SQAT added in v2.0. The FAQ now\nsays that pySQAT ports SQAT v1.3 and that it implemented its own graphical interface independently of SQAT.\n"
+      "body": "The SQAT page and the Languages page describe the graphical interface that SQAT added in v2.0, and the FAQ\nnames the SQAT version that pySQAT ports (v1.3).\n"
     },
     {
       "date": "2026-10-17",

@@ -247,7 +247,7 @@ Questions, corrections and suggestions are welcome as GitHub issues: https://git
 
 ## Which code should I use for a psychoacoustic metric?
 
-Choose by your own environment first: the language you work in and how the results will be used. The [Languages](https://zhenxianli.github.io/LISQM/languages.html) page shows which metrics can be computed from each language and how each project can be called, also from another language. The [Metrics](https://zhenxianli.github.io/LISQM/metrics/) page names the current edition of each of the 22 metrics, and each metric page lists every implementation of it, with the validation it states, the code it was ported from and the choices that change its numbers. Those widely used projects, **[SQAT](https://zhenxianli.github.io/LISQM/projects/sqat.html)** (MATLAB) and **[MoSQITo](https://zhenxianli.github.io/LISQM/projects/mosqito.html)** (Python), come first in the lists, together with **[sottek-hearing-model](https://zhenxianli.github.io/LISQM/projects/sottek-hearing-model.html)** (Python), a very good implementation, but they are not the only choice. Newer projects, not yet seen to be widely used, often check their results against MoSQITo or SQAT (8 of the 11 newly released ones do), and some are built for a particular use: [MetaSona](https://zhenxianli.github.io/LISQM/projects/metasona.html) is a C library written for fast, real-time analysis, with a rolling analyser for audio that arrives in chunks; [iso532-1-rs](https://zhenxianli.github.io/LISQM/projects/iso532-1-rs.html) is a Rust engine with a streaming interface and a C interface; [torch_amt](https://zhenxianli.github.io/LISQM/projects/torch-amt.html) brings the AMT loudness models to PyTorch, differentiable and able to run on GPU. [pySQAT](https://zhenxianli.github.io/LISQM/projects/pysqat.html) ports SQAT v1.3 to Python, checks each metric against that version and adds its own graphical interface, which it implemented independently of SQAT. Before relying on any of them, check the validation each project states and whether the fix you need is in a release or only on its main branch.
+Choose by your own environment first: the language you work in and how the results will be used. The [Languages](https://zhenxianli.github.io/LISQM/languages.html) page shows which metrics can be computed from each language and how each project can be called, also from another language. The [Metrics](https://zhenxianli.github.io/LISQM/metrics/) page names the current edition of each of the 22 metrics, and each metric page lists every implementation of it, with the validation it states, the code it was ported from and the choices that change its numbers. Those widely used projects, **[SQAT](https://zhenxianli.github.io/LISQM/projects/sqat.html)** (MATLAB) and **[MoSQITo](https://zhenxianli.github.io/LISQM/projects/mosqito.html)** (Python), come first in the lists, together with **[sottek-hearing-model](https://zhenxianli.github.io/LISQM/projects/sottek-hearing-model.html)** (Python), a very good implementation, but they are not the only choice. Newer projects, not yet seen to be widely used, often check their results against MoSQITo or SQAT (8 of the 11 newly released ones do), and some are built for a particular use: [MetaSona](https://zhenxianli.github.io/LISQM/projects/metasona.html) is a C library written for fast, real-time analysis, with a rolling analyser for audio that arrives in chunks; [iso532-1-rs](https://zhenxianli.github.io/LISQM/projects/iso532-1-rs.html) is a Rust engine with a streaming interface and a C interface; [torch_amt](https://zhenxianli.github.io/LISQM/projects/torch-amt.html) brings the AMT loudness models to PyTorch, differentiable and able to run on GPU. [pySQAT](https://zhenxianli.github.io/LISQM/projects/pysqat.html) ports SQAT v1.3 to Python and checks each metric against that version; the graphical interface that SQAT added in v2.0 follows the layout of pySQAT's interface. Before relying on any of them, check the validation each project states and whether the fix you need is in a release or only on its main branch.
 
 ## Which metrics can I compute in Python, MATLAB or C?
 
@@ -2172,7 +2172,7 @@ Implementations of the same metric can give different numbers without either bei
 - The README lists 61 studies and theses that use SQAT.
 - v2.0 (2026-10-15) came about 330 commits after v1.3 (2025-04-04); its release notes mark the changes to the sound level meter, ISO 532-1 loudness, Daniel & Weber roughness, Aures tonality and the annoyance models as not backward compatible. Most of the metric-correctness work of August–September 2026, and the graphical interface, came from an external contributor through about 20 pull requests.
 - The ECMA-418-2 functions come from the RefMap MATLAB code by Lotinga and Torjussen (University of Salford); the ISO 532-1 loudness was adapted in 2023 from Ella Manor's 2015 MATLAB code for AARAE.
-- v2.0 adds a graphical interface, `SQAT_GUI.m` ([#84](https://github.com/ggrecow/SQAT/pull/84)). It loads calibrated .wav files, plays them with waveform and spectrogram, runs the sound level meter and any SQAT metric, compares files in a table of single values and exports the results. The README says every value comes from the SQAT functions, so the interface gives the same results as the code; it recommends the interface for a few files and the functions for many. The header of `SQAT_GUI.m` says that it is laid out as the interface of pySQAT.
+- v2.0 adds a graphical interface, `SQAT_GUI.m` ([#84](https://github.com/ggrecow/SQAT/pull/84)). It loads calibrated .wav files, plays them with waveform and spectrogram, runs the sound level meter and any SQAT metric, compares files in a table of single values and exports the results. The README says every value comes from the SQAT functions, so the interface gives the same results as the code; it recommends the interface for a few files and the functions for many. The header of `SQAT_GUI.m` and the commit that added it say that its layout follows the interface of pySQAT; the commit lists a dBFS calibration field, a channel selector, a results table and the Widmann (1992) annoyance model as going beyond pySQAT.
 - Open pull request: [#78](https://github.com/ggrecow/SQAT/pull/78) (ECMA-418-2 fluctuation strength).
 
 ## Before you rely on it
@@ -3719,7 +3719,7 @@ Python port of the MATLAB toolbox SQAT (README title "SQAT4PY") with a PySide6 g
 - **Maintainers:** Gerard Mendoza Ferrandis
 - **AI assistance:** not stated
 - **How to cite:** The project does not say how to cite it. Cite the repository with the version or commit you used.
-- **Entry checked:** 2026-10-07
+- **Entry checked:** 2026-10-19
 
 ## What it implements
 
@@ -3752,6 +3752,7 @@ As reported by the project; LISQM has not run the code. Two implementations that
 ## Notes
 
 - Developed since May 2025 under the PALILA-TUDelft GitHub organisation; no release or tag yet.
+- Its PySide6 interface, `main_UI.py`, dates from January 2026. The graphical interface that SQAT added in v2.0 follows its layout, as the header of SQAT's `SQAT_GUI.m` says.
 
 ## Before you rely on it
 
@@ -3764,6 +3765,9 @@ As reported by the project; LISQM has not run the code. Two implementations that
 - https://github.com/PALILA-TUDelft/pySQAT/tree/main/validation
 - https://github.com/PALILA-TUDelft/pySQAT/blob/main/validation/FINAL_VAL.py
 - https://github.com/PALILA-TUDelft/pySQAT/issues/1
+- https://github.com/PALILA-TUDelft/pySQAT/blob/main/main_UI.py
+- https://github.com/PALILA-TUDelft/pySQAT/blob/main/original_matlab/citation.cff
+- https://github.com/ggrecow/SQAT/blob/v2.0/gui/SQAT_GUI.m
 
 
 ---
