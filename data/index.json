@@ -2,7 +2,7 @@
   "name": "LISQM",
   "full_name": "List of Implementations of Sound Quality Metrics",
   "tagline": "A List of Open-Source Implementations of Psychoacoustic and Sound Quality Metrics",
-  "version": "0.5.9",
+  "version": "0.5.10",
   "description": "A list of open-source implementations of psychoacoustic metrics, also called sound quality (SQ) metrics: loudness, sharpness, roughness, fluctuation strength, tonality, impulsiveness and psychoacoustic annoyance. Each implementation is listed under the standard edition or model it follows. All programming languages.",
   "url": "https://zhenxianli.github.io/LISQM/",
   "repository": "https://github.com/ZhenxianLi/LISQM",
@@ -14,11 +14,11 @@
     "github": "ZhenxianLi"
   },
   "credit": "Developed by Zhenxian LI with assistance from Claude Code.",
-  "as_of": "2026-10-19",
+  "as_of": "2026-10-27",
   "schema": "https://github.com/ZhenxianLi/LISQM/blob/main/data/SCHEMA.md",
   "counts": {
     "metrics": 22,
-    "projects": 40,
+    "projects": 41,
     "references": 55
   },
   "ordering": "Implementations and projects are listed by group: established, newly released, developing, legacy, others, status unknown. Newly released projects were first released less than about a year ago and are not yet seen to be widely used in the community. Legacy projects are archived or have had no commit for three years or more; the projects with a highlight (shown in bold on the website) and reference programs are never legacy. Within each group the projects with a highlight come first, then ranked and active ones. Projects in the others group do not compute the metrics themselves; they call another listed project (listed in calls), and their rows appear under also_through instead of implementations. Projects in the unknown group could not be opened (access); they list a claim and no implementations.",
@@ -2800,6 +2800,30 @@
             "TNR and PR of a 1 kHz tone in white noise are compared with the values expected from the standard's formulas (within 0.4 dB for TNR and 0.1 dB for PR); no TNR or PR value published in the standard is checked."
           ],
           "note": "The \"prominent\" flag applies the numeric criterion only."
+        },
+        {
+          "project": "rota",
+          "reference": "ecma-418-1-ed3",
+          "functions": [
+            "rota.tonal.tone_prominence",
+            "rota.tonal.order_prominence",
+            "rota.tonal.prominence_criterion"
+          ],
+          "scope": "tones in a power spectrum, and orders of a rotating machine along a run-up",
+          "status": "available",
+          "since": "0.5.0",
+          "validation": "standard-data",
+          "validation_scope": "formula examples; no published TNR or PR value",
+          "validation_details": [
+            "Tests check worked examples printed in ECMA-418-1:2024: the critical bandwidth at 500 Hz and 1 kHz (Clause 10), the band edges at 1 kHz (Clause 12.2) and the proximity spacing at 150 and 850 Hz (Clause 11.6). The criteria are checked at 100 Hz, 1 kHz and 5 kHz.",
+            "TNR and PR of tones at 140 Hz, 1 kHz and 3 kHz in white noise are compared with the values that the standard's formulas give for the known tone and noise powers, within 0.5 dB; on spectra built line by line they agree to within 1e-9 dB for TNR and 0.03 dB for PR. No TNR or PR value published in the standard is checked.",
+            "For an order in a synthetic run-up, `order_prominence` gives the TNR within 1 dB of the analytic value in every speed bin, with a mean error below 0.4 dB."
+          ],
+          "conventions": [
+            "`order_prominence` analyses orders on the order-tracked (angle-domain) spectrum, so that an order stays one spectral line in every frame of a run-up. The docstring and a test show that a fixed time window long enough for the resolution the standard asks for at low frequency spreads a fast-sweeping order over the band and biases its TNR low, by about 19 dB in the test case.",
+            "Where the text of the 3rd edition is inconsistent, the module notes how it is read: the secondary tone is added in Formulae (A.7) and (A.8), the tone spacing is |f_s − f_p|, 500 Hz takes arithmetic centring, the criteria cover 89.1 Hz to 11 200 Hz, and the misprints of Formulae (21) and (23) are resolved with their Annex B counterparts."
+          ],
+          "note": "The \"prominent\" flag applies the numeric criterion only; the aural check of audibility (Sections 11.8 and 12.8) is not assessed."
         },
         {
           "project": "mosqito-net",
@@ -7203,6 +7227,95 @@
       "group": "newly-released"
     },
     {
+      "id": "rota",
+      "name": "ROTA",
+      "full_name": "ROTA: Rotational Order Tracking and Analysis",
+      "repository": "https://github.com/ZhenxianLi/ROTA",
+      "docs": "https://github.com/ZhenxianLi/ROTA#readme",
+      "languages": [
+        "Python"
+      ],
+      "kind": "library",
+      "language_note": "Python 3.10 or newer; depends only on NumPy and SciPy. The PyPI package is `rota-order`, imported as `rota`.",
+      "standing": "newly-released",
+      "standing_note": "First released in October 2026; the README calls it pre-alpha.",
+      "license": "GPL-3.0-or-later",
+      "packages": [
+        {
+          "registry": "pypi",
+          "name": "rota-order"
+        }
+      ],
+      "install": "pip install rota-order",
+      "maintainers": [
+        "Zhenxian LI"
+      ],
+      "summary": "Python library for order analysis of noise and vibration from rotating machinery: speed from a tachometer or from the signal, order maps and slices, Vold-Kalman order extraction and order-based sound resynthesis. Its `tonal` module computes the ECMA-418-1:2024 tone-to-noise ratio and prominence ratio, for tones in a spectrum and for the orders of a machine along a run-up.",
+      "ai_assistance": "disclosed",
+      "ai_note": "The README says that Claude (Anthropic) was used as an assistant during development.",
+      "notes": [
+        "ROTA is written by Zhenxian LI, who also maintains LISQM.",
+        "The README places the psychoacoustic metrics themselves (loudness, sharpness, roughness, tonality) outside ROTA's scope. Examples 07 to 09 pass its results to MoSQITo, sottek-hearing-model and SQAT, which are optional and not dependencies of ROTA.",
+        "The README states that each function is implemented from the published literature and tested on synthetic signals with known analytic results."
+      ],
+      "caveats": [
+        "Very new (first released in October 2026) and not yet seen to be widely used in the community; no independent verification has been published.",
+        "The README calls the current version pre-alpha and says that functions and signatures may still change before 1.0."
+      ],
+      "implements": [
+        {
+          "metric": "tone-to-noise-prominence-ratio",
+          "reference": "ecma-418-1-ed3",
+          "functions": [
+            "rota.tonal.tone_prominence",
+            "rota.tonal.order_prominence",
+            "rota.tonal.prominence_criterion"
+          ],
+          "scope": "tones in a power spectrum, and orders of a rotating machine along a run-up",
+          "status": "available",
+          "since": "0.5.0",
+          "validation": "standard-data",
+          "validation_scope": "formula examples; no published TNR or PR value",
+          "validation_details": [
+            "Tests check worked examples printed in ECMA-418-1:2024: the critical bandwidth at 500 Hz and 1 kHz (Clause 10), the band edges at 1 kHz (Clause 12.2) and the proximity spacing at 150 and 850 Hz (Clause 11.6). The criteria are checked at 100 Hz, 1 kHz and 5 kHz.",
+            "TNR and PR of tones at 140 Hz, 1 kHz and 3 kHz in white noise are compared with the values that the standard's formulas give for the known tone and noise powers, within 0.5 dB; on spectra built line by line they agree to within 1e-9 dB for TNR and 0.03 dB for PR. No TNR or PR value published in the standard is checked.",
+            "For an order in a synthetic run-up, `order_prominence` gives the TNR within 1 dB of the analytic value in every speed bin, with a mean error below 0.4 dB."
+          ],
+          "conventions": [
+            "`order_prominence` analyses orders on the order-tracked (angle-domain) spectrum, so that an order stays one spectral line in every frame of a run-up. The docstring and a test show that a fixed time window long enough for the resolution the standard asks for at low frequency spreads a fast-sweeping order over the band and biases its TNR low, by about 19 dB in the test case.",
+            "Where the text of the 3rd edition is inconsistent, the module notes how it is read: the secondary tone is added in Formulae (A.7) and (A.8), the tone spacing is |f_s − f_p|, 500 Hz takes arithmetic centring, the criteria cover 89.1 Hz to 11 200 Hz, and the misprints of Formulae (21) and (23) are resolved with their Annex B counterparts."
+          ],
+          "note": "The \"prominent\" flag applies the numeric criterion only; the aural check of audibility (Sections 11.8 and 12.8) is not assessed."
+        }
+      ],
+      "cite": {
+        "text": "The README points to `CITATION.cff` (\"Cite this repository\" on GitHub); a Zenodo DOI is planned for version 1.0.",
+        "cff": "https://github.com/ZhenxianLi/ROTA/blob/main/CITATION.cff"
+      },
+      "sources": [
+        "https://github.com/ZhenxianLi/ROTA/blob/main/README.md",
+        "https://github.com/ZhenxianLi/ROTA/blob/main/LICENSE",
+        "https://github.com/ZhenxianLi/ROTA/blob/main/CITATION.cff",
+        "https://github.com/ZhenxianLi/ROTA/blob/main/CHANGELOG.md",
+        "https://github.com/ZhenxianLi/ROTA/blob/main/src/rota/_prominence.py",
+        "https://github.com/ZhenxianLi/ROTA/blob/main/tests/test_prominence.py",
+        "https://pypi.org/project/rota-order/"
+      ],
+      "checked": "2026-10-27",
+      "url": "https://zhenxianli.github.io/LISQM/projects/rota.html",
+      "last_commit": "2026-10-27",
+      "latest_release": {
+        "version": "0.5.0",
+        "date": "2026-10-27",
+        "source": ""
+      },
+      "prerelease": null,
+      "activity": "active",
+      "archived": false,
+      "stars": null,
+      "group": "newly-released"
+    },
+    {
       "id": "soundpalette",
       "name": "SoundPalette",
       "repository": "https://github.com/onyx-prismantium/soundpalette",
@@ -9052,6 +9165,11 @@
     }
   ],
   "updates": [
+    {
+      "date": "2026-10-27",
+      "title": "Version 0.5.10: ROTA added",
+      "body": "Added ROTA, a newly released Python library for order analysis of rotating machinery. Its tonal module computes\nthe ECMA-418-1:2024 tone-to-noise ratio and prominence ratio, for tones and for machine orders along a run-up.\nROTA is written by the maintainer of LISQM.\n"
+    },
     {
       "date": "2026-10-19",
       "title": "Version 0.5.9: SQAT's interface follows pySQAT's layout",

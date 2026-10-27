@@ -2,6 +2,12 @@
 
 Notable changes to the list. This file is generated from `data/updates.yaml`; the same notes are on the website (https://zhenxianli.github.io/LISQM/updates.html) and in its Atom feed.
 
+## 2026-10-27: Version 0.5.10: ROTA added
+
+Added ROTA, a newly released Python library for order analysis of rotating machinery. Its tonal module computes
+the ECMA-418-1:2024 tone-to-noise ratio and prominence ratio, for tones and for machine orders along a run-up.
+ROTA is written by the maintainer of LISQM.
+
 ## 2026-10-19: Version 0.5.9: SQAT's interface follows pySQAT's layout
 
 The FAQ, the SQAT and pySQAT pages and the Languages page now say that the graphical interface SQAT added in
