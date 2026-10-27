@@ -23,7 +23,6 @@ summary: >-
 ai_assistance: disclosed
 ai_note: The README says that Claude (Anthropic) was used as an assistant during development.
 notes:
-  - ROTA is written by Zhenxian LI, who also maintains LISQM.
   - >-
     The README places the psychoacoustic metrics themselves (loudness, sharpness, roughness, tonality) outside ROTA's
     scope. Examples 07 to 09 pass its results to MoSQITo, sottek-hearing-model and SQAT, which are optional and not

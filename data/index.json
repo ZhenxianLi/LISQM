@@ -7254,7 +7254,6 @@
       "ai_assistance": "disclosed",
       "ai_note": "The README says that Claude (Anthropic) was used as an assistant during development.",
       "notes": [
-        "ROTA is written by Zhenxian LI, who also maintains LISQM.",
         "The README places the psychoacoustic metrics themselves (loudness, sharpness, roughness, tonality) outside ROTA's scope. Examples 07 to 09 pass its results to MoSQITo, sottek-hearing-model and SQAT, which are optional and not dependencies of ROTA.",
         "The README states that each function is implemented from the published literature and tested on synthetic signals with known analytic results."
       ],
@@ -9168,7 +9167,7 @@
     {
       "date": "2026-10-27",
       "title": "Version 0.5.10: ROTA added",
-      "body": "Added ROTA, a newly released Python library for order analysis of rotating machinery. Its tonal module computes\nthe ECMA-418-1:2024 tone-to-noise ratio and prominence ratio, for tones and for machine orders along a run-up.\nROTA is written by the maintainer of LISQM.\n"
+      "body": "Added ROTA, a newly released Python library for order analysis of rotating machinery. Its tonal module computes\nthe ECMA-418-1:2024 tone-to-noise ratio and prominence ratio, for tones and for machine orders along a run-up.\n"
     },
     {
       "date": "2026-10-19",
