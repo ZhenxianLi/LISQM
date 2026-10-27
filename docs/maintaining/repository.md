@@ -16,7 +16,7 @@ issue or to the owner; do not change them yourself. Current values:
 | Social preview | `assets/social-preview.png`, drawn from `assets/social-preview.svg` with the tagline as subtitle; uploaded by the owner. The build also copies it into the site for link previews. |
 | Branches | `main` only; delete any other branch after it is merged (Dependabot's are temporary) |
 | Pages | source: GitHub Actions |
-| Releases and tags | only for version 1.0, made by the owner; earlier versions are only pushed (one old tag, `v0.5.0`) |
+| Releases and tags | one GitHub release for each new second number (0.6.0, 0.7.0, …), made by the release workflow; third numbers are only pushed; no releases for versions before 0.6.0 (one old tag, `v0.5.0`) |
 | Comments | none on the website; the FAQ message box opens an issue |
 
 When the name, the tagline or the scope changes, the description, the topics and the social preview may need to
@@ -49,9 +49,17 @@ creates them when they are missing.
   1.0 is for the official release, when the owner decides.
 - A version is prepared in one commit: `version` in `data/site.yaml`; `version` and `date-released` in
   `CITATION.cff`; an entry "Version 0.Y: <what is new>" at the top of `data/updates.yaml`, short.
-- That commit is only pushed: no tag and no GitHub release. The one release the owner plans is version 1.0, which
-  the owner creates. The tag `v0.5.0` (on the first commit of that version) stays as it is. Agents do not create or
-  push tags.
+- A new third number is only pushed: no tag and no GitHub release.
+- A new second number is released. Begin the first line of its commit with "Release X.Y.0" (for example
+  "Release 0.6.0: search by edition"), make it the last commit of the push, and push it to `main`. The release
+  workflow (`release.yml`) checks that `data/site.yaml` and `CITATION.cff` carry that version and that its tag does
+  not exist yet, validates the data, runs the tests and a full build, then creates the tag `vX.Y.0` and the GitHub
+  release: its title is "LISQM X.Y.0: …" from the update note, its text the update notes since the previous
+  release (`scripts/release.py`), and `lisqm-X.Y.0.json` (the whole list as data) is attached. Afterwards, check
+  that the run succeeded and that the release is there.
+- Agents never create or push tags or releases by hand; the workflow does. Versions before 0.6.0 get no release
+  afterwards, and the tag `v0.5.0` (on the first commit of that version) stays as it is. Whether releases move to a
+  monthly rhythm is for the owner to decide.
 
 ## Workflows
 
@@ -61,6 +69,7 @@ creates them when they are missing.
 | Pages (`pages.yml`) | pushes to `main` that touch `data/`, `scripts/`, `site-src/`, `assets/`, the README or `requirements.txt`; by hand; called by Refresh | builds the site, commits the regenerated files, deploys to GitHub Pages |
 | Refresh (`refresh.yml`) | 05:17 UTC on the 1st and the 15th of every month; by hand | commits the metadata refresh, then discovery, standards watch, link check, the review issue, Pages and search engines |
 | Search engines (`indexnow.yml`) | after Refresh; by hand | submits the pages in the sitemap to IndexNow |
+| Release (`release.yml`) | pushes to `main` whose last commit begins "Release X.Y.Z"; by hand, with the version | checks, tests and a build, then the tag and the GitHub release with the notes and the data file |
 | Dependabot (`dependabot.yml`) | monthly | proposes newer versions of the actions; merge when CI passes |
 
 The site says the list is renewed "monthly" while Refresh runs twice a month: the owner wants it more active while

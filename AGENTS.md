@@ -13,6 +13,8 @@ The essentials:
 - Before committing: `python scripts/build.py --check`, `python -m unittest discover -s tests`, a full build, and a
   look at the changed pages.
 - Commit to `main` only, as the owner, with no co-author or other trailer naming an AI tool. Do not create tags or
-  releases, and do not change GitHub settings.
+  releases by hand: a new second number of the version is released by the release workflow from a commit that
+  begins "Release X.Y.0" (see [docs/maintaining/repository.md](docs/maintaining/repository.md)). Do not change
+  GitHub settings.
 - What is listed in [docs/maintaining/owner-decisions.md](docs/maintaining/owner-decisions.md) changes only when
   the owner asks.

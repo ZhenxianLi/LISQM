@@ -1,0 +1,87 @@
+name: Release
+
+# A new second number of the version (0.6.0, 0.7.0, ...) is released: push the commit that sets it to `main` with a
+# first line that reads "Release X.Y.Z" (optionally ": what is new"). This workflow then checks the data, runs the
+# tests and creates the tag vX.Y.Z and a GitHub release, with the update notes since the previous release and the
+# whole list as data attached. It runs from GitHub, so that nobody has to create tags or releases by hand. A version
+# whose tag exists already is never released again. See docs/maintaining/repository.md.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to release, as in data/site.yaml (for example 0.6.0)"
+        required: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    if: ${{ github.event_name == 'workflow_dispatch' || startsWith(github.event.head_commit.message, 'Release ') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0 # the tags, to find the previous release
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Install Graphviz (it draws the project map)
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq graphviz fonts-dejavu-core
+
+      - name: Version to release
+        id: version
+        env:
+          MESSAGE: ${{ github.event.head_commit.message }}
+          INPUT: ${{ inputs.version }}
+        run: |
+          if [ "$GITHUB_EVENT_NAME" = "workflow_dispatch" ]; then
+            v="$INPUT"
+          else
+            v=$(printf '%s\n' "$MESSAGE" | head -n 1 | sed -nE 's/^Release ([0-9]+\.[0-9]+\.[0-9]+)(:.*)?$/\1/p')
+          fi
+          if [ -z "$v" ]; then
+            echo "::error::The first line of the commit must read 'Release X.Y.Z' or 'Release X.Y.Z: what is new'."
+            exit 1
+          fi
+          if git rev-parse -q --verify "refs/tags/v$v" > /dev/null; then
+            echo "::error::The tag v$v exists already; a version is released once."
+            exit 1
+          fi
+          python scripts/release.py check "$v"
+          echo "version=$v" >> "$GITHUB_OUTPUT"
+
+      - name: Validate data
+        run: python scripts/build.py --check
+
+      - name: Unit tests
+        run: python -m unittest discover -s tests
+
+      - name: Full build (not committed)
+        run: python scripts/build.py --out "$RUNNER_TEMP/site"
+
+      - name: Create the tag and the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          git checkout -- . # the build above rewrites generated files; release the files of the commit
+          python scripts/release.py notes "$VERSION" > "$RUNNER_TEMP/notes.md"
+          cp data/index.json "$RUNNER_TEMP/lisqm-$VERSION.json"
+          gh release create "v$VERSION" "$RUNNER_TEMP/lisqm-$VERSION.json" \
+            --target "$GITHUB_SHA" \
+            --title "$(python scripts/release.py title "$VERSION")" \
+            --notes-file "$RUNNER_TEMP/notes.md"

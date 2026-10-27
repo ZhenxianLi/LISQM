@@ -139,9 +139,10 @@ owner instead of fixing it.
   any other trailer that names an AI tool or model: GitHub would list it as a contributor.
 - Never commit standards documents (they are not free and are used only to check facts), files that someone
   uploaded for checking, or personal e-mail addresses (for example from git logs).
-- Do not create tags or GitHub releases: the owner does, for version 1.0 only. A new version means changing
-  `version` in `data/site.yaml` and in `CITATION.cff` (with `date-released`) and adding a short entry to
-  `data/updates.yaml`, then pushing; see [repository.md](repository.md).
+- A new version means changing `version` in `data/site.yaml` and in `CITATION.cff` (with `date-released`) and adding
+  a short entry to `data/updates.yaml`, then pushing. A new third number is only pushed; a new second number is
+  released by the release workflow from a commit that begins "Release X.Y.0". Never create tags or releases by
+  hand; see [repository.md](repository.md).
 - Do not change GitHub settings (description, topics, Pages, branch rules); propose the change to the owner.
 
 ## Ask the owner first
