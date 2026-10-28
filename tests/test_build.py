@@ -816,8 +816,11 @@ class BuildTest(unittest.TestCase):
         single = [p["id"] for p in RL.alone(self.index, RL.relations(self.index, self.index.metric["sharpness"]))]
         boxes = map_boxes((self.site / "metrics/sharpness.html").read_text(encoding="utf-8"))
         self.assertEqual((len(single), len({round(boxes[k][1]) for k in single})), (5, 2))
-        boxes = map_boxes((self.site / "metrics/roughness-daniel-weber.html").read_text(encoding="utf-8"))
-        self.assertLess(boxes["ita-toolbox"][1], boxes["mosqito"][1], "a single box stays in the first column")
+        page = (self.site / "metrics/roughness-daniel-weber.html").read_text(encoding="utf-8")
+        boxes = map_boxes(page)
+        self.assertEqual(round(boxes["ita-toolbox"][0]), round(min(x for x, _ in boxes.values())),
+                         "a single box stays in the first column")
+        self.assertNotIn('<g transform="translate(', page, "a single box stays where Graphviz put it")
 
     def test_data_texts_are_whole(self) -> None:
         # In YAML, " #" in an unquoted text starts a comment and ": " makes a mapping: both once cut a sentence.
