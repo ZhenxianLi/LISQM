@@ -839,6 +839,15 @@ class BuildTest(unittest.TestCase):
                 del p["caveats"]
             else:
                 p["caveats"] = saved
+        # A scope is plain text: once a `code` span in it showed its backticks on the page.
+        impl = next(i for i in self.index.project["aarae"]["implements"] if i.get("scope", "").startswith("from the"))
+        saved = impl["scope"]
+        try:
+            impl["scope"] = "from the specific loudness of `LoudnessCF`"
+            self.assertIn("scope is plain text, without Markdown", "\n".join(self.index.validate()))
+        finally:
+            impl["scope"] = saved
+        self.assertNotIn("`", (self.site / "projects/aarae.html").read_text(encoding="utf-8"))
         self.assertEqual(self.index.validate(), [])
 
     def test_update_anchors_are_unique(self) -> None:

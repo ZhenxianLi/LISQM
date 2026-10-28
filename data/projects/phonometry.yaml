@@ -191,12 +191,12 @@ implements:
         computed contours and loudness levels, within 0.05 dB or phon, and the hearing threshold with Table 1.
   - metric: tonal-audibility-iso-1996-2
     reference: iso-1996-2-2007
-    scope: Annex C; in the `phonometry.environment` namespace
+    scope: Annex C; in the phonometry.environment namespace
     status: available
     validation: not-stated
   - metric: tonal-audibility-iso-1996-2
     reference: iso-1996-2-2017
-    scope: Annex K survey method and Table J.1; in the `phonometry.environment` namespace
+    scope: Annex K survey method and Table J.1; in the phonometry.environment namespace
     status: available
     validation: not-stated
   - metric: tonal-audibility-iec-61400-11
@@ -206,17 +206,17 @@ implements:
     validation: not-stated
   - metric: impulsiveness
     reference: nt-acou-112-2002
-    scope: in the `phonometry.environment` namespace
+    scope: in the phonometry.environment namespace
     status: available
     validation: not-stated
   - metric: impulsiveness
     reference: iso-pas-1996-3-2022
-    scope: in the `phonometry.environment` namespace
+    scope: in the phonometry.environment namespace
     status: available
     validation: not-stated
   - metric: epnl
     reference: icao-annex-16-vol-1
-    scope: PNL, PNLT and EPNL, in the `phonometry.aircraft` namespace
+    scope: PNL, PNLT and EPNL, in the phonometry.aircraft namespace
     status: available
     validation: standard-data
     validation_details:

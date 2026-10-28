@@ -442,6 +442,8 @@ class Index:
                     add(f"{wi}: validation_scope must be a few words (at most 60 characters)")
                 if "partial" in impl and (impl["partial"] is not True or not impl.get("scope")):
                     add(f"{wi}: partial can only be true, with a scope that says what is computed")
+                if "`" in str(impl.get("scope") or ""):
+                    add(f"{wi}: scope is plain text, without Markdown")
                 if impl.get("via") and impl["via"] not in self.project:
                     add(f"{wi}: via '{impl['via']}' is not a listed project")
                 if impl.get("via") == pid:

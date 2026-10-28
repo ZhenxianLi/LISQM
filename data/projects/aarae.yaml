@@ -87,7 +87,7 @@ implements:
   - metric: sharpness
     reference: fastl-zwicker-2007
     functions: [sharpness_Fastl]
-    scope: from the specific loudness of `LoudnessCF`
+    scope: from the specific loudness of LoudnessCF
     status: available
     validation: not-stated
     note: >-

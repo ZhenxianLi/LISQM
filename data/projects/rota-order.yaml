@@ -7,8 +7,9 @@ languages: [Python]
 kind: library
 language_note: >-
   Python 3.10 or newer; depends only on NumPy and SciPy. The PyPI package is `rota-order`, imported as `rota`. The
-  wrappers of version 0.6.0 call MoSQITo or sottek-hearing-model in Python, and SQAT in a local MATLAB through the
-  MATLAB Engine API for Python; all three are optional and installed by the user.
+  wrappers of `rota.bridges` (since version 0.6.0) call MoSQITo or sottek-hearing-model in Python, and SQAT in a local
+  MATLAB through the MATLAB Engine API for Python; all three are optional and installed by the user. The figures of
+  `rota.plot` (since 0.7.0) need Matplotlib, also optional.
 standing: newly-released
 standing_note: First released in October 2026; the README calls it pre-alpha.
 license: GPL-3.0-or-later
@@ -19,10 +20,10 @@ install: pip install rota-order
 maintainers: [Zhenxian LI]
 summary: >-
   Order analysis of noise and vibration from rotating machinery such as engines, electric motors and gearboxes. It
-  finds the shaft speed from a tachometer or from the signal itself, resamples signals to the shaft angle, draws
-  Campbell and order maps, extracts and removes orders with a Vold-Kalman filter, and resynthesises sound from order
-  tables. On top of this it computes the ECMA-418-1:2024 tone-to-noise ratio and prominence ratio of machine orders
-  along a run-up. Version 0.6.0 adds wrappers that compute loudness, sharpness, roughness and tonality with
+  finds the shaft speed from a tachometer or from the signal itself, resamples signals to the shaft angle, computes
+  Campbell and order maps, extracts and removes orders with a Vold-Kalman filter, resynthesises sound from order
+  tables and plots these results. On top of this it computes the ECMA-418-1:2024 tone-to-noise ratio and prominence
+  ratio of machine orders along a run-up, and its wrappers compute loudness, sharpness, roughness and tonality with
   MoSQITo, sottek-hearing-model or SQAT and bin the results along rpm.
 ai_assistance: disclosed
 ai_note: The README says that Claude (Anthropic) was used as an assistant during development.
@@ -32,8 +33,8 @@ notes:
     with known speed, angle and order amplitudes; the README gives the tolerances, for example 0.2 dB for order
     amplitudes on stationary segments.
   - >-
-    Version 0.6.0 is on the default branch, and the README and `CITATION.cff` name it as the current release, but it
-    has no tag and is not on PyPI yet, whose latest version is 0.5.0. Its wrappers are therefore listed as unreleased.
+    Versions 0.6.0 (the wrappers of `rota.bridges`) and 0.7.0 (the figures of `rota.plot`) were released on
+    2026-10-28, both tagged and on PyPI.
   - >-
     The README places the psychoacoustic metrics themselves (loudness, sharpness, roughness, tonality) outside the
     project's scope. The wrappers of `rota.bridges` call the public functions of the toolboxes at run time, never copy
@@ -41,13 +42,15 @@ notes:
   - The repository was renamed from ROTA to rota-order in October 2026; the old address redirects.
 conventions:
   - text: >-
-      `rota.bridges.along_rpm` bins a time-varying result along rpm after leaving out the start of the signal: in each
-      speed bin it takes the 95th percentile of the loudness (N5), the median of the sharpness and the 90th percentile
-      of the roughness, after 0.6 s for loudness and sharpness and 1.5 s for roughness.
+      The method `vs_rpm` of a wrapper's result bins it along rpm after leaving out the start of the signal: by default
+      it takes in each speed bin the 95th percentile of the loudness (N5), the median of the sharpness and the 90th
+      percentile of the roughness, after 0.6 s for loudness and sharpness and 1.5 s for roughness. Keyword arguments
+      override these choices.
     metrics: [loudness-zwicker, sharpness, roughness-daniel-weber]
   - text: >-
-      `rota.bridges.along_rpm` takes the mean of the ECMA-418-2 loudness and tonality in each speed bin, tonality only
-      above 0.02 tu_HMS, and the 90th percentile of the roughness, after about 0.3 s (0.6 s for SQAT's tonality).
+      For the ECMA-418-2 metrics, `vs_rpm` takes by default the mean of the loudness and the tonality in each speed bin,
+      the tonality only above 0.02 tu_HMS, and the 90th percentile of the roughness, after about 0.3 s (0.6 s for
+      SQAT's tonality).
     metrics: [loudness-ecma-418-2, tonality-ecma-418-2, roughness-ecma-418-2]
   - Input in any unit is turned into sound pressure in Pa by an explicit calibration factor and resampled to 48 kHz.
 caveats:
@@ -99,69 +102,85 @@ implements:
     reference: iso-532-1-2017
     functions: [rota.bridges.mosqito.loudness]
     scope: time-varying, through MoSQITo's loudness_zwtv
-    status: unreleased
+    status: available
+    since: 0.6.0
     via: mosqito
     validation: self-tests
     validation_details:
       - >-
-        Tests, which run only where MoSQITo is installed, check that the wrapper returns what a direct call of
-        MoSQITo gives on the same signal, that the calibration factor scales the loudness, and that `along_rpm`
-        puts the values in the right speed bins.
+        Tests, which run only where MoSQITo is installed (the project's continuous integration does not install it),
+        check that the wrapper returns what a direct call of MoSQITo gives on the same signal, also after resampling to
+        48 kHz, that the calibration factor scales the loudness, and that `vs_rpm` gives what binning the values by
+        hand gives.
   - metric: sharpness
     reference: din-45692-2009
     functions: [rota.bridges.mosqito.sharpness]
     scope: through MoSQITo's sharpness_din_from_loudness
-    status: unreleased
+    status: available
+    since: 0.6.0
     via: mosqito
     validation: self-tests
     validation_details:
       - >-
-        Tests, which run only where MoSQITo is installed, check that the wrapper returns what a direct call of
-        MoSQITo gives, also when the sharpness is computed from an earlier loudness result.
+        Tests, which run only where MoSQITo is installed (the project's continuous integration does not install it),
+        check that the wrapper returns what a direct call of MoSQITo gives, also when the sharpness is computed from an
+        earlier loudness result.
   - metric: roughness-daniel-weber
     reference: daniel-weber-1997
     functions: [rota.bridges.mosqito.roughness]
     scope: through MoSQITo's roughness_dw
-    status: unreleased
+    status: available
+    since: 0.6.0
     via: mosqito
     validation: self-tests
     validation_details:
-      - Tests, which run only where MoSQITo is installed, check that the wrapper returns what a direct call of MoSQITo gives.
+      - >-
+        Tests, which run only where MoSQITo is installed (the project's continuous integration does not install it),
+        check that the wrapper returns what a direct call of MoSQITo gives.
   - metric: tonality-ecma-418-2
     reference: ecma-418-2-ed4
-    functions: [rota.bridges.shm.tonality]
+    functions: [rota.bridges.sottek_hearing_model.tonality]
     scope: through sottek-hearing-model's shm_tonality_ecma
-    status: unreleased
+    status: available
+    since: 0.6.0
     via: sottek-hearing-model
     validation: self-tests
     validation_details:
       - >-
-        Tests, which run only where sottek-hearing-model is installed, check that the wrappers return what direct
-        calls of the package give, that one speed bin reproduces the package's single values, and that the dominant
-        tonal frequency of a tone in noise maps to its order.
+        Tests, which run only where sottek-hearing-model is installed (the project's continuous integration does not
+        install it), check that the wrappers return what direct calls of the package give, that one speed bin
+        reproduces the package's single values, and that the dominant tonal frequency of a tone in noise maps to its
+        order.
   - metric: loudness-ecma-418-2
     reference: ecma-418-2-ed4
-    functions: [rota.bridges.shm.loudness]
+    functions: [rota.bridges.sottek_hearing_model.loudness]
     scope: through sottek-hearing-model's shm_loudness_ecma_from_comp
-    status: unreleased
+    status: available
+    since: 0.6.0
     via: sottek-hearing-model
     validation: self-tests
     validation_details:
-      - Tests, which run only where sottek-hearing-model is installed, check that the wrapper returns what a direct call of the package gives.
+      - >-
+        Tests, which run only where sottek-hearing-model is installed (the project's continuous integration does not
+        install it), check that the wrapper returns what a direct call of the package gives.
   - metric: roughness-ecma-418-2
     reference: ecma-418-2-ed4
-    functions: [rota.bridges.shm.roughness]
+    functions: [rota.bridges.sottek_hearing_model.roughness]
     scope: through sottek-hearing-model's shm_roughness_ecma
-    status: unreleased
+    status: available
+    since: 0.6.0
     via: sottek-hearing-model
     validation: self-tests
     validation_details:
-      - Tests, which run only where sottek-hearing-model is installed, check that the wrapper returns what a direct call of the package gives.
+      - >-
+        Tests, which run only where sottek-hearing-model is installed (the project's continuous integration does not
+        install it), check that the wrapper returns what a direct call of the package gives.
   - metric: loudness-zwicker
     reference: iso-532-1-2017
     functions: [rota.bridges.sqat.loudness]
     scope: time-varying, through SQAT v2.0's Loudness_ISO532_1 in MATLAB
-    status: unreleased
+    status: available
+    since: 0.6.0
     via: sqat
     validation: self-tests
     validation_details:
@@ -172,7 +191,8 @@ implements:
     reference: din-45692-2009
     functions: [rota.bridges.sqat.sharpness]
     scope: through SQAT v2.0's Sharpness_DIN45692_from_loudness in MATLAB
-    status: unreleased
+    status: available
+    since: 0.6.0
     via: sqat
     validation: self-tests
     validation_details:
@@ -183,7 +203,8 @@ implements:
     reference: daniel-weber-1997
     functions: [rota.bridges.sqat.roughness]
     scope: through SQAT v2.0's Roughness_Daniel1997 in MATLAB
-    status: unreleased
+    status: available
+    since: 0.6.0
     via: sqat
     validation: self-tests
     validation_details:
@@ -194,7 +215,8 @@ implements:
     reference: ecma-418-2-ed4
     functions: [rota.bridges.sqat.tonality]
     scope: through SQAT v2.0's Tonality_ECMA418_2 in MATLAB
-    status: unreleased
+    status: available
+    since: 0.6.0
     via: sqat
     validation: self-tests
     validation_details:
@@ -206,8 +228,8 @@ cite:
     The README points to `CITATION.cff` ("Cite this repository" on GitHub); a Zenodo DOI is planned for version 1.0.
   cff: https://github.com/ZhenxianLi/rota-order/blob/main/CITATION.cff
 manual:
-  last_commit: 2026-10-27
-  latest_release: {version: 0.5.0, date: 2026-10-27}
+  last_commit: 2026-10-28
+  latest_release: {version: 0.7.0, date: 2026-10-28}
   archived: false
 sources:
   - https://github.com/ZhenxianLi/rota-order/blob/main/README.md
@@ -216,12 +238,16 @@ sources:
   - https://github.com/ZhenxianLi/rota-order/blob/main/CHANGELOG.md
   - https://github.com/ZhenxianLi/rota-order/blob/main/src/rota/_prominence.py
   - https://github.com/ZhenxianLi/rota-order/blob/main/src/rota/bridges/__init__.py
+  - https://github.com/ZhenxianLi/rota-order/blob/main/src/rota/bridges/_common.py
   - https://github.com/ZhenxianLi/rota-order/blob/main/src/rota/bridges/mosqito.py
-  - https://github.com/ZhenxianLi/rota-order/blob/main/src/rota/bridges/shm.py
+  - https://github.com/ZhenxianLi/rota-order/blob/main/src/rota/bridges/sottek_hearing_model.py
   - https://github.com/ZhenxianLi/rota-order/blob/main/src/rota/bridges/sqat.py
   - https://github.com/ZhenxianLi/rota-order/blob/main/tests/test_prominence.py
   - https://github.com/ZhenxianLi/rota-order/blob/main/tests/test_bridge_mosqito.py
+  - https://github.com/ZhenxianLi/rota-order/blob/main/tests/test_bridge_shm.py
   - https://github.com/ZhenxianLi/rota-order/blob/main/tests/test_bridges.py
   - https://github.com/ZhenxianLi/rota-order/blob/main/tests/test_bridges_sqat.py
+  - https://github.com/ZhenxianLi/rota-order/blob/main/pyproject.toml
+  - https://github.com/ZhenxianLi/rota-order/blob/main/.github/workflows/tests.yml
   - https://pypi.org/project/rota-order/
 checked: 2026-10-28

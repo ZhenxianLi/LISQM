@@ -134,7 +134,7 @@ implements:
   - metric: loudness-zwicker                  # a metric id
     reference: iso-532-1-2017                 # a reference id listed in that metric's references
     functions: [stationary_loudness, time_varying_loudness]
-    scope: optional short text, e.g. "stationary and time-varying"
+    scope: optional short text, e.g. "stationary and time-varying" (plain text, without Markdown)
     partial: true                             # optional: computes only part of the metric (say what in scope); the
                                               # row is listed with a "partial" tag but not counted as an
                                               # implementation of the metric (coverage, gaps, timeline)

@@ -157,7 +157,7 @@ Which languages have an implementation of each metric.
 | [NumpyLibforPsychoAcoustic](https://github.com/Ryrybros/NumpyLibforPsychoAcoustic) | newly released, not yet seen to be widely used | Python | none | no release | 2026-06-07 | active |
 | [phonometry](https://github.com/jmrplens/phonometry) | newly released, not yet seen to be widely used | Python | MIT | v3.3.0 (2026-07) | 2026-10-14 | active |
 | [PsychoacousticMetrics.jl](https://github.com/slink/PsychoacousticMetrics.jl) | newly released, not yet seen to be widely used | Julia | MIT | v0.5.0 (2026-09) | 2026-09-03 | active |
-| [rota-order](https://github.com/ZhenxianLi/rota-order) | newly released, not yet seen to be widely used | Python | GPL-3.0-or-later | 0.5.0 (2026-10) | 2026-10-27 | active |
+| [rota-order](https://github.com/ZhenxianLi/rota-order) | newly released, not yet seen to be widely used | Python | GPL-3.0-or-later | 0.7.0 (2026-10) | 2026-10-28 | active |
 | [SoundPalette](https://github.com/onyx-prismantium/soundpalette) | newly released, not yet seen to be widely used | C++ | FSL-1.1-Apache-2.0 | v0.8.0 (2026-09) | 2026-09-27 | active |
 | [torch_amt](https://github.com/StefanoGiacomelli/torch_amt) | newly released, not yet seen to be widely used | Python | GPL-3.0-or-later | 0.2.0 (2026-02) | 2026-03-19 | active |
 | [ZwickerLoudness.jl](https://github.com/slink/ZwickerLoudness.jl) | newly released, not yet seen to be widely used | Julia | MIT | v0.3.0 (2026-09) | 2026-09-02 | active |

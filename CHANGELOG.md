@@ -6,8 +6,8 @@ Notable changes to the list. This file is generated from `data/updates.yaml`; th
 
 Added rota-order (ROTA), a newly released Python library for order analysis of noise and vibration from rotating
 machinery. It computes the ECMA-418-1:2024 tone-to-noise ratio and prominence ratio of machine orders along a
-run-up. Its version 0.6.0, not yet released, wraps MoSQITo, sottek-hearing-model and SQAT to bin loudness,
-sharpness, roughness and tonality along rpm; the project map shows these links.
+run-up, and since its version 0.6.0 it wraps MoSQITo, sottek-hearing-model and SQAT to bin loudness, sharpness,
+roughness and tonality along rpm; the project map shows these links.
 
 ## 2026-10-19: Version 0.5.9: SQAT's interface follows pySQAT's layout
 
