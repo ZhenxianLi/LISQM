@@ -662,15 +662,31 @@ class Agent:
         return record
 
 
+def test_connection() -> int:
+    """One token exchange and one short request, to check the federation setup."""
+    response = make_client().messages.create(model=MODEL, max_tokens=200, output_config={"effort": "low"},
+                                             messages=[{"role": "user", "content": "Reply with the word ready."}])
+    text = " ".join(b.text for b in response.content if b.type == "text").strip()
+    log(f"Connected: {response.model} replied {text!r} ({response.usage.input_tokens} input and "
+        f"{response.usage.output_tokens} output tokens).")
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("--issue", type=Path, required=True, help="the body of the review issue")
+    parser.add_argument("--test-connection", action="store_true",
+                        help="only exchange a token and send one short request")
+    parser.add_argument("--issue", type=Path, help="the body of the review issue")
     parser.add_argument("--owner-comment", type=Path, help="work on the owner's answer instead of the items")
     parser.add_argument("--last-report", type=Path, help="the last automated comment on the issue (owner mode)")
-    parser.add_argument("--report", type=Path, required=True, help="write the report (JSON) here")
+    parser.add_argument("--report", type=Path, help="write the report (JSON) here")
     parser.add_argument("--budget-usd", type=float, default=20.0, help="stop starting items above this estimate")
     parser.add_argument("--date", default=date.today().isoformat())
     args = parser.parse_args(argv)
+    if args.test_connection:
+        return test_connection()
+    if not args.issue or not args.report:
+        parser.error("--issue and --report are needed")
 
     body = args.issue.read_text(encoding="utf-8")
     report: dict[str, Any] = {"date": args.date, "model": MODEL,  # the hash of the file as the workflow wrote it

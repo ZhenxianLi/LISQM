@@ -7,10 +7,10 @@ name: Review
 # changes (scripts/review_guard.py), raises the version, runs the tests, publishes, and reports on the issue.
 # See docs/maintaining/review-issue.md.
 #
-# Repository variables (Settings > Secrets and variables > Actions > Variables), from the Claude Console:
-# ANTHROPIC_ORGANIZATION_ID, ANTHROPIC_FEDERATION_RULE_ID, ANTHROPIC_SERVICE_ACCOUNT_ID, and
-# ANTHROPIC_WORKSPACE_ID when the federation rule covers more than one workspace; REVIEW_BUDGET_USD (default 20)
-# caps the estimated API cost of one run. Until the first three are set, the workflow does nothing.
+# The IDs of the federation rule, the organisation, the service account and the workspace (from the Claude
+# Console; IDs, not secrets) are below; repository variables of the same names override them. The variable
+# REVIEW_BUDGET_USD (default 20) caps the estimated API cost of one run. Run the workflow by hand with
+# "test_connection" to check the federation: one token exchange and one short request, nothing else.
 
 on:
   workflow_run:
@@ -22,6 +22,10 @@ on:
     inputs:
       force:
         description: "Work through the issue even if its current body was reviewed already"
+        type: boolean
+        default: false
+      test_connection:
+        description: "Only check the connection to Claude (one token exchange and one short request)"
         type: boolean
         default: false
 
@@ -49,10 +53,10 @@ jobs:
       ran: ${{ steps.agent.outputs.ran }}
       issue: ${{ steps.issue.outputs.number }}
     env:
-      ANTHROPIC_ORGANIZATION_ID: ${{ vars.ANTHROPIC_ORGANIZATION_ID }}
-      ANTHROPIC_FEDERATION_RULE_ID: ${{ vars.ANTHROPIC_FEDERATION_RULE_ID }}
-      ANTHROPIC_SERVICE_ACCOUNT_ID: ${{ vars.ANTHROPIC_SERVICE_ACCOUNT_ID }}
-      ANTHROPIC_WORKSPACE_ID: ${{ vars.ANTHROPIC_WORKSPACE_ID }}
+      ANTHROPIC_ORGANIZATION_ID: ${{ vars.ANTHROPIC_ORGANIZATION_ID || 'e79a60d6-f7ca-46d2-a8b0-fc45117db8c6' }}
+      ANTHROPIC_FEDERATION_RULE_ID: ${{ vars.ANTHROPIC_FEDERATION_RULE_ID || 'fdrl_01Vse21pRecUeDx6gzKVRaQh' }}
+      ANTHROPIC_SERVICE_ACCOUNT_ID: ${{ vars.ANTHROPIC_SERVICE_ACCOUNT_ID || 'svac_011yi4Q7exTiuPpKRSwLGjqF' }}
+      ANTHROPIC_WORKSPACE_ID: ${{ vars.ANTHROPIC_WORKSPACE_ID || 'wrkspc_01DSKFyDoAZdFehYHmUyx5a3' }}
       GH_TOKEN: ${{ github.token }}
       GH_REPO: ${{ github.repository }}
     steps:
@@ -74,8 +78,13 @@ jobs:
           EVENT_ISSUE: ${{ github.event.issue.number }}
           COMMENT: ${{ github.event.comment.body }}
           FORCE: ${{ inputs.force }}
+          TEST: ${{ inputs.test_connection }}
         run: |
           mkdir -p "$RUNNER_TEMP/review"
+          if [ "$TEST" = "true" ]; then
+            echo "go=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
           if [ "$GITHUB_EVENT_NAME" = "issue_comment" ]; then
             number="$EVENT_ISSUE"
             printf '%s\n' "$COMMENT" > "$RUNNER_TEMP/owner-comment.md"
@@ -100,26 +109,31 @@ jobs:
             exit 0
           fi
           echo "number=$number" >> "$GITHUB_OUTPUT"
+          echo "go=true" >> "$GITHUB_OUTPUT"
 
       - uses: actions/checkout@v7
-        if: steps.issue.outputs.number
+        if: steps.issue.outputs.go == 'true'
         with:
           ref: main
           persist-credentials: false
 
       - uses: actions/setup-python@v7
-        if: steps.issue.outputs.number
+        if: steps.issue.outputs.go == 'true'
         with:
           python-version: "3.12"
           cache: pip
 
       - name: Install dependencies
-        if: steps.issue.outputs.number
+        if: steps.issue.outputs.go == 'true'
         run: pip install -r requirements.txt "anthropic==2.3.0"
 
       - name: Install Graphviz (the tests that run after each item draw the project map)
-        if: steps.issue.outputs.number
+        if: steps.issue.outputs.go == 'true'
         run: sudo apt-get update -qq && sudo apt-get install -y -qq graphviz fonts-dejavu-core
+
+      - name: Check the connection to Claude
+        if: inputs.test_connection
+        run: python scripts/review_agent.py --test-connection
 
       - name: Work through the issue with Claude
         id: agent

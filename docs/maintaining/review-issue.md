@@ -36,8 +36,9 @@ an estimate of the cost. It closes the issue when every item was settled.
   deleted file and an e-mail address; those are made by hand.
 - **Authentication** is Workload Identity Federation, without an API key: the job's GitHub OIDC token (audience
   `https://api.anthropic.com`) is exchanged for a short-lived Anthropic token under a federation rule that accepts
-  only this workflow on `main`. The IDs are repository variables ([repository.md](repository.md)); until they are
-  set, the workflow does nothing.
+  only this workflow on `main`. The IDs are in the workflow file (repository variables of the same names
+  override them, [repository.md](repository.md)). Run the workflow by hand with *test_connection* to check the
+  connection alone.
 - **Cost**: `REVIEW_BUDGET_USD` (default 20) caps the estimated cost of one run; items it does not reach wait for
   the next run. A spend limit on the Anthropic workspace is the hard cap.
 - **When it fails**, the run's log and the comment on the issue say why, and the items stay in the issue for the

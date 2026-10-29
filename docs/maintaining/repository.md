@@ -18,7 +18,7 @@ issue or to the owner; do not change them yourself. Current values:
 | Pages | source: GitHub Actions |
 | Releases and tags | one GitHub release for each new second number (0.6.0, 0.7.0, …), made by the release workflow; third numbers are only pushed; no releases for versions before 0.6.0 (one old tag, `v0.5.0`) |
 | Comments | none on the website; the FAQ message box opens an issue |
-| Actions variables | `ANTHROPIC_ORGANIZATION_ID`, `ANTHROPIC_FEDERATION_RULE_ID`, `ANTHROPIC_SERVICE_ACCOUNT_ID`, optionally `ANTHROPIC_WORKSPACE_ID` and `REVIEW_BUDGET_USD`, for the Review workflow ([review-issue.md](review-issue.md#automated-review)). No secrets: Claude is reached with Workload Identity Federation. |
+| Actions variables | optional, for the Review workflow: `REVIEW_BUDGET_USD`, and `ANTHROPIC_ORGANIZATION_ID`, `ANTHROPIC_FEDERATION_RULE_ID`, `ANTHROPIC_SERVICE_ACCOUNT_ID`, `ANTHROPIC_WORKSPACE_ID` to override the IDs in `review.yml` ([review-issue.md](review-issue.md#automated-review)). No secrets: Claude is reached with Workload Identity Federation. |
 
 When the name, the tagline or the scope changes, the description, the topics and the social preview may need to
 follow: list what to change for the owner.
