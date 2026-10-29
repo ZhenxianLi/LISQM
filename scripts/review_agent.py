@@ -664,6 +664,13 @@ class Agent:
 
 def test_connection() -> int:
     """One token exchange and one short request, to check the federation setup."""
+    import base64
+
+    # The claims a federation rule matches, from a token of the same kind (it holds no secret).
+    payload = github_oidc_token().split(".")[1]
+    claims = json.loads(base64.urlsafe_b64decode(payload + "=" * (-len(payload) % 4)))
+    for name in ("iss", "aud", "sub", "repository", "repository_owner", "ref", "event_name", "workflow_ref"):
+        log(f"  {name}: {claims.get(name)}")
     response = make_client().messages.create(model=MODEL, max_tokens=200, output_config={"effort": "low"},
                                              messages=[{"role": "user", "content": "Reply with the word ready."}])
     text = " ".join(b.text for b in response.content if b.type == "text").strip()
