@@ -8,7 +8,7 @@ repository settings; it is enough to work through the automated review issue wit
 | File | Read it when |
 |---|---|
 | [README.md](README.md) (this file) | always first: how the list is built, the working loop, the rules that hold everywhere |
-| [review-issue.md](review-issue.md) | you work through the issue labelled `review`, or an issue opened by a person |
+| [review-issue.md](review-issue.md) | you work through the issue labelled `review` (the Review workflow does so with Claude), or an issue opened by a person |
 | [pages.md](pages.md) | you change what a page shows, or check the pages after a change of data |
 | [repository.md](repository.md) | you touch the README, CHANGELOG, CITATION, licences, templates, workflows, versions or GitHub settings |
 | [owner-decisions.md](owner-decisions.md) | before you change any wording, order, label, colour or rule: these were set by the owner |

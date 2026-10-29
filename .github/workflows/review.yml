@@ -1,0 +1,258 @@
+name: Review
+
+# Works through the automated review issue with Claude (scripts/review_agent.py) after each successful Refresh,
+# by hand, and when the owner answers on the open review issue. Claude is reached with Workload Identity
+# Federation: the job's GitHub OIDC token is exchanged for a short-lived Anthropic token, so no API key is
+# stored anywhere. The model works in a job that can only read; a second job, which runs no model, checks its
+# changes (scripts/review_guard.py), raises the version, runs the tests, publishes, and reports on the issue.
+# See docs/maintaining/review-issue.md.
+#
+# Repository variables (Settings > Secrets and variables > Actions > Variables), from the Claude Console:
+# ANTHROPIC_ORGANIZATION_ID, ANTHROPIC_FEDERATION_RULE_ID, ANTHROPIC_SERVICE_ACCOUNT_ID, and
+# ANTHROPIC_WORKSPACE_ID when the federation rule covers more than one workspace; REVIEW_BUDGET_USD (default 20)
+# caps the estimated API cost of one run. Until the first three are set, the workflow does nothing.
+
+on:
+  workflow_run:
+    workflows: [Refresh]
+    types: [completed]
+  issue_comment:
+    types: [created]
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "Work through the issue even if its current body was reviewed already"
+        type: boolean
+        default: false
+
+permissions: {}
+
+concurrency:
+  group: review
+  cancel-in-progress: false
+
+jobs:
+  review:
+    if: >-
+      (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success') ||
+      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'issue_comment' && !github.event.issue.pull_request &&
+       github.event.issue.state == 'open' && contains(github.event.issue.labels.*.name, 'review') &&
+       github.event.comment.author_association == 'OWNER')
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    permissions:
+      contents: read
+      issues: read
+      id-token: write # the GitHub OIDC token that is exchanged for an Anthropic token
+    outputs:
+      ran: ${{ steps.agent.outputs.ran }}
+      issue: ${{ steps.issue.outputs.number }}
+    env:
+      ANTHROPIC_ORGANIZATION_ID: ${{ vars.ANTHROPIC_ORGANIZATION_ID }}
+      ANTHROPIC_FEDERATION_RULE_ID: ${{ vars.ANTHROPIC_FEDERATION_RULE_ID }}
+      ANTHROPIC_SERVICE_ACCOUNT_ID: ${{ vars.ANTHROPIC_SERVICE_ACCOUNT_ID }}
+      ANTHROPIC_WORKSPACE_ID: ${{ vars.ANTHROPIC_WORKSPACE_ID }}
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+    steps:
+      - name: Check the configuration
+        id: config
+        run: |
+          if [ -z "$ANTHROPIC_ORGANIZATION_ID" ] || [ -z "$ANTHROPIC_FEDERATION_RULE_ID" ] \
+              || [ -z "$ANTHROPIC_SERVICE_ACCOUNT_ID" ]; then
+            echo "::notice::Workload Identity Federation is not configured (repository variables ANTHROPIC_*): nothing to do."
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Find the review issue
+        id: issue
+        if: steps.config.outputs.ready == 'true'
+        env:
+          EVENT_ISSUE: ${{ github.event.issue.number }}
+          COMMENT: ${{ github.event.comment.body }}
+          FORCE: ${{ inputs.force }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/review"
+          if [ "$GITHUB_EVENT_NAME" = "issue_comment" ]; then
+            number="$EVENT_ISSUE"
+            printf '%s\n' "$COMMENT" > "$RUNNER_TEMP/owner-comment.md"
+          else
+            number=$(gh issue list --label review --state open --limit 1 --json number --jq '.[0].number // empty')
+          fi
+          if [ -z "$number" ]; then
+            echo "::notice::There is no open review issue."
+            exit 0
+          fi
+          gh issue view "$number" --json body --jq .body > "$RUNNER_TEMP/issue.md"
+          # The automated comments end with a marker that holds the SHA-256 of the issue body they worked on.
+          gh api --paginate "repos/$GH_REPO/issues/$number/comments" \
+            --jq '.[] | select(.user.login == "github-actions[bot]" and (.body | contains("<!-- review-agent"))) | .body' \
+            > "$RUNNER_TEMP/automated.md"
+          awk '/^Automated work on /{text=""} {text=text $0 "\n"} END{printf "%s", text}' "$RUNNER_TEMP/automated.md" \
+            > "$RUNNER_TEMP/last-report.md"
+          sha=$(sha256sum "$RUNNER_TEMP/issue.md" | cut -d' ' -f1)
+          if [ "$GITHUB_EVENT_NAME" != "issue_comment" ] && [ "$FORCE" != "true" ] \
+              && grep -q "review-agent body=$sha" "$RUNNER_TEMP/automated.md"; then
+            echo "::notice::Issue #$number was reviewed in its current form already."
+            exit 0
+          fi
+          echo "number=$number" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/checkout@v7
+        if: steps.issue.outputs.number
+        with:
+          ref: main
+          persist-credentials: false
+
+      - uses: actions/setup-python@v7
+        if: steps.issue.outputs.number
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        if: steps.issue.outputs.number
+        run: pip install -r requirements.txt "anthropic==2.3.0"
+
+      - name: Install Graphviz (the tests that run after each item draw the project map)
+        if: steps.issue.outputs.number
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq graphviz fonts-dejavu-core
+
+      - name: Work through the issue with Claude
+        id: agent
+        if: steps.issue.outputs.number
+        env:
+          BUDGET: ${{ vars.REVIEW_BUDGET_USD || '20' }}
+        run: |
+          args=(--issue "$RUNNER_TEMP/issue.md" --report "$RUNNER_TEMP/review/report.json" --budget-usd "$BUDGET")
+          if [ "$GITHUB_EVENT_NAME" = "issue_comment" ]; then
+            args+=(--owner-comment "$RUNNER_TEMP/owner-comment.md" --last-report "$RUNNER_TEMP/last-report.md")
+          fi
+          python scripts/review_agent.py "${args[@]}"
+          # The changes travel to the publishing job as a patch; new files are included.
+          git add -A -- data
+          git diff --cached --binary > "$RUNNER_TEMP/review/changes.patch"
+          git diff --cached --stat
+          echo "ran=true" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/upload-artifact@v7
+        if: steps.agent.outputs.ran == 'true'
+        with:
+          name: review
+          path: ${{ runner.temp }}/review
+          retention-days: 30
+
+  publish:
+    needs: review
+    if: needs.review.outputs.ran == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+    outputs:
+      pushed: ${{ steps.commit.outputs.pushed }}
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      ISSUE: ${{ needs.review.outputs.issue }}
+      RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: main
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Install Graphviz (it draws the project map)
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq graphviz fonts-dejavu-core
+
+      - uses: actions/download-artifact@v8
+        with:
+          name: review
+          path: ${{ runner.temp }}/review
+
+      - name: Locate the report
+        run: echo "REPORT=$RUNNER_TEMP/review/report.json" >> "$GITHUB_ENV"
+
+      - name: Apply and check the changes
+        id: guard
+        run: |
+          if [ -s "$RUNNER_TEMP/review/changes.patch" ]; then
+            git apply --index "$RUNNER_TEMP/review/changes.patch"
+          fi
+          # Data files only, the owner's fields untouched, no e-mail addresses; otherwise nothing is published.
+          if python scripts/review_guard.py check --report "$REPORT"; then
+            echo "ok=true" >> "$GITHUB_OUTPUT"
+          else
+            git reset --hard -q HEAD
+            git clean -fdq -- data
+          fi
+
+      - name: New version, checks and build
+        if: steps.guard.outputs.ok == 'true'
+        run: |
+          python scripts/review_guard.py finish "$REPORT"
+          python scripts/build.py --check
+          python -m unittest discover -s tests
+          python scripts/build.py --out "$RUNNER_TEMP/site"
+
+      - name: Commit and push
+        id: commit
+        if: steps.guard.outputs.ok == 'true'
+        run: |
+          git add -A -- data CITATION.cff README.md CHANGELOG.md llms.txt llms-full.txt
+          if git diff --cached --quiet; then
+            echo "Nothing to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          python - "$REPORT" > "$RUNNER_TEMP/message.txt" <<'EOF'
+          import json, sys
+          report = json.load(open(sys.argv[1], encoding="utf-8"))
+          version = f" (version {report['version']})" if report.get("version") else ""
+          print(f"Automated review of {report['date']}{version}\n")
+          for item in report["items"]:
+              if item.get("outcome") == "changed":
+                  print("- " + " ".join(str(item.get("summary") or "").split())[:600])
+          EOF
+          git commit -q -F "$RUNNER_TEMP/message.txt"
+          git push || { git pull --rebase origin main && git push; }
+          echo "pushed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Report on the issue
+        if: ${{ !cancelled() }}
+        run: |
+          python scripts/review_guard.py comment "$REPORT" "$RUN_URL" > "$RUNNER_TEMP/comment.md"
+          if [ "${{ job.status }}" != "success" ]; then
+            printf '\nThe publishing job failed: see the workflow run. Nothing new was published.\n' \
+              >> "$RUNNER_TEMP/comment.md"
+          fi
+          gh issue comment "$ISSUE" --body-file "$RUNNER_TEMP/comment.md"
+          if [ "${{ job.status }}" = "success" ] && [ "$(python scripts/review_guard.py can-close "$REPORT")" = "true" ]; then
+            gh issue close "$ISSUE" --reason completed
+          fi
+
+  pages:
+    needs: publish
+    if: needs.publish.outputs.pushed == 'true'
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+    uses: ./.github/workflows/pages.yml
+
+  search-engines:
+    needs: pages
+    permissions:
+      contents: read
+    uses: ./.github/workflows/indexnow.yml

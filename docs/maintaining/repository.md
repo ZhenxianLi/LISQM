@@ -18,6 +18,7 @@ issue or to the owner; do not change them yourself. Current values:
 | Pages | source: GitHub Actions |
 | Releases and tags | one GitHub release for each new second number (0.6.0, 0.7.0, …), made by the release workflow; third numbers are only pushed; no releases for versions before 0.6.0 (one old tag, `v0.5.0`) |
 | Comments | none on the website; the FAQ message box opens an issue |
+| Actions variables | `ANTHROPIC_ORGANIZATION_ID`, `ANTHROPIC_FEDERATION_RULE_ID`, `ANTHROPIC_SERVICE_ACCOUNT_ID`, optionally `ANTHROPIC_WORKSPACE_ID` and `REVIEW_BUDGET_USD`, for the Review workflow ([review-issue.md](review-issue.md#automated-review)). No secrets: Claude is reached with Workload Identity Federation. |
 
 When the name, the tagline or the scope changes, the description, the topics and the social preview may need to
 follow: list what to change for the owner.
@@ -68,7 +69,8 @@ creates them when they are missing.
 | CI (`ci.yml`) | pull requests, and pushes to branches other than `main` | validation, tests and a full build |
 | Pages (`pages.yml`) | pushes to `main` that touch `data/`, `scripts/`, `site-src/`, `assets/`, the README or `requirements.txt`; by hand; called by Refresh | builds the site, commits the regenerated files, deploys to GitHub Pages |
 | Refresh (`refresh.yml`) | 05:17 UTC on the 1st and the 15th of every month; by hand | commits the metadata refresh, then discovery, standards watch, link check, the review issue, Pages and search engines |
-| Search engines (`indexnow.yml`) | after Refresh; by hand | submits the pages in the sitemap to IndexNow |
+| Review (`review.yml`) | after each successful Refresh; when the owner comments on the open review issue; by hand | Claude works through the review issue; a second job checks its changes, raises the version, tests, commits, reports on the issue, then Pages and search engines |
+| Search engines (`indexnow.yml`) | after Refresh and Review; by hand | submits the pages in the sitemap to IndexNow |
 | Release (`release.yml`) | pushes to `main` whose last commit begins "Release X.Y.Z"; by hand, with the version | checks, tests and a build, then the tag and the GitHub release with the notes and the data file |
 | Dependabot (`dependabot.yml`) | monthly | proposes newer versions of the actions; merge when CI passes |
 
@@ -76,9 +78,10 @@ The site says the list is renewed "monthly" while Refresh runs twice a month: th
 the list is young, and will move the schedule to once a month later. Then change only the `cron` line, and the
 GitHub description.
 
-The workflows commit as `github-actions[bot]`, and only generated files and machine-written data
-(`data/snapshot.json`, `data/standards-watch.json`, `data/link-check.json`). Everything that describes a project,
-a metric or an edition is changed by a person or an agent working for the owner.
+The workflows commit as `github-actions[bot]`. Refresh and Pages commit only generated files and machine-written
+data (`data/snapshot.json`, `data/standards-watch.json`, `data/link-check.json`). Everything that describes a
+project, a metric or an edition is changed by a person or an agent working for the owner: in the Review workflow,
+that agent is Claude, within the limits of `scripts/review_guard.py`.
 
 ## Services outside GitHub
 

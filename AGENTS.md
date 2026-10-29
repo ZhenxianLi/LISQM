@@ -16,5 +16,7 @@ The essentials:
   releases by hand: a new second number of the version is released by the release workflow from a commit that
   begins "Release X.Y.0" (see [docs/maintaining/repository.md](docs/maintaining/repository.md)). Do not change
   GitHub settings.
+- The Review workflow works through the automated review issue with Claude (`scripts/review_agent.py`); see
+  [docs/maintaining/review-issue.md](docs/maintaining/review-issue.md#automated-review).
 - What is listed in [docs/maintaining/owner-decisions.md](docs/maintaining/owner-decisions.md) changes only when
   the owner asks.

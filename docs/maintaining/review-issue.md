@@ -16,6 +16,34 @@ item: open the source, decide, change the data, run the checks in [README.md](RE
 or comment on it. When an item cannot be settled (the source is unreachable, or the decision belongs to the owner),
 comment what is missing and leave the issue open. Close the issue when nothing is left.
 
+## Automated review
+
+After each successful Refresh, the Review workflow
+([`.github/workflows/review.yml`](../../.github/workflows/review.yml)) works through the open review issue with Claude
+(`claude-opus-5-5`, [`scripts/review_agent.py`](../../scripts/review_agent.py)). Each item is one conversation that
+follows this document and [README.md](README.md). The model reads the repository and the sources (web pages, and
+public git repositories through a read-only clone that is never run) and changes only the data files. After every item
+the data check, the publishing checks of [`scripts/review_guard.py`](../../scripts/review_guard.py) and the tests run,
+and an item whose changes fail them is undone. A second job, which runs no model, checks the changes again, raises the
+third number of the version with a dated update note, runs the tests and a full build, commits as
+`github-actions[bot]`, publishes the site, and comments on the issue: what was done, the questions for the owner, and
+an estimate of the cost. It closes the issue when every item was settled.
+
+- **The owner's decisions** ([Ask the owner first](README.md#ask-the-owner-first), borderline candidates) are never
+  made by the workflow: it asks them as questions in its comment. The owner answers in a comment on the issue,
+  which starts the workflow again to apply the answer. The checks refuse any change to `super_project`,
+  `highlight` or `rank`, to the `id` or `standing` of a listed project, a new project listed as established, a
+  deleted file and an e-mail address; those are made by hand.
+- **Authentication** is Workload Identity Federation, without an API key: the job's GitHub OIDC token (audience
+  `https://api.anthropic.com`) is exchanged for a short-lived Anthropic token under a federation rule that accepts
+  only this workflow on `main`. The IDs are repository variables ([repository.md](repository.md)); until they are
+  set, the workflow does nothing.
+- **Cost**: `REVIEW_BUDGET_USD` (default 20) caps the estimated cost of one run; items it does not reach wait for
+  the next run. A spend limit on the Anthropic workspace is the hard cap.
+- **When it fails**, the run's log and the comment on the issue say why, and the items stay in the issue for the
+  next run or for a person, who works through them as described below. To run it again: Actions → Review → Run
+  workflow (*force* repeats an issue body that was reviewed already).
+
 ## Repository and package metadata
 
 | The issue says | What to do |

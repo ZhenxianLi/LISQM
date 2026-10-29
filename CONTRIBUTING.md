@@ -233,11 +233,14 @@ The Refresh workflow ([`.github/workflows/refresh.yml`](.github/workflows/refres
    each run's findings (or opened if none is open); nothing is posted when there is nothing to review. That is:
    new candidates, new editions or stage changes of standards, a repository that moved, a licence that changed
    (the `license` field is written by hand), a release of a project that has `unreleased` or `proposed`
-   implementations (their status may now be `available`), and a fetch that failed twice in a row. A person works
-   through the issue, adding or rejecting candidates, recording new editions, confirming status changes and
-   updating `checked` dates, and closes it when done.
-5. **Publish.** The website is rebuilt and deployed to GitHub Pages.
-6. **Search engines.** [`scripts/indexnow.py`](scripts/indexnow.py) submits the pages listed in the sitemap to
+   implementations (their status may now be `available`), and a fetch that failed twice in a row.
+5. **Review.** The Review workflow ([`.github/workflows/review.yml`](.github/workflows/review.yml)) then works
+   through the issue with Claude, following [docs/maintaining/review-issue.md](docs/maintaining/review-issue.md):
+   it adds or rejects candidates, records new editions, confirms status changes and updates `checked` dates from
+   the sources, publishes what passes its checks and the tests, and asks the maintainer, on the issue, about
+   everything that is theirs to decide. It closes the issue when nothing is left.
+6. **Publish.** The website is rebuilt and deployed to GitHub Pages.
+7. **Search engines.** [`scripts/indexnow.py`](scripts/indexnow.py) submits the pages listed in the sitemap to
    IndexNow, which reaches Bing (and through it DuckDuckGo, Yahoo, ChatGPT search and Copilot), Yandex, Naver,
    Seznam and Yep. It can also be run by hand (Actions → Search engines → Run workflow).
 
@@ -247,8 +250,9 @@ search resource platform), choose verification by HTML tag, put the tag's `conte
 in [`data/site.yaml`](data/site.yaml) (keys `google`, `bing`, `baidu`, `yandex`), push, verify, and submit
 `sitemap.xml`. The tags appear on the home page only.
 
-The automation writes only machine-written files (`data/snapshot.json`, `data/standards-watch.json`) and
-generated output. Everything that describes a project, a metric or an edition is changed by a person.
+The Refresh workflow writes only machine-written files (`data/snapshot.json`, `data/standards-watch.json`) and
+generated output. What describes a project, a metric or an edition is changed by the maintainer, or by the Review
+workflow, which records only what a source states and leaves the maintainer's decisions to the maintainer.
 
 ## Review process
 
