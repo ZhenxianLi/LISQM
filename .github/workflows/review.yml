@@ -4,7 +4,8 @@ name: Review
 # by hand, and when the owner answers on the open review issue. Claude is reached with Workload Identity
 # Federation: the job's GitHub OIDC token is exchanged for a short-lived Anthropic token, so no API key is
 # stored anywhere. The model works in a job that can only read; a second job, which runs no model, checks its
-# changes (scripts/review_guard.py), raises the version, runs the tests, publishes, and reports on the issue.
+# changes (scripts/review_guard.py), raises the version, runs the tests, commits in the owner's name, publishes,
+# and reports on the issue.
 # See docs/maintaining/review-issue.md.
 #
 # The IDs of the federation rule, the organisation, the service account and the workspace (from the Claude
@@ -228,8 +229,9 @@ jobs:
             echo "Nothing to commit."
             exit 0
           fi
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # The owner's name, as for the owner's own commits (at the owner's request).
+          git config user.name "Zhenxian LI"
+          git config user.email "142764273+ZhenxianLi@users.noreply.github.com"
           python - "$REPORT" > "$RUNNER_TEMP/message.txt" <<'EOF'
           import json, sys
           report = json.load(open(sys.argv[1], encoding="utf-8"))

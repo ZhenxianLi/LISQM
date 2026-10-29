@@ -25,8 +25,8 @@ follows this document and [README.md](README.md). The model reads the repository
 public git repositories through a read-only clone that is never run) and changes only the data files. After every item
 the data check, the publishing checks of [`scripts/review_guard.py`](../../scripts/review_guard.py) and the tests run,
 and an item whose changes fail them is undone. A second job, which runs no model, checks the changes again, raises the
-third number of the version with a dated update note, runs the tests and a full build, commits as
-`github-actions[bot]`, publishes the site, and comments on the issue: what was done, the questions for the owner, and
+third number of the version with a dated update note, runs the tests and a full build, commits in
+the owner's name, publishes the site, and comments on the issue: what was done, the questions for the owner, and
 an estimate of the cost. It closes the issue when every item was settled.
 
 - **The owner's decisions** ([Ask the owner first](README.md#ask-the-owner-first), borderline candidates) are never

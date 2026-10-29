@@ -78,7 +78,7 @@ The site says the list is renewed "monthly" while Refresh runs twice a month: th
 the list is young, and will move the schedule to once a month later. Then change only the `cron` line, and the
 GitHub description.
 
-The workflows commit as `github-actions[bot]`. Refresh and Pages commit only generated files and machine-written
+The workflows commit as `github-actions[bot]`, except Review, which commits in the owner's name at the owner's request. Refresh and Pages commit only generated files and machine-written
 data (`data/snapshot.json`, `data/standards-watch.json`, `data/link-check.json`). Everything that describes a
 project, a metric or an edition is changed by a person or an agent working for the owner: in the Review workflow,
 that agent is Claude, within the limits of `scripts/review_guard.py`.
