@@ -9784,19 +9784,9 @@
       "body": "Added rota-order (ROTA), a newly released Python library for order analysis of noise and vibration from rotating\nmachinery. It computes the ECMA-418-1:2024 tone-to-noise ratio and prominence ratio of machine orders along a\nrun-up, and since its version 0.6.0 it wraps MoSQITo, sottek-hearing-model and SQAT to bin loudness, sharpness,\nroughness and tonality along rpm; the project map shows these links.\n"
     },
     {
-      "date": "2026-10-19",
-      "title": "Version 0.5.9: SQAT's interface follows pySQAT's layout",
-      "body": "The FAQ, the SQAT and pySQAT pages and the Languages page now say that the graphical interface SQAT added in\nv2.0 follows the layout of pySQAT's interface, as the header of its code says.\n"
-    },
-    {
-      "date": "2026-10-19",
-      "title": "Version 0.5.8: SQAT's graphical interface",
-      "body": "The SQAT page and the Languages page describe the graphical interface that SQAT added in v2.0, and the FAQ\nnames the SQAT version that pySQAT ports (v1.3).\n"
-    },
-    {
       "date": "2026-10-17",
       "title": "Version 0.5.7: SQAT v2.0 and ecma418-torch",
-      "body": "- SQAT v2.0 is out. Its 4th-edition ECMA-418-2 functions and the Widmann annoyance model are now in a release,\n  the release is under the GPL, and the SQAT page says what changed from v1.3.\n- Added ecma418-torch, a newly released Python package with differentiable ECMA-418-2:2025 roughness and\n  fluctuation strength in PyTorch. It was found by the scheduled search for new projects.\n"
+      "body": "- SQAT v2.0 is out. Its 4th-edition ECMA-418-2 functions and the Widmann annoyance model are now in a release,\n  the release is under the GPL, and the SQAT page says what changed from v1.3.\n- The SQAT page and the Languages page describe the graphical interface that SQAT added in v2.0, which follows\n  the layout of pySQAT's interface, as the header of its code says; the FAQ and the pySQAT page say the same,\n  and the FAQ names the SQAT version that pySQAT ports (v1.3).\n- Added ecma418-torch, a newly released Python package with differentiable ECMA-418-2:2025 roughness and\n  fluctuation strength in PyTorch. It was found by the scheduled search for new projects.\n"
     },
     {
       "date": "2026-10-14",

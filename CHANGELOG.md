@@ -24,20 +24,13 @@ machinery. It computes the ECMA-418-1:2024 tone-to-noise ratio and prominence ra
 run-up, and since its version 0.6.0 it wraps MoSQITo, sottek-hearing-model and SQAT to bin loudness, sharpness,
 roughness and tonality along rpm; the project map shows these links.
 
-## 2026-10-19: Version 0.5.9: SQAT's interface follows pySQAT's layout
-
-The FAQ, the SQAT and pySQAT pages and the Languages page now say that the graphical interface SQAT added in
-v2.0 follows the layout of pySQAT's interface, as the header of its code says.
-
-## 2026-10-19: Version 0.5.8: SQAT's graphical interface
-
-The SQAT page and the Languages page describe the graphical interface that SQAT added in v2.0, and the FAQ
-names the SQAT version that pySQAT ports (v1.3).
-
 ## 2026-10-17: Version 0.5.7: SQAT v2.0 and ecma418-torch
 
 - SQAT v2.0 is out. Its 4th-edition ECMA-418-2 functions and the Widmann annoyance model are now in a release,
   the release is under the GPL, and the SQAT page says what changed from v1.3.
+- The SQAT page and the Languages page describe the graphical interface that SQAT added in v2.0, which follows
+  the layout of pySQAT's interface, as the header of its code says; the FAQ and the pySQAT page say the same,
+  and the FAQ names the SQAT version that pySQAT ports (v1.3).
 - Added ecma418-torch, a newly released Python package with differentiable ECMA-418-2:2025 roughness and
   fluctuation strength in PyTorch. It was found by the scheduled search for new projects.
 
