@@ -240,5 +240,5 @@ sources:
   - https://github.com/jmrplens/phonometry/blob/main/paper/paper.md
   - https://jmrplens.github.io/phonometry/
   - https://pypi.org/project/phonometry/
-  - https://github.com/jmrplens/phonometry/blob/main/src/phonometry/psychoacoustics/quality/fluctuation_strength.py
-checked: 2026-10-08
+  - https://github.com/jmrplens/phonometry/blob/main/src/phonometry/psychoacoustics/quality/_fluctuation_strength.py
+checked: 2026-11-01

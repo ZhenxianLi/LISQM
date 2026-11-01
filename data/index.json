@@ -2,7 +2,7 @@
   "name": "LISQM",
   "full_name": "List of Implementations of Sound Quality Metrics",
   "tagline": "A List of Open-Source Implementations of Psychoacoustic and Sound Quality Metrics",
-  "version": "0.5.10",
+  "version": "0.5.11",
   "description": "A list of open-source implementations of psychoacoustic metrics, also called sound quality (SQ) metrics: loudness, sharpness, roughness, fluctuation strength, tonality, impulsiveness and psychoacoustic annoyance. Each implementation is listed under the standard edition or model it follows. All programming languages.",
   "url": "https://zhenxianli.github.io/LISQM/",
   "repository": "https://github.com/ZhenxianLi/LISQM",
@@ -18,7 +18,7 @@
   "schema": "https://github.com/ZhenxianLi/LISQM/blob/main/data/SCHEMA.md",
   "counts": {
     "metrics": 22,
-    "projects": 41,
+    "projects": 42,
     "references": 55
   },
   "ordering": "Implementations and projects are listed by group: established, newly released, developing, legacy, others, status unknown. Newly released projects were first released less than about a year ago and are not yet seen to be widely used in the community. Legacy projects are archived or have had no commit for three years or more; the projects with a highlight (shown in bold on the website) and reference programs are never legacy. Within each group the projects with a highlight come first, then ranked and active ones. Projects in the others group do not compute the metrics themselves; they call another listed project (listed in calls), and their rows appear under also_through instead of implementations. Projects in the unknown group could not be opened (access); they list a claim and no implementations.",
@@ -544,10 +544,22 @@
       ],
       "also_through": [
         {
+          "project": "pysqa-web",
+          "reference": "iso-532-1-2017",
+          "functions": [
+            "Loudness.loudnessZWK"
+          ],
+          "scope": "stationary and time-varying",
+          "status": "available",
+          "via": "mosqito",
+          "validation": "not-stated",
+          "note": "Calls `loudness_zwst` and `loudness_zwtv` of MoSQITo; the overall value is the stationary loudness, and the time-varying curve is computed after resampling to 48 kHz."
+        },
+        {
           "project": "rota-order",
           "reference": "iso-532-1-2017",
           "functions": [
-            "rota.bridges.mosqito.loudness"
+            "rota_order.bridges.mosqito.loudness"
           ],
           "scope": "time-varying, through MoSQITo's loudness_zwtv",
           "status": "available",
@@ -562,7 +574,7 @@
           "project": "rota-order",
           "reference": "iso-532-1-2017",
           "functions": [
-            "rota.bridges.sqat.loudness"
+            "rota_order.bridges.sqat.loudness"
           ],
           "scope": "time-varying, through SQAT v2.0's Loudness_ISO532_1 in MATLAB",
           "status": "available",
@@ -1263,6 +1275,33 @@
           ]
         },
         {
+          "project": "pysqa-web",
+          "reference": "ecma-418-2-ed4",
+          "functions": [
+            "Loudness.loudnessECMA"
+          ],
+          "scope": "one channel, Clause 8 loudness",
+          "status": "available",
+          "derived_from": [
+            "sottek-hearing-model"
+          ],
+          "uses": [
+            "sottek-hearing-model"
+          ],
+          "validation": "cross-implementation",
+          "validation_scope": "outcome not stated",
+          "compared_with": [
+            "sottek-hearing-model"
+          ],
+          "validation_details": [
+            "`dev-tests/bench_ecma.py` records a reference from the installed sottek-hearing-model package and compares a candidate with it (relative difference, time and peak memory); the references are not committed."
+          ],
+          "note": "`ecma_fast/loudness_exact.py` takes the tonal and noise loudness from the modified tonality code below and finishes with the package's own `shm_loudness_ecma_from_comp`; if it fails, the package's `shm_loudness_ecma` is called instead.",
+          "comparison_relations": {
+            "sottek-hearing-model": "source"
+          }
+        },
+        {
           "project": "mosqito-net",
           "reference": "ecma-418-2-ed2",
           "functions": [
@@ -1308,7 +1347,7 @@
           "project": "rota-order",
           "reference": "ecma-418-2-ed4",
           "functions": [
-            "rota.bridges.sottek_hearing_model.loudness"
+            "rota_order.bridges.sottek_hearing_model.loudness"
           ],
           "scope": "through sottek-hearing-model's shm_loudness_ecma_from_comp",
           "status": "available",
@@ -1616,10 +1655,21 @@
       ],
       "also_through": [
         {
+          "project": "pysqa-web",
+          "reference": "din-45692-2009",
+          "functions": [
+            "Sharpnes_DIN.sharpnessCalculation"
+          ],
+          "status": "available",
+          "via": "mosqito",
+          "validation": "not-stated",
+          "note": "Calls `sharpness_din_st` of MoSQITo with the DIN weighting."
+        },
+        {
           "project": "rota-order",
           "reference": "din-45692-2009",
           "functions": [
-            "rota.bridges.mosqito.sharpness"
+            "rota_order.bridges.mosqito.sharpness"
           ],
           "scope": "through MoSQITo's sharpness_din_from_loudness",
           "status": "available",
@@ -1634,7 +1684,7 @@
           "project": "rota-order",
           "reference": "din-45692-2009",
           "functions": [
-            "rota.bridges.sqat.sharpness"
+            "rota_order.bridges.sqat.sharpness"
           ],
           "scope": "through SQAT v2.0's Sharpness_DIN45692_from_loudness in MATLAB",
           "status": "available",
@@ -1896,10 +1946,24 @@
       ],
       "also_through": [
         {
+          "project": "pysqa-web",
+          "reference": "daniel-weber-1997",
+          "functions": [
+            "Roughness.roughnessDW"
+          ],
+          "status": "available",
+          "via": "mosqito",
+          "validation": "not-stated",
+          "conventions": [
+            "The overall value is the 90th percentile of MoSQITo's time-dependent roughness (`roughness_dw` with no overlap), which the code says matches commercial software; the specific roughness averages only the frames above the median."
+          ],
+          "note": "Calls `roughness_dw` of MoSQITo."
+        },
+        {
           "project": "rota-order",
           "reference": "daniel-weber-1997",
           "functions": [
-            "rota.bridges.mosqito.roughness"
+            "rota_order.bridges.mosqito.roughness"
           ],
           "scope": "through MoSQITo's roughness_dw",
           "status": "available",
@@ -1914,7 +1978,7 @@
           "project": "rota-order",
           "reference": "daniel-weber-1997",
           "functions": [
-            "rota.bridges.sqat.roughness"
+            "rota_order.bridges.sqat.roughness"
           ],
           "scope": "through SQAT v2.0's Roughness_Daniel1997 in MATLAB",
           "status": "available",
@@ -2179,10 +2243,22 @@
       ],
       "also_through": [
         {
+          "project": "pysqa-web",
+          "reference": "ecma-418-2-ed4",
+          "functions": [
+            "Roughness.roughnessECMA_Shm"
+          ],
+          "scope": "one channel",
+          "status": "available",
+          "via": "sottek-hearing-model",
+          "validation": "not-stated",
+          "note": "Calls `shm_roughness_ecma` of sottek-hearing-model 0.1.13; the overall value is its `roughness90pc`."
+        },
+        {
           "project": "rota-order",
           "reference": "ecma-418-2-ed4",
           "functions": [
-            "rota.bridges.sottek_hearing_model.roughness"
+            "rota_order.bridges.sottek_hearing_model.roughness"
           ],
           "scope": "through sottek-hearing-model's shm_roughness_ecma",
           "status": "available",
@@ -2816,6 +2892,36 @@
           "validation_details": [
             "Checked at the calibration signal only."
           ]
+        },
+        {
+          "project": "pysqa-web",
+          "reference": "ecma-418-2-ed4",
+          "functions": [
+            "TonalityECMA.tonalityECMA_Shm"
+          ],
+          "scope": "one channel",
+          "status": "available",
+          "derived_from": [
+            "sottek-hearing-model"
+          ],
+          "uses": [
+            "sottek-hearing-model"
+          ],
+          "validation": "cross-implementation",
+          "validation_scope": "same as its source to about 1e-6 (README)",
+          "compared_with": [
+            "sottek-hearing-model"
+          ],
+          "validation_details": [
+            "The README states that `ecma_fast/tonality_exact.py`, a reorganised copy of the package's function, gives the same results to about 1e-6 with about a sixth of the memory and a third of the time, checked with `dev-tests/bench_ecma.py`."
+          ],
+          "conventions": [
+            "A \"Tonality precision\" setting offers an approximate fast mode; the README gives the overall tonality within 0.2 % and the tonal frequency within about 1 Hz. Exact is the default."
+          ],
+          "note": "Still calls helper functions of sottek-hearing-model; if the copy fails, the package's `shm_tonality_ecma` is called instead.",
+          "comparison_relations": {
+            "sottek-hearing-model": "source"
+          }
         }
       ],
       "also_through": [
@@ -2823,7 +2929,7 @@
           "project": "rota-order",
           "reference": "ecma-418-2-ed4",
           "functions": [
-            "rota.bridges.sottek_hearing_model.tonality"
+            "rota_order.bridges.sottek_hearing_model.tonality"
           ],
           "scope": "through sottek-hearing-model's shm_tonality_ecma",
           "status": "available",
@@ -2838,7 +2944,7 @@
           "project": "rota-order",
           "reference": "ecma-418-2-ed4",
           "functions": [
-            "rota.bridges.sqat.tonality"
+            "rota_order.bridges.sqat.tonality"
           ],
           "scope": "through SQAT v2.0's Tonality_ECMA418_2 in MATLAB",
           "status": "available",
@@ -2955,9 +3061,9 @@
           "project": "rota-order",
           "reference": "ecma-418-1-ed3",
           "functions": [
-            "rota.tonal.tone_prominence",
-            "rota.tonal.order_prominence",
-            "rota.tonal.prominence_criterion"
+            "rota_order.tonal.tone_prominence",
+            "rota_order.tonal.order_prominence",
+            "rota_order.tonal.prominence_criterion"
           ],
           "scope": "tones in a power spectrum, and orders of a rotating machine along a run-up",
           "status": "available",
@@ -7217,9 +7323,9 @@
         "https://github.com/jmrplens/phonometry/blob/main/paper/paper.md",
         "https://jmrplens.github.io/phonometry/",
         "https://pypi.org/project/phonometry/",
-        "https://github.com/jmrplens/phonometry/blob/main/src/phonometry/psychoacoustics/quality/fluctuation_strength.py"
+        "https://github.com/jmrplens/phonometry/blob/main/src/phonometry/psychoacoustics/quality/_fluctuation_strength.py"
       ],
-      "checked": "2026-10-08",
+      "checked": "2026-11-01",
       "url": "https://zhenxianli.github.io/LISQM/projects/phonometry.html",
       "last_commit": "2026-10-31",
       "latest_release": {
@@ -7381,6 +7487,158 @@
       "group": "newly-released"
     },
     {
+      "id": "pysqa-web",
+      "name": "PySQA Web",
+      "repository": "https://github.com/henriquealende/PySQA-web",
+      "languages": [
+        "Python"
+      ],
+      "kind": "application",
+      "language_note": "A web application: a Python (FastAPI) server computes the metrics and a React/TypeScript interface runs in the browser. It runs locally with two start scripts (Python 3.10 and Node.js 18 or newer); the README also describes a hosted deployment on Render. No programming is needed to use it.",
+      "standing": "newly-released",
+      "standing_note": "Its repository starts on 2026-06-25; there are no releases or tags.",
+      "license": "AGPL-3.0-only",
+      "license_note": "The README names the GNU Affero General Public License v3.0, without \"or later\"; the licence was added on 2026-10-24. The files in `backend/psychoacoustics/ecma_fast/` are modified copies of sottek-hearing-model code and say so in their headers.",
+      "maintainers": [
+        "Henrique Alende da Silveira"
+      ],
+      "summary": "Web application for sound quality analysis, the web version of the author's PySQA: waveform, spectrum and spectrogram views, filtering, recording, frequency response functions and listening-test stimuli. Its Zwicker loudness, DIN 45692 sharpness and Daniel & Weber roughness come from MoSQITo; its ECMA-418-2 loudness, roughness and tonality come from sottek-hearing-model, partly through modified copies of that package's code.",
+      "ai_assistance": "disclosed",
+      "ai_note": "The repository contains a `CLAUDE.md` file (\"Project Memory\") for Claude Code, and `dev-tests/README.md` mentions the Edit tool.",
+      "notes": [
+        "`backend/requirements.txt` asks for `mosqito>=1.2.1` and pins `sottek-hearing-model==0.1.13`.",
+        "It also computes a fluctuation strength that its code describes as \"after Zwicker & Fastl (1999)\", with a modulation index, an excitation weighting and a calibration constant of its own (1 kHz tone, 100 % AM at 4 Hz, 60 dB gives 1 vacil). It is not listed here as an implementation of a named model.",
+        "The IPM (Impulsive Prominence Metric) is, as the README says, original work from the author's doctoral thesis (UFSC, 2024); it is not one of the metrics this list tracks.",
+        "The README lists two annoyance indices (\"SIL\" and Zwicker–Fastl) combined in the Batch panel from the other metrics; they were not checked for this entry.",
+        "The same author's desktop application PsychoBox is also listed."
+      ],
+      "caveats": [
+        "The README reports memory limits on the hosted server: on its 2 GiB plan, ECMA-418-2 roughness and tonality accept only about 2.5–3 s of audio, and longer files have to be analysed in sections. Running it locally lifts these limits."
+      ],
+      "implements": [
+        {
+          "metric": "loudness-zwicker",
+          "reference": "iso-532-1-2017",
+          "functions": [
+            "Loudness.loudnessZWK"
+          ],
+          "scope": "stationary and time-varying",
+          "status": "available",
+          "via": "mosqito",
+          "validation": "not-stated",
+          "note": "Calls `loudness_zwst` and `loudness_zwtv` of MoSQITo; the overall value is the stationary loudness, and the time-varying curve is computed after resampling to 48 kHz."
+        },
+        {
+          "metric": "sharpness",
+          "reference": "din-45692-2009",
+          "functions": [
+            "Sharpnes_DIN.sharpnessCalculation"
+          ],
+          "status": "available",
+          "via": "mosqito",
+          "validation": "not-stated",
+          "note": "Calls `sharpness_din_st` of MoSQITo with the DIN weighting."
+        },
+        {
+          "metric": "roughness-daniel-weber",
+          "reference": "daniel-weber-1997",
+          "functions": [
+            "Roughness.roughnessDW"
+          ],
+          "status": "available",
+          "via": "mosqito",
+          "validation": "not-stated",
+          "conventions": [
+            "The overall value is the 90th percentile of MoSQITo's time-dependent roughness (`roughness_dw` with no overlap), which the code says matches commercial software; the specific roughness averages only the frames above the median."
+          ],
+          "note": "Calls `roughness_dw` of MoSQITo."
+        },
+        {
+          "metric": "loudness-ecma-418-2",
+          "reference": "ecma-418-2-ed4",
+          "functions": [
+            "Loudness.loudnessECMA"
+          ],
+          "scope": "one channel, Clause 8 loudness",
+          "status": "available",
+          "derived_from": [
+            "sottek-hearing-model"
+          ],
+          "uses": [
+            "sottek-hearing-model"
+          ],
+          "validation": "cross-implementation",
+          "validation_scope": "outcome not stated",
+          "compared_with": [
+            "sottek-hearing-model"
+          ],
+          "validation_details": [
+            "`dev-tests/bench_ecma.py` records a reference from the installed sottek-hearing-model package and compares a candidate with it (relative difference, time and peak memory); the references are not committed."
+          ],
+          "note": "`ecma_fast/loudness_exact.py` takes the tonal and noise loudness from the modified tonality code below and finishes with the package's own `shm_loudness_ecma_from_comp`; if it fails, the package's `shm_loudness_ecma` is called instead."
+        },
+        {
+          "metric": "tonality-ecma-418-2",
+          "reference": "ecma-418-2-ed4",
+          "functions": [
+            "TonalityECMA.tonalityECMA_Shm"
+          ],
+          "scope": "one channel",
+          "status": "available",
+          "derived_from": [
+            "sottek-hearing-model"
+          ],
+          "uses": [
+            "sottek-hearing-model"
+          ],
+          "validation": "cross-implementation",
+          "validation_scope": "same as its source to about 1e-6 (README)",
+          "compared_with": [
+            "sottek-hearing-model"
+          ],
+          "validation_details": [
+            "The README states that `ecma_fast/tonality_exact.py`, a reorganised copy of the package's function, gives the same results to about 1e-6 with about a sixth of the memory and a third of the time, checked with `dev-tests/bench_ecma.py`."
+          ],
+          "conventions": [
+            "A \"Tonality precision\" setting offers an approximate fast mode; the README gives the overall tonality within 0.2 % and the tonal frequency within about 1 Hz. Exact is the default."
+          ],
+          "note": "Still calls helper functions of sottek-hearing-model; if the copy fails, the package's `shm_tonality_ecma` is called instead."
+        },
+        {
+          "metric": "roughness-ecma-418-2",
+          "reference": "ecma-418-2-ed4",
+          "functions": [
+            "Roughness.roughnessECMA_Shm"
+          ],
+          "scope": "one channel",
+          "status": "available",
+          "via": "sottek-hearing-model",
+          "validation": "not-stated",
+          "note": "Calls `shm_roughness_ecma` of sottek-hearing-model 0.1.13; the overall value is its `roughness90pc`."
+        }
+      ],
+      "sources": [
+        "https://github.com/henriquealende/PySQA-web",
+        "https://github.com/henriquealende/PySQA-web/blob/main/README.md",
+        "https://github.com/henriquealende/PySQA-web/blob/main/LICENSE",
+        "https://github.com/henriquealende/PySQA-web/blob/main/backend/requirements.txt",
+        "https://github.com/henriquealende/PySQA-web/tree/main/backend/psychoacoustics",
+        "https://github.com/henriquealende/PySQA-web/blob/main/backend/psychoacoustics/ecma_fast/tonality_exact.py",
+        "https://github.com/henriquealende/PySQA-web/blob/main/backend/psychoacoustics/ecma_fast/loudness_exact.py",
+        "https://github.com/henriquealende/PySQA-web/blob/main/dev-tests/bench_ecma.py",
+        "https://github.com/henriquealende/PySQA-web/blob/main/CLAUDE.md"
+      ],
+      "checked": "2026-11-01",
+      "url": "https://zhenxianli.github.io/LISQM/projects/pysqa-web.html",
+      "last_commit": "2026-10-25",
+      "latest_release": null,
+      "prerelease": null,
+      "activity": "active",
+      "archived": false,
+      "stars": null,
+      "group": "newly-released"
+    },
+    {
       "id": "rota-order",
       "name": "rota-order",
       "full_name": "ROTA: Rotational Order Tracking and Analysis",
@@ -7390,7 +7648,7 @@
         "Python"
       ],
       "kind": "library",
-      "language_note": "Python 3.10 or newer; depends only on NumPy and SciPy. The PyPI package is `rota-order`, imported as `rota`. The wrappers of `rota.bridges` (since version 0.6.0) call MoSQITo or sottek-hearing-model in Python, and SQAT in a local MATLAB through the MATLAB Engine API for Python; all three are optional and installed by the user. The figures of `rota.plot` (since 0.7.0) need Matplotlib, also optional.",
+      "language_note": "Python 3.10 or newer; depends only on NumPy and SciPy. The PyPI package is `rota-order`, imported as `rota_order` since version 0.8.0 (as `rota` before). The wrappers of `rota_order.bridges` (since version 0.6.0) call MoSQITo or sottek-hearing-model in Python, and SQAT in a local MATLAB through the MATLAB Engine API for Python; all three are optional and installed by the user. The figures of `rota_order.plot` (since 0.7.0) need Matplotlib, also optional.",
       "standing": "newly-released",
       "standing_note": "First released in October 2026; the README calls it pre-alpha.",
       "license": "GPL-3.0-or-later",
@@ -7409,8 +7667,8 @@
       "ai_note": "The README says that Claude (Anthropic) was used as an assistant during development.",
       "notes": [
         "The order analysis follows the published literature cited in each docstring and is tested on synthetic signals with known speed, angle and order amplitudes; the README gives the tolerances, for example 0.2 dB for order amplitudes on stationary segments.",
-        "Versions 0.6.0 (the wrappers of `rota.bridges`) and 0.7.0 (the figures of `rota.plot`) were released on 2026-10-28, both tagged and on PyPI.",
-        "The README places the psychoacoustic metrics themselves (loudness, sharpness, roughness, tonality) outside the project's scope. The wrappers of `rota.bridges` call the public functions of the toolboxes at run time, never copy their code, and state each toolbox's licence and how its authors ask to be cited.",
+        "Versions 0.6.0 (the wrappers of `rota.bridges`) and 0.7.0 (the figures of `rota.plot`) were released on 2026-10-28, both tagged and on PyPI. Version 0.8.0, released the same day, renamed the import name from `rota` to `rota_order`, with no compatibility package; the CHANGELOG says that functions, arguments and results are unchanged.",
+        "The README places the psychoacoustic metrics themselves (loudness, sharpness, roughness, tonality) outside the project's scope. The wrappers of `rota_order.bridges` call the public functions of the toolboxes at run time, never copy their code, and state each toolbox's licence and how its authors ask to be cited.",
         "The repository was renamed from ROTA to rota-order in October 2026; the old address redirects."
       ],
       "conventions": [
@@ -7442,9 +7700,9 @@
           "metric": "tone-to-noise-prominence-ratio",
           "reference": "ecma-418-1-ed3",
           "functions": [
-            "rota.tonal.tone_prominence",
-            "rota.tonal.order_prominence",
-            "rota.tonal.prominence_criterion"
+            "rota_order.tonal.tone_prominence",
+            "rota_order.tonal.order_prominence",
+            "rota_order.tonal.prominence_criterion"
           ],
           "scope": "tones in a power spectrum, and orders of a rotating machine along a run-up",
           "status": "available",
@@ -7470,7 +7728,7 @@
           "metric": "loudness-zwicker",
           "reference": "iso-532-1-2017",
           "functions": [
-            "rota.bridges.mosqito.loudness"
+            "rota_order.bridges.mosqito.loudness"
           ],
           "scope": "time-varying, through MoSQITo's loudness_zwtv",
           "status": "available",
@@ -7485,7 +7743,7 @@
           "metric": "sharpness",
           "reference": "din-45692-2009",
           "functions": [
-            "rota.bridges.mosqito.sharpness"
+            "rota_order.bridges.mosqito.sharpness"
           ],
           "scope": "through MoSQITo's sharpness_din_from_loudness",
           "status": "available",
@@ -7500,7 +7758,7 @@
           "metric": "roughness-daniel-weber",
           "reference": "daniel-weber-1997",
           "functions": [
-            "rota.bridges.mosqito.roughness"
+            "rota_order.bridges.mosqito.roughness"
           ],
           "scope": "through MoSQITo's roughness_dw",
           "status": "available",
@@ -7515,7 +7773,7 @@
           "metric": "tonality-ecma-418-2",
           "reference": "ecma-418-2-ed4",
           "functions": [
-            "rota.bridges.sottek_hearing_model.tonality"
+            "rota_order.bridges.sottek_hearing_model.tonality"
           ],
           "scope": "through sottek-hearing-model's shm_tonality_ecma",
           "status": "available",
@@ -7530,7 +7788,7 @@
           "metric": "loudness-ecma-418-2",
           "reference": "ecma-418-2-ed4",
           "functions": [
-            "rota.bridges.sottek_hearing_model.loudness"
+            "rota_order.bridges.sottek_hearing_model.loudness"
           ],
           "scope": "through sottek-hearing-model's shm_loudness_ecma_from_comp",
           "status": "available",
@@ -7545,7 +7803,7 @@
           "metric": "roughness-ecma-418-2",
           "reference": "ecma-418-2-ed4",
           "functions": [
-            "rota.bridges.sottek_hearing_model.roughness"
+            "rota_order.bridges.sottek_hearing_model.roughness"
           ],
           "scope": "through sottek-hearing-model's shm_roughness_ecma",
           "status": "available",
@@ -7560,7 +7818,7 @@
           "metric": "loudness-zwicker",
           "reference": "iso-532-1-2017",
           "functions": [
-            "rota.bridges.sqat.loudness"
+            "rota_order.bridges.sqat.loudness"
           ],
           "scope": "time-varying, through SQAT v2.0's Loudness_ISO532_1 in MATLAB",
           "status": "available",
@@ -7575,7 +7833,7 @@
           "metric": "sharpness",
           "reference": "din-45692-2009",
           "functions": [
-            "rota.bridges.sqat.sharpness"
+            "rota_order.bridges.sqat.sharpness"
           ],
           "scope": "through SQAT v2.0's Sharpness_DIN45692_from_loudness in MATLAB",
           "status": "available",
@@ -7590,7 +7848,7 @@
           "metric": "roughness-daniel-weber",
           "reference": "daniel-weber-1997",
           "functions": [
-            "rota.bridges.sqat.roughness"
+            "rota_order.bridges.sqat.roughness"
           ],
           "scope": "through SQAT v2.0's Roughness_Daniel1997 in MATLAB",
           "status": "available",
@@ -7605,7 +7863,7 @@
           "metric": "tonality-ecma-418-2",
           "reference": "ecma-418-2-ed4",
           "functions": [
-            "rota.bridges.sqat.tonality"
+            "rota_order.bridges.sqat.tonality"
           ],
           "scope": "through SQAT v2.0's Tonality_ECMA418_2 in MATLAB",
           "status": "available",
@@ -7626,12 +7884,12 @@
         "https://github.com/ZhenxianLi/rota-order/blob/main/LICENSE",
         "https://github.com/ZhenxianLi/rota-order/blob/main/CITATION.cff",
         "https://github.com/ZhenxianLi/rota-order/blob/main/CHANGELOG.md",
-        "https://github.com/ZhenxianLi/rota-order/blob/main/src/rota/_prominence.py",
-        "https://github.com/ZhenxianLi/rota-order/blob/main/src/rota/bridges/__init__.py",
-        "https://github.com/ZhenxianLi/rota-order/blob/main/src/rota/bridges/_common.py",
-        "https://github.com/ZhenxianLi/rota-order/blob/main/src/rota/bridges/mosqito.py",
-        "https://github.com/ZhenxianLi/rota-order/blob/main/src/rota/bridges/sottek_hearing_model.py",
-        "https://github.com/ZhenxianLi/rota-order/blob/main/src/rota/bridges/sqat.py",
+        "https://github.com/ZhenxianLi/rota-order/blob/main/src/rota_order/_prominence.py",
+        "https://github.com/ZhenxianLi/rota-order/blob/main/src/rota_order/bridges/__init__.py",
+        "https://github.com/ZhenxianLi/rota-order/blob/main/src/rota_order/bridges/_common.py",
+        "https://github.com/ZhenxianLi/rota-order/blob/main/src/rota_order/bridges/mosqito.py",
+        "https://github.com/ZhenxianLi/rota-order/blob/main/src/rota_order/bridges/sottek_hearing_model.py",
+        "https://github.com/ZhenxianLi/rota-order/blob/main/src/rota_order/bridges/sqat.py",
         "https://github.com/ZhenxianLi/rota-order/blob/main/tests/test_prominence.py",
         "https://github.com/ZhenxianLi/rota-order/blob/main/tests/test_bridge_mosqito.py",
         "https://github.com/ZhenxianLi/rota-order/blob/main/tests/test_bridge_shm.py",
@@ -7641,7 +7899,7 @@
         "https://github.com/ZhenxianLi/rota-order/blob/main/.github/workflows/tests.yml",
         "https://pypi.org/project/rota-order/"
       ],
-      "checked": "2026-10-28",
+      "checked": "2026-11-01",
       "url": "https://zhenxianli.github.io/LISQM/projects/rota-order.html",
       "last_commit": "2026-10-28",
       "latest_release": {
@@ -9505,6 +9763,11 @@
     }
   ],
   "updates": [
+    {
+      "date": "2026-11-01",
+      "title": "Version 0.5.11: automated review",
+      "body": "Changes from the automated review of 2026-11-01:\n\n- Added PySQA Web, a new web application for sound quality analysis that computes ECMA-418-2 tonality and loudness with adapted sottek-hearing-model code and calls MoSQITo and sottek-hearing-model for its other metrics.\n- phonometry: the link to its fluctuation-strength source file now points to the file's new path.\n- rota-order: links and function names updated for its version 0.8.0, which renamed the Python package from `rota` to `rota_order`.\n"
+    },
     {
       "date": "2026-10-27",
       "title": "Version 0.5.10: rota-order added",

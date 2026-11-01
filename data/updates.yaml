@@ -1,6 +1,15 @@
 # Dated notes shown on the Updates page, in the Atom feed and in CHANGELOG.md. Newest first.
 # Body: Markdown paragraphs and "- " bullet lists. See data/SCHEMA.md.
 
+- date: 2026-11-01
+  title: "Version 0.5.11: automated review"
+  body: |
+    Changes from the automated review of 2026-11-01:
+
+    - Added PySQA Web, a new web application for sound quality analysis that computes ECMA-418-2 tonality and loudness with adapted sottek-hearing-model code and calls MoSQITo and sottek-hearing-model for its other metrics.
+    - phonometry: the link to its fluctuation-strength source file now points to the file's new path.
+    - rota-order: links and function names updated for its version 0.8.0, which renamed the Python package from `rota` to `rota_order`.
+
 - date: 2026-10-27
   title: "Version 0.5.10: rota-order added"
   body: |

@@ -76,6 +76,11 @@
 - url: https://github.com/TUIlmenauAMS/Python-Audio-Coder
   reason: Audio codec, out of scope.
   checked: 2026-10-06
+- url: https://github.com/dfeen87/ISLA
+  reason: >-
+    Music player and effects processor that smooths note transitions (Velvet, Legato and Melt modes); computes
+    no psychoacoustic metric, out of scope.
+  checked: 2026-11-01
 - url: https://github.com/DrMarc/slab
   reason: Psychophysics experiment software, out of scope.
   checked: 2026-10-06
@@ -265,3 +270,10 @@
     Moore (2006) and Moore & Glasberg (2007) without terms of use, which bundles Numerical Recipes code. Neither is
     listed separately.
   checked: 2026-10-07
+
+# --- Scheduled review of November 2026
+- url: https://github.com/xurqvubvladj/zynaptiq-loud
+  reason: >-
+    Download page for a Windows and macOS loudness-maximiser plug-in, with only a README and installer links to
+    another site; no source code and no psychoacoustic metric.
+  checked: 2026-11-01

@@ -2,6 +2,14 @@
 
 Notable changes to the list. This file is generated from `data/updates.yaml`; the same notes are on the website (https://zhenxianli.github.io/LISQM/updates.html) and in its Atom feed.
 
+## 2026-11-01: Version 0.5.11: automated review
+
+Changes from the automated review of 2026-11-01:
+
+- Added PySQA Web, a new web application for sound quality analysis that computes ECMA-418-2 tonality and loudness with adapted sottek-hearing-model code and calls MoSQITo and sottek-hearing-model for its other metrics.
+- phonometry: the link to its fluctuation-strength source file now points to the file's new path.
+- rota-order: links and function names updated for its version 0.8.0, which renamed the Python package from `rota` to `rota_order`.
+
 ## 2026-10-27: Version 0.5.10: rota-order added
 
 Added rota-order (ROTA), a newly released Python library for order analysis of noise and vibration from rotating
