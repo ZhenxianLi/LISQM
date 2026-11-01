@@ -2,7 +2,7 @@
   "name": "LISQM",
   "full_name": "List of Implementations of Sound Quality Metrics",
   "tagline": "A List of Open-Source Implementations of Psychoacoustic and Sound Quality Metrics",
-  "version": "0.5.11",
+  "version": "0.5.12",
   "description": "A list of open-source implementations of psychoacoustic metrics, also called sound quality (SQ) metrics: loudness, sharpness, roughness, fluctuation strength, tonality, impulsiveness and psychoacoustic annoyance. Each implementation is listed under the standard edition or model it follows. All programming languages.",
   "url": "https://zhenxianli.github.io/LISQM/",
   "repository": "https://github.com/ZhenxianLi/LISQM",
@@ -7507,7 +7507,7 @@
       "ai_note": "The repository contains a `CLAUDE.md` file (\"Project Memory\") for Claude Code, and `dev-tests/README.md` mentions the Edit tool.",
       "notes": [
         "`backend/requirements.txt` asks for `mosqito>=1.2.1` and pins `sottek-hearing-model==0.1.13`.",
-        "It also computes a fluctuation strength that its code describes as \"after Zwicker & Fastl (1999)\", with a modulation index, an excitation weighting and a calibration constant of its own (1 kHz tone, 100 % AM at 4 Hz, 60 dB gives 1 vacil). It is not listed here as an implementation of a named model.",
+        "It also computes a fluctuation strength that its code describes as \"after Zwicker & Fastl (1999)\", with a modulation index, an excitation weighting and a calibration constant of its own (1 kHz tone, 100 % AM at 4 Hz, 60 dB gives 1 vacil). The README's status table calls it \"Fluctuation Strength D&W\", but its code and its documentation describe an in-house model inspired by Fastl and Zwicker, not standardized; Daniel and Weber (1997) published a roughness model only. It is not listed here as an implementation of a named model.",
         "The IPM (Impulsive Prominence Metric) is, as the README says, original work from the author's doctoral thesis (UFSC, 2024); it is not one of the metrics this list tracks.",
         "The README lists two annoyance indices (\"SIL\" and Zwicker–Fastl) combined in the Batch panel from the other metrics; they were not checked for this entry.",
         "The same author's desktop application PsychoBox is also listed."
@@ -7620,6 +7620,8 @@
       "sources": [
         "https://github.com/henriquealende/PySQA-web",
         "https://github.com/henriquealende/PySQA-web/blob/main/README.md",
+        "https://github.com/henriquealende/PySQA-web/blob/main/backend/psychoacoustics/fluctuation_strength.py",
+        "https://github.com/henriquealende/PySQA-web/blob/main/frontend/src/pages/Docs/PostProcessingDocEn.tsx",
         "https://github.com/henriquealende/PySQA-web/blob/main/LICENSE",
         "https://github.com/henriquealende/PySQA-web/blob/main/backend/requirements.txt",
         "https://github.com/henriquealende/PySQA-web/tree/main/backend/psychoacoustics",
@@ -9763,6 +9765,11 @@
     }
   ],
   "updates": [
+    {
+      "date": "2026-11-01",
+      "title": "Version 0.5.12: PySQA Web's fluctuation strength",
+      "body": "PySQA Web's README labels its fluctuation strength \"D&W\"; its code and documentation describe an in-house model\ninspired by Fastl and Zwicker, so it is still not listed as an implementation of a named model. Its entry now\nsays so.\n"
+    },
     {
       "date": "2026-11-01",
       "title": "Version 0.5.11: automated review",

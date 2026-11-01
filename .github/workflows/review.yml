@@ -239,7 +239,7 @@ jobs:
           print(f"Automated review of {report['date']}{version}\n")
           for item in report["items"]:
               if item.get("outcome") == "changed":
-                  print("- " + " ".join(str(item.get("summary") or "").split())[:600])
+                  print("- " + " ".join(str(item.get("summary") or "").split())[:300])
           EOF
           git commit -q -F "$RUNNER_TEMP/message.txt"
           git push || { git pull --rebase origin main && git push; }

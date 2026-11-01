@@ -2,6 +2,12 @@
 
 Notable changes to the list. This file is generated from `data/updates.yaml`; the same notes are on the website (https://zhenxianli.github.io/LISQM/updates.html) and in its Atom feed.
 
+## 2026-11-01: Version 0.5.12: PySQA Web's fluctuation strength
+
+PySQA Web's README labels its fluctuation strength "D&W"; its code and documentation describe an in-house model
+inspired by Fastl and Zwicker, so it is still not listed as an implementation of a named model. Its entry now
+says so.
+
 ## 2026-11-01: Version 0.5.11: automated review
 
 Changes from the automated review of 2026-11-01:

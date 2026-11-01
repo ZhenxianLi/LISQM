@@ -3645,7 +3645,7 @@ Implementations of the same metric can give different numbers without either bei
 ## Notes
 
 - `backend/requirements.txt` asks for `mosqito>=1.2.1` and pins `sottek-hearing-model==0.1.13`.
-- It also computes a fluctuation strength that its code describes as "after Zwicker & Fastl (1999)", with a modulation index, an excitation weighting and a calibration constant of its own (1 kHz tone, 100 % AM at 4 Hz, 60 dB gives 1 vacil). It is not listed here as an implementation of a named model.
+- It also computes a fluctuation strength that its code describes as "after Zwicker & Fastl (1999)", with a modulation index, an excitation weighting and a calibration constant of its own (1 kHz tone, 100 % AM at 4 Hz, 60 dB gives 1 vacil). The README's status table calls it "Fluctuation Strength D&W", but its code and its documentation describe an in-house model inspired by Fastl and Zwicker, not standardized; Daniel and Weber (1997) published a roughness model only. It is not listed here as an implementation of a named model.
 - The IPM (Impulsive Prominence Metric) is, as the README says, original work from the author's doctoral thesis (UFSC, 2024); it is not one of the metrics this list tracks.
 - The README lists two annoyance indices ("SIL" and Zwicker–Fastl) combined in the Batch panel from the other metrics; they were not checked for this entry.
 - The same author's desktop application PsychoBox is also listed.
@@ -3658,6 +3658,8 @@ Implementations of the same metric can give different numbers without either bei
 
 - https://github.com/henriquealende/PySQA-web
 - https://github.com/henriquealende/PySQA-web/blob/main/README.md
+- https://github.com/henriquealende/PySQA-web/blob/main/backend/psychoacoustics/fluctuation_strength.py
+- https://github.com/henriquealende/PySQA-web/blob/main/frontend/src/pages/Docs/PostProcessingDocEn.tsx
 - https://github.com/henriquealende/PySQA-web/blob/main/LICENSE
 - https://github.com/henriquealende/PySQA-web/blob/main/backend/requirements.txt
 - https://github.com/henriquealende/PySQA-web/tree/main/backend/psychoacoustics

@@ -189,7 +189,7 @@ def comment(report: dict[str, Any], run_url: str) -> str:
             continue
         lines += ["", f"### {title}", ""]
         for i in group:
-            line = f"- [{mark}] {label(i.get('item'))}: {md_text(i.get('summary'), 1200)}"
+            line = f"- [{mark}] {label(i.get('item'))}: {md_text(i.get('summary'), 400)}"
             if i.get("question"):
                 line += f" **Question:** {md_text(i['question'], 600)}"
             lines.append(line)

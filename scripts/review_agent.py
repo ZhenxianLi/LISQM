@@ -95,10 +95,10 @@ player, an installer) needs no more than its description and README before it go
 run has a budget shared by all items.
 
 Reporting
-report_item takes the outcome, a summary for the owner with the source URLs you relied on, the question when \
-the owner has to decide, and, when the change shows on the website (a project added or changed, a standard \
-edition, a lead), a one-sentence public_note for the dated update note, written like the notes in \
-data/updates.yaml.
+report_item takes the outcome, a summary for the owner in one or two short sentences (what you decided and \
+the main source URL; details belong in the data, not in the summary), the question when the owner has to \
+decide, and, when the change shows on the website (a project added or changed, a standard edition, a lead), a \
+one-sentence public_note for the dated update note, written like the notes in data/updates.yaml.
 """
 
 ITEM_TASK = """\
@@ -179,7 +179,8 @@ CUSTOM = [
                             "description": "changed: the data was changed; no_change: checked, nothing to "
                                            "change; needs_owner: the decision is the owner's; unreachable: a "
                                            "source could not be read"},
-                "summary": {"type": "string", "description": "What you found and did, with the source URLs"},
+                "summary": {"type": "string",
+                            "description": "One or two short sentences: what you decided, and the main source URL"},
                 "question": {"type": "string", "description": "needs_owner: the question for the owner"},
                 "public_note": {"type": "string",
                                 "description": "Only when the change shows on the website: one sentence for "
