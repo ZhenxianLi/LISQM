@@ -14,7 +14,7 @@
     "github": "ZhenxianLi"
   },
   "credit": "Developed by Zhenxian LI with assistance from Claude Code.",
-  "as_of": "2026-10-28",
+  "as_of": "2026-11-01",
   "schema": "https://github.com/ZhenxianLi/LISQM/blob/main/data/SCHEMA.md",
   "counts": {
     "metrics": 22,
@@ -4971,7 +4971,7 @@
       ],
       "checked": "2026-10-19",
       "url": "https://zhenxianli.github.io/LISQM/projects/sqat.html",
-      "last_commit": "2026-10-15",
+      "last_commit": "2026-10-28",
       "latest_release": {
         "version": "v2.0",
         "date": "2026-10-15",
@@ -4980,7 +4980,7 @@
       "prerelease": null,
       "activity": "active",
       "archived": false,
-      "stars": 100,
+      "stars": 101,
       "group": "established"
     },
     {
@@ -5724,7 +5724,7 @@
       ],
       "checked": "2026-10-07",
       "url": "https://zhenxianli.github.io/LISQM/projects/refmap-psychoacoustics.html",
-      "last_commit": "2026-10-14",
+      "last_commit": "2026-10-29",
       "latest_release": null,
       "prerelease": null,
       "activity": "active",
@@ -6112,7 +6112,7 @@
       "prerelease": null,
       "activity": "inactive",
       "archived": false,
-      "stars": 22,
+      "stars": 23,
       "group": "established"
     },
     {
@@ -6378,7 +6378,7 @@
       "prerelease": null,
       "activity": "active",
       "archived": false,
-      "stars": 1,
+      "stars": 2,
       "group": "newly-released"
     },
     {
@@ -6472,7 +6472,7 @@
       "prerelease": null,
       "activity": "active",
       "archived": false,
-      "stars": null,
+      "stars": 0,
       "group": "newly-released"
     },
     {
@@ -6539,7 +6539,7 @@
       ],
       "checked": "2026-10-06",
       "url": "https://zhenxianli.github.io/LISQM/projects/iso532-1-rs.html",
-      "last_commit": "2026-07-21",
+      "last_commit": "2026-11-01",
       "latest_release": {
         "version": "0.1.0",
         "date": "2026-07-19",
@@ -6629,10 +6629,10 @@
       ],
       "checked": "2026-10-07",
       "url": "https://zhenxianli.github.io/LISQM/projects/kirin-hypha.html",
-      "last_commit": "2026-10-14",
+      "last_commit": "2026-11-01",
       "latest_release": {
-        "version": "v1.1.50",
-        "date": "2026-09-21",
+        "version": "v1.1.54",
+        "date": "2026-11-01",
         "source": "GitHub release"
       },
       "prerelease": null,
@@ -7221,7 +7221,7 @@
       ],
       "checked": "2026-10-08",
       "url": "https://zhenxianli.github.io/LISQM/projects/phonometry.html",
-      "last_commit": "2026-10-14",
+      "last_commit": "2026-10-31",
       "latest_release": {
         "version": "v3.3.0",
         "date": "2026-07-26",
@@ -7233,7 +7233,7 @@
       },
       "activity": "active",
       "archived": false,
-      "stars": 125,
+      "stars": 131,
       "group": "newly-released"
     },
     {
@@ -7645,14 +7645,14 @@
       "url": "https://zhenxianli.github.io/LISQM/projects/rota-order.html",
       "last_commit": "2026-10-28",
       "latest_release": {
-        "version": "0.7.0",
+        "version": "v0.8.0",
         "date": "2026-10-28",
-        "source": ""
+        "source": "GitHub release"
       },
       "prerelease": null,
       "activity": "active",
       "archived": false,
-      "stars": null,
+      "stars": 44,
       "group": "newly-released"
     },
     {
@@ -8181,7 +8181,7 @@
       "prerelease": null,
       "activity": "active",
       "archived": false,
-      "stars": 6,
+      "stars": 7,
       "group": "developing"
     },
     {
@@ -8860,7 +8860,7 @@
       "prerelease": null,
       "activity": "archived",
       "archived": true,
-      "stars": 563,
+      "stars": 564,
       "group": "legacy"
     },
     {
@@ -8916,7 +8916,7 @@
       "prerelease": null,
       "activity": "inactive",
       "archived": false,
-      "stars": 532,
+      "stars": 535,
       "group": "legacy"
     },
     {
