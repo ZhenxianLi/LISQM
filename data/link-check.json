@@ -1,9 +1,41 @@
 {
   "failing": {
-    "https://web.archive.org/web/20150306205824/http://genesis-acoustics.com/index.php?page=32": {
+    "https://github.com/ZhenxianLi/rota-order/blob/main/src/rota/_prominence.py": {
+      "detail": "HTTP 404",
+      "since": "2026-11-01"
+    },
+    "https://github.com/ZhenxianLi/rota-order/blob/main/src/rota/bridges/__init__.py": {
+      "detail": "HTTP 404",
+      "since": "2026-11-01"
+    },
+    "https://github.com/ZhenxianLi/rota-order/blob/main/src/rota/bridges/_common.py": {
+      "detail": "HTTP 404",
+      "since": "2026-11-01"
+    },
+    "https://github.com/ZhenxianLi/rota-order/blob/main/src/rota/bridges/mosqito.py": {
+      "detail": "HTTP 404",
+      "since": "2026-11-01"
+    },
+    "https://github.com/ZhenxianLi/rota-order/blob/main/src/rota/bridges/sottek_hearing_model.py": {
+      "detail": "HTTP 404",
+      "since": "2026-11-01"
+    },
+    "https://github.com/ZhenxianLi/rota-order/blob/main/src/rota/bridges/sqat.py": {
+      "detail": "HTTP 404",
+      "since": "2026-11-01"
+    },
+    "https://github.com/jmrplens/phonometry/blob/main/src/phonometry/psychoacoustics/quality/fluctuation_strength.py": {
+      "detail": "HTTP 404",
+      "since": "2026-11-01"
+    },
+    "https://web.archive.org/web/20250709072252/https://acoustics.salford.ac.uk/psychoacoustics/sound-quality-making-products-sound-better/an-introduction-to-sound-quality-testing/matlab-codes/": {
+      "detail": "network error: timed out",
+      "since": "2026-11-01"
+    },
+    "https://www.ita-toolbox.org/": {
       "detail": "network error: [Errno 111] Connection refused",
-      "since": "2026-10-15"
+      "since": "2026-11-01"
     }
   },
-  "generated": "2026-10-15T09:59:05Z"
+  "generated": "2026-11-01T10:19:02Z"
 }
