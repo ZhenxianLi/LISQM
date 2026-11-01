@@ -215,7 +215,7 @@ The CI workflow runs the same checks (validation, unit tests and a full build) o
 ## The automation
 
 The Refresh workflow ([`.github/workflows/refresh.yml`](.github/workflows/refresh.yml)) runs on the 1st and the
-15th of every month at 05:17 UTC and can also be started by hand (Actions → Refresh → Run workflow):
+15th of every month at 01:17 UTC and can also be started by hand (Actions → Refresh → Run workflow):
 
 1. **Refresh.** [`scripts/refresh.py`](scripts/refresh.py) fetches repository metadata from GitHub (stars,
    last commit on the default branch, latest release, archived flag, licence) and the latest versions from

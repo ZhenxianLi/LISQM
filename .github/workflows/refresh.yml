@@ -2,7 +2,7 @@ name: Refresh
 
 on:
   schedule:
-    - cron: "17 5 1,15 * *" # 05:17 UTC on the 1st and the 15th of every month
+    - cron: "17 1 1,15 * *" # 01:17 UTC on the 1st and the 15th of every month; GitHub often starts scheduled runs hours late
   workflow_dispatch:
 
 permissions:

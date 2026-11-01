@@ -68,7 +68,7 @@ creates them when they are missing.
 |---|---|---|
 | CI (`ci.yml`) | pull requests, and pushes to branches other than `main` | validation, tests and a full build |
 | Pages (`pages.yml`) | pushes to `main` that touch `data/`, `scripts/`, `site-src/`, `assets/`, the README or `requirements.txt`; by hand; called by Refresh | builds the site, commits the regenerated files, deploys to GitHub Pages |
-| Refresh (`refresh.yml`) | 05:17 UTC on the 1st and the 15th of every month; by hand | commits the metadata refresh, then discovery, standards watch, link check, the review issue, Pages and search engines |
+| Refresh (`refresh.yml`) | 01:17 UTC on the 1st and the 15th of every month; by hand | commits the metadata refresh, then discovery, standards watch, link check, the review issue, Pages and search engines |
 | Review (`review.yml`) | after each successful Refresh; when the owner comments on the open review issue; by hand | Claude works through the review issue; a second job checks its changes, raises the version, tests, commits, reports on the issue, then Pages and search engines |
 | Search engines (`indexnow.yml`) | after Refresh and Review; by hand | submits the pages in the sitemap to IndexNow |
 | Release (`release.yml`) | pushes to `main` whose last commit begins "Release X.Y.Z"; by hand, with the version | checks, tests and a build, then the tag and the GitHub release with the notes and the data file |

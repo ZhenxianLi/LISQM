@@ -1,6 +1,6 @@
 # Working through the review issue
 
-The Refresh workflow ([`.github/workflows/refresh.yml`](../../.github/workflows/refresh.yml)) runs at 05:17 UTC on
+The Refresh workflow ([`.github/workflows/refresh.yml`](../../.github/workflows/refresh.yml)) runs at 01:17 UTC on
 the 1st and the 15th of every month, and by hand from Actions → Refresh → Run workflow. It:
 
 1. commits routine metadata (last commits, versions, releases, archived flags, descriptions) to `main` without
