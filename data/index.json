@@ -2,7 +2,7 @@
   "name": "LISQM",
   "full_name": "List of Implementations of Sound Quality Metrics",
   "tagline": "A List of Open-Source Implementations of Psychoacoustic and Sound Quality Metrics",
-  "version": "0.5.13",
+  "version": "0.5.11",
   "description": "A list of open-source implementations of psychoacoustic metrics, also called sound quality (SQ) metrics: loudness, sharpness, roughness, fluctuation strength, tonality, impulsiveness and psychoacoustic annoyance. Each implementation is listed under the standard edition or model it follows. All programming languages.",
   "url": "https://zhenxianli.github.io/LISQM/",
   "repository": "https://github.com/ZhenxianLi/LISQM",
@@ -9775,18 +9775,8 @@
   "updates": [
     {
       "date": "2026-11-01",
-      "title": "Version 0.5.13: computations not assigned to a listed model",
-      "body": "A project page can now list what a project computes without filing it under a model or edition of the list,\nunder \"Not assigned to a listed model\". PySQA Web's fluctuation strength is the first: its README calls it\n\"D&W\", its code \"after Zwicker & Fastl\", its documentation an in-house model; the page says so, and the metric\npages do not count it.\n"
-    },
-    {
-      "date": "2026-11-01",
-      "title": "Version 0.5.12: PySQA Web's fluctuation strength",
-      "body": "PySQA Web's README labels its fluctuation strength \"D&W\"; its code and documentation describe an in-house model\ninspired by Fastl and Zwicker, so it is still not listed as an implementation of a named model. Its entry now\nsays so.\n"
-    },
-    {
-      "date": "2026-11-01",
-      "title": "Version 0.5.11: automated review",
-      "body": "Changes from the automated review of 2026-11-01:\n\n- Added PySQA Web, a new web application for sound quality analysis that computes ECMA-418-2 tonality and loudness with adapted sottek-hearing-model code and calls MoSQITo and sottek-hearing-model for its other metrics.\n- phonometry: the link to its fluctuation-strength source file now points to the file's new path.\n- rota-order: links and function names updated for its version 0.8.0, which renamed the Python package from `rota` to `rota_order`.\n"
+      "title": "Version 0.5.11: PySQA Web added; computations not assigned to a listed model",
+      "body": "Changes from the automated review of 2026-11-01, and one new section of the project pages:\n\n- Added PySQA Web, a new web application for sound quality analysis that computes ECMA-418-2 tonality and\n  loudness with adapted sottek-hearing-model code and calls MoSQITo and sottek-hearing-model for its other\n  metrics.\n- A project page can now list what a project computes without filing it under a model or edition of the list,\n  under \"Not assigned to a listed model\". PySQA Web's fluctuation strength is the first: its README calls it\n  \"D&W\", its code \"after Zwicker & Fastl\", its documentation an in-house model; the page says so, and the\n  metric pages do not count it.\n- phonometry: the link to its fluctuation-strength source file now points to the file's new path.\n- rota-order: links and function names updated for its version 0.8.0, which renamed the Python package from\n  `rota` to `rota_order`.\n"
     },
     {
       "date": "2026-10-27",
