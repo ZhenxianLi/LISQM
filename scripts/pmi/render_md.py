@@ -371,6 +371,14 @@ def project_page(index: Index, p: dict) -> str:
         rows = [[_metric_link(index, i["_metric"]), _edition(index, i), _functions(i), IMPL_STATUS[i["status"]],
                  _validation(i), (i.get("note") or "").strip()] for i in p["_impls"]]
         lines += _table(["Metric", "Edition", "Functions", "Status", "Validation (as stated)", "Notes"], rows) + [""]
+        if p.get("unclassified"):
+            lines += ["### Not assigned to a listed model", "",
+                      "Computed by the project, but not filed under a model or edition of this list, so not counted "
+                      "on the metric pages: the project's sources disagree on the model, or it follows none of them.",
+                      ""]
+            lines += _table(["Metric family", "Functions", "Notes"], [
+                [index.family[u["family"]]["name"], _functions(u), oneline(u["text"])]
+                for u in p["unclassified"]]) + [""]
         lines += _validation_section(index, p["_impls"], on_metric=False)
         lines += _conventions(index, p["_impls"], p["_general_conventions"], on_metric=False)
     if p.get("notes"):

@@ -850,6 +850,24 @@ class BuildTest(unittest.TestCase):
         self.assertNotIn("`", (self.site / "projects/aarae.html").read_text(encoding="utf-8"))
         self.assertEqual(self.index.validate(), [])
 
+    def test_unclassified_rows_stay_on_the_project_page(self) -> None:
+        # A computation that the list files under no model is shown on its project page only.
+        page = (self.site / "projects/pysqa-web.html").read_text(encoding="utf-8")
+        self.assertIn('<h3 id="unclassified">Not assigned to a listed model</h3>', page)
+        self.assertIn("<code>FluctuationStrength.calculateFS</code>", page)
+        self.assertIn("Fluctuation Strength D&amp;W", page)
+        for m in self.index.metrics:
+            if m["family"] == "fluctuation-strength":
+                text = (self.site / f"metrics/{m['id']}.html").read_text(encoding="utf-8")
+                self.assertNotIn("projects/pysqa-web.html", text, m["id"])
+        p = self.index.project["pysqa-web"]
+        saved = p["unclassified"]
+        try:
+            p["unclassified"] = [{"family": "no-such-family", "text": "x"}]
+            self.assertIn("unclassified must be a list", "\n".join(self.index.validate()))
+        finally:
+            p["unclassified"] = saved
+
     def test_update_anchors_are_unique(self) -> None:
         anchors = [update_anchor(u) for u in self.index.updates]
         self.assertEqual(len(anchors), len(set(anchors)), "two updates of one day share an anchor")

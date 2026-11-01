@@ -161,6 +161,11 @@ implements:
                                               # "outcome not stated", "in v1.3, test signal 10 is off by 18.14 %"
     conventions: [markdown strings]           # optional: choices of this row that change its numbers
     note: optional markdown (other facts; validation goes in validation_details)
+unclassified:                                 # optional: what the project computes but the list does not file under
+  - family: fluctuation-strength              #   a model or edition (its sources disagree, or it follows none); shown
+    functions: [names]                        #   on the project page under "Not assigned to a listed model", never
+    text: markdown                            #   on metric pages or in counts. text says what disagrees and what the
+                                              #   code does
 manual:                                       # optional fallback when the refresher cannot reach the host
   last_commit: 2026-09-25
   latest_release: {version: 0.2.2, date: 2026-09-25}

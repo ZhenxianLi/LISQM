@@ -2,7 +2,7 @@
   "name": "LISQM",
   "full_name": "List of Implementations of Sound Quality Metrics",
   "tagline": "A List of Open-Source Implementations of Psychoacoustic and Sound Quality Metrics",
-  "version": "0.5.12",
+  "version": "0.5.13",
   "description": "A list of open-source implementations of psychoacoustic metrics, also called sound quality (SQ) metrics: loudness, sharpness, roughness, fluctuation strength, tonality, impulsiveness and psychoacoustic annoyance. Each implementation is listed under the standard edition or model it follows. All programming languages.",
   "url": "https://zhenxianli.github.io/LISQM/",
   "repository": "https://github.com/ZhenxianLi/LISQM",
@@ -7507,10 +7507,18 @@
       "ai_note": "The repository contains a `CLAUDE.md` file (\"Project Memory\") for Claude Code, and `dev-tests/README.md` mentions the Edit tool.",
       "notes": [
         "`backend/requirements.txt` asks for `mosqito>=1.2.1` and pins `sottek-hearing-model==0.1.13`.",
-        "It also computes a fluctuation strength that its code describes as \"after Zwicker & Fastl (1999)\", with a modulation index, an excitation weighting and a calibration constant of its own (1 kHz tone, 100 % AM at 4 Hz, 60 dB gives 1 vacil). The README's status table calls it \"Fluctuation Strength D&W\", but its code and its documentation describe an in-house model inspired by Fastl and Zwicker, not standardized; Daniel and Weber (1997) published a roughness model only. It is not listed here as an implementation of a named model.",
         "The IPM (Impulsive Prominence Metric) is, as the README says, original work from the author's doctoral thesis (UFSC, 2024); it is not one of the metrics this list tracks.",
         "The README lists two annoyance indices (\"SIL\" and Zwicker–Fastl) combined in the Batch panel from the other metrics; they were not checked for this entry.",
         "The same author's desktop application PsychoBox is also listed."
+      ],
+      "unclassified": [
+        {
+          "family": "fluctuation-strength",
+          "functions": [
+            "FluctuationStrength.calculateFS"
+          ],
+          "text": "The project's sources disagree on which model this follows. The README's status table calls it \"Fluctuation Strength D&W\" (Daniel and Weber published a roughness model only); the code says \"after Zwicker & Fastl (1999)\"; the documentation calls it an in-house implementation, not standardized, \"inspired by Fastl and Zwicker\". What the code does: 47 bands of 0.5 Bark, the coherent modulation index at the dominant modulation frequency (0.5 to 20 Hz) in each band, the weight 1/(f_mod/4 + 4/f_mod), bands weighted by their excitation, and a constant that gives 1 vacil for a 1 kHz tone at 60 dB, 100 % modulated at 4 Hz. The code states this calibration point and the 4 Hz maximum of a modulation-frequency sweep as its validation."
+        }
       ],
       "caveats": [
         "The README reports memory limits on the hosted server: on its 2 GiB plan, ECMA-418-2 roughness and tonality accept only about 2.5–3 s of audio, and longer files have to be analysed in sections. Running it locally lifts these limits."
@@ -9765,6 +9773,11 @@
     }
   ],
   "updates": [
+    {
+      "date": "2026-11-01",
+      "title": "Version 0.5.13: computations not assigned to a listed model",
+      "body": "A project page can now list what a project computes without filing it under a model or edition of the list,\nunder \"Not assigned to a listed model\". PySQA Web's fluctuation strength is the first: its README calls it\n\"D&W\", its code \"after Zwicker & Fastl\", its documentation an in-house model; the page says so, and the metric\npages do not count it.\n"
+    },
     {
       "date": "2026-11-01",
       "title": "Version 0.5.12: PySQA Web's fluctuation strength",

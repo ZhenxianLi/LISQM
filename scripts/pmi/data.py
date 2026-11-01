@@ -340,6 +340,12 @@ class Index:
                     for c in conventions)):
                 add(f"{w}: conventions must be a non-empty list of strings, or of {{text, metrics}} where metrics "
                     "are metrics the project implements")
+            unclassified = p.get("unclassified")
+            if unclassified is not None and not (isinstance(unclassified, list) and unclassified and all(
+                    isinstance(u, dict) and set(u) <= {"family", "functions", "text"} and u.get("family") in self.family
+                    and isinstance(u.get("text"), str) and u["text"].strip()
+                    and (u.get("functions") is None or isinstance(u["functions"], list)) for u in unclassified)):
+                add(f"{w}: unclassified must be a list of {{family, text, functions}} with a known metric family")
             # Lists of sentences: a stray "key: value" in YAML turns an item into a mapping.
             for key in ("notes", "caveats", "sources"):
                 if p.get(key) is not None and not all(isinstance(x, str) and x.strip() for x in p[key]):

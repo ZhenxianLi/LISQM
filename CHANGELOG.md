@@ -2,6 +2,13 @@
 
 Notable changes to the list. This file is generated from `data/updates.yaml`; the same notes are on the website (https://zhenxianli.github.io/LISQM/updates.html) and in its Atom feed.
 
+## 2026-11-01: Version 0.5.13: computations not assigned to a listed model
+
+A project page can now list what a project computes without filing it under a model or edition of the list,
+under "Not assigned to a listed model". PySQA Web's fluctuation strength is the first: its README calls it
+"D&W", its code "after Zwicker & Fastl", its documentation an in-house model; the page says so, and the metric
+pages do not count it.
+
 ## 2026-11-01: Version 0.5.12: PySQA Web's fluctuation strength
 
 PySQA Web's README labels its fluctuation strength "D&W"; its code and documentation describe an in-house model

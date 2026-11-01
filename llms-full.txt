@@ -3622,6 +3622,14 @@ Web application for sound quality analysis, the web version of the author's PySQ
 | [Sottek Hearing Model roughness](https://zhenxianli.github.io/LISQM/metrics/roughness-ecma-418-2.html) | [ECMA-418-2:2025 (4th ed.)](https://ecma-international.org/wp-content/uploads/ECMA-418-2_4th_edition_june_2025.pdf) (one channel) | `Roughness.roughnessECMA_Shm` | available | not stated | Calls `shm_roughness_ecma` of sottek-hearing-model 0.1.13; the overall value is its `roughness90pc`. |
 | [Sottek Hearing Model tonality](https://zhenxianli.github.io/LISQM/metrics/tonality-ecma-418-2.html) | [ECMA-418-2:2025 (4th ed.)](https://ecma-international.org/wp-content/uploads/ECMA-418-2_4th_edition_june_2025.pdf) (one channel) | `TonalityECMA.tonalityECMA_Shm` | available | compared with sottek-hearing-model (its source) (same as its source to about 1e-6 (README)) | Still calls helper functions of sottek-hearing-model; if the copy fails, the package's `shm_tonality_ecma` is called instead. |
 
+### Not assigned to a listed model
+
+Computed by the project, but not filed under a model or edition of this list, so not counted on the metric pages: the project's sources disagree on the model, or it follows none of them.
+
+| Metric family | Functions | Notes |
+|---|---|---|
+| Fluctuation strength | `FluctuationStrength.calculateFS` | The project's sources disagree on which model this follows. The README's status table calls it "Fluctuation Strength D&W" (Daniel and Weber published a roughness model only); the code says "after Zwicker & Fastl (1999)"; the documentation calls it an in-house implementation, not standardized, "inspired by Fastl and Zwicker". What the code does: 47 bands of 0.5 Bark, the coherent modulation index at the dominant modulation frequency (0.5 to 20 Hz) in each band, the weight 1/(f_mod/4 + 4/f_mod), bands weighted by their excitation, and a constant that gives 1 vacil for a 1 kHz tone at 60 dB, 100 % modulated at 4 Hz. The code states this calibration point and the 4 Hz maximum of a modulation-frequency sweep as its validation. |
+
 ## How it was validated
 
 As reported by the project; LISQM has not run the code. Two implementations that agree can still share the same error.
@@ -3645,7 +3653,6 @@ Implementations of the same metric can give different numbers without either bei
 ## Notes
 
 - `backend/requirements.txt` asks for `mosqito>=1.2.1` and pins `sottek-hearing-model==0.1.13`.
-- It also computes a fluctuation strength that its code describes as "after Zwicker & Fastl (1999)", with a modulation index, an excitation weighting and a calibration constant of its own (1 kHz tone, 100 % AM at 4 Hz, 60 dB gives 1 vacil). The README's status table calls it "Fluctuation Strength D&W", but its code and its documentation describe an in-house model inspired by Fastl and Zwicker, not standardized; Daniel and Weber (1997) published a roughness model only. It is not listed here as an implementation of a named model.
 - The IPM (Impulsive Prominence Metric) is, as the README says, original work from the author's doctoral thesis (UFSC, 2024); it is not one of the metrics this list tracks.
 - The README lists two annoyance indices ("SIL" and Zwicker–Fastl) combined in the Batch panel from the other metrics; they were not checked for this entry.
 - The same author's desktop application PsychoBox is also listed.
