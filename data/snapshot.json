@@ -1,9 +1,9 @@
 {
-  "generated": "2026-11-01T10:13:42Z",
+  "generated": "2026-11-15T07:51:37Z",
   "projects": {
     "aarae": {
       "errors": [],
-      "fetched": "2026-11-01T10:13:42Z",
+      "fetched": "2026-11-15T07:51:37Z",
       "github": {
         "archived": false,
         "default_branch": "master",
@@ -22,7 +22,7 @@
     },
     "acoustic-toolbox": {
       "errors": [],
-      "fetched": "2026-11-01T10:13:42Z",
+      "fetched": "2026-11-15T07:51:37Z",
       "github": {
         "archived": false,
         "default_branch": "main",
@@ -38,7 +38,7 @@
         "license": "BSD-3-Clause",
         "open_issues": 10,
         "pushed_at": "2026-02-12T07:32:02Z",
-        "stars": 30,
+        "stars": 32,
         "topics": [
           "acoustic",
           "audio",
@@ -58,13 +58,13 @@
     },
     "amt": {
       "errors": [],
-      "fetched": "2026-11-01T10:13:42Z",
+      "fetched": "2026-11-15T07:51:37Z",
       "github": null,
       "packages": {}
     },
     "deeuu-loudness": {
       "errors": [],
-      "fetched": "2026-11-01T10:13:42Z",
+      "fetched": "2026-11-15T07:51:37Z",
       "github": {
         "archived": false,
         "default_branch": "master",
@@ -83,7 +83,7 @@
     },
     "ecma418-torch": {
       "errors": [],
-      "fetched": "2026-11-01T10:13:42Z",
+      "fetched": "2026-11-15T07:51:37Z",
       "github": {
         "archived": false,
         "default_branch": "master",
@@ -102,7 +102,7 @@
     },
     "fluctuation-strength-tue": {
       "errors": [],
-      "fetched": "2026-11-01T10:13:42Z",
+      "fetched": "2026-11-15T07:51:37Z",
       "github": {
         "archived": false,
         "default_branch": "master",
@@ -125,13 +125,13 @@
     },
     "haw-specific-loudness": {
       "errors": [],
-      "fetched": "2026-11-01T10:13:42Z",
+      "fetched": "2026-11-15T07:51:37Z",
       "github": null,
       "packages": {}
     },
     "iosr-matlab-toolbox": {
       "errors": [],
-      "fetched": "2026-11-01T10:13:42Z",
+      "fetched": "2026-11-15T07:51:37Z",
       "github": {
         "archived": false,
         "default_branch": "master",
@@ -147,14 +147,16 @@
         "license": "MIT",
         "open_issues": 6,
         "pushed_at": "2020-01-03T22:40:26Z",
-        "stars": 133,
+        "stars": 134,
         "topics": []
       },
       "packages": {}
     },
     "iso532-1-rs": {
-      "errors": [],
-      "fetched": "2026-11-01T10:13:42Z",
+      "errors": [
+        "GitHub: HTTP 404 Not Found (https://api.github.com/repos/cclin99/iso532-1-rs)"
+      ],
+      "fetched": "2026-11-15T07:51:37Z",
       "github": {
         "archived": false,
         "default_branch": "main",
@@ -179,13 +181,13 @@
     },
     "ita-toolbox": {
       "errors": [],
-      "fetched": "2026-11-01T10:13:42Z",
+      "fetched": "2026-11-15T07:51:37Z",
       "github": null,
       "packages": {}
     },
     "js2251-iso532-3": {
       "errors": [],
-      "fetched": "2026-11-01T10:13:42Z",
+      "fetched": "2026-11-15T07:51:37Z",
       "github": {
         "archived": false,
         "default_branch": "main",
@@ -204,23 +206,23 @@
     },
     "kirin-hypha": {
       "errors": [],
-      "fetched": "2026-11-01T10:13:42Z",
+      "fetched": "2026-11-15T07:51:37Z",
       "github": {
         "archived": false,
         "default_branch": "main",
-        "description": "Free, open-source PRE/POST audio measurement for macOS (AU/VST3) and Windows (VST3). Rust + JUCE, GPLv3.",
+        "description": "Free, open-source PRE/POST audio measurement for macOS (AU/VST3/AAX) and Windows (VST3/AAX). Rust + JUCE, GPLv3.",
         "forks": 0,
         "full_name": "heyalohaloha/kirin_hypha",
-        "last_commit": "2026-11-01",
+        "last_commit": "2026-11-14",
         "latest_release": {
-          "date": "2026-11-01",
-          "tag": "v1.1.54",
-          "url": "https://github.com/heyalohaloha/kirin_hypha/releases/tag/v1.1.54"
+          "date": "2026-11-10",
+          "tag": "v1.1.56",
+          "url": "https://github.com/heyalohaloha/kirin_hypha/releases/tag/v1.1.56"
         },
         "license": "GPL-3.0",
-        "open_issues": 1,
-        "pushed_at": "2026-11-01T09:06:16Z",
-        "stars": 6,
+        "open_issues": 2,
+        "pushed_at": "2026-11-15T04:36:57Z",
+        "stars": 7,
         "topics": [
           "audio",
           "audio-analysis",
@@ -237,7 +239,7 @@
     },
     "loudnessmodel": {
       "errors": [],
-      "fetched": "2026-11-01T10:13:42Z",
+      "fetched": "2026-11-15T07:51:37Z",
       "github": {
         "archived": false,
         "default_branch": "main",
@@ -256,7 +258,7 @@
     },
     "metasona": {
       "errors": [],
-      "fetched": "2026-11-01T10:13:42Z",
+      "fetched": "2026-11-15T07:51:37Z",
       "github": {
         "archived": false,
         "default_branch": "main",
@@ -289,7 +291,7 @@
     },
     "mosqito": {
       "errors": [],
-      "fetched": "2026-11-01T10:13:42Z",
+      "fetched": "2026-11-15T07:51:37Z",
       "github": {
         "archived": false,
         "default_branch": "master",
@@ -327,7 +329,7 @@
     },
     "mosqito-fdp": {
       "errors": [],
-      "fetched": "2026-11-01T10:13:42Z",
+      "fetched": "2026-11-15T07:51:37Z",
       "github": {
         "archived": true,
         "default_branch": "master",
@@ -346,7 +348,7 @@
     },
     "mosqito-net": {
       "errors": [],
-      "fetched": "2026-11-01T10:13:42Z",
+      "fetched": "2026-11-15T07:51:37Z",
       "github": {
         "archived": false,
         "default_branch": "master",
@@ -375,7 +377,7 @@
     },
     "numpylib-psychoacoustic": {
       "errors": [],
-      "fetched": "2026-11-01T10:13:42Z",
+      "fetched": "2026-11-15T07:51:37Z",
       "github": {
         "archived": false,
         "default_branch": "main",
@@ -394,7 +396,7 @@
     },
     "pd-psycho": {
       "errors": [],
-      "fetched": "2026-11-01T10:13:42Z",
+      "fetched": "2026-11-15T07:51:37Z",
       "github": {
         "archived": false,
         "default_branch": "master",
@@ -417,23 +419,23 @@
     },
     "phonometry": {
       "errors": [],
-      "fetched": "2026-11-01T10:13:42Z",
+      "fetched": "2026-11-15T07:51:37Z",
       "github": {
         "archived": false,
         "default_branch": "main",
         "description": "Standards-conformant acoustics library for Python: measurement and metrology, building, environmental and room acoustics, psychoacoustics, electroacoustics, vibration, underwater and aircraft/rotorcraft noise. Every method is implemented from the standard and validated against reference data, with teaching-style docs (formerly PyOctaveBand).",
-        "forks": 28,
+        "forks": 25,
         "full_name": "jmrplens/phonometry",
-        "last_commit": "2026-10-31",
+        "last_commit": "2026-11-14",
         "latest_release": {
           "date": "2026-07-26",
           "tag": "v3.3.0",
           "url": "https://github.com/jmrplens/phonometry/releases/tag/v3.3.0"
         },
         "license": "MIT",
-        "open_issues": 13,
-        "pushed_at": "2026-11-01T07:16:38Z",
-        "stars": 131,
+        "open_issues": 4,
+        "pushed_at": "2026-11-15T07:25:17Z",
+        "stars": 133,
         "topics": [
           "acoustics",
           "aircraft-noise",
@@ -470,7 +472,7 @@
     },
     "psychoacoustic-parameters-measurer": {
       "errors": [],
-      "fetched": "2026-11-01T10:13:42Z",
+      "fetched": "2026-11-15T07:51:37Z",
       "github": {
         "archived": false,
         "default_branch": "main",
@@ -489,7 +491,7 @@
     },
     "psychoacousticmetrics-jl": {
       "errors": [],
-      "fetched": "2026-11-01T10:13:42Z",
+      "fetched": "2026-11-15T07:51:37Z",
       "github": {
         "archived": false,
         "default_branch": "main",
@@ -512,7 +514,7 @@
     },
     "psychobox": {
       "errors": [],
-      "fetched": "2026-11-01T10:13:42Z",
+      "fetched": "2026-11-15T07:51:37Z",
       "github": {
         "archived": false,
         "default_branch": "main",
@@ -524,14 +526,14 @@
         "license": "MIT",
         "open_issues": 0,
         "pushed_at": "2026-03-16T12:13:07Z",
-        "stars": 10,
+        "stars": 11,
         "topics": []
       },
       "packages": {}
     },
     "psysound3": {
       "errors": [],
-      "fetched": "2026-11-01T10:13:42Z",
+      "fetched": "2026-11-15T07:51:37Z",
       "github": {
         "archived": false,
         "default_branch": "master",
@@ -550,13 +552,13 @@
     },
     "psytools": {
       "errors": [],
-      "fetched": "2026-11-01T10:13:42Z",
+      "fetched": "2026-11-15T07:51:37Z",
       "github": null,
       "packages": {}
     },
     "pydsm": {
       "errors": [],
-      "fetched": "2026-11-01T10:13:42Z",
+      "fetched": "2026-11-15T07:51:37Z",
       "github": {
         "archived": false,
         "default_branch": "main",
@@ -572,7 +574,7 @@
         "license": "GPL-3.0",
         "open_issues": 3,
         "pushed_at": "2025-08-22T14:38:34Z",
-        "stars": 22,
+        "stars": 23,
         "topics": []
       },
       "packages": {
@@ -584,9 +586,39 @@
         }
       }
     },
+    "pysqa-web": {
+      "errors": [],
+      "fetched": "2026-11-15T07:51:37Z",
+      "github": {
+        "archived": false,
+        "default_branch": "main",
+        "description": "Web app for sound quality analysis: psychoacoustic metrics (ISO 532-1, ECMA-418-2, DIN 45692), spectra, filtering and auralization. FastAPI + React. AGPL-3.0.",
+        "forks": 0,
+        "full_name": "henriquealende/PySQA-web",
+        "last_commit": "2026-10-25",
+        "latest_release": null,
+        "license": "AGPL-3.0",
+        "open_issues": 7,
+        "pushed_at": "2026-10-25T21:14:01Z",
+        "stars": 1,
+        "topics": [
+          "acoustics",
+          "agpl-3",
+          "audio-analysis",
+          "fastapi",
+          "loudness",
+          "plotly",
+          "psychoacoustics",
+          "react",
+          "signal-processing",
+          "sound-quality"
+        ]
+      },
+      "packages": {}
+    },
     "pysqat": {
       "errors": [],
-      "fetched": "2026-11-01T10:13:42Z",
+      "fetched": "2026-11-15T07:51:37Z",
       "github": {
         "archived": false,
         "default_branch": "main",
@@ -605,7 +637,7 @@
     },
     "python-acoustics": {
       "errors": [],
-      "fetched": "2026-11-01T10:13:42Z",
+      "fetched": "2026-11-15T07:51:37Z",
       "github": {
         "archived": true,
         "default_branch": "master",
@@ -617,7 +649,7 @@
         "license": "BSD-3-Clause",
         "open_issues": 32,
         "pushed_at": "2023-12-10T22:34:10Z",
-        "stars": 564,
+        "stars": 566,
         "topics": [
           "acoustics",
           "audio",
@@ -636,24 +668,24 @@
     },
     "rapid-loudness-sharpness": {
       "errors": [],
-      "fetched": "2026-11-01T10:13:42Z",
+      "fetched": "2026-11-15T07:51:37Z",
       "github": null,
       "packages": {}
     },
     "refmap-psychoacoustics": {
       "errors": [],
-      "fetched": "2026-11-01T10:13:42Z",
+      "fetched": "2026-11-15T07:51:37Z",
       "github": {
         "archived": false,
         "default_branch": "main",
         "description": "REFMAP project task 4.3: Psychoacoustics of unmanned aerial vehicle (UAV) sound",
         "forks": 4,
         "full_name": "acoustics-code-salford/refmap-psychoacoustics",
-        "last_commit": "2026-10-29",
+        "last_commit": "2026-11-14",
         "latest_release": null,
         "license": "GPL-3.0",
         "open_issues": 4,
-        "pushed_at": "2026-10-29T21:47:38Z",
+        "pushed_at": "2026-11-14T14:39:51Z",
         "stars": 23,
         "topics": []
       },
@@ -661,7 +693,7 @@
     },
     "rota-order": {
       "errors": [],
-      "fetched": "2026-11-01T10:13:42Z",
+      "fetched": "2026-11-15T07:51:37Z",
       "github": {
         "archived": false,
         "default_branch": "main",
@@ -704,7 +736,7 @@
     },
     "sottek-hearing-model": {
       "errors": [],
-      "fetched": "2026-11-01T10:13:42Z",
+      "fetched": "2026-11-15T07:51:37Z",
       "github": {
         "archived": false,
         "default_branch": "main",
@@ -739,7 +771,7 @@
     },
     "soundpalette": {
       "errors": [],
-      "fetched": "2026-11-01T10:13:42Z",
+      "fetched": "2026-11-15T07:51:37Z",
       "github": {
         "archived": false,
         "default_branch": "main",
@@ -758,7 +790,7 @@
     },
     "soundscapy": {
       "errors": [],
-      "fetched": "2026-11-01T10:13:42Z",
+      "fetched": "2026-11-15T07:51:37Z",
       "github": {
         "archived": false,
         "default_branch": "main",
@@ -772,8 +804,8 @@
           "url": "https://github.com/MitchellAcoustics/Soundscapy/releases/tag/v0.8.5"
         },
         "license": "NOASSERTION",
-        "open_issues": 33,
-        "pushed_at": "2026-10-31T23:21:55Z",
+        "open_issues": 34,
+        "pushed_at": "2026-11-02T00:51:01Z",
         "stars": 59,
         "topics": []
       },
@@ -788,22 +820,22 @@
     },
     "sqat": {
       "errors": [],
-      "fetched": "2026-11-01T10:13:42Z",
+      "fetched": "2026-11-15T07:51:37Z",
       "github": {
         "archived": false,
         "default_branch": "main",
         "description": "SQAT: a sound quality analysis toolbox for MATLAB. Open-source implementations of key psychoacoustic models and a sound level meter, validated against standards and published data, with ready-to-run examples.",
         "forks": 23,
         "full_name": "ggrecow/SQAT",
-        "last_commit": "2026-10-28",
+        "last_commit": "2026-11-02",
         "latest_release": {
           "date": "2026-10-15",
           "tag": "v2.0",
           "url": "https://github.com/ggrecow/SQAT/releases/tag/v2.0"
         },
         "license": "GPL-3.0",
-        "open_issues": 3,
-        "pushed_at": "2026-10-28T09:34:35Z",
+        "open_issues": 5,
+        "pushed_at": "2026-11-02T14:07:50Z",
         "stars": 101,
         "topics": [
           "acoustics",
@@ -824,12 +856,12 @@
     },
     "suave": {
       "errors": [],
-      "fetched": "2026-11-01T10:13:42Z",
+      "fetched": "2026-11-15T07:51:37Z",
       "github": {
         "archived": false,
         "default_branch": "develop",
         "description": "An Aircraft Design Toolbox",
-        "forks": 460,
+        "forks": 463,
         "full_name": "suavecode/SUAVE",
         "last_commit": "2022-12-23",
         "latest_release": {
@@ -840,7 +872,7 @@
         "license": "LGPL-2.1",
         "open_issues": 39,
         "pushed_at": "2024-02-14T22:19:54Z",
-        "stars": 535,
+        "stars": 536,
         "topics": [
           "aerospace",
           "aircraft",
@@ -855,7 +887,7 @@
     },
     "torch-amt": {
       "errors": [],
-      "fetched": "2026-11-01T10:13:42Z",
+      "fetched": "2026-11-15T07:51:37Z",
       "github": {
         "archived": false,
         "default_branch": "main",
@@ -893,7 +925,7 @@
     },
     "zhen-ni-epnl": {
       "errors": [],
-      "fetched": "2026-11-01T10:13:42Z",
+      "fetched": "2026-11-15T07:51:37Z",
       "github": {
         "archived": false,
         "default_branch": "master",
@@ -912,7 +944,7 @@
     },
     "zwickerloudness-jl": {
       "errors": [],
-      "fetched": "2026-11-01T10:13:42Z",
+      "fetched": "2026-11-15T07:51:37Z",
       "github": {
         "archived": false,
         "default_branch": "main",
@@ -944,13 +976,13 @@
     },
     "zwickerloudness-sourceforge": {
       "errors": [],
-      "fetched": "2026-11-01T10:13:42Z",
+      "fetched": "2026-11-15T07:51:37Z",
       "github": null,
       "packages": {}
     },
     "zwickerloudnessaudio-jl": {
       "errors": [],
-      "fetched": "2026-11-01T10:13:42Z",
+      "fetched": "2026-11-15T07:51:37Z",
       "github": {
         "archived": false,
         "default_branch": "main",

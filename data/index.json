@@ -14,7 +14,7 @@
     "github": "ZhenxianLi"
   },
   "credit": "Developed by Zhenxian LI with assistance from Claude Code.",
-  "as_of": "2026-11-01",
+  "as_of": "2026-11-15",
   "schema": "https://github.com/ZhenxianLi/LISQM/blob/main/data/SCHEMA.md",
   "counts": {
     "metrics": 22,
@@ -5077,7 +5077,7 @@
       ],
       "checked": "2026-10-19",
       "url": "https://zhenxianli.github.io/LISQM/projects/sqat.html",
-      "last_commit": "2026-10-28",
+      "last_commit": "2026-11-02",
       "latest_release": {
         "version": "v2.0",
         "date": "2026-10-15",
@@ -5537,7 +5537,7 @@
       "prerelease": null,
       "activity": "active",
       "archived": false,
-      "stars": 30,
+      "stars": 32,
       "group": "established"
     },
     {
@@ -5830,7 +5830,7 @@
       ],
       "checked": "2026-10-07",
       "url": "https://zhenxianli.github.io/LISQM/projects/refmap-psychoacoustics.html",
-      "last_commit": "2026-10-29",
+      "last_commit": "2026-11-14",
       "latest_release": null,
       "prerelease": null,
       "activity": "active",
@@ -6284,7 +6284,7 @@
       "prerelease": null,
       "activity": "inactive",
       "archived": false,
-      "stars": 22,
+      "stars": 23,
       "group": "established"
     },
     {
@@ -6735,16 +6735,16 @@
       ],
       "checked": "2026-10-07",
       "url": "https://zhenxianli.github.io/LISQM/projects/kirin-hypha.html",
-      "last_commit": "2026-11-01",
+      "last_commit": "2026-11-14",
       "latest_release": {
-        "version": "v1.1.54",
-        "date": "2026-11-01",
+        "version": "v1.1.56",
+        "date": "2026-11-10",
         "source": "GitHub release"
       },
       "prerelease": null,
       "activity": "active",
       "archived": false,
-      "stars": 6,
+      "stars": 7,
       "group": "newly-released"
     },
     {
@@ -7327,7 +7327,7 @@
       ],
       "checked": "2026-11-01",
       "url": "https://zhenxianli.github.io/LISQM/projects/phonometry.html",
-      "last_commit": "2026-10-31",
+      "last_commit": "2026-11-14",
       "latest_release": {
         "version": "v3.3.0",
         "date": "2026-07-26",
@@ -7339,7 +7339,7 @@
       },
       "activity": "active",
       "archived": false,
-      "stars": 131,
+      "stars": 133,
       "group": "newly-released"
     },
     {
@@ -7645,7 +7645,7 @@
       "prerelease": null,
       "activity": "active",
       "archived": false,
-      "stars": null,
+      "stars": 1,
       "group": "newly-released"
     },
     {
@@ -8801,7 +8801,7 @@
       "prerelease": null,
       "activity": "inactive",
       "archived": false,
-      "stars": 133,
+      "stars": 134,
       "group": "legacy"
     },
     {
@@ -9128,7 +9128,7 @@
       "prerelease": null,
       "activity": "archived",
       "archived": true,
-      "stars": 564,
+      "stars": 566,
       "group": "legacy"
     },
     {
@@ -9184,7 +9184,7 @@
       "prerelease": null,
       "activity": "inactive",
       "archived": false,
-      "stars": 535,
+      "stars": 536,
       "group": "legacy"
     },
     {
@@ -9487,7 +9487,7 @@
       "prerelease": null,
       "activity": "active",
       "archived": false,
-      "stars": 10,
+      "stars": 11,
       "group": "others",
       "calls": [
         "mosqito"

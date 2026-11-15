@@ -20,7 +20,7 @@ Developed by Zhenxian LI with assistance from Claude Code.
 [![Code: MIT](https://img.shields.io/badge/code-MIT-blue.svg)](LICENSE)
 
 <!-- BEGIN GENERATED: stats -->
-Data as of 2026-11-01: 22 metrics, 42 projects, languages: C, C#, C++, Julia, MATLAB, Octave, Pure Data, Python, Rust.
+Data as of 2026-11-15: 22 metrics, 42 projects, languages: C, C#, C++, Julia, MATLAB, Octave, Pure Data, Python, Rust.
 <!-- END GENERATED: stats -->
 
 ## Why this list exists
@@ -138,12 +138,12 @@ Which languages have an implementation of each metric.
 <!-- BEGIN GENERATED: projects -->
 | Project | Standing | Language | Licence | Latest release | Last commit | Activity |
 |---|---|---|---|---|---|---|
-| **[SQAT](https://github.com/ggrecow/SQAT)** | established, widely used | MATLAB | GPL-3.0-or-later | v2.0 (2026-10) | 2026-10-28 | active |
+| **[SQAT](https://github.com/ggrecow/SQAT)** | established, widely used | MATLAB | GPL-3.0-or-later | v2.0 (2026-10) | 2026-11-02 | active |
 | **[MoSQITo](https://github.com/Eomys/MoSQITo)** | established, widely used | Python | Apache-2.0 | v1.2.1 (2024-04) | 2024-04-22 | inactive since 2024-04 |
 | **[sottek-hearing-model](https://github.com/mlotinga/sottek-hearing-model)** | established, a very good implementation | Python | GPL-3.0-only | v0.1.14 (2026-03) | 2026-09-18 | active |
 | [acoustic-toolbox](https://github.com/Universite-Gustave-Eiffel/acoustic-toolbox) | established | Python | BSD-3-Clause | v0.2.2 (2026-01) | 2026-02-12 | active |
 | [AMT](https://sourceforge.net/p/amtoolbox/code/) | established | MATLAB, Octave | GPL-3.0 | 1.6.0 (2024-10) | 2026-06-14 | active |
-| [refmap-psychoacoustics](https://github.com/acoustics-code-salford/refmap-psychoacoustics) | established | MATLAB, Python | GPL-3.0 | no release | 2026-10-29 | active |
+| [refmap-psychoacoustics](https://github.com/acoustics-code-salford/refmap-psychoacoustics) | established | MATLAB, Python | GPL-3.0 | no release | 2026-11-14 | active |
 | [AARAE](https://github.com/densilcabrera/aarae) | established | MATLAB | BSD-3-Clause | no release | 2024-08-09 | inactive since 2024-08 |
 | [iso532-3 (tv2018.m)](https://github.com/js2251/iso532-3) | established | MATLAB | none | no release | 2021-10-08 | inactive since 2021-10 |
 | [ITA-Toolbox](https://git.rwth-aachen.de/ita/toolbox) | established | MATLAB | BSD-4-Clause | no release | 2025-09-22 | inactive since 2025-09 |
@@ -152,10 +152,10 @@ Which languages have an implementation of each metric.
 | [MetaSona](https://github.com/huaaudio/metasona) | newly released, not yet seen to be widely used | C, Python | GPL-3.0-only AND Apache-2.0 AND BSD-3-Clause AND MIT | v0.2.2 (2026-09) | 2026-09-25 | active |
 | [ecma418-torch](https://github.com/agrathwohl/ecma418-torch) | newly released, not yet seen to be widely used | Python | MIT | no release | 2026-10-11 | active |
 | [iso532-1-rs](https://github.com/cclin99/iso532-1-rs) | newly released, not yet seen to be widely used | Rust, C, Python | Apache-2.0 | 0.1.0 (2026-07) | 2026-11-01 | active |
-| [Kirin Hypha](https://github.com/heyalohaloha/kirin_hypha) | newly released, not yet seen to be widely used | Rust | GPL-3.0 | v1.1.54 (2026-11) | 2026-11-01 | active |
+| [Kirin Hypha](https://github.com/heyalohaloha/kirin_hypha) | newly released, not yet seen to be widely used | Rust | GPL-3.0 | v1.1.56 (2026-11) | 2026-11-14 | active |
 | [Mosqito.NET](https://github.com/onur-akaydin/Mosqito.NET) | newly released, not yet seen to be widely used | C# | Apache-2.0 | no release | 2026-06-07 | active |
 | [NumpyLibforPsychoAcoustic](https://github.com/Ryrybros/NumpyLibforPsychoAcoustic) | newly released, not yet seen to be widely used | Python | none | no release | 2026-06-07 | active |
-| [phonometry](https://github.com/jmrplens/phonometry) | newly released, not yet seen to be widely used | Python | MIT | v3.3.0 (2026-07) | 2026-10-31 | active |
+| [phonometry](https://github.com/jmrplens/phonometry) | newly released, not yet seen to be widely used | Python | MIT | v3.3.0 (2026-07) | 2026-11-14 | active |
 | [PsychoacousticMetrics.jl](https://github.com/slink/PsychoacousticMetrics.jl) | newly released, not yet seen to be widely used | Julia | MIT | v0.5.0 (2026-09) | 2026-09-03 | active |
 | [PySQA Web](https://github.com/henriquealende/PySQA-web) | newly released, not yet seen to be widely used | Python | AGPL-3.0-only | no release | 2026-10-25 | active |
 | [rota-order](https://github.com/ZhenxianLi/rota-order) | newly released, not yet seen to be widely used | Python | GPL-3.0-or-later | v0.8.0 (2026-10) | 2026-10-28 | active |
