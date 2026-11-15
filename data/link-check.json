@@ -1,41 +1,29 @@
 {
   "failing": {
-    "https://github.com/ZhenxianLi/rota-order/blob/main/src/rota/_prominence.py": {
+    "https://github.com/cclin99/iso532-1-rs": {
       "detail": "HTTP 404",
-      "since": "2026-11-01"
+      "since": "2026-11-15"
     },
-    "https://github.com/ZhenxianLi/rota-order/blob/main/src/rota/bridges/__init__.py": {
+    "https://github.com/cclin99/iso532-1-rs/blob/main/CHANGELOG.md": {
       "detail": "HTTP 404",
-      "since": "2026-11-01"
+      "since": "2026-11-15"
     },
-    "https://github.com/ZhenxianLi/rota-order/blob/main/src/rota/bridges/_common.py": {
+    "https://github.com/cclin99/iso532-1-rs/blob/main/CITATION.cff": {
       "detail": "HTTP 404",
-      "since": "2026-11-01"
+      "since": "2026-11-15"
     },
-    "https://github.com/ZhenxianLi/rota-order/blob/main/src/rota/bridges/mosqito.py": {
+    "https://github.com/cclin99/iso532-1-rs/blob/main/README.md": {
       "detail": "HTTP 404",
-      "since": "2026-11-01"
+      "since": "2026-11-15"
     },
-    "https://github.com/ZhenxianLi/rota-order/blob/main/src/rota/bridges/sottek_hearing_model.py": {
+    "https://github.com/cclin99/iso532-1-rs/blob/main/THIRD_PARTY_NOTICES.md": {
       "detail": "HTTP 404",
-      "since": "2026-11-01"
+      "since": "2026-11-15"
     },
-    "https://github.com/ZhenxianLi/rota-order/blob/main/src/rota/bridges/sqat.py": {
+    "https://github.com/cclin99/iso532-1-rs/blob/main/docs/ISO-ANNEXB-NUMERICAL-ERROR-2026-07-04.md": {
       "detail": "HTTP 404",
-      "since": "2026-11-01"
-    },
-    "https://github.com/jmrplens/phonometry/blob/main/src/phonometry/psychoacoustics/quality/fluctuation_strength.py": {
-      "detail": "HTTP 404",
-      "since": "2026-11-01"
-    },
-    "https://web.archive.org/web/20250709072252/https://acoustics.salford.ac.uk/psychoacoustics/sound-quality-making-products-sound-better/an-introduction-to-sound-quality-testing/matlab-codes/": {
-      "detail": "network error: timed out",
-      "since": "2026-11-01"
-    },
-    "https://www.ita-toolbox.org/": {
-      "detail": "network error: [Errno 111] Connection refused",
-      "since": "2026-11-01"
+      "since": "2026-11-15"
     }
   },
-  "generated": "2026-11-01T10:19:02Z"
+  "generated": "2026-11-15T07:54:26Z"
 }
