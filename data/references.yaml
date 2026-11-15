@@ -50,7 +50,7 @@
   date: 2017-06-15
   status: current
   superseded_by: iso-532-1-ed2-draft
-  revision: Under revision; the 2nd edition has been at committee-draft stage since 2024-11-01.
+  revision: Under revision; the 2nd edition was registered as ISO/DIS 532-1 (enquiry stage) on 2026-11-10.
   url: https://www.iso.org/standard/63077.html
   note: >-
     Stationary and time-varying methods. The Annex A program and Annex B test signals can be downloaded free
@@ -59,16 +59,19 @@
   checked: 2026-10-06
 
 - id: iso-532-1-ed2-draft
-  label: ISO/CD 532-1
+  label: ISO/DIS 532-1
   kind: draft
   body: ISO
-  title: "Acoustics — Methods for calculating loudness — Part 1: Zwicker method (2nd edition)"
-  edition: 2nd edition, committee draft
-  date: 2024-11
+  title: "Acoustics — Methods for calculating loudness — Part 1: Zwicker methods for stationary and non-stationary sounds"
+  edition: 2nd edition, draft International Standard
+  date: 2026-11-10
   status: in-development
+  revision: Stage 40.00 (DIS registered) since 2026-11-10, after stage 30.99 (CD approved for registration as DIS) from 2024-11-01.
   url: https://www.iso.org/standard/90809.html
-  note: Stage 30.99 (CD approved for registration as DIS) since 2024-11-01; not yet at DIS on 2026-09-30.
-  checked: 2026-10-06
+  note: >-
+    Registered as a DIS on 2026-11-10, with a new title, as ISO's project data show (mirrored by the
+    [Institute for Standardization of Serbia](https://iss.rs/en/project/show/iso:proj:90809)).
+  checked: 2026-11-15
 
 - id: moore-1997
   label: Moore, Glasberg & Baer (1997)
@@ -119,22 +122,28 @@
   date: 2017-06-26
   status: current
   superseded_by: iso-532-2-ed2-draft
-  revision: Under revision; the 2nd edition has been at committee-draft stage since 2024-11-01.
+  revision: Under revision; the 2nd edition was registered as ISO/DIS 532-2 (enquiry stage) in 2026.
   url: https://www.iso.org/standard/63078.html
   note: Stationary sounds, monaural or binaural. Source code is supplied with the standard as informative material.
   checked: 2026-10-06
 
 - id: iso-532-2-ed2-draft
-  label: ISO/CD 532-2
+  label: ISO/DIS 532-2
   kind: draft
   body: ISO
   title: "Acoustics — Methods for calculating loudness — Part 2: Moore-Glasberg method (2nd edition)"
-  edition: 2nd edition, committee draft
-  date: 2024-11
+  edition: 2nd edition, draft International Standard
+  date: 2026
   status: in-development
+  revision: >-
+    Stage 40.00 (DIS registered) in ISO's open data read on 2026-11-15, after stage 30.99 (CD approved for
+    registration as DIS) from 2024-11-01; the data read on 2026-10-06 still listed it as ISO/CD 532-2.
   url: https://www.iso.org/standard/90812.html
-  note: Stage 30.99 since 2024-11-01.
-  checked: 2026-10-06
+  note: >-
+    Registered as a DIS between 2026-10-06 and 2026-11-15, as ISO's
+    [open data](https://isopublicstorageprod.blob.core.windows.net/opendata/_latest/iso_deliverables_metadata/json/iso_deliverables_metadata.jsonl)
+    show (project 90812, 2nd edition); the exact date of the stage was not available.
+  checked: 2026-11-15
 
 - id: glasberg-moore-2002
   label: Glasberg & Moore (2002)
@@ -199,7 +208,7 @@
   date: 2023-07-13
   status: current
   superseded_by: iso-532-3-ed2-draft
-  revision: Under revision; the 2nd edition has been at committee-draft stage since 2024-11-01.
+  revision: Under revision; the 2nd edition was registered as ISO/DIS 532-3 (enquiry stage) in 2026.
   url: https://www.iso.org/standard/69856.html
   note: >-
     Stationary and time-varying sounds (speech, music, impulsive sounds), with binaural inhibition. Source
@@ -207,16 +216,22 @@
   checked: 2026-10-06
 
 - id: iso-532-3-ed2-draft
-  label: ISO/CD 532-3
+  label: ISO/DIS 532-3
   kind: draft
   body: ISO
   title: "Acoustics — Methods for calculating loudness — Part 3: Moore-Glasberg-Schlittenlacher method (2nd edition)"
-  edition: 2nd edition, committee draft
-  date: 2024-11
+  edition: 2nd edition, draft International Standard
+  date: 2026
   status: in-development
+  revision: >-
+    Stage 40.00 (DIS registered) in ISO's open data read on 2026-11-15, after stage 30.99 (CD approved for
+    registration as DIS) from 2024-11-01; the data read on 2026-10-06 still listed it as ISO/CD 532-3.
   url: https://www.iso.org/standard/90816.html
-  note: Stage 30.99 since 2024-11-01.
-  checked: 2026-10-06
+  note: >-
+    Registered as a DIS between 2026-10-06 and 2026-11-15, as ISO's
+    [open data](https://isopublicstorageprod.blob.core.windows.net/opendata/_latest/iso_deliverables_metadata/json/iso_deliverables_metadata.jsonl)
+    show (project 90816, 2nd edition); the exact date of the stage was not available.
+  checked: 2026-11-15
 
 # ------------------------------------------------------------------------------------- Ecma (SHM, TNR/PR)
 - id: ecma-74-ed17

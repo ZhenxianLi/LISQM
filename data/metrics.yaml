@@ -87,7 +87,7 @@ metrics:
       chalupper-fastl-2002: Dynamic loudness model built on Zwicker's model, also for hearing impairment (not standardised).
       din-45631-a1-2010: Adds the procedure for time-varying sounds.
       iso-532-1-2017: Stationary and time-varying procedures; Annex A reference program, Annex B test signals.
-      iso-532-1-ed2-draft: Second edition at committee-draft stage since November 2024.
+      iso-532-1-ed2-draft: Second edition, registered as a draft International Standard (DIS) in November 2026.
     see_also: [sharpness, loudness-ecma-418-2]
 
   - id: loudness-moore-glasberg
@@ -108,7 +108,7 @@ metrics:
       ansi-s3-4-2007: American standard based on the 1997 model with later modifications.
       chen-2011: Faster excitation-pattern calculation, also for hearing loss (not standardised).
       iso-532-2-2017: Monaural and binaural loudness of stationary sounds; source code supplied with the standard.
-      iso-532-2-ed2-draft: Second edition at committee-draft stage since November 2024.
+      iso-532-2-ed2-draft: Second edition, registered as a draft International Standard (DIS) in 2026.
     see_also: [loudness-moore-glasberg-time-varying]
 
   - id: loudness-moore-glasberg-time-varying
@@ -137,7 +137,7 @@ metrics:
       moore-2016: Adds binaural inhibition.
       moore-2018: Revised time constants.
       iso-532-3-2023: Standardised method; source code supplied with the standard.
-      iso-532-3-ed2-draft: Second edition at committee-draft stage since November 2024.
+      iso-532-3-ed2-draft: Second edition, registered as a draft International Standard (DIS) in 2026.
     see_also: [loudness-moore-glasberg]
 
   - id: loudness-ecma-418-2

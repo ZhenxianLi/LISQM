@@ -2,7 +2,7 @@
   "name": "LISQM",
   "full_name": "List of Implementations of Sound Quality Metrics",
   "tagline": "A List of Open-Source Implementations of Psychoacoustic and Sound Quality Metrics",
-  "version": "0.5.11",
+  "version": "0.5.12",
   "description": "A list of open-source implementations of psychoacoustic metrics, also called sound quality (SQ) metrics: loudness, sharpness, roughness, fluctuation strength, tonality, impulsiveness and psychoacoustic annoyance. Each implementation is listed under the standard edition or model it follows. All programming languages.",
   "url": "https://zhenxianli.github.io/LISQM/",
   "repository": "https://github.com/ZhenxianLi/LISQM",
@@ -153,7 +153,7 @@
         "chalupper-fastl-2002": "Dynamic loudness model built on Zwicker's model, also for hearing impairment (not standardised).",
         "din-45631-a1-2010": "Adds the procedure for time-varying sounds.",
         "iso-532-1-2017": "Stationary and time-varying procedures; Annex A reference program, Annex B test signals.",
-        "iso-532-1-ed2-draft": "Second edition at committee-draft stage since November 2024."
+        "iso-532-1-ed2-draft": "Second edition, registered as a draft International Standard (DIS) in November 2026."
       },
       "see_also": [
         "sharpness",
@@ -690,7 +690,7 @@
         "ansi-s3-4-2007": "American standard based on the 1997 model with later modifications.",
         "chen-2011": "Faster excitation-pattern calculation, also for hearing loss (not standardised).",
         "iso-532-2-2017": "Monaural and binaural loudness of stationary sounds; source code supplied with the standard.",
-        "iso-532-2-ed2-draft": "Second edition at committee-draft stage since November 2024."
+        "iso-532-2-ed2-draft": "Second edition, registered as a draft International Standard (DIS) in 2026."
       },
       "see_also": [
         "loudness-moore-glasberg-time-varying"
@@ -864,7 +864,7 @@
         "moore-2016": "Adds binaural inhibition.",
         "moore-2018": "Revised time constants.",
         "iso-532-3-2023": "Standardised method; source code supplied with the standard.",
-        "iso-532-3-ed2-draft": "Second edition at committee-draft stage since November 2024."
+        "iso-532-3-ed2-draft": "Second edition, registered as a draft International Standard (DIS) in 2026."
       },
       "see_also": [
         "loudness-moore-glasberg"
@@ -4028,23 +4028,24 @@
       "date": "2017-06-15",
       "status": "current",
       "superseded_by": "iso-532-1-ed2-draft",
-      "revision": "Under revision; the 2nd edition has been at committee-draft stage since 2024-11-01.",
+      "revision": "Under revision; the 2nd edition was registered as ISO/DIS 532-1 (enquiry stage) on 2026-11-10.",
       "url": "https://www.iso.org/standard/63077.html",
       "note": "Stationary and time-varying methods. The Annex A program and Annex B test signals can be downloaded free from [standards.iso.org](https://standards.iso.org/iso/532/-1/ed-1/en/), but ISO's licence only allows use in their original form, so they are not open source. Adopted in Germany as DIN ISO 532-1:2022-03.",
       "checked": "2026-10-06"
     },
     {
       "id": "iso-532-1-ed2-draft",
-      "label": "ISO/CD 532-1",
+      "label": "ISO/DIS 532-1",
       "kind": "draft",
       "body": "ISO",
-      "title": "Acoustics — Methods for calculating loudness — Part 1: Zwicker method (2nd edition)",
-      "edition": "2nd edition, committee draft",
-      "date": "2024-11",
+      "title": "Acoustics — Methods for calculating loudness — Part 1: Zwicker methods for stationary and non-stationary sounds",
+      "edition": "2nd edition, draft International Standard",
+      "date": "2026-11-10",
       "status": "in-development",
+      "revision": "Stage 40.00 (DIS registered) since 2026-11-10, after stage 30.99 (CD approved for registration as DIS) from 2024-11-01.",
       "url": "https://www.iso.org/standard/90809.html",
-      "note": "Stage 30.99 (CD approved for registration as DIS) since 2024-11-01; not yet at DIS on 2026-09-30.",
-      "checked": "2026-10-06"
+      "note": "Registered as a DIS on 2026-11-10, with a new title, as ISO's project data show (mirrored by the [Institute for Standardization of Serbia](https://iss.rs/en/project/show/iso:proj:90809)).",
+      "checked": "2026-11-15"
     },
     {
       "id": "moore-1997",
@@ -4092,23 +4093,24 @@
       "date": "2017-06-26",
       "status": "current",
       "superseded_by": "iso-532-2-ed2-draft",
-      "revision": "Under revision; the 2nd edition has been at committee-draft stage since 2024-11-01.",
+      "revision": "Under revision; the 2nd edition was registered as ISO/DIS 532-2 (enquiry stage) in 2026.",
       "url": "https://www.iso.org/standard/63078.html",
       "note": "Stationary sounds, monaural or binaural. Source code is supplied with the standard as informative material.",
       "checked": "2026-10-06"
     },
     {
       "id": "iso-532-2-ed2-draft",
-      "label": "ISO/CD 532-2",
+      "label": "ISO/DIS 532-2",
       "kind": "draft",
       "body": "ISO",
       "title": "Acoustics — Methods for calculating loudness — Part 2: Moore-Glasberg method (2nd edition)",
-      "edition": "2nd edition, committee draft",
-      "date": "2024-11",
+      "edition": "2nd edition, draft International Standard",
+      "date": 2026,
       "status": "in-development",
+      "revision": "Stage 40.00 (DIS registered) in ISO's open data read on 2026-11-15, after stage 30.99 (CD approved for registration as DIS) from 2024-11-01; the data read on 2026-10-06 still listed it as ISO/CD 532-2.",
       "url": "https://www.iso.org/standard/90812.html",
-      "note": "Stage 30.99 since 2024-11-01.",
-      "checked": "2026-10-06"
+      "note": "Registered as a DIS between 2026-10-06 and 2026-11-15, as ISO's [open data](https://isopublicstorageprod.blob.core.windows.net/opendata/_latest/iso_deliverables_metadata/json/iso_deliverables_metadata.jsonl) show (project 90812, 2nd edition); the exact date of the stage was not available.",
+      "checked": "2026-11-15"
     },
     {
       "id": "glasberg-moore-2002",
@@ -4168,23 +4170,24 @@
       "date": "2023-07-13",
       "status": "current",
       "superseded_by": "iso-532-3-ed2-draft",
-      "revision": "Under revision; the 2nd edition has been at committee-draft stage since 2024-11-01.",
+      "revision": "Under revision; the 2nd edition was registered as ISO/DIS 532-3 (enquiry stage) in 2026.",
       "url": "https://www.iso.org/standard/69856.html",
       "note": "Stationary and time-varying sounds (speech, music, impulsive sounds), with binaural inhibition. Source code is supplied with the standard as informative material.",
       "checked": "2026-10-06"
     },
     {
       "id": "iso-532-3-ed2-draft",
-      "label": "ISO/CD 532-3",
+      "label": "ISO/DIS 532-3",
       "kind": "draft",
       "body": "ISO",
       "title": "Acoustics — Methods for calculating loudness — Part 3: Moore-Glasberg-Schlittenlacher method (2nd edition)",
-      "edition": "2nd edition, committee draft",
-      "date": "2024-11",
+      "edition": "2nd edition, draft International Standard",
+      "date": 2026,
       "status": "in-development",
+      "revision": "Stage 40.00 (DIS registered) in ISO's open data read on 2026-11-15, after stage 30.99 (CD approved for registration as DIS) from 2024-11-01; the data read on 2026-10-06 still listed it as ISO/CD 532-3.",
       "url": "https://www.iso.org/standard/90816.html",
-      "note": "Stage 30.99 since 2024-11-01.",
-      "checked": "2026-10-06"
+      "note": "Registered as a DIS between 2026-10-06 and 2026-11-15, as ISO's [open data](https://isopublicstorageprod.blob.core.windows.net/opendata/_latest/iso_deliverables_metadata/json/iso_deliverables_metadata.jsonl) show (project 90816, 2nd edition); the exact date of the stage was not available.",
+      "checked": "2026-11-15"
     },
     {
       "id": "ecma-74-ed17",
@@ -9773,6 +9776,11 @@
     }
   ],
   "updates": [
+    {
+      "date": "2026-11-15",
+      "title": "Version 0.5.12: automated review",
+      "body": "Changes from the automated review of 2026-11-15:\n\n- The second edition of ISO 532-1 (Zwicker loudness) has moved from committee draft to draft International Standard, ISO/DIS 532-1, registered on 2026-11-10.\n- The second edition of ISO 532-2 (Moore–Glasberg loudness) has moved from committee draft to draft International Standard, ISO/DIS 532-2.\n- The second edition of ISO 532-3 (Moore–Glasberg–Schlittenlacher loudness) has reached the enquiry stage as ISO/DIS 532-3.\n"
+    },
     {
       "date": "2026-11-01",
       "title": "Version 0.5.11: PySQA Web added; computations not assigned to a listed model",

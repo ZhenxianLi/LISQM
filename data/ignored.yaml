@@ -277,3 +277,15 @@
     Download page for a Windows and macOS loudness-maximiser plug-in, with only a README and installer links to
     another site; no source code and no psychoacoustic metric.
   checked: 2026-11-01
+- url: https://github.com/Pedrom-GH/neural-psychoacoustic-metrics
+  reason: >-
+    Convolutional network that estimates stationary ISO 532-1 loudness and DIN 45692 sharpness from log-mel band
+    levels; it does not follow either procedure, and its training targets are computed by calling MoSQITo
+    (`loudness_zwst`, `sharpness_din_from_loudness`). A learned approximation of a listed project, not an
+    implementation of the metrics.
+  checked: 2026-11-15
+- url: https://github.com/modhopmfatlo-1940/Srs-Audio-Sandbox
+  reason: >-
+    Download page for a Windows audio enhancer (SRS Audio Sandbox), with only a README and installer links to
+    another site; no source code and no psychoacoustic metric.
+  checked: 2026-11-15

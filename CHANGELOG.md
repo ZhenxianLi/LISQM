@@ -2,6 +2,14 @@
 
 Notable changes to the list. This file is generated from `data/updates.yaml`; the same notes are on the website (https://zhenxianli.github.io/LISQM/updates.html) and in its Atom feed.
 
+## 2026-11-15: Version 0.5.12: automated review
+
+Changes from the automated review of 2026-11-15:
+
+- The second edition of ISO 532-1 (Zwicker loudness) has moved from committee draft to draft International Standard, ISO/DIS 532-1, registered on 2026-11-10.
+- The second edition of ISO 532-2 (Moore–Glasberg loudness) has moved from committee draft to draft International Standard, ISO/DIS 532-2.
+- The second edition of ISO 532-3 (Moore–Glasberg–Schlittenlacher loudness) has reached the enquiry stage as ISO/DIS 532-3.
+
 ## 2026-11-01: Version 0.5.11: PySQA Web added; computations not assigned to a listed model
 
 Changes from the automated review of 2026-11-01, and one new section of the project pages:
