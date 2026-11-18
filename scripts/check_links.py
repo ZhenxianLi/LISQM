@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Check the external links in the list data and report the ones that are broken.
 
-Every URL in data/projects/*.yaml, data/references.yaml, data/metrics.yaml, data/leads.yaml, data/updates.yaml
-and data/site.yaml is requested once (HEAD, then GET when HEAD fails), DOIs through https://doi.org/. A link is
+Every URL in data/projects/*.yaml (except those of projects listed as unavailable), data/references.yaml,
+data/metrics.yaml, data/leads.yaml, data/updates.yaml and data/site.yaml is requested once (HEAD, then GET when HEAD
+fails), DOIs through https://doi.org/. A link is
   - broken when the server answers 404 or 410, or its host name does not resolve: reported at once;
   - unreachable when it fails in another way (time-out, connection error, server error): reported only when it
     also failed in the previous run, so that a single network hiccup is not reported.
@@ -66,7 +67,10 @@ def collect(data_dir: Path = DATA_DIR) -> dict[str, list[str]]:
                 add(url, where)
 
     for path in sorted((data_dir / "projects").glob("*.yaml")):
-        walk(load_yaml(path), f"data/projects/{path.name}")
+        project = load_yaml(path)
+        if project.get("access") == "unavailable":
+            continue  # its repository is known to be gone for now; refresh.py says when it can be opened again
+        walk(project, f"data/projects/{path.name}")
     for name in FILES:
         path = data_dir / name
         if path.exists():

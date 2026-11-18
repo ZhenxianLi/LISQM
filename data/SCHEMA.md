@@ -129,7 +129,11 @@ cite:                                         # optional: how the project asks t
 maintainer_check: optional markdown           # the list maintainer's own observation, shown as such (sparingly)
 # access: restricted                          # only when the repository cannot be opened: the project is listed
 # access_note: optional markdown              #   under "status unknown" with access_note and claim (what it is
-# claim: markdown                             #   said to implement) instead of implements
+# claim: markdown                             #   said to implement) instead of implements. `restricted`: it needs a
+#                                             #   login; `unavailable`: it could be read before and cannot be opened
+#                                             #   now (it returns 404); the claim then says what its code did, the
+#                                             #   link check leaves its URLs out, and Refresh reports when it can be
+#                                             #   opened again
 implements:
   - metric: loudness-zwicker                  # a metric id
     reference: iso-532-1-2017                 # a reference id listed in that metric's references

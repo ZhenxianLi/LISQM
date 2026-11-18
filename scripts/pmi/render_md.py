@@ -7,7 +7,8 @@ from __future__ import annotations
 
 import re
 
-from .data import (ACCESS, GROUP_NAMES, GROUPS, IMPL_STATUS, IMPL_STATUS_LONG, KINDS, PROJECT_KINDS, REGISTRIES,
+from .data import (ACCESS, ACCESS_WORDS,
+                   GROUP_NAMES, GROUPS, IMPL_STATUS, IMPL_STATUS_LONG, KINDS, PROJECT_KINDS, REGISTRIES,
                    VALIDATION, VALIDATION_LONG, Index)
 from .describe import (COVERAGE_COLUMNS, GROUP_RULE, NEW_LABEL, activity_text, ai_guide, by_language, coverage, dedupe,
                        highlight_sentence, highlighted,
@@ -319,8 +320,8 @@ def metric_page(index: Index, m: dict) -> str:
 def project_page(index: Index, p: dict) -> str:
     lines = [f"# {p['name']}", "", _header(index, project_path(p)), ""]
     if p.get("access"):
-        lines += [f"**Status unknown.** {ACCESS[p['access']]} {oneline(p['access_note'])} What it implements has not "
-                  "been verified, so it is not listed under the metrics.", ""]
+        lines += [f"**Status unknown.** {ACCESS[p['access']]} {oneline(p['access_note'])} "
+                  f"{ACCESS_WORDS[p['access']][0]}", ""]
     if p["standing"] == "newly-released" and not p.get("access"):
         lines += [f"**Newly released project.** {standing_sentence(p)} Check its validation before relying on it.", ""]
     elif p["_group"] == "legacy":
@@ -364,8 +365,8 @@ def project_page(index: Index, p: dict) -> str:
     lines += [f"- **{k}:** {v}" for k, v in facts] + [""]
 
     if p.get("access"):
-        lines += ["## What it is said to implement", "", oneline(p["claim"]), "",
-                  "As described in the sources below; the code itself could not be checked.", ""]
+        _, heading, note = ACCESS_WORDS[p["access"]]
+        lines += [f"## {heading}", "", oneline(p["claim"]), "", note, ""]
     else:
         lines += ["## What it implements", ""]
         rows = [[_metric_link(index, i["_metric"]), _edition(index, i), _functions(i), IMPL_STATUS[i["status"]],

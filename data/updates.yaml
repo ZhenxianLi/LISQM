@@ -1,6 +1,13 @@
 # Dated notes shown on the Updates page, in the Atom feed and in CHANGELOG.md. Newest first.
 # Body: Markdown paragraphs and "- " bullet lists. See data/SCHEMA.md.
 
+- date: 2026-11-18
+  title: "Version 0.5.13: iso532-1-rs is under status unknown"
+  body: |
+    The repository of iso532-1-rs has returned "not found" since 2026-11-15; it could still be opened on 2026-11-01.
+    The entry is under *Status unknown* until it can be opened again, with what its code implemented then: ISO
+    532-1:2017 Zwicker loudness in Rust. It is no longer listed on the Zwicker loudness page for now.
+
 - date: 2026-11-15
   title: "Version 0.5.12: automated review"
   body: |

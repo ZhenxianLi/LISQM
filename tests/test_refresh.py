@@ -297,6 +297,21 @@ class ReportTest(unittest.TestCase):
         self.assertNotIn("Last commits", review)
         self.assertNotIn("archived", review)
 
+    def test_unavailable_project_is_reported_when_it_comes_back(self) -> None:
+        project = dict(PROJECT, access="unavailable")
+        gone = copy.deepcopy(EXPECTED_ENTRY)
+        gone["errors"] = ["GitHub: HTTP 404 Not Found (https://api.github.com/repos/huaaudio/metasona)"]
+        # Still gone: expected, nothing to review.
+        review = refresh.render_review({"projects": {"metasona": gone}}, {"projects": {"metasona": gone}}, [project],
+                                       ["metasona"])
+        self.assertTrue(review.startswith("Nothing in the repository and package metadata needs a person"), review)
+        # Back: one item that asks for the entry to be restored.
+        review = refresh.render_review({"projects": {"metasona": gone}},
+                                       {"projects": {"metasona": copy.deepcopy(EXPECTED_ENTRY)}}, [project],
+                                       ["metasona"])
+        self.assertTrue(review.startswith("1 item in the repository"), review)
+        self.assertIn("its repository can be opened again; check it and restore the entry", review)
+
     def test_routine_changes_need_no_review(self) -> None:
         old = copy.deepcopy(EXPECTED_ENTRY)
         old["github"].update(last_commit="2026-09-01",

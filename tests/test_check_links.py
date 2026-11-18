@@ -46,6 +46,13 @@ class CollectTest(unittest.TestCase):
             "https://example.org/plain", "https://github.com/example/demo/blob/main/README.md"])
         self.assertEqual(found["https://example.org/plain"], ["data/projects/demo.yaml", "data/references.yaml"])
 
+    def test_unavailable_projects_are_left_out(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            data = Path(tmp)
+            (data / "projects").mkdir()
+            (data / "projects" / "demo.yaml").write_text(PROJECT + "access: unavailable\n", encoding="utf-8")
+            self.assertEqual(check_links.collect(data), {})
+
     def test_the_real_data_has_links(self) -> None:
         found = check_links.collect()
         self.assertIn("https://github.com/ggrecow/SQAT", found)

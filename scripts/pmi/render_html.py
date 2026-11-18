@@ -13,7 +13,8 @@ import json
 import re
 from pathlib import Path
 
-from .data import (ACCESS, GROUP_NAMES, GROUPS, IMPL_STATUS, IMPL_STATUS_LONG, KINDS, PROJECT_KINDS, REGISTRIES,
+from .data import (ACCESS, ACCESS_WORDS,
+                   GROUP_NAMES, GROUPS, IMPL_STATUS, IMPL_STATUS_LONG, KINDS, PROJECT_KINDS, REGISTRIES,
                    VALIDATION, VALIDATION_LONG, VERIFICATION_META, Index, only_new, update_anchor)
 from .describe import (COVERAGE_COLUMNS, GROUP_RULE, ONLY_NEW, activity_text, ai_guide, by_language, coverage,
                        highlight_sentence, highlighted,
@@ -999,8 +1000,7 @@ def project_page(index: Index, p: dict) -> str:
     ]
     if p.get("access"):
         parts.append(f'<p class="notice notice-info"><strong>Status unknown.</strong> {esc(ACCESS[p["access"]])} '
-                     f'{inline(p["access_note"])} What it implements has not been verified, so it is not listed '
-                     "under the metrics.</p>")
+                     f'{inline(p["access_note"])} {esc(ACCESS_WORDS[p["access"]][0])}</p>')
     if p["_others"]:
         callee = join_words([_project_link(path, q) for q in {i["_via"]["id"]: i["_via"] for i in p["_impls"]}.values()])
         parts.append(f'<p class="notice notice-info"><strong>Listed under Others.</strong> It does not compute the '
@@ -1015,10 +1015,10 @@ def project_page(index: Index, p: dict) -> str:
     parts.append('<table class="facts"><tbody>' + "".join(f'<tr><th scope="row">{k}</th><td>{v}</td></tr>'
                                                          for k, v in facts) + "</tbody></table>")
     if p.get("access"):
-        parts.append('<h2 id="claim">What it is said to implement</h2>')
+        _, heading, note = ACCESS_WORDS[p["access"]]
+        parts.append(f'<h2 id="claim">{esc(heading)}</h2>')
         parts.append(f"<p>{inline(p['claim'])}</p>")
-        parts.append('<p class="small muted">As described in the sources below; the code itself could not be '
-                     "checked.</p>")
+        parts.append(f'<p class="small muted">{esc(note)}</p>')
     else:
         parts.append('<h2 id="implements">What it implements</h2>')
         ids = _validation_ids(p["_impls"], lambda i: i["metric"])

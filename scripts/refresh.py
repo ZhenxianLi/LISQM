@@ -320,7 +320,8 @@ def render_review(previous: dict[str, Any], current: dict[str, Any], projects: l
     and is committed without review. A person is needed when a repository moved or its licence changed (both are
     written by hand in the project file), when a project that has unreleased or proposed implementations
     publishes a release (their status may now be "available"), and when a fetch fails twice in a row (a single
-    failure is often temporary).
+    failure is often temporary). For a project listed as unavailable (`access: unavailable`, its repository could
+    not be opened), failures are expected; a person is needed when its repository can be opened again.
     """
     by_id = {project["id"]: project for project in projects}
     items: list[str] = []
@@ -341,7 +342,12 @@ def render_review(previous: dict[str, Any], current: dict[str, Any], projects: l
         if repo and github and github["full_name"].lower() != "/".join(repo).lower():
             items.append(f"- {label}: `{'/'.join(repo)}` is now [{github['full_name']}]"
                          f"(https://github.com/{github['full_name']}); update `repository` in {where}")
-        if new["errors"] and old.get("errors"):
+        if project.get("access") == "unavailable":
+            if repo and not new["errors"]:
+                items.append(f"- {label}: its repository can be opened again; check it and restore the entry in "
+                             f"{where} (remove `access`, `access_note` and `claim`, and bring back `implements` "
+                             "from the git history)")
+        elif new["errors"] and old.get("errors"):
             items += [f"- {label}: failed twice in a row: {md_text(error, limit=500)}" for error in new["errors"]]
     if not items:
         return (f"Nothing in the repository and package metadata needs a person "

@@ -7,6 +7,16 @@ core: Rust
 language_note: >-
   It has a C ABI and a Python module built with PyO3 and maturin. Neither the crate nor the Python module is
   published, so both are built from the repository.
+access: unavailable
+access_note: >-
+  Since 2026-11-15 the repository returns "not found" (HTTP 404) and cannot be cloned. It could still be opened on
+  2026-11-01, the date of its last commit. Whether it was removed, made private or is being reworked is not known;
+  the entry returns to its group, with what it implements, when the repository can be opened again.
+claim: >-
+  Its code, read for this list on 2026-10-06, implemented ISO 532-1:2017 Zwicker loudness in Rust: stationary,
+  time-varying and streaming (`loudness_zwst`, `loudness_zwtv`, `ZwtvStream`), with a C ABI and a Python module.
+  It compared its results with MoSQITo 1.2.1 (worst reported difference 1.3e-9) and with the Annex B signals of
+  ISO 532-1.
 standing: newly-released
 standing_note: First version tagged in July 2026.
 license: Apache-2.0
@@ -32,24 +42,6 @@ caveats:
   - >-
     The MoSQITo golden data and the ISO Annex B fixtures are gitignored and must be regenerated locally; the README
     says "Hosted CI does not by itself prove the local MoSQITo/Annex B golden chain".
-implements:
-  - metric: loudness-zwicker
-    reference: iso-532-1-2017
-    functions: [loudness_zwst, loudness_zwtv, ZwtvStream]
-    scope: stationary, time-varying and streaming
-    status: available
-    since: 0.1.0
-    validation: standard-data
-    compared_with: [mosqito]
-    validation_details:
-      - Parity tests with MoSQITo 1.2.1 on nine synthetic and Annex B signals (worst reported difference 1.3e-9).
-      - >-
-        Checked separately against ISO 532-1 Annex B: the README reports stationary offsets of about +0.82 % and −0.76
-        % for signals 3 and 5, inside the standard's tolerance, and details signals 3, 5 and 10 in
-        docs/ISO-ANNEXB-NUMERICAL-ERROR-2026-07-04.md.
-    note: >-
-      Python uses the same names (`iso532.loudness_zwst` …); the C API has `iso532_loudness_zwst`,
-      `iso532_loudness_zwtv` and `iso532_stream_*`.
 cite:
   cff: https://github.com/cclin99/iso532-1-rs/blob/main/CITATION.cff
 manual:
@@ -62,4 +54,4 @@ sources:
   - https://github.com/cclin99/iso532-1-rs/blob/main/CHANGELOG.md
   - https://github.com/cclin99/iso532-1-rs/blob/main/THIRD_PARTY_NOTICES.md
   - https://github.com/cclin99/iso532-1-rs/blob/main/docs/ISO-ANNEXB-NUMERICAL-ERROR-2026-07-04.md
-checked: 2026-10-06
+checked: 2026-11-18

@@ -540,15 +540,23 @@ class BuildTest(unittest.TestCase):
         self.assertIn('href="references.bib"', standards)
 
     def test_status_unknown(self) -> None:
-        self.assertEqual([p["id"] for p in self.index.group("unknown")], ["psytools"])
+        self.assertEqual([p["id"] for p in self.index.group("unknown")], ["iso532-1-rs", "psytools"])
         page = (self.site / "projects/psytools.html").read_text(encoding="utf-8")
-        self.assertIn("<strong>Status unknown.</strong>", page)
+        self.assertIn("<strong>Status unknown.</strong> The repository cannot be opened without a login.", page)
+        self.assertIn('<h2 id="claim">What it is said to implement</h2>', page)
         self.assertNotIn("Newly released project.", page)
+        # A repository that could be read before and cannot be opened now: what its code did then.
+        page = (self.site / "projects/iso532-1-rs.html").read_text(encoding="utf-8")
+        self.assertIn("<strong>Status unknown.</strong> The repository cannot be opened at present.", page)
+        self.assertIn("What it implemented cannot be checked now, so it is not listed under the metrics.", page)
+        self.assertIn('<h2 id="claim">What it implemented when it could last be opened</h2>', page)
+        self.assertNotIn("could not be checked", page)
         projects = (self.site / "projects/index.html").read_text(encoding="utf-8")
         self.assertLess(projects.index('id="others"'), projects.index('id="unknown"'))
         for m in self.index.metrics:
             html = (self.site / "metrics" / f"{m['id']}.html").read_text(encoding="utf-8")
             self.assertNotIn("projects/psytools.html", html, m["id"])
+            self.assertNotIn("projects/iso532-1-rs.html", html, m["id"])
 
     def test_message_box_and_ai_page(self) -> None:
         faq = (self.site / "faq.html").read_text(encoding="utf-8")
@@ -593,7 +601,7 @@ class BuildTest(unittest.TestCase):
         # Sources stand on the left of every line, also for run-time use and comparisons.
         self.assertEqual(kinds[("mosqito", "psychobox")], "uses")
         self.assertEqual(kinds[("zwickerloudness-jl", "psychoacousticmetrics-jl")], "uses")
-        self.assertEqual(kinds[("mosqito", "iso532-1-rs")], "compare")
+        self.assertEqual(kinds[("mosqito", "rota-order")], "compare")
         # A check points from the project to the one it checked its results against (A's results checked against B).
         edges = [e for e in RL.dot_source(self.index, rel, "projects/map.html", LANG_CODES).splitlines() if " -> " in e]
         self.assertTrue(edges)
@@ -940,8 +948,8 @@ class BuildTest(unittest.TestCase):
             conventions[:] = saved
         self.assertEqual(self.index.validate(), [])
         words = (self.site / "projects/map.html").read_text(encoding="utf-8")
-        self.assertIn('Left out, as their code could not be opened: <a href="../projects/psytools.html">PsyTools',
-                      words)
+        self.assertIn('Left out, as their code could not be opened: <a href="../projects/iso532-1-rs.html">iso532-1-rs'
+                      '</a> and <a href="../projects/psytools.html">PsyTools', words)
 
     def test_standards_in_force_look_current(self) -> None:
         # A national standard in force (DIN 45631, ANSI S3.4, NT ACOU 112) has its own scope beside the ISO one: it

@@ -116,7 +116,17 @@ VERIFICATION_META = {"google": "google-site-verification", "bing": "msvalidate.0
 GROUP_NAMES = {"established": "established", "developing": "developing", "newly-released": "newly released",
                "legacy": "legacy", "others": "other", "unknown": "status unknown"}
 # Why a project's code cannot be checked (`access` in its file); such a project is in the group "unknown".
-ACCESS = {"restricted": "The repository cannot be opened without a login."}
+ACCESS = {"restricted": "The repository cannot be opened without a login.",
+          "unavailable": "The repository cannot be opened at present."}
+# For each kind of access: the end of the notice on the project page, and the heading and the note of its claim.
+ACCESS_WORDS = {
+    "restricted": ("What it implements has not been verified, so it is not listed under the metrics.",
+                   "What it is said to implement", "As described in the sources below; the code itself could not be "
+                   "checked."),
+    "unavailable": ("What it implemented cannot be checked now, so it is not listed under the metrics.",
+                    "What it implemented when it could last be opened", "As recorded from its code when the "
+                    "repository could last be opened; it cannot be checked now."),
+}
 ACTIVITY_ORDER = {"active": 0, "unknown": 1, "inactive": 2, "archived": 3}
 
 

@@ -2,6 +2,12 @@
 
 Notable changes to the list. This file is generated from `data/updates.yaml`; the same notes are on the website (https://zhenxianli.github.io/LISQM/updates.html) and in its Atom feed.
 
+## 2026-11-18: Version 0.5.13: iso532-1-rs is under status unknown
+
+The repository of iso532-1-rs has returned "not found" since 2026-11-15; it could still be opened on 2026-11-01.
+The entry is under *Status unknown* until it can be opened again, with what its code implemented then: ISO
+532-1:2017 Zwicker loudness in Rust. It is no longer listed on the Zwicker loudness page for now.
+
 ## 2026-11-15: Version 0.5.12: automated review
 
 Changes from the automated review of 2026-11-15:

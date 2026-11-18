@@ -2,7 +2,7 @@
   "name": "LISQM",
   "full_name": "List of Implementations of Sound Quality Metrics",
   "tagline": "A List of Open-Source Implementations of Psychoacoustic and Sound Quality Metrics",
-  "version": "0.5.12",
+  "version": "0.5.13",
   "description": "A list of open-source implementations of psychoacoustic metrics, also called sound quality (SQ) metrics: loudness, sharpness, roughness, fluctuation strength, tonality, impulsiveness and psychoacoustic annoyance. Each implementation is listed under the standard edition or model it follows. All programming languages.",
   "url": "https://zhenxianli.github.io/LISQM/",
   "repository": "https://github.com/ZhenxianLi/LISQM",
@@ -14,7 +14,7 @@
     "github": "ZhenxianLi"
   },
   "credit": "Developed by Zhenxian LI with assistance from Claude Code.",
-  "as_of": "2026-11-15",
+  "as_of": "2026-11-18",
   "schema": "https://github.com/ZhenxianLi/LISQM/blob/main/data/SCHEMA.md",
   "counts": {
     "metrics": 22,
@@ -56,7 +56,8 @@
       "not-stated": "The project does not say how it was validated."
     },
     "access": {
-      "restricted": "The repository cannot be opened without a login."
+      "restricted": "The repository cannot be opened without a login.",
+      "unavailable": "The repository cannot be opened at present."
     },
     "comparison_relations": {
       "source": "the compared project is the code this implementation was ported from (or that code's own source)",
@@ -310,27 +311,6 @@
           "comparison_relations": {
             "mosqito": "source"
           }
-        },
-        {
-          "project": "iso532-1-rs",
-          "reference": "iso-532-1-2017",
-          "functions": [
-            "loudness_zwst",
-            "loudness_zwtv",
-            "ZwtvStream"
-          ],
-          "scope": "stationary, time-varying and streaming",
-          "status": "available",
-          "since": "0.1.0",
-          "validation": "standard-data",
-          "compared_with": [
-            "mosqito"
-          ],
-          "validation_details": [
-            "Parity tests with MoSQITo 1.2.1 on nine synthetic and Annex B signals (worst reported difference 1.3e-9).",
-            "Checked separately against ISO 532-1 Annex B: the README reports stationary offsets of about +0.82 % and −0.76 % for signals 3 and 5, inside the standard's tolerance, and details signals 3, 5 and 10 in docs/ISO-ANNEXB-NUMERICAL-ERROR-2026-07-04.md."
-          ],
-          "note": "Python uses the same names (`iso532.loudness_zwst` …); the C API has `iso532_loudness_zwst`, `iso532_loudness_zwtv` and `iso532_stream_*`."
         },
         {
           "project": "kirin-hypha",
@@ -6585,82 +6565,6 @@
       "group": "newly-released"
     },
     {
-      "id": "iso532-1-rs",
-      "name": "iso532-1-rs",
-      "repository": "https://github.com/cclin99/iso532-1-rs",
-      "languages": [
-        "Rust",
-        "C",
-        "Python"
-      ],
-      "kind": "library",
-      "core": "Rust",
-      "language_note": "It has a C ABI and a Python module built with PyO3 and maturin. Neither the crate nor the Python module is published, so both are built from the repository.",
-      "standing": "newly-released",
-      "standing_note": "First version tagged in July 2026.",
-      "license": "Apache-2.0",
-      "maintainers": [
-        "cclin99"
-      ],
-      "summary": "Rust engine (README title \"ISO532\") for ISO 532-1:2017 Zwicker loudness: stationary, time-varying and a streaming interface, with a C ABI and a Python binding (PyO3/maturin). Only ISO 532-1 loudness is implemented.",
-      "ai_assistance": "disclosed",
-      "ai_note": "The README describes \"An AI-assisted Rust engine\" developed \"through human-directed AI collaboration\"; 16 commits from July 2026 carry Claude co-author lines, and the repository contains Codex agent configuration.",
-      "notes": [
-        "Not published on crates.io or PyPI (the crate and the Python module are named `iso532`). Version 0.1.0 exists as a git tag of 2026-07-19 and in CHANGELOG.md and CITATION.cff; there is no GitHub release.",
-        "MoSQITo 1.2.1 is the reference implementation, credited in THIRD_PARTY_NOTICES.md; the stationary front end follows MoSQITo's `noct_spectrum` path.",
-        "Expects calibrated pressure in pascals at 48 kHz. The stream outputs sone, phon and status flags on a 2 ms grid and marks the first 580 frames as warm-up."
-      ],
-      "caveats": [
-        "The MoSQITo golden data and the ISO Annex B fixtures are gitignored and must be regenerated locally; the README says \"Hosted CI does not by itself prove the local MoSQITo/Annex B golden chain\"."
-      ],
-      "implements": [
-        {
-          "metric": "loudness-zwicker",
-          "reference": "iso-532-1-2017",
-          "functions": [
-            "loudness_zwst",
-            "loudness_zwtv",
-            "ZwtvStream"
-          ],
-          "scope": "stationary, time-varying and streaming",
-          "status": "available",
-          "since": "0.1.0",
-          "validation": "standard-data",
-          "compared_with": [
-            "mosqito"
-          ],
-          "validation_details": [
-            "Parity tests with MoSQITo 1.2.1 on nine synthetic and Annex B signals (worst reported difference 1.3e-9).",
-            "Checked separately against ISO 532-1 Annex B: the README reports stationary offsets of about +0.82 % and −0.76 % for signals 3 and 5, inside the standard's tolerance, and details signals 3, 5 and 10 in docs/ISO-ANNEXB-NUMERICAL-ERROR-2026-07-04.md."
-          ],
-          "note": "Python uses the same names (`iso532.loudness_zwst` …); the C API has `iso532_loudness_zwst`, `iso532_loudness_zwtv` and `iso532_stream_*`."
-        }
-      ],
-      "cite": {
-        "cff": "https://github.com/cclin99/iso532-1-rs/blob/main/CITATION.cff"
-      },
-      "sources": [
-        "https://github.com/cclin99/iso532-1-rs",
-        "https://github.com/cclin99/iso532-1-rs/blob/main/README.md",
-        "https://github.com/cclin99/iso532-1-rs/blob/main/CHANGELOG.md",
-        "https://github.com/cclin99/iso532-1-rs/blob/main/THIRD_PARTY_NOTICES.md",
-        "https://github.com/cclin99/iso532-1-rs/blob/main/docs/ISO-ANNEXB-NUMERICAL-ERROR-2026-07-04.md"
-      ],
-      "checked": "2026-10-06",
-      "url": "https://zhenxianli.github.io/LISQM/projects/iso532-1-rs.html",
-      "last_commit": "2026-11-01",
-      "latest_release": {
-        "version": "0.1.0",
-        "date": "2026-07-19",
-        "source": ""
-      },
-      "prerelease": null,
-      "activity": "active",
-      "archived": false,
-      "stars": 1,
-      "group": "newly-released"
-    },
-    {
       "id": "kirin-hypha",
       "name": "Kirin Hypha",
       "repository": "https://github.com/heyalohaloha/kirin_hypha",
@@ -9701,6 +9605,62 @@
       ]
     },
     {
+      "id": "iso532-1-rs",
+      "name": "iso532-1-rs",
+      "repository": "https://github.com/cclin99/iso532-1-rs",
+      "languages": [
+        "Rust",
+        "C",
+        "Python"
+      ],
+      "kind": "library",
+      "core": "Rust",
+      "language_note": "It has a C ABI and a Python module built with PyO3 and maturin. Neither the crate nor the Python module is published, so both are built from the repository.",
+      "access": "unavailable",
+      "access_note": "Since 2026-11-15 the repository returns \"not found\" (HTTP 404) and cannot be cloned. It could still be opened on 2026-11-01, the date of its last commit. Whether it was removed, made private or is being reworked is not known; the entry returns to its group, with what it implements, when the repository can be opened again.",
+      "claim": "Its code, read for this list on 2026-10-06, implemented ISO 532-1:2017 Zwicker loudness in Rust: stationary, time-varying and streaming (`loudness_zwst`, `loudness_zwtv`, `ZwtvStream`), with a C ABI and a Python module. It compared its results with MoSQITo 1.2.1 (worst reported difference 1.3e-9) and with the Annex B signals of ISO 532-1.",
+      "standing": "newly-released",
+      "standing_note": "First version tagged in July 2026.",
+      "license": "Apache-2.0",
+      "maintainers": [
+        "cclin99"
+      ],
+      "summary": "Rust engine (README title \"ISO532\") for ISO 532-1:2017 Zwicker loudness: stationary, time-varying and a streaming interface, with a C ABI and a Python binding (PyO3/maturin). Only ISO 532-1 loudness is implemented.",
+      "ai_assistance": "disclosed",
+      "ai_note": "The README describes \"An AI-assisted Rust engine\" developed \"through human-directed AI collaboration\"; 16 commits from July 2026 carry Claude co-author lines, and the repository contains Codex agent configuration.",
+      "notes": [
+        "Not published on crates.io or PyPI (the crate and the Python module are named `iso532`). Version 0.1.0 exists as a git tag of 2026-07-19 and in CHANGELOG.md and CITATION.cff; there is no GitHub release.",
+        "MoSQITo 1.2.1 is the reference implementation, credited in THIRD_PARTY_NOTICES.md; the stationary front end follows MoSQITo's `noct_spectrum` path.",
+        "Expects calibrated pressure in pascals at 48 kHz. The stream outputs sone, phon and status flags on a 2 ms grid and marks the first 580 frames as warm-up."
+      ],
+      "caveats": [
+        "The MoSQITo golden data and the ISO Annex B fixtures are gitignored and must be regenerated locally; the README says \"Hosted CI does not by itself prove the local MoSQITo/Annex B golden chain\"."
+      ],
+      "cite": {
+        "cff": "https://github.com/cclin99/iso532-1-rs/blob/main/CITATION.cff"
+      },
+      "sources": [
+        "https://github.com/cclin99/iso532-1-rs",
+        "https://github.com/cclin99/iso532-1-rs/blob/main/README.md",
+        "https://github.com/cclin99/iso532-1-rs/blob/main/CHANGELOG.md",
+        "https://github.com/cclin99/iso532-1-rs/blob/main/THIRD_PARTY_NOTICES.md",
+        "https://github.com/cclin99/iso532-1-rs/blob/main/docs/ISO-ANNEXB-NUMERICAL-ERROR-2026-07-04.md"
+      ],
+      "checked": "2026-11-18",
+      "url": "https://zhenxianli.github.io/LISQM/projects/iso532-1-rs.html",
+      "last_commit": "2026-11-01",
+      "latest_release": {
+        "version": "0.1.0",
+        "date": "2026-07-19",
+        "source": ""
+      },
+      "prerelease": null,
+      "activity": "active",
+      "archived": false,
+      "stars": 1,
+      "group": "unknown"
+    },
+    {
       "id": "psytools",
       "name": "PsyTools",
       "repository": "https://gitlab.tugraz.at/11F34386B3DC1474/psytools",
@@ -9776,6 +9736,11 @@
     }
   ],
   "updates": [
+    {
+      "date": "2026-11-18",
+      "title": "Version 0.5.13: iso532-1-rs is under status unknown",
+      "body": "The repository of iso532-1-rs has returned \"not found\" since 2026-11-15; it could still be opened on 2026-11-01.\nThe entry is under *Status unknown* until it can be opened again, with what its code implemented then: ISO\n532-1:2017 Zwicker loudness in Rust. It is no longer listed on the Zwicker loudness page for now.\n"
+    },
     {
       "date": "2026-11-15",
       "title": "Version 0.5.12: automated review",
