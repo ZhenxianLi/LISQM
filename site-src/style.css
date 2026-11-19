@@ -230,7 +230,9 @@ body {
   flex-direction: column;
 }
 
+/* The name is set in the serif of the text, unlike the rest of the masthead (the owner's choice). */
 .brand-name {
+  font-family: var(--serif);
   font-size: 1.6rem;
   font-weight: 700;
   line-height: 1.1;
