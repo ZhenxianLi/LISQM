@@ -101,7 +101,7 @@ jobs:
           gh api --paginate "repos/$GH_REPO/issues/$number/comments" \
             --jq '.[] | select(.user.login == "github-actions[bot]" and (.body | contains("<!-- review-agent"))) | .body' \
             > "$RUNNER_TEMP/automated.md"
-          awk '/^Automated work on /{text=""} {text=text $0 "\n"} END{printf "%s", text}' "$RUNNER_TEMP/automated.md" \
+          awk '/^(Automated work|Work) on /{text=""} {text=text $0 "\n"} END{printf "%s", text}' "$RUNNER_TEMP/automated.md" \
             > "$RUNNER_TEMP/last-report.md"
           sha=$(sha256sum "$RUNNER_TEMP/issue.md" | cut -d' ' -f1)
           if [ "$GITHUB_EVENT_NAME" != "issue_comment" ] && [ "$FORCE" != "true" ] \
@@ -235,8 +235,10 @@ jobs:
           python - "$REPORT" > "$RUNNER_TEMP/message.txt" <<'EOF'
           import json, sys
           report = json.load(open(sys.argv[1], encoding="utf-8"))
-          version = f" (version {report['version']})" if report.get("version") else ""
-          print(f"Automated review of {report['date']}{version}\n")
+          if report.get("version"):
+              print(f"Version {report['version']}: {report.get('update_title') or 'entries updated from their sources'}\n")
+          else:
+              print(f"Review of {report['date']}\n")
           for item in report["items"]:
               if item.get("outcome") == "changed":
                   print("- " + " ".join(str(item.get("summary") or "").split())[:300])

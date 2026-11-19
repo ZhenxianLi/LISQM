@@ -9743,13 +9743,13 @@
     },
     {
       "date": "2026-11-15",
-      "title": "Version 0.5.12: automated review",
-      "body": "Changes from the automated review of 2026-11-15:\n\n- The second edition of ISO 532-1 (Zwicker loudness) has moved from committee draft to draft International Standard, ISO/DIS 532-1, registered on 2026-11-10.\n- The second edition of ISO 532-2 (Moore–Glasberg loudness) has moved from committee draft to draft International Standard, ISO/DIS 532-2.\n- The second edition of ISO 532-3 (Moore–Glasberg–Schlittenlacher loudness) has reached the enquiry stage as ISO/DIS 532-3.\n"
+      "title": "Version 0.5.12: ISO 532 parts 1 to 3 reach the DIS stage",
+      "body": "- The second edition of ISO 532-1 (Zwicker loudness) has moved from committee draft to draft International Standard, ISO/DIS 532-1, registered on 2026-11-10.\n- The second edition of ISO 532-2 (Moore–Glasberg loudness) has moved from committee draft to draft International Standard, ISO/DIS 532-2.\n- The second edition of ISO 532-3 (Moore–Glasberg–Schlittenlacher loudness) has reached the enquiry stage as ISO/DIS 532-3.\n"
     },
     {
       "date": "2026-11-01",
       "title": "Version 0.5.11: PySQA Web added; computations not assigned to a listed model",
-      "body": "Changes from the automated review of 2026-11-01, and one new section of the project pages:\n\n- Added PySQA Web, a new web application for sound quality analysis that computes ECMA-418-2 tonality and\n  loudness with adapted sottek-hearing-model code and calls MoSQITo and sottek-hearing-model for its other\n  metrics.\n- A project page can now list what a project computes without filing it under a model or edition of the list,\n  under \"Not assigned to a listed model\". PySQA Web's fluctuation strength is the first: its README calls it\n  \"D&W\", its code \"after Zwicker & Fastl\", its documentation an in-house model; the page says so, and the\n  metric pages do not count it.\n- phonometry: the link to its fluctuation-strength source file now points to the file's new path.\n- rota-order: links and function names updated for its version 0.8.0, which renamed the Python package from\n  `rota` to `rota_order`.\n"
+      "body": "- Added PySQA Web, a new web application for sound quality analysis that computes ECMA-418-2 tonality and\n  loudness with adapted sottek-hearing-model code and calls MoSQITo and sottek-hearing-model for its other\n  metrics.\n- A project page can now list what a project computes without filing it under a model or edition of the list,\n  under \"Not assigned to a listed model\". PySQA Web's fluctuation strength is the first: its README calls it\n  \"D&W\", its code \"after Zwicker & Fastl\", its documentation an in-house model; the page says so, and the\n  metric pages do not count it.\n- phonometry: the link to its fluctuation-strength source file now points to the file's new path.\n- rota-order: links and function names updated for its version 0.8.0, which renamed the Python package from\n  `rota` to `rota_order`.\n"
     },
     {
       "date": "2026-10-27",

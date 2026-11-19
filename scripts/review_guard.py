@@ -42,6 +42,9 @@ OWNER_FIELDS = ("super_project", "highlight", "rank")
 EMAIL = re.compile(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}")
 MAX_ADDED_LINES = 3000
 OUTCOMES = ("changed", "no_change", "needs_owner", "unreachable", "failed")
+# The title of a dated update note says what changed, never how (the owner's wish).
+TITLE_FALLBACK = "entries updated from their sources"
+TITLE_WORDS = re.compile(r"automat|\breview|\bclaude\b|\bai\b|\bllm\b|\bagent", re.I)
 MARKER = "<!-- review-agent body={sha} -->"
 
 
@@ -78,10 +81,10 @@ def check(root: Path = REPO_ROOT) -> list[str]:
     problems = []
     for status, path in changes(root):
         if not ALLOWED.fullmatch(path):
-            problems.append(f"{path}: only data files may change in an automated review")
+            problems.append(f"{path}: only data files may change here")
             continue
         if "D" in status or "R" in status or "C" in status:
-            problems.append(f"{path}: files are not deleted or renamed in an automated review")
+            problems.append(f"{path}: files are not deleted or renamed here")
             continue
         try:
             new = yaml.safe_load((root / path).read_text(encoding="utf-8"))
@@ -117,11 +120,21 @@ def check(root: Path = REPO_ROOT) -> list[str]:
         if EMAIL.search(line):
             problems.append(f"an added line carries an e-mail address: {line.strip()[:120]}")
     if len(added) > MAX_ADDED_LINES:
-        problems.append(f"{len(added)} added lines, more than the {MAX_ADDED_LINES} an automated review may add")
+        problems.append(f"{len(added)} added lines, more than the {MAX_ADDED_LINES} allowed in one go")
     return problems
 
 
-def bump_version(root: Path, day: str, notes: list[str]) -> str:
+def clean_title(text: Any) -> str | None:
+    """A proposed title for an update note, made safe for data/updates.yaml; None when it is unusable."""
+    lines = str(text or "").strip().splitlines()
+    title = " ".join(lines[0].split()).strip(" \"'.`*") if lines else ""
+    title = title.replace('"', "'").replace("\\", "")
+    if not 3 <= len(title) <= 80 or TITLE_WORDS.search(title):
+        return None
+    return title
+
+
+def bump_version(root: Path, day: str, notes: list[str], title: str = TITLE_FALLBACK) -> str:
     """Raise the third number of the version and add a dated update note listing `notes`; return the version."""
     site = root / "data" / "site.yaml"
     text = site.read_text(encoding="utf-8")
@@ -139,8 +152,7 @@ def bump_version(root: Path, day: str, notes: list[str]) -> str:
     updates = root / "data" / "updates.yaml"
     text = updates.read_text(encoding="utf-8")
     body = "".join(f"    - {' '.join(note.split())}\n" for note in notes)
-    entry = (f"- date: {day}\n  title: \"Version {version}: automated review\"\n  body: |\n"
-             f"    Changes from the automated review of {day}:\n\n{body}\n")
+    entry = f"- date: {day}\n  title: \"Version {version}: {title}\"\n  body: |\n{body}\n"
     first = text.find("\n- ")
     if first < 0:
         raise SystemExit("data/updates.yaml has no entry to insert before")
@@ -156,7 +168,8 @@ def finish(root: Path, report: dict[str, Any]) -> str | None:
         return None
     if not notes:
         notes = ["Entries were updated from their sources."]
-    return bump_version(root, report.get("date") or date.today().isoformat(), notes)
+    report["update_title"] = clean_title(report.get("update_title")) or TITLE_FALLBACK
+    return bump_version(root, report.get("date") or date.today().isoformat(), notes, report["update_title"])
 
 
 def can_close(report: dict[str, Any]) -> bool:
@@ -179,7 +192,7 @@ def comment(report: dict[str, Any], run_url: str) -> str:
     owner = [i for i in items if i.get("outcome") == "needs_owner"]
     open_ = [i for i in items if i.get("outcome") in ("unreachable", "failed")]
     what = "the owner's comment" if report.get("mode") == "owner-comment" else "the review"
-    lines = [f"Automated work on {what} of {report.get('date')} ([workflow run]({run_url})): "
+    lines = [f"Work on {what} of {report.get('date')} ([workflow run]({run_url})): "
              f"{len(done)} of {len(items)} items settled."]
     if report.get("version"):
         lines[0] += f" Published as version {report['version']}."

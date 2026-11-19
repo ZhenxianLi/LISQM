@@ -91,7 +91,7 @@ jobs:
           GH_REPO: ${{ github.repository }}
         run: |
           # Created once; existing labels (and any colours changed by hand) are left alone.
-          gh label create review --color 0e8a16 --description "Automated review: what needs a person" 2>/dev/null || true
+          gh label create review --color 0e8a16 --description "Review: what needs a person" 2>/dev/null || true
           gh label create new-project --color 1d76db --description "Suggests a project for the list" 2>/dev/null || true
           gh label create correction --color d93f0b --description "Corrects an entry in the list" 2>/dev/null || true
           gh label create standards --color 5319e7 --description "New or revised standard edition" 2>/dev/null || true
@@ -104,7 +104,7 @@ jobs:
           today=$(date -u +%F)
           body="$RUNNER_TEMP/issue.md"
           {
-            echo "Automated review of $today ([workflow run]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID))."
+            echo "Review of $today ([workflow run]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID))."
             echo
             echo "## Repository and package metadata"
             echo

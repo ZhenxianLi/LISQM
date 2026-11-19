@@ -17,7 +17,7 @@ sys.path.insert(0, str(TESTS.parent / "scripts"))
 import review_agent as RA  # noqa: E402
 import review_guard as RG  # noqa: E402
 
-ISSUE = """Automated review of 2026-11-01 ([workflow run](https://example.org/run)).
+ISSUE = """Review of 2026-11-01 ([workflow run](https://example.org/run)).
 
 ## Repository and package metadata
 
@@ -159,7 +159,8 @@ class GuardTest(unittest.TestCase):
         self.assertIn("e-mail address", problems)
 
     def test_version_and_update_note(self) -> None:
-        report = {"date": "2026-11-01", "items": [{"public_note": "Added Gamma, a\nlibrary."}, {"public_note": None}]}
+        report = {"date": "2026-11-01", "update_title": '"Gamma added."',
+                  "items": [{"public_note": "Added Gamma, a\nlibrary."}, {"public_note": None}]}
         self.write("data/ignored.yaml", "[]\n")
         self.assertIsNone(RG.finish(self.root, report))  # ignored.yaml alone does not show on the website
         self.write("data/projects/alpha.yaml", PROJECT + "checked: 2026-11-01\n")
@@ -169,9 +170,22 @@ class GuardTest(unittest.TestCase):
         self.assertIn('version: "0.5.11"', cff)
         self.assertIn('date-released: "2026-11-01"', cff)
         updates = (self.root / "data/updates.yaml").read_text()
-        self.assertTrue(updates.startswith("# Notes\n\n- date: 2026-11-01\n  title: \"Version 0.5.11: automated"))
-        self.assertIn("    - Added Gamma, a library.\n", updates)
+        self.assertTrue(updates.startswith('# Notes\n\n- date: 2026-11-01\n  title: "Version 0.5.11: Gamma added"\n'
+                                           "  body: |\n    - Added Gamma, a library.\n"), updates)
         self.assertLess(updates.index("0.5.11"), updates.index("0.5.10"))
+        self.assertNotIn("automat", updates.lower())
+
+    def test_titles_say_what_changed_not_how(self) -> None:
+        self.assertEqual(RG.clean_title(' "ISO 532 drafts reach the enquiry stage."\nMore'),
+                         "ISO 532 drafts reach the enquiry stage")
+        self.assertEqual(RG.clean_title('A "quoted" name'), "A 'quoted' name")
+        for bad in ("Automated review", "Results of the review", "Claude updates", "AI-found projects", "", "x" * 81):
+            self.assertIsNone(RG.clean_title(bad), bad)
+        report = {"date": "2026-11-01", "update_title": "Automated review", "items": []}
+        self.write("data/projects/alpha.yaml", PROJECT + "checked: 2026-11-01\n")
+        RG.finish(self.root, report)
+        self.assertEqual(report["update_title"], RG.TITLE_FALLBACK)
+        self.assertIn(f'title: "Version 0.5.11: {RG.TITLE_FALLBACK}"', (self.root / "data/updates.yaml").read_text())
 
     def test_comment(self) -> None:
         report = {"date": "2026-11-01", "model": RA.MODEL, "cost_usd": 3.456, "issue_body_sha256": "abc",
@@ -180,6 +194,8 @@ class GuardTest(unittest.TestCase):
                              "question": "List it?"}]}
         text = RG.comment(report, "https://example.org/run")
         self.assertIn("1 of 2 items settled", text)
+        self.assertTrue(text.startswith("Work on the review of 2026-11-01"), text)
+        self.assertNotIn("utomated", text)
         self.assertIn("- [x] a/b (https://github.com/a/b): Added.", text)
         self.assertIn("**Question:** List it?", text)
         self.assertIn("@​x", text)  # no mention
@@ -307,6 +323,22 @@ class AgentLoopTest(unittest.TestCase):
         agent, client = self.agent([], limit=0.0)
         self.assertEqual(agent.settle("Links", "x", "task")["outcome"], "failed")
         self.assertEqual(client.requests, [])
+
+    def test_title_for_the_update_note(self) -> None:
+        asked = []
+
+        def create(**request: object) -> SimpleNamespace:
+            asked.append(request)
+            return reply(block("text", text="ISO 532 drafts reach the enquiry stage"), stop="end_turn")
+
+        client = SimpleNamespace(messages=SimpleNamespace(create=create))
+        budget = RA.Budget(20)
+        title = RA.note_title(client, ["ISO/DIS 532-1 registered."], budget, self.root)
+        self.assertEqual(title, "ISO 532 drafts reach the enquiry stage")
+        self.assertIn("- ISO/DIS 532-1 registered.", asked[0]["messages"][0]["content"])
+        self.assertIn('"x"', asked[0]["messages"][0]["content"])  # an earlier title, for its style
+        self.assertGreater(budget.spent, 0)
+        self.assertIsNone(RA.note_title(SimpleNamespace(), ["A note."], budget, self.root))  # no title: no failure
 
     def test_run_writes_the_report(self) -> None:
         issue = Path(self.tmp.name) / "issue.md"

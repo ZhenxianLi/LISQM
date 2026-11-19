@@ -680,6 +680,39 @@ def test_connection() -> int:
     return 0
 
 
+TITLE_TASK = """\
+These notes go into a dated update note on the website of the list:
+
+<notes>
+{notes}
+</notes>
+
+Earlier titles, for their style: {examples}.
+
+Write the title of the new note: what changed, in at most eight words, without the version number. Say nothing \
+about how the changes were made (no "automated", "review", "AI" or "Claude"). Reply with the title only."""
+
+
+def note_title(client: Any, notes: list[str], budget: Budget, root: Path = REPO_ROOT) -> str | None:
+    """A short title for the update note of this run, written by the model; None when it cannot be had (the
+    publishing job then checks it and falls back to a plain title)."""
+    import yaml
+
+    updates = yaml.safe_load((root / "data" / "updates.yaml").read_text(encoding="utf-8")) or []
+    examples = [re.sub(r"^Version [\d.]+:\s*", "", str(u.get("title", ""))) for u in updates[:8]]
+    examples = [f'"{e}"' for e in examples if e and not re.search(r"automat", e, re.I)][:5]
+    try:
+        response = client.messages.create(
+            model=MODEL, max_tokens=400, output_config={"effort": "low"},
+            messages=[{"role": "user", "content": TITLE_TASK.format(notes="\n".join(f"- {n}" for n in notes),
+                                                                    examples=", ".join(examples))}])
+        budget.add(response.usage)
+        return " ".join(b.text for b in response.content if b.type == "text").strip() or None
+    except Exception as err:  # a title is not worth failing the run for
+        log(f"No title for the update note: {err}")
+        return None
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--test-connection", action="store_true",
@@ -723,6 +756,9 @@ def main(argv: list[str] | None = None) -> int:
             record = agent.settle(section, item, task)
             log(f"  {record['outcome']} (${budget.spent:.2f} so far)")
             report["items"].append(record)
+        notes = [i["public_note"] for i in report["items"] if i.get("public_note")]
+        if notes:
+            report["update_title"] = note_title(agent.client, notes, budget, REPO_ROOT)
     report["cost_usd"] = round(budget.spent, 2)
     args.report.write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     log(f"Wrote {args.report}: {len(report['items'])} of {len(tasks)} items, about ${budget.spent:.2f}")
