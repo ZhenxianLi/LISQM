@@ -11,9 +11,9 @@ width first and then at about 390 px.
 ## On every page
 
 - **Masthead and tabs.** LISQM, the tagline (`tagline` in `data/site.yaml`), the logo, and the tabs Home, Metrics,
-  Projects, Languages, Standards, FAQ, Updates, For AI and About; the current tab is marked. The logo is the only
-  tribute to the owner's laboratory: no text names it.
-- **Search.** A field at the right end of the tab bar; where the tabs leave no room for it (about 1025 to 1150 px)
+  Projects, Languages, Standards, Validation, FAQ, Updates, For AI and About; the current tab is marked. The logo is
+  the only tribute to the owner's laboratory: no text names it.
+- **Search.** A field at the right end of the tab bar; where the tabs leave no room for it (about 1025 to 1200 px)
   it folds to a magnifier and opens over the tabs while in use. Below 64rem a Search button at the right of the
   masthead opens the same search in a dialog, which fills the screen on phones. `site-src/search.js` looks through
   `search.json` in the browser: metrics, standards and papers, projects (with their languages and the maintainers
@@ -203,10 +203,23 @@ Built by `faq()` in `describe.py`, so that the numbers in the answers stay true.
 - The last question says that a listing is not a certification, and that a report for an authority follows the
   edition the regulation or contract names.
 
+## Validation (`validation.html`)
+
+Built from `validation_guide()` in `describe.py`. It announces the independent validation planned for version 0.6
+(every listed implementation run on the same sound samples, with the numerical results side by side) and asks for
+ideas and sound samples now.
+
+- A status line under the title says what version it is planned for and that contributions are welcome now.
+- What is planned, then two boxes: ideas, and sound samples (licence, calibration, format, description, earlier
+  results; no recording in which a private person can be recognised). Each box has a button that opens a GitHub
+  issue form (`.github/ISSUE_TEMPLATE/validation-idea.yml`, `sound-sample.yml`, label `validation`).
+- When the validation is done, the page shows its method and results instead.
+
 ## Updates (`updates.html`)
 
 Built by `updates_page()` from `data/updates.yaml`, newest first; the same entries make the Atom feed and
-`CHANGELOG.md`.
+`CHANGELOG.md`. Above them, "In the future" lists the `planned` items of `data/site.yaml`, which stay out of the feed
+and the changelog.
 
 - Each entry has an anchor made from its date and the first words of its title; two entries of one day need
   different titles.

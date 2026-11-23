@@ -5,7 +5,7 @@ directory. Edit these files, never the generated output.
 
 | File | Edited by | Contents |
 |---|---|---|
-| `site.yaml` | people | Short name (LISQM), what it stands for, subtitle, base URL, maintainer, thresholds, IndexNow key, search engine verification codes |
+| `site.yaml` | people | Short name (LISQM), what it stands for, subtitle, base URL, maintainer, thresholds, IndexNow key, search engine verification codes, work planned for coming versions (`planned`) |
 | `metrics.yaml` | people | Metric families and metrics (one page per metric) |
 | `references.yaml` | people | Standard editions, model papers and books that metrics are defined by |
 | `projects/<id>.yaml` | people | One file per listed project, including what it implements |
@@ -299,6 +299,21 @@ Fields that cannot be fetched are `null`. When a fetch fails, the refresher keep
 records the error. The build prefers snapshot values and falls back to `manual` in the project file.
 A project counts as **inactive** when its last commit on the default branch is older than
 `inactive_after_days` (see `site.yaml`), and **archived** when the host says so.
+
+## `site.yaml`: `planned`
+
+Work announced for a coming version. Each item is shown at the top of the Updates page under "In the future", with
+a link to its page; it is not in the Atom feed or `CHANGELOG.md`, which hold what has happened. Remove an item once
+its version is released, and write a dated note in `updates.yaml` instead.
+
+```yaml
+planned:
+  - version: "0.6"                            # the version that brings it
+    title: Independent validation of every listed implementation
+    text: >-                                  # markdown: one or two sentences
+      Every listed implementation will be run on the same sound samples …
+    page: validation.html                     # optional: the page that says more
+```
 
 ## `updates.yaml`
 

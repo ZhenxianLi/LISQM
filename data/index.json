@@ -2,7 +2,7 @@
   "name": "LISQM",
   "full_name": "List of Implementations of Sound Quality Metrics",
   "tagline": "A List of Open-Source Implementations of Psychoacoustic and Sound Quality Metrics",
-  "version": "0.5.13",
+  "version": "0.5.14",
   "description": "A list of open-source implementations of psychoacoustic metrics, also called sound quality (SQ) metrics: loudness, sharpness, roughness, fluctuation strength, tonality, impulsiveness and psychoacoustic annoyance. Each implementation is listed under the standard edition or model it follows. All programming languages.",
   "url": "https://zhenxianli.github.io/LISQM/",
   "repository": "https://github.com/ZhenxianLi/LISQM",
@@ -14,7 +14,7 @@
     "github": "ZhenxianLi"
   },
   "credit": "Developed by Zhenxian LI with assistance from Claude Code.",
-  "as_of": "2026-11-18",
+  "as_of": "2026-11-23",
   "schema": "https://github.com/ZhenxianLi/LISQM/blob/main/data/SCHEMA.md",
   "counts": {
     "metrics": 22,
@@ -9736,6 +9736,11 @@
     }
   ],
   "updates": [
+    {
+      "date": "2026-11-23",
+      "title": "Version 0.5.14: independent validation planned for version 0.6",
+      "body": "LISQM has a new tab, Validation. The next step for the list is to check every listed implementation\nindependently: to run each one on the same sound samples, with the same settings, and to publish the\nnumerical results side by side. This is the goal of version 0.6. Ideas and sound samples are welcome now,\nthrough two forms on GitHub; the\n[Validation page](https://zhenxianli.github.io/LISQM/validation.html) says what helps.\n"
+    },
     {
       "date": "2026-11-18",
       "title": "Version 0.5.13: iso532-1-rs is under status unknown",

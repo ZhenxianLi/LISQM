@@ -385,7 +385,7 @@ body {
 
 /* Between tablets and wide screens the tabs leave no room for the field: it folds to a magnifier at the end of the
    tab bar, and opens over the tabs while it is in use. */
-@media (min-width: 64.0625rem) and (max-width: 72rem) {
+@media (min-width: 64.0625rem) and (max-width: 75rem) {
   .site-search {
     flex: none;
     width: 2.4rem;
@@ -1860,6 +1860,11 @@ table.langs td:nth-child(2) { width: 50%; }
   margin-top: 0;
 }
 
+.message > :last-child,
+.message > ul:last-child {
+  margin-bottom: 0;
+}
+
 .message-form label {
   display: block;
   margin: .7rem 0 .25rem;
@@ -2034,7 +2039,7 @@ table.langs td:nth-child(2) { width: 50%; }
     font-size: 1.6rem;
   }
 
-  /* All nine tabs in two rows. */
+  /* All ten tabs in two rows. */
   .tabs a {
     padding: .45rem .42rem .35rem;
     font-size: .8rem;

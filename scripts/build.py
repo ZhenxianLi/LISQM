@@ -24,7 +24,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from pmi import export, render_html, render_md, search  # noqa: E402
 from pmi.data import ROOT, DataError, load  # noqa: E402
 from pmi.paths import (ABOUT, AI, BIBTEX, FAQ, HOME, LANGUAGES, MAP, METRICS, PROJECTS, STANDARDS,  # noqa: E402
-                       UPDATES, md_twin, metric_path, project_path)
+                       UPDATES, VALIDATION_PAGE, md_twin, metric_path, project_path)
 
 
 def write(path: Path, text: str) -> bool:
@@ -70,6 +70,7 @@ def build_site(index, out: Path) -> int:
         ABOUT: (render_html.about_page(index), render_md.about_page(index)),
         FAQ: (render_html.faq_page(index), render_md.faq_page(index)),
         AI: (render_html.ai_page(index), render_md.ai_page(index)),
+        VALIDATION_PAGE: (render_html.validation_page(index), render_md.validation_page(index)),
     }
     for m in index.metrics:
         pages[metric_path(m)] = (render_html.metric_page(index, m), render_md.metric_page(index, m))

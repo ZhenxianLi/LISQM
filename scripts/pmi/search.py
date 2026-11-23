@@ -15,8 +15,8 @@ import re
 
 from .data import Index
 from .describe import faq
-from .paths import ABOUT, AI, FAQ, HOME, LANGUAGES, MAP, METRICS, PROJECTS, STANDARDS, UPDATES, metric_path, \
-    project_path
+from .paths import ABOUT, AI, FAQ, HOME, LANGUAGES, MAP, METRICS, PROJECTS, STANDARDS, UPDATES, VALIDATION_PAGE, \
+    metric_path, project_path
 
 PAPERS = ("paper", "book", "thesis")
 GROUP_TAG = {"newly-released": "new", "developing": "dev", "legacy": "legacy"}
@@ -64,6 +64,7 @@ def search_index(index: Index, lang_codes: dict, about_sections: list, language_
              ("Standards and models", STANDARDS, "Standards references.bib BibTeX"),
              ("Frequently asked questions", FAQ, "FAQ"), ("Updates", UPDATES, "changelog feed"),
              ("For AI agents and language models", AI, "For AI llms.txt index.json"), ("About LISQM", ABOUT, "About"),
+             ("Independent validation (planned)", VALIDATION_PAGE, "Validation sound samples test signals"),
              ("Editions and implementations (timeline)", f"{HOME}#timeline", ""), ("Gaps", f"{HOME}#gaps", ""),
              ("Project map", MAP, "relations"), ("Ask a question or leave a message", f"{FAQ}#message", "")]
     listed = [p for p in index.projects_by_group() if p["_group"] not in ("others", "unknown")]

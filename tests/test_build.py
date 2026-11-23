@@ -17,6 +17,8 @@ from unittest import mock
 from html.parser import HTMLParser
 from pathlib import Path
 
+import yaml
+
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "scripts"))
 
@@ -284,11 +286,47 @@ class BuildTest(unittest.TestCase):
         self.assertIn('<meta name="baidu-site-verification" content="codeva-b">', home)
         self.assertNotIn("site-verification", about)
 
+    def test_validation_page_asks_for_ideas_and_sound_samples(self) -> None:
+        html = (self.site / "validation.html").read_text(encoding="utf-8")
+        self.assertIn("<h1>Independent validation</h1>", html)
+        self.assertIn("Planned for version 0.6", html)
+        for template in ("validation-idea.yml", "sound-sample.yml"):
+            self.assertIn(f'name="template" value="{template}"', html)
+            form = yaml.safe_load((ROOT / ".github" / "ISSUE_TEMPLATE" / template).read_text(encoding="utf-8"))
+            self.assertEqual(form["labels"], ["validation"])
+        md = (self.site / "validation.md").read_text(encoding="utf-8")
+        self.assertIn("issues/new?template=sound-sample.yml", md)
+        self.assertIn("validation.html", (self.site / "sitemap.xml").read_text(encoding="utf-8"))
+        self.assertIn("validation.md", (self.site / "llms.txt").read_text(encoding="utf-8"))
+
+    def test_planned_work_is_on_the_updates_page_only(self) -> None:
+        updates = (self.site / "updates.html").read_text(encoding="utf-8")
+        planned = updates[updates.index('<section class="message planned"'):]
+        planned = planned[:planned.index("</section>")]
+        self.assertIn("Version 0.6: Independent validation of every listed implementation.", planned)
+        self.assertIn('href="validation.html"', planned)
+        self.assertLess(updates.index('id="planned"'), updates.index('<section class="update"'))
+        self.assertIn("## In the future", (self.site / "updates.md").read_text(encoding="utf-8"))
+        for name in ("feed.xml",):
+            self.assertNotIn("In the future", (self.site / name).read_text(encoding="utf-8"))
+        self.assertNotIn("In the future", (ROOT / "CHANGELOG.md").read_text(encoding="utf-8"))
+
+    def test_planned_items_are_checked(self) -> None:
+        saved = self.index.site.get("planned")
+        try:
+            self.index.site["planned"] = [{"version": "next", "title": "", "text": "x", "colour": "red"},
+                                          {"version": "0.7", "text": "y"}]
+            problems = "\n".join(self.index.validate())
+        finally:
+            self.index.site["planned"] = saved
+        self.assertIn("planned item 1: fields are version, title, text and page", problems)
+        self.assertIn("planned item 2: missing 'title'", problems)
+
     def test_every_tab_has_its_own_sidebar(self) -> None:
         pages = {"index.html": "Home", "metrics/index.html": "Metrics", "metrics/sharpness.html": "Metrics",
                  "projects/index.html": "Projects", "projects/sqat.html": "Projects", "languages.html": "Languages",
                  "standards.html": "Standards", "faq.html": "FAQ", "updates.html": "Updates", "ai.html": "For AI",
-                 "about.html": "About"}
+                 "about.html": "About", "validation.html": "Validation"}
         for page, tab in pages.items():
             html = (self.site / page).read_text(encoding="utf-8")
             nav = html[html.index('<nav class="tabs"'):html.index("</nav>")]

@@ -250,6 +250,20 @@ class Index:
         token = str(self.site.get("cloudflare_analytics_token") or "")
         if token and not re.fullmatch(r"[A-Za-z0-9]{16,64}", token):
             add("data/site.yaml: cloudflare_analytics_token must be the token of the snippet (letters and digits)")
+        planned = self.site.get("planned") or []
+        if not isinstance(planned, list):
+            add("data/site.yaml: planned must be a list")
+            planned = []
+        for n, item in enumerate(planned, 1):
+            where = f"data/site.yaml: planned item {n}"
+            if not isinstance(item, dict) or set(item) - {"version", "title", "text", "page"}:
+                add(f"{where}: fields are version, title, text and page")
+                continue
+            for field in ("version", "title", "text"):
+                if not str(item.get(field) or "").strip():
+                    add(f"{where}: missing '{field}'")
+            if not re.fullmatch(r"\d+\.\d+(\.\d+)?", str(item.get("version") or "")):
+                add(f"{where}: version is a version number such as \"0.6\"")
         unknown = set(self.site.get("verification") or {}) - set(VERIFICATION_META)
         if unknown:
             add(f"data/site.yaml: verification: unknown search engine {', '.join(sorted(unknown))} "

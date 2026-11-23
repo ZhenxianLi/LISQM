@@ -1,0 +1,34 @@
+name: Validation idea
+description: Share an idea for the independent validation planned for version 0.6.
+title: "Validation idea: "
+labels: ["validation"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for helping to plan the independent validation: every listed implementation run on the same
+        sound samples, with the same settings, and the numerical results published side by side. See the
+        [Validation page](https://zhenxianli.github.io/LISQM/validation.html). Everything you write here is public.
+
+  - type: textarea
+    id: idea
+    attributes:
+      label: Your idea
+      description: >-
+        For example: which metrics and editions should come first, which signals to use, how to choose fair
+        settings, or how the results should be shown.
+    validations:
+      required: true
+
+  - type: input
+    id: project
+    attributes:
+      label: Your project (optional)
+      description: If you maintain a listed project, its name, and how its code should be called for the validation.
+      placeholder: e.g. MoSQITo; call loudness_zwtv with field_type="free"
+
+  - type: textarea
+    id: links
+    attributes:
+      label: Links (optional)
+      description: Papers, standards, test signals or earlier comparisons that support your idea.

@@ -1,0 +1,79 @@
+name: Sound sample
+description: Offer a sound sample for the shared test set of the independent validation planned for version 0.6.
+title: "Sound sample: "
+labels: ["validation"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for offering a sound sample. Samples make up the shared test set and are published with the
+        results, so they need a licence that lets anyone share and reuse them. See the
+        [Validation page](https://zhenxianli.github.io/LISQM/validation.html). Everything you send here is public:
+        please send no recording in which a private person can be recognised.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: What the sound is
+      description: What it is, how it was made or recorded (microphone or dummy head, distance, room), and the sound field if it matters.
+      placeholder: e.g. Electric vehicle pass-by at 30 km/h, recorded with a dummy head at 7.5 m, outdoors (free field)
+    validations:
+      required: true
+
+  - type: textarea
+    id: files
+    attributes:
+      label: Files
+      description: >-
+        Attach the WAV files as a zip archive (drag it into this box), or give a link where they can be
+        downloaded, for example on Zenodo.
+    validations:
+      required: true
+
+  - type: input
+    id: format
+    attributes:
+      label: Format
+      description: Sampling rate, bit depth and channels (mono, or binaural).
+      placeholder: e.g. 48 kHz, 24 bit, binaural
+    validations:
+      required: true
+
+  - type: textarea
+    id: calibration
+    attributes:
+      label: Calibration
+      description: What a sample value of 1 (digital full scale) corresponds to, in pascals or dB SPL, or which file is a calibration tone and at what level.
+      placeholder: e.g. full scale = 120 dB SPL; cal.wav is a 1 kHz tone at 94 dB SPL
+    validations:
+      required: true
+
+  - type: dropdown
+    id: licence
+    attributes:
+      label: Licence
+      options:
+        - CC0 1.0 (public domain)
+        - CC BY 4.0 (attribution)
+        - Another licence (say which in "Anything else")
+    validations:
+      required: true
+
+  - type: textarea
+    id: results
+    attributes:
+      label: Results you have computed (optional)
+      description: Values for this sample from any software, with its name and version and the settings used.
+
+  - type: textarea
+    id: other
+    attributes:
+      label: Anything else (optional)
+
+  - type: checkboxes
+    id: rights
+    attributes:
+      label: Rights
+      options:
+        - label: I may share these files under the licence above, and no private person can be recognised in them.
+          required: true

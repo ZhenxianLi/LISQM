@@ -16,8 +16,9 @@ from pathlib import Path
 from .data import (ACCESS, ACCESS_WORDS,
                    GROUP_NAMES, GROUPS, IMPL_STATUS, IMPL_STATUS_LONG, KINDS, PROJECT_KINDS, REGISTRIES,
                    VALIDATION, VALIDATION_LONG, VERIFICATION_META, Index, only_new, update_anchor)
-from .describe import (COVERAGE_COLUMNS, GROUP_RULE, ONLY_NEW, activity_text, ai_guide, by_language, coverage,
-                       highlight_sentence, highlighted,
+from .describe import (COVERAGE_COLUMNS, GROUP_RULE, ONLY_NEW, VALIDATION_FORMS, activity_text, ai_guide,
+                       by_language, coverage,
+                       highlight_sentence, highlighted, validation_guide,
                        covers, current_statement, dedupe, dependence_note, derived_names, edition_state, faq,
                        how_to_cite,
                        impl_phrase, in_sentence, introduce, language_order, licence_flag, licence_flag_text,
@@ -25,12 +26,12 @@ from .describe import (COVERAGE_COLUMNS, GROUP_RULE, ONLY_NEW, activity_text, ai
                        only_related, ref_status, release_text, silent_line, standing_sentence, stated_conventions,
                        time_bins, timeline, validation_also, validation_groups, validation_label)
 from . import relations as RL
-from .paths import (ABOUT, AI, BIBTEX, FAQ, HOME, LANGUAGES, MAP, METRICS, PROJECTS, STANDARDS, UPDATES, absolute,
-                    md_twin, metric_path, project_path, relative)
+from .paths import (ABOUT, AI, BIBTEX, FAQ, HOME, LANGUAGES, MAP, METRICS, PROJECTS, STANDARDS, UPDATES,
+                    VALIDATION_PAGE, absolute, md_twin, metric_path, project_path, relative)
 from .text import blocks, esc, first_sentence, inline, join_words, long_date, month, plain, plural
 
 NAV = [("Home", HOME), ("Metrics", METRICS), ("Projects", PROJECTS), ("Languages", LANGUAGES), ("Standards", STANDARDS),
-       ("FAQ", FAQ), ("Updates", UPDATES), ("For AI", AI), ("About", ABOUT)]
+       ("Validation", VALIDATION_PAGE), ("FAQ", FAQ), ("Updates", UPDATES), ("For AI", AI), ("About", ABOUT)]
 
 # The site's mark: an ear and three level bars, in white on green. site-src/favicon.svg is the same drawing.
 LOGO = ('<svg class="brand-mark" viewBox="0 0 64 64" aria-hidden="true" focusable="false">'
@@ -242,6 +243,8 @@ def _sidebar(index: Index, path: str, section: str) -> str:
                 blocks_.append(_side(fam["name"], [(f"{rel(STANDARDS)}#ref-{r}", esc(index.ref[r]["label"]), False)
                                                    for r in refs], sub=True))
     elif section == "Updates":
+        if index.site.get("planned"):
+            blocks_.append(_side("In the future", [], href="#planned"))
         blocks_.append(_side("Updates", [(f"{rel(UPDATES)}#{esc(update_anchor(u))}",
                                           f"{esc(long_date(u['date']))}: {esc(u['title'])}", False)
                                          for u in index.updates]))
@@ -1451,7 +1454,8 @@ def updates_page(index: Index) -> str:
     path = UPDATES
     parts = ["<h1>Updates</h1>",
              '<p class="byline">Notable changes to the list and to the projects it follows. '
-             f'Also available as an <a href="{relative(path, "feed.xml")}">Atom feed</a>.</p>']
+             f'Also available as an <a href="{relative(path, "feed.xml")}">Atom feed</a>.</p>',
+             _planned(index, path)]
     for u in index.updates:
         parts.append(f'<section class="update" id="{esc(update_anchor(u))}">')
         parts.append(f'<h2>{esc(u["title"])}</h2>')
@@ -1632,6 +1636,57 @@ def ai_page(index: Index) -> str:
                   description=f"Machine-readable access to {index.site['name']}: llms.txt, llms-full.txt, index.json "
                               "and a Markdown version of every page.",
                   body="\n".join(parts), section="For AI", jsonld=ld, side=side)
+
+
+def _issue_form(index: Index, form: str) -> str:
+    """A button that opens one of the repository's issue forms (no JavaScript, no other service)."""
+    template, label = VALIDATION_FORMS[form]
+    return (f'<form class="message-form" action="{esc(index.site["repository"])}/issues/new" method="get" '
+            f'target="_blank" rel="noopener"><input type="hidden" name="template" value="{esc(template)}">'
+            f'<p class="form-row"><button type="submit">{esc(label)}</button> <span class="muted small">Opens a form '
+            "on GitHub. You need a GitHub account.</span></p></form>")
+
+
+def validation_page(index: Index) -> str:
+    path = VALIDATION_PAGE
+    status, intro, sections = validation_guide(index)
+    parts = ["<h1>Independent validation</h1>",
+             f'<p class="byline">{esc(status)}</p>',
+             f'<p class="lead">{inline(intro)}</p>']
+    for anchor, heading, paragraph, items, closing in sections:
+        box = anchor in VALIDATION_FORMS
+        if box:
+            parts.append(f'<section class="message" aria-labelledby="{anchor}">')
+        parts.append(f'<h2 id="{anchor}">{esc(heading)}</h2>')
+        parts.append(f"<p>{inline(paragraph)}</p>")
+        parts.append("<ul>" + "".join(f"<li>{inline(item)}</li>" for item in items) + "</ul>")
+        if closing:
+            parts.append(f"<p>{inline(closing)}</p>")
+        if box:
+            parts.append(_issue_form(index, anchor) + "</section>")
+    side = ('<aside class="sidebar" aria-label="Validation contents">'
+            + _side("On this page", [(f"#{a}", esc(h), False) for a, h, *_ in sections])
+            + _side("Updates", [(relative(path, UPDATES) + "#planned", "In the future", False)]) + "</aside>")
+    ld = [{"@type": "WebPage", "name": "Independent validation", "url": absolute(index, path), "description": intro}]
+    return layout(index, path, title="Independent validation of psychoacoustic metric implementations (planned)",
+                  description=("Planned for LISQM: every listed implementation of a psychoacoustic metric run on the "
+                               "same sound samples, with the numerical results side by side. Ideas and sound samples "
+                               "are welcome."),
+                  body="\n".join(parts), section="Validation", jsonld=ld, side=side)
+
+
+def _planned(index: Index, path: str) -> str:
+    """The work announced for coming versions ("In the future"), at the top of the Updates page."""
+    planned = index.site.get("planned") or []
+    if not planned:
+        return ""
+    items = []
+    for p in planned:
+        more = f' <a href="{esc(relative(path, p["page"]))}">Read more and take part</a>.' if p.get("page") else ""
+        items.append(f'<li><strong>Version {esc(str(p["version"]))}: {esc(p["title"])}.</strong> '
+                     f'{inline(p["text"])}{more}</li>')
+    return ('<section class="message planned" aria-labelledby="planned"><h2 id="planned">In the future</h2>'
+            f'<ul>{"".join(items)}</ul></section>')
 
 
 def not_found(index: Index) -> str:

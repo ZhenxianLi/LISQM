@@ -14,6 +14,7 @@ STANDARDS = "standards.html"
 UPDATES = "updates.html"
 ABOUT = "about.html"
 FAQ = "faq.html"
+VALIDATION_PAGE = "validation.html"  # independent validation, planned for version 0.6
 BIBTEX = "references.bib"  # every standard, model paper and software paper, as BibTeX
 
 

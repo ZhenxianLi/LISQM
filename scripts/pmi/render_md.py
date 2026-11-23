@@ -10,8 +10,9 @@ import re
 from .data import (ACCESS, ACCESS_WORDS,
                    GROUP_NAMES, GROUPS, IMPL_STATUS, IMPL_STATUS_LONG, KINDS, PROJECT_KINDS, REGISTRIES,
                    VALIDATION, VALIDATION_LONG, Index)
-from .describe import (COVERAGE_COLUMNS, GROUP_RULE, NEW_LABEL, activity_text, ai_guide, by_language, coverage, dedupe,
-                       highlight_sentence, highlighted,
+from .describe import (COVERAGE_COLUMNS, GROUP_RULE, NEW_LABEL, VALIDATION_FORMS, activity_text, ai_guide,
+                       by_language, coverage, dedupe,
+                       highlight_sentence, highlighted, validation_guide,
                        covers, dependence_note, derived_names, edition_state, faq, how_to_cite, in_sentence, in_short,
                        introduce,
                        legacy_label, licence_flag, licence_flag_text, licence_names, licence_terms, name_note,
@@ -19,8 +20,8 @@ from .describe import (COVERAGE_COLUMNS, GROUP_RULE, NEW_LABEL, activity_text, a
                        silent_line, standing_sentence, stated_conventions, timeline, validation_also,
                        validation_groups, validation_label, version_label)
 from . import relations as RL
-from .paths import (ABOUT, AI, BIBTEX, FAQ, HOME, LANGUAGES, MAP, METRICS, PROJECTS, STANDARDS, UPDATES, absolute,
-                    md_twin, metric_path, project_path)
+from .paths import (ABOUT, AI, BIBTEX, FAQ, HOME, LANGUAGES, MAP, METRICS, PROJECTS, STANDARDS, UPDATES,
+                    VALIDATION_PAGE, absolute, md_twin, metric_path, project_path)
 from .text import first_sentence, join_words, long_date, month, oneline, plain, plural
 
 def _plain(text: str) -> str:
@@ -575,6 +576,31 @@ def ai_page(index: Index) -> str:
     return "\n".join(lines)
 
 
+def validation_page(index: Index) -> str:
+    status, intro, sections = validation_guide(index)
+    repo = index.site["repository"]
+    lines = ["# Independent validation", "", _header(index, VALIDATION_PAGE), "", f"*{status}.*", "", intro, ""]
+    for anchor, heading, paragraph, items, closing in sections:
+        lines += [f"## {heading}", "", paragraph, ""] + [f"- {item}" for item in items] + [""]
+        if closing:
+            lines += [closing, ""]
+        if anchor in VALIDATION_FORMS:
+            template, label = VALIDATION_FORMS[anchor]
+            lines += [f"[{label}]({repo}/issues/new?template={template}) (you need a GitHub account)", ""]
+    return "\n".join(lines)
+
+
+def _planned(index: Index) -> list[str]:
+    planned = index.site.get("planned") or []
+    if not planned:
+        return []
+    lines = ["## In the future", ""]
+    for p in planned:
+        more = f" [Read more and take part]({index.site['base_url']}{md_twin(p['page'])})." if p.get("page") else ""
+        lines.append(f"- **Version {p['version']}: {p['title']}.** {oneline(p['text'])}{more}")
+    return lines + [""]
+
+
 GROUP_HEADINGS = [("established", "Established projects"), ("newly-released", "Newly released projects"),
                   ("developing", "Developing projects"), ("legacy", "Legacy projects")]
 OTHERS = GROUPS["others"] + " They are not listed under the metrics."
@@ -665,7 +691,7 @@ def standards_page(index: Index) -> str:
 
 
 def updates_page(index: Index) -> str:
-    lines = ["# Updates", "", _header(index, UPDATES), ""]
+    lines = ["# Updates", "", _header(index, UPDATES), ""] + _planned(index)
     for u in index.updates:
         lines += [f"## {long_date(u['date'])}: {u['title']}", "", u["body"].strip(), ""]
     return "\n".join(lines)
@@ -818,6 +844,8 @@ def llms_txt(index: Index) -> str:
               f"- [About]({site['base_url']}{md_twin(ABOUT)}): scope, how entries are checked, definitions and data access",
               f"- [Standards timeline]({site['base_url']}{md_twin(STANDARDS)})",
               f"- [Updates]({site['base_url']}{md_twin(UPDATES)})",
+              f"- [Independent validation]({site['base_url']}{md_twin(VALIDATION_PAGE)}): planned for version 0.6; "
+              "ideas and sound samples are welcome",
               f"- [Source repository]({site['repository']})", ""]
     return "\n".join(lines)
 

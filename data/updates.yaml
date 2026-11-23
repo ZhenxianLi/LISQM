@@ -1,6 +1,15 @@
 # Dated notes shown on the Updates page, in the Atom feed and in CHANGELOG.md. Newest first.
 # Body: Markdown paragraphs and "- " bullet lists. See data/SCHEMA.md.
 
+- date: 2026-11-23
+  title: "Version 0.5.14: independent validation planned for version 0.6"
+  body: |
+    LISQM has a new tab, Validation. The next step for the list is to check every listed implementation
+    independently: to run each one on the same sound samples, with the same settings, and to publish the
+    numerical results side by side. This is the goal of version 0.6. Ideas and sound samples are welcome now,
+    through two forms on GitHub; the
+    [Validation page](https://zhenxianli.github.io/LISQM/validation.html) says what helps.
+
 - date: 2026-11-18
   title: "Version 0.5.13: iso532-1-rs is under status unknown"
   body: |

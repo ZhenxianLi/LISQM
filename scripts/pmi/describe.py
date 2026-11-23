@@ -732,3 +732,50 @@ def ai_guide(index: Index) -> tuple[str, list[tuple[str, str, list[str]]]]:
         ]),
     ]
     return intro, sections
+
+
+# The GitHub issue forms of the Validation page (.github/ISSUE_TEMPLATE/).
+VALIDATION_FORMS = {"ideas": ("validation-idea.yml", "Share an idea on GitHub"),
+                    "samples": ("sound-sample.yml", "Offer a sound sample on GitHub")}
+
+
+def validation_guide(index: Index) -> tuple[str, str, list[tuple[str, str, str, list[str], str]]]:
+    """The Validation page, in inline Markdown with absolute links (shared by the HTML page and its Markdown twin):
+    a status line, an introduction and (anchor, heading, paragraph, items, closing paragraph) sections. Work
+    planned for version 0.6 (the owner's decision of 2026-11-23); see docs/maintaining/owner-decisions.md."""
+    planned = next((p for p in index.site.get("planned") or [] if p.get("page") == "validation.html"), {})
+    version = planned.get("version", "0.6")
+    status = f"Planned for version {version}: ideas and sound samples are welcome now"
+    intro = ("Today LISQM lists the validation that each project reports about itself. The next step is to check "
+             "every listed implementation independently: to run each one on the same sound samples, with the same "
+             "settings, and to publish the numerical results side by side, so that the projects can be compared "
+             "directly.")
+    sections = [
+        ("plan", "What is planned", "This work has not started yet. It is the goal of version " + version + ".", [
+            "Every listed implementation of a metric is run on one shared set of sound samples, with the settings of "
+            "each run stated: calibration, sound field, sampling rate, and the time and frequency resolution.",
+            "The results are compared with the reference values of the standards where they exist, such as the "
+            "test signals of ISO 532-1 and of ECMA-418-2, and with each other.",
+            "The numbers are published on each metric's page, with the differences, the version of the code that "
+            "produced them and everything needed to repeat a run.",
+        ], ""),
+        ("ideas", "Share your ideas", "Before the work starts, I would like to hear from the people who use and "
+         "write these tools. For example:", [
+            "which metrics and editions should come first;",
+            "which signals to use: the test signals of the standards, recordings, or synthetic sounds;",
+            "how to choose settings that are fair to every implementation;",
+            "how the results should be shown: tables, plots, tolerances;",
+            "if you maintain a listed project: how your code should be called and which version to use.",
+        ], "Messages sent through the form below are public."),
+        ("samples", "Contribute sound samples", "Sound samples will make up the shared test set, so they are "
+         "published with the results. A sample helps most when it comes with:", [
+            "a licence that lets anyone share and reuse it, such as CC0 or CC BY 4.0;",
+            "its calibration: what a sample value of 1 (digital full scale) corresponds to, in pascals or dB SPL, or "
+            "a calibration tone;",
+            "a WAV file with its sampling rate and bit depth, mono, or binaural with the recording setup;",
+            "a description: what the sound is, how it was made or recorded, and the sound field if it matters;",
+            "results you have already computed for it, if any, with the name and version of the software.",
+        ], "Please send no recording in which a private person can be recognised. Attach the files to the issue as a "
+           "zip archive, or give a link where they can be downloaded. Everything sent this way is public."),
+    ]
+    return status, intro, sections

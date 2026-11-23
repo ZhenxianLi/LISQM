@@ -2,6 +2,14 @@
 
 Notable changes to the list. This file is generated from `data/updates.yaml`; the same notes are on the website (https://zhenxianli.github.io/LISQM/updates.html) and in its Atom feed.
 
+## 2026-11-23: Version 0.5.14: independent validation planned for version 0.6
+
+LISQM has a new tab, Validation. The next step for the list is to check every listed implementation
+independently: to run each one on the same sound samples, with the same settings, and to publish the
+numerical results side by side. This is the goal of version 0.6. Ideas and sound samples are welcome now,
+through two forms on GitHub; the
+[Validation page](https://zhenxianli.github.io/LISQM/validation.html) says what helps.
+
 ## 2026-11-18: Version 0.5.13: iso532-1-rs is under status unknown
 
 The repository of iso532-1-rs has returned "not found" since 2026-11-15; it could still be opened on 2026-11-01.
