@@ -2,6 +2,11 @@
 
 Notable changes to the list. This file is generated from `data/updates.yaml`; the same notes are on the website (https://zhenxianli.github.io/LISQM/updates.html) and in its Atom feed.
 
+## 2026-11-25: Version 0.5.16: Sottek Hearing Model tonality from 2018
+
+The tonality of the Sottek Hearing Model now starts with ECMA-74:2018 (15th edition), which added it as
+Annex G, with the hearing model as Annex F; its line on the timeline begins in June 2018.
+
 ## 2026-11-25: Version 0.5.15: where Sottek Hearing Model tonality comes from
 
 - ECMA-74 held two different tonal methods. The tonality page now says that the Sottek Hearing Model and

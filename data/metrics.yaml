@@ -369,7 +369,7 @@ metrics:
       and G in its 15th edition (June 2018) and became Clauses 5 and 6 of ECMA-418-2 when it was first
       published in 2020. They are not the tone-to-noise ratio and prominence ratio of ECMA-74 Annex D, which
       use no hearing model.
-    references: [ecma-74-ed17, ecma-418-2-ed1, ecma-418-2-ed2, ecma-418-2-ed3, ecma-418-2-ed4]
+    references: [ecma-74-ed15, ecma-74-ed17, ecma-418-2-ed1, ecma-418-2-ed2, ecma-418-2-ed3, ecma-418-2-ed4]
     current: [ecma-418-2-ed4]
     conventions:
       - >-
@@ -381,7 +381,8 @@ metrics:
         **Tonal annoyance weighting.** RefMap and sottek-hearing-model offer an optional weighting after Sottek &
         Becker (2019), which is not part of ECMA-418-2; leave it off when comparing with other implementations.
     edition_notes:
-      ecma-74-ed17: Annexes F (hearing model) and G (tonality), in ECMA-74 since the 15th edition (June 2018).
+      ecma-74-ed15: Annexes F (hearing model) and G (tonality) added to ECMA-74.
+      ecma-74-ed17: Annexes F and G as they stood before they moved to ECMA-418-2 in 2020.
       ecma-418-2-ed1: Clause 6 tonality.
       ecma-418-2-ed2: Refined calculation.
       ecma-418-2-ed3: Diffuse-field outer and middle ear filter added (affects all metrics); refinements mainly to roughness.

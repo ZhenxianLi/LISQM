@@ -1478,7 +1478,8 @@ The current edition is ECMA-418-2:2025 (4th ed.). Open-source implementations of
 | 2024-12 | [ECMA-418-2:2024 (3rd ed.)](https://ecma-international.org/wp-content/uploads/ECMA-418-2_3rd_edition_december_2024.pdf) | superseded | Diffuse-field outer and middle ear filter added (affects all metrics); refinements mainly to roughness. | **[SQAT](https://zhenxianli.github.io/LISQM/projects/sqat.html)** |
 | 2022-12 | [ECMA-418-2:2022 (2nd ed.)](https://ecma-international.org/wp-content/uploads/ECMA-418-2_2nd_edition_december_2022.pdf) | superseded | Refined calculation. | — |
 | 2020-12 | [ECMA-418-2:2020 (1st ed.)](https://ecma-international.org/wp-content/uploads/ECMA-418-2_1st_edition_december_2020.pdf) | superseded | Clause 6 tonality. | — |
-| 2019-12 | [ECMA-74:2019 (17th ed.)](https://ecma-international.org/publications-and-standards/standards/ecma-74/) | superseded | Annexes F (hearing model) and G (tonality), in ECMA-74 since the 15th edition (June 2018). | — |
+| 2019-12 | [ECMA-74:2019 (17th ed.)](https://ecma-international.org/publications-and-standards/standards/ecma-74/) | superseded | Annexes F and G as they stood before they moved to ECMA-418-2 in 2020. | — |
+| 2018-06 | [ECMA-74:2018 (15th ed.)](https://ecma-international.org/publications-and-standards/standards/ecma-74/) | superseded | Annexes F (hearing model) and G (tonality) added to ECMA-74. | — |
 
 ## Project map
 
@@ -1573,11 +1574,12 @@ What the projects state:
 
 ## References
 
-1. ECMA-74:2019 (17th ed.). Measurement of airborne noise emitted by information technology and telecommunications equipment. https://ecma-international.org/publications-and-standards/standards/ecma-74/
-2. ECMA-418-2:2020 (1st ed.). Psychoacoustic metrics for ITT equipment — Part 2 (models based on human perception). https://ecma-international.org/wp-content/uploads/ECMA-418-2_1st_edition_december_2020.pdf
-3. ECMA-418-2:2022 (2nd ed.). Psychoacoustic metrics for ITT equipment — Part 2 (models based on human perception). https://ecma-international.org/wp-content/uploads/ECMA-418-2_2nd_edition_december_2022.pdf
-4. ECMA-418-2:2024 (3rd ed.). Psychoacoustic metrics for ITT equipment — Part 2 (methods for describing human perception based on the Sottek Hearing Model). https://ecma-international.org/wp-content/uploads/ECMA-418-2_3rd_edition_december_2024.pdf
-5. ECMA-418-2:2025 (4th ed.). Psychoacoustic metrics for ITT equipment — Part 2 (methods for describing human perception based on the Sottek Hearing Model). https://ecma-international.org/wp-content/uploads/ECMA-418-2_4th_edition_june_2025.pdf
+1. ECMA-74:2018 (15th ed.). Measurement of airborne noise emitted by information technology and telecommunications equipment. https://ecma-international.org/publications-and-standards/standards/ecma-74/
+2. ECMA-74:2019 (17th ed.). Measurement of airborne noise emitted by information technology and telecommunications equipment. https://ecma-international.org/publications-and-standards/standards/ecma-74/
+3. ECMA-418-2:2020 (1st ed.). Psychoacoustic metrics for ITT equipment — Part 2 (models based on human perception). https://ecma-international.org/wp-content/uploads/ECMA-418-2_1st_edition_december_2020.pdf
+4. ECMA-418-2:2022 (2nd ed.). Psychoacoustic metrics for ITT equipment — Part 2 (models based on human perception). https://ecma-international.org/wp-content/uploads/ECMA-418-2_2nd_edition_december_2022.pdf
+5. ECMA-418-2:2024 (3rd ed.). Psychoacoustic metrics for ITT equipment — Part 2 (methods for describing human perception based on the Sottek Hearing Model). https://ecma-international.org/wp-content/uploads/ECMA-418-2_3rd_edition_december_2024.pdf
+6. ECMA-418-2:2025 (4th ed.). Psychoacoustic metrics for ITT equipment — Part 2 (methods for describing human perception based on the Sottek Hearing Model). https://ecma-international.org/wp-content/uploads/ECMA-418-2_4th_edition_june_2025.pdf
 
 
 ---
@@ -5099,6 +5101,7 @@ All documents the list refers to, newest first. Each implementation in the list 
 | 2020-12 | [ECMA-418-2:2020 (1st ed.)](https://ecma-international.org/wp-content/uploads/ECMA-418-2_1st_edition_december_2020.pdf) | Psychoacoustic metrics for ITT equipment — Part 2 (models based on human perception) | superseded | [Sottek Hearing Model loudness](https://zhenxianli.github.io/LISQM/metrics/loudness-ecma-418-2.html), [Sottek Hearing Model roughness](https://zhenxianli.github.io/LISQM/metrics/roughness-ecma-418-2.html), [Sottek Hearing Model tonality](https://zhenxianli.github.io/LISQM/metrics/tonality-ecma-418-2.html) |
 | 2020-12 | [ECMA-418-1:2020 (1st ed.)](https://ecma-international.org/wp-content/uploads/ECMA-418-1_1st_edition_december_2020.pdf) | Psychoacoustic metrics for ITT equipment — Part 1 (prominent discrete tones) | superseded | [Tone-to-noise ratio and prominence ratio](https://zhenxianli.github.io/LISQM/metrics/tone-to-noise-prominence-ratio.html) |
 | 2019-12 | [ECMA-74:2019 (17th ed.)](https://ecma-international.org/publications-and-standards/standards/ecma-74/) | Measurement of airborne noise emitted by information technology and telecommunications equipment | superseded | [Sottek Hearing Model tonality](https://zhenxianli.github.io/LISQM/metrics/tonality-ecma-418-2.html), [Tone-to-noise ratio and prominence ratio](https://zhenxianli.github.io/LISQM/metrics/tone-to-noise-prominence-ratio.html) |
+| 2018-06 | [ECMA-74:2018 (15th ed.)](https://ecma-international.org/publications-and-standards/standards/ecma-74/) | Measurement of airborne noise emitted by information technology and telecommunications equipment | superseded | [Sottek Hearing Model tonality](https://zhenxianli.github.io/LISQM/metrics/tonality-ecma-418-2.html) |
 | 2017-07 | [ISO 1996-2:2017](https://www.iso.org/standard/59766.html) | Acoustics — Description, measurement and assessment of environmental noise — Part 2: Determination of sound pressure levels | current | [Tonal audibility (ISO 1996-2)](https://zhenxianli.github.io/LISQM/metrics/tonal-audibility-iso-1996-2.html) |
 | 2017-07 | [ICAO Annex 16, Vol. I](https://store.icao.int/en/annex-16-environmental-protection-volume-i-aircraft-noise) | Annex 16 to the Convention on International Civil Aviation — Environmental Protection — Volume I: Aircraft Noise | current | [Perceived noise level and EPNL](https://zhenxianli.github.io/LISQM/metrics/epnl.html) |
 | 2017-06 | [ISO 532-2:2017](https://www.iso.org/standard/63078.html) | Acoustics — Methods for calculating loudness — Part 2: Moore-Glasberg method | current | [Moore–Glasberg loudness](https://zhenxianli.github.io/LISQM/metrics/loudness-moore-glasberg.html) |

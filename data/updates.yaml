@@ -2,6 +2,12 @@
 # Body: Markdown paragraphs and "- " bullet lists. See data/SCHEMA.md.
 
 - date: 2026-11-25
+  title: "Version 0.5.16: Sottek Hearing Model tonality from 2018"
+  body: |
+    The tonality of the Sottek Hearing Model now starts with ECMA-74:2018 (15th edition), which added it as
+    Annex G, with the hearing model as Annex F; its line on the timeline begins in June 2018.
+
+- date: 2026-11-25
   title: "Version 0.5.15: where Sottek Hearing Model tonality comes from"
   body: |
     - ECMA-74 held two different tonal methods. The tonality page now says that the Sottek Hearing Model and

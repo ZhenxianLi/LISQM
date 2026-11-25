@@ -234,6 +234,20 @@
   checked: 2026-11-15
 
 # ------------------------------------------------------------------------------------- Ecma (SHM, TNR/PR)
+- id: ecma-74-ed15
+  label: ECMA-74:2018 (15th ed.)
+  kind: standard
+  body: Ecma
+  title: Measurement of airborne noise emitted by information technology and telecommunications equipment
+  edition: 15th edition
+  date: 2018-06
+  status: superseded
+  url: https://ecma-international.org/publications-and-standards/standards/ecma-74/
+  note: >-
+    Added Annex F, the Sottek Hearing Model, and Annex G, the psychoacoustic tonality built on it (in tu_HMS).
+    They stayed in ECMA-74 until they became Clauses 5 and 6 of ECMA-418-2 in 2020 (see the 17th edition).
+  checked: 2026-11-25
+
 - id: ecma-74-ed17
   label: ECMA-74:2019 (17th ed.)
   kind: standard

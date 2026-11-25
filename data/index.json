@@ -2,7 +2,7 @@
   "name": "LISQM",
   "full_name": "List of Implementations of Sound Quality Metrics",
   "tagline": "A List of Open-Source Implementations of Psychoacoustic and Sound Quality Metrics",
-  "version": "0.5.15",
+  "version": "0.5.16",
   "description": "A list of open-source implementations of psychoacoustic metrics, also called sound quality (SQ) metrics: loudness, sharpness, roughness, fluctuation strength, tonality, impulsiveness and psychoacoustic annoyance. Each implementation is listed under the standard edition or model it follows. All programming languages.",
   "url": "https://zhenxianli.github.io/LISQM/",
   "repository": "https://github.com/ZhenxianLi/LISQM",
@@ -19,7 +19,7 @@
   "counts": {
     "metrics": 22,
     "projects": 42,
-    "references": 55
+    "references": 56
   },
   "ordering": "Implementations and projects are listed by group: established, newly released, developing, legacy, others, status unknown. Newly released projects were first released less than about a year ago and are not yet seen to be widely used in the community. Legacy projects are archived or have had no commit for three years or more; the projects with a highlight (shown in bold on the website) and reference programs are never legacy. Within each group the projects with a highlight come first, then ranked and active ones. Projects in the others group do not compute the metrics themselves; they call another listed project (listed in calls), and their rows appear under also_through instead of implementations. Projects in the unknown group could not be opened (access); they list a claim and no implementations.",
   "definitions": {
@@ -2720,6 +2720,7 @@
       "unit": "tu_HMS",
       "summary": "Psychoacoustic tonality from the Sottek Hearing Model, Clause 6 of ECMA-418-2, with specific tonality and tonal frequency over time. The hearing model and this tonality were added to ECMA-74 as Annexes F and G in its 15th edition (June 2018) and became Clauses 5 and 6 of ECMA-418-2 when it was first published in 2020. They are not the tone-to-noise ratio and prominence ratio of ECMA-74 Annex D, which use no hearing model.",
       "references": [
+        "ecma-74-ed15",
         "ecma-74-ed17",
         "ecma-418-2-ed1",
         "ecma-418-2-ed2",
@@ -2734,7 +2735,8 @@
         "**Tonal annoyance weighting.** RefMap and sottek-hearing-model offer an optional weighting after Sottek & Becker (2019), which is not part of ECMA-418-2; leave it off when comparing with other implementations."
       ],
       "edition_notes": {
-        "ecma-74-ed17": "Annexes F (hearing model) and G (tonality), in ECMA-74 since the 15th edition (June 2018).",
+        "ecma-74-ed15": "Annexes F (hearing model) and G (tonality) added to ECMA-74.",
+        "ecma-74-ed17": "Annexes F and G as they stood before they moved to ECMA-418-2 in 2020.",
         "ecma-418-2-ed1": "Clause 6 tonality.",
         "ecma-418-2-ed2": "Refined calculation.",
         "ecma-418-2-ed3": "Diffuse-field outer and middle ear filter added (affects all metrics); refinements mainly to roughness.",
@@ -4169,6 +4171,19 @@
       "url": "https://www.iso.org/standard/90816.html",
       "note": "Registered as a DIS between 2026-10-06 and 2026-11-15, as ISO's [open data](https://isopublicstorageprod.blob.core.windows.net/opendata/_latest/iso_deliverables_metadata/json/iso_deliverables_metadata.jsonl) show (project 90816, 2nd edition); the exact date of the stage was not available.",
       "checked": "2026-11-15"
+    },
+    {
+      "id": "ecma-74-ed15",
+      "label": "ECMA-74:2018 (15th ed.)",
+      "kind": "standard",
+      "body": "Ecma",
+      "title": "Measurement of airborne noise emitted by information technology and telecommunications equipment",
+      "edition": "15th edition",
+      "date": "2018-06",
+      "status": "superseded",
+      "url": "https://ecma-international.org/publications-and-standards/standards/ecma-74/",
+      "note": "Added Annex F, the Sottek Hearing Model, and Annex G, the psychoacoustic tonality built on it (in tu_HMS). They stayed in ECMA-74 until they became Clauses 5 and 6 of ECMA-418-2 in 2020 (see the 17th edition).",
+      "checked": "2026-11-25"
     },
     {
       "id": "ecma-74-ed17",
@@ -9737,6 +9752,11 @@
     }
   ],
   "updates": [
+    {
+      "date": "2026-11-25",
+      "title": "Version 0.5.16: Sottek Hearing Model tonality from 2018",
+      "body": "The tonality of the Sottek Hearing Model now starts with ECMA-74:2018 (15th edition), which added it as\nAnnex G, with the hearing model as Annex F; its line on the timeline begins in June 2018.\n"
+    },
     {
       "date": "2026-11-25",
       "title": "Version 0.5.15: where Sottek Hearing Model tonality comes from",
