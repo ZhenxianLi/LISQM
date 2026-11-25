@@ -132,7 +132,7 @@ implements:
     validation_details:
       - >-
         Compared by `validation/FINAL_VAL.py` with the bundled SQAT v1.3 MATLAB code, which follows ECMA-418-2:2024
-        (3rd edition), so the comparison crosses editions.
+        (3rd edition); the 4th edition computes tonality as the 3rd does.
 manual:
   last_commit: 2026-06-27
   archived: false

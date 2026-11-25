@@ -2,7 +2,7 @@
 name: LISQM
 title: List of Implementations of Sound Quality Metrics
 # The version of the list (semantic versioning; also in CITATION.cff).
-version: 0.5.14
+version: 0.5.15
 # Work announced for a coming version: shown at the top of the Updates page under "In the future", with a link to
 # its page. Not in the Atom feed or CHANGELOG.md, which hold what has happened. Remove an item once it is released.
 planned:

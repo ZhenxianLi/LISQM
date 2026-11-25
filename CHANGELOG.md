@@ -2,6 +2,15 @@
 
 Notable changes to the list. This file is generated from `data/updates.yaml`; the same notes are on the website (https://zhenxianli.github.io/LISQM/updates.html) and in its Atom feed.
 
+## 2026-11-25: Version 0.5.15: where Sottek Hearing Model tonality comes from
+
+- ECMA-74 held two different tonal methods. The tonality page now says that the Sottek Hearing Model and
+  its tonality were added to ECMA-74 as Annexes F and G in its 15th edition (June 2018) and became
+  Clauses 5 and 6 of ECMA-418-2 in 2020, and that they are not the tone-to-noise ratio and prominence ratio
+  of Annex D, which moved to ECMA-418-1.
+- The 4th edition of ECMA-418-2 computes tonality as the 3rd does; the page no longer suggests otherwise,
+  and pySQAT's comparison with SQAT v1.3 (3rd edition) says so.
+
 ## 2026-11-23: Version 0.5.14: independent validation planned for version 0.6
 
 LISQM has a new tab, Validation. The next step for the list is to check every listed implementation

@@ -361,27 +361,31 @@ metrics:
     family: tonality
     name: Sottek Hearing Model tonality
     title: Tonality from the Sottek Hearing Model (ECMA-418-2)
-    aka: [ECMA-418-2 tonality, psychoacoustic tonality, tu_HMS, Sottek tonality, SHM tonality]
+    aka: [ECMA-418-2 tonality, psychoacoustic tonality, tu_HMS, Sottek tonality, SHM tonality, ECMA-74 Annex G]
     unit: tu_HMS
     summary: >-
       Psychoacoustic tonality from the Sottek Hearing Model, Clause 6 of ECMA-418-2, with specific tonality
-      and tonal frequency over time. The method came from ECMA-74 (17th edition, 2019) when ECMA-418-2 was
-      first published in 2020.
+      and tonal frequency over time. The hearing model and this tonality were added to ECMA-74 as Annexes F
+      and G in its 15th edition (June 2018) and became Clauses 5 and 6 of ECMA-418-2 when it was first
+      published in 2020. They are not the tone-to-noise ratio and prominence ratio of ECMA-74 Annex D, which
+      use no hearing model.
     references: [ecma-74-ed17, ecma-418-2-ed1, ecma-418-2-ed2, ecma-418-2-ed3, ecma-418-2-ed4]
     current: [ecma-418-2-ed4]
     conventions:
       - >-
-        **Edition and start.** Compare implementations of the same edition; overall values leave out the first
-        304 ms, where the filters settle.
+        **Edition and start.** Compare implementations of the same edition: the 2nd and 3rd editions refined
+        the hearing model and the tonality, so values after ECMA-74 Annex G or an earlier edition can differ
+        from current ones, while the 4th edition computes tonality as the 3rd does. Overall values leave out the
+        first 304 ms, where the filters settle.
       - >-
         **Tonal annoyance weighting.** RefMap and sottek-hearing-model offer an optional weighting after Sottek &
         Becker (2019), which is not part of ECMA-418-2; leave it off when comparing with other implementations.
     edition_notes:
-      ecma-74-ed17: Hearing model and tonality before ECMA-418-2 existed.
+      ecma-74-ed17: Annexes F (hearing model) and G (tonality), in ECMA-74 since the 15th edition (June 2018).
       ecma-418-2-ed1: Clause 6 tonality.
       ecma-418-2-ed2: Refined calculation.
       ecma-418-2-ed3: Diffuse-field outer and middle ear filter added (affects all metrics); refinements mainly to roughness.
-      ecma-418-2-ed4: Hearing-model and conformance updates (48 kHz sampling).
+      ecma-418-2-ed4: Tonality computed as in the 3rd edition; conformance requires 48 kHz sampling.
     see_also: [tonality-aures, tone-to-noise-prominence-ratio, loudness-ecma-418-2]
 
   - id: tone-to-noise-prominence-ratio

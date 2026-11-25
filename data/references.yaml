@@ -244,10 +244,12 @@
   status: superseded
   url: https://ecma-international.org/publications-and-standards/standards/ecma-74/
   note: >-
-    Contained the TNR/PR method (Annex D) and the hearing model with tonality that moved to ECMA-418-1 and
-    ECMA-418-2 in 2020. Since the 18th edition (2021) those annexes only point to ECMA-418, and an Annex H on
-    roughness was added. The current edition is the 22nd (December 2025).
-  checked: 2026-10-06
+    Contained two different tonal methods. Annex D, prominent discrete tones (tone-to-noise ratio and prominence
+    ratio, without a hearing model), moved to ECMA-418-1 in 2020. Annex F, the Sottek Hearing Model, and Annex G,
+    the psychoacoustic tonality built on it (in tu_HMS), were added in the 15th edition (June 2018) and became
+    Clauses 5 and 6 of ECMA-418-2 in 2020. Since the 18th edition (2021) those annexes only point to ECMA-418,
+    and an Annex H on roughness was added. The current edition is the 22nd (December 2025).
+  checked: 2026-11-25
 
 - id: ecma-418-1-ed1
   label: ECMA-418-1:2020 (1st ed.)

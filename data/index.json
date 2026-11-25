@@ -2,7 +2,7 @@
   "name": "LISQM",
   "full_name": "List of Implementations of Sound Quality Metrics",
   "tagline": "A List of Open-Source Implementations of Psychoacoustic and Sound Quality Metrics",
-  "version": "0.5.14",
+  "version": "0.5.15",
   "description": "A list of open-source implementations of psychoacoustic metrics, also called sound quality (SQ) metrics: loudness, sharpness, roughness, fluctuation strength, tonality, impulsiveness and psychoacoustic annoyance. Each implementation is listed under the standard edition or model it follows. All programming languages.",
   "url": "https://zhenxianli.github.io/LISQM/",
   "repository": "https://github.com/ZhenxianLi/LISQM",
@@ -14,7 +14,7 @@
     "github": "ZhenxianLi"
   },
   "credit": "Developed by Zhenxian LI with assistance from Claude Code.",
-  "as_of": "2026-11-23",
+  "as_of": "2026-11-25",
   "schema": "https://github.com/ZhenxianLi/LISQM/blob/main/data/SCHEMA.md",
   "counts": {
     "metrics": 22,
@@ -2714,10 +2714,11 @@
         "psychoacoustic tonality",
         "tu_HMS",
         "Sottek tonality",
-        "SHM tonality"
+        "SHM tonality",
+        "ECMA-74 Annex G"
       ],
       "unit": "tu_HMS",
-      "summary": "Psychoacoustic tonality from the Sottek Hearing Model, Clause 6 of ECMA-418-2, with specific tonality and tonal frequency over time. The method came from ECMA-74 (17th edition, 2019) when ECMA-418-2 was first published in 2020.",
+      "summary": "Psychoacoustic tonality from the Sottek Hearing Model, Clause 6 of ECMA-418-2, with specific tonality and tonal frequency over time. The hearing model and this tonality were added to ECMA-74 as Annexes F and G in its 15th edition (June 2018) and became Clauses 5 and 6 of ECMA-418-2 when it was first published in 2020. They are not the tone-to-noise ratio and prominence ratio of ECMA-74 Annex D, which use no hearing model.",
       "references": [
         "ecma-74-ed17",
         "ecma-418-2-ed1",
@@ -2729,15 +2730,15 @@
         "ecma-418-2-ed4"
       ],
       "conventions": [
-        "**Edition and start.** Compare implementations of the same edition; overall values leave out the first 304 ms, where the filters settle.",
+        "**Edition and start.** Compare implementations of the same edition: the 2nd and 3rd editions refined the hearing model and the tonality, so values after ECMA-74 Annex G or an earlier edition can differ from current ones, while the 4th edition computes tonality as the 3rd does. Overall values leave out the first 304 ms, where the filters settle.",
         "**Tonal annoyance weighting.** RefMap and sottek-hearing-model offer an optional weighting after Sottek & Becker (2019), which is not part of ECMA-418-2; leave it off when comparing with other implementations."
       ],
       "edition_notes": {
-        "ecma-74-ed17": "Hearing model and tonality before ECMA-418-2 existed.",
+        "ecma-74-ed17": "Annexes F (hearing model) and G (tonality), in ECMA-74 since the 15th edition (June 2018).",
         "ecma-418-2-ed1": "Clause 6 tonality.",
         "ecma-418-2-ed2": "Refined calculation.",
         "ecma-418-2-ed3": "Diffuse-field outer and middle ear filter added (affects all metrics); refinements mainly to roughness.",
-        "ecma-418-2-ed4": "Hearing-model and conformance updates (48 kHz sampling)."
+        "ecma-418-2-ed4": "Tonality computed as in the 3rd edition; conformance requires 48 kHz sampling."
       },
       "see_also": [
         "tonality-aures",
@@ -2948,7 +2949,7 @@
             "sqat"
           ],
           "validation_details": [
-            "Compared by `validation/FINAL_VAL.py` with the bundled SQAT v1.3 MATLAB code, which follows ECMA-418-2:2024 (3rd edition), so the comparison crosses editions."
+            "Compared by `validation/FINAL_VAL.py` with the bundled SQAT v1.3 MATLAB code, which follows ECMA-418-2:2024 (3rd edition); the 4th edition computes tonality as the 3rd does."
           ],
           "comparison_relations": {
             "sqat": "shared:refmap-psychoacoustics"
@@ -4179,8 +4180,8 @@
       "date": "2019-12",
       "status": "superseded",
       "url": "https://ecma-international.org/publications-and-standards/standards/ecma-74/",
-      "note": "Contained the TNR/PR method (Annex D) and the hearing model with tonality that moved to ECMA-418-1 and ECMA-418-2 in 2020. Since the 18th edition (2021) those annexes only point to ECMA-418, and an Annex H on roughness was added. The current edition is the 22nd (December 2025).",
-      "checked": "2026-10-06"
+      "note": "Contained two different tonal methods. Annex D, prominent discrete tones (tone-to-noise ratio and prominence ratio, without a hearing model), moved to ECMA-418-1 in 2020. Annex F, the Sottek Hearing Model, and Annex G, the psychoacoustic tonality built on it (in tu_HMS), were added in the 15th edition (June 2018) and became Clauses 5 and 6 of ECMA-418-2 in 2020. Since the 18th edition (2021) those annexes only point to ECMA-418, and an Annex H on roughness was added. The current edition is the 22nd (December 2025).",
+      "checked": "2026-11-25"
     },
     {
       "id": "ecma-418-1-ed1",
@@ -8336,7 +8337,7 @@
             "sqat"
           ],
           "validation_details": [
-            "Compared by `validation/FINAL_VAL.py` with the bundled SQAT v1.3 MATLAB code, which follows ECMA-418-2:2024 (3rd edition), so the comparison crosses editions."
+            "Compared by `validation/FINAL_VAL.py` with the bundled SQAT v1.3 MATLAB code, which follows ECMA-418-2:2024 (3rd edition); the 4th edition computes tonality as the 3rd does."
           ]
         }
       ],
@@ -9736,6 +9737,11 @@
     }
   ],
   "updates": [
+    {
+      "date": "2026-11-25",
+      "title": "Version 0.5.15: where Sottek Hearing Model tonality comes from",
+      "body": "- ECMA-74 held two different tonal methods. The tonality page now says that the Sottek Hearing Model and\n  its tonality were added to ECMA-74 as Annexes F and G in its 15th edition (June 2018) and became\n  Clauses 5 and 6 of ECMA-418-2 in 2020, and that they are not the tone-to-noise ratio and prominence ratio\n  of Annex D, which moved to ECMA-418-1.\n- The 4th edition of ECMA-418-2 computes tonality as the 3rd does; the page no longer suggests otherwise,\n  and pySQAT's comparison with SQAT v1.3 (3rd edition) says so.\n"
+    },
     {
       "date": "2026-11-23",
       "title": "Version 0.5.14: independent validation planned for version 0.6",
